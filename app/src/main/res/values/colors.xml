@@ -1,0 +1,52 @@
+<resources>
+
+    <!--background-->
+    <color name="background_full">#CC000000</color>
+
+    <!--foreground-->
+    <color name="foreground_full">#fff</color>
+    <color name="foreground_semi">#4fff</color>
+
+    <!--instances-->
+    <color name="instances_today">#ff2424</color>
+    <color name="instances_this_month">#66ffff</color>
+    <color name="instances">#66ffff</color>
+
+    <!--today-->
+    <color name="foreground_today">#fff</color>
+    <color name="background_today">#59009973</color>
+
+    <!--specials-->
+    <color name="background_saturday">#3399ccff</color>
+    <color name="background_sunday">#33ff9999</color>
+    <color name="background_saturday_today">#59004080</color>
+    <color name="background_sunday_today">#59850000</color>
+
+</resources>
+
+    <!--color picker-->
+    <!--http://www.w3schools.com/colors/colors_picker.asp-->
+
+    <!--Hex Opacity Values-->
+
+    <!--100% — FF-->
+    <!--95% — F2-->
+    <!--90% — E6-->
+    <!--85% — D9-->
+    <!--80% — CC-->
+    <!--75% — BF-->
+    <!--70% — B3-->
+    <!--65% — A6-->
+    <!--60% — 99-->
+    <!--55% — 8C-->
+    <!--50% — 80-->
+    <!--45% — 73-->
+    <!--40% — 66-->
+    <!--35% — 59-->
+    <!--30% — 4D-->
+    <!--25% — 40-->
+    <!--20% — 33-->
+    <!--15% — 26-->
+    <!--10% — 1A-->
+    <!--5% — 0D-->
+    <!--0% — 00-->

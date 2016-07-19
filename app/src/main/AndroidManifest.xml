@@ -1,0 +1,29 @@
+<!-- Copyright (c) 2016, Miquel Martí <miquelmarti111@gmail.com> -->
+<!-- See LICENSE for licensing information -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="cat.mvmike.calendarwidgetminimal">
+
+    <uses-permission android:name="android.permission.READ_CALENDAR"/>
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name">
+
+        <receiver android:name="cat.mvmike.calendarwidgetminimal.MonthWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_info"/>
+        </receiver>
+
+        <activity
+            android:name=".activity.PermissionsActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleInstance"
+            android:noHistory="true"/>
+
+    </application>
+
+</manifest>

@@ -1,0 +1,12 @@
+<resources>
+    <style name="CalendarCell">
+        <item name="android:id">@android:id/text1</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:gravity">start</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:textColor">@color/foreground_semi</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+</resources>
