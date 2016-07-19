@@ -2,7 +2,6 @@
 *.log
 .gradle
 local.properties
-/build
-/app/build/
+build/
 /.idea/
 /gradle/

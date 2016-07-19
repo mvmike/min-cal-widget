@@ -2,7 +2,7 @@
 
 Static month calendar widget
 
-![Minimal Calendar Widget Screenshots](assets/widget-preview.png)
+![Minimal Calendar Widget Screenshot](assets/widget_preview.png)
 
 ## Features
 
