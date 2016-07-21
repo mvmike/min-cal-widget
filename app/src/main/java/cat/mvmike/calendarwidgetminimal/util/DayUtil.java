@@ -25,7 +25,7 @@ public abstract class DayUtil {
 
     private static final int NUM_WEEKS = 6;
 
-    private static final String[] INSTANCES_NUMBER_SYMBOLS = {" ", "·", "∶", "∴", "∷", "⁙", "∿"};
+    private static final String[] INSTANCES_NUMBER_SYMBOLS = {" ", "·", "∶", "∴", "∷", "◇", "◈"};
 
     private static final String PADDING = " ";
 
