@@ -32,6 +32,8 @@ public class MonthWidget extends AppWidgetProvider {
 
     private static final String HEADER_DATE_FORMAT = "MMMM yyyy";
 
+    private static final int FIRST_DAY_OF_WEEK = Calendar.MONDAY;
+
     @Override
     public void onUpdate(final Context context, final AppWidgetManager appWidgetManager, final int[] appWidgetIds) {
 
@@ -80,11 +82,11 @@ public class MonthWidget extends AppWidgetProvider {
 
         // SET DAYS OF WEEK (HEADERS)
         RemoteViews headerRowRv = new RemoteViews(context.getPackageName(), R.layout.row_header);
-        WeekDayHeaderUtil.setCellHeaderWeekDays(headerRowRv, context);
+        WeekDayHeaderUtil.setCellHeaderWeekDays(headerRowRv, FIRST_DAY_OF_WEEK, context);
         rv.addView(R.id.calendar_widget, headerRowRv);
 
         // SET INDIVIDUAL DAYS
-        DayUtil.setDays(context, cal, ss, rv, instanceSet);
+        DayUtil.setDays(context, cal, FIRST_DAY_OF_WEEK, ss, rv, instanceSet);
 
         // LISTENER FOR WIDGET PRESS
         rv.setOnClickPendingIntent(R.id.calendar_widget, PendingIntent.getBroadcast(context, INTENT_CODE_CALENDAR,

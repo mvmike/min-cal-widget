@@ -31,10 +31,10 @@ public abstract class DayUtil {
 
     private static final String PADDING_2 = PADDING + PADDING;
 
-    public static void setDays(final Context context, final Calendar cal, final SpannableString ss, final RemoteViews rv,
-        final Set<InstanceDTO> instanceSet) {
+    public static void setDays(final Context context, final Calendar cal, final int firstDayOfWeek, final SpannableString ss,
+        final RemoteViews rv, final Set<InstanceDTO> instanceSet) {
 
-        CalendarStatus cs = new CalendarStatus(context, cal);
+        CalendarStatus cs = new CalendarStatus(context, cal, firstDayOfWeek);
 
         RemoteViews rowRv;
         for (int week = 0; week < NUM_WEEKS; week++) {

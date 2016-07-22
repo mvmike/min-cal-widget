@@ -16,8 +16,6 @@ public final class CalendarStatus {
 
     private static final int MONTH_FIRST_DAY = 1;
 
-    private static final int START_ON_MONDAY = 2;
-
     private int today;
 
     private int todayYear;
@@ -28,7 +26,7 @@ public final class CalendarStatus {
 
     private Calendar calendar;
 
-    public CalendarStatus(final Context context, final Calendar cal) {
+    public CalendarStatus(final Context context, final Calendar cal, final int firstDayOfWeek) {
 
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
 
@@ -42,7 +40,7 @@ public final class CalendarStatus {
         cal.set(Calendar.YEAR, thisYear);
 
         int monthStartDayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
-        cal.add(Calendar.DAY_OF_MONTH, START_ON_MONDAY - monthStartDayOfWeek);
+        cal.add(Calendar.DAY_OF_MONTH, firstDayOfWeek - monthStartDayOfWeek);
 
         calendar = cal;
     }

@@ -12,19 +12,23 @@ import cat.mvmike.calendarwidgetminimal.R;
 
 public abstract class WeekDayHeaderUtil {
 
-    public static void setCellHeaderWeekDays(RemoteViews headerRowRv, Context context) {
+    public static void setCellHeaderWeekDays(final RemoteViews headerRowRv, final int firstDayOfWeek, final Context context) {
 
         DateFormatSymbols dfs = DateFormatSymbols.getInstance();
         String[] weekdays = dfs.getShortWeekdays();
 
-        // add 7 days - ORDER MATTERS!
-        headerRowRv.addView(R.id.row_container, setSpecificWeekDay(context, weekdays[Calendar.MONDAY], R.layout.cell_header));
-        headerRowRv.addView(R.id.row_container, setSpecificWeekDay(context, weekdays[Calendar.TUESDAY], R.layout.cell_header));
-        headerRowRv.addView(R.id.row_container, setSpecificWeekDay(context, weekdays[Calendar.WEDNESDAY], R.layout.cell_header));
-        headerRowRv.addView(R.id.row_container, setSpecificWeekDay(context, weekdays[Calendar.THURSDAY], R.layout.cell_header));
-        headerRowRv.addView(R.id.row_container, setSpecificWeekDay(context, weekdays[Calendar.FRIDAY], R.layout.cell_header));
-        headerRowRv.addView(R.id.row_container, setSpecificWeekDay(context, weekdays[Calendar.SATURDAY], R.layout.cell_header_saturday));
-        headerRowRv.addView(R.id.row_container, setSpecificWeekDay(context, weekdays[Calendar.SUNDAY], R.layout.cell_header_sunday));
+        int current;
+        for (int i = 0; i < 7; i++) {
+
+            current = (firstDayOfWeek + i) % 7 == 0 ? firstDayOfWeek + i : (firstDayOfWeek + i) % 7;
+
+            if (current == Calendar.SATURDAY)
+                headerRowRv.addView(R.id.row_container, setSpecificWeekDay(context, weekdays[current], R.layout.cell_header_saturday));
+            else if (current == Calendar.SUNDAY)
+                headerRowRv.addView(R.id.row_container, setSpecificWeekDay(context, weekdays[current], R.layout.cell_header_sunday));
+            else
+                headerRowRv.addView(R.id.row_container, setSpecificWeekDay(context, weekdays[current], R.layout.cell_header));
+        }
     }
 
     private static RemoteViews setSpecificWeekDay(final Context context, final String text, final int layoutId) {
