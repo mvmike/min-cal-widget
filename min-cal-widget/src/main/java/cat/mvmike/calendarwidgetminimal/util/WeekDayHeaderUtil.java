@@ -18,9 +18,9 @@ public abstract class WeekDayHeaderUtil {
         String[] weekdays = dfs.getShortWeekdays();
 
         int current;
-        for (int i = 0; i < 7; i++) {
+        for (int i = 0; i < Calendar.DAY_OF_WEEK; i++) {
 
-            current = (firstDayOfWeek + i) % 7 == 0 ? firstDayOfWeek + i : (firstDayOfWeek + i) % 7;
+            current = (firstDayOfWeek + i) % Calendar.DAY_OF_WEEK == 0 ? firstDayOfWeek + i : (firstDayOfWeek + i) % Calendar.DAY_OF_WEEK;
 
             if (current == Calendar.SATURDAY)
                 headerRowRv.addView(R.id.row_container, setSpecificWeekDay(context, weekdays[current], R.layout.cell_header_saturday));

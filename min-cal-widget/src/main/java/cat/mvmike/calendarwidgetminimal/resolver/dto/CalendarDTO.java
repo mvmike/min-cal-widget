@@ -1,6 +1,6 @@
 // Copyright (c) 2016, Miquel Martí <miquelmarti111@gmail.com>
 // See LICENSE for licensing information
-package cat.mvmike.calendarwidgetminimal.dto.resolver;
+package cat.mvmike.calendarwidgetminimal.resolver.dto;
 
 import android.database.Cursor;
 import android.net.Uri;

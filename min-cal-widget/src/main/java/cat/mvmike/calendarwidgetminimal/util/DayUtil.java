@@ -17,19 +17,21 @@ import android.text.style.StyleSpan;
 import android.widget.RemoteViews;
 
 import cat.mvmike.calendarwidgetminimal.R;
-import cat.mvmike.calendarwidgetminimal.dto.CalendarStatus;
-import cat.mvmike.calendarwidgetminimal.dto.DayStatus;
-import cat.mvmike.calendarwidgetminimal.dto.resolver.InstanceDTO;
+import cat.mvmike.calendarwidgetminimal.resolver.dto.InstanceDTO;
+import cat.mvmike.calendarwidgetminimal.status.CalendarStatus;
+import cat.mvmike.calendarwidgetminimal.status.DayStatus;
 
 public abstract class DayUtil {
 
     private static final int NUM_WEEKS = 6;
 
-    private static final String[] INSTANCES_NUMBER_SYMBOLS = {" ", "·", "∶", "∴", "∷", "◇", "◈"};
+    private static final Character[] INSTANCES_NUMBER_SYMBOLS = {' ', '·', '∶', '∴', '∷', '◇', '◈'};
+
+    private static final float SYMBOL_RELATIVE_SIZE = 1.2f;
 
     private static final String PADDING = " ";
 
-    private static final String PADDING_2 = PADDING + PADDING;
+    private static final String DOUBLE_PADDING = PADDING + PADDING;
 
     public static void setDays(final Context context, final Calendar cal, final int firstDayOfWeek, final SpannableString ss,
         final RemoteViews rv, final Set<InstanceDTO> instanceSet) {
@@ -42,7 +44,7 @@ public abstract class DayUtil {
             rowRv = new RemoteViews(context.getPackageName(), R.layout.row_week);
 
             DayStatus ds;
-            for (int day = 0; day < 7; day++) {
+            for (int day = 0; day < Calendar.DAY_OF_WEEK; day++) {
 
                 ds = new DayStatus(cal, cs.getTodayYear(), cs.getThisMonth(), cs.getToday());
 
@@ -65,8 +67,9 @@ public abstract class DayUtil {
     private static void setInstanceNumber(final Context context, final RemoteViews cellRv, final String dayOfMonth, boolean isToday,
         boolean isInMonth, final int found) {
 
-        String symbol = found > 6 ? INSTANCES_NUMBER_SYMBOLS[6] : INSTANCES_NUMBER_SYMBOLS[found];
-        String dayOfMonthSS = PADDING + (dayOfMonth.length() == 1 ? dayOfMonth + PADDING_2 : dayOfMonth) + PADDING + symbol;
+        int max = INSTANCES_NUMBER_SYMBOLS.length - 1;
+        String symbol = String.valueOf(found > max ? INSTANCES_NUMBER_SYMBOLS[max] : INSTANCES_NUMBER_SYMBOLS[found]);
+        String dayOfMonthSS = PADDING + (dayOfMonth.length() == 1 ? dayOfMonth + DOUBLE_PADDING : dayOfMonth) + PADDING + symbol;
         SpannableString daySS = new SpannableString(dayOfMonthSS);
         daySS.setSpan(new StyleSpan(Typeface.BOLD), dayOfMonthSS.length() - 1, dayOfMonthSS.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
@@ -82,7 +85,8 @@ public abstract class DayUtil {
             daySS.setSpan(new StyleSpan(Typeface.BOLD), 0, dayOfMonthSS.length() - 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         daySS.setSpan(new ForegroundColorSpan(color), dayOfMonthSS.length() - 1, dayOfMonthSS.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        daySS.setSpan(new RelativeSizeSpan(1.2f), dayOfMonthSS.length() - 1, dayOfMonthSS.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        daySS.setSpan(new RelativeSizeSpan(SYMBOL_RELATIVE_SIZE), dayOfMonthSS.length() - 1, dayOfMonthSS.length(),
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         cellRv.setTextViewText(android.R.id.text1, daySS);
     }
@@ -129,6 +133,8 @@ public abstract class DayUtil {
 
             Calendar endCalendar = Calendar.getInstance(TimeZone.getDefault());
             endCalendar.setTime(instance.getDateEnd());
+
+            // take out 5 milliseconds to avoid erratic behaviour with full day events (or those that end at 00:00)
             endCalendar.add(Calendar.MILLISECOND, -5);
 
             if (ds.isInDay(startCalendar, endCalendar))

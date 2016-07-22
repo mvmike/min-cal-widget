@@ -10,7 +10,7 @@ import android.support.v4.content.ContextCompat;
 
 import cat.mvmike.calendarwidgetminimal.activity.PermissionsActivity;
 
-public class PermissionsManager {
+public class PermissionsUtil {
 
     public static void checkPermissions(final Context context) {
 

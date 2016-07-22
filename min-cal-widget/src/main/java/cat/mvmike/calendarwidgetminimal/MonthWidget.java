@@ -18,10 +18,10 @@ import android.text.style.RelativeSizeSpan;
 import android.widget.RemoteViews;
 
 import cat.mvmike.calendarwidgetminimal.activity.CalendarActivity;
-import cat.mvmike.calendarwidgetminimal.dto.resolver.InstanceDTO;
-import cat.mvmike.calendarwidgetminimal.util.CalendarResolver;
+import cat.mvmike.calendarwidgetminimal.resolver.CalendarResolver;
+import cat.mvmike.calendarwidgetminimal.resolver.dto.InstanceDTO;
 import cat.mvmike.calendarwidgetminimal.util.DayUtil;
-import cat.mvmike.calendarwidgetminimal.util.PermissionsManager;
+import cat.mvmike.calendarwidgetminimal.util.PermissionsUtil;
 import cat.mvmike.calendarwidgetminimal.util.WeekDayHeaderUtil;
 
 public class MonthWidget extends AppWidgetProvider {
@@ -30,7 +30,13 @@ public class MonthWidget extends AppWidgetProvider {
 
     private static final String WIDGET_PRESS = "action.WIDGET_PRESS";
 
-    private static final String HEADER_DATE_FORMAT = "MMMM yyyy";
+    private static final String MONTH_FORMAT = "MMMM";
+
+    private static final String YEAR_FORMAT = "yyyy";
+
+    private static final String HEADER_DATE_FORMAT = MONTH_FORMAT + " " + YEAR_FORMAT;
+
+    private static final float HEADER_RELATIVE_YEAR_SIZE = 0.8f;
 
     private static final int FIRST_DAY_OF_WEEK = Calendar.MONDAY;
 
@@ -39,7 +45,7 @@ public class MonthWidget extends AppWidgetProvider {
 
         super.onUpdate(context, appWidgetManager, appWidgetIds);
 
-        PermissionsManager.checkPermissions(context);
+        PermissionsUtil.checkPermissions(context);
 
         RemoteViews rv = new RemoteViews(context.getPackageName(), R.layout.widget);
         drawWidgets(context, appWidgetManager, appWidgetIds, rv);
@@ -68,14 +74,14 @@ public class MonthWidget extends AppWidgetProvider {
         Calendar cal = Calendar.getInstance();
 
         Calendar[] safeDateSpan = CalendarResolver.getSafeDateSpan(cal);
-        Set<InstanceDTO> instanceSet = PermissionsManager.checkPermStatus(context)
+        Set<InstanceDTO> instanceSet = PermissionsUtil.checkPermStatus(context)
             ? CalendarResolver.readAllInstances(context.getContentResolver(), safeDateSpan[0], safeDateSpan[1])
             : new HashSet<InstanceDTO>();
 
         // SET MONTH AND YEAR
         String monthAndYear = String.valueOf(DateFormat.format(HEADER_DATE_FORMAT, cal));
         SpannableString ss = new SpannableString(monthAndYear);
-        ss.setSpan(new RelativeSizeSpan(0.8f), monthAndYear.length() - 4, monthAndYear.length(), 0);
+        ss.setSpan(new RelativeSizeSpan(HEADER_RELATIVE_YEAR_SIZE), monthAndYear.length() - YEAR_FORMAT.length(), monthAndYear.length(), 0);
         rv.setTextViewText(R.id.month_year_label, ss);
 
         rv.removeAllViews(R.id.calendar_widget);
@@ -97,7 +103,7 @@ public class MonthWidget extends AppWidgetProvider {
 
     private void forceRedraw(final Context context) {
 
-        if (!PermissionsManager.checkPermStatus(context))
+        if (!PermissionsUtil.checkPermStatus(context))
             return;
 
         RemoteViews rv = new RemoteViews(context.getPackageName(), R.layout.widget);
