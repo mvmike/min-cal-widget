@@ -6,8 +6,8 @@ Static month calendar widget
 
 ## Features
 
-* Standard size → 3x2 (resizable)
+* 3x2 (resizable)
 * Simple dark theme
-* Displays all events from your calendars as dots (up to 5, more than that there is a generic symbol)
+* Displays all events from your calendars as dots or symbol (6 or more is generic)
 * Pressing on widget opens calendar application
-* Updates automatically every 30 mins. Update is triggered also when pressed
+* Updates automatically every 30 mins (also triggered when pressed)
