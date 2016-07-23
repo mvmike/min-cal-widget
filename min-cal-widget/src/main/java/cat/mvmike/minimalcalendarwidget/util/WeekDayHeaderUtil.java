@@ -1,6 +1,6 @@
 // Copyright (c) 2016, Miquel Martí <miquelmarti111@gmail.com>
 // See LICENSE for licensing information
-package cat.mvmike.calendarwidgetminimal.util;
+package cat.mvmike.minimalcalendarwidget.util;
 
 import java.text.DateFormatSymbols;
 import java.util.Calendar;
@@ -8,7 +8,7 @@ import java.util.Calendar;
 import android.content.Context;
 import android.widget.RemoteViews;
 
-import cat.mvmike.calendarwidgetminimal.R;
+import cat.mvmike.minimalcalendarwidget.R;
 
 public abstract class WeekDayHeaderUtil {
 

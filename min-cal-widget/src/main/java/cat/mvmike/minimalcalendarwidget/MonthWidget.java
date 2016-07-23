@@ -1,6 +1,6 @@
 // Copyright (c) 2016, Miquel Martí <miquelmarti111@gmail.com>
 // See LICENSE for licensing information
-package cat.mvmike.calendarwidgetminimal;
+package cat.mvmike.minimalcalendarwidget;
 
 import java.util.Calendar;
 import java.util.HashSet;
@@ -17,12 +17,12 @@ import android.text.format.DateFormat;
 import android.text.style.RelativeSizeSpan;
 import android.widget.RemoteViews;
 
-import cat.mvmike.calendarwidgetminimal.activity.CalendarActivity;
-import cat.mvmike.calendarwidgetminimal.resolver.CalendarResolver;
-import cat.mvmike.calendarwidgetminimal.resolver.dto.InstanceDTO;
-import cat.mvmike.calendarwidgetminimal.util.DayUtil;
-import cat.mvmike.calendarwidgetminimal.util.PermissionsUtil;
-import cat.mvmike.calendarwidgetminimal.util.WeekDayHeaderUtil;
+import cat.mvmike.minimalcalendarwidget.activity.CalendarActivity;
+import cat.mvmike.minimalcalendarwidget.resolver.CalendarResolver;
+import cat.mvmike.minimalcalendarwidget.resolver.dto.InstanceDTO;
+import cat.mvmike.minimalcalendarwidget.util.DayUtil;
+import cat.mvmike.minimalcalendarwidget.util.PermissionsUtil;
+import cat.mvmike.minimalcalendarwidget.util.WeekDayHeaderUtil;
 
 public class MonthWidget extends AppWidgetProvider {
 
@@ -53,6 +53,7 @@ public class MonthWidget extends AppWidgetProvider {
 
     @Override
     public void onReceive(final Context context, final Intent intent) {
+
         super.onReceive(context, intent);
 
         String action = intent.getAction();

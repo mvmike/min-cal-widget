@@ -1,6 +1,6 @@
 // Copyright (c) 2016, Miquel Martí <miquelmarti111@gmail.com>
 // See LICENSE for licensing information
-package cat.mvmike.calendarwidgetminimal.util;
+package cat.mvmike.minimalcalendarwidget.util;
 
 import java.util.Calendar;
 import java.util.Set;
@@ -16,10 +16,10 @@ import android.text.style.RelativeSizeSpan;
 import android.text.style.StyleSpan;
 import android.widget.RemoteViews;
 
-import cat.mvmike.calendarwidgetminimal.R;
-import cat.mvmike.calendarwidgetminimal.resolver.dto.InstanceDTO;
-import cat.mvmike.calendarwidgetminimal.status.CalendarStatus;
-import cat.mvmike.calendarwidgetminimal.status.DayStatus;
+import cat.mvmike.minimalcalendarwidget.R;
+import cat.mvmike.minimalcalendarwidget.resolver.dto.InstanceDTO;
+import cat.mvmike.minimalcalendarwidget.status.CalendarStatus;
+import cat.mvmike.minimalcalendarwidget.status.DayStatus;
 
 public abstract class DayUtil {
 

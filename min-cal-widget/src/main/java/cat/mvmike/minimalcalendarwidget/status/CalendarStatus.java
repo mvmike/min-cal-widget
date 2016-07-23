@@ -1,6 +1,6 @@
 // Copyright (c) 2016, Miquel Martí <miquelmarti111@gmail.com>
 // See LICENSE for licensing information
-package cat.mvmike.calendarwidgetminimal.status;
+package cat.mvmike.minimalcalendarwidget.status;
 
 import java.util.Calendar;
 

@@ -1,6 +1,6 @@
 // Copyright (c) 2016, Miquel Martí <miquelmarti111@gmail.com>
 // See LICENSE for licensing information
-package cat.mvmike.calendarwidgetminimal.resolver.dto;
+package cat.mvmike.minimalcalendarwidget.resolver.dto;
 
 import java.util.Calendar;
 import java.util.Date;

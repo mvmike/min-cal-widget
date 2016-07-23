@@ -1,6 +1,6 @@
 // Copyright (c) 2016, Miquel Martí <miquelmarti111@gmail.com>
 // See LICENSE for licensing information
-package cat.mvmike.calendarwidgetminimal.resolver;
+package cat.mvmike.minimalcalendarwidget.resolver;
 
 import java.util.Calendar;
 import java.util.HashSet;
@@ -11,8 +11,8 @@ import android.content.ContentUris;
 import android.database.Cursor;
 import android.net.Uri;
 
-import cat.mvmike.calendarwidgetminimal.resolver.dto.CalendarDTO;
-import cat.mvmike.calendarwidgetminimal.resolver.dto.InstanceDTO;
+import cat.mvmike.minimalcalendarwidget.resolver.dto.CalendarDTO;
+import cat.mvmike.minimalcalendarwidget.resolver.dto.InstanceDTO;
 
 public abstract class CalendarResolver {
 

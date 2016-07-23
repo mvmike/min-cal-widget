@@ -1,6 +1,6 @@
 // Copyright (c) 2016, Miquel Martí <miquelmarti111@gmail.com>
 // See LICENSE for licensing information
-package cat.mvmike.calendarwidgetminimal.activity;
+package cat.mvmike.minimalcalendarwidget.activity;
 
 import android.Manifest;
 import android.app.Activity;
