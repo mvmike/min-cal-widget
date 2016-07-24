@@ -1,11 +1,10 @@
 package cat.mvmike.minimalcalendarwidget.util;
 
+import java.util.Calendar;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-
-import java.util.Calendar;
-import java.util.Map;
 
 import cat.mvmike.minimalcalendarwidget.activity.ConfigurationActivity;
 
@@ -25,15 +24,15 @@ public abstract class ConfigurationUtil {
         getConfiguration(context).edit().clear().commit();
     }
 
-    public static int getStartWeekDay(final Context context){
+    public static int getStartWeekDay(final Context context) {
         return getConfiguration(context).getInt(START_WEEK_DAY, START_WEEK_DAY_DEFAULT);
     }
 
-    public static void setStartWeekDay(final Context context, final int startWeekDay){
+    public static void setStartWeekDay(final Context context, final int startWeekDay) {
         getConfiguration(context).edit().putInt(START_WEEK_DAY, startWeekDay).apply();
     }
 
-    private static SharedPreferences getConfiguration(final Context context){
+    private static SharedPreferences getConfiguration(final Context context) {
         return context.getSharedPreferences(PREFERENCES_ID, 0);
     }
 

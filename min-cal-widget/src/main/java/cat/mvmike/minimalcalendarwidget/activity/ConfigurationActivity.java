@@ -3,7 +3,6 @@
 package cat.mvmike.minimalcalendarwidget.activity;
 
 import java.text.DateFormatSymbols;
-import java.util.Calendar;
 import java.util.Locale;
 
 import android.app.Activity;
@@ -21,7 +20,7 @@ import cat.mvmike.minimalcalendarwidget.util.ConfigurationUtil;
 public class ConfigurationActivity extends Activity {
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(final Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
 

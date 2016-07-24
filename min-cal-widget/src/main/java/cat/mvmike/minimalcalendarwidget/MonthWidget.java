@@ -92,7 +92,8 @@ public class MonthWidget extends AppWidgetProvider {
             drawWidget(context, appWidgetManager, appWidgetId, rv);
     }
 
-    private static void drawWidget(final Context context, final AppWidgetManager appWidgetManager, final int appWidgetId, final RemoteViews rv) {
+    private static void drawWidget(final Context context, final AppWidgetManager appWidgetManager, final int appWidgetId,
+        final RemoteViews rv) {
 
         Calendar cal = Calendar.getInstance();
         int firstDayOfWeek = ConfigurationUtil.getStartWeekDay(context);
