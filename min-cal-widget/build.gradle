@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "cat.mvmike.minimalcalendarwidget"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 24
         versionCode 1
         versionName "0.0.1"
