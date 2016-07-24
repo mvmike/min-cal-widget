@@ -9,6 +9,7 @@ Static month calendar widget
 * 3x2 (resizable)
 * Simple dark theme
 * Displays all events from your calendars as dots or symbol (6 or more is generic)
-* Pressing on widget opens calendar application
+* Pressing on header opens widget configuration
+* Pressing on widget day cells opens calendar application
 * Updates automatically every 30 mins (also triggered when pressed)
 * minSDK → 21 (android 5.0)

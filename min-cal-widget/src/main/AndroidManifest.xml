@@ -24,6 +24,13 @@
             android:launchMode="singleInstance"
             android:noHistory="true"/>
 
+        <activity
+            android:name="cat.mvmike.minimalcalendarwidget.activity.ConfigurationActivity"
+            android:theme="@android:style/Theme.Material.Dialog"
+            android:excludeFromRecents="true"
+            android:launchMode="singleInstance"
+            android:noHistory="true"/>
+
     </application>
 
 </manifest>

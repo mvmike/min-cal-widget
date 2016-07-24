@@ -14,13 +14,13 @@ public abstract class PermissionsUtil {
 
     public static void checkPermissions(final Context context) {
 
-        if (checkPermStatus(context))
+        if (isPermitted(context))
             return;
 
         launchPermissionsActivity(context);
     }
 
-    public static boolean checkPermStatus(final Context context) {
+    public static boolean isPermitted(final Context context) {
         return ContextCompat.checkSelfPermission(context, Manifest.permission.READ_CALENDAR) == PackageManager.PERMISSION_GRANTED;
     }
 
