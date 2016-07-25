@@ -22,12 +22,20 @@ public abstract class SymbolsUtil {
 
     public enum Symbols {
 
-        MINIMAL("· ∶ ∴ ∷ ◇ ◈"), ROMAN("Ⅰ Ⅱ Ⅲ Ⅳ Ⅴ ∾"), CLASSIC("1 2 3 4 5 ◉");
+        MINIMAL(1.2f, "· ∶ ∴ ∷ ◇ ◈"), ROMAN(0.8f, "Ⅰ Ⅱ Ⅲ Ⅳ Ⅴ ∾"), CLASSIC(0.8f, "1 2 3 4 5 ◉");
+
+        private float relativeSize;
 
         private String values;
 
-        Symbols(final String values) {
+        Symbols(final float relativeSize, final String values) {
+
+            this.relativeSize = relativeSize;
             this.values = values;
+        }
+
+        public float getRelativeSize() {
+            return relativeSize;
         }
 
         public String getValues() {

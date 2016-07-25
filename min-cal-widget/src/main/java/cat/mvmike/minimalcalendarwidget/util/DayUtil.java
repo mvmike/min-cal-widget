@@ -25,8 +25,6 @@ public abstract class DayUtil {
 
     private static final int NUM_WEEKS = 6;
 
-    private static final float SYMBOL_RELATIVE_SIZE = 1.2f;
-
     private static final String PADDING = " ";
 
     private static final String DOUBLE_PADDING = PADDING + PADDING;
@@ -65,10 +63,11 @@ public abstract class DayUtil {
     private static void setInstanceNumber(final Context context, final RemoteViews cellRv, final String dayOfMonth, boolean isToday,
         boolean isInMonth, final int found) {
 
-        Character[] symbols = ConfigurationUtil.getInstancesSymbols(context);
+        SymbolsUtil.Symbols symbols = ConfigurationUtil.getInstancesSymbols(context);
+        Character[] symbolArray = symbols.getArray();
 
-        int max = symbols.length - 1;
-        String symbol = String.valueOf(found > max ? symbols[max] : symbols[found]);
+        int max = symbolArray.length - 1;
+        String symbol = String.valueOf(found > max ? symbolArray[max] : symbolArray[found]);
         String dayOfMonthSS = PADDING + (dayOfMonth.length() == 1 ? dayOfMonth + DOUBLE_PADDING : dayOfMonth) + PADDING + symbol;
         SpannableString daySS = new SpannableString(dayOfMonthSS);
         daySS.setSpan(new StyleSpan(Typeface.BOLD), dayOfMonthSS.length() - 1, dayOfMonthSS.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -85,7 +84,7 @@ public abstract class DayUtil {
             daySS.setSpan(new StyleSpan(Typeface.BOLD), 0, dayOfMonthSS.length() - 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         daySS.setSpan(new ForegroundColorSpan(color), dayOfMonthSS.length() - 1, dayOfMonthSS.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        daySS.setSpan(new RelativeSizeSpan(SYMBOL_RELATIVE_SIZE), dayOfMonthSS.length() - 1, dayOfMonthSS.length(),
+        daySS.setSpan(new RelativeSizeSpan(symbols.getRelativeSize()), dayOfMonthSS.length() - 1, dayOfMonthSS.length(),
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         cellRv.setTextViewText(android.R.id.text1, daySS);

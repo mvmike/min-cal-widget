@@ -38,8 +38,8 @@ public abstract class ConfigurationUtil {
         return getConfiguration(context).getString(INSTANCES_SYMBOLS, SymbolsUtil.Symbols.MINIMAL.name());
     }
 
-    public static Character[] getInstancesSymbols(final Context context) {
-        return SymbolsUtil.Symbols.valueOf(getInstancesSymbolName(context)).getArray();
+    public static SymbolsUtil.Symbols getInstancesSymbols(final Context context) {
+        return SymbolsUtil.Symbols.valueOf(getInstancesSymbolName(context));
     }
 
     public static void setInstancesSymbols(final Context context, final SymbolsUtil.Symbols symbol) {
