@@ -26,7 +26,7 @@
 
         <activity
             android:name="cat.mvmike.minimalcalendarwidget.activity.ConfigurationActivity"
-            android:theme="@android:style/Theme.Material.Dialog"
+            android:theme="@style/Theme.AppCompat.Dialog"
             android:excludeFromRecents="true"
             android:launchMode="singleInstance"
             android:noHistory="true"/>

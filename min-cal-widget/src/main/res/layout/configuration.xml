@@ -2,21 +2,10 @@
               android:id="@+id/configuration_view"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
+              android:weightSum="2"
               android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/configuration_title"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0"
-        android:gravity="start"
-        android:padding="15dp"
-        android:text="@string/configuration_title"
-        android:textColor="#FFF"
-        android:textSize="18sp"/>
-
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                  android:layout_width="match_parent"
+    <LinearLayout android:layout_width="match_parent"
                   android:layout_height="0dp"
                   android:layout_gravity="bottom|start"
                   android:layout_weight="1"
@@ -29,6 +18,7 @@
             android:layout_height="wrap_content"
             android:padding="15dp"
             android:text="@string/start_week_day"
+            android:textColor="@color/config_label"
             android:textSize="16sp"/>
 
         <Spinner
@@ -36,22 +26,22 @@
             android:layout_height="wrap_content"
             android:id="@+id/startWeekDaySpinner"
             android:layout_gravity="end"
+            android:textColor="@color/config_value"
             android:padding="15dp">
         </Spinner>
 
     </LinearLayout>
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                  android:layout_width="match_parent"
+    <LinearLayout android:layout_width="match_parent"
                   android:layout_height="0dp"
-                  android:layout_gravity="bottom|end"
+                  android:layout_gravity="bottom|center"
                   android:layout_weight="2"
                   android:orientation="horizontal"
                   android:padding="15dp">
 
         <View
-            android:layout_width="100dp"
-            android:layout_height="10dp"/>
+            android:layout_width="150dp"
+            android:layout_height="0dp"/>
 
         <Button
             android:id="@+id/applyButton"
@@ -59,17 +49,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/apply_changes"/>
-
-        <View
-            android:layout_width="10dp"
-            android:layout_height="10dp"/>
-
-        <Button
-            android:id="@+id/closeButton"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/close_without_saving"/>
 
     </LinearLayout>
 

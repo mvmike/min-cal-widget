@@ -6,8 +6,8 @@ import java.text.DateFormatSymbols;
 import java.util.Arrays;
 import java.util.Locale;
 
-import android.app.Activity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Window;
 import android.widget.ArrayAdapter;
@@ -18,7 +18,7 @@ import cat.mvmike.minimalcalendarwidget.MonthWidget;
 import cat.mvmike.minimalcalendarwidget.R;
 import cat.mvmike.minimalcalendarwidget.util.ConfigurationUtil;
 
-public class ConfigurationActivity extends Activity {
+public class ConfigurationActivity extends AppCompatActivity {
 
     private static final int BLANK_POSITION_DIFFERENCE = -1;
 
@@ -34,7 +34,6 @@ public class ConfigurationActivity extends Activity {
         loadPreviousConfig();
 
         applyListener();
-        closeListener();
     }
 
     private void applyListener() {
@@ -44,17 +43,6 @@ public class ConfigurationActivity extends Activity {
             @Override
             public void onClick(View v) {
                 saveConfig();
-                ConfigurationActivity.this.finish();
-            }
-        });
-    }
-
-    private void closeListener() {
-
-        Button dismissButton = (Button) findViewById(R.id.closeButton);
-        dismissButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
                 ConfigurationActivity.this.finish();
             }
         });

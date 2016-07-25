@@ -5,8 +5,7 @@
 
     <!--configuration-->
     <string name="configuration_title">MinCal Configuration</string>
-    <string name="start_week_day">start day</string>
+    <string name="start_week_day">start day:</string>
     <string name="apply_changes">apply</string>
-    <string name="close_without_saving">close</string>
 
 </resources>
