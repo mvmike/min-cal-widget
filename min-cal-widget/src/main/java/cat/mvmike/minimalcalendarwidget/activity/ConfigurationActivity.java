@@ -17,6 +17,7 @@ import android.widget.Spinner;
 import cat.mvmike.minimalcalendarwidget.MonthWidget;
 import cat.mvmike.minimalcalendarwidget.R;
 import cat.mvmike.minimalcalendarwidget.util.ConfigurationUtil;
+import cat.mvmike.minimalcalendarwidget.util.SymbolsUtil;
 
 public class ConfigurationActivity extends AppCompatActivity {
 
@@ -50,7 +51,7 @@ public class ConfigurationActivity extends AppCompatActivity {
 
     private void setAvailableValues() {
 
-        // get locale weekDays and remove blank initial value
+        // WEEK DAYS
         String[] localeWeekDays = DateFormatSymbols.getInstance(Locale.getDefault()).getWeekdays();
         String[] weekDays = Arrays.copyOfRange(localeWeekDays, 1, localeWeekDays.length);
 
@@ -58,17 +59,33 @@ public class ConfigurationActivity extends AppCompatActivity {
 
         adapterWeekDays.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         ((Spinner) findViewById(R.id.startWeekDaySpinner)).setAdapter(adapterWeekDays);
+
+        // SYMBOLS
+        ArrayAdapter<String> adapterSymbols =
+            new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, SymbolsUtil.getAllSymbolNames());
+
+        adapterSymbols.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ((Spinner) findViewById(R.id.symbolsSpinner)).setAdapter(adapterSymbols);
     }
 
     private void loadPreviousConfig() {
+
+        // WEEK DAYS
         ((Spinner) findViewById(R.id.startWeekDaySpinner))
             .setSelection(ConfigurationUtil.getStartWeekDay(getApplicationContext()) + BLANK_POSITION_DIFFERENCE);
+
+        // SYMBOLS
+        ((Spinner) findViewById(R.id.symbolsSpinner))
+            .setSelection(SymbolsUtil.Symbols.valueOf(ConfigurationUtil.getInstancesSymbolName(getApplicationContext())).ordinal());
     }
 
     private void saveConfig() {
 
-        int selectedPosition = ((Spinner) findViewById(R.id.startWeekDaySpinner)).getSelectedItemPosition();
-        ConfigurationUtil.setStartWeekDay(getApplicationContext(), selectedPosition - BLANK_POSITION_DIFFERENCE);
+        int weekDaySelectedPosition = ((Spinner) findViewById(R.id.startWeekDaySpinner)).getSelectedItemPosition();
+        ConfigurationUtil.setStartWeekDay(getApplicationContext(), weekDaySelectedPosition - BLANK_POSITION_DIFFERENCE);
+
+        int symbolsSelectedPosition = ((Spinner) findViewById(R.id.symbolsSpinner)).getSelectedItemPosition();
+        ConfigurationUtil.setInstancesSymbols(getApplicationContext(), SymbolsUtil.Symbols.values()[symbolsSelectedPosition]);
 
         MonthWidget.forceRedraw(getApplicationContext());
     }

@@ -25,8 +25,6 @@ public abstract class DayUtil {
 
     private static final int NUM_WEEKS = 6;
 
-    private static final Character[] INSTANCES_NUMBER_SYMBOLS = {' ', '·', '∶', '∴', '∷', '◇', '◈'};
-
     private static final float SYMBOL_RELATIVE_SIZE = 1.2f;
 
     private static final String PADDING = " ";
@@ -67,8 +65,10 @@ public abstract class DayUtil {
     private static void setInstanceNumber(final Context context, final RemoteViews cellRv, final String dayOfMonth, boolean isToday,
         boolean isInMonth, final int found) {
 
-        int max = INSTANCES_NUMBER_SYMBOLS.length - 1;
-        String symbol = String.valueOf(found > max ? INSTANCES_NUMBER_SYMBOLS[max] : INSTANCES_NUMBER_SYMBOLS[found]);
+        Character[] symbols = ConfigurationUtil.getInstancesSymbols(context);
+
+        int max = symbols.length - 1;
+        String symbol = String.valueOf(found > max ? symbols[max] : symbols[found]);
         String dayOfMonthSS = PADDING + (dayOfMonth.length() == 1 ? dayOfMonth + DOUBLE_PADDING : dayOfMonth) + PADDING + symbol;
         SpannableString daySS = new SpannableString(dayOfMonthSS);
         daySS.setSpan(new StyleSpan(Typeface.BOLD), dayOfMonthSS.length() - 1, dayOfMonthSS.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);

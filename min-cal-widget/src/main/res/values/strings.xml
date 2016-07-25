@@ -5,7 +5,10 @@
 
     <!--configuration-->
     <string name="configuration_title">MinCal Configuration</string>
+
     <string name="start_week_day">start day:</string>
+    <string name="symbol_set">symbol set:</string>
+
     <string name="apply_changes">apply</string>
 
 </resources>

@@ -14,6 +14,8 @@ public abstract class ConfigurationUtil {
 
     public static final String START_WEEK_DAY = "start_week_day";
 
+    public static final String INSTANCES_SYMBOLS = "instances_symbols";
+
     private static final int START_WEEK_DAY_DEFAULT = Calendar.MONDAY;
 
     public static void startConfigurationView(final Context context) {
@@ -30,6 +32,18 @@ public abstract class ConfigurationUtil {
 
     public static void setStartWeekDay(final Context context, final int startWeekDay) {
         getConfiguration(context).edit().putInt(START_WEEK_DAY, startWeekDay).apply();
+    }
+
+    public static String getInstancesSymbolName(final Context context) {
+        return getConfiguration(context).getString(INSTANCES_SYMBOLS, SymbolsUtil.Symbols.MINIMAL.name());
+    }
+
+    public static Character[] getInstancesSymbols(final Context context) {
+        return SymbolsUtil.Symbols.valueOf(getInstancesSymbolName(context)).getArray();
+    }
+
+    public static void setInstancesSymbols(final Context context, final SymbolsUtil.Symbols symbol) {
+        getConfiguration(context).edit().putString(INSTANCES_SYMBOLS, symbol.name()).apply();
     }
 
     private static SharedPreferences getConfiguration(final Context context) {
