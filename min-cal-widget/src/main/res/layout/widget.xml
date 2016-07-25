@@ -13,11 +13,22 @@
 
         <TextView
             android:id="@+id/month_year_label"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="24sp"
             android:gravity="start"
             android:textColor="@color/foreground_full"
             android:textSize="20sp"/>
+
+        <ImageView
+            android:id="@+id/configuration_icon"
+            android:layout_height="24sp"
+            android:layout_width="match_parent"
+            android:scaleType="fitEnd"
+            android:src="@drawable/ic_configuration"
+            android:gravity="end"
+            android:padding="5dip"
+            android:contentDescription="@string/configuration"/>
+
     </LinearLayout>
 
     <LinearLayout

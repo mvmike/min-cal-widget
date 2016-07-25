@@ -122,7 +122,7 @@ public class MonthWidget extends AppWidgetProvider {
         // LISTENER FOR WIDGET PRESS AND CONFIGURATION
         rv.setOnClickPendingIntent(R.id.calendar_widget, PendingIntent.getBroadcast(context, INTENT_CODE_CALENDAR,
             new Intent(context, MonthWidget.class).setAction(WIDGET_PRESS), PendingIntent.FLAG_UPDATE_CURRENT));
-        rv.setOnClickPendingIntent(R.id.month_bar, PendingIntent.getBroadcast(context, INTENT_CODE_CONFIGURATION,
+        rv.setOnClickPendingIntent(R.id.configuration_icon, PendingIntent.getBroadcast(context, INTENT_CODE_CONFIGURATION,
             new Intent(context, MonthWidget.class).setAction(CONFIGURATION_PRESS), PendingIntent.FLAG_UPDATE_CURRENT));
 
         appWidgetManager.updateAppWidget(appWidgetId, rv);
