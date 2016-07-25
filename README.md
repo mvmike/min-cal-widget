@@ -12,4 +12,4 @@ Static month calendar widget
 * Pressing on header opens widget configuration
 * Pressing on widget day cells opens calendar application
 * Updates automatically every 30 mins (also triggered when pressed)
-* minSDK → 21 (android 5.0)
+* minSDK → 19 (android 4.4)
