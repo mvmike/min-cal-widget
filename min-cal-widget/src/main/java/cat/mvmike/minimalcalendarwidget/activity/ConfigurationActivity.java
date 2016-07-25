@@ -3,6 +3,7 @@
 package cat.mvmike.minimalcalendarwidget.activity;
 
 import java.text.DateFormatSymbols;
+import java.util.Arrays;
 import java.util.Locale;
 
 import android.app.Activity;
@@ -18,6 +19,8 @@ import cat.mvmike.minimalcalendarwidget.R;
 import cat.mvmike.minimalcalendarwidget.util.ConfigurationUtil;
 
 public class ConfigurationActivity extends Activity {
+
+    private static final int BLANK_POSITION_DIFFERENCE = -1;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -59,23 +62,25 @@ public class ConfigurationActivity extends Activity {
 
     private void setAvailableValues() {
 
-        ArrayAdapter<String> adapterWeekDays = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,
-            DateFormatSymbols.getInstance(Locale.getDefault()).getWeekdays());
+        // get locale weekDays and remove blank initial value
+        String[] localeWeekDays = DateFormatSymbols.getInstance(Locale.getDefault()).getWeekdays();
+        String[] weekDays = Arrays.copyOfRange(localeWeekDays, 1, localeWeekDays.length);
+
+        ArrayAdapter<String> adapterWeekDays = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, weekDays);
 
         adapterWeekDays.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         ((Spinner) findViewById(R.id.startWeekDaySpinner)).setAdapter(adapterWeekDays);
     }
 
     private void loadPreviousConfig() {
-        ((Spinner) findViewById(R.id.startWeekDaySpinner)).setSelection(ConfigurationUtil.getStartWeekDay(getApplicationContext()));
+        ((Spinner) findViewById(R.id.startWeekDaySpinner))
+            .setSelection(ConfigurationUtil.getStartWeekDay(getApplicationContext()) + BLANK_POSITION_DIFFERENCE);
     }
 
     private void saveConfig() {
 
         int selectedPosition = ((Spinner) findViewById(R.id.startWeekDaySpinner)).getSelectedItemPosition();
-
-        if (selectedPosition != 0)
-            ConfigurationUtil.setStartWeekDay(getApplicationContext(), selectedPosition);
+        ConfigurationUtil.setStartWeekDay(getApplicationContext(), selectedPosition - BLANK_POSITION_DIFFERENCE);
 
         MonthWidget.forceRedraw(getApplicationContext());
     }
