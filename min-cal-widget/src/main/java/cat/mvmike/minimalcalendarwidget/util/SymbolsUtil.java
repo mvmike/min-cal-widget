@@ -22,7 +22,11 @@ public abstract class SymbolsUtil {
 
     public enum Symbols {
 
-        MINIMAL(1.2f, "· ∶ ∴ ∷ ◇ ◈"), ROMAN(0.8f, "Ⅰ Ⅱ Ⅲ Ⅳ Ⅴ ∾"), CLASSIC(0.8f, "1 2 3 4 5 ◉");
+        MINIMAL(1.2f, "· ∶ ∴ ∷ ◇ ◈"),
+        ROMAN(0.8f, "Ⅰ Ⅱ Ⅲ Ⅳ Ⅴ ∾"),
+        NUMBERS(0.8f, "1 2 3 4 5 +"),
+        CIRCLES(1.2f, "◔ ◑ ◕ ◉ ●"),
+        BINARY(1f, "☱ ☲ ☳ ☴ ☵ ☶ ☷ ※");
 
         private float relativeSize;
 
