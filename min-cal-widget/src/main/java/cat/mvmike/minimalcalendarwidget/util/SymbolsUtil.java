@@ -15,7 +15,7 @@ public abstract class SymbolsUtil {
         String[] result = new String[Symbols.values().length];
 
         for (int i = 0; i < Symbols.values().length; i++)
-            result[i] = Symbols.values()[i].name().toLowerCase();
+            result[i] = Symbols.values()[i].name().substring(0, 1) + Symbols.values()[i].name().substring(1).toLowerCase();
 
         return result;
     }
