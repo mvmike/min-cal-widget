@@ -23,9 +23,9 @@ public abstract class SymbolsUtil {
     public enum Symbols {
 
         MINIMAL(1.2f, "· ∶ ∴ ∷ ◇ ◈"),
-        ROMAN(0.8f, "Ⅰ Ⅱ Ⅲ Ⅳ Ⅴ ∾"),
-        NUMBERS(0.8f, "1 2 3 4 5 +"),
-        CIRCLES(1.2f, "◔ ◑ ◕ ◉ ●"),
+        CIRCLES(1.2f, "◔ ◑ ◕ ● ๑"),
+        NUMBERS(0.8f, "1 2 3 4 5 6 7 8 9 +"),
+        ROMAN(0.8f, "Ⅰ Ⅱ Ⅲ Ⅳ Ⅴ Ⅵ Ⅶ Ⅷ Ⅸ Ⅹ ∾"),
         BINARY(1f, "☱ ☲ ☳ ☴ ☵ ☶ ☷ ※");
 
         private float relativeSize;
