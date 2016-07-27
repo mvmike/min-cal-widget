@@ -1,4 +1,4 @@
-**Minimal Calendar Widget**
+## Minimal Calendar Widget
 
 Static month calendar widget
 
@@ -8,11 +8,11 @@ Configuration:
 
 ![Minimal Calendar Widget Configuration Screenshot](assets/configuration_preview.png)
 
-## Features
+#### Features
 
 * 3x2 (resizable)
 * Simple dark theme
-* Displays all events from your calendars as dots or symbol (6 or more is generic)
+* Displays all events from your calendars as dots or symbol (high number becomes generic)
 * Pressing on header opens widget configuration (start weekday, symbol set)
 * Pressing on widget day cells opens calendar application
 * Updates automatically every 30 mins (also triggered when pressed)
