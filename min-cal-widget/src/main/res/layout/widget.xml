@@ -9,13 +9,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_margin="3dp">
+        android:layout_marginStart="5dp">
 
         <TextView
             android:id="@+id/month_year_label"
             android:layout_width="wrap_content"
-            android:layout_height="24sp"
-            android:gravity="start"
+            android:layout_height="26sp"
+            android:gravity="start|top"
             android:textColor="@color/foreground_full"
             android:textSize="20sp"/>
 
