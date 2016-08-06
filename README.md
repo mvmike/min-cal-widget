@@ -1,4 +1,5 @@
 ## Minimal Calendar Widget
+[![Build Status](https://travis-ci.org/mvmike/min-cal-widget.svg?branch=master)](https://travis-ci.org/mvmike/min-cal-widget)
 
 <a href="https://f-droid.org/app/cat.mvmike.minimalcalendarwidget">
     <img src="https://f-droid.org/badge/get-it-on.png"
