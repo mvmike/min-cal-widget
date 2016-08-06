@@ -1,6 +1,12 @@
 ## Minimal Calendar Widget
 
+<a href="https://f-droid.org/app/cat.mvmike.minimalcalendarwidget">
+    <img src="https://f-droid.org/badge/get-it-on.png"
+         alt="Get it on F-Droid" height="80">
+</a>
+
 Static month calendar widget
+
 
 ![Minimal Calendar Widget Screenshot](assets/widget_preview.png)
 
