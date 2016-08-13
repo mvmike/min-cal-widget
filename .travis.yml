@@ -1,0 +1,22 @@
+language: android
+
+jdk:
+  - oraclejdk8 # switch to openjdk8 once Travis has it
+
+android:
+  components:
+    - tools
+    - build-tools-24
+    - android-24
+    - extra-android-m2repository
+
+script:
+  - ./gradlew assemble check
+
+before_cache:
+  - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
+
+cache:
+  directories:
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
