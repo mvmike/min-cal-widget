@@ -19,19 +19,19 @@ public final class InstanceDTO {
         CalendarContract.Instances.TITLE, CalendarContract.Instances.DESCRIPTION, CalendarContract.Instances.BEGIN,
         CalendarContract.Instances.END, CalendarContract.Instances.CALENDAR_COLOR};
 
-    private String id;
+    private final String id;
 
-    private String calendarId;
+    private final String calendarId;
 
-    private String title;
+    private final String title;
 
-    private String description;
+    private final String description;
 
-    private Date dateStart;
+    private final Date dateStart;
 
-    private Date dateEnd;
+    private final Date dateEnd;
 
-    private String color;
+    private final String color;
 
     public InstanceDTO(final Cursor instanceCursor) {
 

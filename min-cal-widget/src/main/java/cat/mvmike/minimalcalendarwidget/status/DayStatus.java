@@ -6,19 +6,19 @@ import java.util.Calendar;
 
 public final class DayStatus {
 
-    private boolean inYear;
+    private final boolean inYear;
 
-    private boolean inMonth;
+    private final boolean inMonth;
 
-    private boolean isToday;
+    private final boolean isToday;
 
-    private boolean isSaturday;
+    private final boolean isSaturday;
 
-    private boolean isSunday;
+    private final boolean isSunday;
 
-    private int dayOfMonthInt;
+    private final int dayOfMonthInt;
 
-    private int monthNumberInt;
+    private final int monthNumberInt;
 
     public DayStatus(final Calendar cal, final int todayYear, final int thisMonth, final int today) {
 

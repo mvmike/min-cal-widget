@@ -16,15 +16,15 @@ public final class CalendarStatus {
 
     private static final int MONTH_FIRST_DAY = 1;
 
-    private int today;
+    private final int today;
 
-    private int todayYear;
+    private final int todayYear;
 
-    private int thisMonth;
+    private final int thisMonth;
 
-    private int thisYear;
+    private final int thisYear;
 
-    private Calendar calendar;
+    private final Calendar calendar;
 
     public CalendarStatus(final Context context, final Calendar cal, final int firstDayOfWeek) {
 
