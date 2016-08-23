@@ -2,6 +2,8 @@
 // See LICENSE for licensing information
 package cat.mvmike.minimalcalendarwidget.util;
 
+import java.util.Locale;
+
 public abstract class SymbolsUtil {
 
     private static final String INSTANCES_SYMBOLS_EMPTY = " ";
@@ -15,7 +17,7 @@ public abstract class SymbolsUtil {
         String[] result = new String[Symbols.values().length];
 
         for (int i = 0; i < Symbols.values().length; i++)
-            result[i] = Symbols.values()[i].name().substring(0, 1) + Symbols.values()[i].name().substring(1).toLowerCase();
+            result[i] = Symbols.values()[i].name().substring(0, 1) + Symbols.values()[i].name().substring(1).toLowerCase(Locale.ENGLISH);
 
         return result;
     }
