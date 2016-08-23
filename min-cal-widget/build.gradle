@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'pmd'
 
 android {
     compileSdkVersion 24
@@ -64,3 +65,17 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:24.1.1'
 }
+
+pmd {
+    toolVersion = '5.5.1'
+    consoleOutput = true
+}
+
+task pmdMain(type: Pmd, dependsOn: assembleDebug) {
+    ruleSetFiles = files("${project.rootDir}/config/pmd/rules.xml")
+    ruleSets = [] // otherwise defaults clash with the list in rules.xml
+    source 'src/main/java'
+    include '**/*.java'
+}
+
+task pmd(dependsOn: [pmdMain]) {}
