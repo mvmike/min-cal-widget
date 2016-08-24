@@ -19,7 +19,7 @@
 * Updates automatically every 30 mins (also triggered when pressed)
 * minSDK → 19 (android 4.4)
 
-</br></br>
+</br>
 
 <div style="display:flex;" >
     <a href="https://f-droid.org/app/cat.mvmike.minimalcalendarwidget">
@@ -28,7 +28,7 @@
     </a>
 </div>
 
-</br></br>
+</br>
 
 #### Licensing
 
