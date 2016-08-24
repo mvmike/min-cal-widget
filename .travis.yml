@@ -6,12 +6,13 @@ jdk:
 android:
   components:
     - tools
-    - build-tools-24
+    - platform-tools
+    - build-tools-24.0.0
     - android-24
     - extra-android-m2repository
 
 script:
-  - ./gradlew assemble check
+  - ./gradlew assemble pmd
 
 before_cache:
   - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock

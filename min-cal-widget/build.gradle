@@ -1,9 +1,5 @@
 apply plugin: 'com.android.application'
-
-def releaseStoreFile = hasProperty('RELEASE_STORE_FILE') ? RELEASE_STORE_FILE : System.getenv('RELEASE_STORE_FILE')
-def releaseStorePassword = hasProperty('RELEASE_STORE_PASSWORD') ? RELEASE_STORE_PASSWORD : System.getenv('RELEASE_STORE_PASSWORD')
-def releaseKeyAlias = hasProperty('RELEASE_KEY_ALIAS') ? RELEASE_KEY_ALIAS : System.getenv('RELEASE_KEY_ALIAS')
-def releaseKeyPassword = hasProperty('RELEASE_KEY_PASSWORD') ? RELEASE_KEY_PASSWORD : System.getenv('RELEASE_KEY_PASSWORD')
+apply plugin: 'pmd'
 
 android {
     compileSdkVersion 24
@@ -17,21 +13,38 @@ android {
         versionName "0.0.1"
     }
 
-    signingConfigs {
+    /*
+     * To sign release builds, create the file gradle.properties in
+     * ~/.gradle/ with this content:
+     *
+     * signingStoreFile=key.store
+     * signingStorePassword=xxx
+     * signingKeyAlias=alias
+     * signingKeyPassword=xxx
+     */
+    if (project.hasProperty('signingStoreFile') &&
+            project.hasProperty('signingStorePassword') &&
+            project.hasProperty('signingKeyAlias') &&
+            project.hasProperty('signingKeyPassword')) {
 
-        release {
-            storeFile file(releaseStoreFile)
-            storePassword releaseStorePassword
-            keyAlias releaseKeyAlias
-            keyPassword releaseKeyPassword
+        println "Found sign properties in gradle.properties! Signing build…"
+        signingConfigs {
+            release {
+                storeFile file(signingStoreFile)
+                storePassword signingStorePassword
+                keyAlias signingKeyAlias
+                keyPassword signingKeyPassword
+            }
         }
+        buildTypes.release.signingConfig = signingConfigs.release
+    } else {
+        buildTypes.release.signingConfig = null
     }
 
     buildTypes {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
         }
     }
 
@@ -52,3 +65,17 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:24.1.1'
 }
+
+pmd {
+    toolVersion = '5.5.1'
+    consoleOutput = true
+}
+
+task pmdMain(type: Pmd, dependsOn: assembleDebug) {
+    ruleSetFiles = files("${project.rootDir}/config/pmd/rules.xml")
+    ruleSets = [] // otherwise defaults clash with the list in rules.xml
+    source 'src/main/java'
+    include '**/*.java'
+}
+
+task pmd(dependsOn: [pmdMain]) {}

@@ -13,15 +13,15 @@ public final class CalendarDTO {
     public static final String[] FIELDS = {CalendarContract.Calendars._ID, CalendarContract.Calendars.NAME,
         CalendarContract.Calendars.CALENDAR_DISPLAY_NAME, CalendarContract.Calendars.CALENDAR_COLOR, CalendarContract.Calendars.VISIBLE};
 
-    private String id;
+    private final String id;
 
-    private String name;
+    private final String name;
 
-    private String displayName;
+    private final String displayName;
 
-    private String color;
+    private final String color;
 
-    private boolean selected;
+    private final boolean selected;
 
     public CalendarDTO(final Cursor calendarCursor) {
 
