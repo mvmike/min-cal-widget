@@ -44,13 +44,6 @@ public class MonthWidget extends AppWidgetProvider {
     private static final float HEADER_RELATIVE_YEAR_SIZE = 0.8f;
 
     @Override
-    public void onEnabled(final Context context) {
-
-        super.onEnabled(context);
-        PermissionsUtil.checkPermissions(context);
-    }
-
-    @Override
     public void onUpdate(final Context context, final AppWidgetManager appWidgetManager, final int[] appWidgetIds) {
 
         super.onUpdate(context, appWidgetManager, appWidgetIds);
@@ -67,6 +60,7 @@ public class MonthWidget extends AppWidgetProvider {
         switch (intent.getAction()) {
 
             case WIDGET_PRESS:
+                PermissionsUtil.checkPermissions(context);
                 CalendarActivity.startCalendarApplication(context);
                 break;
 
