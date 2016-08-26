@@ -8,11 +8,13 @@ import java.util.Locale;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import cat.mvmike.minimalcalendarwidget.MonthWidget;
 import cat.mvmike.minimalcalendarwidget.R;
@@ -31,10 +33,22 @@ public class ConfigurationActivity extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.configuration);
 
+        setHyperlinks();
+
         setAvailableValues();
         loadPreviousConfig();
 
         applyListener();
+    }
+
+    private void setHyperlinks(){
+
+        setHyperlinkToTextView(R.id.source);
+        setHyperlinkToTextView(R.id.donate);
+    }
+
+    private void setHyperlinkToTextView(final int id){
+        ((TextView) findViewById(id)).setMovementMethod(LinkMovementMethod.getInstance());
     }
 
     private void applyListener() {
