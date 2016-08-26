@@ -2,6 +2,13 @@
 [![Build Status](https://travis-ci.org/mvmike/min-cal-widget.svg?branch=master)](https://travis-ci.org/mvmike/min-cal-widget)
 [![Donate](https://img.shields.io/badge/donate-paypal-blue.svg)](https://www.paypal.me/mvmike)
 
+<div style="display:flex;" >
+    <a href="https://f-droid.org/app/cat.mvmike.minimalcalendarwidget">
+        <img src="https://f-droid.org/badge/get-it-on.png"
+             alt="Get it on F-Droid" height="80">
+    </a>
+</div>
+
 ## Minimal Calendar Widget
 
 <div style="display:flex;" >
@@ -18,17 +25,6 @@
 * Pressing on widget day cells opens calendar application
 * Updates automatically every 30 mins (also triggered when pressed)
 * minSDK → 19 (android 4.4)
-
-</br>
-
-<div style="display:flex;" >
-    <a href="https://f-droid.org/app/cat.mvmike.minimalcalendarwidget">
-        <img src="https://f-droid.org/badge/get-it-on.png"
-             alt="Get it on F-Droid" height="80">
-    </a>
-</div>
-
-</br>
 
 #### Licensing
 
