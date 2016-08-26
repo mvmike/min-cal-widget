@@ -4,6 +4,8 @@ package cat.mvmike.minimalcalendarwidget.util;
 
 import java.util.Locale;
 
+import cat.mvmike.minimalcalendarwidget.R;
+
 public abstract class SymbolsUtil {
 
     private static final String INSTANCES_SYMBOLS_EMPTY = " ";
@@ -12,17 +14,7 @@ public abstract class SymbolsUtil {
 
     private static final String EMPTY = "";
 
-    public static String[] getAllSymbolNames() {
-
-        String[] result = new String[Symbols.values().length];
-
-        for (int i = 0; i < Symbols.values().length; i++)
-            result[i] = Symbols.values()[i].name().substring(0, 1) + Symbols.values()[i].name().substring(1).toLowerCase(Locale.ENGLISH);
-
-        return result;
-    }
-
-    public enum Symbols {
+    public enum Symbol {
 
         MINIMAL(1.2f, "· ∶ ∴ ∷ ◇ ◈"),
         CIRCLES(1.2f, "◔ ◑ ◕ ● ๑"),
@@ -34,7 +26,7 @@ public abstract class SymbolsUtil {
 
         private String values;
 
-        Symbols(final float relativeSize, final String values) {
+        Symbol(final float relativeSize, final String values) {
 
             this.relativeSize = relativeSize;
             this.values = values;
@@ -51,6 +43,46 @@ public abstract class SymbolsUtil {
         public Character[] getArray() {
             return toCharacterArray(INSTANCES_SYMBOLS_EMPTY + getValues().replaceAll(ALL_SPACES, EMPTY));
         }
+    }
+
+    public enum SymbolColor {
+
+        BLUE(R.color.instances_blue),
+        GREEN(R.color.instances_green),
+        YELLOW(R.color.instances_yellow),
+        WHITE(R.color.instances_white),
+        GREY(R.color.instances_grey);
+
+        private int hexValue;
+
+        SymbolColor(final int hexValue) {
+            this.hexValue = hexValue;
+        }
+
+        public int getHexValue() {
+            return hexValue;
+        }
+    }
+
+    public static String[] getAllSymbolNames() {
+
+        String[] result = new String[Symbol.values().length];
+
+        for (int i = 0; i < Symbol.values().length; i++)
+            result[i] = Symbol.values()[i].name().substring(0, 1) + Symbol.values()[i].name().substring(1).toLowerCase(Locale.ENGLISH);
+
+        return result;
+    }
+
+    public static String[] getAllSymbolColorNames() {
+
+        String[] result = new String[SymbolColor.values().length];
+
+        for (int i = 0; i < SymbolColor.values().length; i++)
+            result[i] =
+                    SymbolColor.values()[i].name().substring(0, 1) + SymbolColor.values()[i].name().substring(1).toLowerCase(Locale.ENGLISH);
+
+        return result;
     }
 
     private static Character[] toCharacterArray(final String symbols) {

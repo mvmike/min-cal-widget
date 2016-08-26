@@ -9,8 +9,12 @@
 
     <!--instances-->
     <color name="instances_today">#ff2424</color>
-    <color name="instances_this_month">#66ffff</color>
-    <color name="instances">#66ffff</color>
+
+    <color name="instances_blue">#66ffff</color>
+    <color name="instances_green">#66ff66</color>
+    <color name="instances_yellow">#ffff66</color>
+    <color name="instances_white">#ffffff</color>
+    <color name="instances_grey">#bfbfbf</color>
 
     <!--today-->
     <color name="foreground_today">#fff</color>

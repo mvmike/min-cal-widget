@@ -16,6 +16,8 @@ public abstract class ConfigurationUtil {
 
     public static final String INSTANCES_SYMBOLS = "instances_symbols";
 
+    public static final String INSTANCES_SYMBOLS_COLOUR = "instances_symbols_colour";
+
     private static final int START_WEEK_DAY_DEFAULT = Calendar.MONDAY;
 
     public static void startConfigurationView(final Context context) {
@@ -35,15 +37,27 @@ public abstract class ConfigurationUtil {
     }
 
     public static String getInstancesSymbolName(final Context context) {
-        return getConfiguration(context).getString(INSTANCES_SYMBOLS, SymbolsUtil.Symbols.MINIMAL.name());
+        return getConfiguration(context).getString(INSTANCES_SYMBOLS, SymbolsUtil.Symbol.MINIMAL.name());
     }
 
-    public static SymbolsUtil.Symbols getInstancesSymbols(final Context context) {
-        return SymbolsUtil.Symbols.valueOf(getInstancesSymbolName(context));
+    public static SymbolsUtil.Symbol getInstancesSymbols(final Context context) {
+        return SymbolsUtil.Symbol.valueOf(getInstancesSymbolName(context));
     }
 
-    public static void setInstancesSymbols(final Context context, final SymbolsUtil.Symbols symbol) {
+    public static void setInstancesSymbols(final Context context, final SymbolsUtil.Symbol symbol) {
         getConfiguration(context).edit().putString(INSTANCES_SYMBOLS, symbol.name()).apply();
+    }
+
+    public static String getInstancesSymbolColourName(final Context context) {
+        return getConfiguration(context).getString(INSTANCES_SYMBOLS_COLOUR, SymbolsUtil.SymbolColor.BLUE.name());
+    }
+
+    public static SymbolsUtil.SymbolColor getInstancesSymbolColours(final Context context) {
+        return SymbolsUtil.SymbolColor.valueOf(getInstancesSymbolColourName(context));
+    }
+
+    public static void setInstancesSymbolColours(final Context context, final SymbolsUtil.SymbolColor colour) {
+        getConfiguration(context).edit().putString(INSTANCES_SYMBOLS_COLOUR, colour.name()).apply();
     }
 
     private static SharedPreferences getConfiguration(final Context context) {

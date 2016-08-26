@@ -48,8 +48,7 @@ public abstract class DayUtil {
                 RemoteViews cellRv = new RemoteViews(context.getPackageName(), cellLayoutResId);
 
                 int numberOfInstances = getNumberOfInstances(instanceSet, ds);
-                setInstanceNumber(context, cellRv, Integer.toString(ds.getDayOfMonthInt()), ds.isToday(), ds.isInMonth(),
-                    numberOfInstances);
+                setInstanceNumber(context, cellRv, Integer.toString(ds.getDayOfMonthInt()), ds.isToday(), numberOfInstances);
                 checkMonthBeginningStyleChange(cs.getCalendar(), cellRv, ss);
 
                 cs.getCalendar().add(Calendar.DAY_OF_MONTH, 1);
@@ -61,9 +60,9 @@ public abstract class DayUtil {
     }
 
     private static void setInstanceNumber(final Context context, final RemoteViews cellRv, final String dayOfMonth, boolean isToday,
-        boolean isInMonth, final int found) {
+        final int found) {
 
-        SymbolsUtil.Symbols symbols = ConfigurationUtil.getInstancesSymbols(context);
+        SymbolsUtil.Symbol symbols = ConfigurationUtil.getInstancesSymbols(context);
         Character[] symbolArray = symbols.getArray();
 
         int max = symbolArray.length - 1;
@@ -75,10 +74,8 @@ public abstract class DayUtil {
         int color;
         if (isToday)
             color = ContextCompat.getColor(context, R.color.instances_today);
-        else if (isInMonth)
-            color = ContextCompat.getColor(context, R.color.instances_this_month);
         else
-            color = ContextCompat.getColor(context, R.color.instances);
+            color = ContextCompat.getColor(context, ConfigurationUtil.getInstancesSymbolColours(context).getHexValue());
 
         if (isToday)
             daySS.setSpan(new StyleSpan(Typeface.BOLD), 0, dayOfMonthSS.length() - 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);

@@ -80,6 +80,13 @@ public class ConfigurationActivity extends AppCompatActivity {
 
         adapterSymbols.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         ((Spinner) findViewById(R.id.symbolsSpinner)).setAdapter(adapterSymbols);
+
+        // SYMBOLS COLOUR
+        ArrayAdapter<String> adapterSymbolsColour =
+                new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, SymbolsUtil.getAllSymbolColorNames());
+
+        adapterSymbolsColour.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ((Spinner) findViewById(R.id.symbolsColourSpinner)).setAdapter(adapterSymbolsColour);
     }
 
     private void loadPreviousConfig() {
@@ -90,7 +97,11 @@ public class ConfigurationActivity extends AppCompatActivity {
 
         // SYMBOLS
         ((Spinner) findViewById(R.id.symbolsSpinner))
-            .setSelection(SymbolsUtil.Symbols.valueOf(ConfigurationUtil.getInstancesSymbolName(getApplicationContext())).ordinal());
+            .setSelection(SymbolsUtil.Symbol.valueOf(ConfigurationUtil.getInstancesSymbolName(getApplicationContext())).ordinal());
+
+        // SYMBOLS COLOUR
+        ((Spinner) findViewById(R.id.symbolsColourSpinner))
+            .setSelection(SymbolsUtil.SymbolColor.valueOf(ConfigurationUtil.getInstancesSymbolColourName(getApplicationContext())).ordinal());
     }
 
     private void saveConfig() {
@@ -99,7 +110,10 @@ public class ConfigurationActivity extends AppCompatActivity {
         ConfigurationUtil.setStartWeekDay(getApplicationContext(), weekDaySelectedPosition - BLANK_POSITION_DIFFERENCE);
 
         int symbolsSelectedPosition = ((Spinner) findViewById(R.id.symbolsSpinner)).getSelectedItemPosition();
-        ConfigurationUtil.setInstancesSymbols(getApplicationContext(), SymbolsUtil.Symbols.values()[symbolsSelectedPosition]);
+        ConfigurationUtil.setInstancesSymbols(getApplicationContext(), SymbolsUtil.Symbol.values()[symbolsSelectedPosition]);
+
+        int symbolsColourSelectedPosition = ((Spinner) findViewById(R.id.symbolsColourSpinner)).getSelectedItemPosition();
+        ConfigurationUtil.setInstancesSymbolColours(getApplicationContext(), SymbolsUtil.SymbolColor.values()[symbolsColourSelectedPosition]);
 
         MonthWidget.forceRedraw(getApplicationContext());
     }
