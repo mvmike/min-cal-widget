@@ -29,4 +29,3 @@
 #### Licensing
 
 MinCal Widget is licensed under the [BSD 3-clause](https://github.com/mvmike/min-cal-widget/blob/master/LICENSE).
-In addition to the terms set by the License, we ask that if you use any code from this repository that you send us a message to let us know.
