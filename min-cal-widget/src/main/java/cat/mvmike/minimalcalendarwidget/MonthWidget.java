@@ -21,6 +21,7 @@ import cat.mvmike.minimalcalendarwidget.activity.CalendarActivity;
 import cat.mvmike.minimalcalendarwidget.resolver.CalendarResolver;
 import cat.mvmike.minimalcalendarwidget.resolver.dto.InstanceDTO;
 import cat.mvmike.minimalcalendarwidget.util.ConfigurationUtil;
+import cat.mvmike.minimalcalendarwidget.util.CalendarChangeUtil;
 import cat.mvmike.minimalcalendarwidget.util.DayUtil;
 import cat.mvmike.minimalcalendarwidget.util.PermissionsUtil;
 import cat.mvmike.minimalcalendarwidget.util.WeekDayHeaderUtil;
@@ -48,6 +49,7 @@ public class MonthWidget extends AppWidgetProvider {
 
         super.onEnabled(context);
         PermissionsUtil.checkPermissions(context);
+        CalendarChangeUtil.registerDateChangeReceiver(context);
     }
 
     @Override
@@ -83,6 +85,7 @@ public class MonthWidget extends AppWidgetProvider {
 
         super.onDeleted(context, appWidgetIds);
         ConfigurationUtil.clearConfiguration(context);
+        CalendarChangeUtil.unregisterDateChangeReceiver(context);
     }
 
     private static void drawWidgets(final Context context, final AppWidgetManager appWidgetManager, final int[] appWidgetIds,
