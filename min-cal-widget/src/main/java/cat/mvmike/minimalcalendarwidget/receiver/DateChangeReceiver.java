@@ -15,7 +15,7 @@ public class DateChangeReceiver extends BroadcastReceiver {
     private Calendar lastChecked = Calendar.getInstance();
 
     @Override
-    public void onReceive(final Context context, Intent intent) {
+    public void onReceive(final Context context, final Intent intent) {
 
         Calendar now = Calendar.getInstance();
 
