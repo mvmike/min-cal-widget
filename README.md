@@ -21,10 +21,9 @@
 * 3x2 (resizable)
 * Simple dark theme
 * Displays all events from your calendars as dots or symbol (high number becomes generic)
-* Pressing on header opens widget configuration (start weekday, symbol set, symbol colour)
+* Pressing on header opens widget configuration
 * Pressing on widget day cells opens calendar application
-* Updates automatically every 30 mins (also triggered when pressed)
-* minSDK → 19 (android 4.4)
+* minSDK: 19 (android 4.4)
 
 #### Licensing
 
