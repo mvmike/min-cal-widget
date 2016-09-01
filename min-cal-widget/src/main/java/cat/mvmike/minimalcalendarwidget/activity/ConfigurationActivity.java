@@ -20,6 +20,7 @@ import cat.mvmike.minimalcalendarwidget.MonthWidget;
 import cat.mvmike.minimalcalendarwidget.R;
 import cat.mvmike.minimalcalendarwidget.util.ConfigurationUtil;
 import cat.mvmike.minimalcalendarwidget.util.SymbolsUtil;
+import cat.mvmike.minimalcalendarwidget.util.ThemesUtil;
 
 public class ConfigurationActivity extends AppCompatActivity {
 
@@ -41,13 +42,13 @@ public class ConfigurationActivity extends AppCompatActivity {
         applyListener();
     }
 
-    private void setHyperlinks(){
+    private void setHyperlinks() {
 
         setHyperlinkToTextView(R.id.source);
         setHyperlinkToTextView(R.id.donate);
     }
 
-    private void setHyperlinkToTextView(final int id){
+    private void setHyperlinkToTextView(final int id) {
         ((TextView) findViewById(id)).setMovementMethod(LinkMovementMethod.getInstance());
     }
 
@@ -64,6 +65,12 @@ public class ConfigurationActivity extends AppCompatActivity {
     }
 
     private void setAvailableValues() {
+
+        // THEMES
+        ArrayAdapter<String> adapterThemes = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, ThemesUtil.getAllThemeNames());
+
+        adapterThemes.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ((Spinner) findViewById(R.id.themeSpinner)).setAdapter(adapterThemes);
 
         // WEEK DAYS
         String[] localeWeekDays = DateFormatSymbols.getInstance(Locale.getDefault()).getWeekdays();
@@ -83,13 +90,17 @@ public class ConfigurationActivity extends AppCompatActivity {
 
         // SYMBOLS COLOUR
         ArrayAdapter<String> adapterSymbolsColour =
-                new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, SymbolsUtil.getAllSymbolColorNames());
+            new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, SymbolsUtil.getAllSymbolColorNames());
 
         adapterSymbolsColour.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         ((Spinner) findViewById(R.id.symbolsColourSpinner)).setAdapter(adapterSymbolsColour);
     }
 
     private void loadPreviousConfig() {
+
+        // THEMES
+        ((Spinner) findViewById(R.id.themeSpinner))
+            .setSelection(ThemesUtil.Theme.valueOf(ConfigurationUtil.getThemeName(getApplicationContext())).ordinal());
 
         // WEEK DAYS
         ((Spinner) findViewById(R.id.startWeekDaySpinner))
@@ -100,20 +111,28 @@ public class ConfigurationActivity extends AppCompatActivity {
             .setSelection(SymbolsUtil.Symbol.valueOf(ConfigurationUtil.getInstancesSymbolName(getApplicationContext())).ordinal());
 
         // SYMBOLS COLOUR
-        ((Spinner) findViewById(R.id.symbolsColourSpinner))
-            .setSelection(SymbolsUtil.SymbolColor.valueOf(ConfigurationUtil.getInstancesSymbolColourName(getApplicationContext())).ordinal());
+        ((Spinner) findViewById(R.id.symbolsColourSpinner)).setSelection(
+            SymbolsUtil.SymbolColor.valueOf(ConfigurationUtil.getInstancesSymbolColourName(getApplicationContext())).ordinal());
     }
 
     private void saveConfig() {
 
+        // THEMES
+        int themesSelectedPosition = ((Spinner) findViewById(R.id.themeSpinner)).getSelectedItemPosition();
+        ConfigurationUtil.setTheme(getApplicationContext(), ThemesUtil.Theme.values()[themesSelectedPosition]);
+
+        // WEEK DAYS
         int weekDaySelectedPosition = ((Spinner) findViewById(R.id.startWeekDaySpinner)).getSelectedItemPosition();
         ConfigurationUtil.setStartWeekDay(getApplicationContext(), weekDaySelectedPosition - BLANK_POSITION_DIFFERENCE);
 
+        // SYMBOLS
         int symbolsSelectedPosition = ((Spinner) findViewById(R.id.symbolsSpinner)).getSelectedItemPosition();
         ConfigurationUtil.setInstancesSymbols(getApplicationContext(), SymbolsUtil.Symbol.values()[symbolsSelectedPosition]);
 
+        // SYMBOLS COLOUR
         int symbolsColourSelectedPosition = ((Spinner) findViewById(R.id.symbolsColourSpinner)).getSelectedItemPosition();
-        ConfigurationUtil.setInstancesSymbolColours(getApplicationContext(), SymbolsUtil.SymbolColor.values()[symbolsColourSelectedPosition]);
+        ConfigurationUtil.setInstancesSymbolColours(getApplicationContext(),
+            SymbolsUtil.SymbolColor.values()[symbolsColourSelectedPosition]);
 
         MonthWidget.forceRedraw(getApplicationContext());
     }

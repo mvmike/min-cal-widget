@@ -1,0 +1,4 @@
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+          style="@style/CalendarCell_black"
+          android:background="@color/background_sunday_black"
+          android:textColor="@color/foreground_full_black"/>

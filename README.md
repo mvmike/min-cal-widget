@@ -12,8 +12,13 @@
 ## Minimal Calendar Widget
 
 <div style="display:flex;" >
-    <img src="assets/widget_preview.png" width="69%" >
-    <img style="margin-left:10px;" src="assets/configuration_preview.png" width="29%" >
+    <img src="assets/widget_preview_black.png" width="33%" >
+    <img src="assets/widget_preview_grey.png" width="33%" >
+    <img src="assets/widget_preview_white.png" width="33%" >
+</div>
+
+<div style="display:flex;" >
+    <img style="margin-left:10px;" src="assets/configuration_preview.png" width="29%" height="80" >
 </div>
 
 #### Features

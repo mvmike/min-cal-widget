@@ -1,60 +1,67 @@
 <resources>
 
     <!--background-->
-    <color name="background_full">#CC000000</color>
+
+    <color name="background_this_month_black">#11ffffff</color>
+    <color name="background_this_month_grey">#1effffff</color>
+    <color name="background_this_month_white">#1effffff</color>
+
+    <color name="background_full_black">#cc000000</color>
+    <color name="background_full_grey">#cc303030</color>
+    <color name="background_full_white">#ccb3b3b3</color>
 
     <!--foreground-->
-    <color name="foreground_full">#fff</color>
-    <color name="foreground_semi">#4fff</color>
+
+    <color name="foreground_full_black">#ffffff</color>
+    <color name="foreground_full_grey">#ffffff</color>
+    <color name="foreground_full_white">#CC000000</color>
+
+    <color name="foreground_semi_black">#44ffffff</color>
+    <color name="foreground_semi_grey">#44ffffff</color>
+    <color name="foreground_semi_white">#CC000000</color>
 
     <!--instances-->
+
     <color name="instances_today">#ff2424</color>
 
-    <color name="instances_blue">#66ffff</color>
-    <color name="instances_green">#66ff66</color>
-    <color name="instances_yellow">#ffff66</color>
+    <color name="instances_cyan">#66ffff</color>
+    <color name="instances_blue">#3262ff</color>
+    <color name="instances_mint">#98fb98</color>
+    <color name="instances_green">#178117</color>
+    <color name="instances_yellow">#ecec50</color>
     <color name="instances_white">#ffffff</color>
-    <color name="instances_grey">#bfbfbf</color>
 
     <!--today-->
-    <color name="foreground_today">#fff</color>
-    <color name="background_today">#59009973</color>
+
+    <color name="foreground_today_black">#ffffff</color>
+    <color name="foreground_today_grey">#ffffff</color>
+    <color name="foreground_today_white">#CC000000</color>
+
+    <color name="background_today_black">#59009973</color>
+    <color name="background_today_grey">#59009973</color>
+    <color name="background_today_white">#59009973</color>
 
     <!--specials-->
-    <color name="background_saturday">#3399ccff</color>
-    <color name="background_sunday">#33ff9999</color>
-    <color name="background_saturday_today">#59004080</color>
-    <color name="background_sunday_today">#59850000</color>
+
+    <color name="background_saturday_black">#3399ccff</color>
+    <color name="background_saturday_grey">#3341a1ff</color>
+    <color name="background_saturday_white">#3341a1ff</color>
+
+    <color name="background_sunday_black">#33ff9999</color>
+    <color name="background_sunday_grey">#33ff4b4b</color>
+    <color name="background_sunday_white">#33ff4b4b</color>
+
+    <color name="background_saturday_today_black">#59004080</color>
+    <color name="background_saturday_today_grey">#59004080</color>
+    <color name="background_saturday_today_white">#59004080</color>
+
+    <color name="background_sunday_today_black">#59850000</color>
+    <color name="background_sunday_today_grey">#59850000</color>
+    <color name="background_sunday_today_white">#59850000</color>
 
     <!--configuration-->
+
     <color name="config_label">#FFFFFF</color>
     <color name="config_value">#cccccc</color>
 
 </resources>
-
-    <!--color picker-->
-    <!--http://www.w3schools.com/colors/colors_picker.asp-->
-
-    <!--Hex Opacity Values-->
-
-    <!--100% — FF-->
-    <!--95% — F2-->
-    <!--90% — E6-->
-    <!--85% — D9-->
-    <!--80% — CC-->
-    <!--75% — BF-->
-    <!--70% — B3-->
-    <!--65% — A6-->
-    <!--60% — 99-->
-    <!--55% — 8C-->
-    <!--50% — 80-->
-    <!--45% — 73-->
-    <!--40% — 66-->
-    <!--35% — 59-->
-    <!--30% — 4D-->
-    <!--25% — 40-->
-    <!--20% — 33-->
-    <!--15% — 26-->
-    <!--10% — 1A-->
-    <!--5% — 0D-->
-    <!--0% — 00-->

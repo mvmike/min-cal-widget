@@ -3,11 +3,42 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical"
-              android:weightSum="4">
+              android:weightSum="5">
 
     <View
         android:layout_width="180dp"
         android:layout_height="25dp"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|start"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:paddingEnd="15dp"
+        android:paddingStart="15dp">
+
+        <TextView
+            android:id="@+id/txt_theme"
+            android:layout_width="115dp"
+            android:layout_height="wrap_content"
+            android:text="@string/theme"
+            android:textColor="@color/config_label"
+            android:textSize="16sp"/>
+
+        <Spinner
+            android:id="@+id/themeSpinner"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:textColor="@color/config_value">
+        </Spinner>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="180dp"
+        android:layout_height="15dp"/>
 
     <LinearLayout
         android:layout_width="wrap_content"

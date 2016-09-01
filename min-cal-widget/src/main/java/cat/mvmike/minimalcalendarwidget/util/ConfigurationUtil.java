@@ -14,6 +14,8 @@ public abstract class ConfigurationUtil {
 
     public static final String PREFERENCES_ID = "mincal_prefs";
 
+    public static final String THEME = "theme";
+
     public static final String START_WEEK_DAY = "start_week_day";
 
     public static final String INSTANCES_SYMBOLS = "instances_symbols";
@@ -28,6 +30,18 @@ public abstract class ConfigurationUtil {
 
     public static void clearConfiguration(final Context context) {
         getConfiguration(context).edit().clear().commit();
+    }
+
+    public static String getThemeName(final Context context) {
+        return getConfiguration(context).getString(THEME, ThemesUtil.Theme.BLACK.name());
+    }
+
+    public static ThemesUtil.Theme getTheme(final Context context) {
+        return ThemesUtil.Theme.valueOf(getThemeName(context));
+    }
+
+    public static void setTheme(final Context context, final ThemesUtil.Theme theme) {
+        getConfiguration(context).edit().putString(THEME, theme.name()).apply();
     }
 
     public static int getStartWeekDay(final Context context) {
@@ -51,7 +65,7 @@ public abstract class ConfigurationUtil {
     }
 
     public static String getInstancesSymbolColourName(final Context context) {
-        return getConfiguration(context).getString(INSTANCES_SYMBOLS_COLOUR, SymbolsUtil.SymbolColor.BLUE.name());
+        return getConfiguration(context).getString(INSTANCES_SYMBOLS_COLOUR, SymbolsUtil.SymbolColor.CYAN.name());
     }
 
     public static SymbolsUtil.SymbolColor getInstancesSymbolColours(final Context context) {

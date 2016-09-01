@@ -32,6 +32,7 @@ public abstract class DayUtil {
     public static void setDays(final Context context, final Calendar cal, final int firstDayOfWeek, final SpannableString ss,
         final RemoteViews rv, final Set<InstanceDTO> instanceSet) {
 
+        ThemesUtil.Theme theme = ConfigurationUtil.getTheme(context);
         CalendarStatus cs = new CalendarStatus(context, cal, firstDayOfWeek);
 
         RemoteViews rowRv;
@@ -44,7 +45,7 @@ public abstract class DayUtil {
 
                 ds = new DayStatus(cal, cs.getTodayYear(), cs.getThisMonth(), cs.getToday());
 
-                int cellLayoutResId = getDayLayout(ds);
+                int cellLayoutResId = getDayLayout(theme, ds);
                 RemoteViews cellRv = new RemoteViews(context.getPackageName(), cellLayoutResId);
 
                 int numberOfInstances = getNumberOfInstances(instanceSet, ds);
@@ -87,26 +88,26 @@ public abstract class DayUtil {
         cellRv.setTextViewText(android.R.id.text1, daySS);
     }
 
-    private static int getDayLayout(final DayStatus ds) {
+    private static int getDayLayout(final ThemesUtil.Theme theme, final DayStatus ds) {
 
-        int cellLayoutResId = R.layout.cell_day;
+        int cellLayoutResId = theme.getCellDay();
 
         if (ds.isInMonth())
-            cellLayoutResId = R.layout.cell_day_this_month;
+            cellLayoutResId = theme.getCellDayThisMonth();
 
         if (ds.isToday()) {
             if (ds.isSaturday())
-                cellLayoutResId = R.layout.cell_day_saturday_today;
+                cellLayoutResId = theme.getCellDaySaturdayToday();
             else if (ds.isSunday())
-                cellLayoutResId = R.layout.cell_day_sunday_today;
+                cellLayoutResId = theme.getCellDaySundayToday();
             else
-                cellLayoutResId = R.layout.cell_day_today;
+                cellLayoutResId = theme.getCellDayToday();
 
         } else if (ds.isInMonth()) {
             if (ds.isSaturday())
-                cellLayoutResId = R.layout.cell_day_saturday;
+                cellLayoutResId = theme.getCellDaySaturday();
             else if (ds.isSunday())
-                cellLayoutResId = R.layout.cell_day_sunday;
+                cellLayoutResId = theme.getCellDaySunday();
         }
 
         return cellLayoutResId;

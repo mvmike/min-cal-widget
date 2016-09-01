@@ -24,6 +24,7 @@ import cat.mvmike.minimalcalendarwidget.util.ConfigurationUtil;
 import cat.mvmike.minimalcalendarwidget.util.ReceiverUtil;
 import cat.mvmike.minimalcalendarwidget.util.DayUtil;
 import cat.mvmike.minimalcalendarwidget.util.PermissionsUtil;
+import cat.mvmike.minimalcalendarwidget.util.ThemesUtil;
 import cat.mvmike.minimalcalendarwidget.util.WeekDayHeaderUtil;
 
 public class MonthWidget extends AppWidgetProvider {
@@ -57,7 +58,7 @@ public class MonthWidget extends AppWidgetProvider {
 
         super.onUpdate(context, appWidgetManager, appWidgetIds);
 
-        RemoteViews rv = new RemoteViews(context.getPackageName(), R.layout.widget);
+        RemoteViews rv = new RemoteViews(context.getPackageName(), ConfigurationUtil.getTheme(context).getMainLayout());
         drawWidgets(context, appWidgetManager, appWidgetIds, rv);
     }
 
@@ -132,11 +133,15 @@ public class MonthWidget extends AppWidgetProvider {
     }
 
     public static void forceRedraw(final Context context) {
+        forceRedraw(context, ConfigurationUtil.getTheme(context));
+    }
+
+    private static void forceRedraw(final Context context, final ThemesUtil.Theme theme) {
 
         if (!PermissionsUtil.isPermitted(context))
             return;
 
-        RemoteViews rv = new RemoteViews(context.getPackageName(), R.layout.widget);
+        RemoteViews rv = new RemoteViews(context.getPackageName(), theme.getMainLayout());
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
         ComponentName name = new ComponentName(context, MonthWidget.class);
         int[] appWidgetIds = AppWidgetManager.getInstance(context).getAppWidgetIds(name);

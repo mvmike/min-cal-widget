@@ -47,11 +47,12 @@ public abstract class SymbolsUtil {
 
     public enum SymbolColor {
 
+        CYAN(R.color.instances_cyan),
+        MINT(R.color.instances_mint),
         BLUE(R.color.instances_blue),
         GREEN(R.color.instances_green),
         YELLOW(R.color.instances_yellow),
-        WHITE(R.color.instances_white),
-        GREY(R.color.instances_grey);
+        WHITE(R.color.instances_white);
 
         private int hexValue;
 
