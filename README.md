@@ -18,7 +18,7 @@
 </div>
 
 <div style="display:flex;" >
-    <img style="margin-left:10px;" src="assets/configuration_preview.png" width="29%" height="80" >
+    <img style="margin-left:10px;" src="assets/configuration_preview.png" width="30%" >
 </div>
 
 #### Features
