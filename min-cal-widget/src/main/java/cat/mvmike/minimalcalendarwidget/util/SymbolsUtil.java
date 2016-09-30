@@ -17,9 +17,13 @@ public abstract class SymbolsUtil {
     public enum Symbol {
 
         MINIMAL(1.2f, "· ∶ ∴ ∷ ◇ ◈"),
+
         CIRCLES(1.2f, "◔ ◑ ◕ ● ๑"),
+
         NUMBERS(0.8f, "1 2 3 4 5 6 7 8 9 +"),
+
         ROMAN(0.8f, "Ⅰ Ⅱ Ⅲ Ⅳ Ⅴ Ⅵ Ⅶ Ⅷ Ⅸ Ⅹ ∾"),
+
         BINARY(1f, "☱ ☲ ☳ ☴ ☵ ☶ ☷ ※");
 
         private float relativeSize;
@@ -48,10 +52,15 @@ public abstract class SymbolsUtil {
     public enum SymbolColor {
 
         CYAN(R.color.instances_cyan),
+
         MINT(R.color.instances_mint),
+
         BLUE(R.color.instances_blue),
+
         GREEN(R.color.instances_green),
+
         YELLOW(R.color.instances_yellow),
+
         WHITE(R.color.instances_white);
 
         private int hexValue;
@@ -81,7 +90,7 @@ public abstract class SymbolsUtil {
 
         for (int i = 0; i < SymbolColor.values().length; i++)
             result[i] =
-                    SymbolColor.values()[i].name().substring(0, 1) + SymbolColor.values()[i].name().substring(1).toLowerCase(Locale.ENGLISH);
+                SymbolColor.values()[i].name().substring(0, 1) + SymbolColor.values()[i].name().substring(1).toLowerCase(Locale.ENGLISH);
 
         return result;
     }

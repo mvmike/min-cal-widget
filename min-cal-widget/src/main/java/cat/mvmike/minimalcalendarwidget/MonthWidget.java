@@ -21,9 +21,9 @@ import cat.mvmike.minimalcalendarwidget.activity.CalendarActivity;
 import cat.mvmike.minimalcalendarwidget.resolver.CalendarResolver;
 import cat.mvmike.minimalcalendarwidget.resolver.dto.InstanceDTO;
 import cat.mvmike.minimalcalendarwidget.util.ConfigurationUtil;
-import cat.mvmike.minimalcalendarwidget.util.ReceiverUtil;
 import cat.mvmike.minimalcalendarwidget.util.DayUtil;
 import cat.mvmike.minimalcalendarwidget.util.PermissionsUtil;
+import cat.mvmike.minimalcalendarwidget.util.ReceiverUtil;
 import cat.mvmike.minimalcalendarwidget.util.ThemesUtil;
 import cat.mvmike.minimalcalendarwidget.util.WeekDayHeaderUtil;
 
@@ -104,8 +104,7 @@ public class MonthWidget extends AppWidgetProvider {
 
         Calendar[] safeDateSpan = CalendarResolver.getSafeDateSpan(cal);
         Set<InstanceDTO> instanceSet = PermissionsUtil.isPermitted(context)
-            ? CalendarResolver.readAllInstances(context.getContentResolver(), safeDateSpan[0], safeDateSpan[1])
-            : new HashSet<InstanceDTO>();
+            ? CalendarResolver.readAllInstances(context.getContentResolver(), safeDateSpan[0], safeDateSpan[1]) : new HashSet<>();
 
         // SET MONTH AND YEAR
         String monthAndYear = String.valueOf(DateFormat.format(HEADER_DATE_FORMAT, cal));

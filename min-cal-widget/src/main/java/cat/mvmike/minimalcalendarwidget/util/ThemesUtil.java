@@ -85,8 +85,8 @@ public class ThemesUtil {
         private int cellDaySundayToday;
 
         Theme(final int mainLayout, final int cellHeader, final int cellHeaderSaturday, final int cellHeaderSunday, final int cellDay,
-              final int cellDayThisMonth, final int cellDaySaturday, final int cellDaySunday, final int cellDayToday,
-              final int cellDaySaturdayToday, final int cellDaySundayToday) {
+            final int cellDayThisMonth, final int cellDaySaturday, final int cellDaySunday, final int cellDayToday,
+            final int cellDaySaturdayToday, final int cellDaySundayToday) {
 
             this.mainLayout = mainLayout;
             this.cellHeader = cellHeader;

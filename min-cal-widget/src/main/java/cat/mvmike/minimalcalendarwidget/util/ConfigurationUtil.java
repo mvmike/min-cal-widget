@@ -12,15 +12,15 @@ import cat.mvmike.minimalcalendarwidget.activity.ConfigurationActivity;
 
 public abstract class ConfigurationUtil {
 
-    public static final String PREFERENCES_ID = "mincal_prefs";
+    private static final String PREFERENCES_ID = "mincal_prefs";
 
-    public static final String THEME = "theme";
+    private static final String THEME = "theme";
 
-    public static final String START_WEEK_DAY = "start_week_day";
+    private static final String START_WEEK_DAY = "start_week_day";
 
-    public static final String INSTANCES_SYMBOLS = "instances_symbols";
+    private static final String INSTANCES_SYMBOLS = "instances_symbols";
 
-    public static final String INSTANCES_SYMBOLS_COLOUR = "instances_symbols_colour";
+    private static final String INSTANCES_SYMBOLS_COLOUR = "instances_symbols_colour";
 
     private static final int START_WEEK_DAY_DEFAULT = Calendar.MONDAY;
 
@@ -29,7 +29,7 @@ public abstract class ConfigurationUtil {
     }
 
     public static void clearConfiguration(final Context context) {
-        getConfiguration(context).edit().clear().commit();
+        getConfiguration(context).edit().clear().apply();
     }
 
     public static String getThemeName(final Context context) {

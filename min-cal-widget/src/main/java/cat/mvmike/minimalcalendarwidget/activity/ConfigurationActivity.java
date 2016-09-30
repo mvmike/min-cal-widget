@@ -9,7 +9,6 @@ import java.util.Locale;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.LinkMovementMethod;
-import android.view.View;
 import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -55,12 +54,9 @@ public class ConfigurationActivity extends AppCompatActivity {
     private void applyListener() {
 
         Button dismissButton = (Button) findViewById(R.id.applyButton);
-        dismissButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                saveConfig();
-                ConfigurationActivity.this.finish();
-            }
+        dismissButton.setOnClickListener(v -> {
+            saveConfig();
+            ConfigurationActivity.this.finish();
         });
     }
 
