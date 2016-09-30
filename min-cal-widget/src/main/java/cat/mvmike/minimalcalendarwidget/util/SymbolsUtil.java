@@ -26,9 +26,9 @@ public abstract class SymbolsUtil {
 
         BINARY(1f, "☱ ☲ ☳ ☴ ☵ ☶ ☷ ※");
 
-        private float relativeSize;
+        private final float relativeSize;
 
-        private String values;
+        private final String values;
 
         Symbol(final float relativeSize, final String values) {
 
@@ -63,7 +63,7 @@ public abstract class SymbolsUtil {
 
         WHITE(R.color.instances_white);
 
-        private int hexValue;
+        private final int hexValue;
 
         SymbolColor(final int hexValue) {
             this.hexValue = hexValue;

@@ -25,7 +25,7 @@
             android:layout_height="24sp"
             android:layout_width="match_parent"
             android:scaleType="fitEnd"
-            android:src="@drawable/ic_configuration_black"
+            android:src="@drawable/ic_configuration_grey"
             android:gravity="end"
             android:padding="5dip"
             android:contentDescription="@string/configuration"/>

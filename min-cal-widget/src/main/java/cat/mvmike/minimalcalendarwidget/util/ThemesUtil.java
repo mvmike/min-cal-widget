@@ -62,27 +62,27 @@ public class ThemesUtil {
                 R.layout.white_cell_day_sunday_today
         );
 
-        private int mainLayout;
+        private final int mainLayout;
 
-        private int cellHeader;
+        private final int cellHeader;
 
-        private int cellHeaderSaturday;
+        private final int cellHeaderSaturday;
 
-        private int cellHeaderSunday;
+        private final int cellHeaderSunday;
 
-        private int cellDay;
+        private final int cellDay;
 
-        private int cellDayThisMonth;
+        private final int cellDayThisMonth;
 
-        private int cellDaySaturday;
+        private final int cellDaySaturday;
 
-        private int cellDaySunday;
+        private final int cellDaySunday;
 
-        private int cellDayToday;
+        private final int cellDayToday;
 
-        private int cellDaySaturdayToday;
+        private final int cellDaySaturdayToday;
 
-        private int cellDaySundayToday;
+        private final int cellDaySundayToday;
 
         Theme(final int mainLayout, final int cellHeader, final int cellHeaderSaturday, final int cellHeaderSunday, final int cellDay,
             final int cellDayThisMonth, final int cellDaySaturday, final int cellDaySunday, final int cellDayToday,
