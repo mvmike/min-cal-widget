@@ -56,7 +56,7 @@ public class ConfigurationActivity extends AppCompatActivity {
         Button dismissButton = (Button) findViewById(R.id.applyButton);
         dismissButton.setOnClickListener(v -> {
             saveConfig();
-            ConfigurationActivity.this.finish();
+            this.finish();
         });
     }
 
