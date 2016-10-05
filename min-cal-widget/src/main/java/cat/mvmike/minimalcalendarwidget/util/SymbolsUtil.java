@@ -1,5 +1,6 @@
 // Copyright (c) 2016, Miquel Martí <miquelmarti111@gmail.com>
 // See LICENSE for licensing information
+
 package cat.mvmike.minimalcalendarwidget.util;
 
 import java.util.Locale;
@@ -78,8 +79,9 @@ public abstract class SymbolsUtil {
 
         String[] result = new String[Symbol.values().length];
 
-        for (int i = 0; i < Symbol.values().length; i++)
+        for (int i = 0; i < Symbol.values().length; i++) {
             result[i] = Symbol.values()[i].name().substring(0, 1) + Symbol.values()[i].name().substring(1).toLowerCase(Locale.ENGLISH);
+        }
 
         return result;
     }
@@ -88,23 +90,26 @@ public abstract class SymbolsUtil {
 
         String[] result = new String[SymbolColor.values().length];
 
-        for (int i = 0; i < SymbolColor.values().length; i++)
+        for (int i = 0; i < SymbolColor.values().length; i++) {
             result[i] =
                 SymbolColor.values()[i].name().substring(0, 1) + SymbolColor.values()[i].name().substring(1).toLowerCase(Locale.ENGLISH);
+        }
 
         return result;
     }
 
     private static Character[] toCharacterArray(final String symbols) {
 
-        if (symbols == null)
+        if (symbols == null) {
             return null;
+        }
 
         int len = symbols.length();
         Character[] array = new Character[len];
 
-        for (int i = 0; i < len; i++)
+        for (int i = 0; i < len; i++) {
             array[i] = symbols.charAt(i);
+        }
 
         return array;
     }

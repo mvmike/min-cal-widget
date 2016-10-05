@@ -1,5 +1,6 @@
 // Copyright (c) 2016, Miquel Martí <miquelmarti111@gmail.com>
 // See LICENSE for licensing information
+
 package cat.mvmike.minimalcalendarwidget.util;
 
 import java.util.Locale;
@@ -12,8 +13,9 @@ public class ThemesUtil {
 
         String[] result = new String[Theme.values().length];
 
-        for (int i = 0; i < Theme.values().length; i++)
+        for (int i = 0; i < Theme.values().length; i++) {
             result[i] = Theme.values()[i].name().substring(0, 1) + Theme.values()[i].name().substring(1).toLowerCase(Locale.ENGLISH);
+        }
 
         return result;
     }
@@ -85,8 +87,8 @@ public class ThemesUtil {
         private final int cellDaySundayToday;
 
         Theme(final int mainLayout, final int cellHeader, final int cellHeaderSaturday, final int cellHeaderSunday, final int cellDay,
-            final int cellDayThisMonth, final int cellDaySaturday, final int cellDaySunday, final int cellDayToday,
-            final int cellDaySaturdayToday, final int cellDaySundayToday) {
+                final int cellDayThisMonth, final int cellDaySaturday, final int cellDaySunday, final int cellDayToday,
+                final int cellDaySaturdayToday, final int cellDaySundayToday) {
 
             this.mainLayout = mainLayout;
             this.cellHeader = cellHeader;

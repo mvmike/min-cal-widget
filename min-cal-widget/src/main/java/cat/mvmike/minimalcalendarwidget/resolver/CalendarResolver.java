@@ -1,5 +1,6 @@
 // Copyright (c) 2016, Miquel Martí <miquelmarti111@gmail.com>
 // See LICENSE for licensing information
+
 package cat.mvmike.minimalcalendarwidget.resolver;
 
 import java.util.Calendar;
@@ -33,29 +34,33 @@ public abstract class CalendarResolver {
 
         Cursor calendarCursor = contextResolver.query(CalendarDTO.CALENDAR_URI, CalendarDTO.FIELDS, null, null, null);
 
-        if (calendarCursor == null || calendarCursor.getCount() == 0)
+        if (calendarCursor == null || calendarCursor.getCount() == 0) {
             return null;
+        }
 
         Set<CalendarDTO> calendars = new HashSet<>();
-        while (calendarCursor.moveToNext())
+        while (calendarCursor.moveToNext()) {
             calendars.add(new CalendarDTO(calendarCursor));
+        }
 
         calendarCursor.close();
         return calendars;
     }
 
     public static Set<InstanceDTO> readAllInstances(final ContentResolver contextResolver, final Calendar startTime,
-        final Calendar endTime) {
+            final Calendar endTime) {
 
         Uri instancesUri = getInstancesUri(startTime, endTime);
         Cursor instanceCursor = contextResolver.query(instancesUri, InstanceDTO.FIELDS, null, null, null);
 
-        if (instanceCursor == null || instanceCursor.getCount() == 0)
+        if (instanceCursor == null || instanceCursor.getCount() == 0) {
             return null;
+        }
 
         Set<InstanceDTO> instances = new HashSet<>();
-        while (instanceCursor.moveToNext())
+        while (instanceCursor.moveToNext()) {
             instances.add(new InstanceDTO(instanceCursor));
+        }
 
         instanceCursor.close();
         return instances;

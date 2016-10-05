@@ -1,5 +1,6 @@
 // Copyright (c) 2016, Miquel Martí <miquelmarti111@gmail.com>
 // See LICENSE for licensing information
+
 package cat.mvmike.minimalcalendarwidget;
 
 import java.util.Calendar;
@@ -90,21 +91,22 @@ public class MonthWidget extends AppWidgetProvider {
     }
 
     private static void drawWidgets(final Context context, final AppWidgetManager appWidgetManager, final int[] appWidgetIds,
-        final RemoteViews rv) {
+            final RemoteViews rv) {
 
-        for (int appWidgetId : appWidgetIds)
+        for (int appWidgetId : appWidgetIds) {
             drawWidget(context, appWidgetManager, appWidgetId, rv);
+        }
     }
 
     private static void drawWidget(final Context context, final AppWidgetManager appWidgetManager, final int appWidgetId,
-        final RemoteViews rv) {
+            final RemoteViews rv) {
 
         Calendar cal = Calendar.getInstance();
         int firstDayOfWeek = ConfigurationUtil.getStartWeekDay(context);
 
         Calendar[] safeDateSpan = CalendarResolver.getSafeDateSpan(cal);
         Set<InstanceDTO> instanceSet = PermissionsUtil.isPermitted(context)
-            ? CalendarResolver.readAllInstances(context.getContentResolver(), safeDateSpan[0], safeDateSpan[1]) : new HashSet<>();
+                ? CalendarResolver.readAllInstances(context.getContentResolver(), safeDateSpan[0], safeDateSpan[1]) : new HashSet<>();
 
         // SET MONTH AND YEAR
         String monthAndYear = String.valueOf(DateFormat.format(HEADER_DATE_FORMAT, cal));
@@ -124,9 +126,9 @@ public class MonthWidget extends AppWidgetProvider {
 
         // LISTENER FOR WIDGET PRESS AND CONFIGURATION
         rv.setOnClickPendingIntent(R.id.calendar_widget, PendingIntent.getBroadcast(context, INTENT_CODE_CALENDAR,
-            new Intent(context, MonthWidget.class).setAction(WIDGET_PRESS), PendingIntent.FLAG_UPDATE_CURRENT));
+                new Intent(context, MonthWidget.class).setAction(WIDGET_PRESS), PendingIntent.FLAG_UPDATE_CURRENT));
         rv.setOnClickPendingIntent(R.id.configuration_icon, PendingIntent.getBroadcast(context, INTENT_CODE_CONFIGURATION,
-            new Intent(context, MonthWidget.class).setAction(CONFIGURATION_PRESS), PendingIntent.FLAG_UPDATE_CURRENT));
+                new Intent(context, MonthWidget.class).setAction(CONFIGURATION_PRESS), PendingIntent.FLAG_UPDATE_CURRENT));
 
         appWidgetManager.updateAppWidget(appWidgetId, rv);
     }
@@ -137,8 +139,9 @@ public class MonthWidget extends AppWidgetProvider {
 
     private static void forceRedraw(final Context context, final ThemesUtil.Theme theme) {
 
-        if (!PermissionsUtil.isPermitted(context))
+        if (!PermissionsUtil.isPermitted(context)) {
             return;
+        }
 
         RemoteViews rv = new RemoteViews(context.getPackageName(), theme.getMainLayout());
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);

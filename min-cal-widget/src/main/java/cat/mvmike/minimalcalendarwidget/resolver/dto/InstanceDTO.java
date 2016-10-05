@@ -1,5 +1,6 @@
 // Copyright (c) 2016, Miquel Martí <miquelmarti111@gmail.com>
 // See LICENSE for licensing information
+
 package cat.mvmike.minimalcalendarwidget.resolver.dto;
 
 import java.util.Calendar;
@@ -15,9 +16,12 @@ public final class InstanceDTO {
 
     public static final Uri INSTANCES_URI = CalendarContract.Instances.CONTENT_URI;
 
-    public static final String[] FIELDS = {CalendarContract.Instances._ID, CalendarContract.Instances.CALENDAR_ID,
-        CalendarContract.Instances.TITLE, CalendarContract.Instances.DESCRIPTION, CalendarContract.Instances.BEGIN,
-        CalendarContract.Instances.END, CalendarContract.Instances.CALENDAR_COLOR};
+    public static final String[] FIELDS = {
+            CalendarContract.Instances._ID, CalendarContract.Instances.CALENDAR_ID,
+            CalendarContract.Instances.TITLE, CalendarContract.Instances.DESCRIPTION,
+            CalendarContract.Instances.BEGIN, CalendarContract.Instances.END,
+            CalendarContract.Instances.CALENDAR_COLOR,
+    };
 
     private final String id;
 
