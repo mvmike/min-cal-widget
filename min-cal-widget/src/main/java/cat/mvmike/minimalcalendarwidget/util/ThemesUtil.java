@@ -14,7 +14,8 @@ public class ThemesUtil {
         String[] result = new String[Theme.values().length];
 
         for (int i = 0; i < Theme.values().length; i++) {
-            result[i] = Theme.values()[i].name().substring(0, 1) + Theme.values()[i].name().substring(1).toLowerCase(Locale.ENGLISH);
+            String name = Theme.values()[i].name();
+            result[i] = name.substring(0, 1) + name.substring(1).toLowerCase(Locale.ENGLISH);
         }
 
         return result;

@@ -10,7 +10,7 @@
         android:label="@string/app_name"
         android:supportsRtl="false">
 
-        <receiver android:name="cat.mvmike.minimalcalendarwidget.MonthWidget">
+        <receiver android:name=".MonthWidget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
             </intent-filter>
@@ -20,13 +20,13 @@
         </receiver>
 
         <activity
-            android:name="cat.mvmike.minimalcalendarwidget.activity.PermissionsActivity"
+            android:name=".activity.PermissionsActivity"
             android:excludeFromRecents="true"
             android:launchMode="singleInstance"
             android:noHistory="true"/>
 
         <activity
-            android:name="cat.mvmike.minimalcalendarwidget.activity.ConfigurationActivity"
+            android:name=".activity.ConfigurationActivity"
             android:theme="@style/Theme.AppCompat.Dialog"
             android:excludeFromRecents="true"
             android:launchMode="singleInstance"

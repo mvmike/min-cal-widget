@@ -80,7 +80,8 @@ public abstract class SymbolsUtil {
         String[] result = new String[Symbol.values().length];
 
         for (int i = 0; i < Symbol.values().length; i++) {
-            result[i] = Symbol.values()[i].name().substring(0, 1) + Symbol.values()[i].name().substring(1).toLowerCase(Locale.ENGLISH);
+            String name = Symbol.values()[i].name();
+            result[i] = name.substring(0, 1) + name.substring(1).toLowerCase(Locale.ENGLISH);
         }
 
         return result;
@@ -91,8 +92,8 @@ public abstract class SymbolsUtil {
         String[] result = new String[SymbolColor.values().length];
 
         for (int i = 0; i < SymbolColor.values().length; i++) {
-            result[i] =
-                SymbolColor.values()[i].name().substring(0, 1) + SymbolColor.values()[i].name().substring(1).toLowerCase(Locale.ENGLISH);
+            String name = SymbolColor.values()[i].name();
+            result[i] = name.substring(0, 1) + name.substring(1).toLowerCase(Locale.ENGLISH);
         }
 
         return result;

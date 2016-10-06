@@ -20,18 +20,18 @@ public abstract class WeekDayHeaderUtil {
 
         ThemesUtil.Theme theme = ConfigurationUtil.getTheme(context);
 
-        int current;
         for (int i = 0; i < Calendar.DAY_OF_WEEK; i++) {
 
-            current = (firstDayOfWeek + i) % Calendar.DAY_OF_WEEK == 0 ? firstDayOfWeek + i : (firstDayOfWeek + i) % Calendar.DAY_OF_WEEK;
-
+            RemoteViews rv;
+            int current = (firstDayOfWeek + i) % Calendar.DAY_OF_WEEK == 0 ? firstDayOfWeek + i : (firstDayOfWeek + i) % Calendar.DAY_OF_WEEK;
             if (current == Calendar.SATURDAY) {
-                headerRowRv.addView(R.id.row_container, setSpecificWeekDay(context, weekdays[current], theme.getCellHeaderSaturday()));
+                rv = setSpecificWeekDay(context, weekdays[current], theme.getCellHeaderSaturday());
             } else if (current == Calendar.SUNDAY) {
-                headerRowRv.addView(R.id.row_container, setSpecificWeekDay(context, weekdays[current], theme.getCellHeaderSunday()));
+                rv = setSpecificWeekDay(context, weekdays[current], theme.getCellHeaderSunday());
             } else {
-                headerRowRv.addView(R.id.row_container, setSpecificWeekDay(context, weekdays[current], theme.getCellHeader()));
+                rv = setSpecificWeekDay(context, weekdays[current], theme.getCellHeader());
             }
+            headerRowRv.addView(R.id.row_container, rv);
         }
     }
 
