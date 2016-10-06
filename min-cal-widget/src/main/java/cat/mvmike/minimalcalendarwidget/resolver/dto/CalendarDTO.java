@@ -1,5 +1,6 @@
 // Copyright (c) 2016, Miquel Martí <miquelmarti111@gmail.com>
 // See LICENSE for licensing information
+
 package cat.mvmike.minimalcalendarwidget.resolver.dto;
 
 import android.database.Cursor;
@@ -10,8 +11,11 @@ public final class CalendarDTO {
 
     public static final Uri CALENDAR_URI = CalendarContract.Calendars.CONTENT_URI;
 
-    public static final String[] FIELDS = {CalendarContract.Calendars._ID, CalendarContract.Calendars.NAME,
-        CalendarContract.Calendars.CALENDAR_DISPLAY_NAME, CalendarContract.Calendars.CALENDAR_COLOR, CalendarContract.Calendars.VISIBLE};
+    public static final String[] FIELDS = {
+        CalendarContract.Calendars._ID, CalendarContract.Calendars.NAME,
+        CalendarContract.Calendars.CALENDAR_DISPLAY_NAME,
+        CalendarContract.Calendars.CALENDAR_COLOR, CalendarContract.Calendars.VISIBLE,
+    };
 
     private final String id;
 

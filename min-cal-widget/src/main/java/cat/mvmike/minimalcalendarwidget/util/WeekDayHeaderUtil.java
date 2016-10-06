@@ -1,5 +1,6 @@
 // Copyright (c) 2016, Miquel Martí <miquelmarti111@gmail.com>
 // See LICENSE for licensing information
+
 package cat.mvmike.minimalcalendarwidget.util;
 
 import java.text.DateFormatSymbols;
@@ -24,12 +25,13 @@ public abstract class WeekDayHeaderUtil {
 
             current = (firstDayOfWeek + i) % Calendar.DAY_OF_WEEK == 0 ? firstDayOfWeek + i : (firstDayOfWeek + i) % Calendar.DAY_OF_WEEK;
 
-            if (current == Calendar.SATURDAY)
+            if (current == Calendar.SATURDAY) {
                 headerRowRv.addView(R.id.row_container, setSpecificWeekDay(context, weekdays[current], theme.getCellHeaderSaturday()));
-            else if (current == Calendar.SUNDAY)
+            } else if (current == Calendar.SUNDAY) {
                 headerRowRv.addView(R.id.row_container, setSpecificWeekDay(context, weekdays[current], theme.getCellHeaderSunday()));
-            else
+            } else {
                 headerRowRv.addView(R.id.row_container, setSpecificWeekDay(context, weekdays[current], theme.getCellHeader()));
+            }
         }
     }
 

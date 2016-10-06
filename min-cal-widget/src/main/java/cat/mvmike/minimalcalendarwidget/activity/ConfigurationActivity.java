@@ -1,5 +1,6 @@
 // Copyright (c) 2016, Miquel Martí <miquelmarti111@gmail.com>
 // See LICENSE for licensing information
+
 package cat.mvmike.minimalcalendarwidget.activity;
 
 import java.text.DateFormatSymbols;
@@ -79,14 +80,14 @@ public class ConfigurationActivity extends AppCompatActivity {
 
         // SYMBOLS
         ArrayAdapter<String> adapterSymbols =
-            new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, SymbolsUtil.getAllSymbolNames());
+                new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, SymbolsUtil.getAllSymbolNames());
 
         adapterSymbols.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         ((Spinner) findViewById(R.id.symbolsSpinner)).setAdapter(adapterSymbols);
 
         // SYMBOLS COLOUR
         ArrayAdapter<String> adapterSymbolsColour =
-            new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, SymbolsUtil.getAllSymbolColorNames());
+                new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, SymbolsUtil.getAllSymbolColorNames());
 
         adapterSymbolsColour.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         ((Spinner) findViewById(R.id.symbolsColourSpinner)).setAdapter(adapterSymbolsColour);
@@ -108,7 +109,7 @@ public class ConfigurationActivity extends AppCompatActivity {
 
         // SYMBOLS COLOUR
         ((Spinner) findViewById(R.id.symbolsColourSpinner)).setSelection(
-            SymbolsUtil.SymbolColor.valueOf(ConfigurationUtil.getInstancesSymbolColourName(getApplicationContext())).ordinal());
+                SymbolsUtil.SymbolColor.valueOf(ConfigurationUtil.getInstancesSymbolColourName(getApplicationContext())).ordinal());
     }
 
     private void saveConfig() {
@@ -128,7 +129,7 @@ public class ConfigurationActivity extends AppCompatActivity {
         // SYMBOLS COLOUR
         int symbolsColourSelectedPosition = ((Spinner) findViewById(R.id.symbolsColourSpinner)).getSelectedItemPosition();
         ConfigurationUtil.setInstancesSymbolColours(getApplicationContext(),
-            SymbolsUtil.SymbolColor.values()[symbolsColourSelectedPosition]);
+                SymbolsUtil.SymbolColor.values()[symbolsColourSelectedPosition]);
 
         MonthWidget.forceRedraw(getApplicationContext());
     }

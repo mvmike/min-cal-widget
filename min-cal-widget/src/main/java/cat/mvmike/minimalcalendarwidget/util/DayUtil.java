@@ -1,5 +1,6 @@
 // Copyright (c) 2016, Miquel Martí <miquelmarti111@gmail.com>
 // See LICENSE for licensing information
+
 package cat.mvmike.minimalcalendarwidget.util;
 
 import java.util.Calendar;
@@ -30,7 +31,7 @@ public abstract class DayUtil {
     private static final String DOUBLE_PADDING = PADDING + PADDING;
 
     public static void setDays(final Context context, final Calendar cal, final int firstDayOfWeek, final SpannableString ss,
-        final RemoteViews rv, final Set<InstanceDTO> instanceSet) {
+            final RemoteViews rv, final Set<InstanceDTO> instanceSet) {
 
         ThemesUtil.Theme theme = ConfigurationUtil.getTheme(context);
         CalendarStatus cs = new CalendarStatus(context, cal, firstDayOfWeek);
@@ -61,7 +62,7 @@ public abstract class DayUtil {
     }
 
     private static void setInstanceNumber(final Context context, final RemoteViews cellRv, final String dayOfMonth, boolean isToday,
-        final int found) {
+            final int found) {
 
         SymbolsUtil.Symbol symbols = ConfigurationUtil.getInstancesSymbols(context);
         Character[] symbolArray = symbols.getArray();
@@ -73,17 +74,19 @@ public abstract class DayUtil {
         daySS.setSpan(new StyleSpan(Typeface.BOLD), dayOfMonthSS.length() - 1, dayOfMonthSS.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         int color;
-        if (isToday)
+        if (isToday) {
             color = ContextCompat.getColor(context, R.color.instances_today);
-        else
+        } else {
             color = ContextCompat.getColor(context, ConfigurationUtil.getInstancesSymbolColours(context).getHexValue());
+        }
 
-        if (isToday)
+        if (isToday) {
             daySS.setSpan(new StyleSpan(Typeface.BOLD), 0, dayOfMonthSS.length() - 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
 
         daySS.setSpan(new ForegroundColorSpan(color), dayOfMonthSS.length() - 1, dayOfMonthSS.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         daySS.setSpan(new RelativeSizeSpan(symbols.getRelativeSize()), dayOfMonthSS.length() - 1, dayOfMonthSS.length(),
-            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         cellRv.setTextViewText(android.R.id.text1, daySS);
     }
@@ -92,22 +95,25 @@ public abstract class DayUtil {
 
         int cellLayoutResId = theme.getCellDay();
 
-        if (ds.isInMonth())
+        if (ds.isInMonth()) {
             cellLayoutResId = theme.getCellDayThisMonth();
+        }
 
         if (ds.isToday()) {
-            if (ds.isSaturday())
+            if (ds.isSaturday()) {
                 cellLayoutResId = theme.getCellDaySaturdayToday();
-            else if (ds.isSunday())
+            } else if (ds.isSunday()) {
                 cellLayoutResId = theme.getCellDaySundayToday();
-            else
+            } else {
                 cellLayoutResId = theme.getCellDayToday();
+            }
 
         } else if (ds.isInMonth()) {
-            if (ds.isSaturday())
+            if (ds.isSaturday()) {
                 cellLayoutResId = theme.getCellDaySaturday();
-            else if (ds.isSunday())
+            } else if (ds.isSunday()) {
                 cellLayoutResId = theme.getCellDaySunday();
+            }
         }
 
         return cellLayoutResId;
@@ -116,8 +122,9 @@ public abstract class DayUtil {
     private static void checkMonthBeginningStyleChange(final Calendar cal, final RemoteViews cellRv, final SpannableString ss) {
 
         boolean isFirstOfMonth = cal.get(Calendar.DAY_OF_MONTH) == 1;
-        if (isFirstOfMonth)
+        if (isFirstOfMonth) {
             cellRv.setTextViewText(R.id.month_year_label, ss);
+        }
     }
 
     private static int getNumberOfInstances(Set<InstanceDTO> instanceSet, final DayStatus ds) {
@@ -134,8 +141,9 @@ public abstract class DayUtil {
             // take out 5 milliseconds to avoid erratic behaviour with full day events (or those that end at 00:00)
             endCalendar.add(Calendar.MILLISECOND, -5);
 
-            if (ds.isInDay(startCalendar, endCalendar))
+            if (ds.isInDay(startCalendar, endCalendar)) {
                 found++;
+            }
         }
 
         return found;
