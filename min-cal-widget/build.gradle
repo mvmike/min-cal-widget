@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'witness'
 apply plugin: 'pmd'
 apply plugin: 'checkstyle'
 
@@ -71,6 +72,23 @@ android {
 dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:24.2.1'
+}
+
+// Only do the libraries imported from maven repositories.
+// generate using: `gradle -q calculateChecksums | sort -V`
+dependencyVerification {
+    verify = [
+        'com.android.support:animated-vector-drawable:5aa30f578e1daefb26bef0ce06414266fbb4cdf5d4259f42a92c7bd83dcd81b4',
+        'com.android.support:appcompat-v7:ead7ac8011fb40676df8adc2856cae934edab55fc4444654c0ac6ea443736088',
+        'com.android.support:support-annotations:1e4d471c5378b283d95abfb128e7ed3c6b3cb19bb6f0c317a9b75e48e99365ff',
+        'com.android.support:support-compat:8e4fe0078b68073e8f5bcb52aa5b6407fd456d47c51aa0f8e8d1e23c69da06c1',
+        'com.android.support:support-core-ui:ecc9184b7f438980e1c4a08b089d62dbc53ff90091f442d91fec27322a02c73c',
+        'com.android.support:support-core-utils:0fbc508e41dd6e8c634f310ee88452aaf8f48b6a843a369b115130b80d2fc05f',
+        'com.android.support:support-fragment:d8030f0bf0f64214a29dc4e14d5ccd225e59f66ed15eb37f3a5022e773dd1fda',
+        'com.android.support:support-media-compat:fa29a23eadd685631584b2c0c624a36e3bb79a33e257b00304501ad682fa2be3',
+        'com.android.support:support-v4:cac2956f5c4bb363cc0ba824ac16ea2a687d1c305d434416a34772a5f9375ed7',
+        'com.android.support:support-vector-drawable:6ee37a7f7b93c1df1294e6f6f97df3724ac989fcda0549faf677001085330548',
+    ]
 }
 
 pmd {
