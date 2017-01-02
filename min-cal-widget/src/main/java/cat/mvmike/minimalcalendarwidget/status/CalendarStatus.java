@@ -65,4 +65,8 @@ public final class CalendarStatus {
     public Calendar getCalendar() {
         return calendar;
     }
+
+    public static boolean isMonthFirstDay(final Calendar cal) {
+        return Integer.valueOf(cal.get(Calendar.DAY_OF_MONTH)).equals(MONTH_FIRST_DAY);
+    }
 }

@@ -57,6 +57,7 @@ public abstract class DayUtil {
 
                 rowRv.addView(R.id.row_container, cellRv);
             }
+
             rv.addView(R.id.calendar_widget, rowRv);
         }
     }
@@ -121,8 +122,7 @@ public abstract class DayUtil {
 
     private static void checkMonthBeginningStyleChange(final Calendar cal, final RemoteViews cellRv, final SpannableString ss) {
 
-        boolean isFirstOfMonth = cal.get(Calendar.DAY_OF_MONTH) == 1;
-        if (isFirstOfMonth) {
+        if (CalendarStatus.isMonthFirstDay(cal)) {
             cellRv.setTextViewText(R.id.month_year_label, ss);
         }
     }
@@ -130,6 +130,10 @@ public abstract class DayUtil {
     private static int getNumberOfInstances(Set<InstanceDTO> instanceSet, final DayStatus ds) {
 
         int found = 0;
+        if (instanceSet == null || instanceSet.size() == 0) {
+            return found;
+        }
+
         for (InstanceDTO instance : instanceSet) {
 
             Calendar startCalendar = Calendar.getInstance(TimeZone.getDefault());
