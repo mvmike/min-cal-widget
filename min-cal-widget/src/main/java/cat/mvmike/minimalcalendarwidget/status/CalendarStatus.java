@@ -17,6 +17,10 @@ public final class CalendarStatus {
 
     private static final int MONTH_FIRST_DAY = 1;
 
+    private static final int DAYS_IN_WEEK = 7;
+
+    private static final int DECEMBER_LAST_DAY = 31;
+
     private final int today;
 
     private final int todayYear;
@@ -41,7 +45,16 @@ public final class CalendarStatus {
         cal.set(Calendar.YEAR, thisYear);
 
         int monthStartDayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
-        cal.add(Calendar.DAY_OF_MONTH, firstDayOfWeek - monthStartDayOfWeek);
+
+        // overlap year manually if january and not standard start week day
+        if (thisMonth == Calendar.JANUARY && firstDayOfWeek != Calendar.SUNDAY) {
+            cal.set(Calendar.DAY_OF_MONTH, DECEMBER_LAST_DAY - DAYS_IN_WEEK + firstDayOfWeek);
+            cal.set(Calendar.MONTH, Calendar.DECEMBER);
+            cal.set(Calendar.YEAR, thisYear - 1);
+
+        } else {
+            cal.add(Calendar.DAY_OF_MONTH, firstDayOfWeek - monthStartDayOfWeek);
+        }
 
         calendar = cal;
     }
