@@ -106,7 +106,7 @@ task pmdMain(type: Pmd, dependsOn: "assembleDebug") {
 task pmd(dependsOn: [pmdMain]) {}
 
 checkstyle {
-    toolVersion = '7.1.2'
+    toolVersion = '7.4'
 }
 
 task checkstyle(type: Checkstyle) {
