@@ -43,7 +43,15 @@ public class ReceiverUtil {
 
     public static void unregisterReceivers(final Context context) {
 
-        context.getApplicationContext().unregisterReceiver(DATE_CHANGE_RECEIVER);
-        context.getApplicationContext().unregisterReceiver(INSTANCE_CHANGE_RECEIVER);
+        try {
+            context.getApplicationContext().unregisterReceiver(DATE_CHANGE_RECEIVER);
+            context.getApplicationContext().unregisterReceiver(INSTANCE_CHANGE_RECEIVER);
+
+        } catch (IllegalArgumentException iae) {
+
+            // if coming from old version, receiver might have not been initialized
+            iae.printStackTrace();
+        }
+
     }
 }
