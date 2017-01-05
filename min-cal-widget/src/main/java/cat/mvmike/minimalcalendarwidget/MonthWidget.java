@@ -19,11 +19,11 @@ import android.text.style.RelativeSizeSpan;
 import android.widget.RemoteViews;
 
 import cat.mvmike.minimalcalendarwidget.activity.CalendarActivity;
+import cat.mvmike.minimalcalendarwidget.activity.PermissionsActivity;
 import cat.mvmike.minimalcalendarwidget.resolver.CalendarResolver;
 import cat.mvmike.minimalcalendarwidget.resolver.dto.InstanceDTO;
 import cat.mvmike.minimalcalendarwidget.util.ConfigurationUtil;
 import cat.mvmike.minimalcalendarwidget.util.DayUtil;
-import cat.mvmike.minimalcalendarwidget.util.PermissionsUtil;
 import cat.mvmike.minimalcalendarwidget.util.ReceiverUtil;
 import cat.mvmike.minimalcalendarwidget.util.ThemesUtil;
 import cat.mvmike.minimalcalendarwidget.util.WeekDayHeaderUtil;
@@ -50,7 +50,6 @@ public class MonthWidget extends AppWidgetProvider {
     public void onEnabled(final Context context) {
 
         super.onEnabled(context);
-        PermissionsUtil.checkPermissions(context);
         ReceiverUtil.registerReceivers(context);
     }
 
@@ -105,7 +104,7 @@ public class MonthWidget extends AppWidgetProvider {
         int firstDayOfWeek = ConfigurationUtil.getStartWeekDay(context);
 
         Calendar[] safeDateSpan = CalendarResolver.getSafeDateSpan(cal);
-        Set<InstanceDTO> instanceSet = PermissionsUtil.isPermitted(context)
+        Set<InstanceDTO> instanceSet = PermissionsActivity.isPermitted(context)
                 ? CalendarResolver.readAllInstances(context.getContentResolver(), safeDateSpan[0], safeDateSpan[1]) : new HashSet<>();
 
         // SET MONTH AND YEAR
@@ -139,14 +138,14 @@ public class MonthWidget extends AppWidgetProvider {
 
     private static void forceRedraw(final Context context, final ThemesUtil.Theme theme) {
 
-        if (!PermissionsUtil.isPermitted(context)) {
+        if (!PermissionsActivity.isPermitted(context)) {
             return;
         }
 
         RemoteViews rv = new RemoteViews(context.getPackageName(), theme.getMainLayout());
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
         ComponentName name = new ComponentName(context, MonthWidget.class);
-        int[] appWidgetIds = AppWidgetManager.getInstance(context).getAppWidgetIds(name);
+        int[] appWidgetIds = appWidgetManager.getAppWidgetIds(name);
 
         drawWidgets(context, appWidgetManager, appWidgetIds, rv);
     }

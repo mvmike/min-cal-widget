@@ -21,9 +21,15 @@
 
         <activity
             android:name=".activity.PermissionsActivity"
+            android:initialLayout="@layout/loading"
             android:excludeFromRecents="true"
-            android:launchMode="singleInstance"
-            android:noHistory="true"/>
+            android:launchMode="singleTask"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:noHistory="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
+            </intent-filter>
+        </activity>
 
         <activity
             android:name=".activity.ConfigurationActivity"
