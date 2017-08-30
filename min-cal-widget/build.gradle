@@ -72,23 +72,23 @@ android {
 // https://developer.android.com/topic/libraries/support-library/packages.html
 dependencies {
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:26.0.0-beta2'
+    compile 'com.android.support:appcompat-v7:26.0.2'
 }
 
 // Only do the libraries imported from maven repositories.
 // generate using: `gradle -q calculateChecksums | sort -V`
 dependencyVerification {
     verify = [
-            'com.android.support:animated-vector-drawable:4ac3f595f80819b46f79f20551567b9e07de002852ff91da33de1288626baf1b',
-            'com.android.support:appcompat-v7:4b7d00befe406311ef48fbf468668d69fbf8380c7f6810b288e7a532a0ac4e8c',
-            'com.android.support:support-annotations:a45345c565a417968afec0f9d8e5cc94773f44fd7a5420e417479d155d89f89b',
-            'com.android.support:support-compat:1b560c85f53f2d69230493e90d9eef575bf9881ffd9f495dec57466ced71aecd',
-            'com.android.support:support-core-ui:acfccb7f007e19037fed14816c6a9bb65548dcc70ec5defd3d16640497f68acf',
-            'com.android.support:support-core-utils:71726ecddfd07b40266445a3d0ba95424dc86fd84e690400f2b2e602d9300b36',
-            'com.android.support:support-fragment:02d6f8dc7e05f60919cd02277dc34e6a7081f30442a7e23b5a892ab07c2ba97a',
-            'com.android.support:support-media-compat:619c3b121b5bfe31ef1b8fb35641b229c8a9cb3a3f15d10acb5e61d6acc51028',
-            'com.android.support:support-v4:23e7194cfc7ee8da5be65560a2382417981acffa541a933e41649f1ca3f2aa0a',
-            'com.android.support:support-vector-drawable:8db8b286302e71e739fb468d4e5901d673268516254352d35f43d560809f1e00',
+            'com.android.support:animated-vector-drawable:2a7a8fe5f71be6f96762a1f006ae0efcc2408f58e7279db1103438211107ec56',
+            'com.android.support:appcompat-v7:c19ed817942e2472dd42b83c83e74098ff3c1ec33a5997f4422182b1900c1360',
+            'com.android.support:support-annotations:32f220ee1c4bfd3dab995548be1a3598993a61e945196d04aa50cec702fa38e4',
+            'com.android.support:support-compat:ccfbafada1611360c938be48fa44ecdb53e700745d29fd8d97d6656cb0fda425',
+            'com.android.support:support-core-ui:7af6ad3e06a22319001df934bcfa7dfb9d27fe2e969e617d73d9b539ec9efd63',
+            'com.android.support:support-core-utils:52bdc2a82d36f33f5565c69b52a6e3d7a5834f039c9ac01bc768ae32290874e0',
+            'com.android.support:support-fragment:6217e744dd5750d09378e652f00abf19e0d220c51111901f3228eec815538ad9',
+            'com.android.support:support-media-compat:70b5601ee1b8affaee2d39f3c083e4ef9c0c824a67e4d6e5d3d922fc5ea3fdb1',
+            'com.android.support:support-v4:b97d6b9b974b243723d56830237649c79124fd9e496396e740f5c6c133142c4f',
+            'com.android.support:support-vector-drawable:b4f5793f1ac9a69f9ddc97a763fb4dff8bc1a512251b6cb6cd7d92be6cf3dd14',
     ]
 }
 
