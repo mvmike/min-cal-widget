@@ -3,10 +3,6 @@
 
 package cat.mvmike.minimalcalendarwidget;
 
-import java.util.Calendar;
-import java.util.HashSet;
-import java.util.Set;
-
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
@@ -17,6 +13,10 @@ import android.text.SpannableString;
 import android.text.format.DateFormat;
 import android.text.style.RelativeSizeSpan;
 import android.widget.RemoteViews;
+
+import java.util.Calendar;
+import java.util.HashSet;
+import java.util.Set;
 
 import cat.mvmike.minimalcalendarwidget.activity.CalendarActivity;
 import cat.mvmike.minimalcalendarwidget.activity.PermissionsActivity;
@@ -90,7 +90,7 @@ public class MonthWidget extends AppWidgetProvider {
     }
 
     private static void drawWidgets(final Context context, final AppWidgetManager appWidgetManager, final int[] appWidgetIds,
-            final RemoteViews rv) {
+                                    final RemoteViews rv) {
 
         for (int appWidgetId : appWidgetIds) {
             drawWidget(context, appWidgetManager, appWidgetId, rv);
@@ -98,7 +98,7 @@ public class MonthWidget extends AppWidgetProvider {
     }
 
     private static void drawWidget(final Context context, final AppWidgetManager appWidgetManager, final int appWidgetId,
-            final RemoteViews rv) {
+                                   final RemoteViews rv) {
 
         Calendar cal = Calendar.getInstance();
         int firstDayOfWeek = ConfigurationUtil.getStartWeekDay(context);

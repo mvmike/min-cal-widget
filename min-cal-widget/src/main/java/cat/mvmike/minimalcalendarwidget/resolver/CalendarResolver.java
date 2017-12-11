@@ -3,16 +3,15 @@
 
 package cat.mvmike.minimalcalendarwidget.resolver;
 
-import java.util.Calendar;
-import java.util.HashSet;
-import java.util.Set;
-
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.database.Cursor;
 import android.net.Uri;
 
-import cat.mvmike.minimalcalendarwidget.resolver.dto.CalendarDTO;
+import java.util.Calendar;
+import java.util.HashSet;
+import java.util.Set;
+
 import cat.mvmike.minimalcalendarwidget.resolver.dto.InstanceDTO;
 
 public abstract class CalendarResolver {
@@ -27,28 +26,11 @@ public abstract class CalendarResolver {
         endDate.setTime(current.getTime());
         endDate.add(Calendar.DATE, +45);
 
-        return new Calendar[] {startDate, endDate};
-    }
-
-    public static Set<CalendarDTO> readAllCalendars(final ContentResolver contextResolver) {
-
-        Cursor calendarCursor = contextResolver.query(CalendarDTO.CALENDAR_URI, CalendarDTO.FIELDS, null, null, null);
-
-        if (calendarCursor == null || calendarCursor.getCount() == 0) {
-            return null;
-        }
-
-        Set<CalendarDTO> calendars = new HashSet<>();
-        while (calendarCursor.moveToNext()) {
-            calendars.add(new CalendarDTO(calendarCursor));
-        }
-
-        calendarCursor.close();
-        return calendars;
+        return new Calendar[]{startDate, endDate};
     }
 
     public static Set<InstanceDTO> readAllInstances(final ContentResolver contextResolver, final Calendar startTime,
-            final Calendar endTime) {
+                                                    final Calendar endTime) {
 
         Uri instancesUri = getInstancesUri(startTime, endTime);
         Cursor instanceCursor = contextResolver.query(instancesUri, InstanceDTO.FIELDS, null, null, null);

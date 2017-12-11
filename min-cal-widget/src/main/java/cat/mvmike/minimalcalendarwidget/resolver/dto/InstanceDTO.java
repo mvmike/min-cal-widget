@@ -3,29 +3,35 @@
 
 package cat.mvmike.minimalcalendarwidget.resolver.dto;
 
+import android.database.Cursor;
+import android.net.Uri;
+import android.provider.CalendarContract;
+
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
-
-import android.database.Cursor;
-import android.net.Uri;
-import android.provider.CalendarContract;
 
 public final class InstanceDTO {
 
     public static final Uri INSTANCES_URI = CalendarContract.Instances.CONTENT_URI;
 
     public static final String[] FIELDS = {
-            CalendarContract.Instances._ID, CalendarContract.Instances.CALENDAR_ID,
-            CalendarContract.Instances.TITLE, CalendarContract.Instances.DESCRIPTION,
-            CalendarContract.Instances.BEGIN, CalendarContract.Instances.END,
+            CalendarContract.Instances._ID,
+            CalendarContract.Instances.CALENDAR_ID,
+            CalendarContract.Instances.CALENDAR_DISPLAY_NAME,
+            CalendarContract.Instances.TITLE,
+            CalendarContract.Instances.DESCRIPTION,
+            CalendarContract.Instances.BEGIN,
+            CalendarContract.Instances.END,
             CalendarContract.Instances.CALENDAR_COLOR,
     };
 
     private final String id;
 
     private final String calendarId;
+
+    private final String calendarDisplayName;
 
     private final String title;
 
@@ -41,11 +47,12 @@ public final class InstanceDTO {
 
         this.id = instanceCursor.getString(0);
         this.calendarId = instanceCursor.getString(1);
-        this.title = instanceCursor.getString(2);
-        this.description = instanceCursor.getString(3);
-        this.dateStart = getDate(instanceCursor.getLong(4));
-        this.dateEnd = getDate(instanceCursor.getLong(5));
-        this.color = instanceCursor.getString(6);
+        this.calendarDisplayName = instanceCursor.getString(2);
+        this.title = instanceCursor.getString(3);
+        this.description = instanceCursor.getString(4);
+        this.dateStart = getDate(instanceCursor.getLong(5));
+        this.dateEnd = getDate(instanceCursor.getLong(6));
+        this.color = instanceCursor.getString(7);
     }
 
     private static Date getDate(final long milliSeconds) {
@@ -65,6 +72,10 @@ public final class InstanceDTO {
 
     public String getCalendarId() {
         return calendarId;
+    }
+
+    public String getCalendarDisplayName() {
+        return calendarDisplayName;
     }
 
     public String getTitle() {
