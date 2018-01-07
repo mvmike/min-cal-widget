@@ -30,6 +30,7 @@ MinCal Widget is licensed under the [BSD 3-clause](LICENSE).
 
 | Version        | Date           | Changes                                                                                                                                                             |
 | :------------: |:-------------: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| v0.3.2         | 2018-01-07     | - bug fixes<br>- technical improvements                                                                                                                             |
 | v0.3.1         | 2017-10-16     | - bug fixes<br>- technical improvements                                                                                                                             |
 | v0.3.0         | 2017-01-06     | - Manage calendar read permission at widget creation                                                                                                                |
 | v0.2.2         | 2017-01-03     | - bug fixes<br>- technical improvements                                                                                                                             |
