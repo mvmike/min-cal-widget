@@ -10,6 +10,10 @@ android:
     - build-tools-27.0.3
     - android-27
     - extra-android-m2repository
+    - extra-google-m2repository
+
+before_install:
+  - yes | sdkmanager "platforms;android-27"
 
 script:
   - ./gradlew assemble pmd checkstyle
