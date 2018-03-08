@@ -68,8 +68,8 @@ android {
 
 // https://developer.android.com/topic/libraries/support-library/packages.html
 dependencies {
-    implementation 'com.android.support:multidex:1.0.2'
-    implementation 'com.android.support:appcompat-v7:27.0.2'
+    implementation 'com.android.support:multidex:1.0.3'
+    implementation 'com.android.support:appcompat-v7:27.1.0'
     testImplementation 'junit:junit:4.12'
 }
 
