@@ -15,6 +15,7 @@ public abstract class SymbolsUtil {
 
     private static final String EMPTY = "";
 
+    // https://unicode-table.com
     public enum Symbol {
 
         MINIMAL(1.2f, "· ∶ ∴ ∷ ◇ ◈"),
