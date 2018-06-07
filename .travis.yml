@@ -1,7 +1,7 @@
 language: android
 
 jdk:
-  - oraclejdk8 # switch to openjdk8 once Travis has it
+  - openjdk8
 
 android:
   components:
