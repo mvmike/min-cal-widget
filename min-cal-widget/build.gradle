@@ -74,7 +74,7 @@ dependencies {
 }
 
 pmd {
-    toolVersion = '5.5.2'
+    toolVersion = '6.6.0'
     consoleOutput = true
 }
 
