@@ -25,7 +25,7 @@ public final class DayStatus {
 
         inYear = cal.get(Calendar.YEAR) == todayYear;
         inMonth = cal.get(Calendar.MONTH) == thisMonth;
-        isToday = inYear && inMonth && (cal.get(Calendar.DAY_OF_YEAR) == today);
+        isToday = inYear && inMonth && cal.get(Calendar.DAY_OF_YEAR) == today;
 
         isSaturday = cal.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY;
         isSunday = cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY;
