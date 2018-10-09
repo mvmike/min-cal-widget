@@ -2,6 +2,11 @@ apply plugin: 'com.android.application'
 apply plugin: 'pmd'
 apply plugin: 'checkstyle'
 
+def hasSigningStoreFile = project.hasProperty('signingStoreFile')
+def hasSigningStorePassword = project.hasProperty('signingStorePassword')
+def hasSigningKeyAlias = project.hasProperty('signingKeyAlias')
+def hasSigningKeyPassword = project.hasProperty('signingKeyPassword')
+
 android {
 
     compileSdkVersion 28
@@ -27,10 +32,10 @@ android {
      * signingKeyAlias=alias
      * signingKeyPassword=xxx
      */
-    if (project.hasProperty('signingStoreFile') &&
-            project.hasProperty('signingStorePassword') &&
-            project.hasProperty('signingKeyAlias') &&
-            project.hasProperty('signingKeyPassword')) {
+    if (hasSigningStoreFile
+            && hasSigningStorePassword
+            && hasSigningKeyAlias
+            && hasSigningKeyPassword) {
 
         println "Found sign properties in gradle.properties! Signing build…"
         signingConfigs {
