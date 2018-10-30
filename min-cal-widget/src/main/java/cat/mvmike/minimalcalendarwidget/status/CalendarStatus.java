@@ -3,11 +3,11 @@
 
 package cat.mvmike.minimalcalendarwidget.status;
 
-import java.util.Calendar;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+
+import java.util.Calendar;
 
 public final class CalendarStatus {
 
@@ -47,11 +47,15 @@ public final class CalendarStatus {
 
         // overlap month manually if dayOfMonth is in current month and greater than 1
         if (cal.get(Calendar.DAY_OF_MONTH) > MONTH_FIRST_DAY
-                && cal.get(Calendar.DAY_OF_MONTH) < (DECEMBER_LAST_DAY / 2)) {
+            && cal.get(Calendar.DAY_OF_MONTH) < (DECEMBER_LAST_DAY / 2)) {
             cal.add(Calendar.DAY_OF_MONTH, -DAYS_IN_WEEK);
         }
 
         calendar = cal;
+    }
+
+    public static boolean isMonthFirstDay(final Calendar cal) {
+        return Integer.valueOf(cal.get(Calendar.DAY_OF_MONTH)).equals(MONTH_FIRST_DAY);
     }
 
     public int getToday() {
@@ -68,9 +72,5 @@ public final class CalendarStatus {
 
     public Calendar getCalendar() {
         return calendar;
-    }
-
-    public static boolean isMonthFirstDay(final Calendar cal) {
-        return Integer.valueOf(cal.get(Calendar.DAY_OF_MONTH)).equals(MONTH_FIRST_DAY);
     }
 }

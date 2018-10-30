@@ -3,11 +3,11 @@
 
 package cat.mvmike.minimalcalendarwidget.receiver;
 
-import java.util.Calendar;
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+
+import java.util.Calendar;
 
 import cat.mvmike.minimalcalendarwidget.MonthWidget;
 
@@ -21,7 +21,7 @@ public class DateChangeReceiver extends BroadcastReceiver {
         Calendar now = Calendar.getInstance();
 
         if (now.get(Calendar.YEAR) != lastChecked.get(Calendar.YEAR)
-                || now.get(Calendar.DAY_OF_YEAR) != lastChecked.get(Calendar.DAY_OF_YEAR)) {
+            || now.get(Calendar.DAY_OF_YEAR) != lastChecked.get(Calendar.DAY_OF_YEAR)) {
             MonthWidget.forceRedraw(context);
         }
 

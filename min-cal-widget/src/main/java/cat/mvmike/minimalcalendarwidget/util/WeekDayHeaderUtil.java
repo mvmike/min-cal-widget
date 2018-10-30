@@ -3,11 +3,11 @@
 
 package cat.mvmike.minimalcalendarwidget.util;
 
-import java.text.DateFormatSymbols;
-import java.util.Calendar;
-
 import android.content.Context;
 import android.widget.RemoteViews;
+
+import java.text.DateFormatSymbols;
+import java.util.Calendar;
 
 import cat.mvmike.minimalcalendarwidget.R;
 

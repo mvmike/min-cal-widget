@@ -12,7 +12,7 @@ import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Set;
 
-import cat.mvmike.minimalcalendarwidget.resolver.dto.InstanceDTO;
+import cat.mvmike.minimalcalendarwidget.resolver.dto.InstanceDto;
 
 public abstract class CalendarResolver {
 
@@ -29,19 +29,19 @@ public abstract class CalendarResolver {
         return new Calendar[]{startDate, endDate};
     }
 
-    public static Set<InstanceDTO> readAllInstances(final ContentResolver contextResolver, final Calendar startTime,
+    public static Set<InstanceDto> readAllInstances(final ContentResolver contextResolver, final Calendar startTime,
                                                     final Calendar endTime) {
 
         Uri instancesUri = getInstancesUri(startTime, endTime);
-        Cursor instanceCursor = contextResolver.query(instancesUri, InstanceDTO.FIELDS, null, null, null);
+        Cursor instanceCursor = contextResolver.query(instancesUri, InstanceDto.FIELDS, null, null, null);
 
         if (instanceCursor == null || instanceCursor.getCount() == 0) {
             return null;
         }
 
-        Set<InstanceDTO> instances = new HashSet<>();
+        Set<InstanceDto> instances = new HashSet<>();
         while (instanceCursor.moveToNext()) {
-            instances.add(new InstanceDTO(instanceCursor));
+            instances.add(new InstanceDto(instanceCursor));
         }
 
         instanceCursor.close();
@@ -50,7 +50,7 @@ public abstract class CalendarResolver {
 
     private static Uri getInstancesUri(final Calendar startTime, final Calendar endTime) {
 
-        Uri.Builder instancesUriBuilder = InstanceDTO.INSTANCES_URI.buildUpon();
+        Uri.Builder instancesUriBuilder = InstanceDto.INSTANCES_URI.buildUpon();
 
         ContentUris.appendId(instancesUriBuilder, startTime.getTimeInMillis());
         ContentUris.appendId(instancesUriBuilder, endTime.getTimeInMillis());

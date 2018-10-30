@@ -1,9 +1,8 @@
-<!-- Copyright (c) 2016, Miquel Martí <miquelmarti111@gmail.com> -->
-<!-- See LICENSE for licensing information -->
+<!-- Copyright (c) 2016, Miquel Martí <miquelmarti111@gmail.com> --><!-- See LICENSE for licensing information -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="cat.mvmike.minimalcalendarwidget">
+    package="cat.mvmike.minimalcalendarwidget">
 
-    <uses-permission android:name="android.permission.READ_CALENDAR"/>
+    <uses-permission android:name="android.permission.READ_CALENDAR" />
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -12,31 +11,31 @@
 
         <receiver android:name=".MonthWidget">
             <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/widget_info"/>
+                android:resource="@xml/widget_info" />
         </receiver>
 
         <activity
             android:name=".activity.PermissionsActivity"
-            android:initialLayout="@layout/loading"
             android:excludeFromRecents="true"
+            android:initialLayout="@layout/loading"
             android:launchMode="singleTask"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:noHistory="true">
+            android:noHistory="true"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar">
             <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
         </activity>
 
         <activity
             android:name=".activity.ConfigurationActivity"
-            android:theme="@style/Theme.AppCompat.Dialog"
             android:excludeFromRecents="true"
             android:launchMode="singleInstance"
-            android:noHistory="true"/>
+            android:noHistory="true"
+            android:theme="@style/Theme.AppCompat.Dialog" />
 
     </application>
 

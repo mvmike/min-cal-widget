@@ -17,13 +17,17 @@ public final class PermissionsActivity extends Activity {
 
     private static final int READ_CALENDAR_PERM = 225;
 
+    public static boolean isPermitted(final Context context) {
+        return ContextCompat.checkSelfPermission(context, Manifest.permission.READ_CALENDAR) == PackageManager.PERMISSION_GRANTED;
+    }
+
     @Override
     protected void onStart() {
 
         super.onStart();
 
         setResult(Activity.RESULT_CANCELED);
-        ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.READ_CALENDAR}, READ_CALENDAR_PERM);
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_CALENDAR}, READ_CALENDAR_PERM);
     }
 
     @Override
@@ -35,9 +39,5 @@ public final class PermissionsActivity extends Activity {
         }
 
         this.finish();
-    }
-
-    public static boolean isPermitted(final Context context) {
-        return ContextCompat.checkSelfPermission(context, Manifest.permission.READ_CALENDAR) == PackageManager.PERMISSION_GRANTED;
     }
 }

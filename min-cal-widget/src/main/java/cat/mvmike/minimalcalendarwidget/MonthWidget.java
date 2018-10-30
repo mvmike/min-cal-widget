@@ -21,7 +21,7 @@ import java.util.Set;
 import cat.mvmike.minimalcalendarwidget.activity.CalendarActivity;
 import cat.mvmike.minimalcalendarwidget.activity.PermissionsActivity;
 import cat.mvmike.minimalcalendarwidget.resolver.CalendarResolver;
-import cat.mvmike.minimalcalendarwidget.resolver.dto.InstanceDTO;
+import cat.mvmike.minimalcalendarwidget.resolver.dto.InstanceDto;
 import cat.mvmike.minimalcalendarwidget.util.ConfigurationUtil;
 import cat.mvmike.minimalcalendarwidget.util.DayUtil;
 import cat.mvmike.minimalcalendarwidget.util.ReceiverUtil;
@@ -46,6 +46,67 @@ public class MonthWidget extends AppWidgetProvider {
 
     private static final float HEADER_RELATIVE_YEAR_SIZE = 0.8f;
 
+    private static void drawWidgets(final Context context, final AppWidgetManager appWidgetManager, final int[] appWidgetIds,
+                                    final RemoteViews rv) {
+
+        for (int appWidgetId : appWidgetIds) {
+            drawWidget(context, appWidgetManager, appWidgetId, rv);
+        }
+    }
+
+    private static void drawWidget(final Context context, final AppWidgetManager appWidgetManager, final int appWidgetId,
+                                   final RemoteViews rv) {
+
+        Calendar cal = Calendar.getInstance();
+        int firstDayOfWeek = ConfigurationUtil.getStartWeekDay(context);
+
+        Calendar[] safeDateSpan = CalendarResolver.getSafeDateSpan(cal);
+        Set<InstanceDto> instanceSet = PermissionsActivity.isPermitted(context)
+            ? CalendarResolver.readAllInstances(context.getContentResolver(), safeDateSpan[0], safeDateSpan[1]) : new HashSet<>();
+
+        // SET MONTH AND YEAR
+        String monthAndYear = String.valueOf(DateFormat.format(HEADER_DATE_FORMAT, cal));
+        SpannableString ss = new SpannableString(monthAndYear);
+        ss.setSpan(new RelativeSizeSpan(HEADER_RELATIVE_YEAR_SIZE), monthAndYear.length() - YEAR_FORMAT.length(), monthAndYear.length(), 0);
+        rv.setTextViewText(R.id.month_year_label, ss);
+
+        rv.removeAllViews(R.id.calendar_widget);
+
+        // SET DAYS OF WEEK (HEADERS)
+        RemoteViews headerRowRv = new RemoteViews(context.getPackageName(), R.layout.row_header);
+        WeekDayHeaderUtil.setCellHeaderWeekDays(headerRowRv, firstDayOfWeek, context);
+        rv.addView(R.id.calendar_widget, headerRowRv);
+
+        // SET INDIVIDUAL DAYS
+        DayUtil.setDays(context, cal, firstDayOfWeek, ss, rv, instanceSet);
+
+        // LISTENER FOR WIDGET PRESS AND CONFIGURATION
+        rv.setOnClickPendingIntent(R.id.calendar_widget, PendingIntent.getBroadcast(context, INTENT_CODE_CALENDAR,
+            new Intent(context, MonthWidget.class).setAction(WIDGET_PRESS), PendingIntent.FLAG_UPDATE_CURRENT));
+        rv.setOnClickPendingIntent(R.id.configuration_icon, PendingIntent.getBroadcast(context, INTENT_CODE_CONFIGURATION,
+            new Intent(context, MonthWidget.class).setAction(CONFIGURATION_PRESS), PendingIntent.FLAG_UPDATE_CURRENT));
+
+        appWidgetManager.updateAppWidget(appWidgetId, rv);
+    }
+
+    public static void forceRedraw(final Context context) {
+        forceRedraw(context, ConfigurationUtil.getTheme(context));
+    }
+
+    private static void forceRedraw(final Context context, final ThemesUtil.Theme theme) {
+
+        if (!PermissionsActivity.isPermitted(context)) {
+            return;
+        }
+
+        RemoteViews rv = new RemoteViews(context.getPackageName(), theme.getMainLayout());
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+        ComponentName name = new ComponentName(context, MonthWidget.class);
+        int[] appWidgetIds = appWidgetManager.getAppWidgetIds(name);
+
+        drawWidgets(context, appWidgetManager, appWidgetIds, rv);
+    }
+
     @Override
     public void onEnabled(final Context context) {
 
@@ -67,7 +128,7 @@ public class MonthWidget extends AppWidgetProvider {
 
         super.onReceive(context, intent);
 
-        if (intent != null && intent.getAction() != null){
+        if (intent != null && intent.getAction() != null) {
             switch (intent.getAction()) {
 
                 case WIDGET_PRESS:
@@ -89,66 +150,5 @@ public class MonthWidget extends AppWidgetProvider {
         super.onDeleted(context, appWidgetIds);
         ConfigurationUtil.clearConfiguration(context);
         ReceiverUtil.unregisterReceivers(context);
-    }
-
-    private static void drawWidgets(final Context context, final AppWidgetManager appWidgetManager, final int[] appWidgetIds,
-                                    final RemoteViews rv) {
-
-        for (int appWidgetId : appWidgetIds) {
-            drawWidget(context, appWidgetManager, appWidgetId, rv);
-        }
-    }
-
-    private static void drawWidget(final Context context, final AppWidgetManager appWidgetManager, final int appWidgetId,
-                                   final RemoteViews rv) {
-
-        Calendar cal = Calendar.getInstance();
-        int firstDayOfWeek = ConfigurationUtil.getStartWeekDay(context);
-
-        Calendar[] safeDateSpan = CalendarResolver.getSafeDateSpan(cal);
-        Set<InstanceDTO> instanceSet = PermissionsActivity.isPermitted(context)
-                ? CalendarResolver.readAllInstances(context.getContentResolver(), safeDateSpan[0], safeDateSpan[1]) : new HashSet<>();
-
-        // SET MONTH AND YEAR
-        String monthAndYear = String.valueOf(DateFormat.format(HEADER_DATE_FORMAT, cal));
-        SpannableString ss = new SpannableString(monthAndYear);
-        ss.setSpan(new RelativeSizeSpan(HEADER_RELATIVE_YEAR_SIZE), monthAndYear.length() - YEAR_FORMAT.length(), monthAndYear.length(), 0);
-        rv.setTextViewText(R.id.month_year_label, ss);
-
-        rv.removeAllViews(R.id.calendar_widget);
-
-        // SET DAYS OF WEEK (HEADERS)
-        RemoteViews headerRowRv = new RemoteViews(context.getPackageName(), R.layout.row_header);
-        WeekDayHeaderUtil.setCellHeaderWeekDays(headerRowRv, firstDayOfWeek, context);
-        rv.addView(R.id.calendar_widget, headerRowRv);
-
-        // SET INDIVIDUAL DAYS
-        DayUtil.setDays(context, cal, firstDayOfWeek, ss, rv, instanceSet);
-
-        // LISTENER FOR WIDGET PRESS AND CONFIGURATION
-        rv.setOnClickPendingIntent(R.id.calendar_widget, PendingIntent.getBroadcast(context, INTENT_CODE_CALENDAR,
-                new Intent(context, MonthWidget.class).setAction(WIDGET_PRESS), PendingIntent.FLAG_UPDATE_CURRENT));
-        rv.setOnClickPendingIntent(R.id.configuration_icon, PendingIntent.getBroadcast(context, INTENT_CODE_CONFIGURATION,
-                new Intent(context, MonthWidget.class).setAction(CONFIGURATION_PRESS), PendingIntent.FLAG_UPDATE_CURRENT));
-
-        appWidgetManager.updateAppWidget(appWidgetId, rv);
-    }
-
-    public static void forceRedraw(final Context context) {
-        forceRedraw(context, ConfigurationUtil.getTheme(context));
-    }
-
-    private static void forceRedraw(final Context context, final ThemesUtil.Theme theme) {
-
-        if (!PermissionsActivity.isPermitted(context)) {
-            return;
-        }
-
-        RemoteViews rv = new RemoteViews(context.getPackageName(), theme.getMainLayout());
-        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
-        ComponentName name = new ComponentName(context, MonthWidget.class);
-        int[] appWidgetIds = appWidgetManager.getAppWidgetIds(name);
-
-        drawWidgets(context, appWidgetManager, appWidgetIds, rv);
     }
 }

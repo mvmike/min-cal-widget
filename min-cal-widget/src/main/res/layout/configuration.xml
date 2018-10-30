@@ -1,13 +1,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:id="@+id/configuration_view"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical"
-              android:weightSum="5">
+    android:id="@+id/configuration_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="5">
 
     <View
         android:layout_width="180dp"
-        android:layout_height="25dp"/>
+        android:layout_height="25dp" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -15,8 +15,8 @@
         android:layout_gravity="bottom|start"
         android:layout_weight="1"
         android:orientation="horizontal"
-        android:paddingEnd="15dp"
-        android:paddingStart="15dp">
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp">
 
         <TextView
             android:id="@+id/txt_theme"
@@ -24,21 +24,20 @@
             android:layout_height="wrap_content"
             android:text="@string/theme"
             android:textColor="@color/config_label"
-            android:textSize="16sp"/>
+            android:textSize="16sp" />
 
         <Spinner
             android:id="@+id/themeSpinner"
             android:layout_width="130dp"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:textColor="@color/config_value">
-        </Spinner>
+            android:textColor="@color/config_value"></Spinner>
 
     </LinearLayout>
 
     <View
         android:layout_width="180dp"
-        android:layout_height="15dp"/>
+        android:layout_height="15dp" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -46,8 +45,8 @@
         android:layout_gravity="bottom|start"
         android:layout_weight="1"
         android:orientation="horizontal"
-        android:paddingEnd="15dp"
-        android:paddingStart="15dp">
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp">
 
         <TextView
             android:id="@+id/txt_first_day_of_week"
@@ -55,21 +54,20 @@
             android:layout_height="wrap_content"
             android:text="@string/start_week_day"
             android:textColor="@color/config_label"
-            android:textSize="16sp"/>
+            android:textSize="16sp" />
 
         <Spinner
             android:id="@+id/startWeekDaySpinner"
             android:layout_width="130dp"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:textColor="@color/config_value">
-        </Spinner>
+            android:textColor="@color/config_value"></Spinner>
 
     </LinearLayout>
 
     <View
         android:layout_width="180dp"
-        android:layout_height="15dp"/>
+        android:layout_height="15dp" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -77,8 +75,8 @@
         android:layout_gravity="bottom|start"
         android:layout_weight="1"
         android:orientation="horizontal"
-        android:paddingEnd="15dp"
-        android:paddingStart="15dp">
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp">
 
         <TextView
             android:id="@+id/txt_symbols"
@@ -86,21 +84,20 @@
             android:layout_height="wrap_content"
             android:text="@string/symbol_set"
             android:textColor="@color/config_label"
-            android:textSize="16sp"/>
+            android:textSize="16sp" />
 
         <Spinner
             android:id="@+id/symbolsSpinner"
             android:layout_width="130dp"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:textColor="@color/config_value">
-        </Spinner>
+            android:textColor="@color/config_value"></Spinner>
 
     </LinearLayout>
 
     <View
         android:layout_width="180dp"
-        android:layout_height="15dp"/>
+        android:layout_height="15dp" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -108,8 +105,8 @@
         android:layout_gravity="bottom|start"
         android:layout_weight="1"
         android:orientation="horizontal"
-        android:paddingEnd="15dp"
-        android:paddingStart="15dp">
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp">
 
         <TextView
             android:id="@+id/txt_symbols_colour"
@@ -117,15 +114,14 @@
             android:layout_height="wrap_content"
             android:text="@string/symbol_colour_set"
             android:textColor="@color/config_label"
-            android:textSize="16sp"/>
+            android:textSize="16sp" />
 
         <Spinner
             android:id="@+id/symbolsColourSpinner"
             android:layout_width="130dp"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:textColor="@color/config_value">
-        </Spinner>
+            android:textColor="@color/config_value"></Spinner>
 
     </LinearLayout>
 
@@ -141,28 +137,28 @@
             android:id="@+id/source"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
-            android:text="@string/source"/>
+            android:text="@string/source" />
 
         <View
             android:layout_width="10dp"
-            android:layout_height="0dp"/>
+            android:layout_height="0dp" />
 
         <TextView
             android:id="@+id/donate"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
-            android:text="@string/donate"/>
+            android:text="@string/donate" />
 
         <View
             android:layout_width="70dp"
-            android:layout_height="0dp"/>
+            android:layout_height="0dp" />
 
         <Button
             android:id="@+id/applyButton"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/apply_changes"/>
+            android:text="@string/apply_changes" />
 
     </LinearLayout>
 

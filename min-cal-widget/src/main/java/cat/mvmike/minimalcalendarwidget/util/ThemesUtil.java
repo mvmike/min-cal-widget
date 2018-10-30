@@ -24,45 +24,45 @@ public class ThemesUtil {
     public enum Theme {
 
         BLACK(
-                R.layout.widget_black,
-                R.layout.black_cell_header,
-                R.layout.black_cell_header_saturday,
-                R.layout.black_cell_header_sunday,
-                R.layout.black_cell_day,
-                R.layout.black_cell_day_this_month,
-                R.layout.black_cell_day_saturday,
-                R.layout.black_cell_day_sunday,
-                R.layout.black_cell_day_today,
-                R.layout.black_cell_day_saturday_today,
-                R.layout.black_cell_day_sunday_today
+            R.layout.widget_black,
+            R.layout.black_cell_header,
+            R.layout.black_cell_header_saturday,
+            R.layout.black_cell_header_sunday,
+            R.layout.black_cell_day,
+            R.layout.black_cell_day_this_month,
+            R.layout.black_cell_day_saturday,
+            R.layout.black_cell_day_sunday,
+            R.layout.black_cell_day_today,
+            R.layout.black_cell_day_saturday_today,
+            R.layout.black_cell_day_sunday_today
         ),
 
         GREY(
-                R.layout.widget_grey,
-                R.layout.grey_cell_header,
-                R.layout.grey_cell_header_saturday,
-                R.layout.grey_cell_header_sunday,
-                R.layout.grey_cell_day,
-                R.layout.grey_cell_day_this_month,
-                R.layout.grey_cell_day_saturday,
-                R.layout.grey_cell_day_sunday,
-                R.layout.grey_cell_day_today,
-                R.layout.grey_cell_day_saturday_today,
-                R.layout.grey_cell_day_sunday_today
+            R.layout.widget_grey,
+            R.layout.grey_cell_header,
+            R.layout.grey_cell_header_saturday,
+            R.layout.grey_cell_header_sunday,
+            R.layout.grey_cell_day,
+            R.layout.grey_cell_day_this_month,
+            R.layout.grey_cell_day_saturday,
+            R.layout.grey_cell_day_sunday,
+            R.layout.grey_cell_day_today,
+            R.layout.grey_cell_day_saturday_today,
+            R.layout.grey_cell_day_sunday_today
         ),
 
         WHITE(
-                R.layout.widget_white,
-                R.layout.white_cell_header,
-                R.layout.white_cell_header_saturday,
-                R.layout.white_cell_header_sunday,
-                R.layout.white_cell_day,
-                R.layout.white_cell_day_this_month,
-                R.layout.white_cell_day_saturday,
-                R.layout.white_cell_day_sunday,
-                R.layout.white_cell_day_today,
-                R.layout.white_cell_day_saturday_today,
-                R.layout.white_cell_day_sunday_today
+            R.layout.widget_white,
+            R.layout.white_cell_header,
+            R.layout.white_cell_header_saturday,
+            R.layout.white_cell_header_sunday,
+            R.layout.white_cell_day,
+            R.layout.white_cell_day_this_month,
+            R.layout.white_cell_day_saturday,
+            R.layout.white_cell_day_sunday,
+            R.layout.white_cell_day_today,
+            R.layout.white_cell_day_saturday_today,
+            R.layout.white_cell_day_sunday_today
         );
 
         private final int mainLayout;
@@ -88,8 +88,8 @@ public class ThemesUtil {
         private final int cellDaySundayToday;
 
         Theme(final int mainLayout, final int cellHeader, final int cellHeaderSaturday, final int cellHeaderSunday, final int cellDay,
-                final int cellDayThisMonth, final int cellDaySaturday, final int cellDaySunday, final int cellDayToday,
-                final int cellDaySaturdayToday, final int cellDaySundayToday) {
+              final int cellDayThisMonth, final int cellDaySaturday, final int cellDaySunday, final int cellDayToday,
+              final int cellDaySaturdayToday, final int cellDaySundayToday) {
 
             this.mainLayout = mainLayout;
             this.cellHeader = cellHeader;

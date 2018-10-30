@@ -3,10 +3,6 @@
 
 package cat.mvmike.minimalcalendarwidget.util;
 
-import java.util.Calendar;
-import java.util.Set;
-import java.util.TimeZone;
-
 import android.content.Context;
 import android.graphics.Typeface;
 import android.support.v4.content.ContextCompat;
@@ -17,8 +13,12 @@ import android.text.style.RelativeSizeSpan;
 import android.text.style.StyleSpan;
 import android.widget.RemoteViews;
 
+import java.util.Calendar;
+import java.util.Set;
+import java.util.TimeZone;
+
 import cat.mvmike.minimalcalendarwidget.R;
-import cat.mvmike.minimalcalendarwidget.resolver.dto.InstanceDTO;
+import cat.mvmike.minimalcalendarwidget.resolver.dto.InstanceDto;
 import cat.mvmike.minimalcalendarwidget.status.CalendarStatus;
 import cat.mvmike.minimalcalendarwidget.status.DayStatus;
 
@@ -31,7 +31,7 @@ public abstract class DayUtil {
     private static final String DOUBLE_PADDING = PADDING + PADDING;
 
     public static void setDays(final Context context, final Calendar cal, final int firstDayOfWeek, final SpannableString ss,
-            final RemoteViews rv, final Set<InstanceDTO> instanceSet) {
+                               final RemoteViews rv, final Set<InstanceDto> instanceSet) {
 
         ThemesUtil.Theme theme = ConfigurationUtil.getTheme(context);
         CalendarStatus cs = new CalendarStatus(context, cal, firstDayOfWeek);
@@ -63,16 +63,16 @@ public abstract class DayUtil {
     }
 
     private static void setInstanceNumber(final Context context, final RemoteViews cellRv, final String dayOfMonth, boolean isToday,
-            final int found) {
+                                          final int found) {
 
         SymbolsUtil.Symbol symbols = ConfigurationUtil.getInstancesSymbols(context);
         Character[] symbolArray = symbols.getArray();
 
         int max = symbolArray.length - 1;
         String symbol = String.valueOf(found > max ? symbolArray[max] : symbolArray[found]);
-        String dayOfMonthSS = PADDING + (dayOfMonth.length() == 1 ? dayOfMonth + DOUBLE_PADDING : dayOfMonth) + PADDING + symbol;
-        SpannableString daySS = new SpannableString(dayOfMonthSS);
-        daySS.setSpan(new StyleSpan(Typeface.BOLD), dayOfMonthSS.length() - 1, dayOfMonthSS.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        String dayOfMonthSpSt = PADDING + (dayOfMonth.length() == 1 ? dayOfMonth + DOUBLE_PADDING : dayOfMonth) + PADDING + symbol;
+        SpannableString daySpSt = new SpannableString(dayOfMonthSpSt);
+        daySpSt.setSpan(new StyleSpan(Typeface.BOLD), dayOfMonthSpSt.length() - 1, dayOfMonthSpSt.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         int color;
         if (isToday) {
@@ -82,14 +82,14 @@ public abstract class DayUtil {
         }
 
         if (isToday) {
-            daySS.setSpan(new StyleSpan(Typeface.BOLD), 0, dayOfMonthSS.length() - 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            daySpSt.setSpan(new StyleSpan(Typeface.BOLD), 0, dayOfMonthSpSt.length() - 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
 
-        daySS.setSpan(new ForegroundColorSpan(color), dayOfMonthSS.length() - 1, dayOfMonthSS.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        daySS.setSpan(new RelativeSizeSpan(symbols.getRelativeSize()), dayOfMonthSS.length() - 1, dayOfMonthSS.length(),
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        daySpSt.setSpan(new ForegroundColorSpan(color), dayOfMonthSpSt.length() - 1, dayOfMonthSpSt.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        daySpSt.setSpan(new RelativeSizeSpan(symbols.getRelativeSize()), dayOfMonthSpSt.length() - 1, dayOfMonthSpSt.length(),
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-        cellRv.setTextViewText(android.R.id.text1, daySS);
+        cellRv.setTextViewText(android.R.id.text1, daySpSt);
     }
 
     private static int getDayLayout(final ThemesUtil.Theme theme, final DayStatus ds) {
@@ -127,14 +127,14 @@ public abstract class DayUtil {
         }
     }
 
-    private static int getNumberOfInstances(Set<InstanceDTO> instanceSet, final DayStatus ds) {
+    private static int getNumberOfInstances(Set<InstanceDto> instanceSet, final DayStatus ds) {
 
         int found = 0;
         if (instanceSet == null || instanceSet.size() == 0) {
             return found;
         }
 
-        for (InstanceDTO instance : instanceSet) {
+        for (InstanceDto instance : instanceSet) {
 
             Calendar startCalendar = Calendar.getInstance(TimeZone.getDefault());
             startCalendar.setTime(instance.getDateStart());
