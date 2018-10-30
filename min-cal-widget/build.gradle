@@ -78,8 +78,9 @@ dependencies {
     testImplementation 'junit:junit:4.12'
 }
 
+// https://pmd.github.io/
 pmd {
-    toolVersion = '6.6.0'
+    toolVersion = '6.9.0'
     consoleOutput = true
 }
 
