@@ -67,15 +67,17 @@ public class MonthWidget extends AppWidgetProvider {
 
         super.onReceive(context, intent);
 
-        switch (intent.getAction()) {
+        if (intent != null && intent.getAction() != null){
+            switch (intent.getAction()) {
 
-            case WIDGET_PRESS:
-                CalendarActivity.startCalendarApplication(context);
-                break;
+                case WIDGET_PRESS:
+                    CalendarActivity.startCalendarApplication(context);
+                    break;
 
-            case CONFIGURATION_PRESS:
-                ConfigurationUtil.startConfigurationView(context);
-                break;
+                case CONFIGURATION_PRESS:
+                    ConfigurationUtil.startConfigurationView(context);
+                    break;
+            }
         }
 
         forceRedraw(context);
