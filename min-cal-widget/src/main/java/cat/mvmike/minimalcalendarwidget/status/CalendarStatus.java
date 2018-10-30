@@ -27,8 +27,6 @@ public final class CalendarStatus {
 
     private final int thisMonth;
 
-    private final int thisYear;
-
     private final Calendar calendar;
 
     public CalendarStatus(final Context context, final Calendar cal, final int firstDayOfWeek) {
@@ -38,7 +36,7 @@ public final class CalendarStatus {
         today = cal.get(Calendar.DAY_OF_YEAR);
         todayYear = cal.get(Calendar.YEAR);
         thisMonth = sp.getInt(PREF_MONTH, cal.get(Calendar.MONTH));
-        thisYear = sp.getInt(PREF_YEAR, cal.get(Calendar.YEAR));
+        int thisYear = sp.getInt(PREF_YEAR, cal.get(Calendar.YEAR));
 
         cal.set(Calendar.DAY_OF_MONTH, MONTH_FIRST_DAY);
         cal.set(Calendar.MONTH, thisMonth);
@@ -66,10 +64,6 @@ public final class CalendarStatus {
 
     public int getThisMonth() {
         return thisMonth;
-    }
-
-    public int getThisYear() {
-        return thisYear;
     }
 
     public Calendar getCalendar() {

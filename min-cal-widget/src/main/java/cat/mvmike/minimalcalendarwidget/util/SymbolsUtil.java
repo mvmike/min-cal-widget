@@ -42,7 +42,7 @@ public abstract class SymbolsUtil {
             return relativeSize;
         }
 
-        public String getValues() {
+        String getValues() {
             return values;
         }
 

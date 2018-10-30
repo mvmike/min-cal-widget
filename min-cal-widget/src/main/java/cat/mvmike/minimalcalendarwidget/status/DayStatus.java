@@ -7,8 +7,6 @@ import java.util.Calendar;
 
 public final class DayStatus {
 
-    private final boolean inYear;
-
     private final boolean inMonth;
 
     private final boolean isToday;
@@ -23,7 +21,7 @@ public final class DayStatus {
 
     public DayStatus(final Calendar cal, final int todayYear, final int thisMonth, final int today) {
 
-        inYear = cal.get(Calendar.YEAR) == todayYear;
+        boolean inYear = cal.get(Calendar.YEAR) == todayYear;
         inMonth = cal.get(Calendar.MONTH) == thisMonth;
         isToday = inYear && inMonth && cal.get(Calendar.DAY_OF_YEAR) == today;
 
@@ -32,10 +30,6 @@ public final class DayStatus {
 
         dayOfMonthInt = cal.get(Calendar.DAY_OF_MONTH);
         monthNumberInt = cal.get(Calendar.MONTH);
-    }
-
-    public boolean isInYear() {
-        return inYear;
     }
 
     public boolean isInMonth() {
@@ -56,10 +50,6 @@ public final class DayStatus {
 
     public int getDayOfMonthInt() {
         return dayOfMonthInt;
-    }
-
-    public int getMonthNumberInt() {
-        return monthNumberInt;
     }
 
     public boolean isInDay(final Calendar startCalendar, final Calendar endCalendar) {

@@ -27,32 +27,20 @@ public final class InstanceDTO {
             CalendarContract.Instances.CALENDAR_COLOR,
     };
 
-    private final String id;
-
-    private final String calendarId;
-
-    private final String calendarDisplayName;
-
-    private final String title;
-
-    private final String description;
-
     private final Date dateStart;
 
     private final Date dateEnd;
 
-    private final String color;
-
     public InstanceDTO(final Cursor instanceCursor) {
 
-        this.id = instanceCursor.getString(0);
-        this.calendarId = instanceCursor.getString(1);
-        this.calendarDisplayName = instanceCursor.getString(2);
-        this.title = instanceCursor.getString(3);
-        this.description = instanceCursor.getString(4);
+        //this.id = instanceCursor.getString(0);
+        //this.calendarId = instanceCursor.getString(1);
+        //this.calendarDisplayName = instanceCursor.getString(2);
+        //this.title = instanceCursor.getString(3);
+        //this.description = instanceCursor.getString(4);
         this.dateStart = getDate(instanceCursor.getLong(5));
         this.dateEnd = getDate(instanceCursor.getLong(6));
-        this.color = instanceCursor.getString(7);
+        //this.color = instanceCursor.getString(7);
     }
 
     private static Date getDate(final long milliSeconds) {
@@ -66,26 +54,6 @@ public final class InstanceDTO {
         return calendar.getTime();
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public String getCalendarId() {
-        return calendarId;
-    }
-
-    public String getCalendarDisplayName() {
-        return calendarDisplayName;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
     public Date getDateStart() {
         return dateStart;
     }
@@ -94,7 +62,4 @@ public final class InstanceDTO {
         return dateEnd;
     }
 
-    public String getColor() {
-        return color;
-    }
 }
