@@ -31,7 +31,7 @@ public final class PermissionsActivity extends Activity {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(final int requestCode, final @NonNull String[] permissions, final @NonNull int[] grantResults) {
 
         if (requestCode == READ_CALENDAR_PERM && grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             setResult(Activity.RESULT_OK);

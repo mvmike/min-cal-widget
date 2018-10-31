@@ -11,7 +11,7 @@ import android.net.Uri;
 import android.provider.CalendarContract;
 import android.widget.Toast;
 
-public final class CalendarActivity {
+public abstract class CalendarActivity {
 
     private static final String NO_CALENDAR_APPLICATION_FOUND = "No calendar application found";
 

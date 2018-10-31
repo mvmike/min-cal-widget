@@ -1,54 +1,49 @@
 <?xml version="1.0"?>
-<ruleset name="Custom ruleset"
-        xmlns="http://pmd.sf.net/ruleset/1.0.0"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://pmd.sf.net/ruleset/1.0.0 http://pmd.sf.net/ruleset_xml_schema.xsd"
-        xsi:noNamespaceSchemaLocation="http://pmd.sf.net/ruleset_xml_schema.xsd">
+<ruleset name="Custome RuleSet"
+    xmlns="http://pmd.sourceforge.net/ruleset/2.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0 https://pmd.sourceforge.io/ruleset_2_0_0.xsd">
 
-    <rule ref="rulesets/java/basic.xml">
-        <exclude name="CollapsibleIfStatements"/> <!--sometimes forces hard to read code-->
-    </rule>
-    <rule ref="rulesets/java/unusedcode.xml"/>
-    <rule ref="rulesets/java/imports.xml" />
-    <rule ref="rulesets/java/android.xml"/>
-    <rule ref="rulesets/java/clone.xml"/>
-    <rule ref="rulesets/java/finalizers.xml"/>
-    <rule ref="rulesets/java/migrating.xml"/>
-    <rule ref="rulesets/java/unnecessary.xml">
-        <exclude name="UselessParentheses"/> <!--Too nitpicky-->
-    </rule>
-    <rule ref="rulesets/java/empty.xml">
-        <exclude name="EmptyCatchBlock"/> <!--Ignoring an exception-->
-        <exclude name="EmptyWhileStmt"/> <!--Can be useful sometimes-->
+    <description>
+        Custom ruleset for min-cal-widget
+    </description>
+
+    <rule ref="category/java/bestpractices.xml">
+        <exclude name="AbstractClassWithoutAbstractMethod"/>
+        <exclude name="SwitchStmtsShouldHaveDefault"/>
     </rule>
 
-    <rule ref="rulesets/java/optimizations.xml/PrematureDeclaration"/>
-    <rule ref="rulesets/java/optimizations.xml/AddEmptyString"/>
-    <rule ref="rulesets/java/optimizations.xml/UseArraysAsList"/>
-    <rule ref="rulesets/java/optimizations.xml/UnnecessaryWrapperObjectCreation"/>
+    <rule ref="category/java/codestyle.xml">
+        <exclude name="AtLeastOneConstructor"/>
+        <exclude name="LinguisticNaming"/>
+        <exclude name="LocalVariableCouldBeFinal"/>
+        <exclude name="LongVariable"/>
+        <exclude name="OnlyOneReturn"/>
+        <exclude name="ShortVariable"/>
+        <exclude name="UselessParentheses"/>
+    </rule>
 
-    <rule ref="rulesets/java/controversial.xml/UnnecessaryConstructor"/>
-    <rule ref="rulesets/java/controversial.xml/UnnecessaryParentheses"/>
+    <rule ref="category/java/design.xml">
+        <exclude name="DataClass"/>
+        <exclude name="ExcessiveParameterList"/>
+        <exclude name="LawOfDemeter"/>
+        <exclude name="LoosePackageCoupling"/>
+        <exclude name="UseUtilityClass"/>
+    </rule>
 
-    <rule ref="rulesets/java/strictexception.xml/AvoidRethrowingException"/>
-    <rule ref="rulesets/java/strictexception.xml/AvoidCatchingThrowable"/>
-    <rule ref="rulesets/java/strictexception.xml/AvoidCatchingNPE"/>
-    <rule ref="rulesets/java/strictexception.xml/DoNotExtendJavaLangError"/>
-    <rule ref="rulesets/java/strictexception.xml/DoNotThrowExceptionInFinally"/>
-    <rule ref="rulesets/java/strictexception.xml/AvoidThrowingNewInstanceOfSameException"/>
-    <rule ref="rulesets/java/strictexception.xml/AvoidThrowingNullPointerException"/>
+    <rule ref="category/java/errorprone.xml">
+        <exclude name="AvoidFieldNameMatchingMethodName"/>
+        <exclude name="BeanMembersShouldSerialize"/>
+        <exclude name="DataflowAnomalyAnalysis"/>
+        <exclude name="EmptyCatchBlock"/>
+        <exclude name="EmptyWhileStmt"/>
+    </rule>
 
-    <rule ref="rulesets/java/design.xml/FinalFieldCouldBeStatic"/>
-    <rule ref="rulesets/java/design.xml/CloseResource"/>
-    <rule ref="rulesets/java/design.xml/DefaultLabelNotLastInSwitchStmt"/>
-    <rule ref="rulesets/java/design.xml/UnnecessaryLocalBeforeReturn"/>
-    <rule ref="rulesets/java/design.xml/NonCaseLabelInSwitchStatement"/>
-    <rule ref="rulesets/java/design.xml/EqualsNull"/>
-    <rule ref="rulesets/java/design.xml/IdempotentOperations"/>
-    <rule ref="rulesets/java/design.xml/ImmutableField"/>
-    <rule ref="rulesets/java/design.xml/SingularField"/>
-    <rule ref="rulesets/java/design.xml/SimplifyBooleanReturns"/>
-    <rule ref="rulesets/java/design.xml/SimplifyBooleanExpressions"/>
-    <rule ref="rulesets/java/design.xml/LogicInversion"/>
+    <rule ref="category/java/multithreading.xml"/>
+
+    <rule ref="category/java/performance.xml">
+        <exclude name="AvoidInstantiatingObjectsInLoops"/>
+        <exclude name="TooFewBranchesForASwitchStatement"/>
+    </rule>
 
 </ruleset>

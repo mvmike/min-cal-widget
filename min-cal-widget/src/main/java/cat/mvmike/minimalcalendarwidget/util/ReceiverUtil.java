@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.provider.CalendarContract;
+import android.util.Log;
 
 import cat.mvmike.minimalcalendarwidget.receiver.DateChangeReceiver;
 import cat.mvmike.minimalcalendarwidget.receiver.InstanceChangeReceiver;
@@ -50,7 +51,7 @@ public class ReceiverUtil {
         } catch (IllegalArgumentException iae) {
 
             // if coming from old version, receiver might have not been initialized
-            iae.printStackTrace();
+            Log.w(ReceiverUtil.class.getName(), iae.getMessage());
         }
 
     }

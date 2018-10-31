@@ -62,7 +62,7 @@ public abstract class DayUtil {
         }
     }
 
-    private static void setInstanceNumber(final Context context, final RemoteViews cellRv, final String dayOfMonth, boolean isToday,
+    private static void setInstanceNumber(final Context context, final RemoteViews cellRv, final String dayOfMonth, final boolean isToday,
                                           final int found) {
 
         SymbolsUtil.Symbol symbols = ConfigurationUtil.getInstancesSymbols(context);
@@ -127,10 +127,10 @@ public abstract class DayUtil {
         }
     }
 
-    private static int getNumberOfInstances(Set<InstanceDto> instanceSet, final DayStatus ds) {
+    private static int getNumberOfInstances(final Set<InstanceDto> instanceSet, final DayStatus ds) {
 
         int found = 0;
-        if (instanceSet == null || instanceSet.size() == 0) {
+        if (instanceSet == null || instanceSet.isEmpty()) {
             return found;
         }
 
