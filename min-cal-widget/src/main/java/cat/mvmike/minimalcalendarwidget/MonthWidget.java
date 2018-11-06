@@ -61,8 +61,8 @@ public class MonthWidget extends AppWidgetProvider {
         int firstDayOfWeek = ConfigurationUtil.getStartWeekDay(context);
 
         Calendar[] safeDateSpan = CalendarResolver.getSafeDateSpan(cal);
-        Set<InstanceDto> instanceSet = PermissionsActivity.isPermitted(context)
-            ? CalendarResolver.readAllInstances(context.getContentResolver(), safeDateSpan[0], safeDateSpan[1]) : new HashSet<>();
+        Set<InstanceDto> instanceSet = PermissionsActivity.isPermitted(context) ?
+            CalendarResolver.readAllInstances(context.getContentResolver(), safeDateSpan[0], safeDateSpan[1]) : new HashSet<>();
 
         // SET MONTH AND YEAR
         String monthAndYear = String.valueOf(DateFormat.format(HEADER_DATE_FORMAT, cal));
