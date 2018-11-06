@@ -43,9 +43,7 @@ public class ConfigurationActivity extends AppCompatActivity {
     }
 
     private void setHyperlinks() {
-
         setHyperlinkToTextView(R.id.source);
-        setHyperlinkToTextView(R.id.donate);
     }
 
     private void setHyperlinkToTextView(final int id) {
