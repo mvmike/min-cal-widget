@@ -1,6 +1,5 @@
 [![GitHub release](https://img.shields.io/github/release/mvmike/min-cal-widget.svg)](https://github.com/mvmike/min-cal-widget/releases)
 [![Build Status](https://travis-ci.org/mvmike/min-cal-widget.svg?branch=master)](https://travis-ci.org/mvmike/min-cal-widget)
-[![Donate](https://img.shields.io/badge/donate-paypal-blue.svg)](https://www.paypal.me/mvmike)
 
 <div style="display:flex;" >
     <a href="https://f-droid.org/app/cat.mvmike.minimalcalendarwidget">
@@ -37,6 +36,7 @@ MinCal Widget is licensed under the [BSD 3-clause](LICENSE).
 
 | Version        | Date           | Changes                                                                                                                                                             |
 | :------------: |:-------------: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| v0.4.0         | 2018-11-06     | - add config options<br>- technical improvements                                                                                                               |
 | v0.3.3         | 2018-08-31     | - support for android Pie<br>- technical improvements                                                                                                               |
 | v0.3.2         | 2018-01-07     | - bug fixes<br>- technical improvements                                                                                                                             |
 | v0.3.1         | 2017-10-16     | - bug fixes<br>- technical improvements                                                                                                                             |
