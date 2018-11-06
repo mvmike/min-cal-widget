@@ -60,6 +60,8 @@ public abstract class SymbolsUtil {
 
         MINIMAL(1.2f, "· ∶ ∴ ∷ ◇ ◈"),
 
+        VERTICAL(1.2f, "· ∶ ⁝ ⁞ |"),
+
         CIRCLES(1.2f, "◔ ◑ ◕ ● ๑"),
 
         NUMBERS(0.8f, "1 2 3 4 5 6 7 8 9 +"),
