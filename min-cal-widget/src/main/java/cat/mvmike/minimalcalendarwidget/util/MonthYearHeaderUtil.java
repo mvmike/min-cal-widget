@@ -20,7 +20,7 @@ public abstract class MonthYearHeaderUtil {
 
     private static final String HEADER_DATE_FORMAT = MONTH_FORMAT + " " + YEAR_FORMAT;
 
-    private static final float HEADER_RELATIVE_YEAR_SIZE = 0.8f;
+    private static final float HEADER_RELATIVE_YEAR_SIZE = 0.7f;
 
     public static SpannableString setMonthYearHeader(final Calendar cal, final RemoteViews widgetRemoteView) {
 
