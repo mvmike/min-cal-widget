@@ -14,10 +14,13 @@ import android.text.style.StyleSpan;
 import android.widget.RemoteViews;
 
 import java.util.Calendar;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.TimeZone;
 
 import cat.mvmike.minimalcalendarwidget.R;
+import cat.mvmike.minimalcalendarwidget.activity.PermissionsActivity;
+import cat.mvmike.minimalcalendarwidget.resolver.CalendarResolver;
 import cat.mvmike.minimalcalendarwidget.resolver.dto.InstanceDto;
 import cat.mvmike.minimalcalendarwidget.status.CalendarStatus;
 import cat.mvmike.minimalcalendarwidget.status.DayStatus;
@@ -30,11 +33,14 @@ public abstract class DayUtil {
 
     private static final String DOUBLE_PADDING = PADDING + PADDING;
 
-    public static void setDays(final Context context, final Calendar cal, final int firstDayOfWeek, final SpannableString ss,
-                               final RemoteViews rv, final Set<InstanceDto> instanceSet) {
+    public static void setDays(final Context context, final Calendar cal, final SpannableString ss, final RemoteViews remoteViews) {
 
+        int firstDayOfWeek = ConfigurationUtil.getStartWeekDay(context);
         ThemesUtil.Theme theme = ConfigurationUtil.getTheme(context);
         CalendarStatus cs = new CalendarStatus(context, cal, firstDayOfWeek);
+
+        Set<InstanceDto> instanceSet = PermissionsActivity.isPermitted(context) ?
+            CalendarResolver.readAllInstances(context.getContentResolver(), cal) : new HashSet<>();
 
         RemoteViews rowRv;
         for (int week = 0; week < NUM_WEEKS; week++) {
@@ -45,9 +51,7 @@ public abstract class DayUtil {
             for (int day = 0; day < Calendar.DAY_OF_WEEK; day++) {
 
                 ds = new DayStatus(cal, cs.getTodayYear(), cs.getThisMonth(), cs.getToday());
-
-                int cellLayoutResId = getDayLayout(theme, ds);
-                RemoteViews cellRv = new RemoteViews(context.getPackageName(), cellLayoutResId);
+                RemoteViews cellRv = new RemoteViews(context.getPackageName(), getDayLayout(theme, ds));
 
                 int numberOfInstances = getNumberOfInstances(instanceSet, ds);
                 setInstanceNumber(context, cellRv, Integer.toString(ds.getDayOfMonthInt()), ds.isToday(), numberOfInstances);
@@ -58,12 +62,11 @@ public abstract class DayUtil {
                 rowRv.addView(R.id.row_container, cellRv);
             }
 
-            rv.addView(R.id.calendar_widget, rowRv);
+            remoteViews.addView(R.id.calendar_widget, rowRv);
         }
     }
 
-    private static void setInstanceNumber(final Context context, final RemoteViews cellRv, final String dayOfMonth, final boolean isToday,
-                                          final int found) {
+    private static void setInstanceNumber(final Context context, final RemoteViews cellRv, final String dayOfMonth, final boolean isToday, final int found) {
 
         SymbolsUtil.Symbol symbols = ConfigurationUtil.getInstancesSymbols(context);
         Character[] symbolArray = symbols.getArray();
@@ -77,12 +80,9 @@ public abstract class DayUtil {
         int color;
         if (isToday) {
             color = ContextCompat.getColor(context, R.color.instances_today);
+            daySpSt.setSpan(new StyleSpan(Typeface.BOLD), 0, dayOfMonthSpSt.length() - 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         } else {
             color = ContextCompat.getColor(context, ConfigurationUtil.getInstancesSymbolColours(context).getHexValue());
-        }
-
-        if (isToday) {
-            daySpSt.setSpan(new StyleSpan(Typeface.BOLD), 0, dayOfMonthSpSt.length() - 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
 
         daySpSt.setSpan(new ForegroundColorSpan(color), dayOfMonthSpSt.length() - 1, dayOfMonthSpSt.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);

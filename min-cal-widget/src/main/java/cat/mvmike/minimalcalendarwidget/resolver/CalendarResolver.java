@@ -16,23 +16,12 @@ import cat.mvmike.minimalcalendarwidget.resolver.dto.InstanceDto;
 
 public abstract class CalendarResolver {
 
-    public static Calendar[] getSafeDateSpan(final Calendar current) {
+    private static final int CALENDAR_DAYS_SPAN = 45;
 
-        Calendar startDate = Calendar.getInstance();
-        startDate.setTime(current.getTime());
-        startDate.add(Calendar.DATE, -45);
+    public static Set<InstanceDto> readAllInstances(final ContentResolver contextResolver, final Calendar cal) {
 
-        Calendar endDate = Calendar.getInstance();
-        endDate.setTime(current.getTime());
-        endDate.add(Calendar.DATE, +45);
-
-        return new Calendar[]{startDate, endDate};
-    }
-
-    public static Set<InstanceDto> readAllInstances(final ContentResolver contextResolver, final Calendar startTime,
-                                                    final Calendar endTime) {
-
-        Uri instancesUri = getInstancesUri(startTime, endTime);
+        Calendar[] safeDateSpan = CalendarResolver.getSafeDateSpan(cal);
+        Uri instancesUri = getInstancesUri(safeDateSpan[0], safeDateSpan[1]);
         Cursor instanceCursor = contextResolver.query(instancesUri, InstanceDto.FIELDS, null, null, null);
 
         if (instanceCursor == null || instanceCursor.getCount() == 0) {
@@ -46,6 +35,19 @@ public abstract class CalendarResolver {
 
         instanceCursor.close();
         return instances;
+    }
+
+    private static Calendar[] getSafeDateSpan(final Calendar current) {
+
+        Calendar startDate = Calendar.getInstance();
+        startDate.setTime(current.getTime());
+        startDate.add(Calendar.DATE, -CALENDAR_DAYS_SPAN);
+
+        Calendar endDate = Calendar.getInstance();
+        endDate.setTime(current.getTime());
+        endDate.add(Calendar.DATE, +CALENDAR_DAYS_SPAN);
+
+        return new Calendar[]{startDate, endDate};
     }
 
     private static Uri getInstancesUri(final Calendar startTime, final Calendar endTime) {

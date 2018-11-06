@@ -37,6 +37,7 @@
         <exclude name="DataflowAnomalyAnalysis"/>
         <exclude name="EmptyCatchBlock"/>
         <exclude name="EmptyWhileStmt"/>
+        <exclude name="MissingBreakInSwitch"/>
     </rule>
 
     <rule ref="category/java/multithreading.xml"/>
