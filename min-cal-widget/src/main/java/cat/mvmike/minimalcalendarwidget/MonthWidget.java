@@ -14,14 +14,14 @@ import android.widget.RemoteViews;
 import java.util.Calendar;
 
 import cat.mvmike.minimalcalendarwidget.activity.PermissionsActivity;
-import cat.mvmike.minimalcalendarwidget.util.ConfigurationUtil;
-import cat.mvmike.minimalcalendarwidget.util.DayHeaderUtil;
-import cat.mvmike.minimalcalendarwidget.util.DayUtil;
-import cat.mvmike.minimalcalendarwidget.util.IntentUtil;
-import cat.mvmike.minimalcalendarwidget.util.MonthYearHeaderUtil;
-import cat.mvmike.minimalcalendarwidget.util.ReceiverUtil;
+import cat.mvmike.minimalcalendarwidget.service.DayHeaderService;
+import cat.mvmike.minimalcalendarwidget.service.DayService;
+import cat.mvmike.minimalcalendarwidget.service.IntentService;
+import cat.mvmike.minimalcalendarwidget.service.MonthYearHeaderService;
+import cat.mvmike.minimalcalendarwidget.service.ReceiverService;
+import cat.mvmike.minimalcalendarwidget.service.configuration.ConfigurationService;
 
-public class MonthWidget extends AppWidgetProvider {
+public final class MonthWidget extends AppWidgetProvider {
 
     private static void drawWidgets(final Context context, final AppWidgetManager appWidgetManager, final int[] appWidgetIds, final RemoteViews remoteViews) {
 
@@ -35,15 +35,15 @@ public class MonthWidget extends AppWidgetProvider {
         Calendar cal = Calendar.getInstance();
 
         // SET MONTH AND YEAR
-        SpannableString ss = MonthYearHeaderUtil.setMonthYearHeader(cal, widgetRemoteView);
+        SpannableString ss = MonthYearHeaderService.setMonthYearHeader(cal, widgetRemoteView);
 
         // SET DAY HEADERS AND DAYS
         widgetRemoteView.removeAllViews(R.id.calendar_widget);
-        DayHeaderUtil.setDayHeaders(context, widgetRemoteView);
-        DayUtil.setDays(context, cal, ss, widgetRemoteView);
+        DayHeaderService.setDayHeaders(context, widgetRemoteView);
+        DayService.setDays(context, cal, ss, widgetRemoteView);
 
         // LISTENER FOR WIDGET PRESS AND CONFIGURATION
-        IntentUtil.addListeners(context, widgetRemoteView);
+        IntentService.addListeners(context, widgetRemoteView);
 
         appWidgetManager.updateAppWidget(appWidgetId, widgetRemoteView);
     }
@@ -55,7 +55,7 @@ public class MonthWidget extends AppWidgetProvider {
         }
 
         ComponentName name = new ComponentName(context, MonthWidget.class);
-        RemoteViews rv = new RemoteViews(context.getPackageName(), ConfigurationUtil.getTheme(context).getMainLayout());
+        RemoteViews rv = new RemoteViews(context.getPackageName(), ConfigurationService.getTheme(context).getMainLayout());
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
 
         drawWidgets(context, appWidgetManager, appWidgetManager.getAppWidgetIds(name), rv);
@@ -65,7 +65,7 @@ public class MonthWidget extends AppWidgetProvider {
     public void onEnabled(final Context context) {
 
         super.onEnabled(context);
-        ReceiverUtil.registerReceivers(context);
+        ReceiverService.registerReceivers(context);
     }
 
     @Override
@@ -73,7 +73,7 @@ public class MonthWidget extends AppWidgetProvider {
 
         super.onUpdate(context, appWidgetManager, appWidgetIds);
 
-        RemoteViews rv = new RemoteViews(context.getPackageName(), ConfigurationUtil.getTheme(context).getMainLayout());
+        RemoteViews rv = new RemoteViews(context.getPackageName(), ConfigurationService.getTheme(context).getMainLayout());
         drawWidgets(context, appWidgetManager, appWidgetIds, rv);
     }
 
@@ -81,7 +81,7 @@ public class MonthWidget extends AppWidgetProvider {
     public void onReceive(final Context context, final Intent intent) {
 
         super.onReceive(context, intent);
-        IntentUtil.processIntent(context, intent);
+        IntentService.processIntent(context, intent);
         forceRedraw(context);
     }
 
@@ -89,7 +89,7 @@ public class MonthWidget extends AppWidgetProvider {
     public void onDeleted(final Context context, final int[] appWidgetIds) {
 
         super.onDeleted(context, appWidgetIds);
-        ConfigurationUtil.clearConfiguration(context);
-        ReceiverUtil.unregisterReceivers(context);
+        ConfigurationService.clearConfiguration(context);
+        ReceiverService.unregisterReceivers(context);
     }
 }

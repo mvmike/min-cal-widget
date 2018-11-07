@@ -11,13 +11,13 @@ import android.net.Uri;
 import android.provider.CalendarContract;
 import android.widget.Toast;
 
-public abstract class CalendarActivity {
+public final class CalendarActivity {
 
     private static final String NO_CALENDAR_APPLICATION_FOUND = "No calendar application found";
 
     private static final String TIME_APPEND_PATH = "time";
 
-    public static void startCalendarApplication(final Context context) {
+    public static void start(final Context context) {
 
         long startMillis = System.currentTimeMillis();
         Uri.Builder builder = CalendarContract.CONTENT_URI.buildUpon();

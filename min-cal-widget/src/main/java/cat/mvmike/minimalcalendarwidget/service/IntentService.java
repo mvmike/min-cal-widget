@@ -1,7 +1,7 @@
 // Copyright (c) 2018, Miquel Martí <miquelmarti111@gmail.com>
 // See LICENSE for licensing information
 
-package cat.mvmike.minimalcalendarwidget.util;
+package cat.mvmike.minimalcalendarwidget.service;
 
 import android.app.PendingIntent;
 import android.content.Context;
@@ -11,8 +11,9 @@ import android.widget.RemoteViews;
 import cat.mvmike.minimalcalendarwidget.MonthWidget;
 import cat.mvmike.minimalcalendarwidget.R;
 import cat.mvmike.minimalcalendarwidget.activity.CalendarActivity;
+import cat.mvmike.minimalcalendarwidget.activity.ConfigurationActivity;
 
-public abstract class IntentUtil {
+public final class IntentService {
 
     private static final int INTENT_CODE_CONFIGURATION = 98;
 
@@ -39,11 +40,11 @@ public abstract class IntentUtil {
             switch (intent.getAction()) {
 
                 case WIDGET_PRESS:
-                    CalendarActivity.startCalendarApplication(context);
+                    CalendarActivity.start(context);
                     break;
 
                 case CONFIGURATION_PRESS:
-                    ConfigurationUtil.startConfigurationView(context);
+                    ConfigurationActivity.start(context);
                     break;
             }
         }

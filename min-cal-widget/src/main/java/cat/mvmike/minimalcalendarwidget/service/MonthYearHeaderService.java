@@ -1,7 +1,7 @@
 // Copyright (c) 2018, Miquel Martí <miquelmarti111@gmail.com>
 // See LICENSE for licensing information
 
-package cat.mvmike.minimalcalendarwidget.util;
+package cat.mvmike.minimalcalendarwidget.service;
 
 import android.text.SpannableString;
 import android.text.format.DateFormat;
@@ -12,7 +12,7 @@ import java.util.Calendar;
 
 import cat.mvmike.minimalcalendarwidget.R;
 
-public abstract class MonthYearHeaderUtil {
+public final class MonthYearHeaderService {
 
     private static final String MONTH_FORMAT = "MMMM";
 

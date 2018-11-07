@@ -9,27 +9,27 @@ public final class DayStatus {
 
     private final boolean inMonth;
 
-    private final boolean isToday;
+    private final boolean today;
 
-    private final boolean isSaturday;
+    private final boolean saturday;
 
-    private final boolean isSunday;
+    private final boolean sunday;
 
-    private final int dayOfMonthInt;
+    private final int dayOfMonth;
 
-    private final int monthNumberInt;
+    private final int month;
 
-    public DayStatus(final Calendar cal, final int todayYear, final int thisMonth, final int today) {
+    public DayStatus(final Calendar cal, final int todayYear, final int thisMonth, final int thisDay) {
 
         boolean inYear = cal.get(Calendar.YEAR) == todayYear;
         inMonth = cal.get(Calendar.MONTH) == thisMonth;
-        isToday = inYear && inMonth && cal.get(Calendar.DAY_OF_YEAR) == today;
+        today = inYear && inMonth && cal.get(Calendar.DAY_OF_YEAR) == thisDay;
 
-        isSaturday = cal.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY;
-        isSunday = cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY;
+        saturday = cal.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY;
+        sunday = cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY;
 
-        dayOfMonthInt = cal.get(Calendar.DAY_OF_MONTH);
-        monthNumberInt = cal.get(Calendar.MONTH);
+        dayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
+        month = cal.get(Calendar.MONTH);
     }
 
     public boolean isInMonth() {
@@ -37,24 +37,24 @@ public final class DayStatus {
     }
 
     public boolean isToday() {
-        return isToday;
+        return today;
     }
 
     public boolean isSaturday() {
-        return isSaturday;
+        return saturday;
     }
 
     public boolean isSunday() {
-        return isSunday;
+        return sunday;
     }
 
-    public int getDayOfMonthInt() {
-        return dayOfMonthInt;
+    public int getDayOfMonth() {
+        return dayOfMonth;
     }
 
     public boolean isInDay(final Calendar startCalendar, final Calendar endCalendar) {
 
-        return startCalendar.get(Calendar.MONTH) <= monthNumberInt && startCalendar.get(Calendar.DAY_OF_MONTH) <= dayOfMonthInt
-            && endCalendar.get(Calendar.MONTH) >= monthNumberInt && endCalendar.get(Calendar.DAY_OF_MONTH) >= dayOfMonthInt;
+        return startCalendar.get(Calendar.MONTH) <= month && startCalendar.get(Calendar.DAY_OF_MONTH) <= dayOfMonth
+            && endCalendar.get(Calendar.MONTH) >= month && endCalendar.get(Calendar.DAY_OF_MONTH) >= dayOfMonth;
     }
 }

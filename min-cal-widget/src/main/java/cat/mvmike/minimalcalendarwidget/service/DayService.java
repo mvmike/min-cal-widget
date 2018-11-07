@@ -1,7 +1,7 @@
 // Copyright (c) 2016, Miquel Martí <miquelmarti111@gmail.com>
 // See LICENSE for licensing information
 
-package cat.mvmike.minimalcalendarwidget.util;
+package cat.mvmike.minimalcalendarwidget.service;
 
 import android.content.Context;
 import android.graphics.Typeface;
@@ -22,10 +22,13 @@ import cat.mvmike.minimalcalendarwidget.R;
 import cat.mvmike.minimalcalendarwidget.activity.PermissionsActivity;
 import cat.mvmike.minimalcalendarwidget.resolver.CalendarResolver;
 import cat.mvmike.minimalcalendarwidget.resolver.dto.InstanceDto;
+import cat.mvmike.minimalcalendarwidget.service.configuration.ConfigurationService;
+import cat.mvmike.minimalcalendarwidget.service.enums.Symbol;
+import cat.mvmike.minimalcalendarwidget.service.enums.Theme;
 import cat.mvmike.minimalcalendarwidget.status.CalendarStatus;
 import cat.mvmike.minimalcalendarwidget.status.DayStatus;
 
-public abstract class DayUtil {
+public final class DayService {
 
     private static final int NUM_WEEKS = 6;
 
@@ -35,8 +38,8 @@ public abstract class DayUtil {
 
     public static void setDays(final Context context, final Calendar cal, final SpannableString ss, final RemoteViews remoteViews) {
 
-        int firstDayOfWeek = ConfigurationUtil.getStartWeekDay(context);
-        ThemesUtil.Theme theme = ConfigurationUtil.getTheme(context);
+        int firstDayOfWeek = ConfigurationService.getStartWeekDay(context);
+        Theme theme = ConfigurationService.getTheme(context);
         CalendarStatus cs = new CalendarStatus(context, cal, firstDayOfWeek);
 
         Set<InstanceDto> instanceSet = PermissionsActivity.isPermitted(context) ?
@@ -54,7 +57,7 @@ public abstract class DayUtil {
                 RemoteViews cellRv = new RemoteViews(context.getPackageName(), getDayLayout(theme, ds));
 
                 int numberOfInstances = getNumberOfInstances(instanceSet, ds);
-                setInstanceNumber(context, cellRv, Integer.toString(ds.getDayOfMonthInt()), ds.isToday(), numberOfInstances);
+                setInstanceNumber(context, cellRv, Integer.toString(ds.getDayOfMonth()), ds.isToday(), numberOfInstances);
                 checkMonthBeginningStyleChange(cs.getCalendar(), cellRv, ss);
 
                 cs.getCalendar().add(Calendar.DAY_OF_MONTH, 1);
@@ -68,7 +71,7 @@ public abstract class DayUtil {
 
     private static void setInstanceNumber(final Context context, final RemoteViews cellRv, final String dayOfMonth, final boolean isToday, final int found) {
 
-        SymbolsUtil.Symbol symbols = ConfigurationUtil.getInstancesSymbols(context);
+        Symbol symbols = ConfigurationService.getInstancesSymbols(context);
         Character[] symbolArray = symbols.getArray();
 
         int max = symbolArray.length - 1;
@@ -82,7 +85,7 @@ public abstract class DayUtil {
             color = ContextCompat.getColor(context, R.color.instances_today);
             daySpSt.setSpan(new StyleSpan(Typeface.BOLD), 0, dayOfMonthSpSt.length() - 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         } else {
-            color = ContextCompat.getColor(context, ConfigurationUtil.getInstancesSymbolColours(context).getHexValue());
+            color = ContextCompat.getColor(context, ConfigurationService.getInstancesSymbolsColours(context).getHexValue());
         }
 
         daySpSt.setSpan(new ForegroundColorSpan(color), dayOfMonthSpSt.length() - 1, dayOfMonthSpSt.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -92,7 +95,7 @@ public abstract class DayUtil {
         cellRv.setTextViewText(android.R.id.text1, daySpSt);
     }
 
-    private static int getDayLayout(final ThemesUtil.Theme theme, final DayStatus ds) {
+    private static int getDayLayout(final Theme theme, final DayStatus ds) {
 
         int cellLayoutResId = theme.getCellDay();
 

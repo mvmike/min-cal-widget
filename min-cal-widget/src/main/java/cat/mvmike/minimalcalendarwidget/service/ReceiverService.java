@@ -1,7 +1,7 @@
 // Copyright (c) 2016, Miquel Martí <miquelmarti111@gmail.com>
 // See LICENSE for licensing information
 
-package cat.mvmike.minimalcalendarwidget.util;
+package cat.mvmike.minimalcalendarwidget.service;
 
 import android.content.ContentResolver;
 import android.content.Context;
@@ -13,7 +13,7 @@ import android.util.Log;
 import cat.mvmike.minimalcalendarwidget.receiver.DateChangeReceiver;
 import cat.mvmike.minimalcalendarwidget.receiver.InstanceChangeReceiver;
 
-public class ReceiverUtil {
+public final class ReceiverService {
 
     private static final DateChangeReceiver DATE_CHANGE_RECEIVER = new DateChangeReceiver();
 
@@ -51,7 +51,7 @@ public class ReceiverUtil {
         } catch (IllegalArgumentException iae) {
 
             // if coming from old version, receiver might have not been initialized
-            Log.w(ReceiverUtil.class.getName(), iae.getMessage());
+            Log.w(ReceiverService.class.getName(), iae.getMessage());
         }
 
     }

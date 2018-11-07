@@ -14,7 +14,7 @@ import java.util.Set;
 
 import cat.mvmike.minimalcalendarwidget.resolver.dto.InstanceDto;
 
-public abstract class CalendarResolver {
+public final class CalendarResolver {
 
     private static final int CALENDAR_DAYS_SPAN = 45;
 
