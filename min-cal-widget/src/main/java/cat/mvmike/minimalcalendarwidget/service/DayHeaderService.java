@@ -7,7 +7,7 @@ import android.content.Context;
 import android.widget.RemoteViews;
 
 import java.text.DateFormatSymbols;
-import java.util.Calendar;
+import java.time.temporal.ChronoField;
 
 import cat.mvmike.minimalcalendarwidget.R;
 import cat.mvmike.minimalcalendarwidget.service.configuration.ConfigurationService;
@@ -25,19 +25,20 @@ public final class DayHeaderService {
 
         Theme theme = ConfigurationService.getTheme(context);
 
-        for (int i = 0; i < Calendar.DAY_OF_WEEK; i++) {
+        for (int i = 0; i < ChronoField.DAY_OF_WEEK.range().getMaximum(); i++) {
 
             RemoteViews rv;
-            int current = (firstDayOfWeek + i) % Calendar.DAY_OF_WEEK == 0 ? firstDayOfWeek + i : (firstDayOfWeek + i) % Calendar.DAY_OF_WEEK;
+            int current = (firstDayOfWeek + i) % ChronoField.DAY_OF_WEEK.range().getMaximum() == 0 ?
+                firstDayOfWeek + i : (int) ((firstDayOfWeek + i) % ChronoField.DAY_OF_WEEK.range().getMaximum());
 
             int cellHeaderThemeId;
             switch (current) {
 
-                case Calendar.SATURDAY:
+                case 7:
                     cellHeaderThemeId = theme.getCellHeaderSaturday();
                     break;
 
-                case Calendar.SUNDAY:
+                case 1:
                     cellHeaderThemeId = theme.getCellHeaderSunday();
                     break;
 

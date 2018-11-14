@@ -3,8 +3,7 @@
 
 package cat.mvmike.minimalcalendarwidget.service.enums;
 
-import java.util.Locale;
-
+// https://unicode-table.com
 public enum Symbol {
 
     MINIMAL(1.2f, "· ∶ ∴ ∷ ◇ ◈"),
@@ -23,52 +22,25 @@ public enum Symbol {
     private static final String ALL_SPACES = "\\s+";
     private static final String EMPTY = "";
     private final float relativeSize;
-    private final String values;
+    private final char[] symbolArray;
 
-    // https://unicode-table.com
     Symbol(final float relativeSize, final String values) {
 
         this.relativeSize = relativeSize;
-        this.values = values;
-    }
-
-    public static String[] getAllSymbolNames() {
-
-        String[] result = new String[Symbol.values().length];
-
-        for (int i = 0; i < Symbol.values().length; i++) {
-            String name = Symbol.values()[i].name();
-            result[i] = name.substring(0, 1) + name.substring(1).toLowerCase(Locale.ENGLISH);
-        }
-
-        return result;
-    }
-
-    private static Character[] toCharacterArray(final String symbols) {
-
-        if (symbols == null) {
-            return null;
-        }
-
-        int len = symbols.length();
-        Character[] array = new Character[len];
-
-        for (int i = 0; i < len; i++) {
-            array[i] = symbols.charAt(i);
-        }
-
-        return array;
+        this.symbolArray = values.replaceAll(ALL_SPACES, EMPTY).toCharArray();
     }
 
     public float getRelativeSize() {
         return relativeSize;
     }
 
-    String getValues() {
-        return values;
-    }
+    public String getSymbol(final int numOfInstances) {
 
-    public Character[] getArray() {
-        return toCharacterArray(INSTANCES_SYMBOLS_EMPTY + getValues().replaceAll(ALL_SPACES, EMPTY));
+        if (numOfInstances == 0) {
+            return INSTANCES_SYMBOLS_EMPTY;
+        }
+
+        int max = symbolArray.length - 1;
+        return String.valueOf(numOfInstances > max ? symbolArray[max] : symbolArray[numOfInstances - 1]);
     }
 }

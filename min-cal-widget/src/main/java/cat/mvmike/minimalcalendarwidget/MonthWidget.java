@@ -11,8 +11,6 @@ import android.content.Intent;
 import android.text.SpannableString;
 import android.widget.RemoteViews;
 
-import java.util.Calendar;
-
 import cat.mvmike.minimalcalendarwidget.activity.PermissionsActivity;
 import cat.mvmike.minimalcalendarwidget.service.DayHeaderService;
 import cat.mvmike.minimalcalendarwidget.service.DayService;
@@ -32,15 +30,13 @@ public final class MonthWidget extends AppWidgetProvider {
 
     private static void drawWidget(final Context context, final AppWidgetManager appWidgetManager, final int appWidgetId, final RemoteViews widgetRemoteView) {
 
-        Calendar cal = Calendar.getInstance();
-
         // SET MONTH AND YEAR
-        SpannableString ss = MonthYearHeaderService.setMonthYearHeader(cal, widgetRemoteView);
+        SpannableString ss = MonthYearHeaderService.setMonthYearHeader(widgetRemoteView);
 
         // SET DAY HEADERS AND DAYS
         widgetRemoteView.removeAllViews(R.id.calendar_widget);
         DayHeaderService.setDayHeaders(context, widgetRemoteView);
-        DayService.setDays(context, cal, ss, widgetRemoteView);
+        DayService.setDays(context, ss, widgetRemoteView);
 
         // LISTENER FOR WIDGET PRESS AND CONFIGURATION
         IntentService.addListeners(context, widgetRemoteView);

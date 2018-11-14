@@ -7,24 +7,27 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import java.util.Calendar;
+import java.time.Instant;
 
 import cat.mvmike.minimalcalendarwidget.MonthWidget;
 
+import static java.time.temporal.ChronoField.DAY_OF_YEAR;
+import static java.time.temporal.ChronoField.YEAR;
+
 public class DateChangeReceiver extends BroadcastReceiver {
 
-    private final Calendar lastChecked = Calendar.getInstance();
+    private Instant lastChecked = Instant.now();
 
     @Override
     public void onReceive(final Context context, final Intent intent) {
 
-        Calendar now = Calendar.getInstance();
+        Instant now = Instant.now();
 
-        if (now.get(Calendar.YEAR) != lastChecked.get(Calendar.YEAR)
-            || now.get(Calendar.DAY_OF_YEAR) != lastChecked.get(Calendar.DAY_OF_YEAR)) {
+        if (now.get(YEAR) != lastChecked.get(YEAR)
+            || now.get(DAY_OF_YEAR) != lastChecked.get(DAY_OF_YEAR)) {
             MonthWidget.forceRedraw(context);
         }
 
-        lastChecked.setTime(now.getTime());
+        lastChecked = now;
     }
 }

@@ -4,11 +4,12 @@
 package cat.mvmike.minimalcalendarwidget.resolver;
 
 import android.content.ContentResolver;
-import android.content.ContentUris;
 import android.database.Cursor;
-import android.net.Uri;
+import android.provider.CalendarContract;
 
-import java.util.Calendar;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -18,11 +19,10 @@ public final class CalendarResolver {
 
     private static final int CALENDAR_DAYS_SPAN = 45;
 
-    public static Set<InstanceDto> readAllInstances(final ContentResolver contextResolver, final Calendar cal) {
+    public static Set<InstanceDto> readAllInstances(final ContentResolver contextResolver) {
 
-        Calendar[] safeDateSpan = CalendarResolver.getSafeDateSpan(cal);
-        Uri instancesUri = getInstancesUri(safeDateSpan[0], safeDateSpan[1]);
-        Cursor instanceCursor = contextResolver.query(instancesUri, InstanceDto.FIELDS, null, null, null);
+        Long[] safeDateSpan = CalendarResolver.getSafeDateSpan();
+        Cursor instanceCursor = CalendarContract.Instances.query(contextResolver, InstanceDto.FIELDS, safeDateSpan[0], safeDateSpan[1]);
 
         if (instanceCursor == null || instanceCursor.getCount() == 0) {
             return null;
@@ -37,26 +37,16 @@ public final class CalendarResolver {
         return instances;
     }
 
-    private static Calendar[] getSafeDateSpan(final Calendar current) {
+    private static Long[] getSafeDateSpan() {
 
-        Calendar startDate = Calendar.getInstance();
-        startDate.setTime(current.getTime());
-        startDate.add(Calendar.DATE, -CALENDAR_DAYS_SPAN);
-
-        Calendar endDate = Calendar.getInstance();
-        endDate.setTime(current.getTime());
-        endDate.add(Calendar.DATE, +CALENDAR_DAYS_SPAN);
-
-        return new Calendar[]{startDate, endDate};
+        LocalDate current = LocalDate.now();
+        return new Long[]{
+            toStartOfDayInEpochMilli(current.minus(CALENDAR_DAYS_SPAN, ChronoUnit.DAYS)),
+            toStartOfDayInEpochMilli(current.plus(CALENDAR_DAYS_SPAN, ChronoUnit.DAYS))
+        };
     }
 
-    private static Uri getInstancesUri(final Calendar startTime, final Calendar endTime) {
-
-        Uri.Builder instancesUriBuilder = InstanceDto.INSTANCES_URI.buildUpon();
-
-        ContentUris.appendId(instancesUriBuilder, startTime.getTimeInMillis());
-        ContentUris.appendId(instancesUriBuilder, endTime.getTimeInMillis());
-
-        return instancesUriBuilder.build();
+    private static long toStartOfDayInEpochMilli(final LocalDate localDate) {
+        return (localDate.atStartOfDay(ZoneId.systemDefault())).toInstant().toEpochMilli();
     }
 }

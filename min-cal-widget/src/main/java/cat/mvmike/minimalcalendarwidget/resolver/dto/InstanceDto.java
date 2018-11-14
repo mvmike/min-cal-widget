@@ -4,49 +4,32 @@
 package cat.mvmike.minimalcalendarwidget.resolver.dto;
 
 import android.database.Cursor;
-import android.net.Uri;
 import android.provider.CalendarContract;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.TimeZone;
+import java.time.Instant;
 
 public final class InstanceDto {
-
-    public static final Uri INSTANCES_URI = CalendarContract.Instances.CONTENT_URI;
 
     public static final String[] FIELDS = {
         CalendarContract.Instances.BEGIN,
         CalendarContract.Instances.END
     };
 
-    private final Date dateStart;
+    private final Instant start;
 
-    private final Date dateEnd;
+    private final Instant end;
 
     public InstanceDto(final Cursor instanceCursor) {
-        this.dateStart = getDate(instanceCursor.getLong(0));
-        this.dateEnd = getDate(instanceCursor.getLong(1));
+        this.start = Instant.ofEpochMilli(instanceCursor.getLong(0));
+        this.end = Instant.ofEpochMilli(instanceCursor.getLong(1));
     }
 
-    private static Date getDate(final long milliSeconds) {
-
-        TimeZone tz = TimeZone.getDefault();
-        Calendar cal = GregorianCalendar.getInstance(tz);
-        int offsetInMillis = tz.getOffset(cal.getTimeInMillis());
-
-        Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
-        calendar.setTimeInMillis(milliSeconds - offsetInMillis);
-        return calendar.getTime();
+    public Instant getStart() {
+        return start;
     }
 
-    public Date getDateStart() {
-        return dateStart;
-    }
-
-    public Date getDateEnd() {
-        return dateEnd;
+    public Instant getEnd() {
+        return end;
     }
 
 }

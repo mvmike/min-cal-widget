@@ -3,6 +3,7 @@
 
 package cat.mvmike.minimalcalendarwidget.service.enums;
 
+import java.util.Arrays;
 import java.util.Locale;
 
 public enum ConfigurableItem {
@@ -14,6 +15,19 @@ public enum ConfigurableItem {
     INSTANCES_SYMBOLS,
 
     INSTANCES_SYMBOLS_COLOUR;
+
+    public static <T extends Enum<T>> String[] getDisplayValues(final Class<T> enumType) {
+
+        return Arrays.stream(enumType.getEnumConstants())
+            .map(c -> getDisplayValue(c.name()))
+            .toArray(String[]::new);
+    }
+
+    public static String getDisplayValue(final String name) {
+
+        return name.substring(0, 1).toUpperCase(Locale.ENGLISH)
+            + name.substring(1).toLowerCase(Locale.ENGLISH);
+    }
 
     public String key() {
         return this.name().toLowerCase(Locale.ENGLISH);

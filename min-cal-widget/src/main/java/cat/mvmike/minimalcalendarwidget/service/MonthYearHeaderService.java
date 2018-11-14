@@ -4,11 +4,13 @@
 package cat.mvmike.minimalcalendarwidget.service;
 
 import android.text.SpannableString;
-import android.text.format.DateFormat;
 import android.text.style.RelativeSizeSpan;
 import android.widget.RemoteViews;
 
-import java.util.Calendar;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 import cat.mvmike.minimalcalendarwidget.R;
 
@@ -22,9 +24,14 @@ public final class MonthYearHeaderService {
 
     private static final float HEADER_RELATIVE_YEAR_SIZE = 0.7f;
 
-    public static SpannableString setMonthYearHeader(final Calendar cal, final RemoteViews widgetRemoteView) {
+    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter
+        .ofPattern(HEADER_DATE_FORMAT)
+        .withLocale(Locale.ENGLISH)
+        .withZone(ZoneId.systemDefault());
 
-        String monthAndYear = String.valueOf(DateFormat.format(HEADER_DATE_FORMAT, cal));
+    public static SpannableString setMonthYearHeader(final RemoteViews widgetRemoteView) {
+
+        String monthAndYear = DATE_TIME_FORMATTER.format(Instant.now());
         SpannableString ss = new SpannableString(monthAndYear);
         ss.setSpan(new RelativeSizeSpan(HEADER_RELATIVE_YEAR_SIZE), monthAndYear.length() - YEAR_FORMAT.length(), monthAndYear.length(), 0);
 

@@ -23,10 +23,10 @@
 #### Features
 
 * 3x2 (resizable)
-* Displays all events from your calendars as dots or symbol (high number becomes generic)
+* Displays all events from your calendars with a symbol set (high number becomes generic)
 * Pressing on header opens widget configuration
 * Pressing on widget day cells opens calendar application
-* minSDK: 19 (android 4.4)
+* minSDK: 26 (android 8.0)
 
 #### Licensing
 
@@ -36,7 +36,7 @@ MinCal Widget is licensed under the [BSD 3-clause](LICENSE).
 
 | Version        | Date           | Changes                                                                                                                                                             |
 | :------------: |:-------------: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| v0.4.0         | 2018-11-06     | - add config options<br>- technical improvements                                                                                                               |
+| v0.4.0         | 2018-11-06     | - add config options<br>- technical improvements                                                                                                                    |
 | v0.3.3         | 2018-08-31     | - support for android Pie<br>- technical improvements                                                                                                               |
 | v0.3.2         | 2018-01-07     | - bug fixes<br>- technical improvements                                                                                                                             |
 | v0.3.1         | 2017-10-16     | - bug fixes<br>- technical improvements                                                                                                                             |

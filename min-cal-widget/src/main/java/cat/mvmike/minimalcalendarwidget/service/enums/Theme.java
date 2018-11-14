@@ -3,8 +3,6 @@
 
 package cat.mvmike.minimalcalendarwidget.service.enums;
 
-import java.util.Locale;
-
 import cat.mvmike.minimalcalendarwidget.R;
 
 public enum Theme {
@@ -88,18 +86,6 @@ public enum Theme {
         this.cellDayToday = cellDayToday;
         this.cellDaySaturdayToday = cellDaySaturdayToday;
         this.cellDaySundayToday = cellDaySundayToday;
-    }
-
-    public static String[] getAllThemeNames() {
-
-        String[] result = new String[Theme.values().length];
-
-        for (int i = 0; i < Theme.values().length; i++) {
-            String name = Theme.values()[i].name();
-            result[i] = name.substring(0, 1) + name.substring(1).toLowerCase(Locale.ENGLISH);
-        }
-
-        return result;
     }
 
     public int getMainLayout() {

@@ -13,10 +13,11 @@ import android.text.style.RelativeSizeSpan;
 import android.text.style.StyleSpan;
 import android.widget.RemoteViews;
 
-import java.util.Calendar;
+import java.time.LocalDate;
+import java.time.temporal.ChronoField;
+import java.time.temporal.ChronoUnit;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.TimeZone;
 
 import cat.mvmike.minimalcalendarwidget.R;
 import cat.mvmike.minimalcalendarwidget.activity.PermissionsActivity;
@@ -36,14 +37,14 @@ public final class DayService {
 
     private static final String DOUBLE_PADDING = PADDING + PADDING;
 
-    public static void setDays(final Context context, final Calendar cal, final SpannableString ss, final RemoteViews remoteViews) {
+    public static void setDays(final Context context, final SpannableString ss, final RemoteViews remoteViews) {
 
         int firstDayOfWeek = ConfigurationService.getStartWeekDay(context);
         Theme theme = ConfigurationService.getTheme(context);
-        CalendarStatus cs = new CalendarStatus(context, cal, firstDayOfWeek);
+        CalendarStatus cs = new CalendarStatus(firstDayOfWeek);
 
         Set<InstanceDto> instanceSet = PermissionsActivity.isPermitted(context) ?
-            CalendarResolver.readAllInstances(context.getContentResolver(), cal) : new HashSet<>();
+            CalendarResolver.readAllInstances(context.getContentResolver()) : new HashSet<>();
 
         RemoteViews rowRv;
         for (int week = 0; week < NUM_WEEKS; week++) {
@@ -51,16 +52,16 @@ public final class DayService {
             rowRv = new RemoteViews(context.getPackageName(), R.layout.row_week);
 
             DayStatus ds;
-            for (int day = 0; day < Calendar.DAY_OF_WEEK; day++) {
+            for (int day = 0; day < ChronoField.DAY_OF_WEEK.range().getMaximum(); day++) {
 
-                ds = new DayStatus(cal, cs.getTodayYear(), cs.getThisMonth(), cs.getToday());
+                ds = new DayStatus(cs.getLocalDate(), cs.getYear(), cs.getMonthOfYear(), cs.getDayOfYear());
                 RemoteViews cellRv = new RemoteViews(context.getPackageName(), getDayLayout(theme, ds));
 
                 int numberOfInstances = getNumberOfInstances(instanceSet, ds);
                 setInstanceNumber(context, cellRv, Integer.toString(ds.getDayOfMonth()), ds.isToday(), numberOfInstances);
-                checkMonthBeginningStyleChange(cs.getCalendar(), cellRv, ss);
+                checkMonthBeginningStyleChange(cs.getLocalDate(), cellRv, ss);
 
-                cs.getCalendar().add(Calendar.DAY_OF_MONTH, 1);
+                cs.alterLocalDate(1, ChronoUnit.DAYS);
 
                 rowRv.addView(R.id.row_container, cellRv);
             }
@@ -72,11 +73,7 @@ public final class DayService {
     private static void setInstanceNumber(final Context context, final RemoteViews cellRv, final String dayOfMonth, final boolean isToday, final int found) {
 
         Symbol symbols = ConfigurationService.getInstancesSymbols(context);
-        Character[] symbolArray = symbols.getArray();
-
-        int max = symbolArray.length - 1;
-        String symbol = String.valueOf(found > max ? symbolArray[max] : symbolArray[found]);
-        String dayOfMonthSpSt = PADDING + (dayOfMonth.length() == 1 ? dayOfMonth + DOUBLE_PADDING : dayOfMonth) + PADDING + symbol;
+        String dayOfMonthSpSt = PADDING + (dayOfMonth.length() == 1 ? dayOfMonth + DOUBLE_PADDING : dayOfMonth) + PADDING + symbols.getSymbol(found);
         SpannableString daySpSt = new SpannableString(dayOfMonthSpSt);
         daySpSt.setSpan(new StyleSpan(Typeface.BOLD), dayOfMonthSpSt.length() - 1, dayOfMonthSpSt.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
@@ -123,9 +120,9 @@ public final class DayService {
         return cellLayoutResId;
     }
 
-    private static void checkMonthBeginningStyleChange(final Calendar cal, final RemoteViews cellRv, final SpannableString ss) {
+    private static void checkMonthBeginningStyleChange(final LocalDate localDate, final RemoteViews cellRv, final SpannableString ss) {
 
-        if (CalendarStatus.isMonthFirstDay(cal)) {
+        if (CalendarStatus.isMonthFirstDay(localDate)) {
             cellRv.setTextViewText(R.id.month_year_label, ss);
         }
     }
@@ -138,17 +135,8 @@ public final class DayService {
         }
 
         for (InstanceDto instance : instanceSet) {
-
-            Calendar startCalendar = Calendar.getInstance(TimeZone.getDefault());
-            startCalendar.setTime(instance.getDateStart());
-
-            Calendar endCalendar = Calendar.getInstance(TimeZone.getDefault());
-            endCalendar.setTime(instance.getDateEnd());
-
             // take out 5 milliseconds to avoid erratic behaviour with full day events (or those that end at 00:00)
-            endCalendar.add(Calendar.MILLISECOND, -5);
-
-            if (ds.isInDay(startCalendar, endCalendar)) {
+            if (ds.isInDay(instance.getStart(), instance.getEnd().minusMillis(5))) {
                 found++;
             }
         }

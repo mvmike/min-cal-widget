@@ -6,13 +6,14 @@ package cat.mvmike.minimalcalendarwidget.service.configuration;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import java.util.Calendar;
+import java.time.DayOfWeek;
 
 import cat.mvmike.minimalcalendarwidget.service.enums.Colour;
 import cat.mvmike.minimalcalendarwidget.service.enums.ConfigurableItem;
 import cat.mvmike.minimalcalendarwidget.service.enums.Symbol;
 import cat.mvmike.minimalcalendarwidget.service.enums.Theme;
 
+import static android.content.Context.MODE_PRIVATE;
 import static cat.mvmike.minimalcalendarwidget.service.enums.ConfigurableItem.INSTANCES_SYMBOLS;
 import static cat.mvmike.minimalcalendarwidget.service.enums.ConfigurableItem.INSTANCES_SYMBOLS_COLOUR;
 import static cat.mvmike.minimalcalendarwidget.service.enums.ConfigurableItem.START_WEEK_DAY;
@@ -31,7 +32,7 @@ public final class ConfigurationService {
     }
 
     public static int getStartWeekDay(final Context context) {
-        return getConfiguration(context).getInt(START_WEEK_DAY.key(), Calendar.MONDAY);
+        return getConfiguration(context).getInt(START_WEEK_DAY.key(), DayOfWeek.MONDAY.getValue());
     }
 
     public static Symbol getInstancesSymbols(final Context context) {
@@ -63,7 +64,7 @@ public final class ConfigurationService {
     }
 
     private static SharedPreferences getConfiguration(final Context context) {
-        return context.getSharedPreferences(PREFERENCES_ID, 0);
+        return context.getSharedPreferences(PREFERENCES_ID, MODE_PRIVATE);
     }
 
 }

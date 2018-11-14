@@ -26,6 +26,8 @@ import cat.mvmike.minimalcalendarwidget.service.enums.ConfigurableItem;
 import cat.mvmike.minimalcalendarwidget.service.enums.Symbol;
 import cat.mvmike.minimalcalendarwidget.service.enums.Theme;
 
+import static cat.mvmike.minimalcalendarwidget.service.enums.ConfigurableItem.getDisplayValues;
+
 public final class ConfigurationActivity extends AppCompatActivity {
 
     private static final int BLANK_POSITION_DIFFERENCE = -1;
@@ -68,30 +70,31 @@ public final class ConfigurationActivity extends AppCompatActivity {
     private void setAvailableValues() {
 
         // THEMES
-        ArrayAdapter<String> adapterThemes = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, Theme.getAllThemeNames());
+        ArrayAdapter<String> adapterThemes = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, getDisplayValues(Theme.class));
 
         adapterThemes.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         ((Spinner) findViewById(R.id.themeSpinner)).setAdapter(adapterThemes);
 
         // WEEK DAYS
-        String[] localeWeekDays = DateFormatSymbols.getInstance(Locale.getDefault()).getWeekdays();
-        String[] weekDays = Arrays.copyOfRange(localeWeekDays, 1, localeWeekDays.length);
-
-        ArrayAdapter<String> adapterWeekDays = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, weekDays);
+        ArrayAdapter<String> adapterWeekDays = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,
+            Arrays.stream(DateFormatSymbols.getInstance(Locale.getDefault()).getWeekdays())
+                .skip(1) // remove blank initial value
+                .map(ConfigurableItem::getDisplayValue)
+                .toArray(String[]::new));
 
         adapterWeekDays.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         ((Spinner) findViewById(R.id.startWeekDaySpinner)).setAdapter(adapterWeekDays);
 
         // SYMBOLS
         ArrayAdapter<String> adapterSymbols =
-            new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, Symbol.getAllSymbolNames());
+            new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, getDisplayValues(Symbol.class));
 
         adapterSymbols.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         ((Spinner) findViewById(R.id.symbolsSpinner)).setAdapter(adapterSymbols);
 
         // SYMBOLS COLOUR
         ArrayAdapter<String> adapterSymbolsColour =
-            new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, Colour.getAllColorNames());
+            new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, getDisplayValues(Colour.class));
 
         adapterSymbolsColour.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         ((Spinner) findViewById(R.id.symbolsColourSpinner)).setAdapter(adapterSymbolsColour);

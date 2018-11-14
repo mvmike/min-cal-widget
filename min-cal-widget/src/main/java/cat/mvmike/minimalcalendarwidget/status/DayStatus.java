@@ -3,7 +3,17 @@
 
 package cat.mvmike.minimalcalendarwidget.status;
 
-import java.util.Calendar;
+import java.time.DayOfWeek;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+
+import static java.time.temporal.ChronoField.DAY_OF_MONTH;
+import static java.time.temporal.ChronoField.DAY_OF_WEEK;
+import static java.time.temporal.ChronoField.DAY_OF_YEAR;
+import static java.time.temporal.ChronoField.MONTH_OF_YEAR;
+import static java.time.temporal.ChronoField.YEAR;
 
 public final class DayStatus {
 
@@ -19,17 +29,17 @@ public final class DayStatus {
 
     private final int month;
 
-    public DayStatus(final Calendar cal, final int todayYear, final int thisMonth, final int thisDay) {
+    public DayStatus(final LocalDate localDate, final int todayYear, final int thisMonth, final int dayInYear) {
 
-        boolean inYear = cal.get(Calendar.YEAR) == todayYear;
-        inMonth = cal.get(Calendar.MONTH) == thisMonth;
-        today = inYear && inMonth && cal.get(Calendar.DAY_OF_YEAR) == thisDay;
+        boolean inYear = localDate.get(YEAR) == todayYear;
+        inMonth = localDate.get(MONTH_OF_YEAR) == thisMonth;
+        today = inYear && inMonth && localDate.get(DAY_OF_YEAR) == dayInYear;
 
-        saturday = cal.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY;
-        sunday = cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY;
+        saturday = localDate.get(DAY_OF_WEEK) == DayOfWeek.SATURDAY.getValue();
+        sunday = localDate.get(DAY_OF_WEEK) == DayOfWeek.SUNDAY.getValue();
 
-        dayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
-        month = cal.get(Calendar.MONTH);
+        dayOfMonth = localDate.get(DAY_OF_MONTH);
+        month = localDate.get(MONTH_OF_YEAR);
     }
 
     public boolean isInMonth() {
@@ -52,9 +62,13 @@ public final class DayStatus {
         return dayOfMonth;
     }
 
-    public boolean isInDay(final Calendar startCalendar, final Calendar endCalendar) {
+    public boolean isInDay(final Instant startInstant, final Instant endInstant) {
 
-        return startCalendar.get(Calendar.MONTH) <= month && startCalendar.get(Calendar.DAY_OF_MONTH) <= dayOfMonth
-            && endCalendar.get(Calendar.MONTH) >= month && endCalendar.get(Calendar.DAY_OF_MONTH) >= dayOfMonth;
+        return toLocalDate(startInstant).get(MONTH_OF_YEAR) <= month && toLocalDate(startInstant).get(DAY_OF_MONTH) <= dayOfMonth
+            && toLocalDate(endInstant).get(MONTH_OF_YEAR) >= month && toLocalDate(endInstant).get(DAY_OF_MONTH) >= dayOfMonth;
+    }
+
+    private static LocalDateTime toLocalDate(final Instant instant) {
+        return LocalDateTime.ofInstant(instant, ZoneOffset.UTC);
     }
 }
