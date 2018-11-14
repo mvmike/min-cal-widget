@@ -69,6 +69,13 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+            def buildType = variant.variantData.variantConfiguration.buildType.name
+            outputFileName = new File("min-cal-widget-" + buildType + ".apk")
+        }
+    }
 }
 
 // https://developer.android.com/topic/libraries/support-library/packages.html
