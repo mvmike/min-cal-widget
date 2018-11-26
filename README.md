@@ -36,7 +36,8 @@ MinCal Widget is licensed under the [BSD 3-clause](LICENSE).
 
 | Version        | Date           | Changes                                                                                                                                                             |
 | :------------: |:-------------: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **v1.0.0**     | 2018-11-14     | - minSDK upgraded to 26 (android 8.0)<br>- technical improvements                                                                         |
+| v1.0.1         | 2018-11-26     | - fix event instance calculation zoneId                                                                                                                             |
+| v1.0.0         | 2018-11-14     | - minSDK upgraded to 26 (android 8.0)<br>- technical improvements                                                                                                   |
 | v0.4.0         | 2018-11-06     | - add config options<br>- technical improvements                                                                                                                    |
 | v0.3.3         | 2018-08-31     | - support for android Pie<br>- technical improvements                                                                                                               |
 | v0.3.2         | 2018-01-07     | - bug fixes<br>- technical improvements                                                                                                                             |
