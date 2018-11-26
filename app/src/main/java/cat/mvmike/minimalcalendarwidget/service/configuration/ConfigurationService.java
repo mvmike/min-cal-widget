@@ -6,8 +6,6 @@ package cat.mvmike.minimalcalendarwidget.service.configuration;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import java.time.DayOfWeek;
-
 import cat.mvmike.minimalcalendarwidget.service.enums.Colour;
 import cat.mvmike.minimalcalendarwidget.service.enums.ConfigurableItem;
 import cat.mvmike.minimalcalendarwidget.service.enums.Symbol;
@@ -32,7 +30,7 @@ public final class ConfigurationService {
     }
 
     public static int getStartWeekDay(final Context context) {
-        return getConfiguration(context).getInt(START_WEEK_DAY.key(), DayOfWeek.MONDAY.getValue());
+        return getConfiguration(context).getInt(START_WEEK_DAY.key(), 2);
     }
 
     public static Symbol getInstancesSymbols(final Context context) {
