@@ -135,8 +135,7 @@ public final class DayService {
         }
 
         for (InstanceDto instance : instanceSet) {
-            // take out 5 milliseconds to avoid erratic behaviour with full day events (or those that end at 00:00)
-            if (ds.isInDay(instance.getStart(), instance.getEnd().minusMillis(5))) {
+            if (ds.isInDay(instance.getStart(), instance.getEnd(), instance.isAllDay())) {
                 found++;
             }
         }

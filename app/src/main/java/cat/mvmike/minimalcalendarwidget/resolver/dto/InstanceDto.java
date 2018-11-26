@@ -12,16 +12,23 @@ public final class InstanceDto {
 
     public static final String[] FIELDS = {
         CalendarContract.Instances.BEGIN,
-        CalendarContract.Instances.END
+        CalendarContract.Instances.END,
+        CalendarContract.Instances.START_DAY,
+        CalendarContract.Instances.END_DAY
     };
+
+    private static final int MILLIS_IN_A_DAY = 86400000;
 
     private final Instant start;
 
     private final Instant end;
 
+    private final boolean allDay;
+
     public InstanceDto(final Cursor instanceCursor) {
-        this.start = Instant.ofEpochMilli(instanceCursor.getLong(0));
-        this.end = Instant.ofEpochMilli(instanceCursor.getLong(1));
+        start = Instant.ofEpochMilli(instanceCursor.getLong(0));
+        end = Instant.ofEpochMilli(instanceCursor.getLong(1));
+        allDay = computeAllDay(start, end, instanceCursor.getInt(2), instanceCursor.getInt(3));
     }
 
     public Instant getStart() {
@@ -32,4 +39,12 @@ public final class InstanceDto {
         return end;
     }
 
+    public boolean isAllDay() {
+        return allDay;
+    }
+
+    private static boolean computeAllDay(final Instant start, final Instant end, final int julianStartDay, final int julianEndDate) {
+        return ((end.toEpochMilli() - start.toEpochMilli()) % MILLIS_IN_A_DAY == 0)
+            && ((end.toEpochMilli() - start.toEpochMilli()) / MILLIS_IN_A_DAY == (julianEndDate - julianStartDay) + 1);
+    }
 }
