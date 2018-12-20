@@ -15,10 +15,10 @@ android {
     defaultConfig {
 
         applicationId "cat.mvmike.minimalcalendarwidget"
-        minSdkVersion 26
-        targetSdkVersion 28
-        versionCode 13
-        versionName "1.0.1"
+        minSdkVersion 26    // 8.0
+        targetSdkVersion 28 // 9.0
+        versionCode 14
+        versionName "1.1.0"
 
         multiDexEnabled true
     }
