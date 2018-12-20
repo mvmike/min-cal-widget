@@ -5,21 +5,15 @@ package cat.mvmike.minimalcalendarwidget.activity;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.Context;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 
 import cat.mvmike.minimalcalendarwidget.MonthWidget;
 
 public final class PermissionsActivity extends Activity {
 
     private static final int READ_CALENDAR_PERM = 225;
-
-    public static boolean isPermitted(final Context context) {
-        return ContextCompat.checkSelfPermission(context, Manifest.permission.READ_CALENDAR) == PackageManager.PERMISSION_GRANTED;
-    }
 
     @Override
     protected void onStart() {

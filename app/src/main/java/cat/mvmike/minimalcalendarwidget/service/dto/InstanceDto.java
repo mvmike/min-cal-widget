@@ -1,12 +1,12 @@
 // Copyright (c) 2016, Miquel Martí <miquelmarti111@gmail.com>
 // See LICENSE for licensing information
 
-package cat.mvmike.minimalcalendarwidget.resolver.dto;
+package cat.mvmike.minimalcalendarwidget.service.dto;
 
-import android.database.Cursor;
 import android.provider.CalendarContract;
 
 import java.time.Instant;
+
 
 public final class InstanceDto {
 
@@ -25,10 +25,10 @@ public final class InstanceDto {
 
     private final boolean allDay;
 
-    public InstanceDto(final Cursor instanceCursor) {
-        start = Instant.ofEpochMilli(instanceCursor.getLong(0));
-        end = Instant.ofEpochMilli(instanceCursor.getLong(1));
-        allDay = computeAllDay(start, end, instanceCursor.getInt(2), instanceCursor.getInt(3));
+    public InstanceDto(final long epochMilliStart, final long epochMilliEnd, final int julianStartDay, final int julianEndDate) {
+        this.start = Instant.ofEpochMilli(epochMilliStart);
+        this.end = Instant.ofEpochMilli(epochMilliEnd);
+        this.allDay = computeAllDay(start, end, julianStartDay, julianEndDate);
     }
 
     public Instant getStart() {

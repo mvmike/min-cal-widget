@@ -10,18 +10,19 @@ import android.content.Intent;
 import java.time.LocalDateTime;
 
 import cat.mvmike.minimalcalendarwidget.MonthWidget;
+import cat.mvmike.minimalcalendarwidget.external.SystemResolver;
 
 import static java.time.temporal.ChronoField.DAY_OF_YEAR;
 import static java.time.temporal.ChronoField.YEAR;
 
 public class DateChangeReceiver extends BroadcastReceiver {
 
-    private LocalDateTime lastChecked = LocalDateTime.now();
+    private LocalDateTime lastChecked = SystemResolver.get().getSystemLocalDateTime();
 
     @Override
     public void onReceive(final Context context, final Intent intent) {
 
-        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime now = SystemResolver.get().getSystemLocalDateTime();
 
         if (now.get(YEAR) != lastChecked.get(YEAR)
             || now.get(DAY_OF_YEAR) != lastChecked.get(DAY_OF_YEAR)) {

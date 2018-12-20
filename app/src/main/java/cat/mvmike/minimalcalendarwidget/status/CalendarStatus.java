@@ -6,6 +6,8 @@ package cat.mvmike.minimalcalendarwidget.status;
 import java.time.LocalDate;
 import java.time.temporal.TemporalUnit;
 
+import cat.mvmike.minimalcalendarwidget.external.SystemResolver;
+
 import static java.time.temporal.ChronoField.DAY_OF_MONTH;
 import static java.time.temporal.ChronoField.DAY_OF_WEEK;
 import static java.time.temporal.ChronoField.DAY_OF_YEAR;
@@ -31,7 +33,7 @@ public final class CalendarStatus {
 
     public CalendarStatus(final int firstDayOfWeek) {
 
-        LocalDate now = LocalDate.now();
+        LocalDate now = SystemResolver.get().getSystemLocalDate();
 
         dayOfYear = now.get(DAY_OF_YEAR);
         year = now.get(YEAR);
@@ -39,7 +41,7 @@ public final class CalendarStatus {
 
         localDate = LocalDate.of(year, monthOfYear, MONTH_FIRST_DAY);
 
-        int difference = firstDayOfWeek - localDate.get(DAY_OF_WEEK) - 1;
+        int difference = firstDayOfWeek - localDate.get(DAY_OF_WEEK) + 1;
         localDate = localDate.plus(difference, DAYS);
 
         // overlap month manually if dayOfMonth is in current month and greater than 1
@@ -47,10 +49,6 @@ public final class CalendarStatus {
             && localDate.get(DAY_OF_MONTH) < (MAXIMUM_DAYS_IN_MONTH / 2)) {
             localDate = localDate.minus(DAYS_IN_WEEK, DAYS);
         }
-    }
-
-    public static boolean isMonthFirstDay(final LocalDate ins) {
-        return MONTH_FIRST_DAY == ins.getDayOfMonth();
     }
 
     public int getDayOfYear() {

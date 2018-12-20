@@ -8,7 +8,7 @@ import java.util.Locale;
 
 public enum ConfigurableItem {
 
-    START_WEEK_DAY,
+    FIRST_DAY_OF_WEEK,
 
     THEME,
 

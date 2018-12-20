@@ -6,39 +6,35 @@ package cat.mvmike.minimalcalendarwidget.service;
 import android.content.Context;
 import android.widget.RemoteViews;
 
-import java.text.DateFormatSymbols;
-import java.time.temporal.ChronoField;
-
-import cat.mvmike.minimalcalendarwidget.R;
-import cat.mvmike.minimalcalendarwidget.service.configuration.ConfigurationService;
+import cat.mvmike.minimalcalendarwidget.external.SystemResolver;
+import cat.mvmike.minimalcalendarwidget.service.enums.DayOfWeek;
 import cat.mvmike.minimalcalendarwidget.service.enums.Theme;
 
 public final class DayHeaderService {
 
     public static void setDayHeaders(final Context context, final RemoteViews widgetRv) {
 
-        RemoteViews headerRowRv = new RemoteViews(context.getPackageName(), R.layout.row_header);
+        RemoteViews headerRowRv = SystemResolver.get().createHeaderRow(context);
 
-        int firstDayOfWeek = ConfigurationService.getStartWeekDay(context);
-        DateFormatSymbols dfs = DateFormatSymbols.getInstance();
-        String[] weekdays = dfs.getShortWeekdays();
-
+        int firstDayOfWeek = ConfigurationService.getStartWeekDay(context).ordinal();
         Theme theme = ConfigurationService.getTheme(context);
 
-        for (int i = 0; i < ChronoField.DAY_OF_WEEK.range().getMaximum(); i++) {
+        for (DayOfWeek dayOfWeek : DayOfWeek.values()) {
 
-            RemoteViews rv;
-            int current = (firstDayOfWeek + i) % ChronoField.DAY_OF_WEEK.range().getMaximum() == 0 ?
-                firstDayOfWeek + i : (int) ((firstDayOfWeek + i) % ChronoField.DAY_OF_WEEK.range().getMaximum());
+            int currentOrdinal = dayOfWeek.ordinal();
+            int newOrdinal = (firstDayOfWeek + currentOrdinal) < DayOfWeek.values().length ?
+                firstDayOfWeek + currentOrdinal : (firstDayOfWeek + currentOrdinal) % DayOfWeek.values().length;
+
+            DayOfWeek current = DayOfWeek.values()[newOrdinal];
 
             int cellHeaderThemeId;
             switch (current) {
 
-                case 7:
+                case SATURDAY:
                     cellHeaderThemeId = theme.getCellHeaderSaturday();
                     break;
 
-                case 1:
+                case SUNDAY:
                     cellHeaderThemeId = theme.getCellHeaderSunday();
                     break;
 
@@ -46,16 +42,9 @@ public final class DayHeaderService {
                     cellHeaderThemeId = theme.getCellHeader();
             }
 
-            rv = setSpecificWeekDay(context, weekdays[current], cellHeaderThemeId);
-            headerRowRv.addView(R.id.row_container, rv);
+            SystemResolver.get().addHeaderDayToHeader(context, headerRowRv, current.getHeaderName(), cellHeaderThemeId);
         }
 
-        widgetRv.addView(R.id.calendar_widget, headerRowRv);
-    }
-
-    private static RemoteViews setSpecificWeekDay(final Context context, final String text, final int layoutId) {
-        RemoteViews dayRv = new RemoteViews(context.getPackageName(), layoutId);
-        dayRv.setTextViewText(android.R.id.text1, text);
-        return dayRv;
+        SystemResolver.get().addHeaderRowToWidget(widgetRv, headerRowRv);
     }
 }

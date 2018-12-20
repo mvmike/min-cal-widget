@@ -18,6 +18,8 @@ import static java.time.temporal.ChronoField.YEAR;
 
 public final class DayStatus {
 
+    private static final String PADDING = " ";
+
     private final boolean inMonth;
 
     private final boolean today;
@@ -59,8 +61,10 @@ public final class DayStatus {
         return sunday;
     }
 
-    public int getDayOfMonth() {
-        return dayOfMonth;
+    public String getDayOfMonthString() {
+
+        String dayOfMonthString = Integer.toString(dayOfMonth);
+        return PADDING + (dayOfMonthString.length() == 1 ? dayOfMonthString + PADDING : dayOfMonthString) + PADDING;
     }
 
     public boolean isInDay(final Instant startInstant, final Instant endInstant, final boolean allDayInstance) {
@@ -72,7 +76,7 @@ public final class DayStatus {
             && toLocalDate(endInstant.minusMillis(5), allDayInstance).get(DAY_OF_MONTH) >= dayOfMonth;
     }
 
-    // calendarProvider uses diferent set of timezones depending if event is allDay
+    // calendarProvider uses different set of timezones depending if event is allDay
     private static LocalDateTime toLocalDate(final Instant instant, final boolean allDayInstance) {
 
         if (allDayInstance) {

@@ -1,7 +1,7 @@
 // Copyright (c) 2016, Miquel Martí <miquelmarti111@gmail.com>
 // See LICENSE for licensing information
 
-package cat.mvmike.minimalcalendarwidget.service;
+package cat.mvmike.minimalcalendarwidget.external;
 
 import android.content.ContentResolver;
 import android.content.Context;
@@ -53,6 +53,5 @@ public final class ReceiverService {
             // if coming from old version, receiver might have not been initialized
             Log.w(ReceiverService.class.getName(), iae.getMessage());
         }
-
     }
 }

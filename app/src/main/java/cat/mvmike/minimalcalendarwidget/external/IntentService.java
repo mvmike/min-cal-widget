@@ -1,7 +1,7 @@
 // Copyright (c) 2018, Miquel Martí <miquelmarti111@gmail.com>
 // See LICENSE for licensing information
 
-package cat.mvmike.minimalcalendarwidget.service;
+package cat.mvmike.minimalcalendarwidget.external;
 
 import android.app.PendingIntent;
 import android.content.Context;

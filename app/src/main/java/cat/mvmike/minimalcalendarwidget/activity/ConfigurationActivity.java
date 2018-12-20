@@ -14,23 +14,18 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import java.text.DateFormatSymbols;
-import java.util.Arrays;
-import java.util.Locale;
-
 import cat.mvmike.minimalcalendarwidget.MonthWidget;
 import cat.mvmike.minimalcalendarwidget.R;
-import cat.mvmike.minimalcalendarwidget.service.configuration.ConfigurationService;
+import cat.mvmike.minimalcalendarwidget.service.ConfigurationService;
 import cat.mvmike.minimalcalendarwidget.service.enums.Colour;
 import cat.mvmike.minimalcalendarwidget.service.enums.ConfigurableItem;
+import cat.mvmike.minimalcalendarwidget.service.enums.DayOfWeek;
 import cat.mvmike.minimalcalendarwidget.service.enums.Symbol;
 import cat.mvmike.minimalcalendarwidget.service.enums.Theme;
 
 import static cat.mvmike.minimalcalendarwidget.service.enums.ConfigurableItem.getDisplayValues;
 
 public final class ConfigurationActivity extends AppCompatActivity {
-
-    private static final int BLANK_POSITION_DIFFERENCE = -1;
 
     public static void start(final Context context) {
 
@@ -71,31 +66,21 @@ public final class ConfigurationActivity extends AppCompatActivity {
 
         // THEMES
         ArrayAdapter<String> adapterThemes = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, getDisplayValues(Theme.class));
-
         adapterThemes.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         ((Spinner) findViewById(R.id.themeSpinner)).setAdapter(adapterThemes);
 
         // WEEK DAYS
-        ArrayAdapter<String> adapterWeekDays = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,
-            Arrays.stream(DateFormatSymbols.getInstance(Locale.getDefault()).getWeekdays())
-                .skip(1) // remove blank initial value
-                .map(ConfigurableItem::getDisplayValue)
-                .toArray(String[]::new));
-
+        ArrayAdapter<String> adapterWeekDays = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, getDisplayValues(DayOfWeek.class));
         adapterWeekDays.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         ((Spinner) findViewById(R.id.startWeekDaySpinner)).setAdapter(adapterWeekDays);
 
         // SYMBOLS
-        ArrayAdapter<String> adapterSymbols =
-            new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, getDisplayValues(Symbol.class));
-
+        ArrayAdapter<String> adapterSymbols = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, getDisplayValues(Symbol.class));
         adapterSymbols.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         ((Spinner) findViewById(R.id.symbolsSpinner)).setAdapter(adapterSymbols);
 
         // SYMBOLS COLOUR
-        ArrayAdapter<String> adapterSymbolsColour =
-            new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, getDisplayValues(Colour.class));
-
+        ArrayAdapter<String> adapterSymbolsColour = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, getDisplayValues(Colour.class));
         adapterSymbolsColour.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         ((Spinner) findViewById(R.id.symbolsColourSpinner)).setAdapter(adapterSymbolsColour);
     }
@@ -108,7 +93,7 @@ public final class ConfigurationActivity extends AppCompatActivity {
 
         // WEEK DAYS
         ((Spinner) findViewById(R.id.startWeekDaySpinner))
-            .setSelection(ConfigurationService.getStartWeekDay(getApplicationContext()) + BLANK_POSITION_DIFFERENCE);
+            .setSelection(ConfigurationService.getStartWeekDay(getApplicationContext()).ordinal());
 
         // SYMBOLS
         ((Spinner) findViewById(R.id.symbolsSpinner))
@@ -127,7 +112,7 @@ public final class ConfigurationActivity extends AppCompatActivity {
 
         // WEEK DAYS
         int weekDaySelectedPosition = ((Spinner) findViewById(R.id.startWeekDaySpinner)).getSelectedItemPosition();
-        ConfigurationService.set(getApplicationContext(), ConfigurableItem.START_WEEK_DAY, weekDaySelectedPosition - BLANK_POSITION_DIFFERENCE);
+        ConfigurationService.set(getApplicationContext(), ConfigurableItem.FIRST_DAY_OF_WEEK, DayOfWeek.values()[weekDaySelectedPosition]);
 
         // SYMBOLS
         int symbolsSelectedPosition = ((Spinner) findViewById(R.id.symbolsSpinner)).getSelectedItemPosition();
