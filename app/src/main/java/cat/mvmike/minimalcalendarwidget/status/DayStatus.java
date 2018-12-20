@@ -64,7 +64,7 @@ public final class DayStatus {
     public String getDayOfMonthString() {
 
         String dayOfMonthString = Integer.toString(dayOfMonth);
-        return PADDING + (dayOfMonthString.length() == 1 ? dayOfMonthString + PADDING : dayOfMonthString) + PADDING;
+        return PADDING + (dayOfMonthString.length() == 1 ? dayOfMonthString + PADDING + PADDING : dayOfMonthString) + PADDING;
     }
 
     public boolean isInDay(final Instant startInstant, final Instant endInstant, final boolean allDayInstance) {
