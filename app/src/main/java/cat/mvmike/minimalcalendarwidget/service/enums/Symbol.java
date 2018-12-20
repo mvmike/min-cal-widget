@@ -3,31 +3,33 @@
 
 package cat.mvmike.minimalcalendarwidget.service.enums;
 
+import java.util.Arrays;
+
 // https://unicode-table.com
 public enum Symbol {
 
-    MINIMAL(1.2f, "· ∶ ∴ ∷ ◇ ◈"),
+    MINIMAL(1.2f, '·', '∶', '∴', '∷', '◇', '◈'),
 
-    VERTICAL(1.2f, "· ∶ ⁝ ⁞ |"),
+    VERTICAL(1.2f, '·', '∶', '⁝', '⁞', '|'),
 
-    CIRCLES(1.2f, "◔ ◑ ◕ ● ๑"),
+    CIRCLES(1.2f, '◔', '◑', '◕', '●', '๑'),
 
-    NUMBERS(0.8f, "1 2 3 4 5 6 7 8 9 +"),
+    NUMBERS(0.8f, '1', '2', '3', '4', '5', '6', '7', '8', '9', '+'),
 
-    ROMAN(0.8f, "Ⅰ Ⅱ Ⅲ Ⅳ Ⅴ Ⅵ Ⅶ Ⅷ Ⅸ Ⅹ ∾"),
+    ROMAN(0.8f, 'Ⅰ', 'Ⅱ', 'Ⅲ', 'Ⅳ', 'Ⅴ', 'Ⅵ', 'Ⅶ', 'Ⅷ', 'Ⅸ', 'Ⅹ', '∾'),
 
-    BINARY(1f, "☱ ☲ ☳ ☴ ☵ ☶ ☷ ※");
+    BINARY(1f, '☱', '☲', '☳', '☴', '☵', '☶', '☷', '※');
 
     private static final String INSTANCES_SYMBOLS_EMPTY = " ";
-    private static final String ALL_SPACES = "\\s+";
-    private static final String EMPTY = "";
+
     private final float relativeSize;
+
     private final char[] symbolArray;
 
-    Symbol(final float relativeSize, final String values) {
+    Symbol(final float relativeSize, final char... values) {
 
         this.relativeSize = relativeSize;
-        this.symbolArray = values.replaceAll(ALL_SPACES, EMPTY).toCharArray();
+        this.symbolArray = Arrays.copyOf(values, values.length);
     }
 
     public float getRelativeSize() {
