@@ -1,0 +1,20 @@
+<resources>
+
+    <!--app name-->
+    <string name="app_name">MinCal-widget</string>
+
+    <!--configuration-->
+    <string name="configuration">Instellingen</string>
+
+    <string name="theme">Thema:</string>
+    <string name="start_week_day">Eerste dag:</string>
+    <string name="symbol_set">Symboolset:</string>
+    <string name="symbol_colour_set">Symboolkleur:</string>
+
+    <string name="apply_changes">toepassen</string>
+
+    <string name="source">
+        <a href="https://github.com/mvmike/min-cal-widget">broncode</a>
+    </string>
+
+</resources>
