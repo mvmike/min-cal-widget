@@ -39,7 +39,8 @@ public class SystemResolver {
     private static final Set<Locale> SUPPORTED_LOCALES = new HashSet<>(Arrays.asList(
         Locale.ENGLISH,
         new Locale("ca", "ES"),
-        new Locale("es", "ES")
+        new Locale("es", "ES"),
+        new Locale("ru", "RU")
     ));
 
     private static final Clock CLOCK_UTC_TZ = Clock.systemUTC();
