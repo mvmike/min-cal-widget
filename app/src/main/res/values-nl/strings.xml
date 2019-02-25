@@ -18,39 +18,39 @@
     </string>
 
     <!--Colours-->
-    <string name="black">Black</string>
-    <string name="grey">Grey</string>
-    <string name="white">White</string>
-    <string name="cyan">Cyan</string>
+    <string name="black">Zwart</string>
+    <string name="grey">Grijs</string>
+    <string name="white">Wit</string>
+    <string name="cyan">Blauwgroen</string>
     <string name="mint">Mint</string>
-    <string name="blue">Blue</string>
-    <string name="green">Green</string>
-    <string name="yellow">Yellow</string>
+    <string name="blue">Blauw</string>
+    <string name="green">Groen</string>
+    <string name="yellow">Geel</string>
 
     <!--Days of week-->
-    <string name="monday">Monday</string>
-    <string name="tuesday">Tuesday</string>
-    <string name="wednesday">Wednesday</string>
-    <string name="thursday">Thursday</string>
-    <string name="friday">Friday</string>
-    <string name="saturday">Saturday</string>
-    <string name="sunday">Sunday</string>
+    <string name="monday">Maandag</string>
+    <string name="tuesday">Dinsdag</string>
+    <string name="wednesday">Woensdag</string>
+    <string name="thursday">Donderdag</string>
+    <string name="friday">Vrijdag</string>
+    <string name="saturday">Zaterdag</string>
+    <string name="sunday">Zondag</string>
 
     <!--Days of week abbreviated-->
-    <string name="monday_abb">mon</string>
-    <string name="tuesday_abb">tue</string>
-    <string name="wednesday_abb">wed</string>
-    <string name="thursday_abb">thu</string>
-    <string name="friday_abb">fri</string>
-    <string name="saturday_abb">sat</string>
-    <string name="sunday_abb">sun</string>
+    <string name="monday_abb">ma</string>
+    <string name="tuesday_abb">di</string>
+    <string name="wednesday_abb">woe</string>
+    <string name="thursday_abb">do</string>
+    <string name="friday_abb">vrij</string>
+    <string name="saturday_abb">za</string>
+    <string name="sunday_abb">zo</string>
 
     <!--Symbols-->
-    <string name="minimal">Minimal</string>
-    <string name="vertical">Vertical</string>
-    <string name="circles">Circles</string>
-    <string name="numbers">Numbers</string>
-    <string name="roman">Roman</string>
-    <string name="binary">Binary</string>
+    <string name="minimal">Minimaal</string>
+    <string name="vertical">Verticaal</string>
+    <string name="circles">Cirkels</string>
+    <string name="numbers">Getallen</string>
+    <string name="roman">Romeins</string>
+    <string name="binary">Binair</string>
 
 </resources>
