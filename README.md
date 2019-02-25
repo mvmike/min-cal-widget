@@ -28,6 +28,14 @@
 * Pressing on widget day cells opens calendar application
 * minSDK: 26 (android 8.0)
 
+#### Supported languages
+
+* ENG
+* CAT
+* ESP
+
+
+
 #### Licensing
 
 MinCal Widget is licensed under the [BSD 3-clause](LICENSE).
@@ -36,6 +44,7 @@ MinCal Widget is licensed under the [BSD 3-clause](LICENSE).
 
 | Version        | Date           | Changes                                                                                                                                                             |
 | :------------: |:-------------: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| v1.2.0         | 2019-02-25     | - internationalization support                                                                                                                                      |
 | v1.1.0         | 2018-12-20     | - technical improvements                                                                                                                                            |
 | v1.0.1         | 2018-11-26     | - fix event instance calculation zoneId                                                                                                                             |
 | v1.0.0         | 2018-11-14     | - minSDK upgraded to 26 (android 8.0)<br>- technical improvements                                                                                                   |
