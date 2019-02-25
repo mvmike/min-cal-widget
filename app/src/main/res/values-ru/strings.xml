@@ -1,0 +1,56 @@
+<resources>
+
+    <!--app name-->
+    <string name="app_name">Виджет МиниКалендарь</string>
+
+    <!--configuration-->
+    <string name="configuration">Настройки</string>
+
+    <string name="theme">Тема:</string>
+    <string name="start_week_day">Первый день недели:</string>
+    <string name="symbol_set">Набор символов:</string>
+    <string name="symbol_colour_set">Цвет символов:</string>
+
+    <string name="apply_changes">ПРИМЕНИТЬ</string>
+
+    <string name="source">
+        <a href="https://github.com/mvmike/min-cal-widget">исходники</a>
+    </string>
+
+    <!--Colours-->
+    <string name="black">Чёрный</string>
+    <string name="grey">Серый</string>
+    <string name="white">Белый</string>
+    <string name="cyan">Голубой</string>
+    <string name="mint">Мятый</string>
+    <string name="blue">Синий</string>
+    <string name="green">Зелёный</string>
+    <string name="yellow">Жёлтый</string>
+
+    <!--Days of week-->
+    <string name="monday">Понедельник</string>
+    <string name="tuesday">Вторник</string>
+    <string name="wednesday">Среда</string>
+    <string name="thursday">Четверг</string>
+    <string name="friday">Пятница</string>
+    <string name="saturday">Суббота</string>
+    <string name="sunday">Воскресенье</string>
+
+    <!--Days of week abbreviated-->
+    <string name="monday_abb">пн</string>
+    <string name="tuesday_abb">вт</string>
+    <string name="wednesday_abb">ср</string>
+    <string name="thursday_abb">чт</string>
+    <string name="friday_abb">пт</string>
+    <string name="saturday_abb">сб</string>
+    <string name="sunday_abb">вc</string>
+
+    <!--Symbols-->
+    <string name="minimal">Минимальный</string>
+    <string name="vertical">Вертикальный</string>
+    <string name="circles">Круги</string>
+    <string name="numbers">Цифры</string>
+    <string name="roman">Римские</string>
+    <string name="binary">Двоичный</string>
+
+</resources>
