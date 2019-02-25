@@ -11,10 +11,46 @@
     <string name="symbol_set">Symbol set:</string>
     <string name="symbol_colour_set">Symbol colour:</string>
 
-    <string name="apply_changes">apply</string>
+    <string name="apply_changes">APPLY</string>
 
     <string name="source">
         <a href="https://github.com/mvmike/min-cal-widget">source</a>
     </string>
+
+    <!--Colours-->
+    <string name="black">Black</string>
+    <string name="grey">Grey</string>
+    <string name="white">White</string>
+    <string name="cyan">Cyan</string>
+    <string name="mint">Mint</string>
+    <string name="blue">Blue</string>
+    <string name="green">Green</string>
+    <string name="yellow">Yellow</string>
+
+    <!--Days of week-->
+    <string name="monday">Monday</string>
+    <string name="tuesday">Tuesday</string>
+    <string name="wednesday">Wednesday</string>
+    <string name="thursday">Thursday</string>
+    <string name="friday">Friday</string>
+    <string name="saturday">Saturday</string>
+    <string name="sunday">Sunday</string>
+
+    <!--Days of week abbreviated-->
+    <string name="monday_abb">mon</string>
+    <string name="tuesday_abb">tue</string>
+    <string name="wednesday_abb">wed</string>
+    <string name="thursday_abb">thu</string>
+    <string name="friday_abb">fri</string>
+    <string name="saturday_abb">sat</string>
+    <string name="sunday_abb">sun</string>
+
+    <!--Symbols-->
+    <string name="minimal">Minimal</string>
+    <string name="vertical">Vertical</string>
+    <string name="circles">Circles</string>
+    <string name="numbers">Numbers</string>
+    <string name="roman">Roman</string>
+    <string name="binary">Binary</string>
 
 </resources>

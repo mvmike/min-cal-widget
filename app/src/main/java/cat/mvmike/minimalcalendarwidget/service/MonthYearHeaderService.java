@@ -3,8 +3,10 @@
 
 package cat.mvmike.minimalcalendarwidget.service;
 
+import android.content.Context;
 import android.widget.RemoteViews;
 
+import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
@@ -17,18 +19,38 @@ public final class MonthYearHeaderService {
 
     private static final String YEAR_FORMAT = "yyyy";
 
-    private static final String HEADER_DATE_FORMAT = MONTH_FORMAT + " " + YEAR_FORMAT;
-
     private static final float HEADER_RELATIVE_YEAR_SIZE = 0.7f;
 
-    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter
-        .ofPattern(HEADER_DATE_FORMAT)
-        .withLocale(Locale.ENGLISH)
-        .withZone(ZoneId.systemDefault());
+    public static void setMonthYearHeader(final Context context, final RemoteViews widgetRemoteView) {
 
-    public static void setMonthYearHeader(final RemoteViews widgetRemoteView) {
+        Locale locale = SystemResolver.get().getSafeLocale(context);
+        Instant systemInstant = SystemResolver.get().getInstant();
 
-        String monthAndYear = DATE_TIME_FORMATTER.format(SystemResolver.get().getInstant());
-        SystemResolver.get().createMonthYearHeader(widgetRemoteView, monthAndYear, HEADER_RELATIVE_YEAR_SIZE);
+        String displayMonth = getMonthDisplayValue(getMonthFormatter(locale).format(systemInstant), locale);
+        String displayYear = getYearFormatter(locale).format(systemInstant);
+
+        SystemResolver.get().createMonthYearHeader(widgetRemoteView, displayMonth + " " + displayYear, HEADER_RELATIVE_YEAR_SIZE);
+    }
+
+    private static DateTimeFormatter getMonthFormatter(final Locale locale) {
+        return DateTimeFormatter
+            .ofPattern(MONTH_FORMAT)
+            .withLocale(locale)
+            .withZone(ZoneId.systemDefault());
+    }
+
+    private static DateTimeFormatter getYearFormatter(final Locale locale) {
+        return DateTimeFormatter
+            .ofPattern(YEAR_FORMAT)
+            .withLocale(locale)
+            .withZone(ZoneId.systemDefault());
+    }
+
+    private static String getMonthDisplayValue(final String month, final Locale locale) {
+        String[] monthTokens = month.split(" ");
+        String lastToken = monthTokens[monthTokens.length - 1];
+        return lastToken.substring(0, 1).toUpperCase(locale)
+            + lastToken.substring(1).toLowerCase(locale);
+
     }
 }

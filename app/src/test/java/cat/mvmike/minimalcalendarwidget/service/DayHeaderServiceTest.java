@@ -17,7 +17,6 @@ import cat.mvmike.minimalcalendarwidget.service.enums.DayOfWeek;
 import cat.mvmike.minimalcalendarwidget.service.enums.Theme;
 
 import static cat.mvmike.minimalcalendarwidget.service.DayHeaderService.setDayHeaders;
-
 import static cat.mvmike.minimalcalendarwidget.service.enums.Theme.BLACK;
 import static cat.mvmike.minimalcalendarwidget.service.enums.Theme.GREY;
 import static cat.mvmike.minimalcalendarwidget.service.enums.Theme.WHITE;
@@ -41,6 +40,13 @@ class DayHeaderServiceTest extends BaseTest {
         mockStartWeekDay(sharedPreferences, startWeekDay);
         mockTheme(sharedPreferences, theme);
         when(systemResolver.createHeaderRow(context)).thenReturn(headerRowRv);
+        when(systemResolver.getAbbreviatedDayOfWeekTranslated(context, DayOfWeek.MONDAY)).thenReturn("MON");
+        when(systemResolver.getAbbreviatedDayOfWeekTranslated(context, DayOfWeek.TUESDAY)).thenReturn("TUE");
+        when(systemResolver.getAbbreviatedDayOfWeekTranslated(context, DayOfWeek.WEDNESDAY)).thenReturn("WED");
+        when(systemResolver.getAbbreviatedDayOfWeekTranslated(context, DayOfWeek.THURSDAY)).thenReturn("THU");
+        when(systemResolver.getAbbreviatedDayOfWeekTranslated(context, DayOfWeek.FRIDAY)).thenReturn("FRI");
+        when(systemResolver.getAbbreviatedDayOfWeekTranslated(context, DayOfWeek.SATURDAY)).thenReturn("SAT");
+        when(systemResolver.getAbbreviatedDayOfWeekTranslated(context, DayOfWeek.SUNDAY)).thenReturn("SUN");
 
         setDayHeaders(context, widgetRv);
 
@@ -51,6 +57,13 @@ class DayHeaderServiceTest extends BaseTest {
             .forEach(c -> inOrder.verify(systemResolver, times(1)).addHeaderDayToHeader(context, headerRowRv, c.getKey(), c.getValue()));
 
         verify(systemResolver, times(1)).addHeaderRowToWidget(widgetRv, headerRowRv);
+        verify(systemResolver, times(1)).getAbbreviatedDayOfWeekTranslated(context, DayOfWeek.MONDAY);
+        verify(systemResolver, times(1)).getAbbreviatedDayOfWeekTranslated(context, DayOfWeek.TUESDAY);
+        verify(systemResolver, times(1)).getAbbreviatedDayOfWeekTranslated(context, DayOfWeek.WEDNESDAY);
+        verify(systemResolver, times(1)).getAbbreviatedDayOfWeekTranslated(context, DayOfWeek.THURSDAY);
+        verify(systemResolver, times(1)).getAbbreviatedDayOfWeekTranslated(context, DayOfWeek.FRIDAY);
+        verify(systemResolver, times(1)).getAbbreviatedDayOfWeekTranslated(context, DayOfWeek.SATURDAY);
+        verify(systemResolver, times(1)).getAbbreviatedDayOfWeekTranslated(context, DayOfWeek.SUNDAY);
         verifyNoMoreInteractions(systemResolver);
     }
 
@@ -79,7 +92,7 @@ class DayHeaderServiceTest extends BaseTest {
 
     private static Map.Entry<String, Integer> getWeekDayWithTheme(final String weekday, final Theme theme) {
 
-        Integer cellHeaderThemeId;
+        int cellHeaderThemeId;
         switch (weekday) {
 
             case "SAT":

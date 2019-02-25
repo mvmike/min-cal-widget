@@ -42,7 +42,8 @@ public final class DayHeaderService {
                     cellHeaderThemeId = theme.getCellHeader();
             }
 
-            SystemResolver.get().addHeaderDayToHeader(context, headerRowRv, current.getHeaderName(), cellHeaderThemeId);
+            SystemResolver.get().addHeaderDayToHeader(context, headerRowRv,
+                SystemResolver.get().getAbbreviatedDayOfWeekTranslated(context, current), cellHeaderThemeId);
         }
 
         SystemResolver.get().addHeaderRowToWidget(widgetRv, headerRowRv);

@@ -1,7 +1,5 @@
 package cat.mvmike.minimalcalendarwidget.service.enums;
 
-import java.util.Locale;
-
 public enum DayOfWeek {
 
     MONDAY,
@@ -17,8 +15,4 @@ public enum DayOfWeek {
     SATURDAY,
 
     SUNDAY;
-
-    public String getHeaderName() {
-        return this.name().substring(0, 3).toUpperCase(Locale.ENGLISH);
-    }
 }

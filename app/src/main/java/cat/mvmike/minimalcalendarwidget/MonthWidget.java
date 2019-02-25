@@ -10,38 +10,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.widget.RemoteViews;
 
+import cat.mvmike.minimalcalendarwidget.external.IntentService;
+import cat.mvmike.minimalcalendarwidget.external.ReceiverService;
+import cat.mvmike.minimalcalendarwidget.external.SystemResolver;
+import cat.mvmike.minimalcalendarwidget.service.ConfigurationService;
 import cat.mvmike.minimalcalendarwidget.service.DayHeaderService;
 import cat.mvmike.minimalcalendarwidget.service.DayService;
-import cat.mvmike.minimalcalendarwidget.external.SystemResolver;
-import cat.mvmike.minimalcalendarwidget.external.IntentService;
 import cat.mvmike.minimalcalendarwidget.service.MonthYearHeaderService;
-import cat.mvmike.minimalcalendarwidget.external.ReceiverService;
-import cat.mvmike.minimalcalendarwidget.service.ConfigurationService;
 
 public final class MonthWidget extends AppWidgetProvider {
-
-    private static void drawWidgets(final Context context, final AppWidgetManager appWidgetManager, final int[] appWidgetIds, final RemoteViews remoteViews) {
-
-        for (int appWidgetId : appWidgetIds) {
-            drawWidget(context, appWidgetManager, appWidgetId, remoteViews);
-        }
-    }
-
-    private static void drawWidget(final Context context, final AppWidgetManager appWidgetManager, final int appWidgetId, final RemoteViews widgetRemoteView) {
-
-        // SET MONTH AND YEAR
-        MonthYearHeaderService.setMonthYearHeader(widgetRemoteView);
-
-        // SET DAY HEADERS AND DAYS
-        widgetRemoteView.removeAllViews(R.id.calendar_widget);
-        DayHeaderService.setDayHeaders(context, widgetRemoteView);
-        DayService.setDays(context, widgetRemoteView);
-
-        // LISTENER FOR WIDGET PRESS AND CONFIGURATION
-        IntentService.addListeners(context, widgetRemoteView);
-
-        appWidgetManager.updateAppWidget(appWidgetId, widgetRemoteView);
-    }
 
     public static void forceRedraw(final Context context) {
 
@@ -86,5 +63,28 @@ public final class MonthWidget extends AppWidgetProvider {
         super.onDeleted(context, appWidgetIds);
         ConfigurationService.clearConfiguration(context);
         ReceiverService.unregisterReceivers(context);
+    }
+
+    private static void drawWidgets(final Context context, final AppWidgetManager appWidgetManager, final int[] appWidgetIds, final RemoteViews remoteViews) {
+
+        for (int appWidgetId : appWidgetIds) {
+            drawWidget(context, appWidgetManager, appWidgetId, remoteViews);
+        }
+    }
+
+    private static void drawWidget(final Context context, final AppWidgetManager appWidgetManager, final int appWidgetId, final RemoteViews widgetRemoteView) {
+
+        // SET MONTH AND YEAR
+        MonthYearHeaderService.setMonthYearHeader(context, widgetRemoteView);
+
+        // SET DAY HEADERS AND DAYS
+        widgetRemoteView.removeAllViews(R.id.calendar_widget);
+        DayHeaderService.setDayHeaders(context, widgetRemoteView);
+        DayService.setDays(context, widgetRemoteView);
+
+        // LISTENER FOR WIDGET PRESS AND CONFIGURATION
+        IntentService.addListeners(context, widgetRemoteView);
+
+        appWidgetManager.updateAppWidget(appWidgetId, widgetRemoteView);
     }
 }

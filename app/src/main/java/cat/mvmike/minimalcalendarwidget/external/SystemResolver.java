@@ -18,12 +18,16 @@ import java.time.Clock;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 
 import cat.mvmike.minimalcalendarwidget.R;
 import cat.mvmike.minimalcalendarwidget.service.dto.InstanceDto;
 import cat.mvmike.minimalcalendarwidget.service.enums.Colour;
+import cat.mvmike.minimalcalendarwidget.service.enums.ConfigurableItem;
+import cat.mvmike.minimalcalendarwidget.service.enums.DayOfWeek;
 
 @SuppressWarnings({
     "PMD.ClassWithOnlyPrivateConstructorsShouldBeFinal",
@@ -31,6 +35,11 @@ import cat.mvmike.minimalcalendarwidget.service.enums.Colour;
     "PMD.AvoidUsingVolatile"
 })
 public class SystemResolver {
+
+    private static final Set<Locale> SUPPORTED_LOCALES = new HashSet<>(Arrays.asList(
+        Locale.ENGLISH,
+        new Locale("ca", "ES")
+    ));
 
     private static final Clock CLOCK_UTC_TZ = Clock.systemUTC();
 
@@ -48,6 +57,12 @@ public class SystemResolver {
             instance = new SystemResolver();
         }
         return instance;
+    }
+
+    // LOCALE
+    public Locale getSafeLocale(final Context context) {
+        Locale locale = context.getResources().getConfiguration().locale;
+        return SUPPORTED_LOCALES.contains(locale) ? locale : Locale.ENGLISH;
     }
 
     // CLOCK
@@ -160,6 +175,71 @@ public class SystemResolver {
         cellRv.setTextViewText(android.R.id.text1, daySpSt);
 
         rowRv.addView(R.id.row_container, cellRv);
+    }
+
+    // TRANSLATIONS
+
+    public String[] getDayOfWeekTranslatedValues(final Context context) {
+        return new String[]{
+            ConfigurableItem.getDisplayValue(context.getString(R.string.monday)),
+            ConfigurableItem.getDisplayValue(context.getString(R.string.tuesday)),
+            ConfigurableItem.getDisplayValue(context.getString(R.string.wednesday)),
+            ConfigurableItem.getDisplayValue(context.getString(R.string.thursday)),
+            ConfigurableItem.getDisplayValue(context.getString(R.string.friday)),
+            ConfigurableItem.getDisplayValue(context.getString(R.string.saturday)),
+            ConfigurableItem.getDisplayValue(context.getString(R.string.sunday))
+        };
+    }
+
+    public String getAbbreviatedDayOfWeekTranslated(final Context context, final DayOfWeek dayOfWeek) {
+
+        switch (dayOfWeek) {
+            case MONDAY:
+                return context.getString(R.string.monday_abb).toUpperCase(Locale.ENGLISH);
+            case TUESDAY:
+                return context.getString(R.string.tuesday_abb).toUpperCase(Locale.ENGLISH);
+            case WEDNESDAY:
+                return context.getString(R.string.wednesday_abb).toUpperCase(Locale.ENGLISH);
+            case THURSDAY:
+                return context.getString(R.string.thursday_abb).toUpperCase(Locale.ENGLISH);
+            case FRIDAY:
+                return context.getString(R.string.friday_abb).toUpperCase(Locale.ENGLISH);
+            case SATURDAY:
+                return context.getString(R.string.saturday_abb).toUpperCase(Locale.ENGLISH);
+            case SUNDAY:
+                return context.getString(R.string.sunday_abb).toUpperCase(Locale.ENGLISH);
+        }
+        return null;
+    }
+
+    public String[] getThemeTranslatedValues(final Context context) {
+        return new String[]{
+            ConfigurableItem.getDisplayValue(context.getString(R.string.black)),
+            ConfigurableItem.getDisplayValue(context.getString(R.string.grey)),
+            ConfigurableItem.getDisplayValue(context.getString(R.string.white))
+        };
+    }
+
+    public String[] getInstancesSymbolsTranslatedValues(final Context context) {
+        return new String[]{
+            ConfigurableItem.getDisplayValue(context.getString(R.string.minimal)),
+            ConfigurableItem.getDisplayValue(context.getString(R.string.vertical)),
+            ConfigurableItem.getDisplayValue(context.getString(R.string.circles)),
+            ConfigurableItem.getDisplayValue(context.getString(R.string.numbers)),
+            ConfigurableItem.getDisplayValue(context.getString(R.string.roman)),
+            ConfigurableItem.getDisplayValue(context.getString(R.string.binary))
+        };
+    }
+
+    public String[] getInstancesSymbolsColourTranslatedValues(final Context context) {
+        return new String[]{
+            ConfigurableItem.getDisplayValue(context.getString(R.string.cyan)),
+            ConfigurableItem.getDisplayValue(context.getString(R.string.mint)),
+            ConfigurableItem.getDisplayValue(context.getString(R.string.blue)),
+            ConfigurableItem.getDisplayValue(context.getString(R.string.green)),
+            ConfigurableItem.getDisplayValue(context.getString(R.string.yellow)),
+            ConfigurableItem.getDisplayValue(context.getString(R.string.white))
+        };
     }
 
     // INTERNAL UTILS
