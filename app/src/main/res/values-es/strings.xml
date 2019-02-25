@@ -1,0 +1,56 @@
+<resources>
+
+    <!--app name-->
+    <string name="app_name">MinCal Widget</string>
+
+    <!--configuration-->
+    <string name="configuration">Configuración</string>
+
+    <string name="theme">Tema:</string>
+    <string name="start_week_day">Día de inicio:</string>
+    <string name="symbol_set">Tipo símbolos:</string>
+    <string name="symbol_colour_set">Color símbolos:</string>
+
+    <string name="apply_changes">APLICA</string>
+
+    <string name="source">
+        <a href="https://github.com/mvmike/min-cal-widget">código</a>
+    </string>
+
+    <!--Colours-->
+    <string name="black">Negro</string>
+    <string name="grey">Gris</string>
+    <string name="white">Blanco</string>
+    <string name="cyan">Cian</string>
+    <string name="mint">Menta</string>
+    <string name="blue">Azul</string>
+    <string name="green">Verde</string>
+    <string name="yellow">Amarillo</string>
+
+    <!--Days of week-->
+    <string name="monday">Lunes</string>
+    <string name="tuesday">Martes</string>
+    <string name="wednesday">Miércoles</string>
+    <string name="thursday">Jueves</string>
+    <string name="friday">Viernes</string>
+    <string name="saturday">Sábado</string>
+    <string name="sunday">Domingo</string>
+
+    <!--Days of week abbreviated-->
+    <string name="monday_abb">lu</string>
+    <string name="tuesday_abb">ma</string>
+    <string name="wednesday_abb">mi</string>
+    <string name="thursday_abb">ju</string>
+    <string name="friday_abb">vi</string>
+    <string name="saturday_abb">sa</string>
+    <string name="sunday_abb">do</string>
+
+    <!--Symbols-->
+    <string name="minimal">Mínimo</string>
+    <string name="vertical">Vertical</string>
+    <string name="circles">Círculos</string>
+    <string name="numbers">Números</string>
+    <string name="roman">Romanos</string>
+    <string name="binary">Binario</string>
+
+</resources>

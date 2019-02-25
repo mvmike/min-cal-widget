@@ -38,7 +38,8 @@ public class SystemResolver {
 
     private static final Set<Locale> SUPPORTED_LOCALES = new HashSet<>(Arrays.asList(
         Locale.ENGLISH,
-        new Locale("ca", "ES")
+        new Locale("ca", "ES"),
+        new Locale("es", "ES")
     ));
 
     private static final Clock CLOCK_UTC_TZ = Clock.systemUTC();
@@ -60,6 +61,7 @@ public class SystemResolver {
     }
 
     // LOCALE
+
     public Locale getSafeLocale(final Context context) {
         Locale locale = context.getResources().getConfiguration().locale;
         return SUPPORTED_LOCALES.contains(locale) ? locale : Locale.ENGLISH;
