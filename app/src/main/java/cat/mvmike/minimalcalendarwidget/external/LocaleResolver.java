@@ -46,7 +46,10 @@ public class LocaleResolver {
         new Locale("es", "UY"),
         new Locale("es", "VE"),
         // russian
-        new Locale("ru", "RU")
+        new Locale("ru", "RU"),
+        // dutch
+        new Locale("nl", "BE"),
+        new Locale("nl", "NL")
     ));
 
     private static volatile LocaleResolver instance;
