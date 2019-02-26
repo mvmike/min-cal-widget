@@ -11,6 +11,7 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
+import cat.mvmike.minimalcalendarwidget.external.LocaleResolver;
 import cat.mvmike.minimalcalendarwidget.external.SystemResolver;
 
 public final class MonthYearHeaderService {
@@ -23,7 +24,7 @@ public final class MonthYearHeaderService {
 
     public static void setMonthYearHeader(final Context context, final RemoteViews widgetRemoteView) {
 
-        Locale locale = SystemResolver.get().getSafeLocale(context);
+        Locale locale = LocaleResolver.get().getSafeLocale(context);
         Instant systemInstant = SystemResolver.get().getInstant();
 
         String displayMonth = getMonthDisplayValue(getMonthFormatter(locale).format(systemInstant), locale);

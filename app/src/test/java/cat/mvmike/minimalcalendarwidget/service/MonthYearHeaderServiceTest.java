@@ -28,14 +28,15 @@ class MonthYearHeaderServiceTest extends BaseTest {
     void setMonthYearHeader_shouldAddViewBasedOnCurrentMonthAndYearInEnglish(final Instant instant, final String expectedMonthAndYear) {
 
         when(systemResolver.getInstant()).thenReturn(instant);
-        when(systemResolver.getSafeLocale(context)).thenReturn(Locale.ENGLISH);
+        when(localeResolver.getSafeLocale(context)).thenReturn(Locale.ENGLISH);
 
         setMonthYearHeader(context, widgetRv);
 
         verify(systemResolver, times(1)).getInstant();
-        verify(systemResolver, times(1)).getSafeLocale(context);
+        verify(localeResolver, times(1)).getSafeLocale(context);
         verify(systemResolver, times(1)).createMonthYearHeader(widgetRv, expectedMonthAndYear, 0.7f);
         verifyNoMoreInteractions(systemResolver);
+        verifyNoMoreInteractions(localeResolver);
     }
 
     @ParameterizedTest
@@ -43,14 +44,15 @@ class MonthYearHeaderServiceTest extends BaseTest {
     void setMonthYearHeader_shouldAddViewBasedOnCurrentMonthAndYearInCatalan(final Instant instant, final String expectedMonthAndYear) {
 
         when(systemResolver.getInstant()).thenReturn(instant);
-        when(systemResolver.getSafeLocale(context)).thenReturn(new Locale("ca", "ES"));
+        when(localeResolver.getSafeLocale(context)).thenReturn(new Locale("ca", "ES"));
 
         setMonthYearHeader(context, widgetRv);
 
         verify(systemResolver, times(1)).getInstant();
-        verify(systemResolver, times(1)).getSafeLocale(context);
+        verify(localeResolver, times(1)).getSafeLocale(context);
         verify(systemResolver, times(1)).createMonthYearHeader(widgetRv, expectedMonthAndYear, 0.7f);
         verifyNoMoreInteractions(systemResolver);
+        verifyNoMoreInteractions(localeResolver);
     }
 
     private static Stream<Arguments> getSpreadInstantsInEnglish() {

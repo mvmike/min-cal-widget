@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Typeface;
-import android.os.LocaleList;
 import android.provider.CalendarContract;
 import android.support.v4.content.ContextCompat;
 import android.text.Spannable;
@@ -19,7 +18,6 @@ import java.time.Clock;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
@@ -37,13 +35,6 @@ import cat.mvmike.minimalcalendarwidget.service.enums.DayOfWeek;
 })
 public class SystemResolver {
 
-    private static final Set<Locale> SUPPORTED_LOCALES = new HashSet<>(Arrays.asList(
-        Locale.ENGLISH,
-        new Locale("ca", "ES"),
-        new Locale("es", "ES"),
-        new Locale("ru", "RU")
-    ));
-
     private static final Clock CLOCK_UTC_TZ = Clock.systemUTC();
 
     private static final Clock CLOCK_SYS_TZ = Clock.systemDefaultZone();
@@ -60,14 +51,6 @@ public class SystemResolver {
             instance = new SystemResolver();
         }
         return instance;
-    }
-
-    // LOCALE
-
-    public Locale getSafeLocale(final Context context) {
-        LocaleList locales = context.getResources().getConfiguration().getLocales();
-        return (locales.isEmpty() || !SUPPORTED_LOCALES.contains(locales.get(0))) ?
-            Locale.ENGLISH : locales.get(0);
     }
 
     // CLOCK
