@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Typeface;
+import android.os.LocaleList;
 import android.provider.CalendarContract;
 import android.support.v4.content.ContextCompat;
 import android.text.Spannable;
@@ -64,8 +65,9 @@ public class SystemResolver {
     // LOCALE
 
     public Locale getSafeLocale(final Context context) {
-        Locale locale = context.getResources().getConfiguration().locale;
-        return SUPPORTED_LOCALES.contains(locale) ? locale : Locale.ENGLISH;
+        LocaleList locales = context.getResources().getConfiguration().getLocales();
+        return (locales.isEmpty() || !SUPPORTED_LOCALES.contains(locales.get(0))) ?
+            Locale.ENGLISH : locales.get(0);
     }
 
     // CLOCK
