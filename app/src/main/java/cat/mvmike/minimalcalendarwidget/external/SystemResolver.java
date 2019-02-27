@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Typeface;
+import android.os.LocaleList;
 import android.provider.CalendarContract;
 import android.support.v4.content.ContextCompat;
 import android.text.Spannable;
@@ -21,6 +22,7 @@ import java.time.Clock;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
@@ -41,6 +43,16 @@ public class SystemResolver {
     private static final Clock CLOCK_UTC_TZ = Clock.systemUTC();
 
     private static final Clock CLOCK_SYS_TZ = Clock.systemDefaultZone();
+
+    private static final Set<Locale> SUPPORTED_LOCALES = new HashSet<>(Arrays.asList(
+
+        Locale.ENGLISH,
+        new Locale("ca"), // catalan
+        new Locale("nl"), // dutch
+        new Locale("es"), // spanish
+        new Locale("ru") // russian
+
+    ));
 
     private static volatile SystemResolver instance;
 
@@ -68,6 +80,20 @@ public class SystemResolver {
 
     public LocalDateTime getSystemLocalDateTime() {
         return LocalDateTime.now(CLOCK_SYS_TZ);
+    }
+
+    // LOCALE
+
+    public Locale getLocale(final Context context) {
+
+        LocaleList locales = context.getResources().getConfiguration().getLocales();
+
+        if (!locales.isEmpty()
+            && SUPPORTED_LOCALES.stream().anyMatch(sl -> sl.getLanguage().equals(locales.get(0).getLanguage()))) {
+            return locales.get(0);
+        }
+
+        return Locale.ENGLISH;
     }
 
     // CALENDAR CONTRACT

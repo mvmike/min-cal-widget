@@ -12,7 +12,6 @@ import android.content.SharedPreferences;
 import java.lang.reflect.Field;
 import java.util.TimeZone;
 
-import cat.mvmike.minimalcalendarwidget.external.LocaleResolver;
 import cat.mvmike.minimalcalendarwidget.external.SystemResolver;
 import cat.mvmike.minimalcalendarwidget.service.enums.Colour;
 import cat.mvmike.minimalcalendarwidget.service.enums.DayOfWeek;
@@ -42,8 +41,6 @@ public abstract class BaseTest {
     protected final SharedPreferences.Editor editor = mock(SharedPreferences.Editor.class);
 
     protected final SystemResolver systemResolver = mock(SystemResolver.class);
-
-    protected final LocaleResolver localeResolver = mock(LocaleResolver.class);
 
     @BeforeAll
     static void beforeAll() {
@@ -79,13 +76,9 @@ public abstract class BaseTest {
         when(editor.commit()).thenReturn(true);
 
         try {
-            Field systemResolverInstance = SystemResolver.class.getDeclaredField("instance");
-            systemResolverInstance.setAccessible(true);
-            systemResolverInstance.set(systemResolverInstance, systemResolver);
-
-            Field localeResolverInstance = LocaleResolver.class.getDeclaredField("instance");
-            localeResolverInstance.setAccessible(true);
-            localeResolverInstance.set(localeResolverInstance, localeResolver);
+            Field instance = SystemResolver.class.getDeclaredField("instance");
+            instance.setAccessible(true);
+            instance.set(instance, systemResolver);
 
         } catch (Exception e) {
             throw new RuntimeException(e);
