@@ -1,4 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/configuration_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -126,7 +127,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center"
         android:layout_weight="1"
@@ -135,17 +136,21 @@
 
         <TextView
             android:id="@+id/source"
-            android:layout_width="50dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center|start"
             android:text="@string/source" />
 
         <View
-            android:layout_width="130dp"
-            android:layout_height="0dp" />
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            tools:ignore="NestedWeights" />
 
         <Button
             android:id="@+id/applyButton"
             style="?android:attr/buttonStyleSmall"
+            android:layout_gravity="end"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/apply_changes" />
