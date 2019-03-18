@@ -9,13 +9,21 @@ import android.widget.RemoteViews;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Locale;
+import java.util.Set;
 
 import cat.mvmike.minimalcalendarwidget.external.SystemResolver;
 
 public final class MonthYearHeaderService {
 
-    private static final String MONTH_FORMAT = "MMMM";
+    private static final String MONTH_FORMAT_NON_STANDALONE = "MMMM";
+
+    private static final String MONTH_FORMAT_STANDALONE = "LLLL";
+
+    // need to differ special standalone locales because of https://bugs.openjdk.java.net/browse/JDK-8114833
+    private static final Set<String> LANGUAGES_WITH_STANDALONE_CASE = new HashSet<>(Collections.singletonList("ru"));
 
     private static final String YEAR_FORMAT = "yyyy";
 
@@ -34,7 +42,8 @@ public final class MonthYearHeaderService {
 
     private static DateTimeFormatter getMonthFormatter(final Locale locale) {
         return DateTimeFormatter
-            .ofPattern(MONTH_FORMAT)
+            .ofPattern(LANGUAGES_WITH_STANDALONE_CASE.contains(locale.getLanguage()) ?
+                MONTH_FORMAT_STANDALONE : MONTH_FORMAT_NON_STANDALONE)
             .withLocale(locale)
             .withZone(ZoneId.systemDefault());
     }
