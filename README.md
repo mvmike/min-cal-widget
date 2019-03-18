@@ -44,6 +44,8 @@ MinCal Widget is licensed under the [BSD 3-clause](LICENSE).
 
 | Version        | Date           | Changes                                                                                                                                                             |
 | :------------: |:-------------: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| v1.2.2         | 2019-03-18     | - bug fixes<br>- technical improvements                                                                                                                             |
+| v1.2.1         | 2019-02-26     | - internationalization (Dutch and Russian)<br>- technical improvements                                                                                              |
 | v1.2.1         | 2019-02-26     | - internationalization (Dutch and Russian)<br>- technical improvements                                                                                              |
 | v1.2.0         | 2019-02-25     | - internationalization support                                                                                                                                      |
 | v1.1.0         | 2018-12-20     | - technical improvements                                                                                                                                            |
