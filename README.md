@@ -1,5 +1,6 @@
 [![GitHub release](https://img.shields.io/github/release/mvmike/min-cal-widget.svg)](https://github.com/mvmike/min-cal-widget/releases)
 [![Build Status](https://travis-ci.org/mvmike/min-cal-widget.svg?branch=master)](https://travis-ci.org/mvmike/min-cal-widget)
+[![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
 
 <div style="display:flex;" >
     <a href="https://f-droid.org/app/cat.mvmike.minimalcalendarwidget">
