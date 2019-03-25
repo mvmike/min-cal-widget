@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">MinKal-miniprogram</string>
+    <string name="app_name">MinCal Widget</string>
     <string name="configuration">Oppsett</string>
     <string name="theme">Drakt:</string>
     <string name="start_week_day">Startdag:</string>
