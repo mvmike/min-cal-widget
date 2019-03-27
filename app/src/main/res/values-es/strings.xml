@@ -52,5 +52,6 @@
     <string name="numbers">Números</string>
     <string name="roman">Romanos</string>
     <string name="binary">Binario</string>
+    <string name="none">Ninguno</string>
 
 </resources>

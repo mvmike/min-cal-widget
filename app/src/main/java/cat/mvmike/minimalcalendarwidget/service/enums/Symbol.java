@@ -18,7 +18,9 @@ public enum Symbol {
 
     ROMAN(0.8f, 'Ⅰ', 'Ⅱ', 'Ⅲ', 'Ⅳ', 'Ⅴ', 'Ⅵ', 'Ⅶ', 'Ⅷ', 'Ⅸ', 'Ⅹ', '∾'),
 
-    BINARY(1f, '☱', '☲', '☳', '☴', '☵', '☶', '☷', '※');
+    BINARY(1f, '☱', '☲', '☳', '☴', '☵', '☶', '☷', '※'),
+
+    NONE(1f, ' ');
 
     private static final String INSTANCES_SYMBOLS_EMPTY = " ";
 

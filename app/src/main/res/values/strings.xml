@@ -52,5 +52,6 @@
     <string name="numbers">Numbers</string>
     <string name="roman">Roman</string>
     <string name="binary">Binary</string>
+    <string name="none">None</string>
 
 </resources>

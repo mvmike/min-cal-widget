@@ -244,7 +244,8 @@ public class SystemResolver {
             ConfigurableItem.getDisplayValue(context.getString(R.string.circles)),
             ConfigurableItem.getDisplayValue(context.getString(R.string.numbers)),
             ConfigurableItem.getDisplayValue(context.getString(R.string.roman)),
-            ConfigurableItem.getDisplayValue(context.getString(R.string.binary))
+            ConfigurableItem.getDisplayValue(context.getString(R.string.binary)),
+            ConfigurableItem.getDisplayValue(context.getString(R.string.none))
         };
     }
 

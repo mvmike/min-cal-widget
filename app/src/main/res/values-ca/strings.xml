@@ -52,5 +52,6 @@
     <string name="numbers">Nombres</string>
     <string name="roman">Romans</string>
     <string name="binary">Binari</string>
+    <string name="none">Cap</string>
 
 </resources>

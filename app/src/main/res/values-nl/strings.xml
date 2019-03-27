@@ -52,5 +52,6 @@
     <string name="numbers">Getallen</string>
     <string name="roman">Romeins</string>
     <string name="binary">Binair</string>
+    <string name="none">Geen</string>
 
 </resources>
