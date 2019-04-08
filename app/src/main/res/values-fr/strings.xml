@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Widget MinCal</string>
+    <string name="configuration">Configuration</string>
+    <string name="theme">Thème :</string>
+    <string name="start_week_day">Premier jour :</string>
+    <string name="symbol_set">Symboles :</string>
+    <string name="symbol_colour_set">Couleur des symboles :</string>
+    <string name="apply_changes">APPLIQUER</string>
+    <string name="source">
+        <a href="https://github.com/mvmike/min-cal-widget">Source</a>
+    </string>
+    <string name="black">Noir</string>
+    <string name="grey">Gris</string>
+    <string name="white">Blanc</string>
+    <string name="cyan">Cyan</string>
+    <string name="blue">Bleu</string>
+    <string name="green">Vert</string>
+    <string name="yellow">Jaune</string>
+    <string name="monday">Lundi</string>
+    <string name="tuesday">Mardi</string>
+    <string name="wednesday">Mercredi</string>
+    <string name="thursday">Jeudi</string>
+    <string name="friday">Vendredi</string>
+    <string name="saturday">Samedi</string>
+    <string name="sunday">Dimanche</string>
+    <string name="monday_abb">lun</string>
+    <string name="tuesday_abb">mar</string>
+    <string name="wednesday_abb">mer</string>
+    <string name="thursday_abb">jeu</string>
+    <string name="friday_abb">ven</string>
+    <string name="saturday_abb">sam</string>
+    <string name="sunday_abb">dim</string>
+    <string name="minimal">Minimale</string>
+    <string name="vertical">Vertical</string>
+    <string name="circles">Cercles</string>
+    <string name="numbers">Nombres</string>
+    <string name="roman">Romain</string>
+    <string name="binary">Binaire</string>
+    <string name="mint">Vert clair</string>
+</resources>

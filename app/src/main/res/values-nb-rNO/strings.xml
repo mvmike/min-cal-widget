@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MinCal Widget</string>
+    <string name="configuration">Oppsett</string>
+    <string name="theme">Drakt:</string>
+    <string name="start_week_day">Startdag:</string>
+    <string name="symbol_set">Symbolsett:</string>
+    <string name="symbol_colour_set">Symbolfarge:</string>
+    <string name="apply_changes">Bruk</string>
+    <string name="source">
+        <a href="https://github.com/mvmike/min-cal-widget">kildekode</a>
+    </string>
+    <string name="black">Svart</string>
+    <string name="grey">Grå</string>
+    <string name="white">Hvit</string>
+    <string name="cyan">Turkis</string>
+    <string name="mint">Mint</string>
+    <string name="blue">Blå</string>
+    <string name="green">Grønn</string>
+    <string name="yellow">Gul</string>
+    <string name="monday">Mandag</string>
+    <string name="tuesday">Tirsdag</string>
+    <string name="wednesday">Onsdag</string>
+    <string name="thursday">Torsdag</string>
+    <string name="friday">Fredag</string>
+    <string name="saturday">Lørdag</string>
+    <string name="sunday">Søndag</string>
+    <string name="monday_abb">man</string>
+    <string name="tuesday_abb">tir</string>
+    <string name="wednesday_abb">ons</string>
+    <string name="thursday_abb">tor</string>
+    <string name="friday_abb">fre</string>
+    <string name="saturday_abb">lør</string>
+    <string name="sunday_abb">søn</string>
+    <string name="minimal">Minimal</string>
+    <string name="vertical">Vertikal</string>
+    <string name="circles">Sirkler</string>
+    <string name="numbers">Tall</string>
+    <string name="roman">Romersk</string>
+    <string name="binary">Binær</string>
+</resources>
