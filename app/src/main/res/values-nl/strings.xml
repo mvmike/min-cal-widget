@@ -1,17 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <!--app name-->
     <string name="app_name">MinCal-widget</string>
+
     <!--configuration-->
     <string name="configuration">Instellingen</string>
+
     <string name="theme">Thema:</string>
     <string name="start_week_day">Eerste dag:</string>
     <string name="symbol_set">Symboolset:</string>
     <string name="symbol_colour_set">Symboolkleur:</string>
+
     <string name="apply_changes">TOEPASSEN</string>
+
     <string name="source">
         <a href="https://github.com/mvmike/min-cal-widget">broncode</a>
     </string>
+
     <!--Colours-->
     <string name="black">Zwart</string>
     <string name="grey">Grijs</string>
@@ -21,6 +27,7 @@
     <string name="blue">Blauw</string>
     <string name="green">Groen</string>
     <string name="yellow">Geel</string>
+
     <!--Days of week-->
     <string name="monday">Maandag</string>
     <string name="tuesday">Dinsdag</string>
@@ -29,6 +36,7 @@
     <string name="friday">Vrijdag</string>
     <string name="saturday">Zaterdag</string>
     <string name="sunday">Zondag</string>
+
     <!--Days of week abbreviated-->
     <string name="monday_abb">ma</string>
     <string name="tuesday_abb">di</string>
@@ -37,6 +45,7 @@
     <string name="friday_abb">vrij</string>
     <string name="saturday_abb">za</string>
     <string name="sunday_abb">zo</string>
+
     <!--Symbols-->
     <string name="minimal">Minimaal</string>
     <string name="vertical">Verticaal</string>
