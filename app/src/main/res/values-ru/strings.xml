@@ -53,6 +53,6 @@
     <string name="numbers">Цифры</string>
     <string name="roman">Римские</string>
     <string name="binary">Двоичный</string>
-    <string name="none">никто</string>
+    <string name="none">Пустой</string>
 
 </resources>
