@@ -37,4 +37,5 @@
     <string name="numbers">Nombres</string>
     <string name="roman">Romain</string>
     <string name="binary">Binaire</string>
+    <string name="mint">Vert clair</string>
 </resources>
