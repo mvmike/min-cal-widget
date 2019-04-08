@@ -34,8 +34,10 @@
 
 * English
 * Catalan
-* Dutch
 * Spanish
+* French
+* Norwegian
+* Dutch
 * Russian
 
 #### Licensing
@@ -46,6 +48,7 @@ MinCal Widget is licensed under the [BSD 3-clause](LICENSE).
 
 | Version        | Date           | Changes                                                                                                                                                             |
 | :------------: |:-------------: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| v1.2.3         | 2019-04-08     | - internationalization (French and Norwegian)                                                                                                                       |
 | v1.2.2         | 2019-03-18     | - bug fixes<br>- technical improvements                                                                                                                             |
 | v1.2.1         | 2019-02-26     | - internationalization (Dutch and Russian)<br>- technical improvements                                                                                              |
 | v1.2.1         | 2019-02-26     | - internationalization (Dutch and Russian)<br>- technical improvements                                                                                              |
