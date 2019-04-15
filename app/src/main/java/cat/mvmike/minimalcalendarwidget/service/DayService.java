@@ -20,6 +20,8 @@ import cat.mvmike.minimalcalendarwidget.status.DayStatus;
 
 public final class DayService {
 
+    private static final String PADDING = " ";
+
     private static final int NUM_WEEKS = 6;
 
     private static final int DAYS_IN_WEEK = 7;
@@ -53,10 +55,12 @@ public final class DayService {
                     SystemResolver.get().getColorInstancesId(context, colour);
 
                 SystemResolver.get().addDayCellRemoteView(
+                    context,
                     rowRv,
                     cellRv,
-                    ds.getDayOfMonthString() + symbol.getSymbol(numberOfInstances),
+                    PADDING + ds.getDayOfMonthString() + PADDING + symbol.getSymbol(numberOfInstances),
                     ds.isToday(),
+                    ds.isSingleDigitDay(),
                     symbol.getRelativeSize(),
                     color);
 

@@ -103,7 +103,8 @@ class DayServiceTest extends BaseTest {
 
         InOrder inOrder = inOrder(systemResolver);
         getExpectedDays().forEach(
-            c -> inOrder.verify(systemResolver, times(1)).addDayCellRemoteView(rowRv, cellRv, c.getKey(), c.getValue(), 1.2f, c.getValue() ? 98 : 99)
+            c -> inOrder.verify(systemResolver, times(1))
+                .addDayCellRemoteView(context, rowRv, cellRv, c.getKey(), c.getValue(), c.getKey().startsWith(" 0"), 1.2f, c.getValue() ? 98 : 99)
         );
 
         verifyNoMoreInteractions(systemResolver);
@@ -160,15 +161,15 @@ class DayServiceTest extends BaseTest {
             new AbstractMap.SimpleEntry<>(" 28 ·", false),
             new AbstractMap.SimpleEntry<>(" 29 ·", false),
             new AbstractMap.SimpleEntry<>(" 30  ", false),
-            new AbstractMap.SimpleEntry<>(" 1    ", false),
-            new AbstractMap.SimpleEntry<>(" 2    ", false),
-            new AbstractMap.SimpleEntry<>(" 3   ·", false),
-            new AbstractMap.SimpleEntry<>(" 4   ∶", true),
-            new AbstractMap.SimpleEntry<>(" 5   ·", false),
-            new AbstractMap.SimpleEntry<>(" 6   ∴", false),
-            new AbstractMap.SimpleEntry<>(" 7    ", false),
-            new AbstractMap.SimpleEntry<>(" 8    ", false),
-            new AbstractMap.SimpleEntry<>(" 9    ", false),
+            new AbstractMap.SimpleEntry<>(" 01  ", false),
+            new AbstractMap.SimpleEntry<>(" 02  ", false),
+            new AbstractMap.SimpleEntry<>(" 03 ·", false),
+            new AbstractMap.SimpleEntry<>(" 04 ∶", true),
+            new AbstractMap.SimpleEntry<>(" 05 ·", false),
+            new AbstractMap.SimpleEntry<>(" 06 ∴", false),
+            new AbstractMap.SimpleEntry<>(" 07  ", false),
+            new AbstractMap.SimpleEntry<>(" 08  ", false),
+            new AbstractMap.SimpleEntry<>(" 09  ", false),
             new AbstractMap.SimpleEntry<>(" 10 ∷", false),
             new AbstractMap.SimpleEntry<>(" 11  ", false),
             new AbstractMap.SimpleEntry<>(" 12  ", false),
@@ -191,12 +192,12 @@ class DayServiceTest extends BaseTest {
             new AbstractMap.SimpleEntry<>(" 29  ", false),
             new AbstractMap.SimpleEntry<>(" 30 ◇", false),
             new AbstractMap.SimpleEntry<>(" 31  ", false),
-            new AbstractMap.SimpleEntry<>(" 1   ·", false),
-            new AbstractMap.SimpleEntry<>(" 2   ·", false),
-            new AbstractMap.SimpleEntry<>(" 3    ", false),
-            new AbstractMap.SimpleEntry<>(" 4    ", false),
-            new AbstractMap.SimpleEntry<>(" 5   ◈", false),
-            new AbstractMap.SimpleEntry<>(" 6    ", false)
+            new AbstractMap.SimpleEntry<>(" 01 ·", false),
+            new AbstractMap.SimpleEntry<>(" 02 ·", false),
+            new AbstractMap.SimpleEntry<>(" 03  ", false),
+            new AbstractMap.SimpleEntry<>(" 04  ", false),
+            new AbstractMap.SimpleEntry<>(" 05 ◈", false),
+            new AbstractMap.SimpleEntry<>(" 06  ", false)
         );
     }
 

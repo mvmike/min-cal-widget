@@ -3,6 +3,7 @@
 
 package cat.mvmike.minimalcalendarwidget.status;
 
+import java.text.DecimalFormat;
 import java.time.DayOfWeek;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -18,7 +19,7 @@ import static java.time.temporal.ChronoField.YEAR;
 
 public final class DayStatus {
 
-    private static final String PADDING = " ";
+    private static final DecimalFormat DAY_OF_MONTH_DF =  new DecimalFormat("00");
 
     private final boolean inMonth;
 
@@ -62,9 +63,11 @@ public final class DayStatus {
     }
 
     public String getDayOfMonthString() {
+        return DAY_OF_MONTH_DF.format(dayOfMonth);
+    }
 
-        String dayOfMonthString = Integer.toString(dayOfMonth);
-        return PADDING + (dayOfMonthString.length() == 1 ? dayOfMonthString + PADDING + PADDING : dayOfMonthString) + PADDING;
+    public boolean isSingleDigitDay() {
+        return dayOfMonth < 10;
     }
 
     public boolean isInDay(final Instant startInstant, final Instant endInstant, final boolean allDayInstance) {

@@ -64,4 +64,7 @@
     <color name="config_label">#FFFFFF</color>
     <color name="config_value">#cccccc</color>
 
+    <!--generic-->
+    <color name="alpha">#00FFFFFF</color>
+
 </resources>

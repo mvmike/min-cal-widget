@@ -179,11 +179,15 @@ public class SystemResolver {
         return ContextCompat.getColor(context, colour.getHexValue());
     }
 
-    public void addDayCellRemoteView(final RemoteViews rowRv, final RemoteViews cellRv, final String spanText, final boolean isToday,
-                                     final float symbolRelativeSize, final int instancesColor) {
+    public void addDayCellRemoteView(final Context context, final RemoteViews rowRv, final RemoteViews cellRv, final String spanText, final boolean isToday,
+                                     final boolean isSingleDigitDay, final float symbolRelativeSize, final int instancesColor) {
 
         SpannableString daySpSt = new SpannableString(spanText);
         daySpSt.setSpan(new StyleSpan(Typeface.BOLD), spanText.length() - 1, spanText.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        if (isSingleDigitDay){
+            daySpSt.setSpan(new ForegroundColorSpan(ContextCompat.getColor(context, R.color.alpha)), 1, 2, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
 
         if (isToday) {
             daySpSt.setSpan(new StyleSpan(Typeface.BOLD), 0, spanText.length() - 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
