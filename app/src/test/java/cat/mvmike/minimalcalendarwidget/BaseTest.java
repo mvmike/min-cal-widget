@@ -10,22 +10,22 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import java.lang.reflect.Field;
+import java.time.DayOfWeek;
 import java.util.TimeZone;
 
-import cat.mvmike.minimalcalendarwidget.infrastructure.SystemResolver;
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Colour;
-import cat.mvmike.minimalcalendarwidget.domain.configuration.item.DayOfWeek;
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Symbol;
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme;
+import cat.mvmike.minimalcalendarwidget.infrastructure.SystemResolver;
 
-import static cat.mvmike.minimalcalendarwidget.domain.configuration.item.Colour.CYAN;
 import static cat.mvmike.minimalcalendarwidget.domain.configuration.ConfigurableItem.FIRST_DAY_OF_WEEK;
 import static cat.mvmike.minimalcalendarwidget.domain.configuration.ConfigurableItem.INSTANCES_SYMBOLS;
 import static cat.mvmike.minimalcalendarwidget.domain.configuration.ConfigurableItem.INSTANCES_SYMBOLS_COLOUR;
 import static cat.mvmike.minimalcalendarwidget.domain.configuration.ConfigurableItem.THEME;
-import static cat.mvmike.minimalcalendarwidget.domain.configuration.item.DayOfWeek.MONDAY;
+import static cat.mvmike.minimalcalendarwidget.domain.configuration.item.Colour.CYAN;
 import static cat.mvmike.minimalcalendarwidget.domain.configuration.item.Symbol.MINIMAL;
 import static cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme.BLACK;
+import static java.time.DayOfWeek.MONDAY;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.when;

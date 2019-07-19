@@ -7,6 +7,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.stream.Stream;
 
@@ -34,28 +35,27 @@ public class DayStatusTest {
 
     @ParameterizedTest
     @MethodSource("getCombinationOfDayStatuses")
-    void dayStatus_shouldSetInternalProperties(final DayStatus dayStatus, final boolean inMonth, final boolean isToday, final boolean isSaturday, final boolean isSunday) {
+    void dayStatus_shouldSetInternalProperties(final DayStatus dayStatus, final boolean inMonth, final boolean isToday, final DayOfWeek dayOfWeek) {
 
         assertEquals(inMonth, dayStatus.isInMonth());
         assertEquals(isToday, dayStatus.isToday());
-        assertEquals(isSaturday, dayStatus.isSaturday());
-        assertEquals(isSunday, dayStatus.isSunday());
+        assertEquals(dayOfWeek, dayStatus.getDayOfWeek());
     }
 
     private static Stream<Arguments> getCombinationOfDayStatuses() {
 
         return Stream.of(
-            Arguments.of(TODAY_WEEKDAY, true, true, false, false),
-            Arguments.of(TODAY_SATURDAY, true, true, true, false),
-            Arguments.of(TODAY_SUNDAY, true, true, false, true),
+            Arguments.of(TODAY_WEEKDAY, true, true, DayOfWeek.TUESDAY),
+            Arguments.of(TODAY_SATURDAY, true, true, DayOfWeek.SATURDAY),
+            Arguments.of(TODAY_SUNDAY, true, true, DayOfWeek.SUNDAY),
 
-            Arguments.of(IN_MONTH_WEEKDAY, true, false, false, false),
-            Arguments.of(IN_MONTH_SATURDAY, true, false, true, false),
-            Arguments.of(IN_MONTH_SUNDAY, true, false, false, true),
+            Arguments.of(IN_MONTH_WEEKDAY, true, false, DayOfWeek.FRIDAY),
+            Arguments.of(IN_MONTH_SATURDAY, true, false, DayOfWeek.SATURDAY),
+            Arguments.of(IN_MONTH_SUNDAY, true, false, DayOfWeek.SUNDAY),
 
-            Arguments.of(NOT_IN_MONTH_WEEKDAY, false, false, false, false),
-            Arguments.of(NOT_IN_MONTH_SATURDAY, false, false, true, false),
-            Arguments.of(NOT_IN_MONTH_SUNDAY, false, false, false, true)
+            Arguments.of(NOT_IN_MONTH_WEEKDAY, false, false, DayOfWeek.FRIDAY),
+            Arguments.of(NOT_IN_MONTH_SATURDAY, false, false, DayOfWeek.SATURDAY),
+            Arguments.of(NOT_IN_MONTH_SUNDAY, false, false, DayOfWeek.SUNDAY)
         );
     }
 }

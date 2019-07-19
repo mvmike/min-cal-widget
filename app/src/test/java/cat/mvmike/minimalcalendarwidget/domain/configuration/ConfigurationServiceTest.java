@@ -7,9 +7,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 
+import java.time.DayOfWeek;
+
 import cat.mvmike.minimalcalendarwidget.BaseTest;
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Colour;
-import cat.mvmike.minimalcalendarwidget.domain.configuration.item.DayOfWeek;
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Symbol;
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme;
 

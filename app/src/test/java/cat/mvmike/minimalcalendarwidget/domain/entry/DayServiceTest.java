@@ -21,19 +21,18 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import cat.mvmike.minimalcalendarwidget.BaseTest;
-import cat.mvmike.minimalcalendarwidget.domain.entry.dto.InstanceDto;
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme;
+import cat.mvmike.minimalcalendarwidget.domain.entry.dto.InstanceDto;
 import cat.mvmike.minimalcalendarwidget.domain.entry.status.DayStatus;
 
-import static cat.mvmike.minimalcalendarwidget.domain.entry.DayService.getDayLayout;
-import static cat.mvmike.minimalcalendarwidget.domain.entry.DayService.getNumberOfInstances;
-import static cat.mvmike.minimalcalendarwidget.domain.entry.DayService.setDays;
 import static cat.mvmike.minimalcalendarwidget.domain.configuration.item.Colour.CYAN;
-import static cat.mvmike.minimalcalendarwidget.domain.configuration.item.DayOfWeek.MONDAY;
 import static cat.mvmike.minimalcalendarwidget.domain.configuration.item.Symbol.MINIMAL;
 import static cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme.BLACK;
 import static cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme.GREY;
 import static cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme.WHITE;
+import static cat.mvmike.minimalcalendarwidget.domain.entry.DayService.getDayLayout;
+import static cat.mvmike.minimalcalendarwidget.domain.entry.DayService.getNumberOfInstances;
+import static cat.mvmike.minimalcalendarwidget.domain.entry.DayService.setDays;
 import static cat.mvmike.minimalcalendarwidget.domain.entry.status.DayStatusTest.IN_MONTH_SATURDAY;
 import static cat.mvmike.minimalcalendarwidget.domain.entry.status.DayStatusTest.IN_MONTH_SUNDAY;
 import static cat.mvmike.minimalcalendarwidget.domain.entry.status.DayStatusTest.IN_MONTH_WEEKDAY;
@@ -43,6 +42,7 @@ import static cat.mvmike.minimalcalendarwidget.domain.entry.status.DayStatusTest
 import static cat.mvmike.minimalcalendarwidget.domain.entry.status.DayStatusTest.TODAY_SATURDAY;
 import static cat.mvmike.minimalcalendarwidget.domain.entry.status.DayStatusTest.TODAY_SUNDAY;
 import static cat.mvmike.minimalcalendarwidget.domain.entry.status.DayStatusTest.TODAY_WEEKDAY;
+import static java.time.DayOfWeek.MONDAY;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;

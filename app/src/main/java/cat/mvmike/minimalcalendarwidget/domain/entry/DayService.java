@@ -11,13 +11,13 @@ import java.util.HashSet;
 import java.util.Set;
 
 import cat.mvmike.minimalcalendarwidget.domain.configuration.ConfigurationService;
-import cat.mvmike.minimalcalendarwidget.infrastructure.SystemResolver;
-import cat.mvmike.minimalcalendarwidget.domain.entry.dto.InstanceDto;
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Colour;
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Symbol;
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme;
+import cat.mvmike.minimalcalendarwidget.domain.entry.dto.InstanceDto;
 import cat.mvmike.minimalcalendarwidget.domain.entry.status.CalendarStatus;
 import cat.mvmike.minimalcalendarwidget.domain.entry.status.DayStatus;
+import cat.mvmike.minimalcalendarwidget.infrastructure.SystemResolver;
 
 public final class DayService {
 
@@ -74,28 +74,15 @@ public final class DayService {
 
     static int getDayLayout(final Theme theme, final DayStatus ds) {
 
-        int cellLayoutResId = theme.getCellDay();
-
         if (ds.isToday()) {
-            if (ds.isSaturday()) {
-                cellLayoutResId = theme.getCellDaySaturdayToday();
-            } else if (ds.isSunday()) {
-                cellLayoutResId = theme.getCellDaySundayToday();
-            } else {
-                cellLayoutResId = theme.getCellDayToday();
-            }
-
-        } else if (ds.isInMonth()) {
-            if (ds.isSaturday()) {
-                cellLayoutResId = theme.getCellDaySaturday();
-            } else if (ds.isSunday()) {
-                cellLayoutResId = theme.getCellDaySunday();
-            } else {
-                cellLayoutResId = theme.getCellDayThisMonth();
-            }
+            return theme.getCellToday(ds.getDayOfWeek());
         }
 
-        return cellLayoutResId;
+        if (ds.isInMonth()) {
+            return theme.getCellThisMonth(ds.getDayOfWeek());
+        }
+
+        return theme.getCellNotThisMonth();
     }
 
     static int getNumberOfInstances(final Set<InstanceDto> instanceSet, final DayStatus ds) {

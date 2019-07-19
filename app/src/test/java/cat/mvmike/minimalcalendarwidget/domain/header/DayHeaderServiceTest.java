@@ -10,19 +10,19 @@ import org.mockito.InOrder;
 
 import android.widget.RemoteViews;
 
+import java.time.DayOfWeek;
 import java.util.AbstractMap;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.stream.Stream;
 
 import cat.mvmike.minimalcalendarwidget.BaseTest;
-import cat.mvmike.minimalcalendarwidget.domain.configuration.item.DayOfWeek;
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme;
 
-import static cat.mvmike.minimalcalendarwidget.domain.header.DayHeaderService.setDayHeaders;
 import static cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme.BLACK;
 import static cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme.GREY;
 import static cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme.WHITE;
+import static cat.mvmike.minimalcalendarwidget.domain.header.DayHeaderService.setDayHeaders;
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;

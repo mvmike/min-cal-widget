@@ -19,6 +19,7 @@ import android.text.style.StyleSpan;
 import android.widget.RemoteViews;
 
 import java.time.Clock;
+import java.time.DayOfWeek;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -28,10 +29,9 @@ import java.util.Locale;
 import java.util.Set;
 
 import cat.mvmike.minimalcalendarwidget.R;
-import cat.mvmike.minimalcalendarwidget.domain.entry.dto.InstanceDto;
-import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Colour;
 import cat.mvmike.minimalcalendarwidget.domain.configuration.ConfigurableItem;
-import cat.mvmike.minimalcalendarwidget.domain.configuration.item.DayOfWeek;
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Colour;
+import cat.mvmike.minimalcalendarwidget.domain.entry.dto.InstanceDto;
 
 @SuppressWarnings({
     "PMD.ClassWithOnlyPrivateConstructorsShouldBeFinal",

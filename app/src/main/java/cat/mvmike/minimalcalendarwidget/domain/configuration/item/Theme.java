@@ -3,6 +3,8 @@
 
 package cat.mvmike.minimalcalendarwidget.domain.configuration.item;
 
+import java.time.DayOfWeek;
+
 import cat.mvmike.minimalcalendarwidget.R;
 
 public enum Theme {
@@ -104,31 +106,31 @@ public enum Theme {
         return cellHeaderSunday;
     }
 
-    public int getCellDay() {
+    public int getCellToday(final DayOfWeek dayOfWeek) {
+
+        switch (dayOfWeek) {
+            case SATURDAY:
+                return cellDaySaturdayToday;
+            case SUNDAY:
+                return cellDaySundayToday;
+            default:
+                return cellDayToday;
+        }
+    }
+
+    public int getCellThisMonth(final DayOfWeek dayOfWeek) {
+
+        switch (dayOfWeek) {
+            case SATURDAY:
+                return cellDaySaturday;
+            case SUNDAY:
+                return cellDaySunday;
+            default:
+                return cellDayThisMonth;
+        }
+    }
+
+    public int getCellNotThisMonth() {
         return cellDay;
-    }
-
-    public int getCellDayThisMonth() {
-        return cellDayThisMonth;
-    }
-
-    public int getCellDaySaturday() {
-        return cellDaySaturday;
-    }
-
-    public int getCellDaySunday() {
-        return cellDaySunday;
-    }
-
-    public int getCellDayToday() {
-        return cellDayToday;
-    }
-
-    public int getCellDaySaturdayToday() {
-        return cellDaySaturdayToday;
-    }
-
-    public int getCellDaySundayToday() {
-        return cellDaySundayToday;
     }
 }

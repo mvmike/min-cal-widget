@@ -14,15 +14,16 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import cat.mvmike.minimalcalendarwidget.application.MonthWidget;
+import java.time.DayOfWeek;
+
 import cat.mvmike.minimalcalendarwidget.R;
-import cat.mvmike.minimalcalendarwidget.infrastructure.SystemResolver;
+import cat.mvmike.minimalcalendarwidget.application.MonthWidget;
+import cat.mvmike.minimalcalendarwidget.domain.configuration.ConfigurableItem;
 import cat.mvmike.minimalcalendarwidget.domain.configuration.ConfigurationService;
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Colour;
-import cat.mvmike.minimalcalendarwidget.domain.configuration.ConfigurableItem;
-import cat.mvmike.minimalcalendarwidget.domain.configuration.item.DayOfWeek;
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Symbol;
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme;
+import cat.mvmike.minimalcalendarwidget.infrastructure.SystemResolver;
 
 public final class ConfigurationActivity extends AppCompatActivity {
 

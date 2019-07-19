@@ -12,22 +12,19 @@ import java.time.ZoneId;
 import java.time.ZoneOffset;
 
 import static java.time.temporal.ChronoField.DAY_OF_MONTH;
-import static java.time.temporal.ChronoField.DAY_OF_WEEK;
 import static java.time.temporal.ChronoField.DAY_OF_YEAR;
 import static java.time.temporal.ChronoField.MONTH_OF_YEAR;
 import static java.time.temporal.ChronoField.YEAR;
 
 public final class DayStatus {
 
-    private static final DecimalFormat DAY_OF_MONTH_DF =  new DecimalFormat("00");
+    private static final DecimalFormat DAY_OF_MONTH_DF = new DecimalFormat("00");
 
     private final boolean inMonth;
 
     private final boolean today;
 
-    private final boolean saturday;
-
-    private final boolean sunday;
+    private final DayOfWeek dayOfWeek;
 
     private final int dayOfMonth;
 
@@ -39,8 +36,7 @@ public final class DayStatus {
         inMonth = localDate.get(MONTH_OF_YEAR) == thisMonth;
         today = inYear && inMonth && localDate.get(DAY_OF_YEAR) == dayInYear;
 
-        saturday = localDate.get(DAY_OF_WEEK) == DayOfWeek.SATURDAY.getValue();
-        sunday = localDate.get(DAY_OF_WEEK) == DayOfWeek.SUNDAY.getValue();
+        dayOfWeek = localDate.getDayOfWeek();
 
         dayOfMonth = localDate.get(DAY_OF_MONTH);
         month = localDate.get(MONTH_OF_YEAR);
@@ -54,12 +50,8 @@ public final class DayStatus {
         return today;
     }
 
-    public boolean isSaturday() {
-        return saturday;
-    }
-
-    public boolean isSunday() {
-        return sunday;
+    public DayOfWeek getDayOfWeek() {
+        return dayOfWeek;
     }
 
     public String getDayOfMonthString() {

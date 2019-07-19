@@ -6,8 +6,9 @@ package cat.mvmike.minimalcalendarwidget.domain.configuration;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import java.time.DayOfWeek;
+
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Colour;
-import cat.mvmike.minimalcalendarwidget.domain.configuration.item.DayOfWeek;
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Symbol;
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme;
 

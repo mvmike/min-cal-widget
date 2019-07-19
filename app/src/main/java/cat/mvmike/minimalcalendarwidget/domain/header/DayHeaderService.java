@@ -6,10 +6,11 @@ package cat.mvmike.minimalcalendarwidget.domain.header;
 import android.content.Context;
 import android.widget.RemoteViews;
 
+import java.time.DayOfWeek;
+
 import cat.mvmike.minimalcalendarwidget.domain.configuration.ConfigurationService;
-import cat.mvmike.minimalcalendarwidget.infrastructure.SystemResolver;
-import cat.mvmike.minimalcalendarwidget.domain.configuration.item.DayOfWeek;
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme;
+import cat.mvmike.minimalcalendarwidget.infrastructure.SystemResolver;
 
 public final class DayHeaderService {
 
