@@ -32,9 +32,9 @@ import static org.mockito.Mockito.when;
 
 class DayHeaderServiceTest extends BaseTest {
 
-    private RemoteViews widgetRv = mock(RemoteViews.class);
+    private final RemoteViews widgetRv = mock(RemoteViews.class);
 
-    private RemoteViews headerRowRv = mock(RemoteViews.class);
+    private final RemoteViews headerRowRv = mock(RemoteViews.class);
 
     @ParameterizedTest
     @MethodSource("combinationOfStartWeekDayAndThemeConfig")

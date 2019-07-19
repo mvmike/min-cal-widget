@@ -56,11 +56,11 @@ import static org.mockito.Mockito.when;
 
 class DayServiceTest extends BaseTest {
 
-    private RemoteViews widgetRv = mock(RemoteViews.class);
+    private final RemoteViews widgetRv = mock(RemoteViews.class);
 
-    private RemoteViews rowRv = mock(RemoteViews.class);
+    private final RemoteViews rowRv = mock(RemoteViews.class);
 
-    private RemoteViews cellRv = mock(RemoteViews.class);
+    private final RemoteViews cellRv = mock(RemoteViews.class);
 
     @Test
     void setDays_shouldReturnSafeDateSpanOfSystemTimeZoneInstances() {

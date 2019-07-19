@@ -9,7 +9,7 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class SymbolTest {
+class SymbolTest {
 
     @ParameterizedTest
     @EnumSource(value = Symbol.class)

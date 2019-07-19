@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class ConfigurableItemTest {
 
     @ParameterizedTest
-    @ValueSource(strings = {"someRAndomInputT", "ALL_UPPER_CASE", "alllowercase"})
+    @ValueSource(strings = {"someRAndOmInputT", "ALL_UPPER_CASE", "alllowercase"})
     void getDisplayValue_shouldReturnOnlyFirstLetterUpperCase(final String input) {
         assertFirstLetterUpperCaseOthersLowercase(getDisplayValue(input));
     }

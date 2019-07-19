@@ -185,7 +185,7 @@ public class SystemResolver {
         SpannableString daySpSt = new SpannableString(spanText);
         daySpSt.setSpan(new StyleSpan(Typeface.BOLD), spanText.length() - 1, spanText.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-        if (isSingleDigitDay){
+        if (isSingleDigitDay) {
             daySpSt.setSpan(new ForegroundColorSpan(ContextCompat.getColor(context, R.color.alpha)), 1, 2, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
 

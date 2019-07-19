@@ -24,7 +24,7 @@ import static org.mockito.Mockito.when;
 
 class MonthYearHeaderServiceTest extends BaseTest {
 
-    private RemoteViews widgetRv = mock(RemoteViews.class);
+    private final RemoteViews widgetRv = mock(RemoteViews.class);
 
     @ParameterizedTest
     @MethodSource("getSpreadInstantsInEnglish")
