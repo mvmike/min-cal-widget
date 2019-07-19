@@ -1,5 +1,5 @@
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
-    android:configure="cat.mvmike.minimalcalendarwidget.activity.PermissionsActivity"
+    android:configure="cat.mvmike.minimalcalendarwidget.application.activity.PermissionsActivity"
     android:initialLayout="@layout/loading"
     android:minWidth="180dp"
     android:minHeight="110dp"

@@ -13,7 +13,7 @@
         android:supportsRtl="false"
         tools:ignore="GoogleAppIndexingWarning">
 
-        <receiver android:name=".MonthWidget">
+        <receiver android:name=".application.MonthWidget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -23,7 +23,7 @@
         </receiver>
 
         <activity
-            android:name=".activity.PermissionsActivity"
+            android:name=".application.activity.PermissionsActivity"
             android:excludeFromRecents="true"
             android:initialLayout="@layout/loading"
             android:launchMode="singleTask"
@@ -35,7 +35,7 @@
         </activity>
 
         <activity
-            android:name=".activity.ConfigurationActivity"
+            android:name=".application.activity.ConfigurationActivity"
             android:excludeFromRecents="true"
             android:launchMode="singleInstance"
             android:noHistory="true"
