@@ -14,7 +14,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import cat.mvmike.minimalcalendarwidget.BaseTest;
-import cat.mvmike.minimalcalendarwidget.domain.entry.dto.InstanceDto;
 
 import static cat.mvmike.minimalcalendarwidget.domain.entry.InstanceService.readAllInstances;
 import static cat.mvmike.minimalcalendarwidget.domain.entry.InstanceService.toStartOfDayInEpochMilli;
@@ -25,12 +24,12 @@ final class InstanceServiceTest extends BaseTest {
 
     @ParameterizedTest
     @MethodSource("getInstancesBetweenInstants")
-    void readAllInstances_shouldFetchAllInstancesBetweenInstances(final Set<InstanceDto> expectedInstances) {
+    void readAllInstances_shouldFetchAllInstancesBetweenInstances(final Set<Instance> expectedInstances) {
 
         when(systemResolver.getSystemLocalDate()).thenReturn(LocalDate.of(2018, 12, 4));
         when(systemResolver.getInstances(context, 1539982800000L, 1547758800000L)).thenReturn(expectedInstances);
 
-        Set<InstanceDto> instances = readAllInstances(context);
+        Set<Instance> instances = readAllInstances(context);
         assertEquals(expectedInstances, instances);
     }
 
@@ -43,24 +42,24 @@ final class InstanceServiceTest extends BaseTest {
     private static Stream<Arguments> getInstancesBetweenInstants() {
         return Stream.of(
             Arguments.of(Stream.of(
-                new InstanceDto(1543190400000L, 1543276800000L, 0, 0), // 11/26 all day
-                new InstanceDto(1543881600000L, 1543968000000L, 0, 0) // 12/4 all day
+                new Instance(1543190400000L, 1543276800000L, 0, 0), // 11/26 all day
+                new Instance(1543881600000L, 1543968000000L, 0, 0) // 12/4 all day
             ).collect(Collectors.toCollection(HashSet::new))),
             Arguments.of(Stream.of(
-                new InstanceDto(1546300800000L, 1546387200000L, 0, 0), // 01/01 all day
-                new InstanceDto(1546387200000L, 1546473600000L, 0, 0), // 01/02 all day
-                new InstanceDto(1546646400000L, 1546732800000L, 0, 0) // 01/05 all day
+                new Instance(1546300800000L, 1546387200000L, 0, 0), // 01/01 all day
+                new Instance(1546387200000L, 1546473600000L, 0, 0), // 01/02 all day
+                new Instance(1546646400000L, 1546732800000L, 0, 0) // 01/05 all day
             ).collect(Collectors.toCollection(HashSet::new))),
             Arguments.of(Stream.of(
-                new InstanceDto(1546646400000L, 1546732800000L, 0, 0) // 01/05 all day
+                new Instance(1546646400000L, 1546732800000L, 0, 0) // 01/05 all day
             ).collect(Collectors.toCollection(HashSet::new))),
             Arguments.of(new HashSet<>()),
             Arguments.of(Stream.of(
-                new InstanceDto(1543190400000L, 1543276800000L, 0, 0), // 11/26 all day
-                new InstanceDto(1543363200000L, 1543449600000L, 0, 0), // 11/28 all day
-                new InstanceDto(1543449600000L, 1543536000000L, 0, 0), // 11/29 all day
-                new InstanceDto(1543795200000L, 1543967999000L, 0, 0), // 12/3 all day
-                new InstanceDto(1543881600000L, 1543968000000L, 0, 0) // 12/4 all day
+                new Instance(1543190400000L, 1543276800000L, 0, 0), // 11/26 all day
+                new Instance(1543363200000L, 1543449600000L, 0, 0), // 11/28 all day
+                new Instance(1543449600000L, 1543536000000L, 0, 0), // 11/29 all day
+                new Instance(1543795200000L, 1543967999000L, 0, 0), // 12/3 all day
+                new Instance(1543881600000L, 1543968000000L, 0, 0) // 12/4 all day
             ).collect(Collectors.toCollection(HashSet::new)))
         );
     }

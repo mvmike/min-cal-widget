@@ -1,14 +1,14 @@
 // Copyright (c) 2016, Miquel Martí <miquelmarti111@gmail.com>
 // See LICENSE for licensing information
 
-package cat.mvmike.minimalcalendarwidget.domain.entry.dto;
+package cat.mvmike.minimalcalendarwidget.domain.entry;
 
 import android.provider.CalendarContract;
 
 import java.time.Instant;
 
 
-public final class InstanceDto {
+public final class Instance {
 
     public static final String[] FIELDS = {
         CalendarContract.Instances.BEGIN,
@@ -25,7 +25,7 @@ public final class InstanceDto {
 
     private final boolean allDay;
 
-    public InstanceDto(final long epochMilliStart, final long epochMilliEnd, final int julianStartDay, final int julianEndDate) {
+    public Instance(final long epochMilliStart, final long epochMilliEnd, final int julianStartDay, final int julianEndDate) {
         this.start = Instant.ofEpochMilli(epochMilliStart);
         this.end = Instant.ofEpochMilli(epochMilliEnd);
         this.allDay = computeAllDay(start, end, julianStartDay, julianEndDate);

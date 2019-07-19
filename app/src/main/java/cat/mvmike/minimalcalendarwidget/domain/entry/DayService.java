@@ -14,7 +14,6 @@ import cat.mvmike.minimalcalendarwidget.domain.configuration.ConfigurationServic
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Colour;
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Symbol;
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme;
-import cat.mvmike.minimalcalendarwidget.domain.entry.dto.InstanceDto;
 import cat.mvmike.minimalcalendarwidget.domain.entry.status.CalendarStatus;
 import cat.mvmike.minimalcalendarwidget.domain.entry.status.DayStatus;
 import cat.mvmike.minimalcalendarwidget.infrastructure.SystemResolver;
@@ -35,7 +34,7 @@ public final class DayService {
         Colour colour = ConfigurationService.getInstancesSymbolsColours(context);
         CalendarStatus cs = new CalendarStatus(firstDayOfWeek);
 
-        Set<InstanceDto> instanceSet = SystemResolver.get().isReadCalendarPermitted(context) ?
+        Set<Instance> instanceSet = SystemResolver.get().isReadCalendarPermitted(context) ?
             InstanceService.readAllInstances(context) : new HashSet<>();
 
         RemoteViews rowRv;
@@ -85,7 +84,7 @@ public final class DayService {
         return theme.getCellNotThisMonth();
     }
 
-    static int getNumberOfInstances(final Set<InstanceDto> instanceSet, final DayStatus ds) {
+    static int getNumberOfInstances(final Set<Instance> instanceSet, final DayStatus ds) {
 
         if (instanceSet == null || instanceSet.isEmpty()) {
             return 0;

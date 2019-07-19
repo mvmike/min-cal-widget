@@ -22,7 +22,6 @@ import java.util.stream.Stream;
 
 import cat.mvmike.minimalcalendarwidget.BaseTest;
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme;
-import cat.mvmike.minimalcalendarwidget.domain.entry.dto.InstanceDto;
 import cat.mvmike.minimalcalendarwidget.domain.entry.status.DayStatus;
 
 import static cat.mvmike.minimalcalendarwidget.domain.configuration.item.Colour.CYAN;
@@ -118,39 +117,39 @@ class DayServiceTest extends BaseTest {
 
     @ParameterizedTest
     @MethodSource("getCombinationOfInstanceSetsAndDayStatuses")
-    void getNumberOfInstances_shouldComputeBasedOnInstanceSet(final Set<InstanceDto> instanceSet, final DayStatus ds, final int expectedResult) {
+    void getNumberOfInstances_shouldComputeBasedOnInstanceSet(final Set<Instance> instanceSet, final DayStatus ds, final int expectedResult) {
         assertEquals(expectedResult, getNumberOfInstances(instanceSet, ds));
     }
 
-    private static Set<InstanceDto> getSpreadInstances() {
+    private static Set<Instance> getSpreadInstances() {
 
         return Stream.of(
-            new InstanceDto(1543190400000L, 1543276800000L, 0, 0), // 11/26 all day
-            new InstanceDto(1543363200000L, 1543449600000L, 0, 0), // 11/28 all day
-            new InstanceDto(1543449600000L, 1543536000000L, 0, 0), // 11/29 all day
-            new InstanceDto(1543795200000L, 1543967999000L, 0, 0), // 12/3 all day
-            new InstanceDto(1543881600000L, 1543968000000L, 0, 0), // 12/4 all day
-            new InstanceDto(1544054400000L, 1544140800000L, 0, 0), // 12/6 all day
-            new InstanceDto(1544054400000L, 1544140800000L, 0, 0), // 12/6 all day
-            new InstanceDto(1544054400000L, 1544140800000L, 0, 0), // 12/6 all day
-            new InstanceDto(1544400000000L, 1544486400000L, 0, 0), // 12/10 all day
-            new InstanceDto(1544400000000L, 1544486400000L, 0, 0), // 12/10 all day
-            new InstanceDto(1544400000000L, 1544486400000L, 0, 0), // 12/10 all day
-            new InstanceDto(1544400000000L, 1544486400000L, 0, 0), // 12/10 all day
-            new InstanceDto(1545868800000L, 1545955200000L, 0, 0), // 12/27 all day
-            new InstanceDto(1546128000000L, 1546214400000L, 0, 0), // 12/30 all day
-            new InstanceDto(1546128000000L, 1546214400000L, 0, 0), // 12/30 all day
-            new InstanceDto(1546128000000L, 1546214400000L, 0, 0), // 12/30 all day
-            new InstanceDto(1546128000000L, 1546214400000L, 0, 0), // 12/30 all day
-            new InstanceDto(1546128000000L, 1546214400000L, 0, 0), // 12/30 all day
-            new InstanceDto(1546300800000L, 1546387200000L, 0, 0), // 01/01 all day
-            new InstanceDto(1546387200000L, 1546473600000L, 0, 0), // 01/02 all day
-            new InstanceDto(1546646400000L, 1546732800000L, 0, 0), // 01/05 all day
-            new InstanceDto(1546646400000L, 1546732800000L, 0, 0), // 01/05 all day
-            new InstanceDto(1546646400000L, 1546732800000L, 0, 0), // 01/05 all day
-            new InstanceDto(1546646400000L, 1546732800000L, 0, 0), // 01/05 all day
-            new InstanceDto(1546646400000L, 1546732800000L, 0, 0), // 01/05 all day
-            new InstanceDto(1546646400000L, 1546732800000L, 0, 0) // 01/05 all day
+            new Instance(1543190400000L, 1543276800000L, 0, 0), // 11/26 all day
+            new Instance(1543363200000L, 1543449600000L, 0, 0), // 11/28 all day
+            new Instance(1543449600000L, 1543536000000L, 0, 0), // 11/29 all day
+            new Instance(1543795200000L, 1543967999000L, 0, 0), // 12/3 all day
+            new Instance(1543881600000L, 1543968000000L, 0, 0), // 12/4 all day
+            new Instance(1544054400000L, 1544140800000L, 0, 0), // 12/6 all day
+            new Instance(1544054400000L, 1544140800000L, 0, 0), // 12/6 all day
+            new Instance(1544054400000L, 1544140800000L, 0, 0), // 12/6 all day
+            new Instance(1544400000000L, 1544486400000L, 0, 0), // 12/10 all day
+            new Instance(1544400000000L, 1544486400000L, 0, 0), // 12/10 all day
+            new Instance(1544400000000L, 1544486400000L, 0, 0), // 12/10 all day
+            new Instance(1544400000000L, 1544486400000L, 0, 0), // 12/10 all day
+            new Instance(1545868800000L, 1545955200000L, 0, 0), // 12/27 all day
+            new Instance(1546128000000L, 1546214400000L, 0, 0), // 12/30 all day
+            new Instance(1546128000000L, 1546214400000L, 0, 0), // 12/30 all day
+            new Instance(1546128000000L, 1546214400000L, 0, 0), // 12/30 all day
+            new Instance(1546128000000L, 1546214400000L, 0, 0), // 12/30 all day
+            new Instance(1546128000000L, 1546214400000L, 0, 0), // 12/30 all day
+            new Instance(1546300800000L, 1546387200000L, 0, 0), // 01/01 all day
+            new Instance(1546387200000L, 1546473600000L, 0, 0), // 01/02 all day
+            new Instance(1546646400000L, 1546732800000L, 0, 0), // 01/05 all day
+            new Instance(1546646400000L, 1546732800000L, 0, 0), // 01/05 all day
+            new Instance(1546646400000L, 1546732800000L, 0, 0), // 01/05 all day
+            new Instance(1546646400000L, 1546732800000L, 0, 0), // 01/05 all day
+            new Instance(1546646400000L, 1546732800000L, 0, 0), // 01/05 all day
+            new Instance(1546646400000L, 1546732800000L, 0, 0) // 01/05 all day
         ).collect(Collectors.toCollection(HashSet::new));
     }
 
@@ -240,24 +239,24 @@ class DayServiceTest extends BaseTest {
 
             // all in
             Arguments.of(Stream.of(
-                new InstanceDto(1543881600000L, 1543967999000L, 0, 0), // 12/4 00:00 - 12/5 00:00
-                new InstanceDto(1543950000000L, 1543957200000L, 0, 0) // 12/4 22:00 - 12/5 00:00
+                new Instance(1543881600000L, 1543967999000L, 0, 0), // 12/4 00:00 - 12/5 00:00
+                new Instance(1543950000000L, 1543957200000L, 0, 0) // 12/4 22:00 - 12/5 00:00
             ).collect(Collectors.toCollection(HashSet::new)), TODAY_WEEKDAY, 2),
 
             // with instances that are in more than 1 day
             Arguments.of(Stream.of(
-                new InstanceDto(1543795200000L, 1543967999000L, 0, 1), // 12/3 00:00 - 12/5 00:00
-                new InstanceDto(1543881600000L, 1544054400000L, 0, 1), // 12/4 00:00 - 12/6 00:00
-                new InstanceDto(1543863600000L, 1543874400000L, 0, 0), // 12/3 22:00 - 12/4 01:00
-                new InstanceDto(1543870800000L, 1543993200000L, 0, 1) // 12/4 00:00 - 12/5 10:00
+                new Instance(1543795200000L, 1543967999000L, 0, 1), // 12/3 00:00 - 12/5 00:00
+                new Instance(1543881600000L, 1544054400000L, 0, 1), // 12/4 00:00 - 12/6 00:00
+                new Instance(1543863600000L, 1543874400000L, 0, 0), // 12/3 22:00 - 12/4 01:00
+                new Instance(1543870800000L, 1543993200000L, 0, 1) // 12/4 00:00 - 12/5 10:00
             ).collect(Collectors.toCollection(HashSet::new)), TODAY_WEEKDAY, 4),
 
             // with instances before and after the day
             Arguments.of(Stream.of(
-                new InstanceDto(1543795200000L, 1543881600000L, 0, 0), // 12/3 00:00 - 12/4 00:00
-                new InstanceDto(1543968000000L, 1544054400000L, 0, 0), // 12/5 00:00 - 12/6 00:00
-                new InstanceDto(1543863600000L, 1543870800000L, 0, 1), // 12/3 22:00 - 12/4 00:00
-                new InstanceDto(1543957200000L, 1543993200000L, 0, 0) // 12/5 00:00 - 12/5 10:00
+                new Instance(1543795200000L, 1543881600000L, 0, 0), // 12/3 00:00 - 12/4 00:00
+                new Instance(1543968000000L, 1544054400000L, 0, 0), // 12/5 00:00 - 12/6 00:00
+                new Instance(1543863600000L, 1543870800000L, 0, 1), // 12/3 22:00 - 12/4 00:00
+                new Instance(1543957200000L, 1543993200000L, 0, 0) // 12/5 00:00 - 12/5 10:00
             ).collect(Collectors.toCollection(HashSet::new)), TODAY_WEEKDAY, 0)
         );
     }

@@ -11,13 +11,12 @@ import java.time.temporal.ChronoUnit;
 import java.util.Set;
 
 import cat.mvmike.minimalcalendarwidget.infrastructure.SystemResolver;
-import cat.mvmike.minimalcalendarwidget.domain.entry.dto.InstanceDto;
 
 final class InstanceService {
 
     private static final int CALENDAR_DAYS_SPAN = 45;
 
-    static Set<InstanceDto> readAllInstances(final Context context) {
+    static Set<Instance> readAllInstances(final Context context) {
 
         LocalDate current = SystemResolver.get().getSystemLocalDate();
 

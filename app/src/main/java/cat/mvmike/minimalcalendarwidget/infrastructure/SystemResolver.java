@@ -31,7 +31,7 @@ import java.util.Set;
 import cat.mvmike.minimalcalendarwidget.R;
 import cat.mvmike.minimalcalendarwidget.domain.configuration.ConfigurableItem;
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Colour;
-import cat.mvmike.minimalcalendarwidget.domain.entry.dto.InstanceDto;
+import cat.mvmike.minimalcalendarwidget.domain.entry.Instance;
 
 @SuppressWarnings({
     "PMD.ClassWithOnlyPrivateConstructorsShouldBeFinal",
@@ -100,18 +100,18 @@ public class SystemResolver {
 
     // CALENDAR CONTRACT
 
-    public Set<InstanceDto> getInstances(final Context context, final long begin, final long end) {
+    public Set<Instance> getInstances(final Context context, final long begin, final long end) {
 
-        Cursor instanceCursor = CalendarContract.Instances.query(context.getContentResolver(), InstanceDto.FIELDS, begin, end);
+        Cursor instanceCursor = CalendarContract.Instances.query(context.getContentResolver(), Instance.FIELDS, begin, end);
 
         if (instanceCursor == null || instanceCursor.getCount() == 0) {
             return null;
         }
 
-        Set<InstanceDto> instances = new HashSet<>();
+        Set<Instance> instances = new HashSet<>();
         while (instanceCursor.moveToNext()) {
 
-            instances.add(new InstanceDto(
+            instances.add(new Instance(
                 instanceCursor.getLong(0),
                 instanceCursor.getLong(1),
                 instanceCursor.getInt(2),
