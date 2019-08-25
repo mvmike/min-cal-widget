@@ -51,7 +51,7 @@ public final class ReceiverService {
         } catch (IllegalArgumentException iae) {
 
             // if coming from old version, receiver might have not been initialized
-            Log.w(ReceiverService.class.getName(), iae.getMessage());
+            Log.w(ReceiverService.class.getName(), iae);
         }
     }
 }
