@@ -6,7 +6,7 @@ package cat.mvmike.minimalcalendarwidget.application.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.text.method.LinkMovementMethod;
 import android.view.Window;
 import android.widget.ArrayAdapter;
