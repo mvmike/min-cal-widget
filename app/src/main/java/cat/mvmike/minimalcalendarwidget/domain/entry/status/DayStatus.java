@@ -18,7 +18,7 @@ import static java.time.temporal.ChronoField.YEAR;
 
 public final class DayStatus {
 
-    private static final DecimalFormat DAY_OF_MONTH_DF = new DecimalFormat("00");
+    private static final String DAY_OF_MONTH_DF_PATTERN = "00";
 
     private final boolean inMonth;
 
@@ -55,7 +55,7 @@ public final class DayStatus {
     }
 
     public String getDayOfMonthString() {
-        return DAY_OF_MONTH_DF.format(dayOfMonth);
+        return new DecimalFormat(DAY_OF_MONTH_DF_PATTERN).format(dayOfMonth);
     }
 
     public boolean isSingleDigitDay() {
