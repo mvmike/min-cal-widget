@@ -17,7 +17,7 @@ public final class Instance {
         CalendarContract.Instances.END_DAY
     };
 
-    private static final int MILLIS_IN_A_DAY = 86400000;
+    private static final int MILLIS_IN_A_DAY = 86_400_000;
 
     private final Instant start;
 
