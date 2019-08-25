@@ -84,15 +84,14 @@ android {
     }
 }
 
-// https://developer.android.com/topic/libraries/support-library/packages.html
 dependencies {
     implementation 'androidx.multidex:multidex:2.0.1'
     implementation 'androidx.appcompat:appcompat:1.0.2'
 
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.1'
-    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.3.1'
-    testImplementation 'org.junit.jupiter:junit-jupiter-params:5.1.1'
-    testImplementation 'org.mockito:mockito-core:2.23.4'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.5.1'
+    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.5.1'
+    testImplementation 'org.junit.jupiter:junit-jupiter-params:5.5.1'
+    testImplementation 'org.mockito:mockito-core:3.0.0'
 }
 
 // https://pmd.github.io/
