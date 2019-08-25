@@ -86,7 +86,7 @@ android {
 
 // https://developer.android.com/topic/libraries/support-library/packages.html
 dependencies {
-    implementation 'androidx.multidex:multidex:2.0.0'
+    implementation 'androidx.multidex:multidex:2.0.1'
     implementation 'androidx.appcompat:appcompat:1.0.0'
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.1'
