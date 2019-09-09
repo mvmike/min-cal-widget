@@ -16,7 +16,7 @@ before_install:
   - yes | sdkmanager "platforms;android-29"
 
 script:
-  - ./gradlew test assemble pmd checkstyle
+  - ./gradlew test assemble pmd checkstyle -PchecksumFailOn=build_finish -PchecksumPrint
 
 before_cache:
   - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
