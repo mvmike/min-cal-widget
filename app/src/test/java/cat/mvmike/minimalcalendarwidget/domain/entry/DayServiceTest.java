@@ -91,11 +91,11 @@ class DayServiceTest extends BaseTest {
         verify(systemResolver, times(6)).createRow(context);
         verify(systemResolver, times(6)).addRowToWidget(widgetRv, rowRv);
 
-        verify(systemResolver, times(11)).createDay(context, 2131296284); // out of month
-        verify(systemResolver, times(1)).createDay(context, 2131296290); // today
-        verify(systemResolver, times(20)).createDay(context, 2131296289); // weekday
-        verify(systemResolver, times(5)).createDay(context, 2131296285); // saturday
-        verify(systemResolver, times(5)).createDay(context, 2131296287); // sunday
+        verify(systemResolver, times(11)).createDay(context, 2131361820); // out of month
+        verify(systemResolver, times(1)).createDay(context, 2131361826); // today
+        verify(systemResolver, times(20)).createDay(context, 2131361825); // weekday
+        verify(systemResolver, times(5)).createDay(context, 2131361821); // saturday
+        verify(systemResolver, times(5)).createDay(context, 2131361823); // sunday
 
         verify(systemResolver, times(1)).getColorInstancesTodayId(context); // today
         verify(systemResolver, times(41)).getColorInstancesId(context, CYAN); // not today
@@ -203,33 +203,33 @@ class DayServiceTest extends BaseTest {
     private static Stream<Arguments> getCombinationOfThemesAndDayStatuses() {
 
         return Stream.of(
-            Arguments.of(BLACK, TODAY_WEEKDAY, 2131296290),
-            Arguments.of(BLACK, TODAY_SATURDAY, 2131296286),
-            Arguments.of(BLACK, TODAY_SUNDAY, 2131296288),
-            Arguments.of(BLACK, IN_MONTH_WEEKDAY, 2131296289),
-            Arguments.of(BLACK, IN_MONTH_SATURDAY, 2131296285),
-            Arguments.of(BLACK, IN_MONTH_SUNDAY, 2131296287),
-            Arguments.of(BLACK, NOT_IN_MONTH_WEEKDAY, 2131296284),
-            Arguments.of(BLACK, NOT_IN_MONTH_SATURDAY, 2131296284),
-            Arguments.of(BLACK, NOT_IN_MONTH_SUNDAY, 2131296284),
-            Arguments.of(GREY, TODAY_WEEKDAY, 2131296301),
-            Arguments.of(GREY, TODAY_SATURDAY, 2131296297),
-            Arguments.of(GREY, TODAY_SUNDAY, 2131296299),
-            Arguments.of(GREY, IN_MONTH_WEEKDAY, 2131296300),
-            Arguments.of(GREY, IN_MONTH_SATURDAY, 2131296296),
-            Arguments.of(GREY, IN_MONTH_SUNDAY, 2131296298),
-            Arguments.of(GREY, NOT_IN_MONTH_WEEKDAY, 2131296295),
-            Arguments.of(GREY, NOT_IN_MONTH_SATURDAY, 2131296295),
-            Arguments.of(GREY, NOT_IN_MONTH_SUNDAY, 2131296295),
-            Arguments.of(WHITE, TODAY_WEEKDAY, 2131296324),
-            Arguments.of(WHITE, TODAY_SATURDAY, 2131296320),
-            Arguments.of(WHITE, TODAY_SUNDAY, 2131296322),
-            Arguments.of(WHITE, IN_MONTH_WEEKDAY, 2131296323),
-            Arguments.of(WHITE, IN_MONTH_SATURDAY, 2131296319),
-            Arguments.of(WHITE, IN_MONTH_SUNDAY, 2131296321),
-            Arguments.of(WHITE, NOT_IN_MONTH_WEEKDAY, 2131296318),
-            Arguments.of(WHITE, NOT_IN_MONTH_SATURDAY, 2131296318),
-            Arguments.of(WHITE, NOT_IN_MONTH_SUNDAY, 2131296318)
+            Arguments.of(BLACK, TODAY_WEEKDAY, 2131361826),
+            Arguments.of(BLACK, TODAY_SATURDAY, 2131361822),
+            Arguments.of(BLACK, TODAY_SUNDAY, 2131361824),
+            Arguments.of(BLACK, IN_MONTH_WEEKDAY, 2131361825),
+            Arguments.of(BLACK, IN_MONTH_SATURDAY, 2131361821),
+            Arguments.of(BLACK, IN_MONTH_SUNDAY, 2131361823),
+            Arguments.of(BLACK, NOT_IN_MONTH_WEEKDAY, 2131361820),
+            Arguments.of(BLACK, NOT_IN_MONTH_SATURDAY, 2131361820),
+            Arguments.of(BLACK, NOT_IN_MONTH_SUNDAY, 2131361820),
+            Arguments.of(GREY, TODAY_WEEKDAY, 2131361838),
+            Arguments.of(GREY, TODAY_SATURDAY, 2131361834),
+            Arguments.of(GREY, TODAY_SUNDAY, 2131361836),
+            Arguments.of(GREY, IN_MONTH_WEEKDAY, 2131361837),
+            Arguments.of(GREY, IN_MONTH_SATURDAY, 2131361833),
+            Arguments.of(GREY, IN_MONTH_SUNDAY, 2131361835),
+            Arguments.of(GREY, NOT_IN_MONTH_WEEKDAY, 2131361832),
+            Arguments.of(GREY, NOT_IN_MONTH_SATURDAY, 2131361832),
+            Arguments.of(GREY, NOT_IN_MONTH_SUNDAY, 2131361832),
+            Arguments.of(WHITE, TODAY_WEEKDAY, 2131361861),
+            Arguments.of(WHITE, TODAY_SATURDAY, 2131361857),
+            Arguments.of(WHITE, TODAY_SUNDAY, 2131361859),
+            Arguments.of(WHITE, IN_MONTH_WEEKDAY, 2131361860),
+            Arguments.of(WHITE, IN_MONTH_SATURDAY, 2131361856),
+            Arguments.of(WHITE, IN_MONTH_SUNDAY, 2131361858),
+            Arguments.of(WHITE, NOT_IN_MONTH_WEEKDAY, 2131361855),
+            Arguments.of(WHITE, NOT_IN_MONTH_SATURDAY, 2131361855),
+            Arguments.of(WHITE, NOT_IN_MONTH_SUNDAY, 2131361855)
         );
     }
 

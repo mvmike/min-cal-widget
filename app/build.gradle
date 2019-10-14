@@ -88,7 +88,7 @@ android {
 dependencies {
     //https://developer.android.com/jetpack/androidx/versions/
     implementation 'androidx.multidex:multidex:2.0.1'
-    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation 'androidx.appcompat:appcompat:1.1.0'
 
     //https://github.com/junit-team/junit5/releases
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.5.2'
