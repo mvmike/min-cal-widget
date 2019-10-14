@@ -116,7 +116,7 @@ task pmd(dependsOn: [pmdMain]) {}
 
 // http://checkstyle.sourceforge.net
 checkstyle {
-    toolVersion = '8.23'
+    toolVersion = '8.25'
 }
 
 task checkstyle(type: Checkstyle) {
