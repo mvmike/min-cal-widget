@@ -7,7 +7,6 @@ import android.content.Context;
 import android.widget.RemoteViews;
 
 import java.time.temporal.ChronoUnit;
-import java.util.HashSet;
 import java.util.Set;
 
 import cat.mvmike.minimalcalendarwidget.domain.configuration.ConfigurationService;
@@ -26,16 +25,13 @@ public final class DayService {
 
     private static final int DAYS_IN_WEEK = 7;
 
-    public static void setDays(final Context context, final RemoteViews remoteViews) {
+    public static void setDays(final Context context, final RemoteViews remoteViews, final Set<Instance> instanceSet) {
 
         int firstDayOfWeek = ConfigurationService.getStartWeekDay(context).ordinal();
         Theme theme = ConfigurationService.getTheme(context);
         Symbol symbol = ConfigurationService.getInstancesSymbols(context);
         Colour colour = ConfigurationService.getInstancesSymbolsColours(context);
         CalendarStatus cs = new CalendarStatus(firstDayOfWeek);
-
-        Set<Instance> instanceSet = SystemResolver.get().isReadCalendarPermitted(context) ?
-            InstanceService.readAllInstances(context) : new HashSet<>();
 
         RemoteViews rowRv;
         for (int week = 0; week < NUM_WEEKS; week++) {

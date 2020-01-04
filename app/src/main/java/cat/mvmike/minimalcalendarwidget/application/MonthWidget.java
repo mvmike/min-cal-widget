@@ -10,14 +10,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.widget.RemoteViews;
 
+import java.util.HashSet;
+import java.util.concurrent.TimeUnit;
+
 import cat.mvmike.minimalcalendarwidget.R;
+import cat.mvmike.minimalcalendarwidget.domain.configuration.ConfigurationService;
+import cat.mvmike.minimalcalendarwidget.domain.entry.DayService;
+import cat.mvmike.minimalcalendarwidget.domain.entry.InstanceService;
+import cat.mvmike.minimalcalendarwidget.domain.header.DayHeaderService;
+import cat.mvmike.minimalcalendarwidget.domain.header.MonthYearHeaderService;
 import cat.mvmike.minimalcalendarwidget.infrastructure.IntentService;
 import cat.mvmike.minimalcalendarwidget.infrastructure.ReceiverService;
 import cat.mvmike.minimalcalendarwidget.infrastructure.SystemResolver;
-import cat.mvmike.minimalcalendarwidget.domain.configuration.ConfigurationService;
-import cat.mvmike.minimalcalendarwidget.domain.header.DayHeaderService;
-import cat.mvmike.minimalcalendarwidget.domain.entry.DayService;
-import cat.mvmike.minimalcalendarwidget.domain.header.MonthYearHeaderService;
+
+import static java.util.concurrent.Executors.newSingleThreadExecutor;
 
 public final class MonthWidget extends AppWidgetProvider {
 
@@ -75,17 +81,19 @@ public final class MonthWidget extends AppWidgetProvider {
 
     private static void drawWidget(final Context context, final AppWidgetManager appWidgetManager, final int appWidgetId, final RemoteViews widgetRemoteView) {
 
-        // SET MONTH AND YEAR
-        MonthYearHeaderService.setMonthYearHeader(context, widgetRemoteView);
-
-        // SET DAY HEADERS AND DAYS
         widgetRemoteView.removeAllViews(R.id.calendar_widget);
-        DayHeaderService.setDayHeaders(context, widgetRemoteView);
-        DayService.setDays(context, widgetRemoteView);
 
         // LISTENER FOR WIDGET PRESS AND CONFIGURATION
-        IntentService.addListeners(context, widgetRemoteView);
+        newSingleThreadExecutor().execute(() -> IntentService.addListeners(context, widgetRemoteView));
 
+        // SET MONTH, YEAR AND DAY HEADERS
+        MonthYearHeaderService.setMonthYearHeader(context, widgetRemoteView);
+        DayHeaderService.setDayHeaders(context, widgetRemoteView);
         appWidgetManager.updateAppWidget(appWidgetId, widgetRemoteView);
+
+        // GET CALENDAR EVENT INSTANCES AND DRAW DAYS ASYNC
+        newSingleThreadExecutor().execute(() -> DayService.setDays(context, widgetRemoteView,
+            InstanceService.getInstancesWithTimeout(context, 200, TimeUnit.MILLISECONDS).orElse(new HashSet<>()))
+        );
     }
 }

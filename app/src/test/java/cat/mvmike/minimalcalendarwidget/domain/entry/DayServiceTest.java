@@ -74,18 +74,14 @@ class DayServiceTest extends BaseTest {
         when(systemResolver.getSystemLocalDate()).thenReturn(LocalDate.of(2018, 12, 4));
         when(systemResolver.isReadCalendarPermitted(context)).thenReturn(true);
         when(systemResolver.createDay(any(Context.class), anyInt())).thenReturn(cellRv);
-        when(systemResolver.getInstances(context, 1539982800000L, 1547758800000L)).thenReturn(getSpreadInstances());
         when(systemResolver.getColorInstancesTodayId(context)).thenReturn(98); // today
         when(systemResolver.getColorInstancesId(context, CYAN)).thenReturn(99); // not today
         when(systemResolver.createRow(context)).thenReturn(rowRv);
 
-        setDays(context, widgetRv);
+        setDays(context, widgetRv, getSpreadInstances());
 
         // per instance
-        verify(systemResolver, times(1)).isReadCalendarPermitted(context);
-        verify(systemResolver, times(1)).getInstances(context, 1539982800000L, 1547758800000L);
-        verify(systemResolver, times(2)).getSystemLocalDate();
-
+        verify(systemResolver, times(1)).getSystemLocalDate();
 
         // per week
         verify(systemResolver, times(6)).createRow(context);

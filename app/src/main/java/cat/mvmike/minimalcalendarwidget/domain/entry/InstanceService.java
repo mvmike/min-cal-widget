@@ -8,13 +8,32 @@ import android.content.Context;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
+import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import cat.mvmike.minimalcalendarwidget.infrastructure.SystemResolver;
 
-final class InstanceService {
+public final class InstanceService {
 
     private static final int CALENDAR_DAYS_SPAN = 45;
+
+    public static Optional<Set<Instance>> getInstancesWithTimeout(final Context context, final long timeout, final TimeUnit timeUnit) {
+
+        if (!SystemResolver.get().isReadCalendarPermitted(context)) {
+            return Optional.of(new HashSet<>());
+        }
+
+        try {
+            return Optional.of(CompletableFuture.supplyAsync(() -> readAllInstances(context)).get(timeout, timeUnit));
+        } catch (ExecutionException | TimeoutException | InterruptedException ignored) {
+            return Optional.empty();
+        }
+    }
 
     static Set<Instance> readAllInstances(final Context context) {
 
