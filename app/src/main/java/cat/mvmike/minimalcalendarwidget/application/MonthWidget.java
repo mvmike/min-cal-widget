@@ -11,19 +11,19 @@ import android.content.Intent;
 import android.widget.RemoteViews;
 
 import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import cat.mvmike.minimalcalendarwidget.R;
 import cat.mvmike.minimalcalendarwidget.domain.configuration.ConfigurationService;
 import cat.mvmike.minimalcalendarwidget.domain.entry.DayService;
+import cat.mvmike.minimalcalendarwidget.domain.entry.Instance;
 import cat.mvmike.minimalcalendarwidget.domain.entry.InstanceService;
 import cat.mvmike.minimalcalendarwidget.domain.header.DayHeaderService;
 import cat.mvmike.minimalcalendarwidget.domain.header.MonthYearHeaderService;
 import cat.mvmike.minimalcalendarwidget.infrastructure.IntentService;
 import cat.mvmike.minimalcalendarwidget.infrastructure.ReceiverService;
 import cat.mvmike.minimalcalendarwidget.infrastructure.SystemResolver;
-
-import static java.util.concurrent.Executors.newSingleThreadExecutor;
 
 public final class MonthWidget extends AppWidgetProvider {
 
@@ -84,16 +84,17 @@ public final class MonthWidget extends AppWidgetProvider {
         widgetRemoteView.removeAllViews(R.id.calendar_widget);
 
         // LISTENER FOR WIDGET PRESS AND CONFIGURATION
-        newSingleThreadExecutor().execute(() -> IntentService.addListeners(context, widgetRemoteView));
+        IntentService.addListeners(context, widgetRemoteView);
 
         // SET MONTH, YEAR AND DAY HEADERS
         MonthYearHeaderService.setMonthYearHeader(context, widgetRemoteView);
         DayHeaderService.setDayHeaders(context, widgetRemoteView);
-        appWidgetManager.updateAppWidget(appWidgetId, widgetRemoteView);
 
-        // GET CALENDAR EVENT INSTANCES AND DRAW DAYS ASYNC
-        newSingleThreadExecutor().execute(() -> DayService.setDays(context, widgetRemoteView,
-            InstanceService.getInstancesWithTimeout(context, 200, TimeUnit.MILLISECONDS).orElse(new HashSet<>()))
-        );
+        // GET CALENDAR EVENT INSTANCES AND SET DAYS
+        Set<Instance> instanceSet = InstanceService.getInstancesWithTimeout(context, 200, TimeUnit.MILLISECONDS).orElse(new HashSet<>());
+        DayService.setDays(context, widgetRemoteView, instanceSet);
+
+        // UPDATE WIDGET
+        appWidgetManager.updateAppWidget(appWidgetId, widgetRemoteView);
     }
 }
