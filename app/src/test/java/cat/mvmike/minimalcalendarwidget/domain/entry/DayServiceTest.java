@@ -12,6 +12,7 @@ import org.mockito.InOrder;
 import android.content.Context;
 import android.widget.RemoteViews;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.AbstractMap;
 import java.util.HashSet;
@@ -22,7 +23,6 @@ import java.util.stream.Stream;
 
 import cat.mvmike.minimalcalendarwidget.BaseTest;
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme;
-import cat.mvmike.minimalcalendarwidget.domain.entry.status.DayStatus;
 
 import static cat.mvmike.minimalcalendarwidget.domain.configuration.item.Colour.CYAN;
 import static cat.mvmike.minimalcalendarwidget.domain.configuration.item.Symbol.MINIMAL;
@@ -30,18 +30,16 @@ import static cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme.B
 import static cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme.GREY;
 import static cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme.WHITE;
 import static cat.mvmike.minimalcalendarwidget.domain.entry.DayService.getDayLayout;
+import static cat.mvmike.minimalcalendarwidget.domain.entry.DayService.getInitialLocalDate;
 import static cat.mvmike.minimalcalendarwidget.domain.entry.DayService.getNumberOfInstances;
 import static cat.mvmike.minimalcalendarwidget.domain.entry.DayService.setDays;
-import static cat.mvmike.minimalcalendarwidget.domain.entry.status.DayStatusTest.IN_MONTH_SATURDAY;
-import static cat.mvmike.minimalcalendarwidget.domain.entry.status.DayStatusTest.IN_MONTH_SUNDAY;
-import static cat.mvmike.minimalcalendarwidget.domain.entry.status.DayStatusTest.IN_MONTH_WEEKDAY;
-import static cat.mvmike.minimalcalendarwidget.domain.entry.status.DayStatusTest.NOT_IN_MONTH_SATURDAY;
-import static cat.mvmike.minimalcalendarwidget.domain.entry.status.DayStatusTest.NOT_IN_MONTH_SUNDAY;
-import static cat.mvmike.minimalcalendarwidget.domain.entry.status.DayStatusTest.NOT_IN_MONTH_WEEKDAY;
-import static cat.mvmike.minimalcalendarwidget.domain.entry.status.DayStatusTest.TODAY_SATURDAY;
-import static cat.mvmike.minimalcalendarwidget.domain.entry.status.DayStatusTest.TODAY_SUNDAY;
-import static cat.mvmike.minimalcalendarwidget.domain.entry.status.DayStatusTest.TODAY_WEEKDAY;
+import static java.time.DayOfWeek.FRIDAY;
 import static java.time.DayOfWeek.MONDAY;
+import static java.time.DayOfWeek.SATURDAY;
+import static java.time.DayOfWeek.SUNDAY;
+import static java.time.DayOfWeek.THURSDAY;
+import static java.time.DayOfWeek.TUESDAY;
+import static java.time.DayOfWeek.WEDNESDAY;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
@@ -54,6 +52,42 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 class DayServiceTest extends BaseTest {
+
+    private static final Day TODAY_WEEKDAY = new Day(
+        LocalDate.of(2018, 12, 4),
+        LocalDate.of(2018, 12, 4));
+
+    private static final Day TODAY_SATURDAY = new Day(
+        LocalDate.of(2018, 12, 8),
+        LocalDate.of(2018, 12, 8));
+
+    private static final Day TODAY_SUNDAY = new Day(
+        LocalDate.of(2018, 12, 9),
+        LocalDate.of(2018, 12, 9));
+
+    private static final Day IN_MONTH_WEEKDAY = new Day(
+        LocalDate.of(2018, 12, 4),
+        LocalDate.of(2018, 12, 14));
+
+    private static final Day IN_MONTH_SATURDAY = new Day(
+        LocalDate.of(2018, 12, 4),
+        LocalDate.of(2018, 12, 15));
+
+    private static final Day IN_MONTH_SUNDAY = new Day(
+        LocalDate.of(2018, 12, 4),
+        LocalDate.of(2018, 12, 16));
+
+    private static final Day NOT_IN_MONTH_WEEKDAY = new Day(
+        LocalDate.of(2018, 12, 4),
+        LocalDate.of(2018, 11, 23));
+
+    private static final Day NOT_IN_MONTH_SATURDAY = new Day(
+        LocalDate.of(2018, 12, 4),
+        LocalDate.of(2018, 11, 24));
+
+    private static final Day NOT_IN_MONTH_SUNDAY = new Day(
+        LocalDate.of(2018, 12, 4),
+        LocalDate.of(2018, 11, 25));
 
     private final RemoteViews widgetRv = mock(RemoteViews.class);
 
@@ -107,14 +141,20 @@ class DayServiceTest extends BaseTest {
 
     @ParameterizedTest
     @MethodSource("getCombinationOfThemesAndDayStatuses")
-    void getDayLayout_shouldComputeBasedOnThemeAndDayStatus(final Theme theme, final DayStatus ds, final int expectedResult) {
+    void getDayLayout_shouldComputeBasedOnThemeAndDayStatus(final Theme theme, final Day ds, final int expectedResult) {
         assertEquals(expectedResult, getDayLayout(theme, ds));
     }
 
     @ParameterizedTest
     @MethodSource("getCombinationOfInstanceSetsAndDayStatuses")
-    void getNumberOfInstances_shouldComputeBasedOnInstanceSet(final Set<Instance> instanceSet, final DayStatus ds, final int expectedResult) {
+    void getNumberOfInstances_shouldComputeBasedOnInstanceSet(final Set<Instance> instanceSet, final Day ds, final int expectedResult) {
         assertEquals(expectedResult, getNumberOfInstances(instanceSet, ds));
+    }
+
+    @ParameterizedTest
+    @MethodSource("getCombinationOfLocalDatesAndInitialLocalDate")
+    void getInitialLocalDate_shouldGetInitialLocalDate(final LocalDate systemLocalDate, final DayOfWeek dayOfWeek, final LocalDate expectedInitialLocalDate) {
+        assertEquals(expectedInitialLocalDate, getInitialLocalDate(systemLocalDate, dayOfWeek.ordinal()));
     }
 
     private static Set<Instance> getSpreadInstances() {
@@ -230,7 +270,6 @@ class DayServiceTest extends BaseTest {
     }
 
     private static Stream<Arguments> getCombinationOfInstanceSetsAndDayStatuses() {
-
         return Stream.of(
 
             // all in
@@ -254,6 +293,39 @@ class DayServiceTest extends BaseTest {
                 new Instance(1543863600000L, 1543870800000L, 0, 1), // 12/3 22:00 - 12/4 00:00
                 new Instance(1543957200000L, 1543993200000L, 0, 0) // 12/5 00:00 - 12/5 10:00
             ).collect(Collectors.toCollection(HashSet::new)), TODAY_WEEKDAY, 0)
+        );
+
+    }
+
+    private static Stream<Arguments> getCombinationOfLocalDatesAndInitialLocalDate() {
+        return Stream.of(
+            Arguments.of(
+                LocalDate.of(2020, 1, 20), MONDAY,
+                LocalDate.of(2019, 12, 30)),
+            Arguments.of(
+                LocalDate.of(2020, 1, 20), TUESDAY,
+                LocalDate.of(2019, 12, 31)),
+            Arguments.of(
+                LocalDate.of(2020, 1, 20), WEDNESDAY,
+                LocalDate.of(2020, 1, 1)),
+            Arguments.of(
+                LocalDate.of(2020, 1, 20), THURSDAY,
+                LocalDate.of(2019, 12, 26)),
+            Arguments.of(
+                LocalDate.of(2020, 1, 20), FRIDAY,
+                LocalDate.of(2019, 12, 27)),
+            Arguments.of(
+                LocalDate.of(2020, 1, 20), SATURDAY,
+                LocalDate.of(2019, 12, 28)),
+            Arguments.of(
+                LocalDate.of(2020, 1, 20), SUNDAY,
+                LocalDate.of(2019, 12, 29)),
+            Arguments.of(
+                LocalDate.of(2020, 1, 1), MONDAY,
+                LocalDate.of(2019, 12, 30)),
+            Arguments.of(
+                LocalDate.of(2020, 1, 31), MONDAY,
+                LocalDate.of(2019, 12, 30))
         );
     }
 }

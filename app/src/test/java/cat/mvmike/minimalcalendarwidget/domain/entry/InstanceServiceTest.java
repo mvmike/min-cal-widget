@@ -56,7 +56,7 @@ final class InstanceServiceTest extends BaseTest {
         when(systemResolver.getSystemLocalDate()).thenReturn(LocalDate.of(2018, 12, 4));
         when(systemResolver.getInstances(context, 1539982800000L, 1547758800000L)).thenReturn(expectedInstances);
 
-        Optional<Set<Instance>> instances = getInstancesWithTimeout(context, 5, TimeUnit.MILLISECONDS);
+        Optional<Set<Instance>> instances = getInstancesWithTimeout(context, 200, TimeUnit.MILLISECONDS);
         assertTrue(instances.isPresent());
         assertEquals(expectedInstances, instances.get());
     }
