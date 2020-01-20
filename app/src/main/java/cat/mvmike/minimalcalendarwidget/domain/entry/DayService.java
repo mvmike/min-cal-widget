@@ -8,6 +8,7 @@ import android.widget.RemoteViews;
 
 import java.time.LocalDate;
 import java.util.Set;
+import java.util.stream.IntStream;
 
 import cat.mvmike.minimalcalendarwidget.domain.configuration.ConfigurationService;
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Colour;
@@ -38,41 +39,32 @@ public final class DayService {
         Symbol symbol = ConfigurationService.getInstancesSymbols(context);
         Colour colour = ConfigurationService.getInstancesSymbolsColours(context);
 
-        LocalDate systemLocalDate = SystemResolver.get().getSystemLocalDate();
-        LocalDate iterationLocalDate = getInitialLocalDate(systemLocalDate, firstDayOfWeek);
+        final LocalDate systemLocalDate = SystemResolver.get().getSystemLocalDate();
 
-        RemoteViews rowRv;
-        for (int week = 0; week < NUM_WEEKS; week++) {
+        IntStream.range(0, NUM_WEEKS).forEach(week -> {
 
-            rowRv = SystemResolver.get().createRow(context);
+            RemoteViews rowRv = SystemResolver.get().createRow(context);
 
-            Day ds;
-            RemoteViews cellRv;
-            for (int day = 0; day < DAYS_IN_WEEK; day++) {
+            IntStream.range(0, DAYS_IN_WEEK).forEach(day -> {
 
-                ds = new Day(systemLocalDate, iterationLocalDate);
-                cellRv = SystemResolver.get().createDay(context, getDayLayout(theme, ds));
+                LocalDate localDate = getInitialLocalDate(systemLocalDate, firstDayOfWeek).plus(week * DAYS_IN_WEEK + day, DAYS);
+                Day currentDay = new Day(systemLocalDate, localDate);
+                RemoteViews cellRv = SystemResolver.get().createDay(context, getDayLayout(theme, currentDay));
 
-                int numberOfInstances = getNumberOfInstances(instanceSet, ds);
-                int color = ds.isToday() ?
+                int numberOfInstances = getNumberOfInstances(instanceSet, currentDay);
+                int color = currentDay.isToday() ?
                     SystemResolver.get().getColorInstancesTodayId(context) :
                     SystemResolver.get().getColorInstancesId(context, colour);
 
                 SystemResolver.get().addDayCellRemoteView(
-                    context,
-                    rowRv,
-                    cellRv,
-                    PADDING + ds.getDayOfMonthString() + PADDING + symbol.getSymbol(numberOfInstances),
-                    ds.isToday(),
-                    ds.isSingleDigitDay(),
-                    symbol.getRelativeSize(),
-                    color);
-
-                iterationLocalDate = iterationLocalDate.plus(1, DAYS);
-            }
+                    context, rowRv, cellRv,
+                    PADDING + currentDay.getDayOfMonthString() + PADDING + symbol.getSymbol(numberOfInstances),
+                    currentDay.isToday(), currentDay.isSingleDigitDay(), symbol.getRelativeSize(), color);
+            });
 
             SystemResolver.get().addRowToWidget(remoteViews, rowRv);
-        }
+        });
+
     }
 
     static int getDayLayout(final Theme theme, final Day ds) {
