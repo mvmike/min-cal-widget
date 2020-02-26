@@ -66,4 +66,5 @@
     <!-- messages-->
     <string name="no_calendar_application">Geen agenda-applicatie gevonden</string>
     <string name="no_browser_application">Der blev ikke fundet nogen browserapplikation</string>
+    <string name="app_name" translatable="false"></string>
 </resources>
