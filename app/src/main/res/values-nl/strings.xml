@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--DUTCH-->
-    <string name="app_name" translatable="false"/>
+    <string name="app_name" translatable="false"></string>
     <!--Configuration-->
     <string name="configuration">Instellingen</string>
     <string name="behaviour">Opførsel</string>
