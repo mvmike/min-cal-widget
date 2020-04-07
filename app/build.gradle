@@ -96,7 +96,7 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-params:5.6.1'
 
     //https://github.com/mockito/mockito/releases
-    testImplementation 'org.mockito:mockito-core:3.1.0'
+    testImplementation 'org.mockito:mockito-core:3.3.3'
 }
 
 // https://pmd.github.io/
