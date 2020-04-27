@@ -1,27 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <!--CROATIAN-->
     <string name="app_name">MinCal Widget</string>
-
     <!--Configuration-->
     <string name="configuration">Konfiguracija</string>
-
     <string name="behaviour">Ponašanje</string>
     <string name="start_week_day">Prvi dan tjedna</string>
     <string name="show_declined_events">Prikaži odbijene događaje</string>
     <string name="focus_on_current_week">Usredotoči se na tekući tjedan</string>
-
     <string name="appearance">Izgled</string>
     <string name="theme">Tema</string>
     <string name="symbol_set">Skup simbola</string>
     <string name="symbol_colour">Boja simbola</string>
     <string name="transparency">Prozirnost</string>
-
     <string name="about">Informacije</string>
     <string name="version">Verzija</string>
     <string name="source">Izvor</string>
-
     <!-- Months of year-->
     <string name="january">Siječanj</string>
     <string name="february">Veljača</string>
@@ -35,7 +29,6 @@
     <string name="october">Listopad</string>
     <string name="november">Studeni</string>
     <string name="december">Prosinac</string>
-
     <!--Days of week-->
     <string name="monday">Ponedjeljak</string>
     <string name="tuesday">Utorak</string>
@@ -44,7 +37,6 @@
     <string name="friday">Petak</string>
     <string name="saturday">Subota</string>
     <string name="sunday">Nedjelja</string>
-
     <!--Days of week abbreviated-->
     <string name="monday_abb">Pon</string>
     <string name="tuesday_abb">Uto</string>
@@ -53,11 +45,9 @@
     <string name="friday_abb">Pet</string>
     <string name="saturday_abb">Sub</string>
     <string name="sunday_abb">Ned</string>
-
     <!--Themes-->
     <string name="dark">Tamna</string>
     <string name="light">Svijetla</string>
-
     <!--Symbols-->
     <string name="minimal">Najmanji</string>
     <string name="vertical">Okomiti</string>
@@ -66,7 +56,6 @@
     <string name="roman">Rimski</string>
     <string name="binary">Binarni</string>
     <string name="none">Bez</string>
-
     <!--Colours-->
     <string name="system_accent">Boje sustava</string>
     <string name="cyan">Cijan</string>
@@ -76,9 +65,7 @@
     <string name="yellow">Žuta</string>
     <string name="black">Crna</string>
     <string name="white">Bijela</string>
-
     <!-- messages-->
     <string name="no_calendar_application">Nije pronađena nijedna aplikacija kalendara</string>
     <string name="no_browser_application">Nije pronađena nijedna aplikacija preglednika</string>
-
 </resources>
