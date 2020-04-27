@@ -1,26 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <!--CROATIAN-->
-
     <!--Configuration-->
     <string name="configuration">Konfiguracija</string>
-
     <string name="behaviour">Ponašanje</string>
     <string name="start_week_day">Prvi dan tjedna</string>
     <string name="show_declined_events">Prikazati odbijene događaje</string>
     <string name="focus_on_current_week">Usredotočite se na tekući tjedan</string>
-
     <string name="appearance">Izgled</string>
     <string name="theme">Tema</string>
     <string name="symbol_set">Vrsta simbola</string>
     <string name="symbol_colour">Boja simbola</string>
     <string name="transparency">Transparentnost</string>
-
     <string name="about">Oko</string>
     <string name="version">Verzija</string>
     <string name="source">Izvorni kod</string>
-
     <!-- Months of year-->
     <string name="january">Siječanj</string>
     <string name="february">Veljača</string>
@@ -34,7 +28,6 @@
     <string name="october">Листопад</string>
     <string name="november">Studeni</string>
     <string name="december">Prosinac</string>
-
     <!--Days of week-->
     <string name="monday">Ponedjeljak</string>
     <string name="tuesday">Utorak</string>
@@ -43,7 +36,6 @@
     <string name="friday">Petak</string>
     <string name="saturday">Subota</string>
     <string name="sunday">Nedjelja</string>
-
     <!--Days of week abbreviated-->
     <string name="monday_abb">pon</string>
     <string name="tuesday_abb">uto</string>
@@ -52,11 +44,9 @@
     <string name="friday_abb">pet</string>
     <string name="saturday_abb">sub</string>
     <string name="sunday_abb">ned</string>
-
     <!--Themes-->
     <string name="dark">Taman</string>
     <string name="light">Svjetlosni</string>
-
     <!--Symbols-->
     <string name="minimal">Najmanji</string>
     <string name="vertical">Okomiti</string>
@@ -65,7 +55,6 @@
     <string name="roman">Rimski</string>
     <string name="binary">Binarni</string>
     <string name="none">Bez</string>
-
     <!--Colours-->
     <string name="black">Crna</string>
     <string name="white">Bijela</string>
@@ -74,9 +63,8 @@
     <string name="blue">Plava</string>
     <string name="green">Zelena</string>
     <string name="yellow">Žuta</string>
-
     <!-- messages-->
     <string name="no_calendar_application">Nije pronađena aplikacija za kalendar</string>
     <string name="no_browser_application">Nije pronađena nijedna aplikacija preglednika</string>
-
+    <string name="app_name" translatable="false"></string>
 </resources>
