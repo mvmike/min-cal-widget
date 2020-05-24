@@ -91,9 +91,9 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.1.0'
 
     //https://github.com/junit-team/junit5/releases
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.1'
-    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.6.1'
-    testImplementation 'org.junit.jupiter:junit-jupiter-params:5.6.1'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.6.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter-params:5.6.2'
 
     //https://github.com/mockito/mockito/releases
     testImplementation 'org.mockito:mockito-core:3.3.3'
