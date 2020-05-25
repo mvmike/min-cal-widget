@@ -66,4 +66,5 @@
     <!-- messages-->
     <string name="no_calendar_application">Finner ingen kalenderapplikasjon</string>
     <string name="no_browser_application">Finner ingen nettleserapplikasjon</string>
+    <string name="app_name" translatable="false"></string>
 </resources>
