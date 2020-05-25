@@ -1,2 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="roman">Römisch</string>
+    <string name="minimal">Minimum</string>
+    <string name="none">Keine</string>
+    <string name="binary">Binär</string>
+    <string name="mint">Mint</string>
+    <string name="symbol_colour_set">Farbe des Symbols:</string>
+    <string name="symbol_set">Zeichensatz:</string>
+    <string name="app_name">MinCal-Widget</string>
+    <string name="sunday_abb">So</string>
+    <string name="saturday_abb">Sa</string>
+    <string name="friday_abb">Fr</string>
+    <string name="thursday_abb">Do</string>
+    <string name="wednesday_abb">Mi</string>
+    <string name="tuesday_abb">Di</string>
+    <string name="monday_abb">Mo</string>
+    <string name="source">" &lt;a href=\"https://github.com/mvmike/min-cal-widget\"&gt;source&lt;/a&gt; "<a href="https://github.com/mvmike/min-cal-widget">source</a>
+    </string>
+    <string name="apply_changes">ANWENDEN</string>
+    <string name="start_week_day">Start Tag:</string>
+    <string name="theme">Thema:</string>
+    <string name="configuration">Konfiguration</string>
+    <string name="numbers">Nummern</string>
+    <string name="circles">Kreise</string>
+    <string name="vertical">Vertikal</string>
+    <string name="sunday">Sonntag</string>
+    <string name="saturday">Samstag</string>
+    <string name="friday">Freitag</string>
+    <string name="thursday">Donnerstag</string>
+    <string name="wednesday">Mittwoch</string>
+    <string name="tuesday">Dienstag</string>
+    <string name="monday">Montag</string>
+    <string name="yellow">Gelb</string>
+    <string name="green">Grün</string>
+    <string name="blue">Blau</string>
+    <string name="cyan">Türkis</string>
+    <string name="white">Weiß</string>
+    <string name="grey">Grau</string>
+    <string name="black">Schwarz</string>
+</resources>
