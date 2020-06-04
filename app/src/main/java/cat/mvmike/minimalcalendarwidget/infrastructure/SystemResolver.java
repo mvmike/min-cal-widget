@@ -48,12 +48,13 @@ public class SystemResolver {
 
         Locale.ENGLISH,
         new Locale("ca"), // catalan
+        new Locale("de"), // german
         new Locale("es"), // spanish
         new Locale("fr"), // french
+        new Locale("hr"), // croatian
         new Locale("nb"), // norwegian
         new Locale("nl"), // dutch
         new Locale("ru") // russian
-
     ));
 
     private static volatile SystemResolver instance;
