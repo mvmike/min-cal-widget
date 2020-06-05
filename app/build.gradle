@@ -68,7 +68,7 @@ android {
 
     applicationVariants.all { variant ->
         variant.outputs.all { output ->
-            def buildType = variant.variantData.variantConfiguration.buildType.name
+            def buildType = variant.buildType.name
             outputFileName = new File("min-cal-widget-" + buildType + ".apk")
         }
     }
