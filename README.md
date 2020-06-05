@@ -48,6 +48,7 @@ MinCal Widget is licensed under the [BSD 3-clause](LICENSE).
 
 | Version        | Date           | Changes                                                                                                                                                             |
 | :------------: |:-------------: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| v1.4.1         | 2020-06-05     | - internationalization (German and Croatian)<br>- technical improvements                                                                                            |
 | v1.4.0         | 2019-08-25     | - support for android 10<br>- technical improvements                                                                                                                |
 | v1.3.0         | 2019-04-15     | - use adaptive icon set<br>- improve cells text alignment                                                                                                           |
 | v1.2.3         | 2019-04-08     | - internationalization (French and Norwegian)                                                                                                                       |
