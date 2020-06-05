@@ -1,41 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="none">Bez</string>
-    <string name="binary">Binarni</string>
-    <string name="roman">Rimski</string>
-    <string name="numbers">Brojevi</string>
-    <string name="circles">Krugovi</string>
-    <string name="vertical">Okomiti</string>
-    <string name="minimal">Najmanji</string>
-    <string name="sunday_abb">ned</string>
-    <string name="saturday_abb">sub</string>
-    <string name="friday_abb">pet</string>
-    <string name="thursday_abb">čet</string>
-    <string name="wednesday_abb">sri</string>
-    <string name="tuesday_abb">uto</string>
-    <string name="monday_abb">pon</string>
-    <string name="sunday">Nedjelja</string>
-    <string name="saturday">Subota</string>
-    <string name="friday">Petak</string>
-    <string name="thursday">Četvrtak</string>
-    <string name="wednesday">Srijeda</string>
-    <string name="tuesday">Utorak</string>
-    <string name="monday">Ponedjeljak</string>
-    <string name="yellow">Žuta</string>
-    <string name="green">Zelena</string>
-    <string name="blue">Plava</string>
-    <string name="mint">Metvica</string>
-    <string name="cyan">Cijan</string>
-    <string name="white">Bijela</string>
-    <string name="grey">Siva</string>
-    <string name="black">Crna</string>
-    <string name="source">" &lt;a href=\"https://github.com/mvmike/min-cal-widget\"&gt;izvor&lt;/a&gt; "<a href="https://github.com/mvmike/min-cal-widget">source</a>
-    </string>
-    <string name="apply_changes">PRIMIJENI</string>
-    <string name="symbol_colour_set">Boja simbola:</string>
-    <string name="symbol_set">Vrsta simbola:</string>
-    <string name="start_week_day">Prvi dan tjedna:</string>
-    <string name="theme">Tema:</string>
-    <string name="configuration">Konfiguracija</string>
+
+    <!--app name-->
     <string name="app_name">MinCal Widget</string>
+
+    <!--configuration-->
+    <string name="configuration">Konfiguracija</string>
+
+    <string name="theme">Tema:</string>
+    <string name="start_week_day">Prvi dan tjedna:</string>
+    <string name="symbol_set">Vrsta simbola:</string>
+    <string name="symbol_colour_set">Boja simbola:</string>
+
+    <string name="apply_changes">PRIMIJENI</string>
+
+    <string name="source">
+        <a href="https://github.com/mvmike/min-cal-widget">source</a>
+    </string>
+
+    <!--Colours-->
+    <string name="black">Crna</string>
+    <string name="grey">Siva</string>
+    <string name="white">Bijela</string>
+    <string name="cyan">Cijan</string>
+    <string name="mint">Metvica</string>
+    <string name="blue">Plava</string>
+    <string name="green">Zelena</string>
+    <string name="yellow">Žuta</string>
+
+    <!--Days of week-->
+    <string name="monday">Ponedjeljak</string>
+    <string name="tuesday">Utorak</string>
+    <string name="wednesday">Srijeda</string>
+    <string name="thursday">Četvrtak</string>
+    <string name="friday">Petak</string>
+    <string name="saturday">Subota</string>
+    <string name="sunday">Nedjelja</string>
+
+    <!--Days of week abbreviated-->
+    <string name="monday_abb">pon</string>
+    <string name="tuesday_abb">uto</string>
+    <string name="wednesday_abb">sri</string>
+    <string name="thursday_abb">čet</string>
+    <string name="friday_abb">pet</string>
+    <string name="saturday_abb">sub</string>
+    <string name="sunday_abb">ned</string>
+
+    <!--Symbols-->
+    <string name="minimal">Najmanji</string>
+    <string name="vertical">Okomiti</string>
+    <string name="circles">Krugovi</string>
+    <string name="numbers">Brojevi</string>
+    <string name="roman">Rimski</string>
+    <string name="binary">Binarni</string>
+    <string name="none">Bez</string>
+
 </resources>

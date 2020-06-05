@@ -2,7 +2,7 @@
 <resources>
 
     <!--app name-->
-    <string name="app_name">Widget MinCal</string>
+    <string name="app_name">MinCal Widget</string>
 
     <!--configuration-->
     <string name="configuration">Configuration</string>
@@ -15,7 +15,7 @@
     <string name="apply_changes">APPLIQUER</string>
 
     <string name="source">
-        <a href="https://github.com/mvmike/min-cal-widget">Source</a>
+        <a href="https://github.com/mvmike/min-cal-widget">source</a>
     </string>
 
     <!--Colours-->
