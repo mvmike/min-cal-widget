@@ -59,6 +59,11 @@ android {
         abortOnError true
     }
 
+    sourceSets {
+        main.java.srcDirs += 'src/main/java'
+        test.java.srcDirs += 'src/test/java'
+    }
+
     compileOptions {
         compileOptions.encoding = "UTF-8"
 
