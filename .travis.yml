@@ -8,12 +8,12 @@ android:
     - tools
     - platform-tools
     - build-tools-29.0.3
-    - android-29
+    - android-30
     - extra-android-m2repository
     - extra-google-m2repository
 
 before_install:
-  - yes | sdkmanager "platforms;android-29"
+  - yes | sdkmanager "platforms;android-30"
 
 script:
   - ./gradlew clean test assemble pmd checkstyle

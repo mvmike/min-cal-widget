@@ -4,7 +4,7 @@ apply plugin: 'checkstyle'
 
 android {
 
-    compileSdkVersion 29
+    compileSdkVersion 30
     //https://developer.android.com/studio/releases/build-tools
     buildToolsVersion '29.0.3'
 
@@ -12,7 +12,7 @@ android {
 
         applicationId "cat.mvmike.minimalcalendarwidget"
         minSdkVersion 26    // 8.0
-        targetSdkVersion 29 // 10.0
+        targetSdkVersion 30 // 10.0
         versionCode 21
         versionName "1.4.1"
 
