@@ -102,7 +102,7 @@ dependencies {
 
 // https://pmd.github.io/
 pmd {
-    toolVersion = '6.22.0'
+    toolVersion = '6.26.0'
     consoleOutput = true
 }
 
