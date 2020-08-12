@@ -115,9 +115,9 @@ task pmdMain(type: Pmd, dependsOn: "assembleDebug") {
 
 task pmd(dependsOn: [pmdMain]) {}
 
-// http://checkstyle.sourceforge.net
+// https://checkstyle.sourceforge.io/releasenotes.html
 checkstyle {
-    toolVersion = '8.31'
+    toolVersion = '8.35'
 }
 
 task checkstyle(type: Checkstyle) {
