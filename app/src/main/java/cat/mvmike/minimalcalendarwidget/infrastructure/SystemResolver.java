@@ -54,6 +54,7 @@ public class SystemResolver {
         new Locale("hr"), // croatian
         new Locale("nb"), // norwegian
         new Locale("nl"), // dutch
+        new Locale("pl"), // polish
         new Locale("ru") // russian
     ));
 
