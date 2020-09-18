@@ -10,9 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.widget.RemoteViews;
 
-import java.util.HashSet;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 import cat.mvmike.minimalcalendarwidget.R;
 import cat.mvmike.minimalcalendarwidget.domain.configuration.ConfigurationService;
@@ -91,7 +89,7 @@ public final class MonthWidget extends AppWidgetProvider {
         DayHeaderService.setDayHeaders(context, widgetRemoteView);
 
         // GET CALENDAR EVENT INSTANCES AND SET DAYS
-        Set<Instance> instanceSet = InstanceService.getInstancesWithTimeout(context, 200, TimeUnit.MILLISECONDS).orElse(new HashSet<>());
+        Set<Instance> instanceSet = InstanceService.getInstances(context);
         DayService.setDays(context, widgetRemoteView, instanceSet);
 
         // UPDATE WIDGET
