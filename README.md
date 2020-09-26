@@ -34,10 +34,13 @@
 
 * English
 * Catalan
+* German
 * Spanish
 * French
+* Croatian
 * Norwegian
 * Dutch
+* Polish
 * Russian
 
 #### Licensing
