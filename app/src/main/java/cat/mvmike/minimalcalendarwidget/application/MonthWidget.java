@@ -20,6 +20,7 @@ import cat.mvmike.minimalcalendarwidget.domain.entry.InstanceService;
 import cat.mvmike.minimalcalendarwidget.domain.header.DayHeaderService;
 import cat.mvmike.minimalcalendarwidget.domain.header.MonthYearHeaderService;
 import cat.mvmike.minimalcalendarwidget.infrastructure.IntentService;
+import cat.mvmike.minimalcalendarwidget.infrastructure.PermissionService;
 import cat.mvmike.minimalcalendarwidget.infrastructure.ReceiverService;
 import cat.mvmike.minimalcalendarwidget.infrastructure.SystemResolver;
 
@@ -58,6 +59,12 @@ public final class MonthWidget extends AppWidgetProvider {
     public void onReceive(final Context context, final Intent intent) {
 
         super.onReceive(context, intent);
+
+        if (!PermissionService.hasPermissions(context)) {
+            PermissionService.launchPermissionsActivity(context);
+            return;
+        }
+
         IntentService.processIntent(context, intent);
         forceRedraw(context);
     }
