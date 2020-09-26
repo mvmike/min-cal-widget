@@ -28,7 +28,7 @@
 * Displays all events from your calendars with a symbol set (high number becomes generic)
 * Pressing on header opens widget configuration
 * Pressing on widget day cells opens calendar application
-* minSDK: 26 (android 8.0), to use `java.time.*` package instead of Date/Calendar APIs
+* Configurable start day of the week, theme and symbol set and colour
 
 #### Supported languages
 
