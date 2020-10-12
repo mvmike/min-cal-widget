@@ -42,10 +42,12 @@ public final class ConfigurationService {
         return Colour.valueOf(getEnumString(context, INSTANCES_SYMBOLS_COLOUR, Colour.CYAN));
     }
 
-    public static <T> void set(final Context context, final ConfigurableItem configurableItem, final T value) {
-        getConfiguration(context).edit().putString(configurableItem.key(), ((Enum) value).name()).apply();
+    @SuppressWarnings("rawtypes")
+    public static void set(final Context context, final ConfigurableItem configurableItem, final Enum value) {
+        getConfiguration(context).edit().putString(configurableItem.key(), value.name()).apply();
     }
 
+    @SuppressWarnings("rawtypes")
     private static String getEnumString(final Context context, final ConfigurableItem configurableItem, final Enum defaultValue) {
         return getConfiguration(context).getString(configurableItem.key(), defaultValue.name());
     }
