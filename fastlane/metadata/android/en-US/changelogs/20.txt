@@ -1,0 +1,3 @@
+**v1.4.0**
+* support for android 10
+* technical improvements

@@ -1,0 +1,8 @@
+Minimal calendar widget
+
+    * Always displays current date's month
+    * 3x2 (resizable)
+    * Displays all events from your calendars with a symbol set (high number becomes generic)
+    * Pressing on header opens widget configuration
+    * Pressing on any other part of the widget opens calendar application
+    * Configurable theme, start day of the week and symbol set and colour

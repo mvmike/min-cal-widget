@@ -1,0 +1,3 @@
+**v1.3.0**
+* use adaptive icon set
+* improve cells text alignment

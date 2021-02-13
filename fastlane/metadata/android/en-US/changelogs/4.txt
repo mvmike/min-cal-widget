@@ -1,0 +1,4 @@
+**v0.2.0**
+* support themes
+* redraw widget on date change
+* redraw widget on calendar event instance change

@@ -1,0 +1,3 @@
+**v1.2.1**
+* internationalization (Dutch and Russian)
+* technical improvements

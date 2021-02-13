@@ -1,0 +1,6 @@
+**v0.1.0**
+* raised icon contrast
+* permissions are asked at first calendar press
+* source and donation link in settings
+* events colour configuration
+* bug fixes

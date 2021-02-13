@@ -1,0 +1,2 @@
+**v1.2.3**
+* internationalization (French and Norwegian)

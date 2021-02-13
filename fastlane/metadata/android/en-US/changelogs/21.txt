@@ -1,0 +1,3 @@
+**v1.4.1**
+* internationalization (German and Croatian)
+* technical improvements
