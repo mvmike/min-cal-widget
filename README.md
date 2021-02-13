@@ -1,4 +1,4 @@
-# MinCal Widget  <img align="left" src="https://raw.githubusercontent.com/mvmike/min-cal-widget/master/fastlane/metadata/android/en-US/images/icon.png" width="64" />
+# MinCal Widget  <img align="left" src="https://raw.githubusercontent.com/mvmike/min-cal-widget/master/fastlane/metadata/android/en-US/images/icon.png" width="42"/>
 
 [![GitHub release](https://img.shields.io/github/release/mvmike/min-cal-widget.svg)](https://github.com/mvmike/min-cal-widget/releases)
 [![Build Status](https://travis-ci.org/mvmike/min-cal-widget.svg?branch=master)](https://travis-ci.org/mvmike/min-cal-widget)
