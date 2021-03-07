@@ -95,7 +95,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.2.0'
 
     //https://github.com/junit-team/junit5/releases
-    def junitJupiterVersion = '5.7.0'
+    def junitJupiterVersion = '5.7.1'
     testImplementation "org.junit.jupiter:junit-jupiter-api:$junitJupiterVersion"
     testImplementation "org.junit.jupiter:junit-jupiter-engine:$junitJupiterVersion"
     testImplementation "org.junit.jupiter:junit-jupiter-params:$junitJupiterVersion"
