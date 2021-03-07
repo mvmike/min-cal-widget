@@ -42,8 +42,8 @@ class SymbolTest {
             Arguments.of(Symbol.ROMAN, 11, '∾'),
             Arguments.of(Symbol.ROMAN, 100, '∾'),
             Arguments.of(Symbol.BINARY, 1, '☱'),
-            Arguments.of(Symbol.BINARY, 8, '※'),
-            Arguments.of(Symbol.BINARY, 9, '※')
+            Arguments.of(Symbol.BINARY, 8, '◼'),
+            Arguments.of(Symbol.BINARY, 9, '◼')
         );
     }
 }

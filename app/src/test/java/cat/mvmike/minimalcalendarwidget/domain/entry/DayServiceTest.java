@@ -133,7 +133,7 @@ class DayServiceTest extends BaseTest {
         InOrder inOrder = inOrder(systemResolver);
         getExpectedDays().forEach(
             c -> inOrder.verify(systemResolver, times(1))
-                .addDayCellRemoteView(context, rowRv, cellRv, c.getKey(), c.getValue(), c.getKey().startsWith(" 0"), 1.2f, c.getValue() ? 98 : 99)
+                .addDayCellRemoteView(context, rowRv, cellRv, c.getKey(), c.getValue(), c.getKey().startsWith(" 0"), 1.1f, c.getValue() ? 98 : 99)
         );
 
         verifyNoMoreInteractions(systemResolver);
