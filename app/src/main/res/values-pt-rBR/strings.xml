@@ -1,27 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <!--PORTUGUESE (BRAZIL)-->
     <string name="app_name">MinCal Widget</string>
-
     <!--Configuration-->
     <string name="configuration">Configuração</string>
-
     <string name="behaviour">Comportamento</string>
     <string name="start_week_day">Dia início</string>
     <string name="show_declined_events">Mostrar eventos recusados</string>
     <string name="focus_on_current_week">Foco na semana atual</string>
-
     <string name="appearance">Aparência</string>
     <string name="theme">Tema</string>
     <string name="symbol_set">Símbolos tipo</string>
     <string name="symbol_colour">Símbolos cor</string>
     <string name="transparency">Transparência</string>
-
     <string name="about">Acerca de</string>
     <string name="version">Versão</string>
     <string name="source">Código</string>
-
     <!-- Months of year-->
     <string name="january">Janeiro</string>
     <string name="february">Fevereiro</string>
@@ -35,7 +29,6 @@
     <string name="october">Outubro</string>
     <string name="november">Novembro</string>
     <string name="december">Dezembro</string>
-
     <!--Days of week-->
     <string name="monday">Segunda</string>
     <string name="tuesday">Terça</string>
@@ -44,7 +37,6 @@
     <string name="friday">Sexta</string>
     <string name="saturday">Sabado</string>
     <string name="sunday">Domingo</string>
-
     <!--Days of week abbreviated-->
     <string name="monday_abb">Seg</string>
     <string name="tuesday_abb">Ter</string>
@@ -53,11 +45,9 @@
     <string name="friday_abb">Sex</string>
     <string name="saturday_abb">Sab</string>
     <string name="sunday_abb">Dom</string>
-
     <!--Themes-->
     <string name="dark">Escuro</string>
     <string name="light">Claro</string>
-
     <!--Symbols-->
     <string name="minimal">Mínimo</string>
     <string name="vertical">Vertical</string>
@@ -66,7 +56,6 @@
     <string name="roman">Romano</string>
     <string name="binary">Binário</string>
     <string name="none">Nenhum</string>
-
     <!--Colours-->
     <string name="system_accent">Acento do sistema</string>
     <string name="cyan">Ciano</string>
@@ -76,9 +65,7 @@
     <string name="yellow">Amarelo</string>
     <string name="black">Preto</string>
     <string name="white">Branco</string>
-
     <!-- messages-->
     <string name="no_calendar_application">Nenhum aplicativo de calendário encontrado</string>
     <string name="no_browser_application">Nenhum aplicativo de navegador encontrado</string>
-
 </resources>
