@@ -45,17 +45,17 @@ public class SystemResolver {
     private static final Clock CLOCK_SYS_TZ = Clock.systemDefaultZone();
 
     private static final Set<Locale> SUPPORTED_LOCALES = new HashSet<>(Arrays.asList(
-
         Locale.ENGLISH,
         new Locale("ca"), // catalan
-        new Locale("de"), // german
-        new Locale("es"), // spanish
-        new Locale("fr"), // french
         new Locale("hr"), // croatian
-        new Locale("nb"), // norwegian
         new Locale("nl"), // dutch
+        new Locale("fr"), // french
+        new Locale("de"), // german
+        new Locale("nb"), // norwegian
         new Locale("pl"), // polish
-        new Locale("ru") // russian
+        new Locale("pt"), // portuguese
+        new Locale("ru"), // russian
+        new Locale("es") // spanish
     ));
 
     private static volatile SystemResolver instance;
