@@ -18,16 +18,6 @@
         <a href="https://github.com/mvmike/min-cal-widget">исходники</a>
     </string>
 
-    <!--Colours-->
-    <string name="black">Чёрный</string>
-    <string name="grey">Серый</string>
-    <string name="white">Белый</string>
-    <string name="cyan">Голубой</string>
-    <string name="mint">Мятый</string>
-    <string name="blue">Синий</string>
-    <string name="green">Зелёный</string>
-    <string name="yellow">Жёлтый</string>
-
     <!--Days of week-->
     <string name="monday">Понедельник</string>
     <string name="tuesday">Вторник</string>
@@ -54,5 +44,15 @@
     <string name="roman">Римские</string>
     <string name="binary">Двоичный</string>
     <string name="none">Пустой</string>
+
+    <!--Colours-->
+    <string name="black">Чёрный</string>
+    <string name="grey">Серый</string>
+    <string name="white">Белый</string>
+    <string name="cyan">Голубой</string>
+    <string name="mint">Мятый</string>
+    <string name="blue">Синий</string>
+    <string name="green">Зелёный</string>
+    <string name="yellow">Жёлтый</string>
 
 </resources>

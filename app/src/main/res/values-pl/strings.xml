@@ -18,16 +18,6 @@
         <a href="https://github.com/mvmike/min-cal-widget">źródło</a>
     </string>
 
-    <!--Colours-->
-    <string name="black">Czarny</string>
-    <string name="grey">Szary</string>
-    <string name="white">Biały</string>
-    <string name="cyan">Błękitny</string>
-    <string name="mint">Miętowy</string>
-    <string name="blue">Niebieski</string>
-    <string name="green">Zielony</string>
-    <string name="yellow">Żółty</string>
-
     <!--Days of week-->
     <string name="monday">Poniedziałek</string>
     <string name="tuesday">Wtorek</string>
@@ -54,5 +44,15 @@
     <string name="roman">Rzymski</string>
     <string name="binary">Binarny</string>
     <string name="none">Brak</string>
+
+    <!--Colours-->
+    <string name="black">Czarny</string>
+    <string name="grey">Szary</string>
+    <string name="white">Biały</string>
+    <string name="cyan">Błękitny</string>
+    <string name="mint">Miętowy</string>
+    <string name="blue">Niebieski</string>
+    <string name="green">Zielony</string>
+    <string name="yellow">Żółty</string>
 
 </resources>

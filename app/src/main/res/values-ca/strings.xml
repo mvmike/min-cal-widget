@@ -18,16 +18,6 @@
         <a href="https://github.com/mvmike/min-cal-widget">codi</a>
     </string>
 
-    <!--Colours-->
-    <string name="black">Negre</string>
-    <string name="grey">Gris</string>
-    <string name="white">Blanc</string>
-    <string name="cyan">Cian</string>
-    <string name="mint">Menta</string>
-    <string name="blue">Blau</string>
-    <string name="green">Verd</string>
-    <string name="yellow">Groc</string>
-
     <!--Days of week-->
     <string name="monday">Dilluns</string>
     <string name="tuesday">Dimarts</string>
@@ -54,5 +44,15 @@
     <string name="roman">Romans</string>
     <string name="binary">Binari</string>
     <string name="none">Cap</string>
+
+    <!--Colours-->
+    <string name="black">Negre</string>
+    <string name="grey">Gris</string>
+    <string name="white">Blanc</string>
+    <string name="cyan">Cian</string>
+    <string name="mint">Menta</string>
+    <string name="blue">Blau</string>
+    <string name="green">Verd</string>
+    <string name="yellow">Groc</string>
 
 </resources>

@@ -18,16 +18,6 @@
         <a href="https://github.com/mvmike/min-cal-widget">izvorni kod</a>
     </string>
 
-    <!--Colours-->
-    <string name="black">Crna</string>
-    <string name="grey">Siva</string>
-    <string name="white">Bijela</string>
-    <string name="cyan">Cijan</string>
-    <string name="mint">Metvica</string>
-    <string name="blue">Plava</string>
-    <string name="green">Zelena</string>
-    <string name="yellow">Žuta</string>
-
     <!--Days of week-->
     <string name="monday">Ponedjeljak</string>
     <string name="tuesday">Utorak</string>
@@ -54,5 +44,15 @@
     <string name="roman">Rimski</string>
     <string name="binary">Binarni</string>
     <string name="none">Bez</string>
+
+    <!--Colours-->
+    <string name="black">Crna</string>
+    <string name="grey">Siva</string>
+    <string name="white">Bijela</string>
+    <string name="cyan">Cijan</string>
+    <string name="mint">Metvica</string>
+    <string name="blue">Plava</string>
+    <string name="green">Zelena</string>
+    <string name="yellow">Žuta</string>
 
 </resources>
