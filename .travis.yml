@@ -16,7 +16,7 @@ before_install:
   - yes | sdkmanager "platforms;android-30"
 
 script:
-  - ./gradlew clean test assemble pmd checkstyle
+  - ./gradlew clean test assemble detekt
 
 before_cache:
   - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
