@@ -18,6 +18,20 @@
         <a href="https://github.com/mvmike/min-cal-widget">source</a>
     </string>
 
+    <!-- Months of year-->
+    <string name="january">Janvier</string>
+    <string name="february">Février</string>
+    <string name="march">Mars</string>
+    <string name="april">Avril</string>
+    <string name="may">Mai</string>
+    <string name="june">Juin</string>
+    <string name="july">Juillet</string>
+    <string name="august">Août</string>
+    <string name="september">Septembre</string>
+    <string name="october">Octobre</string>
+    <string name="november">Novembre</string>
+    <string name="december">Décembre</string>
+
     <!--Days of week-->
     <string name="monday">Lundi</string>
     <string name="tuesday">Mardi</string>

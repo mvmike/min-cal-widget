@@ -18,6 +18,20 @@
         <a href="https://github.com/mvmike/min-cal-widget">izvorni kod</a>
     </string>
 
+    <!-- Months of year-->
+    <string name="january">Siječanj</string>
+    <string name="february">Veljača</string>
+    <string name="march">Ožujak</string>
+    <string name="april">Travanj</string>
+    <string name="may">Svibanj</string>
+    <string name="june">Lipanj</string>
+    <string name="july">Srpanj</string>
+    <string name="august">Kolovoz</string>
+    <string name="september">Rujan</string>
+    <string name="october">Листопад</string>
+    <string name="november">Studeni</string>
+    <string name="december">Prosinac</string>
+
     <!--Days of week-->
     <string name="monday">Ponedjeljak</string>
     <string name="tuesday">Utorak</string>
