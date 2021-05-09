@@ -10,7 +10,7 @@
     <string name="theme">Drakt:</string>
     <string name="start_week_day">Startdag:</string>
     <string name="symbol_set">Symbolsett:</string>
-    <string name="symbol_colour_set">Symbolfarge:</string>
+    <string name="symbol_colour">Symbolfarge:</string>
 
     <string name="apply_changes">BRUK</string>
 

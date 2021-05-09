@@ -10,7 +10,7 @@
     <string name="theme">Тема:</string>
     <string name="start_week_day">Первый день недели:</string>
     <string name="symbol_set">Набор символов:</string>
-    <string name="symbol_colour_set">Цвет символов:</string>
+    <string name="symbol_colour">Цвет символов:</string>
 
     <string name="apply_changes">ПРИМЕНИТЬ</string>
 

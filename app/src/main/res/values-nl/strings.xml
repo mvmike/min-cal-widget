@@ -10,7 +10,7 @@
     <string name="theme">Thema:</string>
     <string name="start_week_day">Eerste dag:</string>
     <string name="symbol_set">Symboolset:</string>
-    <string name="symbol_colour_set">Symboolkleur:</string>
+    <string name="symbol_colour">Symboolkleur:</string>
 
     <string name="apply_changes">TOEPASSEN</string>
 

@@ -8,12 +8,12 @@
     <application
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
-        android:roundIcon="@mipmap/ic_launcher_round"
         android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="false"
         tools:ignore="GoogleAppIndexingWarning">
 
-        <receiver android:name=".application.MonthWidget">
+        <receiver android:name=".MonthWidget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -23,7 +23,7 @@
         </receiver>
 
         <activity
-            android:name=".application.activity.PermissionsActivity"
+            android:name=".infrastructure.activity.PermissionsActivity"
             android:excludeFromRecents="true"
             android:initialLayout="@layout/loading"
             android:launchMode="singleTask"
@@ -35,7 +35,7 @@
         </activity>
 
         <activity
-            android:name=".application.activity.ConfigurationActivity"
+            android:name=".infrastructure.activity.ConfigurationActivity"
             android:excludeFromRecents="true"
             android:launchMode="singleInstance"
             android:noHistory="true"

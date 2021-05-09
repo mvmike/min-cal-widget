@@ -10,7 +10,7 @@
     <string name="theme">Motyw:</string>
     <string name="start_week_day">Dzień startowy:</string>
     <string name="symbol_set">Zestaw symboli:</string>
-    <string name="symbol_colour_set">Kolor symbolu:</string>
+    <string name="symbol_colour">Kolor symbolu:</string>
 
     <string name="apply_changes">ZASTOSUJ</string>
 

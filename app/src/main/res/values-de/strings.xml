@@ -10,7 +10,7 @@
     <string name="theme">Thema:</string>
     <string name="start_week_day">Start Tag:</string>
     <string name="symbol_set">Zeichensatz:</string>
-    <string name="symbol_colour_set">Farbe des Symbols:</string>
+    <string name="symbol_colour">Farbe des Symbols:</string>
 
     <string name="apply_changes">ANWENDEN</string>
 

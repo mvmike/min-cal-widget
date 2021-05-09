@@ -32,7 +32,7 @@
             android:layout_width="130dp"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:textColor="@color/config_value"/>
+            android:textColor="@color/config_value" />
 
     </LinearLayout>
 
@@ -62,7 +62,7 @@
             android:layout_width="130dp"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:textColor="@color/config_value"/>
+            android:textColor="@color/config_value" />
 
     </LinearLayout>
 
@@ -80,7 +80,7 @@
         android:paddingEnd="15dp">
 
         <TextView
-            android:id="@+id/txt_symbols"
+            android:id="@+id/txt_symbol_set"
             android:layout_width="115dp"
             android:layout_height="wrap_content"
             android:text="@string/symbol_set"
@@ -88,11 +88,11 @@
             android:textSize="16sp" />
 
         <Spinner
-            android:id="@+id/symbolsSpinner"
+            android:id="@+id/symbolSetSpinner"
             android:layout_width="130dp"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:textColor="@color/config_value"/>
+            android:textColor="@color/config_value" />
 
     </LinearLayout>
 
@@ -110,19 +110,19 @@
         android:paddingEnd="15dp">
 
         <TextView
-            android:id="@+id/txt_symbols_colour"
+            android:id="@+id/txt_symbol_colour"
             android:layout_width="115dp"
             android:layout_height="wrap_content"
-            android:text="@string/symbol_colour_set"
+            android:text="@string/symbol_colour"
             android:textColor="@color/config_label"
             android:textSize="16sp" />
 
         <Spinner
-            android:id="@+id/symbolsColourSpinner"
+            android:id="@+id/symbolColourSpinner"
             android:layout_width="130dp"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:textColor="@color/config_value"/>
+            android:textColor="@color/config_value" />
 
     </LinearLayout>
 
@@ -150,9 +150,9 @@
         <Button
             android:id="@+id/applyButton"
             style="?android:attr/buttonStyleSmall"
-            android:layout_gravity="end"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="end"
             android:text="@string/apply_changes" />
 
     </LinearLayout>

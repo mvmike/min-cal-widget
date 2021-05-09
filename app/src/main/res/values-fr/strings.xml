@@ -10,7 +10,7 @@
     <string name="theme">Thème :</string>
     <string name="start_week_day">Premier jour :</string>
     <string name="symbol_set">Symboles :</string>
-    <string name="symbol_colour_set">Couleur des symboles :</string>
+    <string name="symbol_colour">Couleur des symboles :</string>
 
     <string name="apply_changes">APPLIQUER</string>
 
