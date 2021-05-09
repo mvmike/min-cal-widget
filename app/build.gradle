@@ -9,7 +9,7 @@ android {
 
     compileSdkVersion 30
     //https://developer.android.com/studio/releases/build-tools
-    buildToolsVersion '29.0.3'
+    buildToolsVersion '30.0.3'
 
     defaultConfig {
 
