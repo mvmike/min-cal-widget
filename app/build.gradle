@@ -89,6 +89,10 @@ android {
     testOptions {
         unitTests.all {
             useJUnitPlatform()
+            testLogging {
+                events 'skipped', 'failed', 'standardOut', 'standardError'
+                exceptionFormat "full"
+            }
         }
     }
 }
