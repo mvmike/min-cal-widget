@@ -23,8 +23,12 @@ object RegisterReceiversUseCase {
         .withDataAuthority(CalendarContract.AUTHORITY, null)
 
     fun execute(context: Context) {
-        context.applicationContext.registerReceiver(DateChangeReceiver(), DATE_CHANGE_INTENT_FILTER)
-        context.applicationContext.registerReceiver(InstanceChangeReceiver(), INSTANCE_CHANGE_INTENT_FILTER)
+        try {
+            context.applicationContext.registerReceiver(DateChangeReceiver(), DATE_CHANGE_INTENT_FILTER)
+            context.applicationContext.registerReceiver(InstanceChangeReceiver(), INSTANCE_CHANGE_INTENT_FILTER)
+        } catch (ignored: IllegalArgumentException) {
+            // receiver is already registered
+        }
     }
 
     private fun IntentFilter.withAction(action: String): IntentFilter {

@@ -28,6 +28,7 @@ class MonthWidget : AppWidgetProvider() {
 
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
         super.onUpdate(context, appWidgetManager, appWidgetIds)
+        RegisterReceiversUseCase.execute(context)
         drawWidgets(context, appWidgetManager, appWidgetIds)
     }
 
