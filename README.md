@@ -38,14 +38,15 @@
 
 * English
 * Catalan
-* German
-* Spanish
-* French
 * Croatian
-* Norwegian
 * Dutch
+* French
+* German
+* Norwegian
 * Polish
+* Portuguese
 * Russian
+* Spanish
 
 ## Licensing
 
