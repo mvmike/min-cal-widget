@@ -1,3 +1,5 @@
+import java.nio.charset.StandardCharsets
+
 plugins {
     id('com.android.application')
     id('kotlin-android')
@@ -69,7 +71,7 @@ android {
 
     compileOptions {
         coreLibraryDesugaringEnabled true
-        compileOptions.encoding = "UTF-8"
+        compileOptions.encoding = StandardCharsets.UTF_8
 
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
