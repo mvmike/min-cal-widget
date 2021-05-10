@@ -2,8 +2,8 @@
 
 [![GitHub release](https://img.shields.io/github/release/mvmike/min-cal-widget.svg)](https://github.com/mvmike/min-cal-widget/releases)
 [![Actions Status: build](https://github.com/mvmike/min-cal-widget/workflows/build/badge.svg)](https://github.com/mvmike/min-cal-widget/actions?query=workflow%3A"build")
-[![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
 [![Translation status](https://hosted.weblate.org/widgets/min-cal-widget/-/min-cal-widget/svg-badge.svg)](https://hosted.weblate.org/engage/min-cal-widget/?utm_source=widget)
+[![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
 
 [<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" alt="Get it on F-Droid" height="80">](https://f-droid.org/en/packages/cat.mvmike.minimalcalendarwidget/)
 [<img src="badge_github.png" alt="Get it on GitHub" height="80">](https://github.com/mvmike/min-cal-widget/releases)
