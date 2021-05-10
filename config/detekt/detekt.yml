@@ -270,7 +270,7 @@ formatting:
     autoCorrect: true
     insertFinalNewLine: true
   ImportOrdering:
-    active: false
+    active: true
     autoCorrect: true
     layout: 'idea'
   Indentation:
@@ -321,7 +321,7 @@ formatting:
     active: true
     autoCorrect: true
   NoWildcardImports:
-    active: false
+    active: true
   PackageName:
     active: true
     autoCorrect: true
@@ -694,7 +694,7 @@ style:
   UntilInsteadOfRangeTo:
     active: false
   UnusedImports:
-    active: false
+    active: true
   UnusedPrivateClass:
     active: true
   UnusedPrivateMember:
