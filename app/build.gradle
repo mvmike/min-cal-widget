@@ -60,7 +60,7 @@ android {
     }
 
     lintOptions {
-        checkReleaseBuilds false
+        checkReleaseBuilds true
         abortOnError true
     }
 
