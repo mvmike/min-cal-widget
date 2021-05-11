@@ -26,6 +26,35 @@ android {
         archivesBaseName = "min-cal-widget"
     }
 
+    compileOptions {
+        coreLibraryDesugaringEnabled true
+        compileOptions.encoding = StandardCharsets.UTF_8
+
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_11
+    }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+        main.res.srcDirs += "src/main/res"
+
+        test.java.srcDirs += 'src/test/kotlin'
+    }
+
+    testOptions {
+        unitTests.all {
+            useJUnitPlatform()
+            testLogging {
+                events 'skipped', 'failed', 'standardOut', 'standardError'
+                exceptionFormat "full"
+            }
+        }
+    }
+
     /*
      * To sign release builds, create the file gradle.properties in
      * ~/.gradle/ with this content:
@@ -64,35 +93,6 @@ android {
     lintOptions {
         checkReleaseBuilds true
         abortOnError true
-    }
-
-    sourceSets {
-        main.java.srcDirs += 'src/main/kotlin'
-        main.res.srcDirs += "src/main/res"
-
-        test.java.srcDirs += 'src/test/kotlin'
-    }
-
-    compileOptions {
-        coreLibraryDesugaringEnabled true
-        compileOptions.encoding = StandardCharsets.UTF_8
-
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
-    }
-
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11
-    }
-
-    testOptions {
-        unitTests.all {
-            useJUnitPlatform()
-            testLogging {
-                events 'skipped', 'failed', 'standardOut', 'standardError'
-                exceptionFormat "full"
-            }
-        }
     }
 }
 
