@@ -22,6 +22,8 @@ android {
         versionName "2.0.0"
 
         multiDexEnabled true
+
+        archivesBaseName = "min-cal-widget"
     }
 
     /*
@@ -81,13 +83,6 @@ android {
 
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_11
-    }
-
-    applicationVariants.all { variant ->
-        variant.outputs.all { output ->
-            def buildType = variant.buildType.name
-            outputFileName = new File("min-cal-widget-" + buildType + ".apk")
-        }
     }
 
     testOptions {
