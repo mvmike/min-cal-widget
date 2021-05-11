@@ -1,7 +1,7 @@
 # MinCal Widget  <img align="left" src="https://raw.githubusercontent.com/mvmike/min-cal-widget/master/fastlane/metadata/android/en-US/images/icon.png" width="42"/>
 
 [![GitHub release](https://img.shields.io/github/release/mvmike/min-cal-widget.svg)](https://github.com/mvmike/min-cal-widget/releases)
-[![Actions Status: build](https://github.com/mvmike/min-cal-widget/workflows/build/badge.svg)](https://github.com/mvmike/min-cal-widget/actions?query=workflow%3A"build")
+[![Actions Status: build](https://github.com/mvmike/min-cal-widget/workflows/build/badge.svg)](https://github.com/mvmike/min-cal-widget/actions?query=branch%3Amaster)
 [![Translation status](https://hosted.weblate.org/widgets/min-cal-widget/-/min-cal-widget/svg-badge.svg)](https://hosted.weblate.org/engage/min-cal-widget/?utm_source=widget)
 [![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
 
