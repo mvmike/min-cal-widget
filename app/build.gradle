@@ -55,6 +55,10 @@ android {
         }
     }
 
+    detekt {
+        config = files("${project.rootDir}/config/detekt/detekt.yml")
+    }
+
     /*
      * To sign release builds, create the file gradle.properties in
      * ~/.gradle/ with this content:
@@ -88,10 +92,6 @@ android {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
-    }
-
-    detekt {
-        config = files("${project.rootDir}/config/detekt/detekt.yml")
     }
 }
 
