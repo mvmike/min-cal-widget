@@ -89,6 +89,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    detekt {
+        config = files("${project.rootDir}/config/detekt/detekt.yml")
+    }
 }
 
 dependencies {
@@ -113,8 +117,4 @@ dependencies {
 
     //https://github.com/assertj/assertj-core
     testImplementation "org.assertj:assertj-core:3.19.0"
-}
-
-detekt {
-    config = files("${project.rootDir}/config/detekt/detekt.yml")
 }
