@@ -115,6 +115,6 @@ dependencies {
     //https://github.com/mockito/mockito/releases
     testImplementation 'org.mockito:mockito-core:3.10.0'
 
-    //https://github.com/assertj/assertj-core
+    //https://github.com/assertj/assertj-core/releases
     testImplementation "org.assertj:assertj-core:3.19.0"
 }
