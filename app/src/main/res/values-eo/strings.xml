@@ -66,4 +66,5 @@
     <!-- messages-->
     <string name="no_calendar_application">Neniu kalendara aplikaĵo trovita</string>
     <string name="no_browser_application">Neniu retumila aplikaĵo trovita</string>
+    <string name="app_name" translatable="false"></string>
 </resources>
