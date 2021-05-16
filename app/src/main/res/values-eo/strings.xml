@@ -1,26 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <!--ESPERANTO-->
-
     <!--Configuration-->
     <string name="configuration">Agordoj</string>
-
     <string name="behaviour">Konduto</string>
     <string name="start_week_day">Komenca tago</string>
     <string name="show_declined_events">Montri malkreskintajn eventojn</string>
     <string name="focus_on_current_week">Koncentru la nunan semajnon</string>
-
     <string name="appearance">Aspekto</string>
     <string name="theme">Etoso</string>
     <string name="symbol_set">Simbolaro</string>
     <string name="symbol_colour">Koloro de simboloj</string>
     <string name="transparency">Travidebleco</string>
-
     <string name="about">Pri</string>
     <string name="version">Versio</string>
     <string name="source">Fonto</string>
-
     <!-- Months of year-->
     <string name="january">Januaro</string>
     <string name="february">Februaro</string>
@@ -34,7 +28,6 @@
     <string name="october">Oktobro</string>
     <string name="november">Novembro</string>
     <string name="december">Decembro</string>
-
     <!--Days of week-->
     <string name="monday">Lundo</string>
     <string name="tuesday">Mardo</string>
@@ -43,7 +36,6 @@
     <string name="friday">Vendredo</string>
     <string name="saturday">Sabato</string>
     <string name="sunday">Dimanĉo</string>
-
     <!--Days of week abbreviated-->
     <string name="monday_abb">lun</string>
     <string name="tuesday_abb">mar</string>
@@ -52,11 +44,9 @@
     <string name="friday_abb">ven</string>
     <string name="saturday_abb">sab</string>
     <string name="sunday_abb">dim</string>
-
     <!--Themes-->
     <string name="dark">Malhela</string>
     <string name="light">Malpeza</string>
-
     <!--Symbols-->
     <string name="minimal">Minimuma</string>
     <string name="vertical">Vertikala</string>
@@ -65,7 +55,6 @@
     <string name="roman">Romana</string>
     <string name="binary">Dubaza</string>
     <string name="none">Nenio</string>
-
     <!--Colours-->
     <string name="black">Nigra</string>
     <string name="white">Blanka</string>
@@ -74,9 +63,7 @@
     <string name="blue">Blua</string>
     <string name="green">Verda</string>
     <string name="yellow">Flava</string>
-
     <!-- messages-->
     <string name="no_calendar_application">Neniu kalendara aplikaĵo trovita</string>
     <string name="no_browser_application">Neniu retumila aplikaĵo trovita</string>
-
 </resources>
