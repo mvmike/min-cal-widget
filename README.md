@@ -10,12 +10,12 @@
 
 ## Features
 
-* Minimal calendar widget that always displays current date's month
+* Minimal calendar widget that's always on current date's month
 * 3x2 (resizable)
 * Displays all events from your calendars with a symbol set (high number becomes generic)
-* Pressing on header opens widget configuration
+* Configuration accessible on widget's top right corner
 * Pressing on any other part of the widget opens calendar application
-* Configurable theme, start day of the week and symbol set and colour
+* Configurable theme, start day of the week,  symbol set and its colour
 
 ## Screenshots
 
