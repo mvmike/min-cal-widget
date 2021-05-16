@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--ESPERANTO-->
-    <string name="app_name" translatable="false"/>
+    <string name="app_name" translatable="false"></string>
     <!--Configuration-->
     <string name="configuration">Agordoj</string>
     <string name="behaviour">Konduto</string>
