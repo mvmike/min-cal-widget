@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MinCal Widget</string>
+    <string name="configuration">Agordoj</string>
+    <string name="cyan">Cejanblua</string>
+    <string name="mint">Menta</string>
+    <string name="circles">Cirkloj</string>
+    <string name="vertical">Vertikala</string>
+    <string name="minimal">Minimuma</string>
+    <string name="source"> <a href="https://github.com/mvmike/min-cal-widget">fonto</a> </string>
+    <string name="apply_changes">EFEKTIVIGI</string>
+    <string name="symbol_colour">Koloro de simboloj:</string>
+    <string name="symbol_set">Simbolaro:</string>
+    <string name="start_week_day">Komenca tago:</string>
+    <string name="theme">Etoso:</string>
+    <string name="yellow">Flava</string>
+    <string name="green">Verda</string>
+    <string name="blue">Blua</string>
+    <string name="white">Blanka</string>
+    <string name="grey">Griza</string>
+    <string name="black">Nigra</string>
+    <string name="none">Nenio</string>
+    <string name="binary">Dubaza</string>
+    <string name="roman">Romana</string>
+    <string name="numbers">Ciferoj</string>
+    <string name="sunday_abb">dim</string>
+    <string name="saturday_abb">sab</string>
+    <string name="friday_abb">ven</string>
+    <string name="thursday_abb">ĵaŭ</string>
+    <string name="wednesday_abb">mer</string>
+    <string name="tuesday_abb">mar</string>
+    <string name="monday_abb">lun</string>
+    <string name="sunday">Dimanĉo</string>
+    <string name="saturday">Sabato</string>
+    <string name="friday">Vendredo</string>
+    <string name="thursday">Ĵaŭdo</string>
+    <string name="wednesday">Merkredo</string>
+    <string name="tuesday">Mardo</string>
+    <string name="monday">Lundo</string>
+    <string name="december">Decembro</string>
+    <string name="november">Novembro</string>
+    <string name="october">Oktobro</string>
+    <string name="september">Septembro</string>
+    <string name="august">Aŭgusto</string>
+    <string name="july">Julio</string>
+    <string name="june">Junio</string>
+    <string name="may">Majo</string>
+    <string name="april">Aprilo</string>
+    <string name="march">Marto</string>
+    <string name="february">Februaro</string>
+    <string name="january">Januaro</string>
+</resources>
