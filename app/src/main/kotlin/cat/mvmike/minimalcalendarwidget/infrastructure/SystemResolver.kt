@@ -32,6 +32,7 @@ open class SystemResolver private constructor() {
         Locale("ca"), // catalan
         Locale("hr"), // croatian
         Locale("nl"), // dutch
+        Locale("eo"), // esperanto
         Locale("fr"), // french
         Locale("de"), // german
         Locale("nb"), // norwegian

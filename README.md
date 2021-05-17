@@ -40,6 +40,7 @@
 * Catalan
 * Croatian
 * Dutch
+* Esperanto
 * French
 * German
 * Norwegian
