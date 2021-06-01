@@ -1,5 +1,3 @@
-Minimal calendar widget
-
 <b>Features</b>
 
 · Free and open source
