@@ -1,0 +1,25 @@
+Minimal calendar widget
+
+    * Always on current date's month
+    * 3x2 (resizable)
+    * Displays all events from your calendars with a symbol set (high number becomes generic)
+    * Configuration accessible on widget's top right corner
+    * Pressing on any other part of the widget opens calendar application
+    * Configurable theme, start day of the week,  symbol set and its colour
+
+This app is FOSS -> <a href="https://github.com/mvmike/min-cal-widget">https://github.com/mvmike/min-cal-widget</a>
+Contains no ads or payments
+
+Supported languages:
+
+* English
+* Catalan
+* Croatian
+* Dutch
+* French
+* German
+* Norwegian
+* Polish
+* Portuguese
+* Russian
+* Spanish
