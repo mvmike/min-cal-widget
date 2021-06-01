@@ -23,7 +23,8 @@
 · Russian
 · Spanish
 
-You can help out translating through our weblate project page -> https://hosted.weblate.org/engage/min-cal-widget
+You can help out translating through our weblate project page
+https://hosted.weblate.org/engage/min-cal-widget
 
 <b>Source</b>
 https://github.com/mvmike/min-cal-widget
