@@ -5,8 +5,9 @@
 [![Translation status](https://hosted.weblate.org/widgets/min-cal-widget/-/min-cal-widget/svg-badge.svg)](https://hosted.weblate.org/engage/min-cal-widget/?utm_source=widget)
 [![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
 
+[<img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png" alt="Get it on Google Play" height="80">](https://play.google.com/store/apps/details?id=cat.mvmike.minimalcalendarwidget/)
 [<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" alt="Get it on F-Droid" height="80">](https://f-droid.org/en/packages/cat.mvmike.minimalcalendarwidget/)
-[<img src="badge_github.png" alt="Get it on GitHub" height="80">](https://github.com/mvmike/min-cal-widget/releases)
+[<img src="badge_github.png" alt="Get it on GitHub" height="80">](https://github.com/mvmike/min-cal-widget/releases/)
 
 ## Features
 
