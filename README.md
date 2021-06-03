@@ -1,17 +1,17 @@
 # MinCal Widget  <img align="left" src="https://raw.githubusercontent.com/mvmike/min-cal-widget/master/fastlane/metadata/android/en-US/images/icon.png" width="42"/>
 
-[<img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png" alt="Get it on Google Play" height="80">](https://play.google.com/store/apps/details?id=cat.mvmike.minimalcalendarwidget)
-[<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" alt="Get it on F-Droid" height="80">](https://f-droid.org/en/packages/cat.mvmike.minimalcalendarwidget)
-[<img src="badge_github.png" alt="Get it on GitHub" height="80">](https://github.com/mvmike/min-cal-widget/releases)
-
-## Features
-
-* Minimal calendar widget that's always on current date's month
+Minimal calendar widget that's always on current date's month
 * 3x2 (resizable)
 * Displays all events from your calendars with a symbol set (high number becomes generic)
 * Configuration accessible on widget's top right corner
 * Pressing on any other part of the widget opens calendar application
 * Configurable theme, start day of the week,  symbol set and its colour
+
+## Installation
+
+[<img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png" alt="Get it on Google Play" height="80">](https://play.google.com/store/apps/details?id=cat.mvmike.minimalcalendarwidget)
+[<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" alt="Get it on F-Droid" height="80">](https://f-droid.org/en/packages/cat.mvmike.minimalcalendarwidget)
+[<img src="badge_github.png" alt="Get it on GitHub" height="80">](https://github.com/mvmike/min-cal-widget/releases)
 
 ## Screenshots
 
