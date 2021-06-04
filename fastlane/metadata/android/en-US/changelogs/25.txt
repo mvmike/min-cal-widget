@@ -1,7 +1,7 @@
-**v2.0.0**
-* full migration to kotlin
-* upgrade widget preview
-* use xml translations for months
-* fix widget update/receivers configuration
-* technical improvements
+v2.0.0
+- full migration to kotlin
+- upgrade widget preview
+- use xml translations for months
+- fix widget update/receivers configuration
+- technical improvements
 (breaking changes, widget needs to be replaced)

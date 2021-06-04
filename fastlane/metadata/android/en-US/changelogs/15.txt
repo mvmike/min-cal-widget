@@ -1,2 +1,2 @@
-**v1.2.0**
-* internationalization support
+v1.2.0
+- internationalization support

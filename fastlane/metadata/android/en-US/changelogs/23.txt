@@ -1,3 +1,3 @@
-**v1.6.0**
-* minSDK updated to 21 (android 5.0)
-* technical improvements
+v1.6.0
+- minSDK updated to 21 (android 5.0)
+- technical improvements

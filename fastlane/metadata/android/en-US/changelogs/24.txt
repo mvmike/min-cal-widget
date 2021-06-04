@@ -1,4 +1,4 @@
-**v1.6.1**
-* minor symbol tweaks
-* use fastlane
-* technical improvements
+v1.6.1
+- minor symbol tweaks
+- use fastlane
+- technical improvements

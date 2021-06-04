@@ -1,2 +1,2 @@
-**v0.3.0**
-* manage calendar read permission at widget creation
+v0.3.0
+- manage calendar read permission at widget creation
