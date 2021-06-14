@@ -34,8 +34,8 @@ class MonthWidget : AppWidgetProvider() {
         forceRedraw(context)
     }
 
-    override fun onDeleted(context: Context, appWidgetIds: IntArray) {
-        super.onDeleted(context, appWidgetIds)
+    override fun onDisabled(context: Context) {
+        super.onDisabled(context)
         clearAllConfiguration(context)
     }
 
