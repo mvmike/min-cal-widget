@@ -7,9 +7,12 @@ import android.content.Context
 import android.content.Intent
 import cat.mvmike.minimalcalendarwidget.MonthWidget
 
-class DateChangeReceiver : BroadcastReceiver() {
+class DateTimeChangeReceiver : BroadcastReceiver() {
 
-    override fun onReceive(context: Context, intent: Intent) {
-        MonthWidget.forceRedraw(context)
+    override fun onReceive(context: Context, intent: Intent) = when (intent.action){
+        Intent.ACTION_TIME_CHANGED,
+        Intent.ACTION_DATE_CHANGED ,
+        Intent.ACTION_TIMEZONE_CHANGED -> MonthWidget.forceRedraw(context)
+        else -> {}
     }
 }

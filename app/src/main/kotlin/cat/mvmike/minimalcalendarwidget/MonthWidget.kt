@@ -8,8 +8,6 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.widget.RemoteViews
-import cat.mvmike.minimalcalendarwidget.application.action.system.RegisterReceiversUseCase
-import cat.mvmike.minimalcalendarwidget.application.action.system.UnregisterReceiversUseCase
 import cat.mvmike.minimalcalendarwidget.application.action.user.AddListenersUseCase
 import cat.mvmike.minimalcalendarwidget.application.action.user.ProcessIntentUseCase
 import cat.mvmike.minimalcalendarwidget.application.visual.DrawDaysHeaderUseCase
@@ -23,12 +21,10 @@ class MonthWidget : AppWidgetProvider() {
 
     override fun onEnabled(context: Context) {
         super.onEnabled(context)
-        RegisterReceiversUseCase.execute(context)
     }
 
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
         super.onUpdate(context, appWidgetManager, appWidgetIds)
-        RegisterReceiversUseCase.execute(context)
         drawWidgets(context, appWidgetManager, appWidgetIds)
     }
 
@@ -41,7 +37,6 @@ class MonthWidget : AppWidgetProvider() {
     override fun onDeleted(context: Context, appWidgetIds: IntArray) {
         super.onDeleted(context, appWidgetIds)
         clearAllConfiguration(context)
-        UnregisterReceiversUseCase.execute(context)
     }
 
     companion object {

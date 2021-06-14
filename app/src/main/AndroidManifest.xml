@@ -22,6 +22,14 @@
                 android:resource="@xml/widget_info" />
         </receiver>
 
+        <receiver android:name=".infrastructure.receiver.DateTimeChangeReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.TIME_CHANGED"/>
+                <action android:name="android.intent.action.DATE_CHANGED"/>
+                <action android:name="android.intent.action.TIMEZONE_CHANGED"/>
+            </intent-filter>
+        </receiver>
+
         <activity
             android:name=".infrastructure.activity.PermissionsActivity"
             android:excludeFromRecents="true"
