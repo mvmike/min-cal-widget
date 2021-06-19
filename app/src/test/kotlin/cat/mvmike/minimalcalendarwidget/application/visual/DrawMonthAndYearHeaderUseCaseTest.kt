@@ -23,7 +23,7 @@ import java.util.stream.Stream
 
 internal class DrawMonthAndYearHeaderUseCaseTest : BaseTest() {
 
-    private val widgetRv: RemoteViews = mockk()
+    private val widgetRv= mockk<RemoteViews>()
 
     @ParameterizedTest
     @MethodSource("getSpreadInstantsWithExpectedMonthAndYearTranslation")

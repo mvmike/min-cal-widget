@@ -26,9 +26,9 @@ import java.util.stream.Stream
 
 internal class DrawDaysHeaderUseCaseTest : BaseTest() {
 
-    private val widgetRv: RemoteViews = mockk()
+    private val widgetRv= mockk<RemoteViews>()
 
-    private val daysHeaderRowRv: RemoteViews = mockk()
+    private val daysHeaderRowRv= mockk<RemoteViews>()
 
     @ParameterizedTest
     @MethodSource("combinationOfStartWeekDayAndThemeConfig")

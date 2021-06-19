@@ -25,8 +25,8 @@ import java.util.stream.Stream
 
 internal class DrawDaysUseCaseTest : BaseTest() {
 
-    private val widgetRv: RemoteViews = mockk()
-    private val rowRv: RemoteViews = mockk()
+    private val widgetRv= mockk<RemoteViews>()
+    private val rowRv= mockk<RemoteViews>()
 
     @Test
     fun setDays_shouldReturnSafeDateSpanOfSystemTimeZoneInstances() {

@@ -41,10 +41,10 @@ abstract class BaseTest {
     }
 
 
-    protected val context: Context = mockk()
-    private val sharedPreferences: SharedPreferences = mockk()
-    protected val editor: SharedPreferences.Editor = mockk()
-    protected val systemResolver: SystemResolver = mockk()
+    protected val context = mockk<Context>()
+    private val sharedPreferences = mockk<SharedPreferences>()
+    protected val editor = mockk<SharedPreferences.Editor>()
+    protected val systemResolver = mockk<SystemResolver>()
 
     @BeforeAll
     fun beforeAll() {
