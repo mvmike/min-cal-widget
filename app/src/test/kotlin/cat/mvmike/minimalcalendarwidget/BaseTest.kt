@@ -9,11 +9,14 @@ import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Colour
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.SymbolSet
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
 import cat.mvmike.minimalcalendarwidget.infrastructure.SystemResolver
+import io.mockk.clearMocks
+import io.mockk.every
+import io.mockk.justRun
+import io.mockk.mockk
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.fail
-import org.mockito.Mockito.*
 import java.time.DayOfWeek
 import java.time.Instant
 import java.time.LocalDate
@@ -37,10 +40,10 @@ abstract class BaseTest {
     }
 
 
-    protected val context = mock(Context::class.java)!!
-    private val sharedPreferences = mock(SharedPreferences::class.java)!!
-    protected val editor = mock(SharedPreferences.Editor::class.java)!!
-    protected val systemResolver = mock(SystemResolver::class.java)!!
+    protected val context: Context = mockk()
+    private val sharedPreferences: SharedPreferences = mockk()
+    protected val editor: SharedPreferences.Editor = mockk()
+    protected val systemResolver: SystemResolver = mockk()
 
     @BeforeAll
     fun beforeAll() {
@@ -50,7 +53,7 @@ abstract class BaseTest {
 
     @BeforeEach
     fun beforeEach() {
-        reset(context, sharedPreferences, editor, systemResolver)
+        clearMocks(context, sharedPreferences, editor, systemResolver)
         try {
             val instance = SystemResolver::class.java.getDeclaredField("instance")
             instance.isAccessible = true
@@ -61,66 +64,67 @@ abstract class BaseTest {
     }
 
     protected fun mockGetSystemInstant(instant: Instant) {
-        `when`(systemResolver.getInstant()).thenReturn(instant)
+        every {systemResolver.getInstant()} returns instant
     }
 
     protected fun mockGetSystemLocale(locale: Locale) {
-        `when`(systemResolver.getLocale(context)).thenReturn(locale)
+        every {systemResolver.getLocale(context)} returns locale
     }
 
     protected fun mockGetSystemLocalDate() {
-        `when`(systemResolver.getSystemLocalDate()).thenReturn(systemLocalDate)
+        every {systemResolver.getSystemLocalDate()} returns systemLocalDate
     }
 
     protected fun mockGetSystemZoneId() {
-        `when`(systemResolver.getSystemZoneId()).thenReturn(zoneId)
+        every {systemResolver.getSystemZoneId()} returns zoneId
     }
 
     protected fun mockIsReadCalendarPermitted(permitted: Boolean) {
-        `when`(systemResolver.isReadCalendarPermitted(context)).thenReturn(permitted)
+        every {systemResolver.isReadCalendarPermitted(context)} returns permitted
     }
 
     protected fun mockSharedPreferences() {
-        `when`(context.getSharedPreferences(PREFERENCES_ID, Context.MODE_PRIVATE)).thenReturn(sharedPreferences)
-        `when`(sharedPreferences.edit()).thenReturn(editor)
-        `when`(editor.putString(any(), any())).thenReturn(editor)
-        `when`(editor.clear()).thenReturn(editor)
-        `when`(editor.commit()).thenReturn(true)
+        every {context.getSharedPreferences(PREFERENCES_ID, Context.MODE_PRIVATE)} returns sharedPreferences
+        every {sharedPreferences.edit()} returns editor
+        every {editor.putString(any(), any())} returns editor
+        every {editor.clear()} returns editor
+        every {editor.commit()} returns true
+        justRun { editor.apply() }
     }
 
     protected fun mockCalendarTheme(theme: Theme) {
-        `when`(
+        every {
             sharedPreferences.getString(
                 Configuration.CalendarTheme.key,
                 Configuration.CalendarTheme.defaultValue.name
             )
-        ).thenReturn(theme.name)
+        } returns theme.name
     }
 
     protected fun mockFirstDayOfWeek(dayOfWeek: DayOfWeek) {
-        `when`(
+        every {
             sharedPreferences.getString(
                 Configuration.FirstDayOfWeek.key,
                 Configuration.FirstDayOfWeek.defaultValue.name
             )
-        ).thenReturn(dayOfWeek.name)
+        } returns dayOfWeek.name
     }
 
     protected fun mockInstancesColour(colour: Colour) {
-        `when`(
+        every {
             sharedPreferences.getString(
                 Configuration.InstancesColour.key,
                 Configuration.InstancesColour.defaultValue.name
             )
-        ).thenReturn(colour.name)
+        } returns colour.name
     }
 
     protected fun mockInstancesSymbolSet(symbolSet: SymbolSet) {
-        `when`(
+        every {
             sharedPreferences.getString(
                 Configuration.InstancesSymbolSet.key,
                 Configuration.InstancesSymbolSet.defaultValue.name
             )
-        ).thenReturn(symbolSet.name)
+        } returns symbolSet.name
     }
 }

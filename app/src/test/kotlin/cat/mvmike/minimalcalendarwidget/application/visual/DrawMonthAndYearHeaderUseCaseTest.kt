@@ -5,10 +5,14 @@ package cat.mvmike.minimalcalendarwidget.application.visual
 import android.widget.RemoteViews
 import cat.mvmike.minimalcalendarwidget.BaseTest
 import cat.mvmike.minimalcalendarwidget.R
+import io.mockk.confirmVerified
+import io.mockk.every
+import io.mockk.justRun
+import io.mockk.mockk
+import io.mockk.verify
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
-import org.mockito.Mockito.*
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.Month
@@ -19,7 +23,7 @@ import java.util.stream.Stream
 
 internal class DrawMonthAndYearHeaderUseCaseTest : BaseTest() {
 
-    private val widgetRv = mock(RemoteViews::class.java)
+    private val widgetRv: RemoteViews = mockk()
 
     @ParameterizedTest
     @MethodSource("getSpreadInstantsWithExpectedMonthAndYearTranslation")
@@ -27,20 +31,22 @@ internal class DrawMonthAndYearHeaderUseCaseTest : BaseTest() {
         instant: Instant,
         expectedMonthAndYear: String
     ) {
+        val expectedHeaderRelativeYearSize = 0.7f
         mockGetSystemInstant(instant)
         mockGetSystemZoneId()
         mockGetSystemLocale(Locale.ENGLISH)
         Month.values().forEach {
-            `when`(context.getString(it.getExpectedResourceId())).thenReturn(it.getExpectedAbbreviatedString())
+            every { context.getString(it.getExpectedResourceId()) } returns it.getExpectedAbbreviatedString()
         }
+        justRun { systemResolver.createMonthAndYearHeader(widgetRv, expectedMonthAndYear, expectedHeaderRelativeYearSize) }
 
         DrawMonthAndYearHeaderUseCase.execute(context, widgetRv)
 
-        verify(systemResolver, times(1)).getLocale(context)
-        verify(systemResolver, times(1)).getInstant()
-        verify(systemResolver, times(1)).getSystemZoneId()
-        verify(systemResolver, times(1)).createMonthAndYearHeader(widgetRv, expectedMonthAndYear, 0.7f)
-        verifyNoMoreInteractions(systemResolver)
+        verify { systemResolver.getLocale(context) }
+        verify { systemResolver.getInstant() }
+        verify { systemResolver.getSystemZoneId() }
+        verify { systemResolver.createMonthAndYearHeader(widgetRv, expectedMonthAndYear, expectedHeaderRelativeYearSize) }
+        confirmVerified(systemResolver)
     }
 
     companion object {

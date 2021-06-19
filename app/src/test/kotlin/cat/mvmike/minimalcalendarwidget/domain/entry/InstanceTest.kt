@@ -3,11 +3,13 @@
 package cat.mvmike.minimalcalendarwidget.domain.entry
 
 import cat.mvmike.minimalcalendarwidget.BaseTest
+import io.mockk.confirmVerified
+import io.mockk.every
+import io.mockk.verify
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.MethodSource
-import org.mockito.Mockito.*
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneOffset
@@ -39,8 +41,8 @@ internal class InstanceTest : BaseTest() {
         val instances = getInstances(context, LocalDate.MIN, LocalDate.MAX)
 
         assertThat(instances).isEmpty()
-        verify(systemResolver, times(1)).isReadCalendarPermitted(context)
-        verifyNoMoreInteractions(systemResolver)
+        verify { systemResolver.isReadCalendarPermitted(context) }
+        confirmVerified(systemResolver)
     }
 
     @Test
@@ -53,15 +55,15 @@ internal class InstanceTest : BaseTest() {
         val endLocalDate = systemLocalDate.plusDays(7)
         val initEpochMillis = initLocalDate.toStartOfDayInEpochMilli()
         val endEpochMillis = endLocalDate.toStartOfDayInEpochMilli()
-        `when`(systemResolver.getInstances(context, initEpochMillis, endEpochMillis)).thenReturn(HashSet())
+        every { systemResolver.getInstances(context, initEpochMillis, endEpochMillis)} returns HashSet()
 
         val instances = getInstances(context, initLocalDate, endLocalDate)
 
         assertThat(instances).isEmpty()
-        verify(systemResolver, times(4)).getSystemZoneId()
-        verify(systemResolver, times(1)).isReadCalendarPermitted(context)
-        verify(systemResolver, times(1)).getInstances(context, initEpochMillis, endEpochMillis)
-        verifyNoMoreInteractions(systemResolver)
+        verify(exactly = 4) { systemResolver.getSystemZoneId() }
+        verify { systemResolver.isReadCalendarPermitted(context) }
+        verify { systemResolver.getInstances(context, initEpochMillis, endEpochMillis) }
+        confirmVerified(systemResolver)
     }
 
     @Test
@@ -101,15 +103,15 @@ internal class InstanceTest : BaseTest() {
         val endLocalDate = systemLocalDate.plusDays(7)
         val initEpochMillis = initLocalDate.toStartOfDayInEpochMilli()
         val endEpochMillis = endLocalDate.toStartOfDayInEpochMilli()
-        `when`(systemResolver.getInstances(context, initEpochMillis, endEpochMillis)).thenReturn(expectedInstances)
+        every { systemResolver.getInstances(context, initEpochMillis, endEpochMillis) } returns expectedInstances
 
         val instances = getInstances(context, initLocalDate, endLocalDate)
 
         assertThat(instances).isEqualTo(expectedInstances)
-        verify(systemResolver, times(4)).getSystemZoneId()
-        verify(systemResolver, times(1)).isReadCalendarPermitted(context)
-        verify(systemResolver, times(1)).getInstances(context, initEpochMillis, endEpochMillis)
-        verifyNoMoreInteractions(systemResolver)
+        verify(exactly = 4) { systemResolver.getSystemZoneId() }
+        verify { systemResolver.isReadCalendarPermitted(context) }
+        verify { systemResolver.getInstances(context, initEpochMillis, endEpochMillis) }
+        confirmVerified(systemResolver)
     }
 
     companion object {

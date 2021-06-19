@@ -9,8 +9,13 @@ import cat.mvmike.minimalcalendarwidget.domain.configuration.item.SymbolSet
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
 import cat.mvmike.minimalcalendarwidget.domain.entry.Instance
 import cat.mvmike.minimalcalendarwidget.domain.entry.toStartOfDayInEpochMilli
+import io.mockk.confirmVerified
+import io.mockk.every
+import io.mockk.justRun
+import io.mockk.mockk
+import io.mockk.verify
+import io.mockk.verifyOrder
 import org.junit.jupiter.api.Test
-import org.mockito.Mockito.*
 import java.time.DayOfWeek
 import java.time.LocalDateTime
 import java.time.ZoneOffset
@@ -20,8 +25,8 @@ import java.util.stream.Stream
 
 internal class DrawDaysUseCaseTest : BaseTest() {
 
-    private val widgetRv = mock(RemoteViews::class.java)
-    private val rowRv = mock(RemoteViews::class.java)
+    private val widgetRv: RemoteViews = mockk()
+    private val rowRv: RemoteViews = mockk()
 
     @Test
     fun setDays_shouldReturnSafeDateSpanOfSystemTimeZoneInstances() {
@@ -34,7 +39,7 @@ internal class DrawDaysUseCaseTest : BaseTest() {
         val endLocalDate = systemLocalDate.plusDays(45)
         val initEpochMillis = initLocalDate.toStartOfDayInEpochMilli()
         val endEpochMillis = endLocalDate.toStartOfDayInEpochMilli()
-        `when`(systemResolver.getInstances(context, initEpochMillis, endEpochMillis)).thenReturn(systemInstances)
+        every { systemResolver.getInstances(context, initEpochMillis, endEpochMillis) } returns systemInstances
 
         val instancesColour = Colour.CYAN
         mockSharedPreferences()
@@ -45,38 +50,41 @@ internal class DrawDaysUseCaseTest : BaseTest() {
 
         val instancesColourTodayId = 1
         val instancesColourId = 2
-        `when`(systemResolver.getInstancesColorTodayId(context)).thenReturn(instancesColourTodayId)
-        `when`(systemResolver.getInstancesColorId(context, instancesColour)).thenReturn(instancesColourId)
+        every { systemResolver.getInstancesColorTodayId(context) } returns instancesColourTodayId
+        every { systemResolver.getInstancesColorId(context, instancesColour) } returns instancesColourId
 
-        `when`(systemResolver.createDaysRow(context)).thenReturn(rowRv)
+        every { systemResolver.createDaysRow(context) } returns rowRv
+        justRun { systemResolver.addToDaysRow(context, rowRv, any(), any(), any(), any(), any(), any()) }
+        justRun { systemResolver.addToWidget(widgetRv, rowRv) }
 
         DrawDaysUseCase.execute(context, widgetRv)
 
-        verify(systemResolver, times(1)).getSystemLocalDate()
-        verify(systemResolver, times(1)).isReadCalendarPermitted(context)
-        verify(systemResolver, times(1)).getInstances(context, initEpochMillis, endEpochMillis)
-        verify(systemResolver, times(4)).getSystemZoneId()
-        verify(systemResolver, times(6)).createDaysRow(context)
+        verify { systemResolver.getSystemLocalDate() }
+        verify { systemResolver.isReadCalendarPermitted(context) }
+        verify { systemResolver.getInstances(context, initEpochMillis, endEpochMillis) }
+        verify(exactly = 4) { systemResolver.getSystemZoneId() }
+        verify(exactly = 6) { systemResolver.createDaysRow(context) }
 
-        val inOrder = inOrder(systemResolver)
         getDrawDaysUseCaseTestProperties().forEach { dayUseCaseTest ->
             when (dayUseCaseTest.isToday) {
-                true -> inOrder.verify(systemResolver, times(1)).getInstancesColorTodayId(context)
-                false -> inOrder.verify(systemResolver, times(1)).getInstancesColorId(context, instancesColour)
+                true -> verify { systemResolver.getInstancesColorTodayId(context) }
+                false -> verify { systemResolver.getInstancesColorId(context, instancesColour) }
             }
-            inOrder.verify(systemResolver, times(1)).addToDaysRow(
-                context = context,
-                rowRv = rowRv,
-                dayLayout = dayUseCaseTest.dayLayout,
-                spanText = dayUseCaseTest.spanText,
-                isToday = dayUseCaseTest.isToday,
-                isSingleDigitDay = dayUseCaseTest.isSingleDigitDay,
-                symbolRelativeSize = dayUseCaseTest.symbolRelativeSize,
-                instancesColour = dayUseCaseTest.instancesColour
-            )
+            verifyOrder {
+                systemResolver.addToDaysRow(
+                    context = context,
+                    rowRv = rowRv,
+                    dayLayout = dayUseCaseTest.dayLayout,
+                    spanText = dayUseCaseTest.spanText,
+                    isToday = dayUseCaseTest.isToday,
+                    isSingleDigitDay = dayUseCaseTest.isSingleDigitDay,
+                    symbolRelativeSize = dayUseCaseTest.symbolRelativeSize,
+                    instancesColour = dayUseCaseTest.instancesColour
+                )
+            }
         }
-        verify(systemResolver, times(6)).addToWidget(widgetRv, rowRv)
-        verifyNoMoreInteractions(systemResolver)
+        verify(exactly = 6) { systemResolver.addToWidget(widgetRv, rowRv) }
+        confirmVerified(systemResolver)
     }
 
     companion object {

@@ -6,13 +6,15 @@ import cat.mvmike.minimalcalendarwidget.BaseTest
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Colour
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.SymbolSet
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
+import io.mockk.Called
+import io.mockk.confirmVerified
+import io.mockk.verify
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.EnumSource
 import org.junit.jupiter.params.provider.MethodSource
-import org.mockito.Mockito.*
 import java.time.DayOfWeek
 import java.util.stream.Stream
 
@@ -27,7 +29,7 @@ internal class ConfigurationTest : BaseTest() {
         val result = Configuration.CalendarTheme.get(context)
 
         assertThat(result).isEqualTo(theme)
-        verifyNoMoreInteractions(editor)
+        verify { editor wasNot Called }
     }
 
     @ParameterizedTest
@@ -39,7 +41,7 @@ internal class ConfigurationTest : BaseTest() {
         val result = Configuration.FirstDayOfWeek.get(context)
 
         assertThat(result).isEqualTo(dayOfWeek)
-        verifyNoMoreInteractions(editor)
+        verify { editor wasNot Called }
     }
 
     @ParameterizedTest
@@ -51,7 +53,7 @@ internal class ConfigurationTest : BaseTest() {
         val result = Configuration.InstancesSymbolSet.get(context)
 
         assertThat(result).isEqualTo(symbolSet)
-        verifyNoMoreInteractions(editor)
+        verify { editor wasNot Called }
     }
 
     @ParameterizedTest
@@ -63,7 +65,7 @@ internal class ConfigurationTest : BaseTest() {
         val result = Configuration.InstancesColour.get(context)
 
         assertThat(result).isEqualTo(colour)
-        verifyNoMoreInteractions(editor)
+        verify { editor wasNot Called }
     }
 
     @ParameterizedTest
@@ -89,12 +91,12 @@ internal class ConfigurationTest : BaseTest() {
         var invocations = 0
         values.forEach { enumValue ->
             item.set(context, enumValue)
-            verify(editor, times(1)).putString(key, enumValue.name)
+            verify { editor.putString(key, enumValue.name) }
             invocations++
         }
 
-        verify(editor, times(invocations)).apply()
-        verifyNoMoreInteractions(editor)
+        verify(exactly = invocations) { editor.apply() }
+        confirmVerified(editor)
     }
 
     @Test
@@ -102,9 +104,9 @@ internal class ConfigurationTest : BaseTest() {
         mockSharedPreferences()
         clearAllConfiguration(context)
 
-        verify(editor, times(1)).clear()
-        verify(editor, times(1)).apply()
-        verifyNoMoreInteractions(editor)
+        verify { editor.clear() }
+        verify { editor.apply() }
+        confirmVerified(editor)
     }
 
     companion object {
