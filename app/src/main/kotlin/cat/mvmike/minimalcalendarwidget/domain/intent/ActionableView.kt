@@ -22,7 +22,7 @@ enum class ActionableView(
     OPEN_CALENDAR(
         viewId = R.id.calendar_widget,
         code = 99,
-        action = "action.WIDGET_PRESS",
+        action = "action.WIDGET_PRESS"
     );
 
     fun addListener(context: Context, remoteViews: RemoteViews) {
