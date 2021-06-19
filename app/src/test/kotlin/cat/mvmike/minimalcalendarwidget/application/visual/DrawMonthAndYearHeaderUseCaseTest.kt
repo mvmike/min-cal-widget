@@ -18,7 +18,7 @@ import java.time.LocalDateTime
 import java.time.Month
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
-import java.util.*
+import java.util.Locale
 import java.util.stream.Stream
 
 internal class DrawMonthAndYearHeaderUseCaseTest : BaseTest() {

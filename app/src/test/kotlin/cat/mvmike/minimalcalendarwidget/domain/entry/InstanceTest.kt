@@ -14,7 +14,7 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
-import java.util.*
+import java.util.Random
 import java.util.stream.Stream
 
 internal class InstanceTest : BaseTest() {

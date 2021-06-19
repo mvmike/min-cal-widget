@@ -10,7 +10,7 @@ import java.time.Instant
 import java.time.Month
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
-import java.util.*
+import java.util.Locale
 
 object DrawMonthAndYearHeaderUseCase {
 

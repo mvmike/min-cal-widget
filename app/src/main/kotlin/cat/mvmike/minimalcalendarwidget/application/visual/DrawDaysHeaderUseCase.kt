@@ -8,7 +8,7 @@ import cat.mvmike.minimalcalendarwidget.domain.configuration.Configuration
 import cat.mvmike.minimalcalendarwidget.domain.entry.getAbbreviatedDisplayValue
 import cat.mvmike.minimalcalendarwidget.infrastructure.SystemResolver
 import java.time.DayOfWeek
-import java.util.*
+import java.util.Collections
 
 object DrawDaysHeaderUseCase {
 

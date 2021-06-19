@@ -9,7 +9,6 @@ import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneId
-import java.util.*
 
 val FIELDS: Array<String> = arrayOf(
     CalendarContract.Instances.EVENT_ID,
