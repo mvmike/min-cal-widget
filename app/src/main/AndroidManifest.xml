@@ -25,9 +25,9 @@
 
         <receiver android:name=".infrastructure.receiver.DateTimeChangeReceiver">
             <intent-filter>
-                <action android:name="android.intent.action.TIME_CHANGED"/>
-                <action android:name="android.intent.action.DATE_CHANGED"/>
-                <action android:name="android.intent.action.TIMEZONE_CHANGED"/>
+                <action android:name="android.intent.action.TIME_CHANGED" />
+                <action android:name="android.intent.action.DATE_CHANGED" />
+                <action android:name="android.intent.action.TIMEZONE_CHANGED" />
             </intent-filter>
         </receiver>
 

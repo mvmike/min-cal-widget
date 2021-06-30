@@ -15,7 +15,7 @@ object ProcessIntentUseCase {
 
     fun execute(context: Context, action: String?) {
 
-        when (action){
+        when (action) {
             ACTION_AUTO_UPDATE,
             ACTION_APPWIDGET_UPDATE,
             null -> return

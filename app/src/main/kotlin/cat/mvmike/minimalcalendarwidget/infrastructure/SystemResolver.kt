@@ -82,11 +82,13 @@ open class SystemResolver private constructor() {
 
     // INTENT
 
-    open fun setOnClickPendingIntent(context: Context,
-                                     remoteViews: RemoteViews,
-                                     viewId: Int,
-                                     code: Int,
-                                     action: String) =
+    open fun setOnClickPendingIntent(
+        context: Context,
+        remoteViews: RemoteViews,
+        viewId: Int,
+        code: Int,
+        action: String
+    ) =
         remoteViews.setOnClickPendingIntent(
             viewId,
             PendingIntent.getBroadcast(
@@ -97,18 +99,22 @@ open class SystemResolver private constructor() {
             )
         )
 
-    open fun setRepeatingAlarm(context: Context, alarmId: Int, firstTriggerMillis: Long, intervalMillis: Long) =
-        context.getAlarmManager().setRepeating(
-            AlarmManager.RTC, // RTC does not wake the device up
-            firstTriggerMillis,
-            intervalMillis,
-            PendingIntent.getBroadcast(
-                context,
-                alarmId,
-                Intent(context, MonthWidget::class.java).setAction(AutoUpdate.ACTION_AUTO_UPDATE),
-                PendingIntent.FLAG_CANCEL_CURRENT
-            )
+    open fun setRepeatingAlarm(
+        context: Context,
+        alarmId: Int,
+        firstTriggerMillis: Long,
+        intervalMillis: Long
+    ) = context.getAlarmManager().setRepeating(
+        AlarmManager.RTC, // RTC does not wake the device up
+        firstTriggerMillis,
+        intervalMillis,
+        PendingIntent.getBroadcast(
+            context,
+            alarmId,
+            Intent(context, MonthWidget::class.java).setAction(AutoUpdate.ACTION_AUTO_UPDATE),
+            PendingIntent.FLAG_CANCEL_CURRENT
         )
+    )
 
     open fun cancelRepeatingAlarm(context: Context, alarmId: Int) =
         context.getAlarmManager().cancel(
