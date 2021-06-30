@@ -77,7 +77,7 @@ internal class DrawDaysUseCaseTest : BaseTest() {
             verifyOrder {
                 systemResolver.addToDaysRow(
                     context = context,
-                    rowRv = rowRv,
+                    weekRow = rowRv,
                     dayLayout = dayUseCaseTest.dayLayout,
                     spanText = dayUseCaseTest.spanText,
                     isToday = dayUseCaseTest.isToday,

@@ -84,12 +84,12 @@ open class SystemResolver private constructor() {
 
     open fun setOnClickPendingIntent(
         context: Context,
-        remoteViews: RemoteViews,
+        widgetRemoteView: RemoteViews,
         viewId: Int,
         code: Int,
         action: String
     ) =
-        remoteViews.setOnClickPendingIntent(
+        widgetRemoteView.setOnClickPendingIntent(
             viewId,
             PendingIntent.getBroadcast(
                 context,
@@ -171,7 +171,7 @@ open class SystemResolver private constructor() {
 
     // ADD VISUAL COMPONENTS TO WIDGET
 
-    open fun addToWidget(widgetRv: RemoteViews, rv: RemoteViews) = widgetRv.addView(R.id.calendar_widget, rv)
+    open fun addToWidget(widgetRemoteView: RemoteViews, remoteView: RemoteViews) = widgetRemoteView.addView(R.id.calendar_widget, remoteView)
 
     // MONTH YEAR HEADER
 
@@ -185,10 +185,14 @@ open class SystemResolver private constructor() {
 
     open fun createDaysHeaderRow(context: Context) = getById(context, R.layout.row_header)
 
-    open fun addToDaysHeaderRow(context: Context, daysHeaderRow: RemoteViews, text: String, layoutId: Int) {
-        val dayRv = getById(context, layoutId)
-        dayRv.setTextViewText(android.R.id.text1, text)
-        daysHeaderRow.addView(R.id.row_container, dayRv)
+    open fun addToDaysHeaderRow(
+        context: Context,
+        daysHeaderRow: RemoteViews,
+        text: String, layoutId: Int
+    ) {
+        val day = getById(context, layoutId)
+        day.setTextViewText(android.R.id.text1, text)
+        daysHeaderRow.addView(R.id.row_container, day)
     }
 
     // DAY
@@ -196,8 +200,14 @@ open class SystemResolver private constructor() {
     open fun createDaysRow(context: Context) = getById(context, R.layout.row_week)
 
     open fun addToDaysRow(
-        context: Context, rowRv: RemoteViews, dayLayout: Int, spanText: String, isToday: Boolean,
-        isSingleDigitDay: Boolean, symbolRelativeSize: Float, instancesColour: Int
+        context: Context,
+        weekRow: RemoteViews,
+        dayLayout: Int,
+        spanText: String,
+        isToday: Boolean,
+        isSingleDigitDay: Boolean,
+        symbolRelativeSize: Float,
+        instancesColour: Int
     ) {
         val daySpSt = SpannableString(spanText)
         daySpSt.setSpan(StyleSpan(Typeface.BOLD), spanText.length - 1, spanText.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
@@ -212,7 +222,7 @@ open class SystemResolver private constructor() {
 
         val dayRv = getById(context, dayLayout)
         dayRv.setTextViewText(android.R.id.text1, daySpSt)
-        rowRv.addView(R.id.row_container, dayRv)
+        weekRow.addView(R.id.row_container, dayRv)
     }
 
     open fun getInstancesColorTodayId(context: Context) = ContextCompat.getColor(context, R.color.instances_today)

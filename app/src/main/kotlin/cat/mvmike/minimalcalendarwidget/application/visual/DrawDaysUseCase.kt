@@ -30,7 +30,7 @@ object DrawDaysUseCase {
 
     private const val INSTANCES_QUERY_DAYS_SPAN = 45L
 
-    fun execute(context: Context, remoteViews: RemoteViews) {
+    fun execute(context: Context, widgetRemoteView: RemoteViews) {
         val systemLocalDate: LocalDate = SystemResolver.get().getSystemLocalDate()
         val instanceSet = getInstances(
             context = context,
@@ -44,7 +44,7 @@ object DrawDaysUseCase {
         val initialLocalDate = getInitialLocalDate(systemLocalDate, firstDayOfWeek)
 
         for (week in 0 until NUM_WEEKS) {
-            val rowRv: RemoteViews = SystemResolver.get().createDaysRow(context)
+            val weekRow: RemoteViews = SystemResolver.get().createDaysRow(context)
 
             for (weekDay in 0 until DAYS_IN_WEEK) {
                 val currentDay = Day(
@@ -61,7 +61,7 @@ object DrawDaysUseCase {
 
                 SystemResolver.get().addToDaysRow(
                     context = context,
-                    rowRv = rowRv,
+                    weekRow = weekRow,
                     dayLayout = dayLayout,
                     spanText = PADDING + currentDay.getDayOfMonthString() + PADDING + instancesSymbol,
                     isToday = currentDay.isToday(),
@@ -71,7 +71,10 @@ object DrawDaysUseCase {
                 )
             }
 
-            SystemResolver.get().addToWidget(remoteViews, rowRv)
+            SystemResolver.get().addToWidget(
+                widgetRemoteView = widgetRemoteView,
+                remoteView = weekRow
+            )
         }
     }
 

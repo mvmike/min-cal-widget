@@ -62,7 +62,7 @@ class MonthWidget : AppWidgetProvider() {
 
             AddListenersUseCase.execute(
                 context = context,
-                remoteViews = widgetRemoteView
+                widgetRemoteView = widgetRemoteView
             )
 
             DrawMonthAndYearHeaderUseCase.execute(
@@ -71,11 +71,11 @@ class MonthWidget : AppWidgetProvider() {
             )
             DrawDaysHeaderUseCase.execute(
                 context = context,
-                widgetRv = widgetRemoteView
+                widgetRemoteView = widgetRemoteView
             )
             DrawDaysUseCase.execute(
                 context = context,
-                remoteViews = widgetRemoteView
+                widgetRemoteView = widgetRemoteView
             )
 
             appWidgetManager.updateAppWidget(appWidgetId, widgetRemoteView)

@@ -23,10 +23,10 @@ enum class ActionableView(
         action = "action.WIDGET_PRESS"
     );
 
-    fun addListener(context: Context, remoteViews: RemoteViews) =
+    fun addListener(context: Context, widgetRemoteView: RemoteViews) =
         SystemResolver.get().setOnClickPendingIntent(
             context = context,
-            remoteViews = remoteViews,
+            widgetRemoteView = widgetRemoteView,
             viewId = viewId,
             code = code,
             action = action

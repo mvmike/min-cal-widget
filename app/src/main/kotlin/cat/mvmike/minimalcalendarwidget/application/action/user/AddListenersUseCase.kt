@@ -8,9 +8,9 @@ import cat.mvmike.minimalcalendarwidget.domain.intent.ActionableView
 
 object AddListenersUseCase {
 
-    fun execute(context: Context, remoteViews: RemoteViews) {
+    fun execute(context: Context, widgetRemoteView: RemoteViews) {
         ActionableView.values().forEach {
-            it.addListener(context, remoteViews)
+            it.addListener(context, widgetRemoteView)
         }
     }
 }

@@ -12,7 +12,7 @@ import java.util.Collections
 
 object DrawDaysHeaderUseCase {
 
-    fun execute(context: Context, widgetRv: RemoteViews) {
+    fun execute(context: Context, widgetRemoteView: RemoteViews) {
         val daysHeaderRow: RemoteViews = SystemResolver.get().createDaysHeaderRow(context)
         val firstDayOfWeek = Configuration.FirstDayOfWeek.get(context)
         val theme = Configuration.CalendarTheme.get(context)
@@ -27,8 +27,8 @@ object DrawDaysHeaderUseCase {
         }
 
         SystemResolver.get().addToWidget(
-            widgetRv = widgetRv,
-            rv = daysHeaderRow
+            widgetRemoteView = widgetRemoteView,
+            remoteView = daysHeaderRow
         )
     }
 

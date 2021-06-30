@@ -23,7 +23,7 @@ internal class ActionableViewTest : BaseTest() {
         justRun {
             systemResolver.setOnClickPendingIntent(
                 context = context,
-                remoteViews = widgetRv,
+                widgetRemoteView = widgetRv,
                 viewId = actionableViewTestProperties.viewId,
                 code = actionableViewTestProperties.code,
                 action = actionableViewTestProperties.action
@@ -35,7 +35,7 @@ internal class ActionableViewTest : BaseTest() {
         verify {
             systemResolver.setOnClickPendingIntent(
                 context = context,
-                remoteViews = widgetRv,
+                widgetRemoteView = widgetRv,
                 viewId = actionableViewTestProperties.viewId,
                 code = actionableViewTestProperties.code,
                 action = actionableViewTestProperties.action
