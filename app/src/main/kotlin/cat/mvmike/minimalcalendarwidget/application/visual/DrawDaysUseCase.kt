@@ -78,18 +78,16 @@ object DrawDaysUseCase {
         }
     }
 
-    private fun getInitialLocalDate(systemLocalDate: LocalDate, firstDayOfWeek: DayOfWeek): LocalDate {
+    internal fun getInitialLocalDate(systemLocalDate: LocalDate, firstDayOfWeek: DayOfWeek): LocalDate {
         val firstDayOfMonth = LocalDate.of(systemLocalDate.year, systemLocalDate.monthValue, MONTH_FIRST_DAY)
         val difference = firstDayOfWeek.ordinal - firstDayOfMonth[ChronoField.DAY_OF_WEEK] + 1
-        val localDate = firstDayOfMonth.plus(difference.toLong(), ChronoUnit.DAYS)
+        val adjustedInitialLocalDate = firstDayOfMonth.plus(difference.toLong(), ChronoUnit.DAYS)
 
         // overlap month manually if dayOfMonth is in current month and greater than 1
-        return if (localDate[ChronoField.DAY_OF_MONTH] > MONTH_FIRST_DAY
-            && localDate[ChronoField.DAY_OF_MONTH] < MAXIMUM_DAYS_IN_MONTH / 2
-        ) {
-            localDate.minus(DAYS_IN_WEEK.toLong(), ChronoUnit.DAYS)
-        } else {
-            localDate
+        val dayOfMonth = adjustedInitialLocalDate[ChronoField.DAY_OF_MONTH]
+        return when {
+            dayOfMonth > MONTH_FIRST_DAY && dayOfMonth < MAXIMUM_DAYS_IN_MONTH / 2 -> adjustedInitialLocalDate.minusDays(DAYS_IN_WEEK.toLong())
+            else -> adjustedInitialLocalDate
         }
     }
 

@@ -15,12 +15,17 @@ import io.mockk.mockk
 import io.mockk.verify
 import io.mockk.verifyOrder
 import java.time.DayOfWeek
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import java.util.Random
 import java.util.stream.Stream
+import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.Arguments
+import org.junit.jupiter.params.provider.MethodSource
 
 internal class DrawDaysUseCaseTest : BaseTest() {
 
@@ -89,6 +94,18 @@ internal class DrawDaysUseCaseTest : BaseTest() {
         }
         verify(exactly = 6) { systemResolver.addToWidget(widgetRv, rowRv) }
         confirmVerified(widgetRv, rowRv)
+    }
+
+    @ParameterizedTest
+    @MethodSource("getSystemLocalDateAndFirstDayOfWeekWithExpectedInitialLocalDate")
+    fun getInitialLocalDate_shouldReturnWidgetInitialDate(
+        systemLocalDate: LocalDate,
+        firstDayOfWeek: DayOfWeek,
+        expectedInitialLocalDate: LocalDate
+    ) {
+        val result = DrawDaysUseCase.getInitialLocalDate(systemLocalDate, firstDayOfWeek)
+
+        Assertions.assertThat(result).isEqualTo(expectedInitialLocalDate)
     }
 
     companion object {
@@ -301,5 +318,100 @@ internal class DrawDaysUseCaseTest : BaseTest() {
         private fun String.toInstant(zoneOffset: ZoneOffset) = LocalDateTime
             .parse(this, DateTimeFormatter.ISO_ZONED_DATE_TIME)
             .toInstant(zoneOffset)
+
+        @JvmStatic
+        @Suppress("unused", "LongMethod")
+        fun getSystemLocalDateAndFirstDayOfWeekWithExpectedInitialLocalDate() = Stream.of(
+            Arguments.of(
+                LocalDate.of(2018, 1, 26),
+                DayOfWeek.MONDAY,
+                LocalDate.of(2018, 1, 1)
+            ),
+            Arguments.of(
+                LocalDate.of(2018, 1, 26),
+                DayOfWeek.TUESDAY,
+                LocalDate.of(2017, 12, 26)
+            ),
+            Arguments.of(
+                LocalDate.of(2018, 1, 26),
+                DayOfWeek.WEDNESDAY,
+                LocalDate.of(2017, 12, 27)
+            ),
+            Arguments.of(
+                LocalDate.of(2018, 1, 26),
+                DayOfWeek.THURSDAY,
+                LocalDate.of(2017, 12, 28)
+            ),
+            Arguments.of(
+                LocalDate.of(2018, 1, 26),
+                DayOfWeek.FRIDAY,
+                LocalDate.of(2017, 12, 29)
+            ),
+            Arguments.of(
+                LocalDate.of(2018, 1, 26),
+                DayOfWeek.SATURDAY,
+                LocalDate.of(2017, 12, 30)
+            ),
+            Arguments.of(
+                LocalDate.of(2018, 1, 26),
+                DayOfWeek.SUNDAY,
+                LocalDate.of(2017, 12, 31)
+            ),
+            Arguments.of(
+                LocalDate.of(2005, 2, 19),
+                DayOfWeek.WEDNESDAY,
+                LocalDate.of(2005, 1, 26)
+            ),
+            Arguments.of(
+                LocalDate.of(2027, 3, 5),
+                DayOfWeek.SUNDAY,
+                LocalDate.of(2027, 2, 28)
+            ),
+            Arguments.of(
+                LocalDate.of(2099, 4, 30),
+                DayOfWeek.MONDAY,
+                LocalDate.of(2099, 3, 30)
+            ),
+            Arguments.of(
+                LocalDate.of(2000, 5, 1),
+                DayOfWeek.SATURDAY,
+                LocalDate.of(2000, 4, 29)
+            ),
+            Arguments.of(
+                LocalDate.of(1998, 6, 2),
+                DayOfWeek.WEDNESDAY,
+                LocalDate.of(1998, 5, 27)
+            ),
+            Arguments.of(
+                LocalDate.of(1992, 7, 7),
+                DayOfWeek.TUESDAY,
+                LocalDate.of(1992, 6, 30)
+            ),
+            Arguments.of(
+                LocalDate.of(2018, 8, 1),
+                DayOfWeek.FRIDAY,
+                LocalDate.of(2018, 7, 27)
+            ),
+            Arguments.of(
+                LocalDate.of(1987, 9, 12),
+                DayOfWeek.FRIDAY,
+                LocalDate.of(1987, 8, 28)
+            ),
+            Arguments.of(
+                LocalDate.of(2017, 10, 1),
+                DayOfWeek.THURSDAY,
+                LocalDate.of(2017, 9, 28)
+            ),
+            Arguments.of(
+                LocalDate.of(1000, 11, 12),
+                DayOfWeek.SATURDAY,
+                LocalDate.of(1000, 11, 1)
+            ),
+            Arguments.of(
+                LocalDate.of(1994, 12, 13),
+                DayOfWeek.THURSDAY,
+                LocalDate.of(1994, 12, 1)
+            )
+        )!!
     }
 }
