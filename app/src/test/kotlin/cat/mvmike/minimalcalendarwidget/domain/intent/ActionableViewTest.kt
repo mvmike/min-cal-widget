@@ -41,7 +41,7 @@ internal class ActionableViewTest : BaseTest() {
                 action = actionableViewTestProperties.action
             )
         }
-        confirmVerified(systemResolver, context, widgetRv)
+        confirmVerified(widgetRv)
     }
 
     companion object {

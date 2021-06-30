@@ -5,7 +5,6 @@ package cat.mvmike.minimalcalendarwidget.domain.intent
 import cat.mvmike.minimalcalendarwidget.BaseTest
 import cat.mvmike.minimalcalendarwidget.domain.intent.AutoUpdate.ALARM_ID
 import cat.mvmike.minimalcalendarwidget.domain.intent.AutoUpdate.INTERVAL_MILLIS
-import io.mockk.confirmVerified
 import io.mockk.justRun
 import io.mockk.verify
 import java.time.Instant
@@ -28,6 +27,7 @@ internal class AutoUpdateTest : BaseTest() {
 
         AutoUpdate.setAlarm(context)
 
+        verify { systemResolver.getInstant() }
         verify {
             systemResolver.setRepeatingAlarm(
                 context = context,
@@ -36,7 +36,6 @@ internal class AutoUpdateTest : BaseTest() {
                 intervalMillis = INTERVAL_MILLIS
             )
         }
-        confirmVerified(context)
     }
 
     @Test
@@ -56,6 +55,5 @@ internal class AutoUpdateTest : BaseTest() {
                 alarmId = ALARM_ID
             )
         }
-        confirmVerified(context)
     }
 }

@@ -22,7 +22,7 @@ import org.junit.jupiter.params.provider.MethodSource
 
 internal class DrawMonthAndYearHeaderUseCaseTest : BaseTest() {
 
-    private val widgetRv= mockk<RemoteViews>()
+    private val widgetRv = mockk<RemoteViews>()
 
     @ParameterizedTest
     @MethodSource("getSpreadInstantsWithExpectedMonthAndYearTranslation")
@@ -34,9 +34,8 @@ internal class DrawMonthAndYearHeaderUseCaseTest : BaseTest() {
         mockGetSystemInstant(instant)
         mockGetSystemZoneId()
         mockGetSystemLocale()
-        Month.values().forEach {
-            every { context.getString(it.getExpectedResourceId()) } returns it.getExpectedAbbreviatedString()
-        }
+        val month = instant.atZone(zoneId).month
+        every { context.getString(month.getExpectedResourceId()) } returns month.getExpectedAbbreviatedString()
         justRun { systemResolver.createMonthAndYearHeader(widgetRv, expectedMonthAndYear, expectedHeaderRelativeYearSize) }
 
         DrawMonthAndYearHeaderUseCase.execute(context, widgetRv)
@@ -44,8 +43,9 @@ internal class DrawMonthAndYearHeaderUseCaseTest : BaseTest() {
         verify { systemResolver.getLocale(context) }
         verify { systemResolver.getInstant() }
         verify { systemResolver.getSystemZoneId() }
+        verify { context.getString(month.getExpectedResourceId()) }
         verify { systemResolver.createMonthAndYearHeader(widgetRv, expectedMonthAndYear, expectedHeaderRelativeYearSize) }
-        confirmVerified(systemResolver)
+        confirmVerified(widgetRv)
     }
 
     companion object {

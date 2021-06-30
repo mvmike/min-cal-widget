@@ -34,17 +34,19 @@ data class Instance(
     }
 }
 
-fun getInstances(context: Context, from: LocalDate, to: LocalDate) =
-    when (SystemResolver.get().isReadCalendarPermitted(context)) {
+fun getInstances(context: Context, from: LocalDate, to: LocalDate): Set<Instance> {
+    return when (SystemResolver.get().isReadCalendarPermitted(context)) {
         false -> HashSet()
         true -> {
+            val systemZoneId = SystemResolver.get().getSystemZoneId()
             SystemResolver.get().getInstances(
                 context = context,
-                begin = from.toStartOfDayInEpochMilli(),
-                end = to.toStartOfDayInEpochMilli()
+                begin = from.toStartOfDayInEpochMilli(systemZoneId),
+                end = to.toStartOfDayInEpochMilli(systemZoneId)
             )
         }
     }
+}
 
-internal fun LocalDate.toStartOfDayInEpochMilli() =
-    this.atStartOfDay(SystemResolver.get().getSystemZoneId()).toInstant().toEpochMilli()
+private fun LocalDate.toStartOfDayInEpochMilli(zoneId: ZoneId) =
+    this.atStartOfDay(zoneId).toInstant().toEpochMilli()

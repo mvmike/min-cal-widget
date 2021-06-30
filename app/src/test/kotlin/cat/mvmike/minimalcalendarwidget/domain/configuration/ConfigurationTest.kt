@@ -7,7 +7,6 @@ import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Colour
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.SymbolSet
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
 import io.mockk.Called
-import io.mockk.confirmVerified
 import io.mockk.verify
 import java.time.DayOfWeek
 import java.util.stream.Stream
@@ -29,6 +28,7 @@ internal class ConfigurationTest : BaseTest() {
         val result = Configuration.CalendarTheme.get(context)
 
         assertThat(result).isEqualTo(theme)
+        verifyCalendarTheme()
         verify { editor wasNot Called }
     }
 
@@ -41,6 +41,7 @@ internal class ConfigurationTest : BaseTest() {
         val result = Configuration.FirstDayOfWeek.get(context)
 
         assertThat(result).isEqualTo(dayOfWeek)
+        verifyFirstDayOfWeek()
         verify { editor wasNot Called }
     }
 
@@ -53,6 +54,7 @@ internal class ConfigurationTest : BaseTest() {
         val result = Configuration.InstancesSymbolSet.get(context)
 
         assertThat(result).isEqualTo(symbolSet)
+        verifyInstancesSymbolSet()
         verify { editor wasNot Called }
     }
 
@@ -65,6 +67,7 @@ internal class ConfigurationTest : BaseTest() {
         val result = Configuration.InstancesColour.get(context)
 
         assertThat(result).isEqualTo(colour)
+        verifyInstancesColour()
         verify { editor wasNot Called }
     }
 
@@ -91,12 +94,13 @@ internal class ConfigurationTest : BaseTest() {
         var invocations = 0
         values.forEach { enumValue ->
             item.set(context, enumValue)
+            verifySharedPreferencesAccess()
+            verifySharedPreferencesEdit()
             verify { editor.putString(key, enumValue.name) }
             invocations++
         }
 
         verify(exactly = invocations) { editor.apply() }
-        confirmVerified(editor)
     }
 
     @Test
@@ -104,9 +108,10 @@ internal class ConfigurationTest : BaseTest() {
         mockSharedPreferences()
         clearAllConfiguration(context)
 
+        verifySharedPreferencesAccess()
+        verifySharedPreferencesEdit()
         verify { editor.clear() }
         verify { editor.apply() }
-        confirmVerified(editor)
     }
 
     companion object {

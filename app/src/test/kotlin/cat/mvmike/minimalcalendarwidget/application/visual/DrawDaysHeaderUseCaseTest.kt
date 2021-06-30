@@ -26,29 +26,32 @@ import org.junit.jupiter.params.provider.MethodSource
 
 internal class DrawDaysHeaderUseCaseTest : BaseTest() {
 
-    private val widgetRv= mockk<RemoteViews>()
+    private val widgetRv = mockk<RemoteViews>()
 
-    private val daysHeaderRowRv= mockk<RemoteViews>()
+    private val daysHeaderRowRv = mockk<RemoteViews>()
 
     @ParameterizedTest
     @MethodSource("combinationOfStartWeekDayAndThemeConfig")
     fun setDayHeaders_shouldAddViewBasedOnCurrentDayAndConfig(startWeekDay: DayOfWeek, theme: Theme) {
-        every {systemResolver.createDaysHeaderRow(context)} returns daysHeaderRowRv
+        every { systemResolver.createDaysHeaderRow(context) } returns daysHeaderRowRv
         mockSharedPreferences()
         mockFirstDayOfWeek(startWeekDay)
         mockCalendarTheme(theme)
 
         val rotatedWeekDays = getRotatedWeekDays(startWeekDay)
         rotatedWeekDays.forEach {
-            every {context.getString(it.getExpectedResourceId())} returns it.getExpectedAbbreviatedString()
+            every { context.getString(it.getExpectedResourceId()) } returns it.getExpectedAbbreviatedString()
         }
         justRun { systemResolver.addToDaysHeaderRow(context, daysHeaderRowRv, any(), any()) }
         justRun { systemResolver.addToWidget(widgetRv, daysHeaderRowRv) }
 
         DrawDaysHeaderUseCase.execute(context, widgetRv)
 
+        verifyFirstDayOfWeek()
+        verifyCalendarTheme()
         verify { systemResolver.createDaysHeaderRow(context) }
         rotatedWeekDays.forEach {
+            verify { context.getString(it.getExpectedResourceId()) }
             verify {
                 systemResolver.addToDaysHeaderRow(
                     context = context,
@@ -59,7 +62,7 @@ internal class DrawDaysHeaderUseCaseTest : BaseTest() {
             }
         }
         verify { systemResolver.addToWidget(widgetRv, daysHeaderRowRv) }
-        confirmVerified(systemResolver)
+        confirmVerified(widgetRv, daysHeaderRowRv)
     }
 
     companion object {

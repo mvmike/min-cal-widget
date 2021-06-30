@@ -8,7 +8,6 @@ import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Colour
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.SymbolSet
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
 import cat.mvmike.minimalcalendarwidget.domain.entry.Instance
-import cat.mvmike.minimalcalendarwidget.domain.entry.toStartOfDayInEpochMilli
 import io.mockk.confirmVerified
 import io.mockk.every
 import io.mockk.justRun
@@ -25,8 +24,9 @@ import org.junit.jupiter.api.Test
 
 internal class DrawDaysUseCaseTest : BaseTest() {
 
-    private val widgetRv= mockk<RemoteViews>()
-    private val rowRv= mockk<RemoteViews>()
+    private val widgetRv = mockk<RemoteViews>()
+
+    private val rowRv = mockk<RemoteViews>()
 
     @Test
     fun setDays_shouldReturnSafeDateSpanOfSystemTimeZoneInstances() {
@@ -37,8 +37,8 @@ internal class DrawDaysUseCaseTest : BaseTest() {
         val systemInstances = getSystemInstances()
         val initLocalDate = systemLocalDate.minusDays(45)
         val endLocalDate = systemLocalDate.plusDays(45)
-        val initEpochMillis = initLocalDate.toStartOfDayInEpochMilli()
-        val endEpochMillis = endLocalDate.toStartOfDayInEpochMilli()
+        val initEpochMillis = initLocalDate.atStartOfDay(zoneId).toInstant().toEpochMilli()
+        val endEpochMillis = endLocalDate.atStartOfDay(zoneId).toInstant().toEpochMilli()
         every { systemResolver.getInstances(context, initEpochMillis, endEpochMillis) } returns systemInstances
 
         val instancesColour = Colour.CYAN
@@ -59,10 +59,14 @@ internal class DrawDaysUseCaseTest : BaseTest() {
 
         DrawDaysUseCase.execute(context, widgetRv)
 
+        verifyFirstDayOfWeek()
+        verifyCalendarTheme()
+        verifyInstancesSymbolSet()
+        verifyInstancesColour()
         verify { systemResolver.getSystemLocalDate() }
         verify { systemResolver.isReadCalendarPermitted(context) }
         verify { systemResolver.getInstances(context, initEpochMillis, endEpochMillis) }
-        verify(exactly = 4) { systemResolver.getSystemZoneId() }
+        verify { systemResolver.getSystemZoneId() }
         verify(exactly = 6) { systemResolver.createDaysRow(context) }
 
         getDrawDaysUseCaseTestProperties().forEach { dayUseCaseTest ->
@@ -84,7 +88,7 @@ internal class DrawDaysUseCaseTest : BaseTest() {
             }
         }
         verify(exactly = 6) { systemResolver.addToWidget(widgetRv, rowRv) }
-        confirmVerified(systemResolver)
+        confirmVerified(widgetRv, rowRv)
     }
 
     companion object {

@@ -8,7 +8,6 @@ import cat.mvmike.minimalcalendarwidget.domain.intent.ActionableView
 import cat.mvmike.minimalcalendarwidget.domain.intent.AutoUpdate.ACTION_AUTO_UPDATE
 import cat.mvmike.minimalcalendarwidget.infrastructure.activity.ConfigurationActivity
 import cat.mvmike.minimalcalendarwidget.infrastructure.activity.PermissionsActivity
-import io.mockk.confirmVerified
 import io.mockk.justRun
 import io.mockk.verify
 import java.time.Instant.now
@@ -20,14 +19,14 @@ import org.junit.jupiter.params.provider.ValueSource
 internal class ProcessIntentUseCaseTest : BaseTest() {
 
     @ParameterizedTest
-    @ValueSource(strings = [
-        ACTION_AUTO_UPDATE,
-        ACTION_APPWIDGET_UPDATE
-    ])
+    @ValueSource(
+        strings = [
+            ACTION_AUTO_UPDATE,
+            ACTION_APPWIDGET_UPDATE
+        ]
+    )
     fun shouldDoNothing_whenUpdateIntent(action: String) {
         ProcessIntentUseCase.execute(context, action)
-
-        confirmVerified(context)
     }
 
     @ParameterizedTest
@@ -42,7 +41,6 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
 
         verify { systemResolver.isReadCalendarPermitted(context) }
         verify { systemResolver.startActivity(context, PermissionsActivity::class.java) }
-        confirmVerified(context, systemResolver)
     }
 
     @Test
@@ -54,7 +52,6 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
 
         verify { systemResolver.isReadCalendarPermitted(context) }
         verify { systemResolver.startActivity(context, ConfigurationActivity::class.java) }
-        confirmVerified(context, systemResolver)
     }
 
     @Test
@@ -70,6 +67,5 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
         verify { systemResolver.isReadCalendarPermitted(context) }
         verify { systemResolver.getInstant() }
         verify { systemResolver.startCalendarActivity(context, instant) }
-        confirmVerified(context, systemResolver)
     }
 }
