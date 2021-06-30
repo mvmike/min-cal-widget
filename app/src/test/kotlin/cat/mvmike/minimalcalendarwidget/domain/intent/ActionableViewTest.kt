@@ -2,19 +2,12 @@
 // See LICENSE for licensing information
 package cat.mvmike.minimalcalendarwidget.domain.intent
 
-import android.app.PendingIntent
-import android.content.Intent
 import android.widget.RemoteViews
 import cat.mvmike.minimalcalendarwidget.BaseTest
-import cat.mvmike.minimalcalendarwidget.MonthWidget
 import cat.mvmike.minimalcalendarwidget.R
-import io.mockk.EqMatcher
 import io.mockk.confirmVerified
-import io.mockk.every
 import io.mockk.justRun
 import io.mockk.mockk
-import io.mockk.mockkConstructor
-import io.mockk.mockkStatic
 import io.mockk.verify
 import java.util.stream.Stream
 import org.junit.jupiter.params.ParameterizedTest
@@ -27,40 +20,28 @@ internal class ActionableViewTest : BaseTest() {
     @ParameterizedTest
     @MethodSource("getActionableViewsWithTheirProperties")
     fun addListener_shouldSetOnClickPendingIntent(actionableViewTestProperties: ActionableViewTestProperties) {
-        val intent = mockk<Intent>()
-        val pendingIntent = mockk<PendingIntent>()
-
-        mockkConstructor(Intent::class)
-        every {
-            constructedWith<Intent>(
-                EqMatcher(context),
-                EqMatcher(MonthWidget::class.java)
-            ).setAction(
-                actionableViewTestProperties.action
+        justRun {
+            systemResolver.setOnClickPendingIntent(
+                context = context,
+                remoteViews = widgetRv,
+                viewId = actionableViewTestProperties.viewId,
+                code = actionableViewTestProperties.code,
+                action = actionableViewTestProperties.action
             )
-        } returns intent
-
-        mockkStatic(PendingIntent::class)
-        every {
-            PendingIntent.getBroadcast(
-                context,
-                actionableViewTestProperties.code,
-                intent,
-                PendingIntent.FLAG_UPDATE_CURRENT
-            )
-        } returns pendingIntent
-
-        justRun { widgetRv.setOnClickPendingIntent(actionableViewTestProperties.viewId, any()) }
+        }
 
         actionableViewTestProperties.actionableView.addListener(context, widgetRv)
 
         verify {
-            widgetRv.setOnClickPendingIntent(
-                actionableViewTestProperties.viewId,
-                pendingIntent
+            systemResolver.setOnClickPendingIntent(
+                context = context,
+                remoteViews = widgetRv,
+                viewId = actionableViewTestProperties.viewId,
+                code = actionableViewTestProperties.code,
+                action = actionableViewTestProperties.action
             )
         }
-        confirmVerified(intent, pendingIntent, widgetRv)
+        confirmVerified(systemResolver, context, widgetRv)
     }
 
     companion object {

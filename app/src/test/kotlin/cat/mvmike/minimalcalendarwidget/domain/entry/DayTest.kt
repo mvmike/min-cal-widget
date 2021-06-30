@@ -3,12 +3,12 @@
 package cat.mvmike.minimalcalendarwidget.domain.entry
 
 import cat.mvmike.minimalcalendarwidget.BaseTest
-import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.MethodSource
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.util.stream.Stream
+import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.MethodSource
 
 internal class DayTest : BaseTest() {
 

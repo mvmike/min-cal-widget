@@ -3,7 +3,6 @@
 package cat.mvmike.minimalcalendarwidget.infrastructure.activity
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.text.method.LinkMovementMethod
 import android.view.Window
@@ -12,17 +11,15 @@ import android.widget.Button
 import android.widget.Spinner
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import cat.mvmike.minimalcalendarwidget.R
 import cat.mvmike.minimalcalendarwidget.MonthWidget
+import cat.mvmike.minimalcalendarwidget.R
 import cat.mvmike.minimalcalendarwidget.domain.configuration.Configuration
+import cat.mvmike.minimalcalendarwidget.infrastructure.SystemResolver
 
 class ConfigurationActivity : AppCompatActivity() {
 
     companion object {
-        fun start(context: Context) = context.startActivity(
-            Intent(context, ConfigurationActivity::class.java)
-                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        )
+        fun start(context: Context) = SystemResolver.get().startActivity(context, ConfigurationActivity::class.java)
     }
 
     public override fun onCreate(savedInstanceState: Bundle?) {

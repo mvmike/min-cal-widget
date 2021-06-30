@@ -13,16 +13,15 @@ import io.mockk.clearMocks
 import io.mockk.every
 import io.mockk.justRun
 import io.mockk.mockk
-import org.junit.jupiter.api.BeforeAll
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.TestInstance
-import org.junit.jupiter.api.fail
 import java.time.DayOfWeek
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
 import java.util.Locale
 import java.util.TimeZone
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.TestInstance
+import org.junit.jupiter.api.fail
 
 private const val PREFERENCES_ID: String = "mincal_prefs"
 
@@ -40,21 +39,17 @@ abstract class BaseTest {
         val systemLocalDate = LocalDate.of(2018, 12, 4)!!
     }
 
-
     protected val context = mockk<Context>()
-    private val sharedPreferences = mockk<SharedPreferences>()
-    protected val editor = mockk<SharedPreferences.Editor>()
     protected val systemResolver = mockk<SystemResolver>()
 
-    @BeforeAll
-    fun beforeAll() {
-        // force a different timezone than UTC for testing
-        TimeZone.setDefault(TimeZone.getTimeZone(zoneId))
-    }
+    protected val editor = mockk<SharedPreferences.Editor>()
+    private val sharedPreferences = mockk<SharedPreferences>()
 
     @BeforeEach
     fun beforeEach() {
+        TimeZone.setDefault(TimeZone.getTimeZone(zoneId))
         clearMocks(context, sharedPreferences, editor, systemResolver)
+
         try {
             val instance = SystemResolver::class.java.getDeclaredField("instance")
             instance.isAccessible = true
@@ -68,7 +63,7 @@ abstract class BaseTest {
         every {systemResolver.getInstant()} returns instant
     }
 
-    protected fun mockGetSystemLocale(locale: Locale) {
+    protected fun mockGetSystemLocale(locale: Locale = Locale.ENGLISH) {
         every {systemResolver.getLocale(context)} returns locale
     }
 

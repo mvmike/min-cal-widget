@@ -3,9 +3,14 @@
 package cat.mvmike.minimalcalendarwidget.infrastructure
 
 import android.Manifest
+import android.app.AlarmManager
+import android.app.PendingIntent
+import android.content.ContentUris
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Typeface
+import android.provider.CalendarContract
 import android.provider.CalendarContract.Instances
 import android.text.Spannable
 import android.text.SpannableString
@@ -14,16 +19,18 @@ import android.text.style.RelativeSizeSpan
 import android.text.style.StyleSpan
 import android.widget.RemoteViews
 import androidx.core.content.ContextCompat
+import cat.mvmike.minimalcalendarwidget.MonthWidget
 import cat.mvmike.minimalcalendarwidget.R
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Colour
 import cat.mvmike.minimalcalendarwidget.domain.entry.FIELDS
 import cat.mvmike.minimalcalendarwidget.domain.entry.Instance
+import cat.mvmike.minimalcalendarwidget.domain.intent.AutoUpdate
 import java.time.Clock
+import java.time.Instant
 import java.time.Instant.ofEpochMilli
 import java.time.LocalDate
 import java.time.ZoneId
 import java.util.Locale
-import kotlin.collections.HashSet
 
 open class SystemResolver private constructor() {
 
@@ -71,6 +78,65 @@ open class SystemResolver private constructor() {
             }?.let {
                 supportedLocales.firstOrNull { sl -> sl.language == it[0].language }
             } ?: Locale.ENGLISH
+    }
+
+    // INTENT
+
+    open fun setOnClickPendingIntent(context: Context,
+                                     remoteViews: RemoteViews,
+                                     viewId: Int,
+                                     code: Int,
+                                     action: String) =
+        remoteViews.setOnClickPendingIntent(
+            viewId,
+            PendingIntent.getBroadcast(
+                context,
+                code,
+                Intent(context, MonthWidget::class.java).setAction(action),
+                PendingIntent.FLAG_UPDATE_CURRENT
+            )
+        )
+
+    open fun setRepeatingAlarm(context: Context, alarmId: Int, firstTriggerMillis: Long, intervalMillis: Long) =
+        context.getAlarmManager().setRepeating(
+            AlarmManager.RTC, // RTC does not wake the device up
+            firstTriggerMillis,
+            intervalMillis,
+            PendingIntent.getBroadcast(
+                context,
+                alarmId,
+                Intent(context, MonthWidget::class.java).setAction(AutoUpdate.ACTION_AUTO_UPDATE),
+                PendingIntent.FLAG_CANCEL_CURRENT
+            )
+        )
+
+    open fun cancelRepeatingAlarm(context: Context, alarmId: Int) =
+        context.getAlarmManager().cancel(
+            PendingIntent.getBroadcast(
+                context,
+                alarmId,
+                Intent(context, MonthWidget::class.java).setAction(AutoUpdate.ACTION_AUTO_UPDATE),
+                PendingIntent.FLAG_CANCEL_CURRENT
+            )
+        )
+
+    // ACTIVITY
+
+    open fun <E> startActivity(context: Context, clazz: Class<E>) = context.startActivity(
+        Intent(context, clazz)
+            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+    )
+
+
+    open fun startCalendarActivity(context: Context, startInstant: Instant) {
+        val builder = CalendarContract.CONTENT_URI.buildUpon().appendPath("time")
+        ContentUris.appendId(builder, startInstant.toEpochMilli())
+
+        context.startActivity(
+            Intent(Intent.ACTION_VIEW)
+                .setData(builder.build())
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        )
     }
 
     // CALENDAR CONTRACT
@@ -150,4 +216,6 @@ open class SystemResolver private constructor() {
     // INTERNAL UTILS
 
     private fun getById(context: Context, layoutId: Int) = RemoteViews(context.packageName, layoutId)
+
+    private fun Context.getAlarmManager() = this.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 }

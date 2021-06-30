@@ -10,16 +10,15 @@ import io.mockk.every
 import io.mockk.justRun
 import io.mockk.mockk
 import io.mockk.verify
-import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.Arguments
-import org.junit.jupiter.params.provider.MethodSource
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.Month
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
-import java.util.Locale
 import java.util.stream.Stream
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.Arguments
+import org.junit.jupiter.params.provider.MethodSource
 
 internal class DrawMonthAndYearHeaderUseCaseTest : BaseTest() {
 
@@ -34,7 +33,7 @@ internal class DrawMonthAndYearHeaderUseCaseTest : BaseTest() {
         val expectedHeaderRelativeYearSize = 0.7f
         mockGetSystemInstant(instant)
         mockGetSystemZoneId()
-        mockGetSystemLocale(Locale.ENGLISH)
+        mockGetSystemLocale()
         Month.values().forEach {
             every { context.getString(it.getExpectedResourceId()) } returns it.getExpectedAbbreviatedString()
         }

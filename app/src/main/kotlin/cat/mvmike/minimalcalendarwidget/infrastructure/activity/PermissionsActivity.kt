@@ -4,13 +4,19 @@ package cat.mvmike.minimalcalendarwidget.infrastructure.activity
 
 import android.Manifest
 import android.app.Activity
+import android.content.Context
 import android.content.pm.PackageManager
 import androidx.core.app.ActivityCompat
 import cat.mvmike.minimalcalendarwidget.MonthWidget
+import cat.mvmike.minimalcalendarwidget.infrastructure.SystemResolver
 
 private const val READ_CALENDAR_PERM = 225
 
 class PermissionsActivity : Activity() {
+
+    companion object {
+        fun start(context: Context) = SystemResolver.get().startActivity(context, PermissionsActivity::class.java)
+    }
 
     override fun onStart() {
         super.onStart()

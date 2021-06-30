@@ -8,6 +8,8 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.widget.RemoteViews
+import cat.mvmike.minimalcalendarwidget.application.action.system.StartAlarmUseCase
+import cat.mvmike.minimalcalendarwidget.application.action.system.StopAlarmUseCase
 import cat.mvmike.minimalcalendarwidget.application.action.user.AddListenersUseCase
 import cat.mvmike.minimalcalendarwidget.application.action.user.ProcessIntentUseCase
 import cat.mvmike.minimalcalendarwidget.application.visual.DrawDaysHeaderUseCase
@@ -21,6 +23,7 @@ class MonthWidget : AppWidgetProvider() {
 
     override fun onEnabled(context: Context) {
         super.onEnabled(context)
+        StartAlarmUseCase.execute(context)
     }
 
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
@@ -30,13 +33,14 @@ class MonthWidget : AppWidgetProvider() {
 
     override fun onReceive(context: Context, intent: Intent) {
         super.onReceive(context, intent)
-        ProcessIntentUseCase.execute(context, intent)
+        ProcessIntentUseCase.execute(context, intent.action)
         forceRedraw(context)
     }
 
     override fun onDisabled(context: Context) {
         super.onDisabled(context)
         clearAllConfiguration(context)
+        StopAlarmUseCase.execute(context)
     }
 
     companion object {
