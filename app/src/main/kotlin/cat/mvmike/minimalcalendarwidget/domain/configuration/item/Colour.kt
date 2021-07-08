@@ -33,6 +33,11 @@ enum class Colour(
         hexValue = R.color.instances_white,
         displayString = R.string.white
     );
+
+    fun getInstancesColour(isToday: Boolean) = when(isToday){
+        true -> R.color.instances_today
+        false -> this.hexValue
+    }
 }
 
 fun getColourDisplayValues(context: Context) =

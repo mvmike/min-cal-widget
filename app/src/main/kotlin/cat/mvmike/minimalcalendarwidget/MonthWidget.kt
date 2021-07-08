@@ -15,7 +15,8 @@ import cat.mvmike.minimalcalendarwidget.application.action.user.ProcessIntentUse
 import cat.mvmike.minimalcalendarwidget.application.visual.DrawDaysHeaderUseCase
 import cat.mvmike.minimalcalendarwidget.application.visual.DrawDaysUseCase
 import cat.mvmike.minimalcalendarwidget.application.visual.DrawMonthAndYearHeaderUseCase
-import cat.mvmike.minimalcalendarwidget.domain.configuration.Configuration
+import cat.mvmike.minimalcalendarwidget.application.visual.DrawWidgetLayout
+import cat.mvmike.minimalcalendarwidget.domain.configuration.EnumConfiguration
 import cat.mvmike.minimalcalendarwidget.domain.configuration.clearAllConfiguration
 import cat.mvmike.minimalcalendarwidget.infrastructure.SystemResolver
 
@@ -46,7 +47,7 @@ class MonthWidget : AppWidgetProvider() {
     companion object {
 
         private fun drawWidgets(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
-            val mainLayoutRemoteView = RemoteViews(context.packageName, Configuration.CalendarTheme.get(context).mainLayout)
+            val mainLayoutRemoteView = RemoteViews(context.packageName, EnumConfiguration.CalendarTheme.get(context).mainLayout)
             appWidgetIds.forEach { appWidgetId ->
                 drawWidget(
                     context = context,
@@ -65,6 +66,10 @@ class MonthWidget : AppWidgetProvider() {
                 widgetRemoteView = widgetRemoteView
             )
 
+            DrawWidgetLayout.execute(
+                context = context,
+                widgetRemoteView = widgetRemoteView
+            )
             DrawMonthAndYearHeaderUseCase.execute(
                 context = context,
                 widgetRemoteView = widgetRemoteView

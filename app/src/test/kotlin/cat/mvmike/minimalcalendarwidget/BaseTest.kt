@@ -5,9 +5,11 @@ package cat.mvmike.minimalcalendarwidget
 import android.content.Context
 import android.content.SharedPreferences
 import cat.mvmike.minimalcalendarwidget.domain.configuration.Configuration
+import cat.mvmike.minimalcalendarwidget.domain.configuration.EnumConfiguration
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Colour
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.SymbolSet
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Transparency
 import cat.mvmike.minimalcalendarwidget.infrastructure.SystemResolver
 import io.mockk.clearAllMocks
 import io.mockk.confirmVerified
@@ -98,6 +100,7 @@ abstract class BaseTest {
         every { context.getSharedPreferences(PREFERENCES_ID, Context.MODE_PRIVATE) } returns sharedPreferences
         every { sharedPreferences.edit() } returns editor
         every { editor.putString(any(), any()) } returns editor
+        every { editor.putInt(any(), any()) } returns  editor
         every { editor.clear() } returns editor
         every { editor.commit() } returns true
         justRun { editor.apply() }
@@ -111,11 +114,30 @@ abstract class BaseTest {
         verify { sharedPreferences.edit() }
     }
 
+    protected fun mockWidgetTransparency(transparency: Transparency) {
+        every {
+            sharedPreferences.getInt(
+                Configuration.WidgetTransparency.key,
+                Configuration.WidgetTransparency.defaultValue.percentage
+            )
+        } returns transparency.percentage
+    }
+
+    protected fun verifyWidgetTransparency() {
+        verifySharedPreferencesAccess()
+        verify {
+            sharedPreferences.getInt(
+                Configuration.WidgetTransparency.key,
+                Configuration.WidgetTransparency.defaultValue.percentage
+            )
+        }
+    }
+
     protected fun mockCalendarTheme(theme: Theme) {
         every {
             sharedPreferences.getString(
-                Configuration.CalendarTheme.key,
-                Configuration.CalendarTheme.defaultValue.name
+                EnumConfiguration.CalendarTheme.key,
+                EnumConfiguration.CalendarTheme.defaultValue.name
             )
         } returns theme.name
     }
@@ -124,8 +146,8 @@ abstract class BaseTest {
         verifySharedPreferencesAccess()
         verify {
             sharedPreferences.getString(
-                Configuration.CalendarTheme.key,
-                Configuration.CalendarTheme.defaultValue.name
+                EnumConfiguration.CalendarTheme.key,
+                EnumConfiguration.CalendarTheme.defaultValue.name
             )
         }
     }
@@ -133,8 +155,8 @@ abstract class BaseTest {
     protected fun mockFirstDayOfWeek(dayOfWeek: DayOfWeek) {
         every {
             sharedPreferences.getString(
-                Configuration.FirstDayOfWeek.key,
-                Configuration.FirstDayOfWeek.defaultValue.name
+                EnumConfiguration.FirstDayOfWeek.key,
+                EnumConfiguration.FirstDayOfWeek.defaultValue.name
             )
         } returns dayOfWeek.name
     }
@@ -143,8 +165,8 @@ abstract class BaseTest {
         verifySharedPreferencesAccess()
         verify {
             sharedPreferences.getString(
-                Configuration.FirstDayOfWeek.key,
-                Configuration.FirstDayOfWeek.defaultValue.name
+                EnumConfiguration.FirstDayOfWeek.key,
+                EnumConfiguration.FirstDayOfWeek.defaultValue.name
             )
         }
     }
@@ -152,8 +174,8 @@ abstract class BaseTest {
     protected fun mockInstancesColour(colour: Colour) {
         every {
             sharedPreferences.getString(
-                Configuration.InstancesColour.key,
-                Configuration.InstancesColour.defaultValue.name
+                EnumConfiguration.InstancesColour.key,
+                EnumConfiguration.InstancesColour.defaultValue.name
             )
         } returns colour.name
     }
@@ -162,8 +184,8 @@ abstract class BaseTest {
         verifySharedPreferencesAccess()
         verify {
             sharedPreferences.getString(
-                Configuration.InstancesColour.key,
-                Configuration.InstancesColour.defaultValue.name
+                EnumConfiguration.InstancesColour.key,
+                EnumConfiguration.InstancesColour.defaultValue.name
             )
         }
     }
@@ -171,8 +193,8 @@ abstract class BaseTest {
     protected fun mockInstancesSymbolSet(symbolSet: SymbolSet) {
         every {
             sharedPreferences.getString(
-                Configuration.InstancesSymbolSet.key,
-                Configuration.InstancesSymbolSet.defaultValue.name
+                EnumConfiguration.InstancesSymbolSet.key,
+                EnumConfiguration.InstancesSymbolSet.defaultValue.name
             )
         } returns symbolSet.name
     }
@@ -181,8 +203,8 @@ abstract class BaseTest {
         verifySharedPreferencesAccess()
         verify {
             sharedPreferences.getString(
-                Configuration.InstancesSymbolSet.key,
-                Configuration.InstancesSymbolSet.defaultValue.name
+                EnumConfiguration.InstancesSymbolSet.key,
+                EnumConfiguration.InstancesSymbolSet.defaultValue.name
             )
         }
     }

@@ -3,38 +3,65 @@
 package cat.mvmike.minimalcalendarwidget.domain.configuration
 
 import android.content.Context
-import android.content.SharedPreferences
 import cat.mvmike.minimalcalendarwidget.R
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Colour
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.SymbolSet
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Transparency
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.getColourDisplayValues
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.getSymbolSetDisplayValues
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.getThemeDisplayValues
 import cat.mvmike.minimalcalendarwidget.domain.entry.getDayOfWeekDisplayValues
+import java.lang.Enum.valueOf
 import java.time.DayOfWeek
 
-sealed class Configuration<E : Enum<E>>(
-    internal val key: String,
-    internal val resource: Int,
-    private val enumClass: Class<E>,
-    internal val defaultValue: E
+sealed class Configuration<E>(
+    internal open val key: String,
+    internal open val resource: Int,
+    internal open val defaultValue: E
 ) {
+    abstract fun get(context: Context): E
 
-    fun get(context: Context): E = java.lang.Enum.valueOf(
+    abstract fun set(context: Context, value: E)
+
+    object WidgetTransparency : Configuration<Transparency>(
+        key = "WIDGET_TRANSPARENCY",
+        resource = R.id.transparencySeekBar,
+        defaultValue = Transparency(20)
+    ) {
+        override fun get(context: Context) = Transparency(
+            getConfiguration(context).getInt(key, defaultValue.percentage)
+        )
+
+        override fun set(context: Context, value: Transparency) {
+            getConfiguration(context).edit().putInt(key, value.percentage).apply()
+        }
+    }
+}
+
+sealed class EnumConfiguration<E : Enum<E>>(
+    override val key: String,
+    override val resource: Int,
+    override val defaultValue: E,
+    private val enumClass: Class<E>
+): Configuration<E>(
+    key = key,
+    resource = resource,
+    defaultValue = defaultValue
+) {
+    override fun get(context: Context): E = valueOf(
         enumClass,
         getConfiguration(context).getString(key, defaultValue.name)!!
     )
 
-    fun get(ordinal: Int): E = enumClass.enumConstants!![ordinal]
-
-    fun set(context: Context, value: Enum<*>) {
+    override fun set(context: Context, value: E) =
         getConfiguration(context).edit().putString(key, value.name).apply()
-    }
 
     abstract fun getDisplayValues(context: Context): Array<String>
 
-    object FirstDayOfWeek : Configuration<DayOfWeek>(
+    fun set(context: Context, ordinal: Int) = set(context, enumClass.enumConstants!![ordinal])
+
+    object FirstDayOfWeek : EnumConfiguration<DayOfWeek>(
         key = "FIRST_DAY_OF_WEEK",
         resource = R.id.startWeekDaySpinner,
         enumClass = DayOfWeek::class.java,
@@ -43,7 +70,7 @@ sealed class Configuration<E : Enum<E>>(
         override fun getDisplayValues(context: Context) = getDayOfWeekDisplayValues(context)
     }
 
-    object CalendarTheme : Configuration<Theme>(
+    object CalendarTheme : EnumConfiguration<Theme>(
         key = "CALENDAR_THEME",
         resource = R.id.themeSpinner,
         enumClass = Theme::class.java,
@@ -52,7 +79,7 @@ sealed class Configuration<E : Enum<E>>(
         override fun getDisplayValues(context: Context) = getThemeDisplayValues(context)
     }
 
-    object InstancesSymbolSet : Configuration<SymbolSet>(
+    object InstancesSymbolSet : EnumConfiguration<SymbolSet>(
         key = "INSTANCES_SYMBOL_SET",
         resource = R.id.symbolSetSpinner,
         enumClass = SymbolSet::class.java,
@@ -61,7 +88,7 @@ sealed class Configuration<E : Enum<E>>(
         override fun getDisplayValues(context: Context) = getSymbolSetDisplayValues(context)
     }
 
-    object InstancesColour : Configuration<Colour>(
+    object InstancesColour : EnumConfiguration<Colour>(
         key = "INSTANCES_COLOUR",
         resource = R.id.symbolColourSpinner,
         enumClass = Colour::class.java,
@@ -73,6 +100,4 @@ sealed class Configuration<E : Enum<E>>(
 
 fun clearAllConfiguration(context: Context) = getConfiguration(context).edit().clear().apply()
 
-private fun getConfiguration(context: Context): SharedPreferences {
-    return context.getSharedPreferences("mincal_prefs", Context.MODE_PRIVATE)
-}
+private fun getConfiguration(context: Context) = context.getSharedPreferences("mincal_prefs", Context.MODE_PRIVATE)

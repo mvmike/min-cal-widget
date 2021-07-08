@@ -1,7 +1,7 @@
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/CalendarCell_grey"
+    style="@style/CalendarCell"
     android:background="@color/background_saturday_grey"
     android:gravity="center"
     android:textAllCaps="true"
-    android:textColor="@color/foreground_full_grey"
+    android:textColor="@color/text_colour_full_grey"
     android:textSize="12sp" />

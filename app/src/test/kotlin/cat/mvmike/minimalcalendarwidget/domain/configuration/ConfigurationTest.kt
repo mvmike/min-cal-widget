@@ -6,9 +6,10 @@ import cat.mvmike.minimalcalendarwidget.BaseTest
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Colour
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.SymbolSet
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Transparency
+import java.time.DayOfWeek
 import io.mockk.Called
 import io.mockk.verify
-import java.time.DayOfWeek
 import java.util.stream.Stream
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -16,8 +17,23 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.EnumSource
 import org.junit.jupiter.params.provider.MethodSource
+import org.junit.jupiter.params.provider.ValueSource
 
 internal class ConfigurationTest : BaseTest() {
+
+    @ParameterizedTest
+    @ValueSource(ints = [0, 1, 5, 17, 50, 51, 72, 80, 99, 100])
+    fun getWidgetTransparency_shouldReturnSharedPreferencesValue(percentage: Int) {
+        val transparency = Transparency(percentage)
+        mockSharedPreferences()
+        mockWidgetTransparency(transparency)
+
+        val result = Configuration.WidgetTransparency.get(context)
+
+        assertThat(result).isEqualTo(transparency)
+        verifyWidgetTransparency()
+        verify { editor wasNot Called }
+    }
 
     @ParameterizedTest
     @EnumSource(value = Theme::class)
@@ -25,7 +41,7 @@ internal class ConfigurationTest : BaseTest() {
         mockSharedPreferences()
         mockCalendarTheme(theme)
 
-        val result = Configuration.CalendarTheme.get(context)
+        val result = EnumConfiguration.CalendarTheme.get(context)
 
         assertThat(result).isEqualTo(theme)
         verifyCalendarTheme()
@@ -38,7 +54,7 @@ internal class ConfigurationTest : BaseTest() {
         mockSharedPreferences()
         mockFirstDayOfWeek(dayOfWeek)
 
-        val result = Configuration.FirstDayOfWeek.get(context)
+        val result = EnumConfiguration.FirstDayOfWeek.get(context)
 
         assertThat(result).isEqualTo(dayOfWeek)
         verifyFirstDayOfWeek()
@@ -51,7 +67,7 @@ internal class ConfigurationTest : BaseTest() {
         mockSharedPreferences()
         mockInstancesSymbolSet(symbolSet)
 
-        val result = Configuration.InstancesSymbolSet.get(context)
+        val result = EnumConfiguration.InstancesSymbolSet.get(context)
 
         assertThat(result).isEqualTo(symbolSet)
         verifyInstancesSymbolSet()
@@ -64,7 +80,7 @@ internal class ConfigurationTest : BaseTest() {
         mockSharedPreferences()
         mockInstancesColour(colour)
 
-        val result = Configuration.InstancesColour.get(context)
+        val result = EnumConfiguration.InstancesColour.get(context)
 
         assertThat(result).isEqualTo(colour)
         verifyInstancesColour()
@@ -72,35 +88,34 @@ internal class ConfigurationTest : BaseTest() {
     }
 
     @ParameterizedTest
-    @MethodSource("getCombinationOfConfigurationItemsWithValuesAndKey")
-    fun <E : Enum<E>> getConfigurationItem_shouldReturnValueFromOrdinal(
-        values: Array<E>,
-        item: Configuration<E>
-    ) {
-        var i = 0
-        values.forEach { enumValue ->
-            assertThat(item.get(i++)).isEqualTo(enumValue)
-        }
+    @ValueSource(ints = [0, 1, 5, 17, 50, 51, 72, 80, 99, 100])
+    fun setWidgetTransparency_shouldPutPercentageInteger(percentage: Int) {
+        val transparency = Transparency(percentage)
+        mockSharedPreferences()
+
+        Configuration.WidgetTransparency.set(context, transparency)
+
+        verifySharedPreferencesAccess()
+        verifySharedPreferencesEdit()
+        verify { editor.putInt(Configuration.WidgetTransparency.key, transparency.percentage) }
+        verify { editor.apply() }
     }
 
     @ParameterizedTest
-    @MethodSource("getCombinationOfConfigurationItemsWithValuesAndKey")
-    fun <E : Enum<E>> setConfigurationItem_shouldPutEnumNameString(
+    @MethodSource("getCombinationOfEnumConfigurationItemsWithValuesAndKey")
+    fun <E : Enum<E>> setEnumConfigurationItem_shouldPutEnumNameString(
         values: Array<E>,
-        item: Configuration<E>,
+        item: EnumConfiguration<E>,
         key: String
     ) {
         mockSharedPreferences()
-        var invocations = 0
         values.forEach { enumValue ->
             item.set(context, enumValue)
             verifySharedPreferencesAccess()
             verifySharedPreferencesEdit()
             verify { editor.putString(key, enumValue.name) }
-            invocations++
+            verify { editor.apply() }
         }
-
-        verify(exactly = invocations) { editor.apply() }
     }
 
     @Test
@@ -117,26 +132,26 @@ internal class ConfigurationTest : BaseTest() {
     companion object {
 
         @JvmStatic
-        @Suppress("unused", "LongMethod")
-        fun getCombinationOfConfigurationItemsWithValuesAndKey(): Stream<Arguments> = Stream.of(
+        @Suppress("unused")
+        fun getCombinationOfEnumConfigurationItemsWithValuesAndKey(): Stream<Arguments> = Stream.of(
             Arguments.of(
                 Theme.values(),
-                Configuration.CalendarTheme,
+                EnumConfiguration.CalendarTheme,
                 "CALENDAR_THEME"
             ),
             Arguments.of(
                 DayOfWeek.values(),
-                Configuration.FirstDayOfWeek,
+                EnumConfiguration.FirstDayOfWeek,
                 "FIRST_DAY_OF_WEEK"
             ),
             Arguments.of(
                 SymbolSet.values(),
-                Configuration.InstancesSymbolSet,
+                EnumConfiguration.InstancesSymbolSet,
                 "INSTANCES_SYMBOL_SET"
             ),
             Arguments.of(
                 Colour.values(),
-                Configuration.InstancesColour,
+                EnumConfiguration.InstancesColour,
                 "INSTANCES_COLOUR"
             )
         )

@@ -5,8 +5,11 @@ package cat.mvmike.minimalcalendarwidget.application.visual
 import android.content.Context
 import android.widget.RemoteViews
 import cat.mvmike.minimalcalendarwidget.domain.configuration.Configuration
+import cat.mvmike.minimalcalendarwidget.domain.configuration.EnumConfiguration
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Colour
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.SymbolSet
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.TransparencyRange
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.withTransparency
 import cat.mvmike.minimalcalendarwidget.domain.entry.Day
 import cat.mvmike.minimalcalendarwidget.domain.entry.Instance
 import cat.mvmike.minimalcalendarwidget.domain.entry.getInstances
@@ -37,10 +40,11 @@ object DrawDaysUseCase {
             from = systemLocalDate.minusDays(INSTANCES_QUERY_DAYS_SPAN),
             to = systemLocalDate.plusDays(INSTANCES_QUERY_DAYS_SPAN)
         )
-        val firstDayOfWeek = Configuration.FirstDayOfWeek.get(context)
-        val theme = Configuration.CalendarTheme.get(context)
-        val instancesSymbolSet = Configuration.InstancesSymbolSet.get(context)
-        val instancesColour = Configuration.InstancesColour.get(context)
+        val transparency = Configuration.WidgetTransparency.get(context)
+        val firstDayOfWeek = EnumConfiguration.FirstDayOfWeek.get(context)
+        val calendarTheme = EnumConfiguration.CalendarTheme.get(context)
+        val instancesSymbolSet = EnumConfiguration.InstancesSymbolSet.get(context)
+        val instancesColour = EnumConfiguration.InstancesColour.get(context)
         val initialLocalDate = getInitialLocalDate(systemLocalDate, firstDayOfWeek)
 
         for (week in 0 until NUM_WEEKS) {
@@ -51,18 +55,30 @@ object DrawDaysUseCase {
                     systemLocalDate = systemLocalDate,
                     dayLocalDate = initialLocalDate.toCurrentWeekAndWeekDay(week, weekDay)
                 )
-                val dayLayout = theme.getCellDay(
+                val dayCell = calendarTheme.getCellDay(
                     isToday = currentDay.isToday(),
                     inMonth = currentDay.isInMonth(),
                     dayOfWeek = currentDay.getDayOfWeek()
                 )
                 val instancesSymbol = currentDay.getNumberOfInstances(instanceSet).getSymbol(instancesSymbolSet)
                 val dayInstancesColour = currentDay.getInstancesColor(context, instancesColour)
+                val backgroundWithTransparency = dayCell.background
+                    ?.let { SystemResolver.get().getColourAsString(context, it) }
+                    ?.withTransparency(
+                        transparency = transparency,
+                        transparencyRange = when (currentDay.getDayOfWeek()) {
+                            DayOfWeek.SATURDAY,
+                            DayOfWeek.SUNDAY -> TransparencyRange.MODERATE
+                            else -> TransparencyRange.LOW
+                        }
+                    )
 
                 SystemResolver.get().addToDaysRow(
                     context = context,
                     weekRow = weekRow,
-                    dayLayout = dayLayout,
+                    dayLayout = dayCell.layout,
+                    viewId = dayCell.id,
+                    dayBackgroundColour = backgroundWithTransparency,
                     spanText = PADDING + currentDay.getDayOfMonthString() + PADDING + instancesSymbol,
                     isToday = currentDay.isToday(),
                     isSingleDigitDay = currentDay.isSingleDigitDay(),
@@ -100,12 +116,6 @@ object DrawDaysUseCase {
 
     private fun Int.getSymbol(symbolSet: SymbolSet) = symbolSet.get(this)
 
-    private fun Day.getInstancesColor(context: Context, colour: Colour): Int {
-        return when {
-            this.isToday() -> SystemResolver.get().getInstancesColorTodayId(context)
-            else -> SystemResolver.get().getInstancesColorId(context, colour)
-        }
-    }
+    private fun Day.getInstancesColor(context: Context, colour: Colour) =
+        SystemResolver.get().getColour(context, colour.getInstancesColour(isToday()))
 }
-
-

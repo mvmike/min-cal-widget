@@ -5,6 +5,9 @@ package cat.mvmike.minimalcalendarwidget.application.visual
 import android.content.Context
 import android.widget.RemoteViews
 import cat.mvmike.minimalcalendarwidget.domain.configuration.Configuration
+import cat.mvmike.minimalcalendarwidget.domain.configuration.EnumConfiguration
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.TransparencyRange
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.withTransparency
 import cat.mvmike.minimalcalendarwidget.domain.entry.getAbbreviatedDisplayValue
 import cat.mvmike.minimalcalendarwidget.infrastructure.SystemResolver
 import java.time.DayOfWeek
@@ -14,15 +17,27 @@ object DrawDaysHeaderUseCase {
 
     fun execute(context: Context, widgetRemoteView: RemoteViews) {
         val daysHeaderRow: RemoteViews = SystemResolver.get().createDaysHeaderRow(context)
-        val firstDayOfWeek = Configuration.FirstDayOfWeek.get(context)
-        val theme = Configuration.CalendarTheme.get(context)
 
-        getRotatedWeekDays(firstDayOfWeek).forEach {
+        val transparency = Configuration.WidgetTransparency.get(context)
+        val firstDayOfWeek = EnumConfiguration.FirstDayOfWeek.get(context)
+        val theme = EnumConfiguration.CalendarTheme.get(context)
+
+        getRotatedWeekDays(firstDayOfWeek).forEach { dayOfWeek ->
+            val cellHeader = theme.getCellHeader(dayOfWeek)
+            val backgroundWithTransparency = cellHeader.background
+                ?.let { SystemResolver.get().getColourAsString(context, it) }
+                ?.withTransparency(
+                    transparency = transparency,
+                    transparencyRange = TransparencyRange.MODERATE
+                )
+
             SystemResolver.get().addToDaysHeaderRow(
                 context = context,
                 daysHeaderRow = daysHeaderRow,
-                text = it.getAbbreviatedDisplayValue(context),
-                layoutId = theme.getCellHeader(it)
+                text = dayOfWeek.getAbbreviatedDisplayValue(context),
+                layoutId = cellHeader.layout,
+                viewId = cellHeader.id,
+                dayHeaderBackgroundColour = backgroundWithTransparency
             )
         }
 

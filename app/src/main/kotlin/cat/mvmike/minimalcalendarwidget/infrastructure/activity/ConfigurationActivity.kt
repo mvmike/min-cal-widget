@@ -8,12 +8,15 @@ import android.text.method.LinkMovementMethod
 import android.view.Window
 import android.widget.ArrayAdapter
 import android.widget.Button
+import android.widget.SeekBar
 import android.widget.Spinner
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import cat.mvmike.minimalcalendarwidget.MonthWidget
 import cat.mvmike.minimalcalendarwidget.R
 import cat.mvmike.minimalcalendarwidget.domain.configuration.Configuration
+import cat.mvmike.minimalcalendarwidget.domain.configuration.EnumConfiguration
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Transparency
 import cat.mvmike.minimalcalendarwidget.infrastructure.SystemResolver
 
 class ConfigurationActivity : AppCompatActivity() {
@@ -43,7 +46,7 @@ class ConfigurationActivity : AppCompatActivity() {
         }
 
     private fun setAvailableValues() {
-        configurationItems().forEach {
+        enumConfigurationItems().forEach {
             val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, it.getDisplayValues(applicationContext))
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             it.resource.getSpinner().adapter = adapter
@@ -51,27 +54,36 @@ class ConfigurationActivity : AppCompatActivity() {
     }
 
     private fun loadPreviousConfig() {
-        configurationItems().forEach {
+        enumConfigurationItems().forEach {
             it.resource.getSpinner().setSelection(it.get(applicationContext).ordinal)
         }
+        Configuration.WidgetTransparency.resource.getSeekBar().progress =
+            Configuration.WidgetTransparency.get(applicationContext).percentage
     }
 
     private fun saveConfig() {
-        configurationItems().forEach {
-            it.set(applicationContext, it.get(it.resource.getSpinner().selectedItemPosition))
+        enumConfigurationItems().forEach {
+            it.set(
+                applicationContext,
+                it.resource.getSpinner().selectedItemPosition
+            )
         }
+        Configuration.WidgetTransparency.set(
+            applicationContext,
+            Transparency(Configuration.WidgetTransparency.resource.getSeekBar().progress)
+        )
         MonthWidget.forceRedraw(applicationContext)
     }
 
     private fun Int.getSpinner() = findViewById<Spinner>(this)
+    private fun Int.getSeekBar() = findViewById<SeekBar>(this)
     private fun Int.getTextView() = findViewById<TextView>(this)
     private fun Int.getButton() = findViewById<Button>(this)
 
-    private fun configurationItems() = setOf(
-        Configuration.CalendarTheme,
-        Configuration.FirstDayOfWeek,
-        Configuration.InstancesSymbolSet,
-        Configuration.InstancesColour
-
+    private fun enumConfigurationItems() = setOf(
+        EnumConfiguration.CalendarTheme,
+        EnumConfiguration.FirstDayOfWeek,
+        EnumConfiguration.InstancesSymbolSet,
+        EnumConfiguration.InstancesColour
     )
 }

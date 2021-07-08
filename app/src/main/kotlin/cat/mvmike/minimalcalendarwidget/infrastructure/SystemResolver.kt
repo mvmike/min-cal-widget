@@ -9,6 +9,7 @@ import android.content.ContentUris
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.graphics.Typeface
 import android.provider.CalendarContract
 import android.provider.CalendarContract.Instances
@@ -21,7 +22,6 @@ import android.widget.RemoteViews
 import androidx.core.content.ContextCompat
 import cat.mvmike.minimalcalendarwidget.MonthWidget
 import cat.mvmike.minimalcalendarwidget.R
-import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Colour
 import cat.mvmike.minimalcalendarwidget.domain.entry.FIELDS
 import cat.mvmike.minimalcalendarwidget.domain.entry.Instance
 import cat.mvmike.minimalcalendarwidget.domain.intent.AutoUpdate
@@ -175,7 +175,11 @@ open class SystemResolver private constructor() {
 
     // MONTH YEAR HEADER
 
-    open fun createMonthAndYearHeader(widgetRemoteView: RemoteViews, monthAndYear: String, headerRelativeYearSize: Float) {
+    open fun createMonthAndYearHeader(
+        widgetRemoteView: RemoteViews,
+        monthAndYear: String,
+        headerRelativeYearSize: Float
+    ) {
         val ss = SpannableString(monthAndYear)
         ss.setSpan(RelativeSizeSpan(headerRelativeYearSize), monthAndYear.length - 4, monthAndYear.length, 0)
         widgetRemoteView.setTextViewText(R.id.month_year_label, ss)
@@ -188,21 +192,30 @@ open class SystemResolver private constructor() {
     open fun addToDaysHeaderRow(
         context: Context,
         daysHeaderRow: RemoteViews,
-        text: String, layoutId: Int
+        text: String,
+        layoutId: Int,
+        viewId: Int,
+        dayHeaderBackgroundColour: Int?
     ) {
-        val day = getById(context, layoutId)
-        day.setTextViewText(android.R.id.text1, text)
-        daysHeaderRow.addView(R.id.row_container, day)
+        val dayRv = getById(context, layoutId)
+        dayRv.setTextViewText(android.R.id.text1, text)
+        dayHeaderBackgroundColour?.let {
+            setBackgroundColor(context, dayRv, viewId, it)
+        }
+        daysHeaderRow.addView(R.id.row_container, dayRv)
     }
 
     // DAY
 
     open fun createDaysRow(context: Context) = getById(context, R.layout.row_week)
 
+    @SuppressWarnings("LongParameterList")
     open fun addToDaysRow(
         context: Context,
         weekRow: RemoteViews,
         dayLayout: Int,
+        viewId: Int,
+        dayBackgroundColour: Int?,
         spanText: String,
         isToday: Boolean,
         isSingleDigitDay: Boolean,
@@ -222,12 +235,28 @@ open class SystemResolver private constructor() {
 
         val dayRv = getById(context, dayLayout)
         dayRv.setTextViewText(android.R.id.text1, daySpSt)
+        dayBackgroundColour?.let {
+            setBackgroundColor(context, dayRv, viewId, it)
+        }
         weekRow.addView(R.id.row_container, dayRv)
     }
 
-    open fun getInstancesColorTodayId(context: Context) = ContextCompat.getColor(context, R.color.instances_today)
+    // COLOUR
 
-    open fun getInstancesColorId(context: Context, colour: Colour) = ContextCompat.getColor(context, colour.hexValue)
+    open fun getColour(context: Context, id: Int) = ContextCompat.getColor(context, id)
+
+    open fun getColourAsString(context: Context, id: Int) = context.resources.getString(id)
+
+    open fun parseColour(colourString: String) = Color.parseColor(colourString)
+
+    // TRANSPARENCY
+
+    open fun setBackgroundColor(
+        context: Context,
+        remoteViews: RemoteViews,
+        viewId: Int,
+        colour: Int
+    ) = remoteViews.setInt(viewId, "setBackgroundColor", colour)
 
     // INTERNAL UTILS
 

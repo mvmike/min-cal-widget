@@ -1,1 +1,3 @@
-<TextView style="@style/CalendarCell_white" />
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/CalendarCell"
+    android:textColor="@color/text_colour_semi_white" />

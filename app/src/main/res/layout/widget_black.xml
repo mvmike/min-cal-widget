@@ -2,7 +2,6 @@
     android:id="@+id/main_linear_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_full_black"
     android:orientation="vertical">
 
     <LinearLayout
@@ -17,7 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="26sp"
             android:gravity="start|top"
-            android:textColor="@color/foreground_full_black"
+            android:textColor="@color/text_colour_full_black"
             android:textSize="20sp" />
 
         <ImageView

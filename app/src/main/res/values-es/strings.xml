@@ -11,6 +11,7 @@
     <string name="start_week_day">Día de inicio:</string>
     <string name="symbol_set">Tipo símbolos:</string>
     <string name="symbol_colour">Color símbolos:</string>
+    <string name="transparency">Transparencia:</string>
 
     <string name="apply_changes">APLICA</string>
 

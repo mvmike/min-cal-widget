@@ -126,6 +126,35 @@
 
     </LinearLayout>
 
+    <View
+        android:layout_width="180dp"
+        android:layout_height="15dp" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|start"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp">
+
+        <TextView
+            android:id="@+id/txt_transparency"
+            android:layout_width="115dp"
+            android:layout_height="wrap_content"
+            android:text="@string/transparency"
+            android:textColor="@color/config_label"
+            android:textSize="16sp" />
+        <SeekBar
+            android:id="@+id/transparencySeekBar"
+            android:max="100"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"/>
+
+    </LinearLayout>
+
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"

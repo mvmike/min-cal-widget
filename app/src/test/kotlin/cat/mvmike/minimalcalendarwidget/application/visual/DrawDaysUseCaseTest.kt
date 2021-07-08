@@ -7,6 +7,7 @@ import cat.mvmike.minimalcalendarwidget.BaseTest
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Colour
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.SymbolSet
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Transparency
 import cat.mvmike.minimalcalendarwidget.domain.entry.Instance
 import io.mockk.confirmVerified
 import io.mockk.every
@@ -34,59 +35,92 @@ internal class DrawDaysUseCaseTest : BaseTest() {
     private val rowRv = mockk<RemoteViews>()
 
     @Test
+    @SuppressWarnings("LongMethod")
     fun setDays_shouldReturnSafeDateSpanOfSystemTimeZoneInstances() {
         mockGetSystemLocalDate()
-        mockGetSystemZoneId()
-
         mockIsReadCalendarPermitted(true)
-        val systemInstances = getSystemInstances()
+
         val initLocalDate = systemLocalDate.minusDays(45)
         val endLocalDate = systemLocalDate.plusDays(45)
         val initEpochMillis = initLocalDate.atStartOfDay(zoneId).toInstant().toEpochMilli()
         val endEpochMillis = endLocalDate.atStartOfDay(zoneId).toInstant().toEpochMilli()
-        every { systemResolver.getInstances(context, initEpochMillis, endEpochMillis) } returns systemInstances
+        mockGetSystemZoneId()
+        every { systemResolver.getInstances(context, initEpochMillis, endEpochMillis) } returns getSystemInstances()
 
-        val instancesColour = Colour.CYAN
         mockSharedPreferences()
+        mockWidgetTransparency(Transparency(20))
         mockFirstDayOfWeek(DayOfWeek.MONDAY)
         mockCalendarTheme(Theme.BLACK)
         mockInstancesSymbolSet(SymbolSet.MINIMAL)
-        mockInstancesColour(instancesColour)
-
-        val instancesColourTodayId = 1
-        val instancesColourId = 2
-        every { systemResolver.getInstancesColorTodayId(context) } returns instancesColourTodayId
-        every { systemResolver.getInstancesColorId(context, instancesColour) } returns instancesColourId
+        mockInstancesColour(Colour.CYAN)
 
         every { systemResolver.createDaysRow(context) } returns rowRv
-        justRun { systemResolver.addToDaysRow(context, rowRv, any(), any(), any(), any(), any(), any()) }
+
+        every { systemResolver.getColour(context, instancesColourTodayId) } returns instancesColourTodayId
+        every { systemResolver.getColour(context, instancesColourId) } returns instancesColourId
+
+        val expectedBackground = 55
+        getDrawDaysUseCaseTestProperties()
+            .map { it.dayBackgroundColour }
+            .filter { it != null }
+            .distinct()
+            .forEach {
+                every { systemResolver.getColourAsString(context, it!!) } returns dayCellTransparentBackground
+            }
+        every { systemResolver.parseColour(dayCellModerateTransparentBackgroundInHex) } returns expectedBackground
+        every { systemResolver.parseColour(dayCellLowTransparentBackgroundInHex) } returns expectedBackground
+
+        justRun { systemResolver.addToDaysRow(context, rowRv, any(), any(), any(), any(), any(), any(), any(), any()) }
         justRun { systemResolver.addToWidget(widgetRv, rowRv) }
 
         DrawDaysUseCase.execute(context, widgetRv)
 
+        verify { systemResolver.getSystemLocalDate() }
+        verify { systemResolver.isReadCalendarPermitted(context) }
+        verify { systemResolver.getSystemZoneId() }
+        verify { systemResolver.getInstances(context, initEpochMillis, endEpochMillis) }
+
+        verifyWidgetTransparency()
         verifyFirstDayOfWeek()
         verifyCalendarTheme()
         verifyInstancesSymbolSet()
         verifyInstancesColour()
-        verify { systemResolver.getSystemLocalDate() }
-        verify { systemResolver.isReadCalendarPermitted(context) }
-        verify { systemResolver.getInstances(context, initEpochMillis, endEpochMillis) }
-        verify { systemResolver.getSystemZoneId() }
+
         verify(exactly = 6) { systemResolver.createDaysRow(context) }
 
         getDrawDaysUseCaseTestProperties().forEach { dayUseCaseTest ->
-            when (dayUseCaseTest.isToday) {
-                true -> verify { systemResolver.getInstancesColorTodayId(context) }
-                false -> verify { systemResolver.getInstancesColorId(context, instancesColour) }
+
+            verify {
+                systemResolver.getColour(
+                    context, when {
+                        dayUseCaseTest.isToday -> instancesColourTodayId
+                        else -> instancesColourId
+                    }
+                )
             }
+            dayUseCaseTest.dayBackgroundColour?.let {
+                verify {
+                    systemResolver.getColourAsString(context, dayUseCaseTest.dayBackgroundColour)
+                    when (dayUseCaseTest.dayBackgroundColour){
+                        dayCellSaturdayInMonthBackground,
+                        dayCellSundayInMonthBackground -> systemResolver.parseColour(dayCellModerateTransparentBackgroundInHex)
+                        dayCellWeekdayInMonthBackground -> systemResolver.parseColour(dayCellLowTransparentBackgroundInHex)
+                        else -> { }
+                    }
+
+                }
+            }
+
             verifyOrder {
                 systemResolver.addToDaysRow(
                     context = context,
                     weekRow = rowRv,
                     dayLayout = dayUseCaseTest.dayLayout,
+                    viewId = 16908308,
+                    dayBackgroundColour = dayUseCaseTest.dayBackgroundColour?.let { expectedBackground },
                     spanText = dayUseCaseTest.spanText,
                     isToday = dayUseCaseTest.isToday,
-                    isSingleDigitDay = dayUseCaseTest.isSingleDigitDay,
+                    isSingleDigitDay = dayUseCaseTest.isSingleDigitDay(),
                     symbolRelativeSize = dayUseCaseTest.symbolRelativeSize,
                     instancesColour = dayUseCaseTest.instancesColour
                 )
@@ -109,6 +143,18 @@ internal class DrawDaysUseCaseTest : BaseTest() {
     }
 
     companion object {
+
+        private const val instancesColourTodayId = 2131034191
+        private const val instancesColourId = 2131034188
+
+        private const val dayCellTodayBackground = 2131034164
+        private const val dayCellWeekdayInMonthBackground = 2131034161
+        private const val dayCellSaturdayInMonthBackground = 2131034149
+        private const val dayCellSundayInMonthBackground = 2131034155
+
+        private const val dayCellTransparentBackground = "transparentBackground"
+        private const val dayCellModerateTransparentBackgroundInHex = "#40ground"
+        private const val dayCellLowTransparentBackgroundInHex = "#18ground"
 
         @Suppress("LongMethod")
         private fun getSystemInstances(): Set<Instance> {
@@ -262,58 +308,61 @@ internal class DrawDaysUseCaseTest : BaseTest() {
         }
 
         private fun getDrawDaysUseCaseTestProperties() = Stream.of(
-            DrawDaysUseCaseTestProperties(dayLayout = 2131427356, spanText = " 26 ·", isSingleDigitDay = false),
-            DrawDaysUseCaseTestProperties(dayLayout = 2131427356, spanText = " 27  ", isSingleDigitDay = false),
-            DrawDaysUseCaseTestProperties(dayLayout = 2131427356, spanText = " 28 ·", isSingleDigitDay = false),
-            DrawDaysUseCaseTestProperties(dayLayout = 2131427356, spanText = " 29 ·", isSingleDigitDay = false),
-            DrawDaysUseCaseTestProperties(dayLayout = 2131427356, spanText = " 30  ", isSingleDigitDay = false),
-            DrawDaysUseCaseTestProperties(dayLayout = 2131427357, spanText = " 01 ·", isSingleDigitDay = true),
-            DrawDaysUseCaseTestProperties(dayLayout = 2131427359, spanText = " 02 ·", isSingleDigitDay = true),
-            DrawDaysUseCaseTestProperties(dayLayout = 2131427361, spanText = " 03 ·", isSingleDigitDay = true),
-            DrawDaysUseCaseTestProperties(dayLayout = 2131427362, spanText = " 04 ·", isToday = true, isSingleDigitDay = true, instancesColour = 1),
-            DrawDaysUseCaseTestProperties(dayLayout = 2131427361, spanText = " 05  ", isSingleDigitDay = true),
-            DrawDaysUseCaseTestProperties(dayLayout = 2131427361, spanText = " 06 ∴", isSingleDigitDay = true),
-            DrawDaysUseCaseTestProperties(dayLayout = 2131427361, spanText = " 07 ·", isSingleDigitDay = true),
-            DrawDaysUseCaseTestProperties(dayLayout = 2131427357, spanText = " 08  ", isSingleDigitDay = true),
-            DrawDaysUseCaseTestProperties(dayLayout = 2131427359, spanText = " 09  ", isSingleDigitDay = true),
-            DrawDaysUseCaseTestProperties(dayLayout = 2131427361, spanText = " 10 ∷", isSingleDigitDay = false),
-            DrawDaysUseCaseTestProperties(dayLayout = 2131427361, spanText = " 11 ·", isSingleDigitDay = false),
-            DrawDaysUseCaseTestProperties(dayLayout = 2131427361, spanText = " 12  ", isSingleDigitDay = false),
-            DrawDaysUseCaseTestProperties(dayLayout = 2131427361, spanText = " 13  ", isSingleDigitDay = false),
-            DrawDaysUseCaseTestProperties(dayLayout = 2131427361, spanText = " 14  ", isSingleDigitDay = false),
-            DrawDaysUseCaseTestProperties(dayLayout = 2131427357, spanText = " 15  ", isSingleDigitDay = false),
-            DrawDaysUseCaseTestProperties(dayLayout = 2131427359, spanText = " 16  ", isSingleDigitDay = false),
-            DrawDaysUseCaseTestProperties(dayLayout = 2131427361, spanText = " 17  ", isSingleDigitDay = false),
-            DrawDaysUseCaseTestProperties(dayLayout = 2131427361, spanText = " 18  ", isSingleDigitDay = false),
-            DrawDaysUseCaseTestProperties(dayLayout = 2131427361, spanText = " 19  ", isSingleDigitDay = false),
-            DrawDaysUseCaseTestProperties(dayLayout = 2131427361, spanText = " 20  ", isSingleDigitDay = false),
-            DrawDaysUseCaseTestProperties(dayLayout = 2131427361, spanText = " 21  ", isSingleDigitDay = false),
-            DrawDaysUseCaseTestProperties(dayLayout = 2131427357, spanText = " 22  ", isSingleDigitDay = false),
-            DrawDaysUseCaseTestProperties(dayLayout = 2131427359, spanText = " 23  ", isSingleDigitDay = false),
-            DrawDaysUseCaseTestProperties(dayLayout = 2131427361, spanText = " 24  ", isSingleDigitDay = false),
-            DrawDaysUseCaseTestProperties(dayLayout = 2131427361, spanText = " 25  ", isSingleDigitDay = false),
-            DrawDaysUseCaseTestProperties(dayLayout = 2131427361, spanText = " 26  ", isSingleDigitDay = false),
-            DrawDaysUseCaseTestProperties(dayLayout = 2131427361, spanText = " 27 ·", isSingleDigitDay = false),
-            DrawDaysUseCaseTestProperties(dayLayout = 2131427361, spanText = " 28  ", isSingleDigitDay = false),
-            DrawDaysUseCaseTestProperties(dayLayout = 2131427357, spanText = " 29  ", isSingleDigitDay = false),
-            DrawDaysUseCaseTestProperties(dayLayout = 2131427359, spanText = " 30 ◇", isSingleDigitDay = false),
-            DrawDaysUseCaseTestProperties(dayLayout = 2131427361, spanText = " 31  ", isSingleDigitDay = false),
-            DrawDaysUseCaseTestProperties(dayLayout = 2131427356, spanText = " 01 ·", isSingleDigitDay = true),
-            DrawDaysUseCaseTestProperties(dayLayout = 2131427356, spanText = " 02 ·", isSingleDigitDay = true),
-            DrawDaysUseCaseTestProperties(dayLayout = 2131427356, spanText = " 03  ", isSingleDigitDay = true),
-            DrawDaysUseCaseTestProperties(dayLayout = 2131427356, spanText = " 04  ", isSingleDigitDay = true),
-            DrawDaysUseCaseTestProperties(dayLayout = 2131427356, spanText = " 05 ◈", isSingleDigitDay = true),
-            DrawDaysUseCaseTestProperties(dayLayout = 2131427356, spanText = " 06  ", isSingleDigitDay = true)
+            DrawDaysUseCaseTestProperties(dayLayout = 2131427356, spanText = " 26 ·"),
+            DrawDaysUseCaseTestProperties(dayLayout = 2131427356, spanText = " 27  "),
+            DrawDaysUseCaseTestProperties(dayLayout = 2131427356, spanText = " 28 ·"),
+            DrawDaysUseCaseTestProperties(dayLayout = 2131427356, spanText = " 29 ·"),
+            DrawDaysUseCaseTestProperties(dayLayout = 2131427356, spanText = " 30  "),
+            DrawDaysUseCaseTestProperties(dayLayout = 2131427357, spanText = " 01 ·", dayBackgroundColour = dayCellSaturdayInMonthBackground),
+            DrawDaysUseCaseTestProperties(dayLayout = 2131427359, spanText = " 02 ·", dayBackgroundColour = dayCellSundayInMonthBackground),
+            DrawDaysUseCaseTestProperties(dayLayout = 2131427361, spanText = " 03 ·", dayBackgroundColour = dayCellWeekdayInMonthBackground),
+            DrawDaysUseCaseTestProperties(dayLayout = 2131427362, spanText = " 04 ·", dayBackgroundColour = dayCellTodayBackground,
+                isToday = true, instancesColour = instancesColourTodayId),
+            DrawDaysUseCaseTestProperties(dayLayout = 2131427361, spanText = " 05  ", dayBackgroundColour = dayCellWeekdayInMonthBackground),
+            DrawDaysUseCaseTestProperties(dayLayout = 2131427361, spanText = " 06 ∴", dayBackgroundColour = dayCellWeekdayInMonthBackground),
+            DrawDaysUseCaseTestProperties(dayLayout = 2131427361, spanText = " 07 ·", dayBackgroundColour = dayCellWeekdayInMonthBackground),
+            DrawDaysUseCaseTestProperties(dayLayout = 2131427357, spanText = " 08  ", dayBackgroundColour = dayCellSaturdayInMonthBackground),
+            DrawDaysUseCaseTestProperties(dayLayout = 2131427359, spanText = " 09  ", dayBackgroundColour = dayCellSundayInMonthBackground),
+            DrawDaysUseCaseTestProperties(dayLayout = 2131427361, spanText = " 10 ∷", dayBackgroundColour = dayCellWeekdayInMonthBackground),
+            DrawDaysUseCaseTestProperties(dayLayout = 2131427361, spanText = " 11 ·", dayBackgroundColour = dayCellWeekdayInMonthBackground),
+            DrawDaysUseCaseTestProperties(dayLayout = 2131427361, spanText = " 12  ", dayBackgroundColour = dayCellWeekdayInMonthBackground),
+            DrawDaysUseCaseTestProperties(dayLayout = 2131427361, spanText = " 13  ", dayBackgroundColour = dayCellWeekdayInMonthBackground),
+            DrawDaysUseCaseTestProperties(dayLayout = 2131427361, spanText = " 14  ", dayBackgroundColour = dayCellWeekdayInMonthBackground),
+            DrawDaysUseCaseTestProperties(dayLayout = 2131427357, spanText = " 15  ", dayBackgroundColour = dayCellSaturdayInMonthBackground),
+            DrawDaysUseCaseTestProperties(dayLayout = 2131427359, spanText = " 16  ", dayBackgroundColour = dayCellSundayInMonthBackground),
+            DrawDaysUseCaseTestProperties(dayLayout = 2131427361, spanText = " 17  ", dayBackgroundColour = dayCellWeekdayInMonthBackground),
+            DrawDaysUseCaseTestProperties(dayLayout = 2131427361, spanText = " 18  ", dayBackgroundColour = dayCellWeekdayInMonthBackground),
+            DrawDaysUseCaseTestProperties(dayLayout = 2131427361, spanText = " 19  ", dayBackgroundColour = dayCellWeekdayInMonthBackground),
+            DrawDaysUseCaseTestProperties(dayLayout = 2131427361, spanText = " 20  ", dayBackgroundColour = dayCellWeekdayInMonthBackground),
+            DrawDaysUseCaseTestProperties(dayLayout = 2131427361, spanText = " 21  ", dayBackgroundColour = dayCellWeekdayInMonthBackground),
+            DrawDaysUseCaseTestProperties(dayLayout = 2131427357, spanText = " 22  ", dayBackgroundColour = dayCellSaturdayInMonthBackground),
+            DrawDaysUseCaseTestProperties(dayLayout = 2131427359, spanText = " 23  ", dayBackgroundColour = dayCellSundayInMonthBackground),
+            DrawDaysUseCaseTestProperties(dayLayout = 2131427361, spanText = " 24  ", dayBackgroundColour = dayCellWeekdayInMonthBackground),
+            DrawDaysUseCaseTestProperties(dayLayout = 2131427361, spanText = " 25  ", dayBackgroundColour = dayCellWeekdayInMonthBackground),
+            DrawDaysUseCaseTestProperties(dayLayout = 2131427361, spanText = " 26  ", dayBackgroundColour = dayCellWeekdayInMonthBackground),
+            DrawDaysUseCaseTestProperties(dayLayout = 2131427361, spanText = " 27 ·", dayBackgroundColour = dayCellWeekdayInMonthBackground),
+            DrawDaysUseCaseTestProperties(dayLayout = 2131427361, spanText = " 28  ", dayBackgroundColour = dayCellWeekdayInMonthBackground),
+            DrawDaysUseCaseTestProperties(dayLayout = 2131427357, spanText = " 29  ", dayBackgroundColour = dayCellSaturdayInMonthBackground),
+            DrawDaysUseCaseTestProperties(dayLayout = 2131427359, spanText = " 30 ◇", dayBackgroundColour = dayCellSundayInMonthBackground),
+            DrawDaysUseCaseTestProperties(dayLayout = 2131427361, spanText = " 31  ", dayBackgroundColour = dayCellWeekdayInMonthBackground),
+            DrawDaysUseCaseTestProperties(dayLayout = 2131427356, spanText = " 01 ·"),
+            DrawDaysUseCaseTestProperties(dayLayout = 2131427356, spanText = " 02 ·"),
+            DrawDaysUseCaseTestProperties(dayLayout = 2131427356, spanText = " 03  "),
+            DrawDaysUseCaseTestProperties(dayLayout = 2131427356, spanText = " 04  "),
+            DrawDaysUseCaseTestProperties(dayLayout = 2131427356, spanText = " 05 ◈"),
+            DrawDaysUseCaseTestProperties(dayLayout = 2131427356, spanText = " 06  ")
         )
 
         internal data class DrawDaysUseCaseTestProperties(
             val dayLayout: Int,
             val spanText: String,
+            val dayBackgroundColour: Int? = null,
             val isToday: Boolean = false,
-            val isSingleDigitDay: Boolean,
             val symbolRelativeSize: Float = 1.1f,
-            val instancesColour: Int = 2
-        )
+            val instancesColour: Int = instancesColourId
+        ) {
+            fun isSingleDigitDay() = spanText.startsWith(" 0")
+        }
 
         private fun String.toInstant(zoneOffset: ZoneOffset) = LocalDateTime
             .parse(this, DateTimeFormatter.ISO_ZONED_DATE_TIME)

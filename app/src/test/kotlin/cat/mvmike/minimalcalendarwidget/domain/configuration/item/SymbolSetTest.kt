@@ -26,7 +26,7 @@ internal class SymbolSetTest {
     companion object {
 
         @JvmStatic
-        @Suppress("unused", "LongMethod")
+        @Suppress("unused")
         fun getSymbolSetAndExpectedCharacter(): Stream<Arguments> = Stream.of(
             Arguments.of(SymbolSet.MINIMAL, 1, '·'),
             Arguments.of(SymbolSet.MINIMAL, 6, '◈'),
