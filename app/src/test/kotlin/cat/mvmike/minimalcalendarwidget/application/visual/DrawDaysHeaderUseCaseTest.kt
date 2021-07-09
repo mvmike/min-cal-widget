@@ -77,8 +77,7 @@ internal class DrawDaysHeaderUseCaseTest : BaseTest() {
                         systemResolver.getColourAsString(context, dayHeaderSundayCellBackground)
                         systemResolver.parseColour(dayHeaderCellSundayTransparentBackgroundInHex)
                     }
-                    else -> {
-                    }
+                    else -> { }
                 }
                 systemResolver.addToDaysHeaderRow(
                     context = context,

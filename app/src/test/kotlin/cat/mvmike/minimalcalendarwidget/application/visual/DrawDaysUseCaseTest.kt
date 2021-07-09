@@ -60,13 +60,14 @@ internal class DrawDaysUseCaseTest : BaseTest() {
         every { systemResolver.getColour(context, instancesColourId) } returns instancesColourId
 
         val expectedBackground = Random().nextInt()
-        getDrawDaysUseCaseTestProperties()
-            .map { it.dayBackgroundColour }
-            .filter { it != null }
-            .distinct()
-            .forEach {
-                every { systemResolver.getColourAsString(context, it!!) } returns dayCellTransparentBackground
-            }
+        listOf(
+            dayCellTodayBackground,
+            dayCellWeekdayInMonthBackground,
+            dayCellSaturdayInMonthBackground,
+            dayCellSundayInMonthBackground,
+        ).forEach {
+            every { systemResolver.getColourAsString(context, it) } returns dayCellTransparentBackground
+        }
         every { systemResolver.parseColour(dayCellModerateTransparentBackgroundInHex) } returns expectedBackground
         every { systemResolver.parseColour(dayCellLowTransparentBackgroundInHex) } returns expectedBackground
 
@@ -105,8 +106,7 @@ internal class DrawDaysUseCaseTest : BaseTest() {
                         dayCellSaturdayInMonthBackground,
                         dayCellSundayInMonthBackground -> systemResolver.parseColour(dayCellModerateTransparentBackgroundInHex)
                         dayCellWeekdayInMonthBackground -> systemResolver.parseColour(dayCellLowTransparentBackgroundInHex)
-                        else -> {
-                        }
+                        else -> { }
                     }
 
                 }
