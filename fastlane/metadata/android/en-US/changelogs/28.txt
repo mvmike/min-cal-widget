@@ -1,0 +1,6 @@
+v2.1.0
+- added transparency configuration
+- removed grey theme (redundant now)
+- renamed themes to dark/light
+- added new symbol colours
+- technical improvement
