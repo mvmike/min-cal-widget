@@ -2,5 +2,5 @@
     style="@style/CalendarCell"
     android:gravity="center"
     android:textAllCaps="true"
-    android:textColor="@color/text_colour_full_white"
+    android:textColor="@color/text_colour_full_light"
     android:textSize="12sp" />

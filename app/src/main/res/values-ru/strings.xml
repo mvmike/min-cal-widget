@@ -51,6 +51,10 @@
     <string name="saturday_abb">сб</string>
     <string name="sunday_abb">вc</string>
 
+    <!--Themes-->
+    <string name="dark">Темный</string>
+    <string name="light">Световой</string>
+
     <!--Symbols-->
     <string name="minimal">Минимальный</string>
     <string name="vertical">Вертикальный</string>

@@ -51,6 +51,10 @@
     <string name="saturday_abb">sa</string>
     <string name="sunday_abb">so</string>
 
+    <!--Themes-->
+    <string name="dark">Dunkel</string>
+    <string name="light">Licht</string>
+
     <!--Symbols-->
     <string name="minimal">Minimum</string>
     <string name="vertical">Vertikal</string>

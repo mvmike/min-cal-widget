@@ -51,6 +51,10 @@
     <string name="saturday_abb">za</string>
     <string name="sunday_abb">zo</string>
 
+    <!--Themes-->
+    <string name="dark">Donker</string>
+    <string name="light">Licht</string>
+
     <!--Symbols-->
     <string name="minimal">Minimaal</string>
     <string name="vertical">Verticaal</string>

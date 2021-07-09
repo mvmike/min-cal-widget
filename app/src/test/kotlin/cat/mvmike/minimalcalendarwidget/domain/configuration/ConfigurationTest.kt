@@ -39,12 +39,12 @@ internal class ConfigurationTest : BaseTest() {
     @EnumSource(value = Theme::class)
     fun getCalendarTheme_shouldReturnSharedPreferencesValue(theme: Theme) {
         mockSharedPreferences()
-        mockCalendarTheme(theme)
+        mockWidgetTheme(theme)
 
-        val result = EnumConfiguration.CalendarTheme.get(context)
+        val result = EnumConfiguration.WidgetTheme.get(context)
 
         assertThat(result).isEqualTo(theme)
-        verifyCalendarTheme()
+        verifyWidgetTheme()
         verify { editor wasNot Called }
     }
 
@@ -136,8 +136,8 @@ internal class ConfigurationTest : BaseTest() {
         fun getCombinationOfEnumConfigurationItemsWithValuesAndKey(): Stream<Arguments> = Stream.of(
             Arguments.of(
                 Theme.values(),
-                EnumConfiguration.CalendarTheme,
-                "CALENDAR_THEME"
+                EnumConfiguration.WidgetTheme,
+                "WIDGET_THEME"
             ),
             Arguments.of(
                 DayOfWeek.values(),

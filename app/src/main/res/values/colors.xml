@@ -2,19 +2,19 @@
 
     <!--background-->
 
-    <color name="background_this_month_black">#11ffffff</color>
-    <color name="background_this_month_white">#1effffff</color>
+    <color name="background_this_month_dark">#11ffffff</color>
+    <color name="background_this_month_light">#1effffff</color>
 
-    <color name="background_full_black">#000000</color>
-    <color name="background_full_white">#b3b3b3</color>
+    <color name="background_full_dark">#000000</color>
+    <color name="background_full_light">#b3b3b3</color>
 
     <!--foreground-->
 
-    <color name="text_colour_full_black">#ffffff</color>
-    <color name="text_colour_full_white">#CC000000</color>
+    <color name="text_colour_full_dark">#ffffff</color>
+    <color name="text_colour_full_light">#CC000000</color>
 
-    <color name="text_colour_semi_black">#44ffffff</color>
-    <color name="text_colour_semi_white">#CC000000</color>
+    <color name="text_colour_semi_dark">#44ffffff</color>
+    <color name="text_colour_semi_light">#CC000000</color>
 
     <!--instances-->
 
@@ -30,25 +30,25 @@
 
     <!--today-->
 
-    <color name="text_colour_today_black">#ffffff</color>
-    <color name="text_colour_today_white">#CC000000</color>
+    <color name="text_colour_today_dark">#ffffff</color>
+    <color name="text_colour_today_light">#CC000000</color>
 
-    <color name="background_today_black">#59009973</color>
-    <color name="background_today_white">#59009973</color>
+    <color name="background_today_dark">#59009973</color>
+    <color name="background_today_light">#59009973</color>
 
     <!--specials-->
 
-    <color name="background_saturday_black">#99ccff</color>
-    <color name="background_saturday_white">#41a1ff</color>
+    <color name="background_saturday_dark">#99ccff</color>
+    <color name="background_saturday_light">#41a1ff</color>
 
-    <color name="background_sunday_black">#ff9999</color>
-    <color name="background_sunday_white">#ff4b4b</color>
+    <color name="background_sunday_dark">#ff9999</color>
+    <color name="background_sunday_light">#ff4b4b</color>
 
-    <color name="background_saturday_today_black">#004080</color>
-    <color name="background_saturday_today_white">#004080</color>
+    <color name="background_saturday_today_dark">#004080</color>
+    <color name="background_saturday_today_light">#004080</color>
 
-    <color name="background_sunday_today_black">#850000</color>
-    <color name="background_sunday_today_white">#850000</color>
+    <color name="background_sunday_today_dark">#850000</color>
+    <color name="background_sunday_today_light">#850000</color>
 
     <!--configuration-->
 

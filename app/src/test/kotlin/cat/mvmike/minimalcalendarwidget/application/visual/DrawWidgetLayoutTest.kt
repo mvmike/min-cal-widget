@@ -26,7 +26,7 @@ internal class DrawWidgetLayoutTest : BaseTest() {
     @MethodSource("getCombinationOfThemesAndTransparencyLevels")
     fun execute(theme: Theme, transparency: Transparency, mainLayout: Int, expectedMainLayoutHexTransparency: String) {
         mockSharedPreferences()
-        mockCalendarTheme(theme)
+        mockWidgetTheme(theme)
         mockWidgetTransparency(transparency)
         every { systemResolver.getColourAsString(context, mainLayout) } returns "expectedMainLayout"
 
@@ -54,7 +54,7 @@ internal class DrawWidgetLayoutTest : BaseTest() {
             )
         }
 
-        verifyCalendarTheme()
+        verifyWidgetTheme()
         verifyWidgetTransparency()
         verify { systemResolver.getColourAsString(context, mainLayout) }
         verify { systemResolver.parseColour(mainLayoutWithTransparency) }
@@ -63,26 +63,26 @@ internal class DrawWidgetLayoutTest : BaseTest() {
 
     companion object {
 
-        private const val blackThemeMainLayout = 2131034144
-        private const val whiteThemeMainLayout = 2131034145
+        private const val darkThemeMainLayout = 2131034144
+        private const val lightThemeMainLayout = 2131034145
 
         @JvmStatic
         @Suppress("unused")
         fun getCombinationOfThemesAndTransparencyLevels() = Stream.of(
-            Arguments.of(Theme.BLACK, Transparency(0), blackThemeMainLayout, "FF"),
-            Arguments.of(Theme.BLACK, Transparency(1), blackThemeMainLayout, "FC"),
-            Arguments.of(Theme.BLACK, Transparency(20), blackThemeMainLayout, "CC"),
-            Arguments.of(Theme.BLACK, Transparency(50), blackThemeMainLayout, "7F"),
-            Arguments.of(Theme.BLACK, Transparency(79), blackThemeMainLayout, "35"),
-            Arguments.of(Theme.BLACK, Transparency(90), blackThemeMainLayout, "19"),
-            Arguments.of(Theme.BLACK, Transparency(100), blackThemeMainLayout, "00"),
-            Arguments.of(Theme.WHITE, Transparency(0), whiteThemeMainLayout, "FF"),
-            Arguments.of(Theme.WHITE, Transparency(5), whiteThemeMainLayout, "F2"),
-            Arguments.of(Theme.WHITE, Transparency(70), whiteThemeMainLayout, "4C"),
-            Arguments.of(Theme.WHITE, Transparency(72), whiteThemeMainLayout, "47"),
-            Arguments.of(Theme.WHITE, Transparency(98), whiteThemeMainLayout, "05"),
-            Arguments.of(Theme.WHITE, Transparency(99), whiteThemeMainLayout, "02"),
-            Arguments.of(Theme.WHITE, Transparency(100), whiteThemeMainLayout, "00")
+            Arguments.of(Theme.DARK, Transparency(0), darkThemeMainLayout, "FF"),
+            Arguments.of(Theme.DARK, Transparency(1), darkThemeMainLayout, "FC"),
+            Arguments.of(Theme.DARK, Transparency(20), darkThemeMainLayout, "CC"),
+            Arguments.of(Theme.DARK, Transparency(50), darkThemeMainLayout, "7F"),
+            Arguments.of(Theme.DARK, Transparency(79), darkThemeMainLayout, "35"),
+            Arguments.of(Theme.DARK, Transparency(90), darkThemeMainLayout, "19"),
+            Arguments.of(Theme.DARK, Transparency(100), darkThemeMainLayout, "00"),
+            Arguments.of(Theme.LIGHT, Transparency(0), lightThemeMainLayout, "FF"),
+            Arguments.of(Theme.LIGHT, Transparency(5), lightThemeMainLayout, "F2"),
+            Arguments.of(Theme.LIGHT, Transparency(70), lightThemeMainLayout, "4C"),
+            Arguments.of(Theme.LIGHT, Transparency(72), lightThemeMainLayout, "47"),
+            Arguments.of(Theme.LIGHT, Transparency(98), lightThemeMainLayout, "05"),
+            Arguments.of(Theme.LIGHT, Transparency(99), lightThemeMainLayout, "02"),
+            Arguments.of(Theme.LIGHT, Transparency(100), lightThemeMainLayout, "00")
         )!!
     }
 }

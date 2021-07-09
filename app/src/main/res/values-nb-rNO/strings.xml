@@ -51,6 +51,10 @@
     <string name="saturday_abb">lør</string>
     <string name="sunday_abb">søn</string>
 
+    <!--Themes-->
+    <string name="dark">Mørk</string>
+    <string name="light">Lys</string>
+
     <!--Symbols-->
     <string name="minimal">Minimal</string>
     <string name="vertical">Vertikal</string>

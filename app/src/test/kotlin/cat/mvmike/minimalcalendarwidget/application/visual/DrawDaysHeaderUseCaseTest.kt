@@ -43,7 +43,7 @@ internal class DrawDaysHeaderUseCaseTest : BaseTest() {
         mockSharedPreferences()
         mockWidgetTransparency(Transparency(20))
         mockFirstDayOfWeek(startWeekDay)
-        mockCalendarTheme(theme)
+        mockWidgetTheme(theme)
 
         every { systemResolver.getColourAsString(context, dayHeaderSaturdayCellBackground) } returns dayHeaderCellSaturdayTransparentBackground
         every { systemResolver.parseColour(dayHeaderCellSaturdayTransparentBackgroundInHex) } returns dayHeaderCellSaturdayBackground
@@ -62,7 +62,7 @@ internal class DrawDaysHeaderUseCaseTest : BaseTest() {
 
         verifyWidgetTransparency()
         verifyFirstDayOfWeek()
-        verifyCalendarTheme()
+        verifyWidgetTheme()
         verify { systemResolver.createDaysHeaderRow(context) }
         rotatedWeekDays.forEach {
             verify { context.getString(it.getExpectedResourceId()) }
@@ -107,28 +107,28 @@ internal class DrawDaysHeaderUseCaseTest : BaseTest() {
         private const val dayHeaderCellSaturdayBackground = 65132545
         private const val dayHeaderCellSundayBackground = 65132546
 
-        private const val dayHeaderSaturdayBlackThemeBackground = 2131034148
-        private const val dayHeaderSundayBlackThemeBackground = 2131034152
-        private const val dayHeaderSaturdayWhiteThemeBackground = 2131034151
-        private const val dayHeaderSundayWhiteThemeBackground = 2131034155
+        private const val dayHeaderSaturdayDarkThemeBackground = 2131034148
+        private const val dayHeaderSundayDarkThemeBackground = 2131034152
+        private const val dayHeaderSaturdayLightThemeBackground = 2131034149
+        private const val dayHeaderSundayLightThemeBackground = 2131034153
 
         @JvmStatic
         @Suppress("unused")
         fun combinationOfStartWeekDayAndThemeConfig() = Stream.of(
-            Arguments.of(MONDAY, Theme.BLACK, dayHeaderSaturdayBlackThemeBackground, dayHeaderSundayBlackThemeBackground),
-            Arguments.of(TUESDAY, Theme.BLACK, dayHeaderSaturdayBlackThemeBackground, dayHeaderSundayBlackThemeBackground),
-            Arguments.of(WEDNESDAY, Theme.BLACK, dayHeaderSaturdayBlackThemeBackground, dayHeaderSundayBlackThemeBackground),
-            Arguments.of(THURSDAY, Theme.BLACK, dayHeaderSaturdayBlackThemeBackground, dayHeaderSundayBlackThemeBackground),
-            Arguments.of(FRIDAY, Theme.BLACK, dayHeaderSaturdayBlackThemeBackground, dayHeaderSundayBlackThemeBackground),
-            Arguments.of(SATURDAY, Theme.BLACK, dayHeaderSaturdayBlackThemeBackground, dayHeaderSundayBlackThemeBackground),
-            Arguments.of(SUNDAY, Theme.BLACK, dayHeaderSaturdayBlackThemeBackground, dayHeaderSundayBlackThemeBackground),
-            Arguments.of(MONDAY, Theme.WHITE, dayHeaderSaturdayWhiteThemeBackground, dayHeaderSundayWhiteThemeBackground),
-            Arguments.of(TUESDAY, Theme.WHITE, dayHeaderSaturdayWhiteThemeBackground, dayHeaderSundayWhiteThemeBackground),
-            Arguments.of(WEDNESDAY, Theme.WHITE, dayHeaderSaturdayWhiteThemeBackground, dayHeaderSundayWhiteThemeBackground),
-            Arguments.of(THURSDAY, Theme.WHITE, dayHeaderSaturdayWhiteThemeBackground, dayHeaderSundayWhiteThemeBackground),
-            Arguments.of(FRIDAY, Theme.WHITE, dayHeaderSaturdayWhiteThemeBackground, dayHeaderSundayWhiteThemeBackground),
-            Arguments.of(SATURDAY, Theme.WHITE, dayHeaderSaturdayWhiteThemeBackground, dayHeaderSundayWhiteThemeBackground),
-            Arguments.of(SUNDAY, Theme.WHITE, dayHeaderSaturdayWhiteThemeBackground, dayHeaderSundayWhiteThemeBackground),
+            Arguments.of(MONDAY, Theme.DARK, dayHeaderSaturdayDarkThemeBackground, dayHeaderSundayDarkThemeBackground),
+            Arguments.of(TUESDAY, Theme.DARK, dayHeaderSaturdayDarkThemeBackground, dayHeaderSundayDarkThemeBackground),
+            Arguments.of(WEDNESDAY, Theme.DARK, dayHeaderSaturdayDarkThemeBackground, dayHeaderSundayDarkThemeBackground),
+            Arguments.of(THURSDAY, Theme.DARK, dayHeaderSaturdayDarkThemeBackground, dayHeaderSundayDarkThemeBackground),
+            Arguments.of(FRIDAY, Theme.DARK, dayHeaderSaturdayDarkThemeBackground, dayHeaderSundayDarkThemeBackground),
+            Arguments.of(SATURDAY, Theme.DARK, dayHeaderSaturdayDarkThemeBackground, dayHeaderSundayDarkThemeBackground),
+            Arguments.of(SUNDAY, Theme.DARK, dayHeaderSaturdayDarkThemeBackground, dayHeaderSundayDarkThemeBackground),
+            Arguments.of(MONDAY, Theme.LIGHT, dayHeaderSaturdayLightThemeBackground, dayHeaderSundayLightThemeBackground),
+            Arguments.of(TUESDAY, Theme.LIGHT, dayHeaderSaturdayLightThemeBackground, dayHeaderSundayLightThemeBackground),
+            Arguments.of(WEDNESDAY, Theme.LIGHT, dayHeaderSaturdayLightThemeBackground, dayHeaderSundayLightThemeBackground),
+            Arguments.of(THURSDAY, Theme.LIGHT, dayHeaderSaturdayLightThemeBackground, dayHeaderSundayLightThemeBackground),
+            Arguments.of(FRIDAY, Theme.LIGHT, dayHeaderSaturdayLightThemeBackground, dayHeaderSundayLightThemeBackground),
+            Arguments.of(SATURDAY, Theme.LIGHT, dayHeaderSaturdayLightThemeBackground, dayHeaderSundayLightThemeBackground),
+            Arguments.of(SUNDAY, Theme.LIGHT, dayHeaderSaturdayLightThemeBackground, dayHeaderSundayLightThemeBackground),
         )!!
     }
 

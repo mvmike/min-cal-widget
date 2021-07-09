@@ -51,6 +51,10 @@
     <string name="saturday_abb">sub</string>
     <string name="sunday_abb">ned</string>
 
+    <!--Themes-->
+    <string name="dark">Taman</string>
+    <string name="light">Svjetlosni</string>
+
     <!--Symbols-->
     <string name="minimal">Najmanji</string>
     <string name="vertical">Okomiti</string>

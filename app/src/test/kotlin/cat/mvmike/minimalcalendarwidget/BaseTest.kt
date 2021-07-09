@@ -133,21 +133,21 @@ abstract class BaseTest {
         }
     }
 
-    protected fun mockCalendarTheme(theme: Theme) {
+    protected fun mockWidgetTheme(theme: Theme) {
         every {
             sharedPreferences.getString(
-                EnumConfiguration.CalendarTheme.key,
-                EnumConfiguration.CalendarTheme.defaultValue.name
+                EnumConfiguration.WidgetTheme.key,
+                EnumConfiguration.WidgetTheme.defaultValue.name
             )
         } returns theme.name
     }
 
-    protected fun verifyCalendarTheme() {
+    protected fun verifyWidgetTheme() {
         verifySharedPreferencesAccess()
         verify {
             sharedPreferences.getString(
-                EnumConfiguration.CalendarTheme.key,
-                EnumConfiguration.CalendarTheme.defaultValue.name
+                EnumConfiguration.WidgetTheme.key,
+                EnumConfiguration.WidgetTheme.defaultValue.name
             )
         }
     }

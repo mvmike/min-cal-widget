@@ -81,7 +81,7 @@ class ConfigurationActivity : AppCompatActivity() {
     private fun Int.getButton() = findViewById<Button>(this)
 
     private fun enumConfigurationItems() = setOf(
-        EnumConfiguration.CalendarTheme,
+        EnumConfiguration.WidgetTheme,
         EnumConfiguration.FirstDayOfWeek,
         EnumConfiguration.InstancesSymbolSet,
         EnumConfiguration.InstancesColour

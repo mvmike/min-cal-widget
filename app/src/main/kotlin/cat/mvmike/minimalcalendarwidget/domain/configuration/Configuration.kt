@@ -70,11 +70,11 @@ sealed class EnumConfiguration<E : Enum<E>>(
         override fun getDisplayValues(context: Context) = getDayOfWeekDisplayValues(context)
     }
 
-    object CalendarTheme : EnumConfiguration<Theme>(
-        key = "CALENDAR_THEME",
+    object WidgetTheme : EnumConfiguration<Theme>(
+        key = "WIDGET_THEME",
         resource = R.id.themeSpinner,
         enumClass = Theme::class.java,
-        defaultValue = Theme.BLACK
+        defaultValue = Theme.DARK
     ) {
         override fun getDisplayValues(context: Context) = getThemeDisplayValues(context)
     }

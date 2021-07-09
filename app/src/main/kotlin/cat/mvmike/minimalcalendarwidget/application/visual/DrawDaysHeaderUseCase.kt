@@ -20,7 +20,7 @@ object DrawDaysHeaderUseCase {
 
         val transparency = Configuration.WidgetTransparency.get(context)
         val firstDayOfWeek = EnumConfiguration.FirstDayOfWeek.get(context)
-        val theme = EnumConfiguration.CalendarTheme.get(context)
+        val theme = EnumConfiguration.WidgetTheme.get(context)
 
         getRotatedWeekDays(firstDayOfWeek).forEach { dayOfWeek ->
             val cellHeader = theme.getCellHeader(dayOfWeek)

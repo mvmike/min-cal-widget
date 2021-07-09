@@ -51,6 +51,10 @@
     <string name="saturday_abb">ds</string>
     <string name="sunday_abb">dg</string>
 
+    <!--Themes-->
+    <string name="dark">Fosc</string>
+    <string name="light">Clar</string>
+
     <!--Symbols-->
     <string name="minimal">Mínim</string>
     <string name="vertical">Vertical</string>

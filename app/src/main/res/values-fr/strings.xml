@@ -51,6 +51,10 @@
     <string name="saturday_abb">sam</string>
     <string name="sunday_abb">dim</string>
 
+    <!--Themes-->
+    <string name="dark">Sombre</string>
+    <string name="light">Clair</string>
+
     <!--Symbols-->
     <string name="minimal">Minimale</string>
     <string name="vertical">Vertical</string>

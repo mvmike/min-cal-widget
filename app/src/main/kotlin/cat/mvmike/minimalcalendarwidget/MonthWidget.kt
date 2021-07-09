@@ -47,7 +47,7 @@ class MonthWidget : AppWidgetProvider() {
     companion object {
 
         private fun drawWidgets(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
-            val mainLayoutRemoteView = RemoteViews(context.packageName, EnumConfiguration.CalendarTheme.get(context).mainLayout)
+            val mainLayoutRemoteView = RemoteViews(context.packageName, EnumConfiguration.WidgetTheme.get(context).mainLayout)
             appWidgetIds.forEach { appWidgetId ->
                 drawWidget(
                     context = context,

@@ -51,6 +51,10 @@
     <string name="saturday_abb">sob</string>
     <string name="sunday_abb">ndz</string>
 
+    <!--Themes-->
+    <string name="dark">Ciemny</string>
+    <string name="light">Świetlny</string>
+
     <!--Symbols-->
     <string name="minimal">Minimalny</string>
     <string name="vertical">Pionowo</string>

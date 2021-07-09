@@ -51,6 +51,10 @@
     <string name="saturday_abb">sab</string>
     <string name="sunday_abb">dim</string>
 
+    <!--Themes-->
+    <string name="dark">Malhela</string>
+    <string name="light">Malpeza</string>
+
     <!--Symbols-->
     <string name="minimal">Minimuma</string>
     <string name="vertical">Vertikala</string>

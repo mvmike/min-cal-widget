@@ -42,7 +42,7 @@ object DrawDaysUseCase {
         )
         val transparency = Configuration.WidgetTransparency.get(context)
         val firstDayOfWeek = EnumConfiguration.FirstDayOfWeek.get(context)
-        val calendarTheme = EnumConfiguration.CalendarTheme.get(context)
+        val widgetTheme = EnumConfiguration.WidgetTheme.get(context)
         val instancesSymbolSet = EnumConfiguration.InstancesSymbolSet.get(context)
         val instancesColour = EnumConfiguration.InstancesColour.get(context)
         val initialLocalDate = getInitialLocalDate(systemLocalDate, firstDayOfWeek)
@@ -55,7 +55,7 @@ object DrawDaysUseCase {
                     systemLocalDate = systemLocalDate,
                     dayLocalDate = initialLocalDate.toCurrentWeekAndWeekDay(week, weekDay)
                 )
-                val dayCell = calendarTheme.getCellDay(
+                val dayCell = widgetTheme.getCellDay(
                     isToday = currentDay.isToday(),
                     inMonth = currentDay.isInMonth(),
                     dayOfWeek = currentDay.getDayOfWeek()
