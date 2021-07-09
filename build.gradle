@@ -1,6 +1,6 @@
 buildscript {
     //https://kotlinlang.org/releases.html
-    ext.kotlin_version = '1.5.10'
+    ext.kotlin_version = '1.5.20'
     dependencies {
         //https://developer.android.com/studio/releases/gradle-plugin
         classpath 'com.android.tools.build:gradle:4.2.1'
