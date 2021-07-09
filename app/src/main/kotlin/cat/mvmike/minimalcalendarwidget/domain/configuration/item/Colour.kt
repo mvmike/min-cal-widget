@@ -29,6 +29,10 @@ enum class Colour(
         hexValue = R.color.instances_yellow,
         displayString = R.string.yellow
     ),
+    BLACK(
+        hexValue = R.color.instances_black,
+        displayString = R.string.black
+    ),
     WHITE(
         hexValue = R.color.instances_white,
         displayString = R.string.white
