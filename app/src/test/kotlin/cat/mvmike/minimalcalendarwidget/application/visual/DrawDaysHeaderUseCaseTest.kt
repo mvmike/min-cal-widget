@@ -22,6 +22,7 @@ import java.time.DayOfWeek.TUESDAY
 import java.time.DayOfWeek.WEDNESDAY
 import java.util.stream.Stream
 import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 
 internal class DrawDaysHeaderUseCaseTest : BaseTest() {
@@ -32,20 +33,25 @@ internal class DrawDaysHeaderUseCaseTest : BaseTest() {
 
     @ParameterizedTest
     @MethodSource("combinationOfStartWeekDayAndThemeConfig")
-    fun setDayHeaders_shouldAddViewBasedOnCurrentDayAndConfig(testProperties: DrawDaysHeaderUseCaseTestProperties) {
+    fun setDayHeaders_shouldAddViewBasedOnCurrentDayAndConfig(
+        startWeekDay: DayOfWeek,
+        theme: Theme,
+        dayHeaderSaturdayCellBackground: Int,
+        dayHeaderSundayCellBackground: Int
+    ) {
         every { systemResolver.createDaysHeaderRow(context) } returns daysHeaderRowRv
         mockSharedPreferences()
         mockWidgetTransparency(Transparency(20))
-        mockFirstDayOfWeek(testProperties.startWeekDay)
-        mockCalendarTheme(testProperties.theme)
+        mockFirstDayOfWeek(startWeekDay)
+        mockCalendarTheme(theme)
 
-        every { systemResolver.getColourAsString(context, testProperties.dayHeaderSaturdayCellBackground) } returns dayHeaderCellSaturdayTransparentBackground
+        every { systemResolver.getColourAsString(context, dayHeaderSaturdayCellBackground) } returns dayHeaderCellSaturdayTransparentBackground
         every { systemResolver.parseColour(dayHeaderCellSaturdayTransparentBackgroundInHex) } returns dayHeaderCellSaturdayBackground
 
-        every { systemResolver.getColourAsString(context, testProperties.dayHeaderSundayCellBackground) } returns dayHeaderCellSundayTransparentBackground
+        every { systemResolver.getColourAsString(context, dayHeaderSundayCellBackground) } returns dayHeaderCellSundayTransparentBackground
         every { systemResolver.parseColour(dayHeaderCellSundayTransparentBackgroundInHex) } returns dayHeaderCellSundayBackground
 
-        val rotatedWeekDays = getRotatedWeekDays(testProperties.startWeekDay)
+        val rotatedWeekDays = getRotatedWeekDays(startWeekDay)
         rotatedWeekDays.forEach {
             every { context.getString(it.getExpectedResourceId()) } returns it.getExpectedAbbreviatedString()
         }
@@ -60,18 +66,19 @@ internal class DrawDaysHeaderUseCaseTest : BaseTest() {
         verify { systemResolver.createDaysHeaderRow(context) }
         rotatedWeekDays.forEach {
             verify { context.getString(it.getExpectedResourceId()) }
-            val cellHeader = testProperties.theme.getCellHeader(it)
+            val cellHeader = theme.getCellHeader(it)
             verify {
                 when (it) {
                     SATURDAY -> {
-                        systemResolver.getColourAsString(context, testProperties.dayHeaderSaturdayCellBackground)
+                        systemResolver.getColourAsString(context, dayHeaderSaturdayCellBackground)
                         systemResolver.parseColour(dayHeaderCellSaturdayTransparentBackgroundInHex)
                     }
                     SUNDAY -> {
-                        systemResolver.getColourAsString(context, testProperties.dayHeaderSundayCellBackground)
+                        systemResolver.getColourAsString(context, dayHeaderSundayCellBackground)
                         systemResolver.parseColour(dayHeaderCellSundayTransparentBackgroundInHex)
                     }
-                    else -> { }
+                    else -> {
+                    }
                 }
                 systemResolver.addToDaysHeaderRow(
                     context = context,
@@ -101,31 +108,29 @@ internal class DrawDaysHeaderUseCaseTest : BaseTest() {
         private const val dayHeaderCellSaturdayBackground = 65132545
         private const val dayHeaderCellSundayBackground = 65132546
 
+        private const val dayHeaderSaturdayBlackThemeBackground = 2131034148
+        private const val dayHeaderSundayBlackThemeBackground = 2131034152
+        private const val dayHeaderSaturdayWhiteThemeBackground = 2131034151
+        private const val dayHeaderSundayWhiteThemeBackground = 2131034155
+
         @JvmStatic
         @Suppress("unused")
         fun combinationOfStartWeekDayAndThemeConfig() = Stream.of(
-            DrawDaysHeaderUseCaseTestProperties(MONDAY, Theme.BLACK, 2131034148, 2131034152),
-            DrawDaysHeaderUseCaseTestProperties(TUESDAY, Theme.BLACK, 2131034148, 2131034152),
-            DrawDaysHeaderUseCaseTestProperties(WEDNESDAY, Theme.BLACK, 2131034148, 2131034152),
-            DrawDaysHeaderUseCaseTestProperties(THURSDAY, Theme.BLACK, 2131034148, 2131034152),
-            DrawDaysHeaderUseCaseTestProperties(FRIDAY, Theme.BLACK, 2131034148, 2131034152),
-            DrawDaysHeaderUseCaseTestProperties(SATURDAY, Theme.BLACK, 2131034148, 2131034152),
-            DrawDaysHeaderUseCaseTestProperties(SUNDAY, Theme.BLACK, 2131034148, 2131034152),
-            DrawDaysHeaderUseCaseTestProperties(MONDAY, Theme.WHITE, 2131034151, 2131034155),
-            DrawDaysHeaderUseCaseTestProperties(TUESDAY, Theme.WHITE, 2131034151, 2131034155),
-            DrawDaysHeaderUseCaseTestProperties(WEDNESDAY, Theme.WHITE, 2131034151, 2131034155),
-            DrawDaysHeaderUseCaseTestProperties(THURSDAY, Theme.WHITE, 2131034151, 2131034155),
-            DrawDaysHeaderUseCaseTestProperties(FRIDAY, Theme.WHITE, 2131034151, 2131034155),
-            DrawDaysHeaderUseCaseTestProperties(SATURDAY, Theme.WHITE, 2131034151, 2131034155),
-            DrawDaysHeaderUseCaseTestProperties(SUNDAY, Theme.WHITE, 2131034151, 2131034155),
+            Arguments.of(MONDAY, Theme.BLACK, dayHeaderSaturdayBlackThemeBackground, dayHeaderSundayBlackThemeBackground),
+            Arguments.of(TUESDAY, Theme.BLACK, dayHeaderSaturdayBlackThemeBackground, dayHeaderSundayBlackThemeBackground),
+            Arguments.of(WEDNESDAY, Theme.BLACK, dayHeaderSaturdayBlackThemeBackground, dayHeaderSundayBlackThemeBackground),
+            Arguments.of(THURSDAY, Theme.BLACK, dayHeaderSaturdayBlackThemeBackground, dayHeaderSundayBlackThemeBackground),
+            Arguments.of(FRIDAY, Theme.BLACK, dayHeaderSaturdayBlackThemeBackground, dayHeaderSundayBlackThemeBackground),
+            Arguments.of(SATURDAY, Theme.BLACK, dayHeaderSaturdayBlackThemeBackground, dayHeaderSundayBlackThemeBackground),
+            Arguments.of(SUNDAY, Theme.BLACK, dayHeaderSaturdayBlackThemeBackground, dayHeaderSundayBlackThemeBackground),
+            Arguments.of(MONDAY, Theme.WHITE, dayHeaderSaturdayWhiteThemeBackground, dayHeaderSundayWhiteThemeBackground),
+            Arguments.of(TUESDAY, Theme.WHITE, dayHeaderSaturdayWhiteThemeBackground, dayHeaderSundayWhiteThemeBackground),
+            Arguments.of(WEDNESDAY, Theme.WHITE, dayHeaderSaturdayWhiteThemeBackground, dayHeaderSundayWhiteThemeBackground),
+            Arguments.of(THURSDAY, Theme.WHITE, dayHeaderSaturdayWhiteThemeBackground, dayHeaderSundayWhiteThemeBackground),
+            Arguments.of(FRIDAY, Theme.WHITE, dayHeaderSaturdayWhiteThemeBackground, dayHeaderSundayWhiteThemeBackground),
+            Arguments.of(SATURDAY, Theme.WHITE, dayHeaderSaturdayWhiteThemeBackground, dayHeaderSundayWhiteThemeBackground),
+            Arguments.of(SUNDAY, Theme.WHITE, dayHeaderSaturdayWhiteThemeBackground, dayHeaderSundayWhiteThemeBackground),
         )!!
-
-        internal data class DrawDaysHeaderUseCaseTestProperties(
-            val startWeekDay: DayOfWeek,
-            val theme: Theme,
-            val dayHeaderSaturdayCellBackground: Int,
-            val dayHeaderSundayCellBackground: Int
-        )
     }
 
     private fun getRotatedWeekDays(startDayOfWeek: DayOfWeek) =

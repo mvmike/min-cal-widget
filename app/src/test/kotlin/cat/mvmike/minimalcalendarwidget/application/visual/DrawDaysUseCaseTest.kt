@@ -59,7 +59,7 @@ internal class DrawDaysUseCaseTest : BaseTest() {
         every { systemResolver.getColour(context, instancesColourTodayId) } returns instancesColourTodayId
         every { systemResolver.getColour(context, instancesColourId) } returns instancesColourId
 
-        val expectedBackground = 55
+        val expectedBackground = Random().nextInt()
         getDrawDaysUseCaseTestProperties()
             .map { it.dayBackgroundColour }
             .filter { it != null }
@@ -101,11 +101,12 @@ internal class DrawDaysUseCaseTest : BaseTest() {
             dayUseCaseTest.dayBackgroundColour?.let {
                 verify {
                     systemResolver.getColourAsString(context, dayUseCaseTest.dayBackgroundColour)
-                    when (dayUseCaseTest.dayBackgroundColour){
+                    when (dayUseCaseTest.dayBackgroundColour) {
                         dayCellSaturdayInMonthBackground,
                         dayCellSundayInMonthBackground -> systemResolver.parseColour(dayCellModerateTransparentBackgroundInHex)
                         dayCellWeekdayInMonthBackground -> systemResolver.parseColour(dayCellLowTransparentBackgroundInHex)
-                        else -> { }
+                        else -> {
+                        }
                     }
 
                 }
@@ -316,8 +317,10 @@ internal class DrawDaysUseCaseTest : BaseTest() {
             DrawDaysUseCaseTestProperties(dayLayout = 2131427357, spanText = " 01 ·", dayBackgroundColour = dayCellSaturdayInMonthBackground),
             DrawDaysUseCaseTestProperties(dayLayout = 2131427359, spanText = " 02 ·", dayBackgroundColour = dayCellSundayInMonthBackground),
             DrawDaysUseCaseTestProperties(dayLayout = 2131427361, spanText = " 03 ·", dayBackgroundColour = dayCellWeekdayInMonthBackground),
-            DrawDaysUseCaseTestProperties(dayLayout = 2131427362, spanText = " 04 ·", dayBackgroundColour = dayCellTodayBackground,
-                isToday = true, instancesColour = instancesColourTodayId),
+            DrawDaysUseCaseTestProperties(
+                dayLayout = 2131427362, spanText = " 04 ·", dayBackgroundColour = dayCellTodayBackground,
+                isToday = true, instancesColour = instancesColourTodayId
+            ),
             DrawDaysUseCaseTestProperties(dayLayout = 2131427361, spanText = " 05  ", dayBackgroundColour = dayCellWeekdayInMonthBackground),
             DrawDaysUseCaseTestProperties(dayLayout = 2131427361, spanText = " 06 ∴", dayBackgroundColour = dayCellWeekdayInMonthBackground),
             DrawDaysUseCaseTestProperties(dayLayout = 2131427361, spanText = " 07 ·", dayBackgroundColour = dayCellWeekdayInMonthBackground),

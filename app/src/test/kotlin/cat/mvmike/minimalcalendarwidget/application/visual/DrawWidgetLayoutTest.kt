@@ -13,6 +13,7 @@ import io.mockk.every
 import io.mockk.justRun
 import io.mockk.mockk
 import io.mockk.verify
+import java.util.Random
 import java.util.stream.Stream
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
@@ -30,9 +31,9 @@ internal class DrawWidgetLayoutTest : BaseTest() {
         mockWidgetTransparency(transparency)
         every { systemResolver.getColourAsString(context, mainLayout) } returns "expectedMainLayout"
 
-        val layoutWithTransparency = 55555
+        val layoutWithTransparency = Random().nextInt()
         val mainLayoutWithTransparency = "#${transparency.getAlphaInHex(TransparencyRange.COMPLETE)}Layout"
-        every { systemResolver.parseColour(mainLayoutWithTransparency) } returns 55555
+        every { systemResolver.parseColour(mainLayoutWithTransparency) } returns layoutWithTransparency
 
         justRun {
             systemResolver.setBackgroundColor(
