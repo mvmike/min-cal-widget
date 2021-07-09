@@ -144,13 +144,13 @@ internal class DrawDaysUseCaseTest : BaseTest() {
 
     companion object {
 
-        private const val instancesColourTodayId = 2131034191
-        private const val instancesColourId = 2131034188
+        private const val instancesColourTodayId = 2131034184
+        private const val instancesColourId = 2131034181
 
-        private const val dayCellTodayBackground = 2131034164
-        private const val dayCellWeekdayInMonthBackground = 2131034161
-        private const val dayCellSaturdayInMonthBackground = 2131034149
-        private const val dayCellSundayInMonthBackground = 2131034155
+        private const val dayCellTodayBackground = 2131034158
+        private const val dayCellWeekdayInMonthBackground = 2131034156
+        private const val dayCellSaturdayInMonthBackground = 2131034148
+        private const val dayCellSundayInMonthBackground = 2131034152
 
         private const val dayCellTransparentBackground = "transparentBackground"
         private const val dayCellModerateTransparentBackgroundInHex = "#40ground"

@@ -63,30 +63,26 @@ internal class DrawWidgetLayoutTest : BaseTest() {
 
     companion object {
 
+        private const val blackThemeMainLayout = 2131034144
+        private const val whiteThemeMainLayout = 2131034145
+
         @JvmStatic
         @Suppress("unused")
         fun getCombinationOfThemesAndTransparencyLevels() = Stream.of(
-            Arguments.of(Theme.BLACK, Transparency(0), 2131034144),
-            Arguments.of(Theme.BLACK, Transparency(1), 2131034144),
-            Arguments.of(Theme.BLACK, Transparency(20), 2131034144),
-            Arguments.of(Theme.BLACK, Transparency(50), 2131034144),
-            Arguments.of(Theme.BLACK, Transparency(79), 2131034144),
-            Arguments.of(Theme.BLACK, Transparency(90), 2131034144),
-            Arguments.of(Theme.BLACK, Transparency(100), 2131034144),
-            Arguments.of(Theme.GREY, Transparency(0), 2131034145),
-            Arguments.of(Theme.GREY, Transparency(3), 2131034145),
-            Arguments.of(Theme.GREY, Transparency(10), 2131034145),
-            Arguments.of(Theme.GREY, Transparency(45), 2131034145),
-            Arguments.of(Theme.GREY, Transparency(49), 2131034145),
-            Arguments.of(Theme.GREY, Transparency(57), 2131034145),
-            Arguments.of(Theme.GREY, Transparency(100), 2131034145),
-            Arguments.of(Theme.WHITE, Transparency(0), 2131034146),
-            Arguments.of(Theme.WHITE, Transparency(5), 2131034146),
-            Arguments.of(Theme.WHITE, Transparency(70), 2131034146),
-            Arguments.of(Theme.WHITE, Transparency(72), 2131034146),
-            Arguments.of(Theme.WHITE, Transparency(98), 2131034146),
-            Arguments.of(Theme.WHITE, Transparency(99), 2131034146),
-            Arguments.of(Theme.WHITE, Transparency(100), 2131034146)
+            Arguments.of(Theme.BLACK, Transparency(0), blackThemeMainLayout),
+            Arguments.of(Theme.BLACK, Transparency(1), blackThemeMainLayout),
+            Arguments.of(Theme.BLACK, Transparency(20), blackThemeMainLayout),
+            Arguments.of(Theme.BLACK, Transparency(50), blackThemeMainLayout),
+            Arguments.of(Theme.BLACK, Transparency(79), blackThemeMainLayout),
+            Arguments.of(Theme.BLACK, Transparency(90), blackThemeMainLayout),
+            Arguments.of(Theme.BLACK, Transparency(100), blackThemeMainLayout),
+            Arguments.of(Theme.WHITE, Transparency(0), whiteThemeMainLayout),
+            Arguments.of(Theme.WHITE, Transparency(5), whiteThemeMainLayout),
+            Arguments.of(Theme.WHITE, Transparency(70), whiteThemeMainLayout),
+            Arguments.of(Theme.WHITE, Transparency(72), whiteThemeMainLayout),
+            Arguments.of(Theme.WHITE, Transparency(98), whiteThemeMainLayout),
+            Arguments.of(Theme.WHITE, Transparency(99), whiteThemeMainLayout),
+            Arguments.of(Theme.WHITE, Transparency(100), whiteThemeMainLayout)
         )!!
     }
 }
