@@ -11,7 +11,7 @@
     <!--foreground-->
 
     <color name="text_colour_full_dark">#ffffff</color>
-    <color name="text_colour_full_light">#CC000000</color>
+    <color name="text_colour_full_light">#000000</color>
 
     <color name="text_colour_semi_dark">#44ffffff</color>
     <color name="text_colour_semi_light">#CC000000</color>
@@ -31,7 +31,7 @@
     <!--today-->
 
     <color name="text_colour_today_dark">#ffffff</color>
-    <color name="text_colour_today_light">#CC000000</color>
+    <color name="text_colour_today_light">#000000</color>
 
     <color name="background_today_dark">#59009973</color>
     <color name="background_today_light">#59009973</color>
