@@ -6,6 +6,7 @@ import android.appwidget.AppWidgetManager.ACTION_APPWIDGET_UPDATE
 import cat.mvmike.minimalcalendarwidget.BaseTest
 import cat.mvmike.minimalcalendarwidget.domain.intent.ActionableView
 import cat.mvmike.minimalcalendarwidget.domain.intent.AutoUpdate.ACTION_AUTO_UPDATE
+import cat.mvmike.minimalcalendarwidget.infrastructure.SystemResolver
 import cat.mvmike.minimalcalendarwidget.infrastructure.activity.ConfigurationActivity
 import cat.mvmike.minimalcalendarwidget.infrastructure.activity.PermissionsActivity
 import io.mockk.justRun
@@ -35,23 +36,23 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
         val action = actionableView.action
 
         mockIsReadCalendarPermitted(false)
-        justRun { systemResolver.startActivity(context, PermissionsActivity::class.java) }
+        justRun { SystemResolver.startActivity(context, PermissionsActivity::class.java) }
 
         ProcessIntentUseCase.execute(context, action)
 
-        verify { systemResolver.isReadCalendarPermitted(context) }
-        verify { systemResolver.startActivity(context, PermissionsActivity::class.java) }
+        verify { SystemResolver.isReadCalendarPermitted(context) }
+        verify { SystemResolver.startActivity(context, PermissionsActivity::class.java) }
     }
 
     @Test
     fun shouldLaunchConfigurationActivity_whenOpenConfigurationIntentAndPermissionsGiven() {
         mockIsReadCalendarPermitted(true)
-        justRun { systemResolver.startActivity(context, ConfigurationActivity::class.java) }
+        justRun { SystemResolver.startActivity(context, ConfigurationActivity::class.java) }
 
         ProcessIntentUseCase.execute(context, ActionableView.OPEN_CONFIGURATION.action)
 
-        verify { systemResolver.isReadCalendarPermitted(context) }
-        verify { systemResolver.startActivity(context, ConfigurationActivity::class.java) }
+        verify { SystemResolver.isReadCalendarPermitted(context) }
+        verify { SystemResolver.startActivity(context, ConfigurationActivity::class.java) }
     }
 
     @Test
@@ -60,12 +61,12 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
         mockIsReadCalendarPermitted(true)
         mockGetSystemInstant(instant)
 
-        justRun { systemResolver.startCalendarActivity(context, instant) }
+        justRun { SystemResolver.startCalendarActivity(context, instant) }
 
         ProcessIntentUseCase.execute(context, ActionableView.OPEN_CALENDAR.action)
 
-        verify { systemResolver.isReadCalendarPermitted(context) }
-        verify { systemResolver.getInstant() }
-        verify { systemResolver.startCalendarActivity(context, instant) }
+        verify { SystemResolver.isReadCalendarPermitted(context) }
+        verify { SystemResolver.getInstant() }
+        verify { SystemResolver.startCalendarActivity(context, instant) }
     }
 }

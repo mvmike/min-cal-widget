@@ -5,6 +5,7 @@ package cat.mvmike.minimalcalendarwidget.application.visual
 import android.widget.RemoteViews
 import cat.mvmike.minimalcalendarwidget.BaseTest
 import cat.mvmike.minimalcalendarwidget.R
+import cat.mvmike.minimalcalendarwidget.infrastructure.SystemResolver
 import io.mockk.confirmVerified
 import io.mockk.every
 import io.mockk.justRun
@@ -36,15 +37,15 @@ internal class DrawMonthAndYearHeaderUseCaseTest : BaseTest() {
         mockGetSystemLocale()
         val month = instant.atZone(zoneId).month
         every { context.getString(month.getExpectedResourceId()) } returns month.getExpectedAbbreviatedString()
-        justRun { systemResolver.createMonthAndYearHeader(widgetRv, expectedMonthAndYear, expectedHeaderRelativeYearSize) }
+        justRun { SystemResolver.createMonthAndYearHeader(widgetRv, expectedMonthAndYear, expectedHeaderRelativeYearSize) }
 
         DrawMonthAndYearHeaderUseCase.execute(context, widgetRv)
 
-        verify { systemResolver.getLocale(context) }
-        verify { systemResolver.getInstant() }
-        verify { systemResolver.getSystemZoneId() }
+        verify { SystemResolver.getLocale(context) }
+        verify { SystemResolver.getInstant() }
+        verify { SystemResolver.getSystemZoneId() }
         verify { context.getString(month.getExpectedResourceId()) }
-        verify { systemResolver.createMonthAndYearHeader(widgetRv, expectedMonthAndYear, expectedHeaderRelativeYearSize) }
+        verify { SystemResolver.createMonthAndYearHeader(widgetRv, expectedMonthAndYear, expectedHeaderRelativeYearSize) }
         confirmVerified(widgetRv)
     }
 

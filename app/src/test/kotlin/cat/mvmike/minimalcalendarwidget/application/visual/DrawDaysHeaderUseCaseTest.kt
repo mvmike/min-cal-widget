@@ -7,6 +7,7 @@ import cat.mvmike.minimalcalendarwidget.BaseTest
 import cat.mvmike.minimalcalendarwidget.R
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Transparency
+import cat.mvmike.minimalcalendarwidget.infrastructure.SystemResolver
 import io.mockk.confirmVerified
 import io.mockk.every
 import io.mockk.justRun
@@ -39,47 +40,47 @@ internal class DrawDaysHeaderUseCaseTest : BaseTest() {
         dayHeaderSaturdayCellBackground: Int,
         dayHeaderSundayCellBackground: Int
     ) {
-        every { systemResolver.createDaysHeaderRow(context) } returns daysHeaderRowRv
+        every { SystemResolver.createDaysHeaderRow(context) } returns daysHeaderRowRv
         mockSharedPreferences()
         mockWidgetTransparency(Transparency(20))
         mockFirstDayOfWeek(startWeekDay)
         mockWidgetTheme(theme)
 
-        every { systemResolver.getColourAsString(context, dayHeaderSaturdayCellBackground) } returns dayHeaderCellSaturdayTransparentBackground
-        every { systemResolver.parseColour(dayHeaderCellSaturdayTransparentBackgroundInHex) } returns dayHeaderCellSaturdayBackground
+        every { SystemResolver.getColourAsString(context, dayHeaderSaturdayCellBackground) } returns dayHeaderCellSaturdayTransparentBackground
+        every { SystemResolver.parseColour(dayHeaderCellSaturdayTransparentBackgroundInHex) } returns dayHeaderCellSaturdayBackground
 
-        every { systemResolver.getColourAsString(context, dayHeaderSundayCellBackground) } returns dayHeaderCellSundayTransparentBackground
-        every { systemResolver.parseColour(dayHeaderCellSundayTransparentBackgroundInHex) } returns dayHeaderCellSundayBackground
+        every { SystemResolver.getColourAsString(context, dayHeaderSundayCellBackground) } returns dayHeaderCellSundayTransparentBackground
+        every { SystemResolver.parseColour(dayHeaderCellSundayTransparentBackgroundInHex) } returns dayHeaderCellSundayBackground
 
         val rotatedWeekDays = getRotatedWeekDays(startWeekDay)
         rotatedWeekDays.forEach {
             every { context.getString(it.getExpectedResourceId()) } returns it.getExpectedAbbreviatedString()
         }
-        justRun { systemResolver.addToDaysHeaderRow(context, daysHeaderRowRv, any(), any(), any(), any()) }
-        justRun { systemResolver.addToWidget(widgetRv, daysHeaderRowRv) }
+        justRun { SystemResolver.addToDaysHeaderRow(context, daysHeaderRowRv, any(), any(), any(), any()) }
+        justRun { SystemResolver.addToWidget(widgetRv, daysHeaderRowRv) }
 
         DrawDaysHeaderUseCase.execute(context, widgetRv)
 
         verifyWidgetTransparency()
         verifyFirstDayOfWeek()
         verifyWidgetTheme()
-        verify { systemResolver.createDaysHeaderRow(context) }
+        verify { SystemResolver.createDaysHeaderRow(context) }
         rotatedWeekDays.forEach {
             verify { context.getString(it.getExpectedResourceId()) }
             val cellHeader = theme.getCellHeader(it)
             verify {
                 when (it) {
                     SATURDAY -> {
-                        systemResolver.getColourAsString(context, dayHeaderSaturdayCellBackground)
-                        systemResolver.parseColour(dayHeaderCellSaturdayTransparentBackgroundInHex)
+                        SystemResolver.getColourAsString(context, dayHeaderSaturdayCellBackground)
+                        SystemResolver.parseColour(dayHeaderCellSaturdayTransparentBackgroundInHex)
                     }
                     SUNDAY -> {
-                        systemResolver.getColourAsString(context, dayHeaderSundayCellBackground)
-                        systemResolver.parseColour(dayHeaderCellSundayTransparentBackgroundInHex)
+                        SystemResolver.getColourAsString(context, dayHeaderSundayCellBackground)
+                        SystemResolver.parseColour(dayHeaderCellSundayTransparentBackgroundInHex)
                     }
                     else -> { }
                 }
-                systemResolver.addToDaysHeaderRow(
+                SystemResolver.addToDaysHeaderRow(
                     context = context,
                     daysHeaderRow = daysHeaderRowRv,
                     text = it.getExpectedAbbreviatedString(),
@@ -93,7 +94,7 @@ internal class DrawDaysHeaderUseCaseTest : BaseTest() {
                 )
             }
         }
-        verify { systemResolver.addToWidget(widgetRv, daysHeaderRowRv) }
+        verify { SystemResolver.addToWidget(widgetRv, daysHeaderRowRv) }
         confirmVerified(widgetRv, daysHeaderRowRv)
     }
 

@@ -16,6 +16,7 @@ import io.mockk.confirmVerified
 import io.mockk.every
 import io.mockk.justRun
 import io.mockk.mockk
+import io.mockk.mockkObject
 import io.mockk.unmockkAll
 import io.mockk.verify
 import java.time.DayOfWeek
@@ -27,7 +28,6 @@ import java.util.TimeZone
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.TestInstance
-import org.junit.jupiter.api.fail
 
 private const val PREFERENCES_ID: String = "mincal_prefs"
 
@@ -46,8 +46,6 @@ abstract class BaseTest {
     }
 
     protected val context = mockk<Context>()
-    protected val systemResolver = mockk<SystemResolver>()
-
     protected val editor = mockk<SharedPreferences.Editor>()
     private val sharedPreferences = mockk<SharedPreferences>()
 
@@ -57,43 +55,37 @@ abstract class BaseTest {
         clearAllMocks()
         unmockkAll()
 
-        try {
-            val instance = SystemResolver::class.java.getDeclaredField("instance")
-            instance.isAccessible = true
-            instance[instance] = systemResolver
-        } catch (e: Exception) {
-            fail(e)
-        }
+        mockkObject(SystemResolver)
     }
 
     @AfterEach
     fun afterEach() {
         confirmVerified(
+            SystemResolver,
             context,
-            systemResolver,
             editor,
             sharedPreferences
         )
     }
 
     protected fun mockGetSystemInstant(instant: Instant) {
-        every { systemResolver.getInstant() } returns instant
+        every { SystemResolver.getInstant() } returns instant
     }
 
     protected fun mockGetSystemLocale(locale: Locale = Locale.ENGLISH) {
-        every { systemResolver.getLocale(context) } returns locale
+        every { SystemResolver.getLocale(context) } returns locale
     }
 
     protected fun mockGetSystemLocalDate() {
-        every { systemResolver.getSystemLocalDate() } returns systemLocalDate
+        every { SystemResolver.getSystemLocalDate() } returns systemLocalDate
     }
 
     protected fun mockGetSystemZoneId() {
-        every { systemResolver.getSystemZoneId() } returns zoneId
+        every { SystemResolver.getSystemZoneId() } returns zoneId
     }
 
     protected fun mockIsReadCalendarPermitted(permitted: Boolean) {
-        every { systemResolver.isReadCalendarPermitted(context) } returns permitted
+        every { SystemResolver.isReadCalendarPermitted(context) } returns permitted
     }
 
     protected fun mockSharedPreferences() {

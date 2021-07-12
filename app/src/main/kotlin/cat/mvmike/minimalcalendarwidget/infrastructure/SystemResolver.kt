@@ -32,7 +32,7 @@ import java.time.LocalDate
 import java.time.ZoneId
 import java.util.Locale
 
-open class SystemResolver private constructor() {
+object SystemResolver {
 
     private val supportedLocales: Set<Locale> = setOf(
         Locale.ENGLISH,
@@ -49,29 +49,17 @@ open class SystemResolver private constructor() {
         Locale("es") // spanish
     )
 
-    companion object {
-        @Volatile
-        private var instance: SystemResolver? = null
-
-        @JvmStatic
-        @Synchronized
-        fun get(): SystemResolver {
-            instance = instance ?: SystemResolver()
-            return instance!!
-        }
-    }
-
     // CLOCK
 
-    open fun getInstant() = Clock.systemUTC().instant()!!
+    fun getInstant() = Clock.systemUTC().instant()!!
 
-    open fun getSystemLocalDate() = LocalDate.now(Clock.systemDefaultZone())!!
+    fun getSystemLocalDate() = LocalDate.now(Clock.systemDefaultZone())!!
 
-    open fun getSystemZoneId() = ZoneId.systemDefault()!!
+    fun getSystemZoneId() = ZoneId.systemDefault()!!
 
     // LOCALE
 
-    open fun getLocale(context: Context): Locale {
+    fun getLocale(context: Context): Locale {
         return context.resources.configuration.locales
             .takeIf {
                 !it.isEmpty
@@ -82,7 +70,7 @@ open class SystemResolver private constructor() {
 
     // INTENT
 
-    open fun setOnClickPendingIntent(
+    fun setOnClickPendingIntent(
         context: Context,
         widgetRemoteView: RemoteViews,
         viewId: Int,
@@ -99,7 +87,7 @@ open class SystemResolver private constructor() {
             )
         )
 
-    open fun setRepeatingAlarm(
+    fun setRepeatingAlarm(
         context: Context,
         alarmId: Int,
         firstTriggerMillis: Long,
@@ -116,7 +104,7 @@ open class SystemResolver private constructor() {
         )
     )
 
-    open fun cancelRepeatingAlarm(context: Context, alarmId: Int) =
+    fun cancelRepeatingAlarm(context: Context, alarmId: Int) =
         context.getAlarmManager().cancel(
             PendingIntent.getBroadcast(
                 context,
@@ -128,13 +116,13 @@ open class SystemResolver private constructor() {
 
     // ACTIVITY
 
-    open fun <E> startActivity(context: Context, clazz: Class<E>) = context.startActivity(
+    fun <E> startActivity(context: Context, clazz: Class<E>) = context.startActivity(
         Intent(context, clazz)
             .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
     )
 
 
-    open fun startCalendarActivity(context: Context, startInstant: Instant) {
+    fun startCalendarActivity(context: Context, startInstant: Instant) {
         val builder = CalendarContract.CONTENT_URI.buildUpon().appendPath("time")
         ContentUris.appendId(builder, startInstant.toEpochMilli())
 
@@ -147,7 +135,7 @@ open class SystemResolver private constructor() {
 
     // CALENDAR CONTRACT
 
-    open fun getInstances(context: Context, begin: Long, end: Long): Set<Instance> {
+    fun getInstances(context: Context, begin: Long, end: Long): Set<Instance> {
         val instances: MutableSet<Instance> = HashSet()
         Instances.query(context.contentResolver, FIELDS, begin, end).use { instanceCursor ->
             while (instanceCursor.moveToNext()) {
@@ -166,16 +154,16 @@ open class SystemResolver private constructor() {
 
     // CONTEXT COMPAT
 
-    open fun isReadCalendarPermitted(context: Context) =
+    fun isReadCalendarPermitted(context: Context) =
         ContextCompat.checkSelfPermission(context, Manifest.permission.READ_CALENDAR) == PackageManager.PERMISSION_GRANTED
 
     // ADD VISUAL COMPONENTS TO WIDGET
 
-    open fun addToWidget(widgetRemoteView: RemoteViews, remoteView: RemoteViews) = widgetRemoteView.addView(R.id.calendar_widget, remoteView)
+    fun addToWidget(widgetRemoteView: RemoteViews, remoteView: RemoteViews) = widgetRemoteView.addView(R.id.calendar_widget, remoteView)
 
     // MONTH YEAR HEADER
 
-    open fun createMonthAndYearHeader(
+    fun createMonthAndYearHeader(
         widgetRemoteView: RemoteViews,
         monthAndYear: String,
         headerRelativeYearSize: Float
@@ -187,9 +175,9 @@ open class SystemResolver private constructor() {
 
     // DAY HEADER
 
-    open fun createDaysHeaderRow(context: Context) = getById(context, R.layout.row_header)
+    fun createDaysHeaderRow(context: Context) = getById(context, R.layout.row_header)
 
-    open fun addToDaysHeaderRow(
+    fun addToDaysHeaderRow(
         context: Context,
         daysHeaderRow: RemoteViews,
         text: String,
@@ -200,17 +188,17 @@ open class SystemResolver private constructor() {
         val dayRv = getById(context, layoutId)
         dayRv.setTextViewText(android.R.id.text1, text)
         dayHeaderBackgroundColour?.let {
-            setBackgroundColor(context, dayRv, viewId, it)
+            setBackgroundColor(dayRv, viewId, it)
         }
         daysHeaderRow.addView(R.id.row_container, dayRv)
     }
 
     // DAY
 
-    open fun createDaysRow(context: Context) = getById(context, R.layout.row_week)
+    fun createDaysRow(context: Context) = getById(context, R.layout.row_week)
 
     @SuppressWarnings("LongParameterList")
-    open fun addToDaysRow(
+    fun addToDaysRow(
         context: Context,
         weekRow: RemoteViews,
         dayLayout: Int,
@@ -236,23 +224,22 @@ open class SystemResolver private constructor() {
         val dayRv = getById(context, dayLayout)
         dayRv.setTextViewText(android.R.id.text1, daySpSt)
         dayBackgroundColour?.let {
-            setBackgroundColor(context, dayRv, viewId, it)
+            setBackgroundColor(dayRv, viewId, it)
         }
         weekRow.addView(R.id.row_container, dayRv)
     }
 
     // COLOUR
 
-    open fun getColour(context: Context, id: Int) = ContextCompat.getColor(context, id)
+    fun getColour(context: Context, id: Int) = ContextCompat.getColor(context, id)
 
-    open fun getColourAsString(context: Context, id: Int) = context.resources.getString(id)
+    fun getColourAsString(context: Context, id: Int) = context.resources.getString(id)
 
-    open fun parseColour(colourString: String) = Color.parseColor(colourString)
+    fun parseColour(colourString: String) = Color.parseColor(colourString)
 
     // TRANSPARENCY
 
-    open fun setBackgroundColor(
-        context: Context,
+    fun setBackgroundColor(
         remoteViews: RemoteViews,
         viewId: Int,
         colour: Int

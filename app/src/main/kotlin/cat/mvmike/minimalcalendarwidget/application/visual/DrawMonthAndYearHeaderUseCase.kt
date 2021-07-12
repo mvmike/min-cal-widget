@@ -19,12 +19,12 @@ object DrawMonthAndYearHeaderUseCase {
     private const val HEADER_RELATIVE_YEAR_SIZE = 0.7f
 
     fun execute(context: Context, widgetRemoteView: RemoteViews) {
-        val systemInstant = SystemResolver.get().getInstant()
-        val systemZoneId = SystemResolver.get().getSystemZoneId()
-        val locale = SystemResolver.get().getLocale(context)
+        val systemInstant = SystemResolver.getInstant()
+        val systemZoneId = SystemResolver.getSystemZoneId()
+        val locale = SystemResolver.getLocale(context)
         val displayMonth = systemInstant.toMonthDisplayValue(systemZoneId, context)
         val displayYear = systemInstant.toYearDisplayValue(locale, systemZoneId)
-        SystemResolver.get().createMonthAndYearHeader(
+        SystemResolver.createMonthAndYearHeader(
             widgetRemoteView = widgetRemoteView,
             monthAndYear = "$displayMonth $displayYear",
             headerRelativeYearSize = HEADER_RELATIVE_YEAR_SIZE

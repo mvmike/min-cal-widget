@@ -3,6 +3,7 @@
 package cat.mvmike.minimalcalendarwidget.domain.entry
 
 import cat.mvmike.minimalcalendarwidget.BaseTest
+import cat.mvmike.minimalcalendarwidget.infrastructure.SystemResolver
 import io.mockk.every
 import io.mockk.verify
 import java.time.LocalDate
@@ -40,7 +41,7 @@ internal class InstanceTest : BaseTest() {
         val instances = getInstances(context, LocalDate.MIN, LocalDate.MAX)
 
         assertThat(instances).isEmpty()
-        verify { systemResolver.isReadCalendarPermitted(context) }
+        verify { SystemResolver.isReadCalendarPermitted(context) }
     }
 
     @Test
@@ -53,14 +54,14 @@ internal class InstanceTest : BaseTest() {
         val endLocalDate = systemLocalDate.plusDays(7)
         val initEpochMillis = initLocalDate.atStartOfDay(zoneId).toInstant().toEpochMilli()
         val endEpochMillis = endLocalDate.atStartOfDay(zoneId).toInstant().toEpochMilli()
-        every { systemResolver.getInstances(context, initEpochMillis, endEpochMillis) } returns HashSet()
+        every { SystemResolver.getInstances(context, initEpochMillis, endEpochMillis) } returns HashSet()
 
         val instances = getInstances(context, initLocalDate, endLocalDate)
 
         assertThat(instances).isEmpty()
-        verify { systemResolver.getSystemZoneId() }
-        verify { systemResolver.isReadCalendarPermitted(context) }
-        verify { systemResolver.getInstances(context, initEpochMillis, endEpochMillis) }
+        verify { SystemResolver.getSystemZoneId() }
+        verify { SystemResolver.isReadCalendarPermitted(context) }
+        verify { SystemResolver.getInstances(context, initEpochMillis, endEpochMillis) }
     }
 
     @Test
@@ -100,14 +101,14 @@ internal class InstanceTest : BaseTest() {
         val endLocalDate = systemLocalDate.plusDays(7)
         val initEpochMillis = initLocalDate.atStartOfDay(zoneId).toInstant().toEpochMilli()
         val endEpochMillis = endLocalDate.atStartOfDay(zoneId).toInstant().toEpochMilli()
-        every { systemResolver.getInstances(context, initEpochMillis, endEpochMillis) } returns expectedInstances
+        every { SystemResolver.getInstances(context, initEpochMillis, endEpochMillis) } returns expectedInstances
 
         val instances = getInstances(context, initLocalDate, endLocalDate)
 
         assertThat(instances).isEqualTo(expectedInstances)
-        verify { systemResolver.getSystemZoneId() }
-        verify { systemResolver.isReadCalendarPermitted(context) }
-        verify { systemResolver.getInstances(context, initEpochMillis, endEpochMillis) }
+        verify { SystemResolver.getSystemZoneId() }
+        verify { SystemResolver.isReadCalendarPermitted(context) }
+        verify { SystemResolver.getInstances(context, initEpochMillis, endEpochMillis) }
     }
 
     companion object {

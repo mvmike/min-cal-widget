@@ -16,7 +16,7 @@ import java.util.Collections
 object DrawDaysHeaderUseCase {
 
     fun execute(context: Context, widgetRemoteView: RemoteViews) {
-        val daysHeaderRow: RemoteViews = SystemResolver.get().createDaysHeaderRow(context)
+        val daysHeaderRow: RemoteViews = SystemResolver.createDaysHeaderRow(context)
 
         val transparency = Configuration.WidgetTransparency.get(context)
         val firstDayOfWeek = EnumConfiguration.FirstDayOfWeek.get(context)
@@ -25,13 +25,13 @@ object DrawDaysHeaderUseCase {
         getRotatedWeekDays(firstDayOfWeek).forEach { dayOfWeek ->
             val cellHeader = theme.getCellHeader(dayOfWeek)
             val backgroundWithTransparency = cellHeader.background
-                ?.let { SystemResolver.get().getColourAsString(context, it) }
+                ?.let { SystemResolver.getColourAsString(context, it) }
                 ?.withTransparency(
                     transparency = transparency,
                     transparencyRange = TransparencyRange.MODERATE
                 )
 
-            SystemResolver.get().addToDaysHeaderRow(
+            SystemResolver.addToDaysHeaderRow(
                 context = context,
                 daysHeaderRow = daysHeaderRow,
                 text = dayOfWeek.getAbbreviatedDisplayValue(context),
@@ -41,7 +41,7 @@ object DrawDaysHeaderUseCase {
             )
         }
 
-        SystemResolver.get().addToWidget(
+        SystemResolver.addToWidget(
             widgetRemoteView = widgetRemoteView,
             remoteView = daysHeaderRow
         )

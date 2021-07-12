@@ -21,7 +21,7 @@ object ProcessIntentUseCase {
             null -> return
         }
 
-        if (!SystemResolver.get().isReadCalendarPermitted(context)) {
+        if (!SystemResolver.isReadCalendarPermitted(context)) {
             PermissionsActivity.start(context)
             return
         }

@@ -24,7 +24,7 @@ enum class ActionableView(
     );
 
     fun addListener(context: Context, widgetRemoteView: RemoteViews) =
-        SystemResolver.get().setOnClickPendingIntent(
+        SystemResolver.setOnClickPendingIntent(
             context = context,
             widgetRemoteView = widgetRemoteView,
             viewId = viewId,

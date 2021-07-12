@@ -15,12 +15,11 @@ object DrawWidgetLayout {
 
     fun execute(context: Context, widgetRemoteView: RemoteViews) {
         val theme = EnumConfiguration.WidgetTheme.get(context)
-        val backgroundColour = SystemResolver.get().getColourAsString(context, theme.mainBackground)
+        val backgroundColour = SystemResolver.getColourAsString(context, theme.mainBackground)
         val transparency = Configuration.WidgetTransparency.get(context)
         val transparencyRange = TransparencyRange.COMPLETE
 
-        SystemResolver.get().setBackgroundColor(
-            context = context,
+        SystemResolver.setBackgroundColor(
             remoteViews = widgetRemoteView,
             viewId = R.id.main_linear_layout,
             colour = backgroundColour.withTransparency(

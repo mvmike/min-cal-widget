@@ -55,6 +55,6 @@ enum class TransparencyRange(
 internal fun String.withTransparency(
     transparency: Transparency,
     transparencyRange: TransparencyRange
-) = SystemResolver.get().parseColour("#${transparency.getAlphaInHex(transparencyRange)}${this.takeLast(6)}")
+) = SystemResolver.parseColour("#${transparency.getAlphaInHex(transparencyRange)}${this.takeLast(6)}")
 
 

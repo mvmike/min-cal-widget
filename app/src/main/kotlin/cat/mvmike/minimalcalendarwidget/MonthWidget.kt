@@ -87,7 +87,7 @@ class MonthWidget : AppWidgetProvider() {
         }
 
         fun forceRedraw(context: Context) {
-            when (SystemResolver.get().isReadCalendarPermitted(context)) {
+            when (SystemResolver.isReadCalendarPermitted(context)) {
                 false -> return
                 true -> {
                     val name = ComponentName(context, MonthWidget::class.java)

@@ -12,10 +12,10 @@ private const val NO_CALENDAR_APPLICATION_FOUND = "No calendar application found
 object CalendarActivity {
 
     fun start(context: Context) {
-        val systemInstant = SystemResolver.get().getInstant()
+        val systemInstant = SystemResolver.getInstant()
 
         try {
-            SystemResolver.get().startCalendarActivity(
+            SystemResolver.startCalendarActivity(
                 context = context,
                 startInstant = systemInstant
             )

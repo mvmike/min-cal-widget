@@ -35,11 +35,11 @@ data class Instance(
 }
 
 fun getInstances(context: Context, from: LocalDate, to: LocalDate): Set<Instance> {
-    return when (SystemResolver.get().isReadCalendarPermitted(context)) {
+    return when (SystemResolver.isReadCalendarPermitted(context)) {
         false -> HashSet()
         true -> {
-            val systemZoneId = SystemResolver.get().getSystemZoneId()
-            SystemResolver.get().getInstances(
+            val systemZoneId = SystemResolver.getSystemZoneId()
+            SystemResolver.getInstances(
                 context = context,
                 begin = from.toStartOfDayInEpochMilli(systemZoneId),
                 end = to.toStartOfDayInEpochMilli(systemZoneId)

@@ -7,6 +7,7 @@ import cat.mvmike.minimalcalendarwidget.BaseTest
 import cat.mvmike.minimalcalendarwidget.R
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Transparency
+import cat.mvmike.minimalcalendarwidget.infrastructure.SystemResolver
 import io.mockk.confirmVerified
 import io.mockk.every
 import io.mockk.justRun
@@ -28,15 +29,14 @@ internal class DrawWidgetLayoutTest : BaseTest() {
         mockSharedPreferences()
         mockWidgetTheme(theme)
         mockWidgetTransparency(transparency)
-        every { systemResolver.getColourAsString(context, mainLayout) } returns "expectedMainLayout"
+        every { SystemResolver.getColourAsString(context, mainLayout) } returns "expectedMainLayout"
 
         val layoutWithTransparency = Random().nextInt()
         val mainLayoutWithTransparency = "#${expectedMainLayoutHexTransparency}Layout"
-        every { systemResolver.parseColour(mainLayoutWithTransparency) } returns layoutWithTransparency
+        every { SystemResolver.parseColour(mainLayoutWithTransparency) } returns layoutWithTransparency
 
         justRun {
-            systemResolver.setBackgroundColor(
-                context = context,
+            SystemResolver.setBackgroundColor(
                 remoteViews = widgetRv,
                 viewId = R.id.main_linear_layout,
                 colour = layoutWithTransparency
@@ -46,8 +46,7 @@ internal class DrawWidgetLayoutTest : BaseTest() {
         DrawWidgetLayout.execute(context, widgetRv)
 
         verify {
-            systemResolver.setBackgroundColor(
-                context = context,
+            SystemResolver.setBackgroundColor(
                 remoteViews = widgetRv,
                 viewId = R.id.main_linear_layout,
                 colour = layoutWithTransparency
@@ -56,8 +55,8 @@ internal class DrawWidgetLayoutTest : BaseTest() {
 
         verifyWidgetTheme()
         verifyWidgetTransparency()
-        verify { systemResolver.getColourAsString(context, mainLayout) }
-        verify { systemResolver.parseColour(mainLayoutWithTransparency) }
+        verify { SystemResolver.getColourAsString(context, mainLayout) }
+        verify { SystemResolver.parseColour(mainLayoutWithTransparency) }
         confirmVerified(widgetRv)
     }
 

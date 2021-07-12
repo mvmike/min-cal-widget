@@ -22,7 +22,7 @@ import cat.mvmike.minimalcalendarwidget.infrastructure.SystemResolver
 class ConfigurationActivity : AppCompatActivity() {
 
     companion object {
-        fun start(context: Context) = SystemResolver.get().startActivity(context, ConfigurationActivity::class.java)
+        fun start(context: Context) = SystemResolver.startActivity(context, ConfigurationActivity::class.java)
     }
 
     public override fun onCreate(savedInstanceState: Bundle?) {

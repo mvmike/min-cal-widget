@@ -34,7 +34,7 @@ object DrawDaysUseCase {
     private const val INSTANCES_QUERY_DAYS_SPAN = 45L
 
     fun execute(context: Context, widgetRemoteView: RemoteViews) {
-        val systemLocalDate: LocalDate = SystemResolver.get().getSystemLocalDate()
+        val systemLocalDate: LocalDate = SystemResolver.getSystemLocalDate()
         val instanceSet = getInstances(
             context = context,
             from = systemLocalDate.minusDays(INSTANCES_QUERY_DAYS_SPAN),
@@ -48,7 +48,7 @@ object DrawDaysUseCase {
         val initialLocalDate = getInitialLocalDate(systemLocalDate, firstDayOfWeek)
 
         for (week in 0 until NUM_WEEKS) {
-            val weekRow: RemoteViews = SystemResolver.get().createDaysRow(context)
+            val weekRow: RemoteViews = SystemResolver.createDaysRow(context)
 
             for (weekDay in 0 until DAYS_IN_WEEK) {
                 val currentDay = Day(
@@ -63,7 +63,7 @@ object DrawDaysUseCase {
                 val instancesSymbol = currentDay.getNumberOfInstances(instanceSet).getSymbol(instancesSymbolSet)
                 val dayInstancesColour = currentDay.getInstancesColor(context, instancesColour)
                 val backgroundWithTransparency = dayCell.background
-                    ?.let { SystemResolver.get().getColourAsString(context, it) }
+                    ?.let { SystemResolver.getColourAsString(context, it) }
                     ?.withTransparency(
                         transparency = transparency,
                         transparencyRange = when (currentDay.getDayOfWeek()) {
@@ -73,7 +73,7 @@ object DrawDaysUseCase {
                         }
                     )
 
-                SystemResolver.get().addToDaysRow(
+                SystemResolver.addToDaysRow(
                     context = context,
                     weekRow = weekRow,
                     dayLayout = dayCell.layout,
@@ -87,7 +87,7 @@ object DrawDaysUseCase {
                 )
             }
 
-            SystemResolver.get().addToWidget(
+            SystemResolver.addToWidget(
                 widgetRemoteView = widgetRemoteView,
                 remoteView = weekRow
             )
@@ -117,5 +117,5 @@ object DrawDaysUseCase {
     private fun Int.getSymbol(symbolSet: SymbolSet) = symbolSet.get(this)
 
     private fun Day.getInstancesColor(context: Context, colour: Colour) =
-        SystemResolver.get().getColour(context, colour.getInstancesColour(isToday()))
+        SystemResolver.getColour(context, colour.getInstancesColour(isToday()))
 }

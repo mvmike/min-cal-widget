@@ -15,7 +15,7 @@ private const val READ_CALENDAR_PERM = 225
 class PermissionsActivity : Activity() {
 
     companion object {
-        fun start(context: Context) = SystemResolver.get().startActivity(context, PermissionsActivity::class.java)
+        fun start(context: Context) = SystemResolver.startActivity(context, PermissionsActivity::class.java)
     }
 
     override fun onStart() {

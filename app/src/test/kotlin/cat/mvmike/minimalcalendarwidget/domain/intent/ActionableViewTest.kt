@@ -5,6 +5,7 @@ package cat.mvmike.minimalcalendarwidget.domain.intent
 import android.widget.RemoteViews
 import cat.mvmike.minimalcalendarwidget.BaseTest
 import cat.mvmike.minimalcalendarwidget.R
+import cat.mvmike.minimalcalendarwidget.infrastructure.SystemResolver
 import io.mockk.confirmVerified
 import io.mockk.justRun
 import io.mockk.mockk
@@ -21,7 +22,7 @@ internal class ActionableViewTest : BaseTest() {
     @MethodSource("getActionableViewsWithTheirProperties")
     fun addListener_shouldSetOnClickPendingIntent(actionableViewTestProperties: ActionableViewTestProperties) {
         justRun {
-            systemResolver.setOnClickPendingIntent(
+            SystemResolver.setOnClickPendingIntent(
                 context = context,
                 widgetRemoteView = widgetRv,
                 viewId = actionableViewTestProperties.viewId,
@@ -33,7 +34,7 @@ internal class ActionableViewTest : BaseTest() {
         actionableViewTestProperties.actionableView.addListener(context, widgetRv)
 
         verify {
-            systemResolver.setOnClickPendingIntent(
+            SystemResolver.setOnClickPendingIntent(
                 context = context,
                 widgetRemoteView = widgetRv,
                 viewId = actionableViewTestProperties.viewId,

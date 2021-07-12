@@ -14,10 +14,10 @@ object AutoUpdate {
     const val INTERVAL_MILLIS = 900000L // 1000*60*15 === 15'
 
     fun setAlarm(context: Context) {
-        val currentMillis = SystemResolver.get().getInstant().toEpochMilli()
+        val currentMillis = SystemResolver.getInstant().toEpochMilli()
         val firstTriggerMillis = currentMillis + INTERVAL_MILLIS
 
-        SystemResolver.get().setRepeatingAlarm(
+        SystemResolver.setRepeatingAlarm(
             context = context,
             alarmId = ALARM_ID,
             firstTriggerMillis = firstTriggerMillis,
@@ -26,6 +26,6 @@ object AutoUpdate {
     }
 
     fun cancelAlarm(context: Context) {
-        SystemResolver.get().cancelRepeatingAlarm(context, ALARM_ID)
+        SystemResolver.cancelRepeatingAlarm(context, ALARM_ID)
     }
 }

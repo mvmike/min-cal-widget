@@ -9,6 +9,7 @@ import cat.mvmike.minimalcalendarwidget.domain.configuration.item.SymbolSet
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Transparency
 import cat.mvmike.minimalcalendarwidget.domain.entry.Instance
+import cat.mvmike.minimalcalendarwidget.infrastructure.SystemResolver
 import io.mockk.confirmVerified
 import io.mockk.every
 import io.mockk.justRun
@@ -45,7 +46,7 @@ internal class DrawDaysUseCaseTest : BaseTest() {
         val initEpochMillis = initLocalDate.atStartOfDay(zoneId).toInstant().toEpochMilli()
         val endEpochMillis = endLocalDate.atStartOfDay(zoneId).toInstant().toEpochMilli()
         mockGetSystemZoneId()
-        every { systemResolver.getInstances(context, initEpochMillis, endEpochMillis) } returns getSystemInstances()
+        every { SystemResolver.getInstances(context, initEpochMillis, endEpochMillis) } returns getSystemInstances()
 
         mockSharedPreferences()
         mockWidgetTransparency(Transparency(20))
@@ -54,10 +55,10 @@ internal class DrawDaysUseCaseTest : BaseTest() {
         mockInstancesSymbolSet(SymbolSet.MINIMAL)
         mockInstancesColour(Colour.CYAN)
 
-        every { systemResolver.createDaysRow(context) } returns rowRv
+        every { SystemResolver.createDaysRow(context) } returns rowRv
 
-        every { systemResolver.getColour(context, instancesColourTodayId) } returns instancesColourTodayId
-        every { systemResolver.getColour(context, instancesColourId) } returns instancesColourId
+        every { SystemResolver.getColour(context, instancesColourTodayId) } returns instancesColourTodayId
+        every { SystemResolver.getColour(context, instancesColourId) } returns instancesColourId
 
         val expectedBackground = Random().nextInt()
         listOf(
@@ -66,20 +67,20 @@ internal class DrawDaysUseCaseTest : BaseTest() {
             dayCellSaturdayInMonthBackground,
             dayCellSundayInMonthBackground,
         ).forEach {
-            every { systemResolver.getColourAsString(context, it) } returns dayCellTransparentBackground
+            every { SystemResolver.getColourAsString(context, it) } returns dayCellTransparentBackground
         }
-        every { systemResolver.parseColour(dayCellModerateTransparentBackgroundInHex) } returns expectedBackground
-        every { systemResolver.parseColour(dayCellLowTransparentBackgroundInHex) } returns expectedBackground
+        every { SystemResolver.parseColour(dayCellModerateTransparentBackgroundInHex) } returns expectedBackground
+        every { SystemResolver.parseColour(dayCellLowTransparentBackgroundInHex) } returns expectedBackground
 
-        justRun { systemResolver.addToDaysRow(context, rowRv, any(), any(), any(), any(), any(), any(), any(), any()) }
-        justRun { systemResolver.addToWidget(widgetRv, rowRv) }
+        justRun { SystemResolver.addToDaysRow(context, rowRv, any(), any(), any(), any(), any(), any(), any(), any()) }
+        justRun { SystemResolver.addToWidget(widgetRv, rowRv) }
 
         DrawDaysUseCase.execute(context, widgetRv)
 
-        verify { systemResolver.getSystemLocalDate() }
-        verify { systemResolver.isReadCalendarPermitted(context) }
-        verify { systemResolver.getSystemZoneId() }
-        verify { systemResolver.getInstances(context, initEpochMillis, endEpochMillis) }
+        verify { SystemResolver.getSystemLocalDate() }
+        verify { SystemResolver.isReadCalendarPermitted(context) }
+        verify { SystemResolver.getSystemZoneId() }
+        verify { SystemResolver.getInstances(context, initEpochMillis, endEpochMillis) }
 
         verifyWidgetTransparency()
         verifyFirstDayOfWeek()
@@ -87,12 +88,12 @@ internal class DrawDaysUseCaseTest : BaseTest() {
         verifyInstancesSymbolSet()
         verifyInstancesColour()
 
-        verify(exactly = 6) { systemResolver.createDaysRow(context) }
+        verify(exactly = 6) { SystemResolver.createDaysRow(context) }
 
         getDrawDaysUseCaseTestProperties().forEach { dayUseCaseTest ->
 
             verify {
-                systemResolver.getColour(
+                SystemResolver.getColour(
                     context, when {
                         dayUseCaseTest.isToday -> instancesColourTodayId
                         else -> instancesColourId
@@ -101,11 +102,11 @@ internal class DrawDaysUseCaseTest : BaseTest() {
             }
             dayUseCaseTest.dayBackgroundColour?.let {
                 verify {
-                    systemResolver.getColourAsString(context, dayUseCaseTest.dayBackgroundColour)
+                    SystemResolver.getColourAsString(context, dayUseCaseTest.dayBackgroundColour)
                     when (dayUseCaseTest.dayBackgroundColour) {
                         dayCellSaturdayInMonthBackground,
-                        dayCellSundayInMonthBackground -> systemResolver.parseColour(dayCellModerateTransparentBackgroundInHex)
-                        dayCellWeekdayInMonthBackground -> systemResolver.parseColour(dayCellLowTransparentBackgroundInHex)
+                        dayCellSundayInMonthBackground -> SystemResolver.parseColour(dayCellModerateTransparentBackgroundInHex)
+                        dayCellWeekdayInMonthBackground -> SystemResolver.parseColour(dayCellLowTransparentBackgroundInHex)
                         else -> { }
                     }
 
@@ -113,7 +114,7 @@ internal class DrawDaysUseCaseTest : BaseTest() {
             }
 
             verifyOrder {
-                systemResolver.addToDaysRow(
+                SystemResolver.addToDaysRow(
                     context = context,
                     weekRow = rowRv,
                     dayLayout = dayUseCaseTest.dayLayout,
@@ -127,7 +128,7 @@ internal class DrawDaysUseCaseTest : BaseTest() {
                 )
             }
         }
-        verify(exactly = 6) { systemResolver.addToWidget(widgetRv, rowRv) }
+        verify(exactly = 6) { SystemResolver.addToWidget(widgetRv, rowRv) }
         confirmVerified(widgetRv, rowRv)
     }
 
