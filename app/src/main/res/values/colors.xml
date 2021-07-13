@@ -2,29 +2,14 @@
 
     <!--background-->
 
-    <color name="background_this_month_dark">#11ffffff</color>
-    <color name="background_this_month_light">#1effffff</color>
-
     <color name="background_full_dark">#000000</color>
     <color name="background_full_light">#b3b3b3</color>
 
-    <!--foreground-->
-
-    <color name="text_colour_full_dark">#ffffff</color>
-    <color name="text_colour_full_light">#000000</color>
-
-    <color name="text_colour_semi_dark">#44ffffff</color>
-    <color name="text_colour_semi_light">#CC000000</color>
-
-    <!--today-->
-
-    <color name="text_colour_today_dark">#ffffff</color>
-    <color name="text_colour_today_light">#000000</color>
+    <color name="background_this_month_dark">#11ffffff</color>
+    <color name="background_this_month_light">#1effffff</color>
 
     <color name="background_today_dark">#59009973</color>
     <color name="background_today_light">#59009973</color>
-
-    <!--specials-->
 
     <color name="background_saturday_dark">#99ccff</color>
     <color name="background_saturday_light">#41a1ff</color>
@@ -37,6 +22,17 @@
 
     <color name="background_sunday_today_dark">#850000</color>
     <color name="background_sunday_today_light">#850000</color>
+
+    <!--foreground-->
+
+    <color name="text_colour_full_dark">#ffffff</color>
+    <color name="text_colour_full_light">#000000</color>
+
+    <color name="text_colour_semi_dark">#44ffffff</color>
+    <color name="text_colour_semi_light">#CC000000</color>
+
+    <color name="text_colour_today_dark">#ffffff</color>
+    <color name="text_colour_today_light">#000000</color>
 
     <!--instances-->
 
