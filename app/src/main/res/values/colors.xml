@@ -3,10 +3,10 @@
     <!--background-->
 
     <color name="background_full_dark">#000000</color>
-    <color name="background_full_light">#b3b3b3</color>
+    <color name="background_full_light">#ffffff</color>
 
     <color name="background_this_month_dark">#ffffff</color>
-    <color name="background_this_month_light">#ffffff</color>
+    <color name="background_this_month_light">#000000</color>
 
     <color name="background_today_dark">#009973</color>
     <color name="background_today_light">#009973</color>
