@@ -36,13 +36,13 @@
 
     <!--instances-->
 
-    <color name="instances_today">#ff2424</color>
+    <color name="instances_today">#ff0000</color>
 
-    <color name="instances_cyan">#66ffff</color>
-    <color name="instances_blue">#3262ff</color>
-    <color name="instances_mint">#98fb98</color>
-    <color name="instances_green">#178117</color>
-    <color name="instances_yellow">#ecec50</color>
+    <color name="instances_cyan">#00cccc</color>
+    <color name="instances_blue">#003bff</color>
+    <color name="instances_mint">#7eff7e</color>
+    <color name="instances_green">#007e00</color>
+    <color name="instances_yellow">#ffff00</color>
     <color name="instances_black">#000000</color>
     <color name="instances_white">#ffffff</color>
 
