@@ -3,19 +3,19 @@
     <!--background-->
 
     <color name="background_full_dark">#000000</color>
-    <color name="background_full_light">#ffffff</color>
+    <color name="background_full_light">#FFFFFF</color>
 
-    <color name="background_this_month_dark">#ffffff</color>
+    <color name="background_this_month_dark">#FFFFFF</color>
     <color name="background_this_month_light">#000000</color>
 
     <color name="background_today_dark">#009973</color>
     <color name="background_today_light">#009973</color>
 
-    <color name="background_saturday_dark">#99ccff</color>
-    <color name="background_saturday_light">#41a1ff</color>
+    <color name="background_saturday_dark">#99CCFF</color>
+    <color name="background_saturday_light">#41A1FF</color>
 
-    <color name="background_sunday_dark">#ff9999</color>
-    <color name="background_sunday_light">#ff4b4b</color>
+    <color name="background_sunday_dark">#FF9999</color>
+    <color name="background_sunday_light">#FF4B4B</color>
 
     <color name="background_saturday_today_dark">#004080</color>
     <color name="background_saturday_today_light">#004080</color>
@@ -25,33 +25,33 @@
 
     <!--foreground-->
 
-    <color name="text_colour_full_dark">#ffffff</color>
+    <color name="text_colour_full_dark">#FFFFFF</color>
     <color name="text_colour_full_light">#000000</color>
 
-    <color name="text_colour_semi_dark">#44ffffff</color>
+    <color name="text_colour_semi_dark">#44FFFFFF</color>
     <color name="text_colour_semi_light">#CC000000</color>
 
-    <color name="text_colour_today_dark">#ffffff</color>
+    <color name="text_colour_today_dark">#FFFFFF</color>
     <color name="text_colour_today_light">#000000</color>
 
     <!--instances-->
 
-    <color name="instances_today">#ff0000</color>
+    <color name="instances_today">#FF0000</color>
 
-    <color name="instances_cyan">#00cccc</color>
-    <color name="instances_blue">#003bff</color>
-    <color name="instances_mint">#7eff7e</color>
-    <color name="instances_green">#007e00</color>
-    <color name="instances_yellow">#ffff00</color>
+    <color name="instances_cyan">#00CCCC</color>
+    <color name="instances_blue">#003BFF</color>
+    <color name="instances_mint">#7EFF7E</color>
+    <color name="instances_green">#007E00</color>
+    <color name="instances_yellow">#FFFF00</color>
     <color name="instances_black">#000000</color>
-    <color name="instances_white">#ffffff</color>
+    <color name="instances_white">#FFFFFF</color>
 
     <!--configuration-->
 
-    <color name="config_label">#ffffff</color>
-    <color name="config_value">#cccccc</color>
+    <color name="config_label">#FFFFFF</color>
+    <color name="config_value">#CCCCCC</color>
 
     <!--generic-->
-    <color name="alpha">#00ffffff</color>
+    <color name="alpha">#00FFFFFF</color>
 
 </resources>
