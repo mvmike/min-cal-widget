@@ -1,8 +1,8 @@
 import java.nio.charset.StandardCharsets
 
 plugins {
-    id('com.android.application')
-    id('kotlin-android')
+    id("com.android.application")
+    id("kotlin-android")
     //https://github.com/detekt/detekt/releases
     id("io.gitlab.arturbosch.detekt").version("1.17.1")
 }
@@ -11,7 +11,7 @@ android {
 
     compileSdkVersion 30
     //https://developer.android.com/studio/releases/build-tools
-    buildToolsVersion '30.0.3'
+    buildToolsVersion "30.0.3"
 
     defaultConfig {
 
@@ -39,17 +39,17 @@ android {
     }
 
     sourceSets {
-        main.java.srcDirs += 'src/main/kotlin'
+        main.java.srcDirs += "src/main/kotlin"
         main.res.srcDirs += "src/main/res"
 
-        test.java.srcDirs += 'src/test/kotlin'
+        test.java.srcDirs += "src/test/kotlin"
     }
 
     testOptions {
         unitTests.all {
             useJUnitPlatform()
             testLogging {
-                events 'skipped', 'failed', 'standardOut', 'standardError'
+                events "skipped", "failed", "standardOut", "standardError"
                 exceptionFormat "full"
             }
         }
@@ -68,10 +68,10 @@ android {
      * signingKeyAlias=alias
      * signingKeyPassword=xxx
      */
-    if (project.hasProperty('signingStoreFile')
-            && project.hasProperty('signingStorePassword')
-            && project.hasProperty('signingKeyAlias')
-            && project.hasProperty('signingKeyPassword')) {
+    if (project.hasProperty("signingStoreFile")
+            && project.hasProperty("signingStorePassword")
+            && project.hasProperty("signingKeyAlias")
+            && project.hasProperty("signingKeyPassword")) {
 
         println "Found sign properties in gradle.properties! Signing build…"
         signingConfigs {
@@ -90,7 +90,7 @@ android {
     buildTypes {
         release {
             minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
     }
 }
@@ -99,21 +99,21 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
     //https://github.com/google/desugar_jdk_libs
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
+    coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:1.1.5"
 
     //https://developer.android.com/jetpack/androidx/versions/
-    implementation 'androidx.multidex:multidex:2.0.1'
-    implementation 'androidx.appcompat:appcompat:1.3.0'
+    implementation "androidx.multidex:multidex:2.0.1"
+    implementation "androidx.appcompat:appcompat:1.3.0"
     implementation "androidx.core:core-ktx:1.6.0"
 
     //https://github.com/junit-team/junit5/releases
-    def junitJupiterVersion = '5.7.2'
+    def junitJupiterVersion = "5.7.2"
     testImplementation "org.junit.jupiter:junit-jupiter-api:$junitJupiterVersion"
     testImplementation "org.junit.jupiter:junit-jupiter-engine:$junitJupiterVersion"
     testImplementation "org.junit.jupiter:junit-jupiter-params:$junitJupiterVersion"
 
     //https://github.com/mockk/mockk/releases
-    testImplementation 'io.mockk:mockk:1.12.0'
+    testImplementation "io.mockk:mockk:1.12.0"
 
     //https://github.com/assertj/assertj-core/releases
     testImplementation "org.assertj:assertj-core:3.20.2"
