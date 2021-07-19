@@ -1,54 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="yellow">Geltona</string>
-    <string name="green">Žalia</string>
-    <string name="blue">Mėlyna</string>
-    <string name="mint">Mėtos</string>
-    <string name="cyan">Žalsvai mėlyna</string>
-    <string name="white">Balta</string>
-    <string name="black">Juoda</string>
-    <string name="none">Jokie</string>
-    <string name="binary">Dvejetainiai</string>
-    <string name="roman">Romėniški</string>
-    <string name="numbers">Skaičiai</string>
-    <string name="circles">Apskritimai</string>
-    <string name="vertical">Vertikalūs</string>
-    <string name="minimal">Minimalistiniai</string>
-    <string name="light">Šviesi</string>
-    <string name="dark">Tamsi</string>
-    <string name="sunday_abb">sekm</string>
-    <string name="saturday_abb">šešt</string>
-    <string name="friday_abb">penk</string>
-    <string name="wednesday_abb">treč</string>
-    <string name="thursday_abb">ketv</string>
+
+    <!--app name-->
+    <string name="app_name">MinCal Widget</string>
+
+    <!--configuration-->
+    <string name="configuration">Konfigūracija</string>
+
+    <string name="theme">Tema:</string>
+    <string name="start_week_day">Pradžios diena:</string>
+    <string name="symbol_set">Simbolių rinkinys:</string>
+    <string name="symbol_colour">Simbolių spalva:</string>
+    <string name="transparency">Skaidrumas:</string>
+
+    <string name="apply_changes">TAIKYTI</string>
+
+    <string name="source">
+        <a href="https://github.com/mvmike/min-cal-widget">source</a>
+    </string>
+
+    <!-- Months of year-->
+    <string name="january">Sausis</string>
+    <string name="february">Vasaris</string>
+    <string name="march">Kovas</string>
+    <string name="april">Balandis</string>
+    <string name="may">Gegužė</string>
+    <string name="june">Birželis</string>
+    <string name="july">Liepa</string>
+    <string name="august">Rugpjūtis</string>
+    <string name="september">Rugsėjis</string>
+    <string name="october">Spalis</string>
+    <string name="november">Lapkritis</string>
+    <string name="december">Gruodis</string>
+
+    <!--Days of week-->
+    <string name="monday">Pirmadienis</string>
+    <string name="tuesday">Antradienis</string>
+    <string name="wednesday">Trečiadienis</string>
+    <string name="thursday">Ketvirtadienis</string>
+    <string name="friday">Penktadienis</string>
+    <string name="saturday">Šeštadienis</string>
+    <string name="sunday">Sekmadienis</string>
+
+    <!--Days of week abbreviated-->
     <string name="monday_abb">pirm</string>
     <string name="tuesday_abb">antr</string>
-    <string name="sunday">Sekmadienis</string>
-    <string name="saturday">Šeštadienis</string>
-    <string name="friday">Penktadienis</string>
-    <string name="thursday">Ketvirtadienis</string>
-    <string name="wednesday">Trečiadienis</string>
-    <string name="tuesday">Antradienis</string>
-    <string name="monday">Pirmadienis</string>
-    <string name="december">Gruodis</string>
-    <string name="november">Lapkritis</string>
-    <string name="october">Spalis</string>
-    <string name="september">Rugsėjis</string>
-    <string name="august">Rugpjūtis</string>
-    <string name="july">Liepa</string>
-    <string name="june">Birželis</string>
-    <string name="may">Gegužė</string>
-    <string name="april">Balandis</string>
-    <string name="march">Kovas</string>
-    <string name="february">Vasaris</string>
-    <string name="january">Sausis</string>
-    <string name="source"> <a href="https://github.com/mvmike/min-cal-widget">source</a> </string>
-    <string name="apply_changes">TAIKYTI</string>
-    <string name="transparency">Skaidrumas:</string>
-    <string name="symbol_colour">Simbolių spalva:</string>
-    <string name="symbol_set">Simbolių rinkinys:</string>
-    <string name="start_week_day">Pradžios diena:</string>
-    <string name="theme">Tema:</string>
-    <string name="configuration">Konfigūracija</string>
-    <string name="app_name">MinCal Widget</string>
+    <string name="wednesday_abb">treč</string>
+    <string name="thursday_abb">ketv</string>
+    <string name="friday_abb">penk</string>
+    <string name="saturday_abb">šešt</string>
+    <string name="sunday_abb">sekm</string>
+
+    <!--Themes-->
+    <string name="dark">Tamsi</string>
+    <string name="light">Šviesi</string>
+
+    <!--Symbols-->
+    <string name="minimal">Minimalistiniai</string>
+    <string name="vertical">Vertikalūs</string>
+    <string name="circles">Apskritimai</string>
+    <string name="numbers">Skaičiai</string>
+    <string name="roman">Romėniški</string>
+    <string name="binary">Dvejetainiai</string>
+    <string name="none">Jokie</string>
+
+    <!--Colours-->
+    <string name="black">Juoda</string>
+    <string name="white">Balta</string>
+    <string name="cyan">Žalsvai mėlyna</string>
+    <string name="mint">Mėtos</string>
+    <string name="blue">Mėlyna</string>
+    <string name="green">Žalia</string>
+    <string name="yellow">Geltona</string>
+
 </resources>
