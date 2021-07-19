@@ -42,6 +42,7 @@ object SystemResolver {
         Locale("eo"), // esperanto
         Locale("fr"), // french
         Locale("de"), // german
+        Locale("lt"), // lithuanian
         Locale("nb"), // norwegian
         Locale("pl"), // polish
         Locale("pt"), // portuguese
