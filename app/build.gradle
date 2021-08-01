@@ -9,6 +9,7 @@ plugins {
 
 android {
 
+    //https://source.android.com/setup/start/build-numbers
     compileSdkVersion 30
     //https://developer.android.com/studio/releases/build-tools
     buildToolsVersion "30.0.3"
