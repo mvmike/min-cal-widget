@@ -96,7 +96,7 @@ android {
     buildTypes {
         release {
             minifyEnabled true
-            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "${project.rootDir}/config/proguard/proguard-rules.pro"
         }
     }
 }
