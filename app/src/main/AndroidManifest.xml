@@ -13,7 +13,9 @@
         android:supportsRtl="false"
         tools:ignore="GoogleAppIndexingWarning">
 
-        <receiver android:name=".MonthWidget">
+        <receiver
+            android:name=".MonthWidget"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
                 <action android:name="cat.mvmike.minimalcalendarwidget.AUTO_UPDATE" />
@@ -23,7 +25,9 @@
                 android:resource="@xml/widget_info" />
         </receiver>
 
-        <receiver android:name=".infrastructure.receiver.DateTimeChangeReceiver">
+        <receiver
+            android:name=".infrastructure.receiver.DateTimeChangeReceiver"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.TIME_CHANGED" />
                 <action android:name="android.intent.action.DATE_CHANGED" />
