@@ -34,13 +34,9 @@
         <activity
             android:name=".infrastructure.activity.PermissionsActivity"
             android:excludeFromRecents="true"
-            android:initialLayout="@layout/loading"
             android:launchMode="singleTask"
             android:noHistory="true"
             android:theme="@android:style/Theme.Translucent.NoTitleBar">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
-            </intent-filter>
         </activity>
 
         <activity
