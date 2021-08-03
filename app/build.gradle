@@ -1,5 +1,8 @@
 import java.nio.charset.StandardCharsets
 
+import static org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
+import static org.gradle.api.tasks.testing.logging.TestLogEvent.*
+
 plugins {
     id("com.android.application")
     id("kotlin-android")
@@ -57,8 +60,8 @@ android {
         unitTests.all {
             useJUnitPlatform()
             testLogging {
-                events "skipped", "failed", "standardOut", "standardError"
-                exceptionFormat "full"
+                events SKIPPED, FAILED, STANDARD_ERROR, STANDARD_OUT
+                exceptionFormat FULL
             }
         }
     }
