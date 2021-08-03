@@ -470,6 +470,16 @@ internal class DrawDaysUseCaseTest : BaseTest() {
                 LocalDate.of(1994, 12, 13),
                 DayOfWeek.THURSDAY,
                 LocalDate.of(1994, 12, 1)
+            ),
+            Arguments.of(
+                LocalDate.of(2021, 2, 13),
+                DayOfWeek.MONDAY,
+                LocalDate.of(2021, 2, 1)
+            ),
+            Arguments.of(
+                LocalDate.of(2021, 3, 13),
+                DayOfWeek.MONDAY,
+                LocalDate.of(2021, 3, 1)
             )
         )!!
     }
