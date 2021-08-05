@@ -21,7 +21,7 @@ android {
 
         applicationId "cat.mvmike.minimalcalendarwidget"
         minSdkVersion 24    // 7.0
-        targetSdkVersion 30 // 10.0
+        targetSdkVersion 30 // 11.0
         versionCode 29
         versionName "2.1.1"
 
