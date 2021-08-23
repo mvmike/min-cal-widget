@@ -84,7 +84,7 @@ object SystemResolver {
                 context,
                 code,
                 Intent(context, MonthWidget::class.java).setAction(action),
-                PendingIntent.FLAG_UPDATE_CURRENT
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
             )
         )
 
@@ -101,7 +101,7 @@ object SystemResolver {
             context,
             alarmId,
             Intent(context, MonthWidget::class.java).setAction(AutoUpdate.ACTION_AUTO_UPDATE),
-            PendingIntent.FLAG_CANCEL_CURRENT
+            PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
     )
 
@@ -111,7 +111,7 @@ object SystemResolver {
                 context,
                 alarmId,
                 Intent(context, MonthWidget::class.java).setAction(AutoUpdate.ACTION_AUTO_UPDATE),
-                PendingIntent.FLAG_CANCEL_CURRENT
+                PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_IMMUTABLE
             )
         )
 
