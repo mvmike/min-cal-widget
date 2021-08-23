@@ -7,7 +7,7 @@ plugins {
     id("com.android.application")
     id("kotlin-android")
     //https://github.com/detekt/detekt/releases
-    id("io.gitlab.arturbosch.detekt").version("1.17.1")
+    id("io.gitlab.arturbosch.detekt").version("1.18.0")
 }
 
 android {
@@ -67,7 +67,7 @@ android {
     }
 
     detekt {
-        config = files("${project.rootDir}/config/detekt/detekt.yml")
+        source = files("${project.rootDir}/config/detekt/detekt.yml")
     }
 
     /*
