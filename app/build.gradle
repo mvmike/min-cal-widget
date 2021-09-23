@@ -126,5 +126,5 @@ dependencies {
     testImplementation "io.mockk:mockk:1.12.0"
 
     //https://github.com/assertj/assertj-core/releases
-    testImplementation "org.assertj:assertj-core:3.20.2"
+    testImplementation "org.assertj:assertj-core:3.21.0"
 }
