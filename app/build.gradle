@@ -108,7 +108,7 @@ android {
 
 dependencies {
 
-    //https://github.com/google/desugar_jdk_libs
+    //https://github.com/google/desugar_jdk_libs/releases
     coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:1.1.5"
 
     //https://developer.android.com/jetpack/androidx/versions/
