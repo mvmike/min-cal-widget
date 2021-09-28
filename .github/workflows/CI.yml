@@ -1,7 +1,6 @@
+#https://github.com/actions
 name: CI
 on: [push, pull_request]
-
-#https://github.com/actions
 jobs:
   code-analysis:
     runs-on: ubuntu-latest
