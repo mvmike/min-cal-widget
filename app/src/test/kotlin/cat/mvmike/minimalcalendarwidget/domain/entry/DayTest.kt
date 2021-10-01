@@ -16,7 +16,6 @@ internal class DayTest : BaseTest() {
     @MethodSource("getLocalDatesWithTheirProperties")
     fun getDayOfWeek(dayProperties: DayTestProperties) {
         val day = Day(
-            systemLocalDate = systemLocalDate,
             dayLocalDate = dayProperties.localDate
         )
 
@@ -29,7 +28,6 @@ internal class DayTest : BaseTest() {
     @MethodSource("getLocalDatesWithTheirProperties")
     fun getDayOfMonthString(dayProperties: DayTestProperties) {
         val day = Day(
-            systemLocalDate = systemLocalDate,
             dayLocalDate = dayProperties.localDate
         )
 
@@ -42,11 +40,10 @@ internal class DayTest : BaseTest() {
     @MethodSource("getLocalDatesWithTheirProperties")
     fun isInMonth(dayProperties: DayTestProperties) {
         val day = Day(
-            systemLocalDate = systemLocalDate,
             dayLocalDate = dayProperties.localDate
         )
 
-        val result = day.isInMonth()
+        val result = day.isInMonth(systemLocalDate)
 
         assertThat(result).isEqualTo(dayProperties.expectedIsInMonth)
     }
@@ -55,11 +52,10 @@ internal class DayTest : BaseTest() {
     @MethodSource("getLocalDatesWithTheirProperties")
     fun isToday(dayProperties: DayTestProperties) {
         val day = Day(
-            systemLocalDate = systemLocalDate,
             dayLocalDate = dayProperties.localDate
         )
 
-        val result = day.isToday()
+        val result = day.isToday(systemLocalDate)
 
         assertThat(result).isEqualTo(dayProperties.expectedIsToday)
     }
@@ -68,7 +64,6 @@ internal class DayTest : BaseTest() {
     @MethodSource("getLocalDatesWithTheirProperties")
     fun isSingleDigitDay(dayProperties: DayTestProperties) {
         val day = Day(
-            systemLocalDate = systemLocalDate,
             dayLocalDate = dayProperties.localDate
         )
 

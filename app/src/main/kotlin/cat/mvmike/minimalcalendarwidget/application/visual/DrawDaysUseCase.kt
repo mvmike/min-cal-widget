@@ -52,16 +52,15 @@ object DrawDaysUseCase {
 
             for (weekDay in 0 until DAYS_IN_WEEK) {
                 val currentDay = Day(
-                    systemLocalDate = systemLocalDate,
                     dayLocalDate = initialLocalDate.toCurrentWeekAndWeekDay(week, weekDay)
                 )
                 val dayCell = widgetTheme.getCellDay(
-                    isToday = currentDay.isToday(),
-                    inMonth = currentDay.isInMonth(),
+                    isToday = currentDay.isToday(systemLocalDate),
+                    inMonth = currentDay.isInMonth(systemLocalDate),
                     dayOfWeek = currentDay.getDayOfWeek()
                 )
                 val instancesSymbol = currentDay.getNumberOfInstances(instanceSet).getSymbol(instancesSymbolSet)
-                val dayInstancesColour = currentDay.getInstancesColor(context, instancesColour)
+                val dayInstancesColour = currentDay.getInstancesColor(context, instancesColour, systemLocalDate)
                 val backgroundWithTransparency = dayCell.background
                     ?.let { SystemResolver.getColourAsString(context, it) }
                     ?.withTransparency(
@@ -80,7 +79,7 @@ object DrawDaysUseCase {
                     viewId = dayCell.id,
                     dayBackgroundColour = backgroundWithTransparency,
                     spanText = PADDING + currentDay.getDayOfMonthString() + PADDING + instancesSymbol,
-                    isToday = currentDay.isToday(),
+                    isToday = currentDay.isToday(systemLocalDate),
                     isSingleDigitDay = currentDay.isSingleDigitDay(),
                     symbolRelativeSize = instancesSymbolSet.relativeSize,
                     instancesColour = dayInstancesColour
@@ -116,6 +115,6 @@ object DrawDaysUseCase {
 
     private fun Int.getSymbol(symbolSet: SymbolSet) = symbolSet.get(this)
 
-    private fun Day.getInstancesColor(context: Context, colour: Colour) =
-        SystemResolver.getColour(context, colour.getInstancesColour(isToday()))
+    private fun Day.getInstancesColor(context: Context, colour: Colour, systemLocalDate: LocalDate) =
+        SystemResolver.getColour(context, colour.getInstancesColour(isToday(systemLocalDate)))
 }

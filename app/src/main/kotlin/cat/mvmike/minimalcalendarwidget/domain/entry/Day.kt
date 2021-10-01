@@ -11,7 +11,6 @@ import java.time.LocalDate
 private const val DAY_OF_MONTH_DF_PATTERN: String = "00"
 
 data class Day(
-    private val systemLocalDate: LocalDate,
     val dayLocalDate: LocalDate
 ) {
 
@@ -20,10 +19,11 @@ data class Day(
     fun getDayOfMonthString(): String = DecimalFormat(DAY_OF_MONTH_DF_PATTERN)
         .format(dayLocalDate.dayOfMonth.toLong())
 
-    fun isInMonth() = dayLocalDate.year == systemLocalDate.year
+    fun isInMonth(systemLocalDate: LocalDate) = dayLocalDate.year == systemLocalDate.year
             && dayLocalDate.month == systemLocalDate.month
 
-    fun isToday() = isInMonth() && dayLocalDate.dayOfYear == systemLocalDate.dayOfYear
+    fun isToday(systemLocalDate: LocalDate) = isInMonth(systemLocalDate)
+            && dayLocalDate.dayOfYear == systemLocalDate.dayOfYear
 
     fun isSingleDigitDay() = dayLocalDate.dayOfMonth < 10
 }
