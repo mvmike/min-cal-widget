@@ -22,7 +22,6 @@ import android.widget.RemoteViews
 import androidx.core.content.ContextCompat
 import cat.mvmike.minimalcalendarwidget.MonthWidget
 import cat.mvmike.minimalcalendarwidget.R
-import cat.mvmike.minimalcalendarwidget.domain.entry.FIELDS
 import cat.mvmike.minimalcalendarwidget.domain.entry.Instance
 import cat.mvmike.minimalcalendarwidget.domain.intent.AutoUpdate
 import java.time.Clock
@@ -138,7 +137,13 @@ object SystemResolver {
 
     fun getInstances(context: Context, begin: Long, end: Long): Set<Instance> {
         val instances: MutableSet<Instance> = HashSet()
-        Instances.query(context.contentResolver, FIELDS, begin, end).use { instanceCursor ->
+        val queryFields: Array<String> = arrayOf(
+            Instances.EVENT_ID,
+            Instances.BEGIN,
+            Instances.END,
+            Instances.EVENT_TIMEZONE
+        )
+        Instances.query(context.contentResolver, queryFields, begin, end).use { instanceCursor ->
             while (instanceCursor.moveToNext()) {
                 instances.add(
                     Instance(

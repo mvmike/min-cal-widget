@@ -3,19 +3,11 @@
 package cat.mvmike.minimalcalendarwidget.domain.entry
 
 import android.content.Context
-import android.provider.CalendarContract
 import cat.mvmike.minimalcalendarwidget.infrastructure.SystemResolver
 import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneId
-
-val FIELDS: Array<String> = arrayOf(
-    CalendarContract.Instances.EVENT_ID,
-    CalendarContract.Instances.BEGIN,
-    CalendarContract.Instances.END,
-    CalendarContract.Instances.EVENT_TIMEZONE
-)
 
 data class Instance(
     val eventId: Int,
