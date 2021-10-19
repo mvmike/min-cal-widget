@@ -59,14 +59,10 @@ object SystemResolver {
 
     // LOCALE
 
-    fun getLocale(context: Context): Locale {
-        return context.resources.configuration.locales
-            .takeIf {
-                !it.isEmpty
-            }?.let {
-                supportedLocales.firstOrNull { sl -> sl.language == it[0].language }
-            } ?: Locale.ENGLISH
-    }
+    fun getLocale(context: Context): Locale = context.resources.configuration.locales
+        .takeIf { !it.isEmpty }
+        ?.let { supportedLocales.firstOrNull { sl -> sl.language == it[0].language } }
+        ?: Locale.ENGLISH
 
     // INTENT
 
@@ -76,16 +72,15 @@ object SystemResolver {
         viewId: Int,
         code: Int,
         action: String
-    ) =
-        widgetRemoteView.setOnClickPendingIntent(
-            viewId,
-            PendingIntent.getBroadcast(
-                context,
-                code,
-                Intent(context, MonthWidget::class.java).setAction(action),
-                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-            )
+    ) = widgetRemoteView.setOnClickPendingIntent(
+        viewId,
+        PendingIntent.getBroadcast(
+            context,
+            code,
+            Intent(context, MonthWidget::class.java).setAction(action),
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
+    )
 
     fun setRepeatingAlarm(
         context: Context,
@@ -104,15 +99,14 @@ object SystemResolver {
         )
     )
 
-    fun cancelRepeatingAlarm(context: Context, alarmId: Int) =
-        context.getAlarmManager().cancel(
-            PendingIntent.getBroadcast(
-                context,
-                alarmId,
-                Intent(context, MonthWidget::class.java).setAction(AutoUpdate.ACTION_AUTO_UPDATE),
-                PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_IMMUTABLE
-            )
+    fun cancelRepeatingAlarm(context: Context, alarmId: Int) = context.getAlarmManager().cancel(
+        PendingIntent.getBroadcast(
+            context,
+            alarmId,
+            Intent(context, MonthWidget::class.java).setAction(AutoUpdate.ACTION_AUTO_UPDATE),
+            PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
+    )
 
     // ACTIVITY
 
