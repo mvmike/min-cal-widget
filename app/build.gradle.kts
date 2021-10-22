@@ -18,7 +18,7 @@ android {
 
         applicationId = "cat.mvmike.minimalcalendarwidget"
         minSdk = 24     // 7.0
-        targetSdk= 30   // 11.0
+        targetSdk = 30   // 11.0
         versionCode = 30
         versionName = "2.1.2"
 
@@ -83,7 +83,7 @@ android {
             && project.hasProperty("signingKeyPassword")
     signingConfigs {
         create("release") {
-            if (isSignedRelease){
+            if (isSignedRelease) {
                 println("Found sign properties in gradle.properties! Signing build…")
                 storeFile = file(properties["signingStoreFile"]!!)
                 storePassword = properties["signingStorePassword"]!! as String
