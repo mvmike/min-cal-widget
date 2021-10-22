@@ -1,0 +1,126 @@
+import org.gradle.api.tasks.testing.logging.TestLogEvent.*
+
+plugins {
+    id("com.android.application")
+    id("kotlin-android")
+    //https://github.com/detekt/detekt/releases
+    id("io.gitlab.arturbosch.detekt").version("1.18.1")
+}
+
+android {
+
+    //https://source.android.com/setup/start/build-numbers
+    compileSdk = 30
+    //https://developer.android.com/studio/releases/build-tools
+    buildToolsVersion = "30.0.3"
+
+    defaultConfig {
+
+        applicationId = "cat.mvmike.minimalcalendarwidget"
+        minSdk = 24     // 7.0
+        targetSdk= 30   // 11.0
+        versionCode = 30
+        versionName = "2.1.2"
+
+        multiDexEnabled = true
+    }
+
+    val javaVersion = JavaVersion.VERSION_11
+
+    compileOptions {
+        isCoreLibraryDesugaringEnabled = true
+        compileOptions.encoding = Charsets.UTF_8.name()
+
+        sourceCompatibility = javaVersion
+        targetCompatibility = javaVersion
+    }
+
+    kotlinOptions {
+        jvmTarget = javaVersion.toString()
+    }
+
+    sourceSets {
+        sourceSets["main"].kotlin {
+            srcDirs("src/main/kotlin")
+        }
+        sourceSets["main"].res {
+            srcDirs(
+                "src/main/res/layouts/common",
+                "src/main/res/layouts/dark",
+                "src/main/res/layouts/light",
+                "src/main/res"
+            )
+        }
+
+        sourceSets["test"].kotlin {
+            srcDirs("src/test/kotlin")
+        }
+    }
+
+    tasks.withType<Test> {
+        useJUnitPlatform()
+        testLogging {
+            events(SKIPPED, FAILED, STANDARD_ERROR, STANDARD_OUT)
+        }
+    }
+
+    detekt {
+        config = files("${project.rootDir}/config/detekt/detekt.yml")
+    }
+
+    /*
+     * To sign release builds, create the file gradle.properties in
+     * ~/.gradle/ with this content:
+     *
+     * signingStoreFile=key.store
+     * signingStorePassword=xxx
+     * signingKeyAlias=alias
+     * signingKeyPassword=xxx
+     */
+    if (project.hasProperty("signingStoreFile")
+        && project.hasProperty("signingStorePassword")
+        && project.hasProperty("signingKeyAlias")
+        && project.hasProperty("signingKeyPassword")
+    ) {
+        println("Found sign properties in gradle.properties! Signing build…")
+        signingConfigs {
+            create("release") {
+                storeFile = file(properties["signingStoreFile"]!!)
+                storePassword = properties["signingStorePassword"]!! as String
+                keyAlias = properties["signingKeyAlias"]!! as String
+                keyPassword = properties["signingKeyPassword"]!! as String
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            signingConfig = signingConfigs.getByName("release")
+            isMinifyEnabled = true
+            proguardFiles(getDefaultProguardFile("proguard-android.txt"), "${project.rootDir}/config/proguard/proguard-rules.pro")
+        }
+    }
+}
+
+dependencies {
+
+    //https://github.com/google/desugar_jdk_libs/releases
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
+
+    //https://developer.android.com/jetpack/androidx/versions/
+    implementation("androidx.multidex:multidex:2.0.1")
+    implementation("androidx.appcompat:appcompat:1.3.1")
+    implementation("androidx.core:core-ktx:1.6.0")
+
+    //https://github.com/junit-team/junit5/releases
+    val junitJupiterVersion = "5.8.1"
+    testImplementation("org.junit.jupiter:junit-jupiter-api:$junitJupiterVersion")
+    testImplementation("org.junit.jupiter:junit-jupiter-engine:$junitJupiterVersion")
+    testImplementation("org.junit.jupiter:junit-jupiter-params:$junitJupiterVersion")
+
+    //https://github.com/mockk/mockk/releases
+    testImplementation("io.mockk:mockk:1.12.0")
+
+    //https://github.com/assertj/assertj-core/releases
+    testImplementation("org.assertj:assertj-core:3.21.0")
+}
