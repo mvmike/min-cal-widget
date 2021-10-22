@@ -77,14 +77,14 @@ android {
      * signingKeyAlias=alias
      * signingKeyPassword=xxx
      */
-    if (project.hasProperty("signingStoreFile")
-        && project.hasProperty("signingStorePassword")
-        && project.hasProperty("signingKeyAlias")
-        && project.hasProperty("signingKeyPassword")
-    ) {
-        println("Found sign properties in gradle.properties! Signing build…")
-        signingConfigs {
-            create("release") {
+    val isSignedRelease = project.hasProperty("signingStoreFile")
+            && project.hasProperty("signingStorePassword")
+            && project.hasProperty("signingKeyAlias")
+            && project.hasProperty("signingKeyPassword")
+    signingConfigs {
+        create("release") {
+            if (isSignedRelease){
+                println("Found sign properties in gradle.properties! Signing build…")
                 storeFile = file(properties["signingStoreFile"]!!)
                 storePassword = properties["signingStorePassword"]!! as String
                 keyAlias = properties["signingKeyAlias"]!! as String
