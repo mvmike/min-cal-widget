@@ -1,3 +1,4 @@
+import com.android.sdklib.AndroidVersion
 import org.gradle.api.tasks.testing.logging.TestLogEvent.*
 
 plugins {
@@ -10,22 +11,26 @@ plugins {
 android {
 
     //https://source.android.com/setup/start/build-numbers
-    compileSdk = 30
+    val minAndroidVersion = AndroidVersion.VersionCodes.N   // 7.0
+    val androidVersion = AndroidVersion.VersionCodes.R      // 11.0
+
+    //https://openjdk.java.net/projects/jdk/
+    val javaVersion = JavaVersion.VERSION_11
+
+    compileSdk = androidVersion
     //https://developer.android.com/studio/releases/build-tools
     buildToolsVersion = "30.0.3"
 
     defaultConfig {
 
         applicationId = "cat.mvmike.minimalcalendarwidget"
-        minSdk = 24     // 7.0
-        targetSdk = 30   // 11.0
+        minSdk = minAndroidVersion
+        targetSdk = androidVersion
         versionCode = 30
         versionName = "2.1.2"
 
         multiDexEnabled = true
     }
-
-    val javaVersion = JavaVersion.VERSION_11
 
     compileOptions {
         isCoreLibraryDesugaringEnabled = true
