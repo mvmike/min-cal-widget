@@ -12,7 +12,7 @@ android {
 
     //https://source.android.com/setup/start/build-numbers
     val minAndroidVersion = AndroidVersion.VersionCodes.N   // 7.0
-    val androidVersion = AndroidVersion.VersionCodes.R      // 11.0
+    val androidVersion = AndroidVersion.VersionCodes.S      // 12.0
 
     //https://openjdk.java.net/projects/jdk/
     val javaVersion = JavaVersion.VERSION_11
