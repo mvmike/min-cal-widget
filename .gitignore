@@ -1,7 +1,10 @@
 *.iml
 *.log
 *.hprof
+.idea/
+
 .gradle/
 local.properties
+
 build/
-.idea/
+release/
