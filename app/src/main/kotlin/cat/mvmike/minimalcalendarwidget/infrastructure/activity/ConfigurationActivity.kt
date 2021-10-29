@@ -72,7 +72,7 @@ class ConfigurationActivity : AppCompatActivity() {
             applicationContext,
             Transparency(Configuration.WidgetTransparency.resource.getSeekBar().progress)
         )
-        MonthWidget.forceRedraw(applicationContext)
+        MonthWidget.redraw(applicationContext)
     }
 
     private fun Int.getSpinner() = findViewById<Spinner>(this)

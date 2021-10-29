@@ -29,13 +29,15 @@ class MonthWidget : AppWidgetProvider() {
 
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
         super.onUpdate(context, appWidgetManager, appWidgetIds)
-        drawWidgets(context, appWidgetManager, appWidgetIds)
+        redrawWidgets(context, appWidgetManager, appWidgetIds)
     }
 
     override fun onReceive(context: Context, intent: Intent) {
         super.onReceive(context, intent)
         ProcessIntentUseCase.execute(context, intent.action)
-        forceRedraw(context)
+        if (SystemResolver.isReadCalendarPermitted(context)) {
+            redraw(context)
+        }
     }
 
     override fun onDisabled(context: Context) {
@@ -46,59 +48,45 @@ class MonthWidget : AppWidgetProvider() {
 
     companion object {
 
-        private fun drawWidgets(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
-            val mainLayoutRemoteView = RemoteViews(context.packageName, EnumConfiguration.WidgetTheme.get(context).mainLayout)
+        private fun redrawWidgets(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
+            val widgetRemoteView = RemoteViews(context.packageName, EnumConfiguration.WidgetTheme.get(context).mainLayout)
             appWidgetIds.forEach { appWidgetId ->
-                drawWidget(
+                widgetRemoteView.removeAllViews(R.id.calendar_widget)
+
+                AddListenersUseCase.execute(
                     context = context,
-                    appWidgetManager = appWidgetManager,
-                    appWidgetId = appWidgetId,
-                    widgetRemoteView = mainLayoutRemoteView
+                    widgetRemoteView = widgetRemoteView
                 )
+
+                DrawWidgetLayout.execute(
+                    context = context,
+                    widgetRemoteView = widgetRemoteView
+                )
+                DrawMonthAndYearHeaderUseCase.execute(
+                    context = context,
+                    widgetRemoteView = widgetRemoteView
+                )
+                DrawDaysHeaderUseCase.execute(
+                    context = context,
+                    widgetRemoteView = widgetRemoteView
+                )
+                DrawDaysUseCase.execute(
+                    context = context,
+                    widgetRemoteView = widgetRemoteView
+                )
+
+                appWidgetManager.updateAppWidget(appWidgetId, widgetRemoteView)
             }
         }
 
-        private fun drawWidget(context: Context, appWidgetManager: AppWidgetManager, appWidgetId: Int, widgetRemoteView: RemoteViews) {
-            widgetRemoteView.removeAllViews(R.id.calendar_widget)
-
-            AddListenersUseCase.execute(
+        fun redraw(context: Context) {
+            val name = ComponentName(context, MonthWidget::class.java)
+            val appWidgetManager = AppWidgetManager.getInstance(context)
+            redrawWidgets(
                 context = context,
-                widgetRemoteView = widgetRemoteView
+                appWidgetManager = appWidgetManager,
+                appWidgetIds = appWidgetManager.getAppWidgetIds(name),
             )
-
-            DrawWidgetLayout.execute(
-                context = context,
-                widgetRemoteView = widgetRemoteView
-            )
-            DrawMonthAndYearHeaderUseCase.execute(
-                context = context,
-                widgetRemoteView = widgetRemoteView
-            )
-            DrawDaysHeaderUseCase.execute(
-                context = context,
-                widgetRemoteView = widgetRemoteView
-            )
-            DrawDaysUseCase.execute(
-                context = context,
-                widgetRemoteView = widgetRemoteView
-            )
-
-            appWidgetManager.updateAppWidget(appWidgetId, widgetRemoteView)
-        }
-
-        fun forceRedraw(context: Context) {
-            when (SystemResolver.isReadCalendarPermitted(context)) {
-                false -> return
-                true -> {
-                    val name = ComponentName(context, MonthWidget::class.java)
-                    val appWidgetManager = AppWidgetManager.getInstance(context)
-                    drawWidgets(
-                        context = context,
-                        appWidgetManager = appWidgetManager,
-                        appWidgetIds = appWidgetManager.getAppWidgetIds(name),
-                    )
-                }
-            }
         }
     }
 

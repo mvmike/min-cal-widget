@@ -27,7 +27,7 @@ class PermissionsActivity : Activity() {
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         if (requestCode.isReadCalendarPermission() && grantResults.isPermissionGranted()) {
             setResult(RESULT_OK)
-            MonthWidget.forceRedraw(this)
+            MonthWidget.redraw(this)
         }
         finish()
     }
