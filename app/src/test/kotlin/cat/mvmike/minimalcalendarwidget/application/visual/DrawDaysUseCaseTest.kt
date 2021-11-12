@@ -273,7 +273,7 @@ internal class DrawDaysUseCaseTest : BaseTest() {
                 Instance(
                     eventId = random.nextInt(),
                     start = "2019-01-01T05:00:00Z".toInstant(systemZoneOffset),
-                    end = "2018-12-02T11:20:00Z".toInstant(systemZoneOffset),
+                    end = "2019-12-02T11:20:00Z".toInstant(systemZoneOffset),
                     zoneId = systemZoneOffset
                 ),
                 Instance(
@@ -321,8 +321,8 @@ internal class DrawDaysUseCaseTest : BaseTest() {
             DrawDaysUseCaseTestProperties(dayLayout = dayLayoutNotInMonth, spanText = " 28 ·"),
             DrawDaysUseCaseTestProperties(dayLayout = dayLayoutNotInMonth, spanText = " 29 ·"),
             DrawDaysUseCaseTestProperties(dayLayout = dayLayoutNotInMonth, spanText = " 30  "),
-            DrawDaysUseCaseTestProperties(dayLayout = dayLayoutSaturdayInMonth, spanText = " 01 ·", dayBackgroundColour = dayCellSaturdayInMonthBackground),
-            DrawDaysUseCaseTestProperties(dayLayout = dayLayoutSundayInMonth, spanText = " 02 ·", dayBackgroundColour = dayCellSundayInMonthBackground),
+            DrawDaysUseCaseTestProperties(dayLayout = dayLayoutSaturdayInMonth, spanText = " 01  ", dayBackgroundColour = dayCellSaturdayInMonthBackground),
+            DrawDaysUseCaseTestProperties(dayLayout = dayLayoutSundayInMonth, spanText = " 02  ", dayBackgroundColour = dayCellSundayInMonthBackground),
             DrawDaysUseCaseTestProperties(dayLayout = dayLayoutWeekdayInMonth, spanText = " 03 ·", dayBackgroundColour = dayCellWeekdayInMonthBackground),
             DrawDaysUseCaseTestProperties(
                 dayLayout = dayLayoutToday, spanText = " 04 ·", dayBackgroundColour = dayCellTodayBackground,
@@ -357,10 +357,10 @@ internal class DrawDaysUseCaseTest : BaseTest() {
             DrawDaysUseCaseTestProperties(dayLayout = dayLayoutWeekdayInMonth, spanText = " 31  ", dayBackgroundColour = dayCellWeekdayInMonthBackground),
             DrawDaysUseCaseTestProperties(dayLayout = dayLayoutNotInMonth, spanText = " 01 ·"),
             DrawDaysUseCaseTestProperties(dayLayout = dayLayoutNotInMonth, spanText = " 02 ·"),
-            DrawDaysUseCaseTestProperties(dayLayout = dayLayoutNotInMonth, spanText = " 03  "),
-            DrawDaysUseCaseTestProperties(dayLayout = dayLayoutNotInMonth, spanText = " 04  "),
+            DrawDaysUseCaseTestProperties(dayLayout = dayLayoutNotInMonth, spanText = " 03 ·"),
+            DrawDaysUseCaseTestProperties(dayLayout = dayLayoutNotInMonth, spanText = " 04 ·"),
             DrawDaysUseCaseTestProperties(dayLayout = dayLayoutNotInMonth, spanText = " 05 ◈"),
-            DrawDaysUseCaseTestProperties(dayLayout = dayLayoutNotInMonth, spanText = " 06  ")
+            DrawDaysUseCaseTestProperties(dayLayout = dayLayoutNotInMonth, spanText = " 06 ·")
         )
 
         internal data class DrawDaysUseCaseTestProperties(

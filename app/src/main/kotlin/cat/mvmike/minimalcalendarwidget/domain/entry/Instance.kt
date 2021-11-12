@@ -17,12 +17,10 @@ data class Instance(
 ) {
     // take out 5 milliseconds to avoid erratic behaviour events that end at midnight
     fun isInDay(day: LocalDate): Boolean {
-        val localDateTimeStart = LocalDateTime.ofInstant(start, zoneId)
-        val localDateTimeEnd = LocalDateTime.ofInstant(end.minusMillis(5), zoneId)
-        return localDateTimeStart.monthValue <= day.monthValue
-                && localDateTimeStart.dayOfMonth <= day.dayOfMonth
-                && localDateTimeEnd.monthValue >= day.monthValue
-                && localDateTimeEnd.dayOfMonth >= day.dayOfMonth
+        val instanceStartLocalDate = LocalDateTime.ofInstant(start, zoneId).toLocalDate()
+        val instanceEndLocalDate = LocalDateTime.ofInstant(end.minusMillis(5), zoneId).toLocalDate()
+        return !instanceStartLocalDate.isAfter(day)
+                && !instanceEndLocalDate.isBefore(day)
     }
 }
 
