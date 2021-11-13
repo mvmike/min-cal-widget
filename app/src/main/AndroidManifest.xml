@@ -26,12 +26,17 @@
         </receiver>
 
         <receiver
-            android:name=".infrastructure.receiver.DateTimeChangeReceiver"
+            android:name=".infrastructure.receiver.CalendarChangeReceiver"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.TIME_CHANGED" />
                 <action android:name="android.intent.action.DATE_CHANGED" />
                 <action android:name="android.intent.action.TIMEZONE_CHANGED" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.PROVIDER_CHANGED"/>
+                <data android:scheme="content"/>
+                <data android:host="com.android.calendar"/>
             </intent-filter>
         </receiver>
 
