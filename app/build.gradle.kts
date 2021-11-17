@@ -117,7 +117,7 @@ dependencies {
 
     //https://developer.android.com/jetpack/androidx/versions/
     implementation("androidx.multidex:multidex:2.0.1")
-    implementation("androidx.appcompat:appcompat:1.3.1")
+    implementation("androidx.appcompat:appcompat:1.4.0")
     implementation("androidx.core:core-ktx:1.7.0")
 
     //https://github.com/junit-team/junit5/releases
