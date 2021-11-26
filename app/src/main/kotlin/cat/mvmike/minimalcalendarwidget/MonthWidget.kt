@@ -48,6 +48,16 @@ class MonthWidget : AppWidgetProvider() {
 
     companion object {
 
+        fun redraw(context: Context) {
+            val name = ComponentName(context, MonthWidget::class.java)
+            val appWidgetManager = AppWidgetManager.getInstance(context)
+            redrawWidgets(
+                context = context,
+                appWidgetManager = appWidgetManager,
+                appWidgetIds = appWidgetManager.getAppWidgetIds(name),
+            )
+        }
+
         private fun redrawWidgets(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
             val widgetRemoteView = RemoteViews(context.packageName, EnumConfiguration.WidgetTheme.get(context).mainLayout)
             appWidgetIds.forEach { appWidgetId ->
@@ -77,16 +87,6 @@ class MonthWidget : AppWidgetProvider() {
 
                 appWidgetManager.updateAppWidget(appWidgetId, widgetRemoteView)
             }
-        }
-
-        fun redraw(context: Context) {
-            val name = ComponentName(context, MonthWidget::class.java)
-            val appWidgetManager = AppWidgetManager.getInstance(context)
-            redrawWidgets(
-                context = context,
-                appWidgetManager = appWidgetManager,
-                appWidgetIds = appWidgetManager.getAppWidgetIds(name),
-            )
         }
     }
 
