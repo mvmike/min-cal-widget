@@ -33,6 +33,16 @@ import java.util.Locale
 
 object SystemResolver {
 
+    // CLOCK
+
+    fun getInstant() = Clock.systemUTC().instant()!!
+
+    fun getSystemLocalDate() = LocalDate.now(Clock.systemDefaultZone())!!
+
+    fun getSystemZoneId() = ZoneId.systemDefault()!!
+
+    // LOCALE
+
     private val supportedLocales: Set<Locale> = setOf(
         Locale.ENGLISH,
         Locale("ca"), // catalan
@@ -48,16 +58,6 @@ object SystemResolver {
         Locale("ru"), // russian
         Locale("es") // spanish
     )
-
-    // CLOCK
-
-    fun getInstant() = Clock.systemUTC().instant()!!
-
-    fun getSystemLocalDate() = LocalDate.now(Clock.systemDefaultZone())!!
-
-    fun getSystemZoneId() = ZoneId.systemDefault()!!
-
-    // LOCALE
 
     fun getLocale(context: Context): Locale = context.resources.configuration.locales
         .takeIf { !it.isEmpty }
