@@ -128,7 +128,35 @@
 
     <View
         android:layout_width="180dp"
-        android:layout_height="15dp" />
+        android:layout_height="10dp" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|start"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp">
+
+        <TextView
+            android:id="@+id/txt_show_declined_events"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:text="@string/show_declined_events"
+            android:textColor="@color/config_label"
+            android:textSize="16sp" />
+        <CheckBox
+            android:id="@+id/show_declined_eventsCheckBox"
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|end"/>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="180dp"
+        android:layout_height="10dp" />
 
     <LinearLayout
         android:layout_width="wrap_content"

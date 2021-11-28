@@ -33,9 +33,21 @@ sealed class Configuration<E>(
             getConfiguration(context).getInt(key, defaultValue.percentage)
         )
 
-        override fun set(context: Context, value: Transparency) {
+        override fun set(context: Context, value: Transparency) =
             getConfiguration(context).edit().putInt(key, value.percentage).apply()
-        }
+    }
+
+    object WidgetShowDeclinedEvents : Configuration<Boolean>(
+        key = "WIDGET_SHOW_DECLINED_EVENTS",
+        resource = R.id.show_declined_eventsCheckBox,
+        defaultValue = false
+    ) {
+        override fun get(context: Context) =
+            getConfiguration(context).getBoolean(key, defaultValue)
+
+        override fun set(context: Context, value: Boolean) =
+            getConfiguration(context).edit().putBoolean(key, value).apply()
+
     }
 }
 

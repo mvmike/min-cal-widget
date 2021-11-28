@@ -13,7 +13,8 @@ data class Instance(
     val eventId: Int,
     val start: Instant,
     val end: Instant,
-    val zoneId: ZoneId
+    val zoneId: ZoneId,
+    val isDeclined: Boolean
 ) {
     // take out 5 milliseconds to avoid erratic behaviour events that end at midnight
     fun isInDay(day: LocalDate): Boolean {

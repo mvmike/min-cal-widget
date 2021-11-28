@@ -129,22 +129,25 @@ object SystemResolver {
 
     // CALENDAR CONTRACT
 
+    private val instanceQueryFields = arrayOf(
+        Instances.EVENT_ID,
+        Instances.BEGIN,
+        Instances.END,
+        Instances.EVENT_TIMEZONE,
+        Instances.SELF_ATTENDEE_STATUS
+    )
+
     fun getInstances(context: Context, begin: Long, end: Long): Set<Instance> {
         val instances: MutableSet<Instance> = HashSet()
-        val queryFields: Array<String> = arrayOf(
-            Instances.EVENT_ID,
-            Instances.BEGIN,
-            Instances.END,
-            Instances.EVENT_TIMEZONE
-        )
-        Instances.query(context.contentResolver, queryFields, begin, end).use { instanceCursor ->
+        Instances.query(context.contentResolver, instanceQueryFields, begin, end).use { instanceCursor ->
             while (instanceCursor.moveToNext()) {
                 instances.add(
                     Instance(
                         eventId = instanceCursor.getInt(0),
                         start = ofEpochMilli(instanceCursor.getLong(1)),
                         end = ofEpochMilli(instanceCursor.getLong(2)),
-                        zoneId = ZoneId.of(instanceCursor.getString(3))
+                        zoneId = ZoneId.of(instanceCursor.getString(3)),
+                        isDeclined = instanceCursor.getInt(4) == Instances.STATUS_CANCELED
                     )
                 )
             }

@@ -8,6 +8,7 @@ import android.text.method.LinkMovementMethod
 import android.view.Window
 import android.widget.ArrayAdapter
 import android.widget.Button
+import android.widget.CheckBox
 import android.widget.SeekBar
 import android.widget.Spinner
 import android.widget.TextView
@@ -57,6 +58,8 @@ class ConfigurationActivity : AppCompatActivity() {
         enumConfigurationItems().forEach {
             it.resource.getSpinner().setSelection(it.get(applicationContext).ordinal)
         }
+        Configuration.WidgetShowDeclinedEvents.resource.getCheckBox().isChecked =
+            Configuration.WidgetShowDeclinedEvents.get(applicationContext)
         Configuration.WidgetTransparency.resource.getSeekBar().progress =
             Configuration.WidgetTransparency.get(applicationContext).percentage
     }
@@ -72,10 +75,15 @@ class ConfigurationActivity : AppCompatActivity() {
             applicationContext,
             Transparency(Configuration.WidgetTransparency.resource.getSeekBar().progress)
         )
+        Configuration.WidgetShowDeclinedEvents.set(
+            applicationContext,
+            Configuration.WidgetShowDeclinedEvents.resource.getCheckBox().isChecked
+        )
         MonthWidget.redraw(applicationContext)
     }
 
     private fun Int.getSpinner() = findViewById<Spinner>(this)
+    private fun Int.getCheckBox() = findViewById<CheckBox>(this)
     private fun Int.getSeekBar() = findViewById<SeekBar>(this)
     private fun Int.getTextView() = findViewById<TextView>(this)
     private fun Int.getButton() = findViewById<Button>(this)

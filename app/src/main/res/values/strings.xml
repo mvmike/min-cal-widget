@@ -11,6 +11,7 @@
     <string name="start_week_day">Start day:</string>
     <string name="symbol_set">Symbol set:</string>
     <string name="symbol_colour">Symbol colour:</string>
+    <string name="show_declined_events">Show declined events:</string>
     <string name="transparency">Transparency:</string>
 
     <string name="apply_changes">APPLY</string>

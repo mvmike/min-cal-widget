@@ -11,6 +11,7 @@
     <string name="start_week_day">Premier jour:</string>
     <string name="symbol_set">Symboles:</string>
     <string name="symbol_colour">Couleur des symboles:</string>
+    <string name="show_declined_events">Afficher les événements refusés :</string>
     <string name="transparency">Transparence:</string>
 
     <string name="apply_changes">APPLIQUER</string>

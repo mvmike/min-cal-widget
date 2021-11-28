@@ -11,6 +11,7 @@
     <string name="start_week_day">Startdag:</string>
     <string name="symbol_set">Symbolsett:</string>
     <string name="symbol_colour">Symbolfarge:</string>
+    <string name="show_declined_events">Vise avviste hendelser:</string>
     <string name="transparency">Åpenhet:</string>
 
     <string name="apply_changes">BRUK</string>

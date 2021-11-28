@@ -26,7 +26,8 @@ internal class InstanceTest : BaseTest() {
             eventId = instantProperties.id(),
             start = instantProperties.startInstant(),
             end = instantProperties.endInstant(),
-            zoneId = instantProperties.zoneOffset
+            zoneId = instantProperties.zoneOffset,
+            isDeclined = false
         )
 
         val result = instance.isInDay(systemLocalDate)
@@ -71,25 +72,29 @@ internal class InstanceTest : BaseTest() {
                 eventId = 1,
                 start = "2018-11-29T23:00:00Z".toInstant(systemZoneOffset),
                 end = "2018-12-01T23:50:00Z".toInstant(systemZoneOffset),
-                zoneId = systemZoneOffset
+                zoneId = systemZoneOffset,
+                isDeclined = false
             ),
             Instance(
                 eventId = 2,
                 start = "2018-12-01T00:00:00Z".toInstant(ZoneOffset.UTC),
                 end = "2018-12-02T00:00:00Z".toInstant(ZoneOffset.UTC),
-                zoneId = ZoneOffset.UTC
+                zoneId = ZoneOffset.UTC,
+                isDeclined = false
             ),
             Instance(
                 eventId = 3,
                 start = "2018-12-02T23:00:00Z".toInstant(systemZoneOffset),
                 end = "2018-12-09T01:00:00Z".toInstant(systemZoneOffset),
-                zoneId = systemZoneOffset
+                zoneId = systemZoneOffset,
+                isDeclined = false
             ),
             Instance(
                 eventId = 4,
                 start = "2018-12-02T00:00:00Z".toInstant(ZoneOffset.UTC),
                 end = "2018-12-06T00:00:00Z".toInstant(ZoneOffset.UTC),
-                zoneId = ZoneOffset.UTC
+                zoneId = ZoneOffset.UTC,
+                isDeclined = false
             )
         )
 

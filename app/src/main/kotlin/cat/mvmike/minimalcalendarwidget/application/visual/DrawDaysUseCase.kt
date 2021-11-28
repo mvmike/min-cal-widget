@@ -40,11 +40,12 @@ object DrawDaysUseCase {
             from = systemLocalDate.minusDays(INSTANCES_QUERY_DAYS_SPAN),
             to = systemLocalDate.plusDays(INSTANCES_QUERY_DAYS_SPAN)
         )
-        val transparency = Configuration.WidgetTransparency.get(context)
         val firstDayOfWeek = EnumConfiguration.FirstDayOfWeek.get(context)
         val widgetTheme = EnumConfiguration.WidgetTheme.get(context)
         val instancesSymbolSet = EnumConfiguration.InstancesSymbolSet.get(context)
         val instancesColour = EnumConfiguration.InstancesColour.get(context)
+        val transparency = Configuration.WidgetTransparency.get(context)
+        val showDeclinedEvents = Configuration.WidgetShowDeclinedEvents.get(context)
         val initialLocalDate = getInitialLocalDate(systemLocalDate, firstDayOfWeek)
 
         for (week in 0 until NUM_WEEKS) {
@@ -59,7 +60,7 @@ object DrawDaysUseCase {
                     inMonth = currentDay.isInMonth(systemLocalDate),
                     dayOfWeek = currentDay.getDayOfWeek()
                 )
-                val instancesSymbol = currentDay.getNumberOfInstances(instanceSet).getSymbol(instancesSymbolSet)
+                val instancesSymbol = currentDay.getNumberOfInstances(instanceSet, showDeclinedEvents).getSymbol(instancesSymbolSet)
                 val dayInstancesColour = currentDay.getInstancesColor(context, instancesColour, systemLocalDate)
                 val backgroundWithTransparency = dayCell.background
                     ?.let { SystemResolver.getColourAsString(context, it) }
@@ -106,12 +107,13 @@ object DrawDaysUseCase {
         }
     }
 
+    internal fun Day.getNumberOfInstances(instanceSet: Set<Instance>, includeDeclinedEvents: Boolean) = instanceSet
+        .filter { it.isInDay(this.dayLocalDate) }
+        .filter { includeDeclinedEvents || !it.isDeclined }
+        .count()
+
     private fun LocalDate.toCurrentWeekAndWeekDay(week: Int, weekDay: Int) =
         this.plus((week * DAYS_IN_WEEK + weekDay).toLong(), ChronoUnit.DAYS)
-
-    private fun Day.getNumberOfInstances(instanceSet: Set<Instance>) = instanceSet
-        .filter { it.isInDay(this.dayLocalDate) }
-        .count()
 
     private fun Int.getSymbol(symbolSet: SymbolSet) = symbolSet.get(this)
 

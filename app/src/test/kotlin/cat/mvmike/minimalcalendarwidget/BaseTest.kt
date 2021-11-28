@@ -106,6 +106,25 @@ abstract class BaseTest {
         verify { sharedPreferences.edit() }
     }
 
+    protected fun mockWidgetShowDeclinedEvents() {
+        every {
+            sharedPreferences.getBoolean(
+                Configuration.WidgetShowDeclinedEvents.key,
+                Configuration.WidgetShowDeclinedEvents.defaultValue
+            )
+        } returns false
+    }
+
+    protected fun verifyWidgetShowDeclinedEvents() {
+        verifySharedPreferencesAccess()
+        verify {
+            sharedPreferences.getBoolean(
+                Configuration.WidgetShowDeclinedEvents.key,
+                Configuration.WidgetShowDeclinedEvents.defaultValue
+            )
+        }
+    }
+
     protected fun mockWidgetTransparency(transparency: Transparency) {
         every {
             sharedPreferences.getInt(

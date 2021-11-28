@@ -4,10 +4,12 @@ package cat.mvmike.minimalcalendarwidget.application.visual
 
 import android.widget.RemoteViews
 import cat.mvmike.minimalcalendarwidget.BaseTest
+import cat.mvmike.minimalcalendarwidget.application.visual.DrawDaysUseCase.getNumberOfInstances
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Colour
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.SymbolSet
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Transparency
+import cat.mvmike.minimalcalendarwidget.domain.entry.Day
 import cat.mvmike.minimalcalendarwidget.domain.entry.Instance
 import cat.mvmike.minimalcalendarwidget.infrastructure.SystemResolver
 import io.mockk.confirmVerified
@@ -23,7 +25,7 @@ import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import java.util.Random
 import java.util.stream.Stream
-import org.assertj.core.api.Assertions
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
@@ -49,6 +51,7 @@ internal class DrawDaysUseCaseTest : BaseTest() {
         every { SystemResolver.getInstances(context, initEpochMillis, endEpochMillis) } returns getSystemInstances()
 
         mockSharedPreferences()
+        mockWidgetShowDeclinedEvents()
         mockWidgetTransparency(Transparency(20))
         mockFirstDayOfWeek(DayOfWeek.MONDAY)
         mockWidgetTheme(Theme.DARK)
@@ -82,6 +85,7 @@ internal class DrawDaysUseCaseTest : BaseTest() {
         verify { SystemResolver.getSystemZoneId() }
         verify { SystemResolver.getInstances(context, initEpochMillis, endEpochMillis) }
 
+        verifyWidgetShowDeclinedEvents()
         verifyWidgetTransparency()
         verifyFirstDayOfWeek()
         verifyWidgetTheme()
@@ -107,7 +111,7 @@ internal class DrawDaysUseCaseTest : BaseTest() {
                         dayCellSaturdayInMonthBackground,
                         dayCellSundayInMonthBackground -> SystemResolver.parseColour(dayCellModerateTransparentBackgroundInHex)
                         dayCellWeekdayInMonthBackground -> SystemResolver.parseColour(dayCellLowTransparentBackgroundInHex)
-                        else -> { }
+                        else -> {}
                     }
 
                 }
@@ -141,7 +145,19 @@ internal class DrawDaysUseCaseTest : BaseTest() {
     ) {
         val result = DrawDaysUseCase.getInitialLocalDate(systemLocalDate, firstDayOfWeek)
 
-        Assertions.assertThat(result).isEqualTo(expectedInitialLocalDate)
+        assertThat(result).isEqualTo(expectedInitialLocalDate)
+    }
+
+    @ParameterizedTest
+    @MethodSource("getLocalDateAndIncludeDeclinedEventsWithExpectedNumberOfInstances")
+    fun getNumberOfInstances_shouldReturnEventsInDayAndConsideringDeclinedEvents(
+        localDate: LocalDate,
+        includeDeclinedEvents: Boolean,
+        expectedNumberOfInstances: Int
+    ) {
+        val result = Day(localDate).getNumberOfInstances(getSystemInstances(), includeDeclinedEvents)
+
+        assertThat(result).isEqualTo(expectedNumberOfInstances)
     }
 
     companion object {
@@ -172,145 +188,183 @@ internal class DrawDaysUseCaseTest : BaseTest() {
                     eventId = random.nextInt(),
                     start = "2018-11-26T00:00:00Z".toInstant(ZoneOffset.UTC),
                     end = "2018-11-27T00:00:00Z".toInstant(ZoneOffset.UTC),
-                    zoneId = ZoneOffset.UTC
+                    zoneId = ZoneOffset.UTC,
+                    isDeclined = false
                 ),
                 Instance(
                     eventId = random.nextInt(),
                     start = "2018-11-28T00:00:00Z".toInstant(systemZoneOffset),
                     end = "2018-11-29T09:00:00Z".toInstant(systemZoneOffset),
-                    zoneId = systemZoneOffset
+                    zoneId = systemZoneOffset,
+                    isDeclined = false
                 ),
                 Instance(
                     eventId = random.nextInt(),
                     start = "2018-12-03T00:00:00Z".toInstant(ZoneOffset.UTC),
                     end = "2018-12-04T00:00:00Z".toInstant(ZoneOffset.UTC),
-                    zoneId = ZoneOffset.UTC
+                    zoneId = ZoneOffset.UTC,
+                    isDeclined = false
                 ),
                 Instance(
                     eventId = random.nextInt(),
                     start = "2018-12-04T00:00:00Z".toInstant(ZoneOffset.UTC),
                     end = "2018-12-05T00:00:00Z".toInstant(ZoneOffset.UTC),
-                    zoneId = ZoneOffset.UTC
+                    zoneId = ZoneOffset.UTC,
+                    isDeclined = false
                 ),
                 Instance(
                     eventId = random.nextInt(),
                     start = "2018-12-06T00:00:00Z".toInstant(ZoneOffset.UTC),
                     end = "2018-12-07T00:00:00Z".toInstant(ZoneOffset.UTC),
-                    zoneId = ZoneOffset.UTC
+                    zoneId = ZoneOffset.UTC,
+                    isDeclined = false
                 ),
                 Instance(
                     eventId = random.nextInt(),
                     start = "2018-12-06T02:00:00Z".toInstant(systemZoneOffset),
                     end = "2018-12-07T04:00:00Z".toInstant(systemZoneOffset),
-                    zoneId = systemZoneOffset
+                    zoneId = systemZoneOffset,
+                    isDeclined = false
                 ),
                 Instance(
                     eventId = random.nextInt(),
                     start = "2018-12-06T00:00:00Z".toInstant(ZoneOffset.UTC),
                     end = "2018-12-07T00:00:00Z".toInstant(ZoneOffset.UTC),
-                    zoneId = ZoneOffset.UTC
+                    zoneId = ZoneOffset.UTC,
+                    isDeclined = false
                 ),
                 Instance(
                     eventId = random.nextInt(),
                     start = "2018-12-10T00:00:00Z".toInstant(ZoneOffset.UTC),
                     end = "2018-12-11T00:00:00Z".toInstant(ZoneOffset.UTC),
-                    zoneId = ZoneOffset.UTC
+                    zoneId = ZoneOffset.UTC,
+                    isDeclined = false
                 ),
                 Instance(
                     eventId = random.nextInt(),
                     start = "2018-12-10T00:00:00Z".toInstant(ZoneOffset.UTC),
                     end = "2018-12-11T00:00:00Z".toInstant(ZoneOffset.UTC),
-                    zoneId = ZoneOffset.UTC
+                    zoneId = ZoneOffset.UTC,
+                    isDeclined = false
                 ),
                 Instance(
                     eventId = random.nextInt(),
                     start = "2018-12-10T00:00:00Z".toInstant(ZoneOffset.UTC),
                     end = "2018-12-11T00:00:00Z".toInstant(ZoneOffset.UTC),
-                    zoneId = ZoneOffset.UTC
+                    zoneId = ZoneOffset.UTC,
+                    isDeclined = false
                 ),
                 Instance(
                     eventId = random.nextInt(),
                     start = "2018-12-10T12:00:00Z".toInstant(systemZoneOffset),
                     end = "2018-12-11T13:00:00Z".toInstant(systemZoneOffset),
-                    zoneId = systemZoneOffset
+                    zoneId = systemZoneOffset,
+                    isDeclined = false
+                ),
+                Instance(
+                    eventId = random.nextInt(),
+                    start = "2018-12-18T00:00:00Z".toInstant(ZoneOffset.UTC),
+                    end = "2018-12-19T00:00:00Z".toInstant(ZoneOffset.UTC),
+                    zoneId = ZoneOffset.UTC,
+                    isDeclined = true
                 ),
                 Instance(
                     eventId = random.nextInt(),
                     start = "2018-12-27T00:00:00Z".toInstant(ZoneOffset.UTC),
                     end = "2018-12-28T00:00:00Z".toInstant(ZoneOffset.UTC),
-                    zoneId = ZoneOffset.UTC
+                    zoneId = ZoneOffset.UTC,
+                    isDeclined = false
                 ),
                 Instance(
                     eventId = random.nextInt(),
                     start = "2018-12-30T00:00:00Z".toInstant(ZoneOffset.UTC),
                     end = "2018-12-31T00:00:00Z".toInstant(ZoneOffset.UTC),
-                    zoneId = ZoneOffset.UTC
+                    zoneId = ZoneOffset.UTC,
+                    isDeclined = false
                 ),
                 Instance(
                     eventId = random.nextInt(),
                     start = "2018-12-30T00:00:00Z".toInstant(ZoneOffset.UTC),
                     end = "2018-12-31T00:00:00Z".toInstant(ZoneOffset.UTC),
-                    zoneId = ZoneOffset.UTC
+                    zoneId = ZoneOffset.UTC,
+                    isDeclined = false
                 ),
                 Instance(
                     eventId = random.nextInt(),
                     start = "2018-12-30T00:00:00Z".toInstant(ZoneOffset.UTC),
                     end = "2018-12-31T00:00:00Z".toInstant(ZoneOffset.UTC),
-                    zoneId = ZoneOffset.UTC
+                    zoneId = ZoneOffset.UTC,
+                    isDeclined = false
                 ),
                 Instance(
                     eventId = random.nextInt(),
                     start = "2018-12-30T00:00:00Z".toInstant(ZoneOffset.UTC),
                     end = "2018-12-31T00:00:00Z".toInstant(ZoneOffset.UTC),
-                    zoneId = ZoneOffset.UTC
+                    zoneId = ZoneOffset.UTC,
+                    isDeclined = false
                 ),
                 Instance(
                     eventId = random.nextInt(),
                     start = "2018-12-30T00:00:00Z".toInstant(ZoneOffset.UTC),
                     end = "2018-12-31T00:00:00Z".toInstant(ZoneOffset.UTC),
-                    zoneId = ZoneOffset.UTC
+                    zoneId = ZoneOffset.UTC,
+                    isDeclined = false
                 ),
                 Instance(
                     eventId = random.nextInt(),
                     start = "2019-01-01T05:00:00Z".toInstant(systemZoneOffset),
                     end = "2019-12-02T11:20:00Z".toInstant(systemZoneOffset),
-                    zoneId = systemZoneOffset
+                    zoneId = systemZoneOffset,
+                    isDeclined = false
+                ),
+                Instance(
+                    eventId = random.nextInt(),
+                    start = "2019-01-02T05:00:00Z".toInstant(systemZoneOffset),
+                    end = "2019-10-02T11:20:00Z".toInstant(systemZoneOffset),
+                    zoneId = systemZoneOffset,
+                    isDeclined = true
                 ),
                 Instance(
                     eventId = random.nextInt(),
                     start = "2019-01-05T00:00:00Z".toInstant(ZoneOffset.UTC),
                     end = "2019-01-06T00:00:00Z".toInstant(ZoneOffset.UTC),
-                    zoneId = ZoneOffset.UTC
+                    zoneId = ZoneOffset.UTC,
+                    isDeclined = false
                 ),
                 Instance(
                     eventId = random.nextInt(),
                     start = "2019-01-05T00:00:00Z".toInstant(ZoneOffset.UTC),
                     end = "2019-01-06T00:00:00Z".toInstant(ZoneOffset.UTC),
-                    zoneId = ZoneOffset.UTC
+                    zoneId = ZoneOffset.UTC,
+                    isDeclined = false
                 ),
                 Instance(
                     eventId = random.nextInt(),
                     start = "2019-01-05T00:00:00Z".toInstant(ZoneOffset.UTC),
                     end = "2019-01-06T00:00:00Z".toInstant(ZoneOffset.UTC),
-                    zoneId = ZoneOffset.UTC
+                    zoneId = ZoneOffset.UTC,
+                    isDeclined = false
                 ),
                 Instance(
                     eventId = random.nextInt(),
                     start = "2019-01-05T00:00:00Z".toInstant(ZoneOffset.UTC),
                     end = "2019-01-06T00:00:00Z".toInstant(ZoneOffset.UTC),
-                    zoneId = ZoneOffset.UTC
+                    zoneId = ZoneOffset.UTC,
+                    isDeclined = false
                 ),
                 Instance(
                     eventId = random.nextInt(),
                     start = "2019-01-05T00:00:00Z".toInstant(ZoneOffset.UTC),
                     end = "2019-01-06T00:00:00Z".toInstant(ZoneOffset.UTC),
-                    zoneId = ZoneOffset.UTC
+                    zoneId = ZoneOffset.UTC,
+                    isDeclined = false
                 ),
                 Instance(
                     eventId = random.nextInt(),
                     start = "2019-01-05T00:00:00Z".toInstant(ZoneOffset.UTC),
                     end = "2019-01-06T00:00:00Z".toInstant(ZoneOffset.UTC),
-                    zoneId = ZoneOffset.UTC
+                    zoneId = ZoneOffset.UTC,
+                    isDeclined = false
                 )
             )
         }
@@ -481,6 +535,95 @@ internal class DrawDaysUseCaseTest : BaseTest() {
                 DayOfWeek.MONDAY,
                 LocalDate.of(2021, 3, 1)
             )
+        )!!
+
+        @JvmStatic
+        @Suppress("unused", "LongMethod")
+        fun getLocalDateAndIncludeDeclinedEventsWithExpectedNumberOfInstances() = Stream.of(
+            Arguments.of(LocalDate.of(2018, 11, 26), false, 1),
+            Arguments.of(LocalDate.of(2018, 11, 27), false, 0),
+            Arguments.of(LocalDate.of(2018, 11, 28), false, 1),
+            Arguments.of(LocalDate.of(2018, 11, 29), false, 1),
+            Arguments.of(LocalDate.of(2018, 11, 30), false, 0),
+            Arguments.of(LocalDate.of(2018, 12, 1), false, 0),
+            Arguments.of(LocalDate.of(2018, 12, 2), false, 0),
+            Arguments.of(LocalDate.of(2018, 12, 3), false, 1),
+            Arguments.of(LocalDate.of(2018, 12, 4), false, 1),
+            Arguments.of(LocalDate.of(2018, 12, 5), false, 0),
+            Arguments.of(LocalDate.of(2018, 12, 6), false, 3),
+            Arguments.of(LocalDate.of(2018, 12, 7), false, 1),
+            Arguments.of(LocalDate.of(2018, 12, 8), false, 0),
+            Arguments.of(LocalDate.of(2018, 12, 9), false, 0),
+            Arguments.of(LocalDate.of(2018, 12, 10), false, 4),
+            Arguments.of(LocalDate.of(2018, 12, 11), false, 1),
+            Arguments.of(LocalDate.of(2018, 12, 12), false, 0),
+            Arguments.of(LocalDate.of(2018, 12, 13), false, 0),
+            Arguments.of(LocalDate.of(2018, 12, 14), false, 0),
+            Arguments.of(LocalDate.of(2018, 12, 15), false, 0),
+            Arguments.of(LocalDate.of(2018, 12, 16), false, 0),
+            Arguments.of(LocalDate.of(2018, 12, 17), false, 0),
+            Arguments.of(LocalDate.of(2018, 12, 18), false, 0),
+            Arguments.of(LocalDate.of(2018, 12, 19), false, 0),
+            Arguments.of(LocalDate.of(2018, 12, 20), false, 0),
+            Arguments.of(LocalDate.of(2018, 12, 21), false, 0),
+            Arguments.of(LocalDate.of(2018, 12, 22), false, 0),
+            Arguments.of(LocalDate.of(2018, 12, 23), false, 0),
+            Arguments.of(LocalDate.of(2018, 12, 24), false, 0),
+            Arguments.of(LocalDate.of(2018, 12, 25), false, 0),
+            Arguments.of(LocalDate.of(2018, 12, 26), false, 0),
+            Arguments.of(LocalDate.of(2018, 12, 27), false, 1),
+            Arguments.of(LocalDate.of(2018, 12, 28), false, 0),
+            Arguments.of(LocalDate.of(2018, 12, 29), false, 0),
+            Arguments.of(LocalDate.of(2018, 12, 30), false, 5),
+            Arguments.of(LocalDate.of(2018, 12, 31), false, 0),
+            Arguments.of(LocalDate.of(2019, 1, 1), false, 1),
+            Arguments.of(LocalDate.of(2019, 1, 2), false, 1),
+            Arguments.of(LocalDate.of(2019, 1, 3), false, 1),
+            Arguments.of(LocalDate.of(2019, 1, 4), false, 1),
+            Arguments.of(LocalDate.of(2019, 1, 5), false, 7),
+            Arguments.of(LocalDate.of(2019, 1, 6), false, 1),
+            Arguments.of(LocalDate.of(2018, 11, 26), true, 1),
+            Arguments.of(LocalDate.of(2018, 11, 27), true, 0),
+            Arguments.of(LocalDate.of(2018, 11, 28), true, 1),
+            Arguments.of(LocalDate.of(2018, 11, 29), true, 1),
+            Arguments.of(LocalDate.of(2018, 11, 30), true, 0),
+            Arguments.of(LocalDate.of(2018, 12, 1), true, 0),
+            Arguments.of(LocalDate.of(2018, 12, 2), true, 0),
+            Arguments.of(LocalDate.of(2018, 12, 3), true, 1),
+            Arguments.of(LocalDate.of(2018, 12, 4), true, 1),
+            Arguments.of(LocalDate.of(2018, 12, 5), true, 0),
+            Arguments.of(LocalDate.of(2018, 12, 6), true, 3),
+            Arguments.of(LocalDate.of(2018, 12, 7), true, 1),
+            Arguments.of(LocalDate.of(2018, 12, 8), true, 0),
+            Arguments.of(LocalDate.of(2018, 12, 9), true, 0),
+            Arguments.of(LocalDate.of(2018, 12, 10), true, 4),
+            Arguments.of(LocalDate.of(2018, 12, 11), true, 1),
+            Arguments.of(LocalDate.of(2018, 12, 12), true, 0),
+            Arguments.of(LocalDate.of(2018, 12, 13), true, 0),
+            Arguments.of(LocalDate.of(2018, 12, 14), true, 0),
+            Arguments.of(LocalDate.of(2018, 12, 15), true, 0),
+            Arguments.of(LocalDate.of(2018, 12, 16), true, 0),
+            Arguments.of(LocalDate.of(2018, 12, 17), true, 0),
+            Arguments.of(LocalDate.of(2018, 12, 18), true, 1),
+            Arguments.of(LocalDate.of(2018, 12, 19), true, 0),
+            Arguments.of(LocalDate.of(2018, 12, 20), true, 0),
+            Arguments.of(LocalDate.of(2018, 12, 21), true, 0),
+            Arguments.of(LocalDate.of(2018, 12, 22), true, 0),
+            Arguments.of(LocalDate.of(2018, 12, 23), true, 0),
+            Arguments.of(LocalDate.of(2018, 12, 24), true, 0),
+            Arguments.of(LocalDate.of(2018, 12, 25), true, 0),
+            Arguments.of(LocalDate.of(2018, 12, 26), true, 0),
+            Arguments.of(LocalDate.of(2018, 12, 27), true, 1),
+            Arguments.of(LocalDate.of(2018, 12, 28), true, 0),
+            Arguments.of(LocalDate.of(2018, 12, 29), true, 0),
+            Arguments.of(LocalDate.of(2018, 12, 30), true, 5),
+            Arguments.of(LocalDate.of(2018, 12, 31), true, 0),
+            Arguments.of(LocalDate.of(2019, 1, 1), true, 1),
+            Arguments.of(LocalDate.of(2019, 1, 2), true, 2),
+            Arguments.of(LocalDate.of(2019, 1, 3), true, 2),
+            Arguments.of(LocalDate.of(2019, 1, 4), true, 2),
+            Arguments.of(LocalDate.of(2019, 1, 5), true, 8),
+            Arguments.of(LocalDate.of(2019, 1, 6), true, 2)
         )!!
     }
 }
