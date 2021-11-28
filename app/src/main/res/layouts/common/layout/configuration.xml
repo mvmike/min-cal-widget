@@ -146,12 +146,13 @@
             android:text="@string/transparency"
             android:textColor="@color/config_label"
             android:textSize="16sp" />
+
         <SeekBar
             android:id="@+id/transparencySeekBar"
-            android:max="100"
-            android:layout_width="130dp"
+            android:layout_width="126dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"/>
+            android:layout_gravity="end"
+            android:max="100" />
 
     </LinearLayout>
 
