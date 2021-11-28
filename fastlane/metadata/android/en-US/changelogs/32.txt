@@ -1,0 +1,3 @@
+v2.3.0
+- show declined events by configuration
+- technical improvements
