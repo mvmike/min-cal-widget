@@ -422,7 +422,7 @@ internal class DrawDaysUseCaseTest : BaseTest() {
             val spanText: String,
             val dayBackgroundColour: Int? = null,
             val isToday: Boolean = false,
-            val symbolRelativeSize: Float = 1.1f,
+            val symbolRelativeSize: Float = 1f,
             val instancesColour: Int = instancesColourId
         ) {
             fun isSingleDigitDay() = spanText.startsWith(" 0")
