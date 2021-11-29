@@ -6,23 +6,20 @@
     android:orientation="vertical"
     android:weightSum="5">
 
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="20dp" />
-
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|start"
         android:layout_weight="1"
         android:orientation="horizontal"
+        android:paddingTop="15dp"
         android:paddingStart="15dp"
         android:paddingEnd="15dp">
 
         <TextView
             android:id="@+id/txt_theme"
             android:layout_width="115dp"
-            android:layout_height="wrap_content"
+            android:layout_height="25dp"
             android:text="@string/theme"
             android:textColor="@color/config_label"
             android:textSize="16sp" />
@@ -30,15 +27,11 @@
         <Spinner
             android:id="@+id/themeSpinner"
             android:layout_width="130dp"
-            android:layout_height="wrap_content"
+            android:layout_height="25dp"
             android:layout_gravity="end"
             android:textColor="@color/config_value" />
 
     </LinearLayout>
-
-    <View
-        android:layout_width="180dp"
-        android:layout_height="15dp" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -46,13 +39,14 @@
         android:layout_gravity="bottom|start"
         android:layout_weight="1"
         android:orientation="horizontal"
+        android:paddingTop="15dp"
         android:paddingStart="15dp"
         android:paddingEnd="15dp">
 
         <TextView
             android:id="@+id/txt_first_day_of_week"
             android:layout_width="115dp"
-            android:layout_height="wrap_content"
+            android:layout_height="25dp"
             android:text="@string/start_week_day"
             android:textColor="@color/config_label"
             android:textSize="16sp" />
@@ -60,15 +54,11 @@
         <Spinner
             android:id="@+id/startWeekDaySpinner"
             android:layout_width="130dp"
-            android:layout_height="wrap_content"
+            android:layout_height="25dp"
             android:layout_gravity="end"
             android:textColor="@color/config_value" />
 
     </LinearLayout>
-
-    <View
-        android:layout_width="180dp"
-        android:layout_height="15dp" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -76,13 +66,14 @@
         android:layout_gravity="bottom|start"
         android:layout_weight="1"
         android:orientation="horizontal"
+        android:paddingTop="15dp"
         android:paddingStart="15dp"
         android:paddingEnd="15dp">
 
         <TextView
             android:id="@+id/txt_symbol_set"
             android:layout_width="115dp"
-            android:layout_height="wrap_content"
+            android:layout_height="25dp"
             android:text="@string/symbol_set"
             android:textColor="@color/config_label"
             android:textSize="16sp" />
@@ -90,15 +81,11 @@
         <Spinner
             android:id="@+id/symbolSetSpinner"
             android:layout_width="130dp"
-            android:layout_height="wrap_content"
+            android:layout_height="25dp"
             android:layout_gravity="end"
             android:textColor="@color/config_value" />
 
     </LinearLayout>
-
-    <View
-        android:layout_width="180dp"
-        android:layout_height="15dp" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -106,13 +93,14 @@
         android:layout_gravity="bottom|start"
         android:layout_weight="1"
         android:orientation="horizontal"
+        android:paddingTop="15dp"
         android:paddingStart="15dp"
         android:paddingEnd="15dp">
 
         <TextView
             android:id="@+id/txt_symbol_colour"
             android:layout_width="115dp"
-            android:layout_height="wrap_content"
+            android:layout_height="25dp"
             android:text="@string/symbol_colour"
             android:textColor="@color/config_label"
             android:textSize="16sp" />
@@ -120,15 +108,11 @@
         <Spinner
             android:id="@+id/symbolColourSpinner"
             android:layout_width="130dp"
-            android:layout_height="wrap_content"
+            android:layout_height="25dp"
             android:layout_gravity="end"
             android:textColor="@color/config_value" />
 
     </LinearLayout>
-
-    <View
-        android:layout_width="180dp"
-        android:layout_height="10dp" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -136,27 +120,24 @@
         android:layout_gravity="bottom|start"
         android:layout_weight="1"
         android:orientation="horizontal"
+        android:paddingTop="15dp"
         android:paddingStart="15dp"
         android:paddingEnd="15dp">
 
         <TextView
             android:id="@+id/txt_show_declined_events"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
+            android:layout_width="205dp"
+            android:layout_height="25dp"
             android:text="@string/show_declined_events"
             android:textColor="@color/config_label"
             android:textSize="16sp" />
         <CheckBox
             android:id="@+id/show_declined_eventsCheckBox"
             android:layout_width="30dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top|end"/>
+            android:layout_height="25dp"
+            android:layout_gravity="center|start"/>
 
     </LinearLayout>
-
-    <View
-        android:layout_width="180dp"
-        android:layout_height="10dp" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -164,21 +145,22 @@
         android:layout_gravity="bottom|start"
         android:layout_weight="1"
         android:orientation="horizontal"
+        android:paddingTop="15dp"
         android:paddingStart="15dp"
         android:paddingEnd="15dp">
 
         <TextView
             android:id="@+id/txt_transparency"
             android:layout_width="115dp"
-            android:layout_height="wrap_content"
+            android:layout_height="25dp"
             android:text="@string/transparency"
             android:textColor="@color/config_label"
             android:textSize="16sp" />
 
         <SeekBar
             android:id="@+id/transparencySeekBar"
-            android:layout_width="126dp"
-            android:layout_height="wrap_content"
+            android:layout_width="130dp"
+            android:layout_height="25dp"
             android:layout_gravity="center|end"
             android:max="100" />
 
