@@ -1,10 +1,12 @@
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
     android:initialLayout="@layout/loading"
-    android:minWidth="180dp"
-    android:minHeight="110dp"
-    android:minResizeWidth="110dp"
-    android:minResizeHeight="110dp"
+    android:minWidth="200dp"
+    android:minHeight="100dp"
+    android:minResizeWidth="90dp"
+    android:minResizeHeight="50dp"
     android:previewImage="@drawable/widget_preview"
     android:resizeMode="vertical|horizontal"
     android:updatePeriodMillis="3600000"
     android:widgetCategory="keyguard|home_screen" />
+    <!--    android:targetCellWidth="3"-->
+    <!--    android:targetCellHeight="2"-->

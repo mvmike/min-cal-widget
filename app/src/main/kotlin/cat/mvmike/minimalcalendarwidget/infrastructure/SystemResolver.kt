@@ -211,6 +211,7 @@ object SystemResolver {
         isToday: Boolean,
         isSingleDigitDay: Boolean,
         symbolRelativeSize: Float,
+        generalRelativeSize: Float,
         instancesColour: Int
     ) {
         val daySpSt = SpannableString(spanText)
@@ -222,6 +223,7 @@ object SystemResolver {
             daySpSt.setSpan(StyleSpan(Typeface.BOLD), 0, spanText.length - 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         }
         daySpSt.setSpan(ForegroundColorSpan(instancesColour), spanText.length - 1, spanText.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        daySpSt.setSpan(RelativeSizeSpan(generalRelativeSize), 0, spanText.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         daySpSt.setSpan(RelativeSizeSpan(symbolRelativeSize), spanText.length - 1, spanText.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
 
         val dayRv = getById(context, dayLayout)

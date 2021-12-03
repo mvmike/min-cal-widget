@@ -4,6 +4,7 @@ package cat.mvmike.minimalcalendarwidget.application.visual
 
 import android.content.Context
 import android.widget.RemoteViews
+import cat.mvmike.minimalcalendarwidget.domain.Format
 import cat.mvmike.minimalcalendarwidget.domain.configuration.Configuration
 import cat.mvmike.minimalcalendarwidget.domain.configuration.EnumConfiguration
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Colour
@@ -33,7 +34,7 @@ object DrawDaysUseCase {
 
     private const val INSTANCES_QUERY_DAYS_SPAN = 45L
 
-    fun execute(context: Context, widgetRemoteView: RemoteViews) {
+    fun execute(context: Context, widgetRemoteView: RemoteViews, format: Format) {
         val systemLocalDate: LocalDate = SystemResolver.getSystemLocalDate()
         val instanceSet = getInstances(
             context = context,
@@ -83,6 +84,7 @@ object DrawDaysUseCase {
                     isToday = currentDay.isToday(systemLocalDate),
                     isSingleDigitDay = currentDay.isSingleDigitDay(),
                     symbolRelativeSize = instancesSymbolSet.relativeSize,
+                    generalRelativeSize = format.dayCellValueRelativeSize,
                     instancesColour = dayInstancesColour
                 )
             }

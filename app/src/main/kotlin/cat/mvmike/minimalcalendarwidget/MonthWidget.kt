@@ -7,15 +7,17 @@ import android.appwidget.AppWidgetProvider
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.os.Bundle
 import android.widget.RemoteViews
 import cat.mvmike.minimalcalendarwidget.application.action.system.StartAlarmUseCase
 import cat.mvmike.minimalcalendarwidget.application.action.system.StopAlarmUseCase
 import cat.mvmike.minimalcalendarwidget.application.action.user.AddListenersUseCase
 import cat.mvmike.minimalcalendarwidget.application.action.user.ProcessIntentUseCase
-import cat.mvmike.minimalcalendarwidget.application.visual.DrawDaysHeaderUseCase
 import cat.mvmike.minimalcalendarwidget.application.visual.DrawDaysUseCase
-import cat.mvmike.minimalcalendarwidget.application.visual.DrawMonthAndYearHeaderUseCase
-import cat.mvmike.minimalcalendarwidget.application.visual.DrawWidgetLayout
+import cat.mvmike.minimalcalendarwidget.application.visual.draw.DrawDaysHeaderUseCase
+import cat.mvmike.minimalcalendarwidget.application.visual.draw.DrawMonthAndYearHeaderUseCase
+import cat.mvmike.minimalcalendarwidget.application.visual.draw.DrawWidgetLayout
+import cat.mvmike.minimalcalendarwidget.application.visual.get.GetWidgetFormatUseCase
 import cat.mvmike.minimalcalendarwidget.domain.configuration.EnumConfiguration
 import cat.mvmike.minimalcalendarwidget.domain.configuration.clearAllConfiguration
 import cat.mvmike.minimalcalendarwidget.infrastructure.SystemResolver
@@ -25,6 +27,11 @@ class MonthWidget : AppWidgetProvider() {
     override fun onEnabled(context: Context) {
         super.onEnabled(context)
         StartAlarmUseCase.execute(context)
+    }
+
+    override fun onAppWidgetOptionsChanged(context: Context, appWidgetManager: AppWidgetManager, appWidgetId: Int, newOptions: Bundle) {
+        super.onAppWidgetOptionsChanged(context, appWidgetManager, appWidgetId, newOptions)
+        redrawWidget(context, appWidgetManager, appWidgetId)
     }
 
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
@@ -58,35 +65,40 @@ class MonthWidget : AppWidgetProvider() {
             )
         }
 
-        private fun redrawWidgets(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
+        private fun redrawWidgets(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) =
+            appWidgetIds.forEach { appWidgetId -> redrawWidget(context, appWidgetManager, appWidgetId)}
+
+        private fun redrawWidget(context: Context, appWidgetManager: AppWidgetManager, appWidgetId: Int) {
             val widgetRemoteView = RemoteViews(context.packageName, EnumConfiguration.WidgetTheme.get(context).mainLayout)
-            appWidgetIds.forEach { appWidgetId ->
-                widgetRemoteView.removeAllViews(R.id.calendar_widget)
+            widgetRemoteView.removeAllViews(R.id.calendar_widget)
 
-                AddListenersUseCase.execute(
-                    context = context,
-                    widgetRemoteView = widgetRemoteView
-                )
+            AddListenersUseCase.execute(
+                context = context,
+                widgetRemoteView = widgetRemoteView
+            )
 
-                DrawWidgetLayout.execute(
-                    context = context,
-                    widgetRemoteView = widgetRemoteView
-                )
-                DrawMonthAndYearHeaderUseCase.execute(
-                    context = context,
-                    widgetRemoteView = widgetRemoteView
-                )
-                DrawDaysHeaderUseCase.execute(
-                    context = context,
-                    widgetRemoteView = widgetRemoteView
-                )
-                DrawDaysUseCase.execute(
-                    context = context,
-                    widgetRemoteView = widgetRemoteView
-                )
+            val format = GetWidgetFormatUseCase.execute(appWidgetManager, appWidgetId)
+            DrawWidgetLayout.execute(
+                context = context,
+                widgetRemoteView = widgetRemoteView
+            )
+            DrawMonthAndYearHeaderUseCase.execute(
+                context = context,
+                widgetRemoteView = widgetRemoteView,
+                format = format
+            )
+            DrawDaysHeaderUseCase.execute(
+                context = context,
+                widgetRemoteView = widgetRemoteView,
+                format = format
+            )
+            DrawDaysUseCase.execute(
+                context = context,
+                widgetRemoteView = widgetRemoteView,
+                format = format
+            )
 
-                appWidgetManager.updateAppWidget(appWidgetId, widgetRemoteView)
-            }
+            appWidgetManager.updateAppWidget(appWidgetId, widgetRemoteView)
         }
     }
 

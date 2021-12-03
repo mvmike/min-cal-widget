@@ -1,10 +1,11 @@
 // Copyright (c) 2016, Miquel Martí <miquelmarti111@gmail.com>
 // See LICENSE for licensing information
-package cat.mvmike.minimalcalendarwidget.application.visual
+package cat.mvmike.minimalcalendarwidget.application.visual.draw
 
 import android.content.Context
 import android.widget.RemoteViews
 import cat.mvmike.minimalcalendarwidget.R
+import cat.mvmike.minimalcalendarwidget.domain.Format
 import cat.mvmike.minimalcalendarwidget.infrastructure.SystemResolver
 import java.time.Instant
 import java.time.Month
@@ -18,12 +19,13 @@ object DrawMonthAndYearHeaderUseCase {
 
     private const val HEADER_RELATIVE_YEAR_SIZE = 0.7f
 
-    fun execute(context: Context, widgetRemoteView: RemoteViews) {
+    fun execute(context: Context, widgetRemoteView: RemoteViews, format: Format) {
         val systemInstant = SystemResolver.getInstant()
         val systemZoneId = SystemResolver.getSystemZoneId()
         val locale = SystemResolver.getLocale(context)
-        val displayMonth = systemInstant.toMonthDisplayValue(systemZoneId, context)
+        val displayMonth = format.getMonthHeaderLabel(systemInstant.toMonthDisplayValue(systemZoneId, context))
         val displayYear = systemInstant.toYearDisplayValue(locale, systemZoneId)
+
         SystemResolver.createMonthAndYearHeader(
             widgetRemoteView = widgetRemoteView,
             monthAndYear = "$displayMonth $displayYear",

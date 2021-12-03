@@ -1,10 +1,11 @@
 // Copyright (c) 2016, Miquel Martí <miquelmarti111@gmail.com>
 // See LICENSE for licensing information
-package cat.mvmike.minimalcalendarwidget.application.visual
+package cat.mvmike.minimalcalendarwidget.application.visual.draw
 
 import android.widget.RemoteViews
 import cat.mvmike.minimalcalendarwidget.BaseTest
 import cat.mvmike.minimalcalendarwidget.R
+import cat.mvmike.minimalcalendarwidget.domain.Format
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Transparency
 import cat.mvmike.minimalcalendarwidget.infrastructure.SystemResolver
@@ -25,6 +26,7 @@ import java.util.stream.Stream
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
+import java.util.Collections
 
 internal class DrawDaysHeaderUseCaseTest : BaseTest() {
 
@@ -33,10 +35,11 @@ internal class DrawDaysHeaderUseCaseTest : BaseTest() {
     private val daysHeaderRowRv = mockk<RemoteViews>()
 
     @ParameterizedTest
-    @MethodSource("combinationOfStartWeekDayAndThemeConfig")
+    @MethodSource("combinationOfStartWeekDayThemeConfigAndFormat")
     fun setDayHeaders_shouldAddViewBasedOnCurrentDayAndConfig(
         startWeekDay: DayOfWeek,
         theme: Theme,
+        format: Format,
         dayHeaderSaturdayCellBackground: Int,
         dayHeaderSundayCellBackground: Int
     ) {
@@ -54,12 +57,12 @@ internal class DrawDaysHeaderUseCaseTest : BaseTest() {
 
         val rotatedWeekDays = getRotatedWeekDays(startWeekDay)
         rotatedWeekDays.forEach {
-            every { context.getString(it.getExpectedResourceId()) } returns it.getExpectedAbbreviatedString()
+            every { context.getString(it.getExpectedResourceId()) } returns it.getExpectedAbbreviatedString(format)
         }
         justRun { SystemResolver.addToDaysHeaderRow(context, daysHeaderRowRv, any(), any(), any(), any()) }
         justRun { SystemResolver.addToWidget(widgetRv, daysHeaderRowRv) }
 
-        DrawDaysHeaderUseCase.execute(context, widgetRv)
+        DrawDaysHeaderUseCase.execute(context, widgetRv, format)
 
         verifyWidgetTransparency()
         verifyFirstDayOfWeek()
@@ -83,7 +86,7 @@ internal class DrawDaysHeaderUseCaseTest : BaseTest() {
                 SystemResolver.addToDaysHeaderRow(
                     context = context,
                     daysHeaderRow = daysHeaderRowRv,
-                    text = it.getExpectedAbbreviatedString(),
+                    text = it.getExpectedAbbreviatedString(format),
                     layoutId = cellHeader.layout,
                     viewId = 16908308,
                     dayHeaderBackgroundColour = when (it) {
@@ -115,34 +118,43 @@ internal class DrawDaysHeaderUseCaseTest : BaseTest() {
 
         @JvmStatic
         @Suppress("unused")
-        fun combinationOfStartWeekDayAndThemeConfig() = Stream.of(
-            Arguments.of(MONDAY, Theme.DARK, dayHeaderSaturdayDarkThemeBackground, dayHeaderSundayDarkThemeBackground),
-            Arguments.of(TUESDAY, Theme.DARK, dayHeaderSaturdayDarkThemeBackground, dayHeaderSundayDarkThemeBackground),
-            Arguments.of(WEDNESDAY, Theme.DARK, dayHeaderSaturdayDarkThemeBackground, dayHeaderSundayDarkThemeBackground),
-            Arguments.of(THURSDAY, Theme.DARK, dayHeaderSaturdayDarkThemeBackground, dayHeaderSundayDarkThemeBackground),
-            Arguments.of(FRIDAY, Theme.DARK, dayHeaderSaturdayDarkThemeBackground, dayHeaderSundayDarkThemeBackground),
-            Arguments.of(SATURDAY, Theme.DARK, dayHeaderSaturdayDarkThemeBackground, dayHeaderSundayDarkThemeBackground),
-            Arguments.of(SUNDAY, Theme.DARK, dayHeaderSaturdayDarkThemeBackground, dayHeaderSundayDarkThemeBackground),
-            Arguments.of(MONDAY, Theme.LIGHT, dayHeaderSaturdayLightThemeBackground, dayHeaderSundayLightThemeBackground),
-            Arguments.of(TUESDAY, Theme.LIGHT, dayHeaderSaturdayLightThemeBackground, dayHeaderSundayLightThemeBackground),
-            Arguments.of(WEDNESDAY, Theme.LIGHT, dayHeaderSaturdayLightThemeBackground, dayHeaderSundayLightThemeBackground),
-            Arguments.of(THURSDAY, Theme.LIGHT, dayHeaderSaturdayLightThemeBackground, dayHeaderSundayLightThemeBackground),
-            Arguments.of(FRIDAY, Theme.LIGHT, dayHeaderSaturdayLightThemeBackground, dayHeaderSundayLightThemeBackground),
-            Arguments.of(SATURDAY, Theme.LIGHT, dayHeaderSaturdayLightThemeBackground, dayHeaderSundayLightThemeBackground),
-            Arguments.of(SUNDAY, Theme.LIGHT, dayHeaderSaturdayLightThemeBackground, dayHeaderSundayLightThemeBackground),
+        fun combinationOfStartWeekDayThemeConfigAndFormat() = Stream.of(
+            Arguments.of(MONDAY, Theme.DARK, Format.STANDARD, dayHeaderSaturdayDarkThemeBackground, dayHeaderSundayDarkThemeBackground),
+            Arguments.of(TUESDAY, Theme.DARK, Format.REDUCED, dayHeaderSaturdayDarkThemeBackground, dayHeaderSundayDarkThemeBackground),
+            Arguments.of(WEDNESDAY, Theme.DARK, Format.STANDARD, dayHeaderSaturdayDarkThemeBackground, dayHeaderSundayDarkThemeBackground),
+            Arguments.of(THURSDAY, Theme.DARK, Format.REDUCED, dayHeaderSaturdayDarkThemeBackground, dayHeaderSundayDarkThemeBackground),
+            Arguments.of(FRIDAY, Theme.DARK, Format.STANDARD, dayHeaderSaturdayDarkThemeBackground, dayHeaderSundayDarkThemeBackground),
+            Arguments.of(SATURDAY, Theme.DARK, Format.REDUCED, dayHeaderSaturdayDarkThemeBackground, dayHeaderSundayDarkThemeBackground),
+            Arguments.of(SUNDAY, Theme.DARK, Format.STANDARD, dayHeaderSaturdayDarkThemeBackground, dayHeaderSundayDarkThemeBackground),
+            Arguments.of(MONDAY, Theme.DARK, Format.REDUCED, dayHeaderSaturdayDarkThemeBackground, dayHeaderSundayDarkThemeBackground),
+            Arguments.of(TUESDAY, Theme.DARK, Format.STANDARD, dayHeaderSaturdayDarkThemeBackground, dayHeaderSundayDarkThemeBackground),
+            Arguments.of(WEDNESDAY, Theme.DARK, Format.REDUCED, dayHeaderSaturdayDarkThemeBackground, dayHeaderSundayDarkThemeBackground),
+            Arguments.of(THURSDAY, Theme.DARK, Format.STANDARD, dayHeaderSaturdayDarkThemeBackground, dayHeaderSundayDarkThemeBackground),
+            Arguments.of(FRIDAY, Theme.DARK, Format.REDUCED, dayHeaderSaturdayDarkThemeBackground, dayHeaderSundayDarkThemeBackground),
+            Arguments.of(SATURDAY, Theme.DARK, Format.STANDARD, dayHeaderSaturdayDarkThemeBackground, dayHeaderSundayDarkThemeBackground),
+            Arguments.of(SUNDAY, Theme.DARK, Format.REDUCED, dayHeaderSaturdayDarkThemeBackground, dayHeaderSundayDarkThemeBackground),
+            Arguments.of(MONDAY, Theme.LIGHT, Format.STANDARD, dayHeaderSaturdayLightThemeBackground, dayHeaderSundayLightThemeBackground),
+            Arguments.of(TUESDAY, Theme.LIGHT, Format.REDUCED, dayHeaderSaturdayLightThemeBackground, dayHeaderSundayLightThemeBackground),
+            Arguments.of(WEDNESDAY, Theme.LIGHT, Format.STANDARD, dayHeaderSaturdayLightThemeBackground, dayHeaderSundayLightThemeBackground),
+            Arguments.of(THURSDAY, Theme.LIGHT, Format.REDUCED, dayHeaderSaturdayLightThemeBackground, dayHeaderSundayLightThemeBackground),
+            Arguments.of(FRIDAY, Theme.LIGHT, Format.STANDARD, dayHeaderSaturdayLightThemeBackground, dayHeaderSundayLightThemeBackground),
+            Arguments.of(SATURDAY, Theme.LIGHT, Format.REDUCED, dayHeaderSaturdayLightThemeBackground, dayHeaderSundayLightThemeBackground),
+            Arguments.of(SUNDAY, Theme.LIGHT, Format.STANDARD, dayHeaderSaturdayLightThemeBackground, dayHeaderSundayLightThemeBackground),
+            Arguments.of(MONDAY, Theme.LIGHT, Format.REDUCED, dayHeaderSaturdayLightThemeBackground, dayHeaderSundayLightThemeBackground),
+            Arguments.of(TUESDAY, Theme.LIGHT, Format.STANDARD, dayHeaderSaturdayLightThemeBackground, dayHeaderSundayLightThemeBackground),
+            Arguments.of(WEDNESDAY, Theme.LIGHT, Format.REDUCED, dayHeaderSaturdayLightThemeBackground, dayHeaderSundayLightThemeBackground),
+            Arguments.of(THURSDAY, Theme.LIGHT, Format.STANDARD, dayHeaderSaturdayLightThemeBackground, dayHeaderSundayLightThemeBackground),
+            Arguments.of(FRIDAY, Theme.LIGHT, Format.REDUCED, dayHeaderSaturdayLightThemeBackground, dayHeaderSundayLightThemeBackground),
+            Arguments.of(SATURDAY, Theme.LIGHT, Format.STANDARD, dayHeaderSaturdayLightThemeBackground, dayHeaderSundayLightThemeBackground),
+            Arguments.of(SUNDAY, Theme.LIGHT, Format.REDUCED, dayHeaderSaturdayLightThemeBackground, dayHeaderSundayLightThemeBackground)
         )!!
     }
 
-    private fun getRotatedWeekDays(startDayOfWeek: DayOfWeek) =
-        when (startDayOfWeek) {
-            MONDAY -> arrayOf(MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY)
-            TUESDAY -> arrayOf(TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY, MONDAY)
-            WEDNESDAY -> arrayOf(WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY, MONDAY, TUESDAY)
-            THURSDAY -> arrayOf(THURSDAY, FRIDAY, SATURDAY, SUNDAY, MONDAY, TUESDAY, WEDNESDAY)
-            FRIDAY -> arrayOf(FRIDAY, SATURDAY, SUNDAY, MONDAY, TUESDAY, WEDNESDAY, THURSDAY)
-            SATURDAY -> arrayOf(SATURDAY, SUNDAY, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY)
-            SUNDAY -> arrayOf(SUNDAY, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY)
-        }
+    private fun getRotatedWeekDays(startDayOfWeek: DayOfWeek): List<DayOfWeek> {
+        val daysOfWeek = DayOfWeek.values().asList()
+        Collections.rotate(daysOfWeek, -startDayOfWeek.ordinal)
+        return daysOfWeek
+    }
 
     private fun DayOfWeek.getExpectedResourceId() =
         when (this) {
@@ -155,8 +167,8 @@ internal class DrawDaysHeaderUseCaseTest : BaseTest() {
             SUNDAY -> R.string.sunday_abb
         }
 
-    private fun DayOfWeek.getExpectedAbbreviatedString() =
-        when (this) {
+    private fun DayOfWeek.getExpectedAbbreviatedString(format: Format): String {
+        val abbreviatedString = when (this) {
             MONDAY -> "MON"
             TUESDAY -> "TUE"
             WEDNESDAY -> "WED"
@@ -165,4 +177,10 @@ internal class DrawDaysHeaderUseCaseTest : BaseTest() {
             SATURDAY -> "SAT"
             SUNDAY -> "SUN"
         }
+        return when (format){
+            Format.STANDARD -> abbreviatedString
+            Format.REDUCED -> abbreviatedString.take(1)
+        }
+    }
+
 }

@@ -1,10 +1,12 @@
 // Copyright (c) 2016, Miquel Martí <miquelmarti111@gmail.com>
 // See LICENSE for licensing information
-package cat.mvmike.minimalcalendarwidget.application.visual
+package cat.mvmike.minimalcalendarwidget.application.visual.draw
 
 import android.widget.RemoteViews
 import cat.mvmike.minimalcalendarwidget.BaseTest
+import cat.mvmike.minimalcalendarwidget.application.visual.DrawDaysUseCase
 import cat.mvmike.minimalcalendarwidget.application.visual.DrawDaysUseCase.getNumberOfInstances
+import cat.mvmike.minimalcalendarwidget.domain.Format
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Colour
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.SymbolSet
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
@@ -18,6 +20,11 @@ import io.mockk.justRun
 import io.mockk.mockk
 import io.mockk.verify
 import io.mockk.verifyOrder
+import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.Arguments
+import org.junit.jupiter.params.provider.EnumSource
+import org.junit.jupiter.params.provider.MethodSource
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -25,11 +32,6 @@ import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import java.util.Random
 import java.util.stream.Stream
-import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.Arguments
-import org.junit.jupiter.params.provider.MethodSource
 
 internal class DrawDaysUseCaseTest : BaseTest() {
 
@@ -37,9 +39,10 @@ internal class DrawDaysUseCaseTest : BaseTest() {
 
     private val rowRv = mockk<RemoteViews>()
 
-    @Test
+    @ParameterizedTest
+    @EnumSource(value = Format::class)
     @SuppressWarnings("LongMethod")
-    fun setDays_shouldReturnSafeDateSpanOfSystemTimeZoneInstances() {
+    fun setDays_shouldReturnSafeDateSpanOfSystemTimeZoneInstances(format: Format) {
         mockGetSystemLocalDate()
         mockIsReadCalendarPermitted(true)
 
@@ -75,10 +78,10 @@ internal class DrawDaysUseCaseTest : BaseTest() {
         every { SystemResolver.parseColour(dayCellModerateTransparentBackgroundInHex) } returns expectedBackground
         every { SystemResolver.parseColour(dayCellLowTransparentBackgroundInHex) } returns expectedBackground
 
-        justRun { SystemResolver.addToDaysRow(context, rowRv, any(), any(), any(), any(), any(), any(), any(), any()) }
+        justRun { SystemResolver.addToDaysRow(context, rowRv, any(), any(), any(), any(), any(), any(), any(), any(), any()) }
         justRun { SystemResolver.addToWidget(widgetRv, rowRv) }
 
-        DrawDaysUseCase.execute(context, widgetRv)
+        DrawDaysUseCase.execute(context, widgetRv, format)
 
         verify { SystemResolver.getSystemLocalDate() }
         verify { SystemResolver.isReadCalendarPermitted(context) }
@@ -128,6 +131,7 @@ internal class DrawDaysUseCaseTest : BaseTest() {
                     isToday = dayUseCaseTest.isToday,
                     isSingleDigitDay = dayUseCaseTest.isSingleDigitDay(),
                     symbolRelativeSize = dayUseCaseTest.symbolRelativeSize,
+                    generalRelativeSize = format.dayCellValueRelativeSize,
                     instancesColour = dayUseCaseTest.instancesColour
                 )
             }
