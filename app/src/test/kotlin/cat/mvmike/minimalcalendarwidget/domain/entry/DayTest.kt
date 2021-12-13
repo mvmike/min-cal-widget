@@ -13,7 +13,7 @@ import org.junit.jupiter.params.provider.MethodSource
 internal class DayTest : BaseTest() {
 
     @ParameterizedTest
-    @MethodSource("getLocalDatesWithTheirProperties")
+    @MethodSource("getLocalDatesWithExpectations")
     fun getDayOfWeek(dayProperties: DayTestProperties) {
         val day = Day(
             dayLocalDate = dayProperties.localDate
@@ -25,7 +25,7 @@ internal class DayTest : BaseTest() {
     }
 
     @ParameterizedTest
-    @MethodSource("getLocalDatesWithTheirProperties")
+    @MethodSource("getLocalDatesWithExpectations")
     fun getDayOfMonthString(dayProperties: DayTestProperties) {
         val day = Day(
             dayLocalDate = dayProperties.localDate
@@ -37,7 +37,7 @@ internal class DayTest : BaseTest() {
     }
 
     @ParameterizedTest
-    @MethodSource("getLocalDatesWithTheirProperties")
+    @MethodSource("getLocalDatesWithExpectations")
     fun isInMonth(dayProperties: DayTestProperties) {
         val day = Day(
             dayLocalDate = dayProperties.localDate
@@ -49,7 +49,7 @@ internal class DayTest : BaseTest() {
     }
 
     @ParameterizedTest
-    @MethodSource("getLocalDatesWithTheirProperties")
+    @MethodSource("getLocalDatesWithExpectations")
     fun isToday(dayProperties: DayTestProperties) {
         val day = Day(
             dayLocalDate = dayProperties.localDate
@@ -61,7 +61,7 @@ internal class DayTest : BaseTest() {
     }
 
     @ParameterizedTest
-    @MethodSource("getLocalDatesWithTheirProperties")
+    @MethodSource("getLocalDatesWithExpectations")
     fun isSingleDigitDay(dayProperties: DayTestProperties) {
         val day = Day(
             dayLocalDate = dayProperties.localDate
@@ -76,7 +76,7 @@ internal class DayTest : BaseTest() {
 
         @JvmStatic
         @Suppress("unused", "LongMethod")
-        fun getLocalDatesWithTheirProperties(): Stream<DayTestProperties> = Stream.of(
+        fun getLocalDatesWithExpectations(): Stream<DayTestProperties> = Stream.of(
             DayTestProperties(
                 localDate = LocalDate.of(2018, 1, 1),
                 expectedDayOfMonthString = "01",
