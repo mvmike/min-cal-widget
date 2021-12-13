@@ -45,65 +45,16 @@ internal class InstanceTest : BaseTest() {
         verify { SystemResolver.isReadCalendarPermitted(context) }
     }
 
-    @Test
-    fun getInstances_shouldReturnEmptyIfEmptyResponse() {
+    @ParameterizedTest
+    @MethodSource("getSetsOfExpectedInstances")
+    fun getInstances_shouldReturnAllInstancesBetweenLocalDates(expectedInstances: Set<Instance>) {
         mockGetSystemZoneId()
         mockIsReadCalendarPermitted(true)
         mockGetSystemLocalDate()
 
         val initLocalDate = systemLocalDate.minusDays(7)
         val endLocalDate = systemLocalDate.plusDays(7)
-        val initEpochMillis = initLocalDate.atStartOfDay(zoneId).toInstant().toEpochMilli()
-        val endEpochMillis = endLocalDate.atStartOfDay(zoneId).toInstant().toEpochMilli()
-        every { SystemResolver.getInstances(context, initEpochMillis, endEpochMillis) } returns HashSet()
 
-        val instances = getInstances(context, initLocalDate, endLocalDate)
-
-        assertThat(instances).isEmpty()
-        verify { SystemResolver.getSystemZoneId() }
-        verify { SystemResolver.isReadCalendarPermitted(context) }
-        verify { SystemResolver.getInstances(context, initEpochMillis, endEpochMillis) }
-    }
-
-    @Test
-    fun getInstances_shouldReturnAllInstancesBetweenLocalDates() {
-        val expectedInstances = setOf(
-            Instance(
-                eventId = 1,
-                start = "2018-11-29T23:00:00Z".toInstant(systemZoneOffset),
-                end = "2018-12-01T23:50:00Z".toInstant(systemZoneOffset),
-                zoneId = systemZoneOffset,
-                isDeclined = false
-            ),
-            Instance(
-                eventId = 2,
-                start = "2018-12-01T00:00:00Z".toInstant(ZoneOffset.UTC),
-                end = "2018-12-02T00:00:00Z".toInstant(ZoneOffset.UTC),
-                zoneId = ZoneOffset.UTC,
-                isDeclined = false
-            ),
-            Instance(
-                eventId = 3,
-                start = "2018-12-02T23:00:00Z".toInstant(systemZoneOffset),
-                end = "2018-12-09T01:00:00Z".toInstant(systemZoneOffset),
-                zoneId = systemZoneOffset,
-                isDeclined = false
-            ),
-            Instance(
-                eventId = 4,
-                start = "2018-12-02T00:00:00Z".toInstant(ZoneOffset.UTC),
-                end = "2018-12-06T00:00:00Z".toInstant(ZoneOffset.UTC),
-                zoneId = ZoneOffset.UTC,
-                isDeclined = false
-            )
-        )
-
-        mockGetSystemZoneId()
-        mockIsReadCalendarPermitted(true)
-        mockGetSystemLocalDate()
-
-        val initLocalDate = systemLocalDate.minusDays(7)
-        val endLocalDate = systemLocalDate.plusDays(7)
         val initEpochMillis = initLocalDate.atStartOfDay(zoneId).toInstant().toEpochMilli()
         val endEpochMillis = endLocalDate.atStartOfDay(zoneId).toInstant().toEpochMilli()
         every { SystemResolver.getInstances(context, initEpochMillis, endEpochMillis) } returns expectedInstances
@@ -199,6 +150,42 @@ internal class InstanceTest : BaseTest() {
                 end = "2018-12-06T00:00:00Z",
                 zoneOffset = ZoneOffset.UTC,
                 expectedIsInDay = false
+            )
+        )
+
+        @JvmStatic
+        @Suppress("unused", "LongMethod")
+        fun getSetsOfExpectedInstances(): Stream<Set<Instance>> = Stream.of(
+            emptySet(),
+            setOf(
+                Instance(
+                    eventId = 1,
+                    start = "2018-11-29T23:00:00Z".toInstant(systemZoneOffset),
+                    end = "2018-12-01T23:50:00Z".toInstant(systemZoneOffset),
+                    zoneId = systemZoneOffset,
+                    isDeclined = false
+                ),
+                Instance(
+                    eventId = 2,
+                    start = "2018-12-01T00:00:00Z".toInstant(ZoneOffset.UTC),
+                    end = "2018-12-02T00:00:00Z".toInstant(ZoneOffset.UTC),
+                    zoneId = ZoneOffset.UTC,
+                    isDeclined = false
+                ),
+                Instance(
+                    eventId = 3,
+                    start = "2018-12-02T23:00:00Z".toInstant(systemZoneOffset),
+                    end = "2018-12-09T01:00:00Z".toInstant(systemZoneOffset),
+                    zoneId = systemZoneOffset,
+                    isDeclined = false
+                ),
+                Instance(
+                    eventId = 4,
+                    start = "2018-12-02T00:00:00Z".toInstant(ZoneOffset.UTC),
+                    end = "2018-12-06T00:00:00Z".toInstant(ZoneOffset.UTC),
+                    zoneId = ZoneOffset.UTC,
+                    isDeclined = false
+                )
             )
         )
 
