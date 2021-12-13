@@ -44,21 +44,15 @@ internal class DrawDaysHeaderUseCaseTest : BaseTest() {
         dayHeaderSundayCellBackground: Int
     ) {
         every { SystemResolver.createDaysHeaderRow(context) } returns daysHeaderRowRv
+
         mockSharedPreferences()
         mockWidgetTransparency(Transparency(20))
         mockFirstDayOfWeek(startWeekDay)
         mockWidgetTheme(theme)
+        mockGetDayHeaderCellSaturdayBackground(dayHeaderSaturdayCellBackground)
+        mockGetDayHeaderCellSundayBackground(dayHeaderSundayCellBackground)
+        mockGetWeekDaysAbbreviatedStrings()
 
-        every { SystemResolver.getColourAsString(context, dayHeaderSaturdayCellBackground) } returns dayHeaderCellSaturdayTransparentBackground
-        every { SystemResolver.parseColour(dayHeaderCellSaturdayTransparentBackgroundInHex) } returns dayHeaderCellSaturdayBackground
-
-        every { SystemResolver.getColourAsString(context, dayHeaderSundayCellBackground) } returns dayHeaderCellSundayTransparentBackground
-        every { SystemResolver.parseColour(dayHeaderCellSundayTransparentBackgroundInHex) } returns dayHeaderCellSundayBackground
-
-        val rotatedWeekDays = getRotatedWeekDays(startWeekDay)
-        rotatedWeekDays.forEach {
-            every { context.getString(it.getExpectedResourceId()) } returns it.getExpectedAbbreviatedString(format)
-        }
         justRun { SystemResolver.addToDaysHeaderRow(context, daysHeaderRowRv, any(), any(), any(), any()) }
         justRun { SystemResolver.addToWidget(widgetRv, daysHeaderRowRv) }
 
@@ -68,20 +62,14 @@ internal class DrawDaysHeaderUseCaseTest : BaseTest() {
         verifyFirstDayOfWeek()
         verifyWidgetTheme()
         verify { SystemResolver.createDaysHeaderRow(context) }
-        rotatedWeekDays.forEach {
+        getRotatedWeekDays(startWeekDay).forEach {
             verify { context.getString(it.getExpectedResourceId()) }
             val cellHeader = theme.getCellHeader(it)
             verify {
                 when (it) {
-                    SATURDAY -> {
-                        SystemResolver.getColourAsString(context, dayHeaderSaturdayCellBackground)
-                        SystemResolver.parseColour(dayHeaderCellSaturdayTransparentBackgroundInHex)
-                    }
-                    SUNDAY -> {
-                        SystemResolver.getColourAsString(context, dayHeaderSundayCellBackground)
-                        SystemResolver.parseColour(dayHeaderCellSundayTransparentBackgroundInHex)
-                    }
-                    else -> { }
+                    SATURDAY -> verifyGetDayHeaderCellSaturdayBackground(dayHeaderSaturdayCellBackground)
+                    SUNDAY -> verifyGetDayHeaderCellSundayBackground(dayHeaderSundayCellBackground)
+                    else -> {}
                 }
                 SystemResolver.addToDaysHeaderRow(
                     context = context,
@@ -103,8 +91,6 @@ internal class DrawDaysHeaderUseCaseTest : BaseTest() {
 
     companion object {
 
-        private const val dayHeaderCellSaturdayTransparentBackground = "transparentBackgroundSaturday"
-        private const val dayHeaderCellSundayTransparentBackground = "transparentBackgroundSunday"
         private const val dayHeaderCellSaturdayTransparentBackgroundInHex = "#40turday"
         private const val dayHeaderCellSundayTransparentBackgroundInHex = "#40Sunday"
 
@@ -167,20 +153,42 @@ internal class DrawDaysHeaderUseCaseTest : BaseTest() {
             SUNDAY -> R.string.sunday_abb
         }
 
-    private fun DayOfWeek.getExpectedAbbreviatedString(format: Format): String {
-        val abbreviatedString = when (this) {
-            MONDAY -> "MON"
-            TUESDAY -> "TUE"
-            WEDNESDAY -> "WED"
-            THURSDAY -> "THU"
-            FRIDAY -> "FRY"
-            SATURDAY -> "SAT"
-            SUNDAY -> "SUN"
-        }
-        return when (format){
-            Format.STANDARD -> abbreviatedString
-            Format.REDUCED -> abbreviatedString.take(1)
-        }
+    private fun DayOfWeek.getExpectedAbbreviatedString() = when (this) {
+        MONDAY -> "MON"
+        TUESDAY -> "TUE"
+        WEDNESDAY -> "WED"
+        THURSDAY -> "THU"
+        FRIDAY -> "FRY"
+        SATURDAY -> "SAT"
+        SUNDAY -> "SUN"
     }
 
+    private fun DayOfWeek.getExpectedAbbreviatedString(format: Format) = when (format) {
+        Format.STANDARD -> this.getExpectedAbbreviatedString()
+        Format.REDUCED -> this.getExpectedAbbreviatedString().take(1)
+    }
+
+    private fun mockGetDayHeaderCellSaturdayBackground(dayHeaderSaturdayCellBackground: Int) {
+        every { SystemResolver.getColourAsString(context, dayHeaderSaturdayCellBackground) } returns "transparentBackgroundSaturday"
+        every { SystemResolver.parseColour(dayHeaderCellSaturdayTransparentBackgroundInHex) } returns dayHeaderCellSaturdayBackground
+    }
+
+    private fun mockGetDayHeaderCellSundayBackground(dayHeaderSundayCellBackground: Int) {
+        every { SystemResolver.getColourAsString(context, dayHeaderSundayCellBackground) } returns "transparentBackgroundSunday"
+        every { SystemResolver.parseColour(dayHeaderCellSundayTransparentBackgroundInHex) } returns dayHeaderCellSundayBackground
+    }
+
+    private fun verifyGetDayHeaderCellSaturdayBackground(dayHeaderSaturdayCellBackground: Int) {
+        SystemResolver.getColourAsString(context, dayHeaderSaturdayCellBackground)
+        SystemResolver.parseColour(dayHeaderCellSaturdayTransparentBackgroundInHex)
+    }
+
+    private fun verifyGetDayHeaderCellSundayBackground(dayHeaderSundayCellBackground: Int) {
+        SystemResolver.getColourAsString(context, dayHeaderSundayCellBackground)
+        SystemResolver.parseColour(dayHeaderCellSundayTransparentBackgroundInHex)
+    }
+
+    private fun mockGetWeekDaysAbbreviatedStrings() = DayOfWeek.values().forEach {
+        every { context.getString(it.getExpectedResourceId()) } returns it.getExpectedAbbreviatedString()
+    }
 }
