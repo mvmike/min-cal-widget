@@ -14,6 +14,9 @@ import io.mockk.every
 import io.mockk.justRun
 import io.mockk.mockk
 import io.mockk.verify
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.Arguments
+import org.junit.jupiter.params.provider.MethodSource
 import java.time.DayOfWeek
 import java.time.DayOfWeek.FRIDAY
 import java.time.DayOfWeek.MONDAY
@@ -23,10 +26,6 @@ import java.time.DayOfWeek.THURSDAY
 import java.time.DayOfWeek.TUESDAY
 import java.time.DayOfWeek.WEDNESDAY
 import java.util.stream.Stream
-import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.Arguments
-import org.junit.jupiter.params.provider.MethodSource
-import java.util.Collections
 
 internal class DrawDaysHeaderUseCaseTest : BaseTest() {
 
@@ -35,13 +34,12 @@ internal class DrawDaysHeaderUseCaseTest : BaseTest() {
     private val daysHeaderRowRv = mockk<RemoteViews>()
 
     @ParameterizedTest
-    @MethodSource("combinationOfStartWeekDayThemeConfigAndFormat")
-    fun setDayHeaders_shouldAddViewBasedOnCurrentDayAndConfig(
+    @MethodSource("startWeekDayAndThemeAndFormatWithExpectedOutput")
+    fun setDayHeaders_shouldAddViewBasedOnCurrentConfigAndFormat(
         startWeekDay: DayOfWeek,
         theme: Theme,
         format: Format,
-        dayHeaderSaturdayCellBackground: Int,
-        dayHeaderSundayCellBackground: Int
+        expectedDayHeaders: List<DayHeaderTestProperties>
     ) {
         every { SystemResolver.createDaysHeaderRow(context) } returns daysHeaderRowRv
 
@@ -49,9 +47,10 @@ internal class DrawDaysHeaderUseCaseTest : BaseTest() {
         mockWidgetTransparency(Transparency(20))
         mockFirstDayOfWeek(startWeekDay)
         mockWidgetTheme(theme)
-        mockGetDayHeaderCellSaturdayBackground(dayHeaderSaturdayCellBackground)
-        mockGetDayHeaderCellSundayBackground(dayHeaderSundayCellBackground)
-        mockGetWeekDaysAbbreviatedStrings()
+        expectedDayHeaders.forEach {
+            mockGetDayHeaderCellBackground(it.cellBackground)
+            every { context.getString(it.dayOfWeek.getExpectedResourceId()) } returns it.expectedHeaderString
+        }
 
         justRun { SystemResolver.addToDaysHeaderRow(context, daysHeaderRowRv, any(), any(), any(), any()) }
         justRun { SystemResolver.addToWidget(widgetRv, daysHeaderRowRv) }
@@ -62,26 +61,18 @@ internal class DrawDaysHeaderUseCaseTest : BaseTest() {
         verifyFirstDayOfWeek()
         verifyWidgetTheme()
         verify { SystemResolver.createDaysHeaderRow(context) }
-        getRotatedWeekDays(startWeekDay).forEach {
-            verify { context.getString(it.getExpectedResourceId()) }
-            val cellHeader = theme.getCellHeader(it)
+        expectedDayHeaders.forEach {
+            val cellHeader = theme.getCellHeader(it.dayOfWeek)
+            verify { context.getString(it.dayOfWeek.getExpectedResourceId()) }
+            verifyGetDayHeaderCellBackground(it.cellBackground)
             verify {
-                when (it) {
-                    SATURDAY -> verifyGetDayHeaderCellSaturdayBackground(dayHeaderSaturdayCellBackground)
-                    SUNDAY -> verifyGetDayHeaderCellSundayBackground(dayHeaderSundayCellBackground)
-                    else -> {}
-                }
                 SystemResolver.addToDaysHeaderRow(
                     context = context,
                     daysHeaderRow = daysHeaderRowRv,
-                    text = it.getExpectedAbbreviatedString(format),
+                    text = it.expectedHeaderString,
                     layoutId = cellHeader.layout,
                     viewId = 16908308,
-                    dayHeaderBackgroundColour = when (it) {
-                        SATURDAY -> dayHeaderCellSaturdayBackground
-                        SUNDAY -> dayHeaderCellSundayBackground
-                        else -> null
-                    }
+                    dayHeaderBackgroundColour = it.cellBackground
                 )
             }
         }
@@ -91,55 +82,323 @@ internal class DrawDaysHeaderUseCaseTest : BaseTest() {
 
     companion object {
 
-        private const val dayHeaderCellSaturdayTransparentBackgroundInHex = "#40turday"
-        private const val dayHeaderCellSundayTransparentBackgroundInHex = "#40Sunday"
-
-        private const val dayHeaderCellSaturdayBackground = 65132545
-        private const val dayHeaderCellSundayBackground = 65132546
-
         private const val dayHeaderSaturdayDarkThemeBackground = 2131034148
         private const val dayHeaderSundayDarkThemeBackground = 2131034152
         private const val dayHeaderSaturdayLightThemeBackground = 2131034149
         private const val dayHeaderSundayLightThemeBackground = 2131034153
 
         @JvmStatic
-        @Suppress("unused")
-        fun combinationOfStartWeekDayThemeConfigAndFormat() = Stream.of(
-            Arguments.of(MONDAY, Theme.DARK, Format.STANDARD, dayHeaderSaturdayDarkThemeBackground, dayHeaderSundayDarkThemeBackground),
-            Arguments.of(TUESDAY, Theme.DARK, Format.REDUCED, dayHeaderSaturdayDarkThemeBackground, dayHeaderSundayDarkThemeBackground),
-            Arguments.of(WEDNESDAY, Theme.DARK, Format.STANDARD, dayHeaderSaturdayDarkThemeBackground, dayHeaderSundayDarkThemeBackground),
-            Arguments.of(THURSDAY, Theme.DARK, Format.REDUCED, dayHeaderSaturdayDarkThemeBackground, dayHeaderSundayDarkThemeBackground),
-            Arguments.of(FRIDAY, Theme.DARK, Format.STANDARD, dayHeaderSaturdayDarkThemeBackground, dayHeaderSundayDarkThemeBackground),
-            Arguments.of(SATURDAY, Theme.DARK, Format.REDUCED, dayHeaderSaturdayDarkThemeBackground, dayHeaderSundayDarkThemeBackground),
-            Arguments.of(SUNDAY, Theme.DARK, Format.STANDARD, dayHeaderSaturdayDarkThemeBackground, dayHeaderSundayDarkThemeBackground),
-            Arguments.of(MONDAY, Theme.DARK, Format.REDUCED, dayHeaderSaturdayDarkThemeBackground, dayHeaderSundayDarkThemeBackground),
-            Arguments.of(TUESDAY, Theme.DARK, Format.STANDARD, dayHeaderSaturdayDarkThemeBackground, dayHeaderSundayDarkThemeBackground),
-            Arguments.of(WEDNESDAY, Theme.DARK, Format.REDUCED, dayHeaderSaturdayDarkThemeBackground, dayHeaderSundayDarkThemeBackground),
-            Arguments.of(THURSDAY, Theme.DARK, Format.STANDARD, dayHeaderSaturdayDarkThemeBackground, dayHeaderSundayDarkThemeBackground),
-            Arguments.of(FRIDAY, Theme.DARK, Format.REDUCED, dayHeaderSaturdayDarkThemeBackground, dayHeaderSundayDarkThemeBackground),
-            Arguments.of(SATURDAY, Theme.DARK, Format.STANDARD, dayHeaderSaturdayDarkThemeBackground, dayHeaderSundayDarkThemeBackground),
-            Arguments.of(SUNDAY, Theme.DARK, Format.REDUCED, dayHeaderSaturdayDarkThemeBackground, dayHeaderSundayDarkThemeBackground),
-            Arguments.of(MONDAY, Theme.LIGHT, Format.STANDARD, dayHeaderSaturdayLightThemeBackground, dayHeaderSundayLightThemeBackground),
-            Arguments.of(TUESDAY, Theme.LIGHT, Format.REDUCED, dayHeaderSaturdayLightThemeBackground, dayHeaderSundayLightThemeBackground),
-            Arguments.of(WEDNESDAY, Theme.LIGHT, Format.STANDARD, dayHeaderSaturdayLightThemeBackground, dayHeaderSundayLightThemeBackground),
-            Arguments.of(THURSDAY, Theme.LIGHT, Format.REDUCED, dayHeaderSaturdayLightThemeBackground, dayHeaderSundayLightThemeBackground),
-            Arguments.of(FRIDAY, Theme.LIGHT, Format.STANDARD, dayHeaderSaturdayLightThemeBackground, dayHeaderSundayLightThemeBackground),
-            Arguments.of(SATURDAY, Theme.LIGHT, Format.REDUCED, dayHeaderSaturdayLightThemeBackground, dayHeaderSundayLightThemeBackground),
-            Arguments.of(SUNDAY, Theme.LIGHT, Format.STANDARD, dayHeaderSaturdayLightThemeBackground, dayHeaderSundayLightThemeBackground),
-            Arguments.of(MONDAY, Theme.LIGHT, Format.REDUCED, dayHeaderSaturdayLightThemeBackground, dayHeaderSundayLightThemeBackground),
-            Arguments.of(TUESDAY, Theme.LIGHT, Format.STANDARD, dayHeaderSaturdayLightThemeBackground, dayHeaderSundayLightThemeBackground),
-            Arguments.of(WEDNESDAY, Theme.LIGHT, Format.REDUCED, dayHeaderSaturdayLightThemeBackground, dayHeaderSundayLightThemeBackground),
-            Arguments.of(THURSDAY, Theme.LIGHT, Format.STANDARD, dayHeaderSaturdayLightThemeBackground, dayHeaderSundayLightThemeBackground),
-            Arguments.of(FRIDAY, Theme.LIGHT, Format.REDUCED, dayHeaderSaturdayLightThemeBackground, dayHeaderSundayLightThemeBackground),
-            Arguments.of(SATURDAY, Theme.LIGHT, Format.STANDARD, dayHeaderSaturdayLightThemeBackground, dayHeaderSundayLightThemeBackground),
-            Arguments.of(SUNDAY, Theme.LIGHT, Format.REDUCED, dayHeaderSaturdayLightThemeBackground, dayHeaderSundayLightThemeBackground)
+        @Suppress("unused", "LongMethod")
+        fun startWeekDayAndThemeAndFormatWithExpectedOutput() = Stream.of(
+            Arguments.of(
+                MONDAY, Theme.DARK, Format.STANDARD, listOf(
+                    DayHeaderTestProperties(MONDAY, "MON"),
+                    DayHeaderTestProperties(TUESDAY, "TUE"),
+                    DayHeaderTestProperties(WEDNESDAY, "WED"),
+                    DayHeaderTestProperties(THURSDAY, "THU"),
+                    DayHeaderTestProperties(FRIDAY, "FRY"),
+                    DayHeaderTestProperties(SATURDAY, "SAT", dayHeaderSaturdayDarkThemeBackground),
+                    DayHeaderTestProperties(SUNDAY, "SUN", dayHeaderSundayDarkThemeBackground)
+                )
+            ),
+            Arguments.of(
+                TUESDAY, Theme.DARK, Format.STANDARD, listOf(
+                    DayHeaderTestProperties(TUESDAY, "TUE"),
+                    DayHeaderTestProperties(WEDNESDAY, "WED"),
+                    DayHeaderTestProperties(THURSDAY, "THU"),
+                    DayHeaderTestProperties(FRIDAY, "FRY"),
+                    DayHeaderTestProperties(SATURDAY, "SAT", dayHeaderSaturdayDarkThemeBackground),
+                    DayHeaderTestProperties(SUNDAY, "SUN", dayHeaderSundayDarkThemeBackground),
+                    DayHeaderTestProperties(MONDAY, "MON")
+                )
+            ),
+            Arguments.of(
+                WEDNESDAY, Theme.DARK, Format.STANDARD, listOf(
+                    DayHeaderTestProperties(WEDNESDAY, "WED"),
+                    DayHeaderTestProperties(THURSDAY, "THU"),
+                    DayHeaderTestProperties(FRIDAY, "FRY"),
+                    DayHeaderTestProperties(SATURDAY, "SAT", dayHeaderSaturdayDarkThemeBackground),
+                    DayHeaderTestProperties(SUNDAY, "SUN", dayHeaderSundayDarkThemeBackground),
+                    DayHeaderTestProperties(MONDAY, "MON"),
+                    DayHeaderTestProperties(TUESDAY, "TUE")
+                )
+            ),
+            Arguments.of(
+                THURSDAY, Theme.DARK, Format.STANDARD, listOf(
+                    DayHeaderTestProperties(THURSDAY, "THU"),
+                    DayHeaderTestProperties(FRIDAY, "FRY"),
+                    DayHeaderTestProperties(SATURDAY, "SAT", dayHeaderSaturdayDarkThemeBackground),
+                    DayHeaderTestProperties(SUNDAY, "SUN", dayHeaderSundayDarkThemeBackground),
+                    DayHeaderTestProperties(MONDAY, "MON"),
+                    DayHeaderTestProperties(TUESDAY, "TUE"),
+                    DayHeaderTestProperties(WEDNESDAY, "WED")
+                )
+            ),
+            Arguments.of(
+                FRIDAY, Theme.DARK, Format.STANDARD, listOf(
+                    DayHeaderTestProperties(FRIDAY, "FRY"),
+                    DayHeaderTestProperties(SATURDAY, "SAT", dayHeaderSaturdayDarkThemeBackground),
+                    DayHeaderTestProperties(SUNDAY, "SUN", dayHeaderSundayDarkThemeBackground),
+                    DayHeaderTestProperties(MONDAY, "MON"),
+                    DayHeaderTestProperties(TUESDAY, "TUE"),
+                    DayHeaderTestProperties(WEDNESDAY, "WED"),
+                    DayHeaderTestProperties(THURSDAY, "THU")
+                )
+            ),
+            Arguments.of(
+                SATURDAY, Theme.DARK, Format.STANDARD, listOf(
+                    DayHeaderTestProperties(SATURDAY, "SAT", dayHeaderSaturdayDarkThemeBackground),
+                    DayHeaderTestProperties(SUNDAY, "SUN", dayHeaderSundayDarkThemeBackground),
+                    DayHeaderTestProperties(MONDAY, "MON"),
+                    DayHeaderTestProperties(TUESDAY, "TUE"),
+                    DayHeaderTestProperties(WEDNESDAY, "WED"),
+                    DayHeaderTestProperties(THURSDAY, "THU"),
+                    DayHeaderTestProperties(FRIDAY, "FRY")
+                )
+            ),
+            Arguments.of(
+                SUNDAY, Theme.DARK, Format.STANDARD, listOf(
+                    DayHeaderTestProperties(SUNDAY, "SUN", dayHeaderSundayDarkThemeBackground),
+                    DayHeaderTestProperties(MONDAY, "MON"),
+                    DayHeaderTestProperties(TUESDAY, "TUE"),
+                    DayHeaderTestProperties(WEDNESDAY, "WED"),
+                    DayHeaderTestProperties(THURSDAY, "THU"),
+                    DayHeaderTestProperties(FRIDAY, "FRY"),
+                    DayHeaderTestProperties(SATURDAY, "SAT", dayHeaderSaturdayDarkThemeBackground)
+                )
+            ),
+            Arguments.of(
+                MONDAY, Theme.DARK, Format.REDUCED, listOf(
+                    DayHeaderTestProperties(MONDAY, "M"),
+                    DayHeaderTestProperties(TUESDAY, "T"),
+                    DayHeaderTestProperties(WEDNESDAY, "W"),
+                    DayHeaderTestProperties(THURSDAY, "T"),
+                    DayHeaderTestProperties(FRIDAY, "F"),
+                    DayHeaderTestProperties(SATURDAY, "S", dayHeaderSaturdayDarkThemeBackground),
+                    DayHeaderTestProperties(SUNDAY, "S", dayHeaderSundayDarkThemeBackground)
+                )
+            ),
+            Arguments.of(
+                TUESDAY, Theme.DARK, Format.REDUCED, listOf(
+                    DayHeaderTestProperties(TUESDAY, "T"),
+                    DayHeaderTestProperties(WEDNESDAY, "W"),
+                    DayHeaderTestProperties(THURSDAY, "T"),
+                    DayHeaderTestProperties(FRIDAY, "F"),
+                    DayHeaderTestProperties(SATURDAY, "S", dayHeaderSaturdayDarkThemeBackground),
+                    DayHeaderTestProperties(SUNDAY, "S", dayHeaderSundayDarkThemeBackground),
+                    DayHeaderTestProperties(MONDAY, "M")
+                )
+            ),
+            Arguments.of(
+                WEDNESDAY, Theme.DARK, Format.REDUCED, listOf(
+                    DayHeaderTestProperties(WEDNESDAY, "W"),
+                    DayHeaderTestProperties(THURSDAY, "T"),
+                    DayHeaderTestProperties(FRIDAY, "F"),
+                    DayHeaderTestProperties(SATURDAY, "T", dayHeaderSaturdayDarkThemeBackground),
+                    DayHeaderTestProperties(SUNDAY, "S", dayHeaderSundayDarkThemeBackground),
+                    DayHeaderTestProperties(MONDAY, "M"),
+                    DayHeaderTestProperties(TUESDAY, "T")
+                )
+            ),
+            Arguments.of(
+                THURSDAY, Theme.DARK, Format.REDUCED, listOf(
+                    DayHeaderTestProperties(THURSDAY, "T"),
+                    DayHeaderTestProperties(FRIDAY, "F"),
+                    DayHeaderTestProperties(SATURDAY, "S", dayHeaderSaturdayDarkThemeBackground),
+                    DayHeaderTestProperties(SUNDAY, "S", dayHeaderSundayDarkThemeBackground),
+                    DayHeaderTestProperties(MONDAY, "M"),
+                    DayHeaderTestProperties(TUESDAY, "T"),
+                    DayHeaderTestProperties(WEDNESDAY, "W")
+                )
+            ),
+            Arguments.of(
+                FRIDAY, Theme.DARK, Format.REDUCED, listOf(
+                    DayHeaderTestProperties(FRIDAY, "F"),
+                    DayHeaderTestProperties(SATURDAY, "S", dayHeaderSaturdayDarkThemeBackground),
+                    DayHeaderTestProperties(SUNDAY, "S", dayHeaderSundayDarkThemeBackground),
+                    DayHeaderTestProperties(MONDAY, "M"),
+                    DayHeaderTestProperties(TUESDAY, "T"),
+                    DayHeaderTestProperties(WEDNESDAY, "W"),
+                    DayHeaderTestProperties(THURSDAY, "T")
+                )
+            ),
+            Arguments.of(
+                SATURDAY, Theme.DARK, Format.REDUCED, listOf(
+                    DayHeaderTestProperties(SATURDAY, "S", dayHeaderSaturdayDarkThemeBackground),
+                    DayHeaderTestProperties(SUNDAY, "S", dayHeaderSundayDarkThemeBackground),
+                    DayHeaderTestProperties(MONDAY, "M"),
+                    DayHeaderTestProperties(TUESDAY, "T"),
+                    DayHeaderTestProperties(WEDNESDAY, "W"),
+                    DayHeaderTestProperties(THURSDAY, "T"),
+                    DayHeaderTestProperties(FRIDAY, "F")
+                )
+            ),
+            Arguments.of(
+                SUNDAY, Theme.DARK, Format.REDUCED, listOf(
+                    DayHeaderTestProperties(SUNDAY, "S", dayHeaderSundayDarkThemeBackground),
+                    DayHeaderTestProperties(MONDAY, "M"),
+                    DayHeaderTestProperties(TUESDAY, "T"),
+                    DayHeaderTestProperties(WEDNESDAY, "W"),
+                    DayHeaderTestProperties(THURSDAY, "T"),
+                    DayHeaderTestProperties(FRIDAY, "F"),
+                    DayHeaderTestProperties(SATURDAY, "S", dayHeaderSaturdayDarkThemeBackground)
+                )
+            ),
+            Arguments.of(
+                MONDAY, Theme.LIGHT, Format.STANDARD, listOf(
+                    DayHeaderTestProperties(MONDAY, "MON"),
+                    DayHeaderTestProperties(TUESDAY, "TUE"),
+                    DayHeaderTestProperties(WEDNESDAY, "WED"),
+                    DayHeaderTestProperties(THURSDAY, "THU"),
+                    DayHeaderTestProperties(FRIDAY, "FRY"),
+                    DayHeaderTestProperties(SATURDAY, "SAT", dayHeaderSaturdayLightThemeBackground),
+                    DayHeaderTestProperties(SUNDAY, "SUN", dayHeaderSundayLightThemeBackground)
+                )
+            ),
+            Arguments.of(
+                TUESDAY, Theme.LIGHT, Format.STANDARD, listOf(
+                    DayHeaderTestProperties(TUESDAY, "TUE"),
+                    DayHeaderTestProperties(WEDNESDAY, "WED"),
+                    DayHeaderTestProperties(THURSDAY, "THU"),
+                    DayHeaderTestProperties(FRIDAY, "FRY"),
+                    DayHeaderTestProperties(SATURDAY, "SAT", dayHeaderSaturdayLightThemeBackground),
+                    DayHeaderTestProperties(SUNDAY, "SUN", dayHeaderSundayLightThemeBackground),
+                    DayHeaderTestProperties(MONDAY, "MON")
+                )
+            ),
+            Arguments.of(
+                WEDNESDAY, Theme.LIGHT, Format.STANDARD, listOf(
+                    DayHeaderTestProperties(WEDNESDAY, "WED"),
+                    DayHeaderTestProperties(THURSDAY, "THU"),
+                    DayHeaderTestProperties(FRIDAY, "FRY"),
+                    DayHeaderTestProperties(SATURDAY, "SAT", dayHeaderSaturdayLightThemeBackground),
+                    DayHeaderTestProperties(SUNDAY, "SUN", dayHeaderSundayLightThemeBackground),
+                    DayHeaderTestProperties(MONDAY, "MON"),
+                    DayHeaderTestProperties(TUESDAY, "TUE")
+                )
+            ),
+            Arguments.of(
+                THURSDAY, Theme.LIGHT, Format.STANDARD, listOf(
+                    DayHeaderTestProperties(THURSDAY, "THU"),
+                    DayHeaderTestProperties(FRIDAY, "FRY"),
+                    DayHeaderTestProperties(SATURDAY, "SAT", dayHeaderSaturdayLightThemeBackground),
+                    DayHeaderTestProperties(SUNDAY, "SUN", dayHeaderSundayLightThemeBackground),
+                    DayHeaderTestProperties(MONDAY, "MON"),
+                    DayHeaderTestProperties(TUESDAY, "TUE"),
+                    DayHeaderTestProperties(WEDNESDAY, "WED")
+                )
+            ),
+            Arguments.of(
+                FRIDAY, Theme.LIGHT, Format.STANDARD, listOf(
+                    DayHeaderTestProperties(FRIDAY, "FRY"),
+                    DayHeaderTestProperties(SATURDAY, "SAT", dayHeaderSaturdayLightThemeBackground),
+                    DayHeaderTestProperties(SUNDAY, "SUN", dayHeaderSundayLightThemeBackground),
+                    DayHeaderTestProperties(MONDAY, "MON"),
+                    DayHeaderTestProperties(TUESDAY, "TUE"),
+                    DayHeaderTestProperties(WEDNESDAY, "WED"),
+                    DayHeaderTestProperties(THURSDAY, "THU")
+                )
+            ),
+            Arguments.of(
+                SATURDAY, Theme.LIGHT, Format.STANDARD, listOf(
+                    DayHeaderTestProperties(SATURDAY, "SAT", dayHeaderSaturdayLightThemeBackground),
+                    DayHeaderTestProperties(SUNDAY, "SUN", dayHeaderSundayLightThemeBackground),
+                    DayHeaderTestProperties(MONDAY, "MON"),
+                    DayHeaderTestProperties(TUESDAY, "TUE"),
+                    DayHeaderTestProperties(WEDNESDAY, "WED"),
+                    DayHeaderTestProperties(THURSDAY, "THU"),
+                    DayHeaderTestProperties(FRIDAY, "FRY")
+                )
+            ),
+            Arguments.of(
+                SUNDAY, Theme.LIGHT, Format.STANDARD, listOf(
+                    DayHeaderTestProperties(SUNDAY, "SUN", dayHeaderSundayLightThemeBackground),
+                    DayHeaderTestProperties(MONDAY, "MON"),
+                    DayHeaderTestProperties(TUESDAY, "TUE"),
+                    DayHeaderTestProperties(WEDNESDAY, "WED"),
+                    DayHeaderTestProperties(THURSDAY, "THU"),
+                    DayHeaderTestProperties(FRIDAY, "FRY"),
+                    DayHeaderTestProperties(SATURDAY, "SAT", dayHeaderSaturdayLightThemeBackground)
+                )
+            ),
+            Arguments.of(
+                MONDAY, Theme.LIGHT, Format.REDUCED, listOf(
+                    DayHeaderTestProperties(MONDAY, "M"),
+                    DayHeaderTestProperties(TUESDAY, "T"),
+                    DayHeaderTestProperties(WEDNESDAY, "W"),
+                    DayHeaderTestProperties(THURSDAY, "T"),
+                    DayHeaderTestProperties(FRIDAY, "F"),
+                    DayHeaderTestProperties(SATURDAY, "S", dayHeaderSaturdayLightThemeBackground),
+                    DayHeaderTestProperties(SUNDAY, "S", dayHeaderSundayLightThemeBackground)
+                )
+            ),
+            Arguments.of(
+                TUESDAY, Theme.LIGHT, Format.REDUCED, listOf(
+                    DayHeaderTestProperties(TUESDAY, "T"),
+                    DayHeaderTestProperties(WEDNESDAY, "W"),
+                    DayHeaderTestProperties(THURSDAY, "T"),
+                    DayHeaderTestProperties(FRIDAY, "F"),
+                    DayHeaderTestProperties(SATURDAY, "S", dayHeaderSaturdayLightThemeBackground),
+                    DayHeaderTestProperties(SUNDAY, "S", dayHeaderSundayLightThemeBackground),
+                    DayHeaderTestProperties(MONDAY, "M")
+                )
+            ),
+            Arguments.of(
+                WEDNESDAY, Theme.LIGHT, Format.REDUCED, listOf(
+                    DayHeaderTestProperties(WEDNESDAY, "W"),
+                    DayHeaderTestProperties(THURSDAY, "T"),
+                    DayHeaderTestProperties(FRIDAY, "F"),
+                    DayHeaderTestProperties(SATURDAY, "T", dayHeaderSaturdayLightThemeBackground),
+                    DayHeaderTestProperties(SUNDAY, "S", dayHeaderSundayLightThemeBackground),
+                    DayHeaderTestProperties(MONDAY, "M"),
+                    DayHeaderTestProperties(TUESDAY, "T")
+                )
+            ),
+            Arguments.of(
+                THURSDAY, Theme.LIGHT, Format.REDUCED, listOf(
+                    DayHeaderTestProperties(THURSDAY, "T"),
+                    DayHeaderTestProperties(FRIDAY, "F"),
+                    DayHeaderTestProperties(SATURDAY, "S", dayHeaderSaturdayLightThemeBackground),
+                    DayHeaderTestProperties(SUNDAY, "S", dayHeaderSundayLightThemeBackground),
+                    DayHeaderTestProperties(MONDAY, "M"),
+                    DayHeaderTestProperties(TUESDAY, "T"),
+                    DayHeaderTestProperties(WEDNESDAY, "W")
+                )
+            ),
+            Arguments.of(
+                FRIDAY, Theme.LIGHT, Format.REDUCED, listOf(
+                    DayHeaderTestProperties(FRIDAY, "F"),
+                    DayHeaderTestProperties(SATURDAY, "S", dayHeaderSaturdayLightThemeBackground),
+                    DayHeaderTestProperties(SUNDAY, "S", dayHeaderSundayLightThemeBackground),
+                    DayHeaderTestProperties(MONDAY, "M"),
+                    DayHeaderTestProperties(TUESDAY, "T"),
+                    DayHeaderTestProperties(WEDNESDAY, "W"),
+                    DayHeaderTestProperties(THURSDAY, "T")
+                )
+            ),
+            Arguments.of(
+                SATURDAY, Theme.LIGHT, Format.REDUCED, listOf(
+                    DayHeaderTestProperties(SATURDAY, "S", dayHeaderSaturdayLightThemeBackground),
+                    DayHeaderTestProperties(SUNDAY, "S", dayHeaderSundayLightThemeBackground),
+                    DayHeaderTestProperties(MONDAY, "M"),
+                    DayHeaderTestProperties(TUESDAY, "T"),
+                    DayHeaderTestProperties(WEDNESDAY, "W"),
+                    DayHeaderTestProperties(THURSDAY, "T"),
+                    DayHeaderTestProperties(FRIDAY, "F")
+                )
+            ),
+            Arguments.of(
+                SUNDAY, Theme.LIGHT, Format.REDUCED, listOf(
+                    DayHeaderTestProperties(SUNDAY, "S", dayHeaderSundayLightThemeBackground),
+                    DayHeaderTestProperties(MONDAY, "M"),
+                    DayHeaderTestProperties(TUESDAY, "T"),
+                    DayHeaderTestProperties(WEDNESDAY, "W"),
+                    DayHeaderTestProperties(THURSDAY, "T"),
+                    DayHeaderTestProperties(FRIDAY, "F"),
+                    DayHeaderTestProperties(SATURDAY, "S", dayHeaderSaturdayLightThemeBackground)
+                )
+            )
         )!!
-    }
-
-    private fun getRotatedWeekDays(startDayOfWeek: DayOfWeek): List<DayOfWeek> {
-        val daysOfWeek = DayOfWeek.values().asList()
-        Collections.rotate(daysOfWeek, -startDayOfWeek.ordinal)
-        return daysOfWeek
     }
 
     private fun DayOfWeek.getExpectedResourceId() =
@@ -153,42 +412,23 @@ internal class DrawDaysHeaderUseCaseTest : BaseTest() {
             SUNDAY -> R.string.sunday_abb
         }
 
-    private fun DayOfWeek.getExpectedAbbreviatedString() = when (this) {
-        MONDAY -> "MON"
-        TUESDAY -> "TUE"
-        WEDNESDAY -> "WED"
-        THURSDAY -> "THU"
-        FRIDAY -> "FRY"
-        SATURDAY -> "SAT"
-        SUNDAY -> "SUN"
-    }
+    private fun mockGetDayHeaderCellBackground(dayHeaderCellBackground: Int?) =
+        dayHeaderCellBackground?.let {
+            val stringColour = "transparentBackground$dayHeaderCellBackground"
+            every { SystemResolver.getColourAsString(context, dayHeaderCellBackground) } returns stringColour
+            every { SystemResolver.parseColour("#40${stringColour.takeLast(6)}") } returns dayHeaderCellBackground
+        }
 
-    private fun DayOfWeek.getExpectedAbbreviatedString(format: Format) = when (format) {
-        Format.STANDARD -> this.getExpectedAbbreviatedString()
-        Format.REDUCED -> this.getExpectedAbbreviatedString().take(1)
-    }
+    private fun verifyGetDayHeaderCellBackground(dayHeaderCellBackground: Int?) =
+        dayHeaderCellBackground?.let {
+            val stringColour = "transparentBackground$dayHeaderCellBackground"
+            verify { SystemResolver.getColourAsString(context, dayHeaderCellBackground) }
+            verify { SystemResolver.parseColour("#40${stringColour.takeLast(6)}") }
+        }
 
-    private fun mockGetDayHeaderCellSaturdayBackground(dayHeaderSaturdayCellBackground: Int) {
-        every { SystemResolver.getColourAsString(context, dayHeaderSaturdayCellBackground) } returns "transparentBackgroundSaturday"
-        every { SystemResolver.parseColour(dayHeaderCellSaturdayTransparentBackgroundInHex) } returns dayHeaderCellSaturdayBackground
-    }
-
-    private fun mockGetDayHeaderCellSundayBackground(dayHeaderSundayCellBackground: Int) {
-        every { SystemResolver.getColourAsString(context, dayHeaderSundayCellBackground) } returns "transparentBackgroundSunday"
-        every { SystemResolver.parseColour(dayHeaderCellSundayTransparentBackgroundInHex) } returns dayHeaderCellSundayBackground
-    }
-
-    private fun verifyGetDayHeaderCellSaturdayBackground(dayHeaderSaturdayCellBackground: Int) {
-        SystemResolver.getColourAsString(context, dayHeaderSaturdayCellBackground)
-        SystemResolver.parseColour(dayHeaderCellSaturdayTransparentBackgroundInHex)
-    }
-
-    private fun verifyGetDayHeaderCellSundayBackground(dayHeaderSundayCellBackground: Int) {
-        SystemResolver.getColourAsString(context, dayHeaderSundayCellBackground)
-        SystemResolver.parseColour(dayHeaderCellSundayTransparentBackgroundInHex)
-    }
-
-    private fun mockGetWeekDaysAbbreviatedStrings() = DayOfWeek.values().forEach {
-        every { context.getString(it.getExpectedResourceId()) } returns it.getExpectedAbbreviatedString()
-    }
+    internal data class DayHeaderTestProperties(
+        val dayOfWeek: DayOfWeek,
+        val expectedHeaderString: String,
+        val cellBackground: Int? = null
+    )
 }
