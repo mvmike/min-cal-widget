@@ -19,6 +19,9 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 
+private const val darkThemeMainLayout = 2131034144
+private const val lightThemeMainLayout = 2131034145
+
 internal class DrawWidgetLayoutTest : BaseTest() {
 
     private val widgetRv = mockk<RemoteViews>()
@@ -60,28 +63,21 @@ internal class DrawWidgetLayoutTest : BaseTest() {
         confirmVerified(widgetRv)
     }
 
-    companion object {
-
-        private const val darkThemeMainLayout = 2131034144
-        private const val lightThemeMainLayout = 2131034145
-
-        @JvmStatic
-        @Suppress("unused")
-        fun getCombinationOfThemesAndTransparencyLevels() = Stream.of(
-            Arguments.of(Theme.DARK, Transparency(0), darkThemeMainLayout, "FF"),
-            Arguments.of(Theme.DARK, Transparency(1), darkThemeMainLayout, "FC"),
-            Arguments.of(Theme.DARK, Transparency(20), darkThemeMainLayout, "CC"),
-            Arguments.of(Theme.DARK, Transparency(50), darkThemeMainLayout, "7F"),
-            Arguments.of(Theme.DARK, Transparency(79), darkThemeMainLayout, "35"),
-            Arguments.of(Theme.DARK, Transparency(90), darkThemeMainLayout, "19"),
-            Arguments.of(Theme.DARK, Transparency(100), darkThemeMainLayout, "00"),
-            Arguments.of(Theme.LIGHT, Transparency(0), lightThemeMainLayout, "FF"),
-            Arguments.of(Theme.LIGHT, Transparency(5), lightThemeMainLayout, "F2"),
-            Arguments.of(Theme.LIGHT, Transparency(70), lightThemeMainLayout, "4C"),
-            Arguments.of(Theme.LIGHT, Transparency(72), lightThemeMainLayout, "47"),
-            Arguments.of(Theme.LIGHT, Transparency(98), lightThemeMainLayout, "05"),
-            Arguments.of(Theme.LIGHT, Transparency(99), lightThemeMainLayout, "02"),
-            Arguments.of(Theme.LIGHT, Transparency(100), lightThemeMainLayout, "00")
-        )!!
-    }
+    @Suppress("unused")
+    private fun getCombinationOfThemesAndTransparencyLevels() = Stream.of(
+        Arguments.of(Theme.DARK, Transparency(0), darkThemeMainLayout, "FF"),
+        Arguments.of(Theme.DARK, Transparency(1), darkThemeMainLayout, "FC"),
+        Arguments.of(Theme.DARK, Transparency(20), darkThemeMainLayout, "CC"),
+        Arguments.of(Theme.DARK, Transparency(50), darkThemeMainLayout, "7F"),
+        Arguments.of(Theme.DARK, Transparency(79), darkThemeMainLayout, "35"),
+        Arguments.of(Theme.DARK, Transparency(90), darkThemeMainLayout, "19"),
+        Arguments.of(Theme.DARK, Transparency(100), darkThemeMainLayout, "00"),
+        Arguments.of(Theme.LIGHT, Transparency(0), lightThemeMainLayout, "FF"),
+        Arguments.of(Theme.LIGHT, Transparency(5), lightThemeMainLayout, "F2"),
+        Arguments.of(Theme.LIGHT, Transparency(70), lightThemeMainLayout, "4C"),
+        Arguments.of(Theme.LIGHT, Transparency(72), lightThemeMainLayout, "47"),
+        Arguments.of(Theme.LIGHT, Transparency(98), lightThemeMainLayout, "05"),
+        Arguments.of(Theme.LIGHT, Transparency(99), lightThemeMainLayout, "02"),
+        Arguments.of(Theme.LIGHT, Transparency(100), lightThemeMainLayout, "00")
+    )!!
 }

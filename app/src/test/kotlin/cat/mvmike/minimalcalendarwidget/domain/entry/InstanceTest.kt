@@ -24,8 +24,8 @@ internal class InstanceTest : BaseTest() {
     fun isInDay(instantProperties: InstantTestProperties) {
         val instance = Instance(
             eventId = instantProperties.id(),
-            start = instantProperties.startInstant(),
-            end = instantProperties.endInstant(),
+            start = instantProperties.start.toInstant(instantProperties.zoneOffset)!!,
+            end = instantProperties.end.toInstant(instantProperties.zoneOffset)!!,
             zoneId = instantProperties.zoneOffset,
             isDeclined = false
         )
@@ -67,145 +67,137 @@ internal class InstanceTest : BaseTest() {
         verify { SystemResolver.getInstances(context, initEpochMillis, endEpochMillis) }
     }
 
-    companion object {
 
-        @JvmStatic
-        @Suppress("unused", "LongMethod")
-        // calendarProvider uses UTC when allDay, systemOffset otherwise
-        fun getTimeSpansAndIfTheyAreAllDayAndShouldBeInDay(): Stream<InstantTestProperties> = Stream.of(
-            //starting and ending before day
-            InstantTestProperties(
-                start = "2018-12-02T02:15:00Z",
-                end = "2018-12-03T23:15:00Z",
-                zoneOffset = systemZoneOffset,
-                expectedIsInDay = false
+    // calendarProvider uses UTC when allDay, systemOffset otherwise
+    @Suppress("unused", "LongMethod")
+    private fun getTimeSpansAndIfTheyAreAllDayAndShouldBeInDay(): Stream<InstantTestProperties> = Stream.of(
+        //starting and ending before day
+        InstantTestProperties(
+            start = "2018-12-02T02:15:00Z",
+            end = "2018-12-03T23:15:00Z",
+            zoneOffset = systemZoneOffset,
+            expectedIsInDay = false
+        ),
+        InstantTestProperties(
+            start = "2018-12-02T00:00:00Z",
+            end = "2018-12-03T00:00:00Z",
+            zoneOffset = ZoneOffset.UTC,
+            expectedIsInDay = false
+        ),
+        // starting before and ending in day
+        InstantTestProperties(
+            start = "2018-12-01T00:00:00Z",
+            end = "2018-12-04T23:59:00Z",
+            zoneOffset = systemZoneOffset,
+            expectedIsInDay = true
+        ),
+        InstantTestProperties(
+            start = "2018-12-01T00:00:00Z",
+            end = "2018-12-05T00:00:00Z",
+            zoneOffset = ZoneOffset.UTC,
+            expectedIsInDay = true
+        ),
+        // starting before and ending after day
+        InstantTestProperties(
+            start = "2018-12-01T10:55:00Z",
+            end = "2018-12-07T23:00:00Z",
+            zoneOffset = systemZoneOffset,
+            expectedIsInDay = true
+        ),
+        InstantTestProperties(
+            start = "2018-12-01T00:00:00Z",
+            end = "2018-12-07T00:00:00Z",
+            zoneOffset = ZoneOffset.UTC,
+            expectedIsInDay = true
+        ),
+        // starting in and ending in day
+        InstantTestProperties(
+            start = "2018-12-04T23:00:00Z",
+            end = "2018-12-04T23:50:00Z",
+            zoneOffset = systemZoneOffset,
+            expectedIsInDay = true
+        ),
+        InstantTestProperties(
+            start = "2018-12-04T00:00:00Z",
+            end = "2018-12-05T00:00:00Z",
+            zoneOffset = ZoneOffset.UTC,
+            expectedIsInDay = true
+        ),
+        // starting in and ending after day
+        InstantTestProperties(
+            start = "2018-12-04T23:00:00Z",
+            end = "2018-12-05T01:00:00Z",
+            zoneOffset = systemZoneOffset,
+            expectedIsInDay = true
+        ),
+        InstantTestProperties(
+            start = "2018-12-04T00:00:00Z",
+            end = "2018-12-06T00:00:00Z",
+            zoneOffset = ZoneOffset.UTC,
+            expectedIsInDay = true
+        ),
+        // starting after and ending after day
+        InstantTestProperties(
+            start = "2018-12-05T00:00:00Z",
+            end = "2018-12-05T02:00:00Z",
+            zoneOffset = systemZoneOffset,
+            expectedIsInDay = false
+        ),
+        InstantTestProperties(
+            start = "2018-12-05T00:00:00Z",
+            end = "2018-12-06T00:00:00Z",
+            zoneOffset = ZoneOffset.UTC,
+            expectedIsInDay = false
+        )
+    )
+
+    @Suppress("unused")
+    private fun getSetsOfExpectedInstances(): Stream<Set<Instance>> = Stream.of(
+        emptySet(),
+        setOf(
+            Instance(
+                eventId = 1,
+                start = "2018-11-29T23:00:00Z".toInstant(systemZoneOffset),
+                end = "2018-12-01T23:50:00Z".toInstant(systemZoneOffset),
+                zoneId = systemZoneOffset,
+                isDeclined = false
             ),
-            InstantTestProperties(
-                start = "2018-12-02T00:00:00Z",
-                end = "2018-12-03T00:00:00Z",
-                zoneOffset = ZoneOffset.UTC,
-                expectedIsInDay = false
+            Instance(
+                eventId = 2,
+                start = "2018-12-01T00:00:00Z".toInstant(ZoneOffset.UTC),
+                end = "2018-12-02T00:00:00Z".toInstant(ZoneOffset.UTC),
+                zoneId = ZoneOffset.UTC,
+                isDeclined = false
             ),
-            // starting before and ending in day
-            InstantTestProperties(
-                start = "2018-12-01T00:00:00Z",
-                end = "2018-12-04T23:59:00Z",
-                zoneOffset = systemZoneOffset,
-                expectedIsInDay = true
+            Instance(
+                eventId = 3,
+                start = "2018-12-02T23:00:00Z".toInstant(systemZoneOffset),
+                end = "2018-12-09T01:00:00Z".toInstant(systemZoneOffset),
+                zoneId = systemZoneOffset,
+                isDeclined = false
             ),
-            InstantTestProperties(
-                start = "2018-12-01T00:00:00Z",
-                end = "2018-12-05T00:00:00Z",
-                zoneOffset = ZoneOffset.UTC,
-                expectedIsInDay = true
-            ),
-            // starting before and ending after day
-            InstantTestProperties(
-                start = "2018-12-01T10:55:00Z",
-                end = "2018-12-07T23:00:00Z",
-                zoneOffset = systemZoneOffset,
-                expectedIsInDay = true
-            ),
-            InstantTestProperties(
-                start = "2018-12-01T00:00:00Z",
-                end = "2018-12-07T00:00:00Z",
-                zoneOffset = ZoneOffset.UTC,
-                expectedIsInDay = true
-            ),
-            // starting in and ending in day
-            InstantTestProperties(
-                start = "2018-12-04T23:00:00Z",
-                end = "2018-12-04T23:50:00Z",
-                zoneOffset = systemZoneOffset,
-                expectedIsInDay = true
-            ),
-            InstantTestProperties(
-                start = "2018-12-04T00:00:00Z",
-                end = "2018-12-05T00:00:00Z",
-                zoneOffset = ZoneOffset.UTC,
-                expectedIsInDay = true
-            ),
-            // starting in and ending after day
-            InstantTestProperties(
-                start = "2018-12-04T23:00:00Z",
-                end = "2018-12-05T01:00:00Z",
-                zoneOffset = systemZoneOffset,
-                expectedIsInDay = true
-            ),
-            InstantTestProperties(
-                start = "2018-12-04T00:00:00Z",
-                end = "2018-12-06T00:00:00Z",
-                zoneOffset = ZoneOffset.UTC,
-                expectedIsInDay = true
-            ),
-            // starting after and ending after day
-            InstantTestProperties(
-                start = "2018-12-05T00:00:00Z",
-                end = "2018-12-05T02:00:00Z",
-                zoneOffset = systemZoneOffset,
-                expectedIsInDay = false
-            ),
-            InstantTestProperties(
-                start = "2018-12-05T00:00:00Z",
-                end = "2018-12-06T00:00:00Z",
-                zoneOffset = ZoneOffset.UTC,
-                expectedIsInDay = false
+            Instance(
+                eventId = 4,
+                start = "2018-12-02T00:00:00Z".toInstant(ZoneOffset.UTC),
+                end = "2018-12-06T00:00:00Z".toInstant(ZoneOffset.UTC),
+                zoneId = ZoneOffset.UTC,
+                isDeclined = false
             )
         )
-
-        @JvmStatic
-        @Suppress("unused", "LongMethod")
-        fun getSetsOfExpectedInstances(): Stream<Set<Instance>> = Stream.of(
-            emptySet(),
-            setOf(
-                Instance(
-                    eventId = 1,
-                    start = "2018-11-29T23:00:00Z".toInstant(systemZoneOffset),
-                    end = "2018-12-01T23:50:00Z".toInstant(systemZoneOffset),
-                    zoneId = systemZoneOffset,
-                    isDeclined = false
-                ),
-                Instance(
-                    eventId = 2,
-                    start = "2018-12-01T00:00:00Z".toInstant(ZoneOffset.UTC),
-                    end = "2018-12-02T00:00:00Z".toInstant(ZoneOffset.UTC),
-                    zoneId = ZoneOffset.UTC,
-                    isDeclined = false
-                ),
-                Instance(
-                    eventId = 3,
-                    start = "2018-12-02T23:00:00Z".toInstant(systemZoneOffset),
-                    end = "2018-12-09T01:00:00Z".toInstant(systemZoneOffset),
-                    zoneId = systemZoneOffset,
-                    isDeclined = false
-                ),
-                Instance(
-                    eventId = 4,
-                    start = "2018-12-02T00:00:00Z".toInstant(ZoneOffset.UTC),
-                    end = "2018-12-06T00:00:00Z".toInstant(ZoneOffset.UTC),
-                    zoneId = ZoneOffset.UTC,
-                    isDeclined = false
-                )
-            )
-        )
-
-        private fun String.toInstant(zoneOffset: ZoneOffset) = LocalDateTime
-            .parse(this, DateTimeFormatter.ISO_ZONED_DATE_TIME)
-            .toInstant(zoneOffset)
-    }
+    )
 
     internal data class InstantTestProperties(
-        private val start: String,
-        private val end: String,
+        val start: String,
+        val end: String,
         val zoneOffset: ZoneOffset,
         val expectedIsInDay: Boolean
     ) {
         private val random = Random()
 
         fun id() = random.nextInt()
-
-        fun startInstant() = start.toInstant(zoneOffset)!!
-
-        fun endInstant() = end.toInstant(zoneOffset)!!
     }
+
+    private fun String.toInstant(zoneOffset: ZoneOffset) = LocalDateTime
+        .parse(this, DateTimeFormatter.ISO_ZONED_DATE_TIME)
+        .toInstant(zoneOffset)
 }

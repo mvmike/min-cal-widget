@@ -21,35 +21,31 @@ internal class FormatTest : BaseTest() {
         ).isEqualTo(formatTestProperties.shouldFitSize)
     }
 
-    companion object {
-
-        @JvmStatic
-        @Suppress("unused")
-        fun getWidgetCurrentFormatAndExpectedOutput(): Stream<FormatTestProperties> = Stream.of(
-            FormatTestProperties(180, 70, Format.STANDARD, true),
-            FormatTestProperties(180, 70, Format.REDUCED, true),
-            FormatTestProperties(180, 71, Format.STANDARD, true),
-            FormatTestProperties(180, 71, Format.REDUCED, true),
-            FormatTestProperties(181, 70, Format.STANDARD, true),
-            FormatTestProperties(181, 70, Format.REDUCED, true),
-            FormatTestProperties(200, 90, Format.STANDARD, true),
-            FormatTestProperties(200, 90, Format.REDUCED, true),
-            FormatTestProperties(179, 70, Format.STANDARD, false),
-            FormatTestProperties(179, 70, Format.REDUCED, true),
-            FormatTestProperties(180, 69, Format.STANDARD, false),
-            FormatTestProperties(180, 69, Format.REDUCED, true),
-            FormatTestProperties(180, 50, Format.STANDARD, false),
-            FormatTestProperties(180, 50, Format.REDUCED, true),
-            FormatTestProperties(0, 0, Format.STANDARD, false),
-            FormatTestProperties(0, 0, Format.REDUCED, true),
-            FormatTestProperties(-1, 0, Format.STANDARD, false),
-            FormatTestProperties(-1, 0, Format.REDUCED, false),
-            FormatTestProperties(0, -1, Format.STANDARD, false),
-            FormatTestProperties(0, -1, Format.REDUCED, false),
-            FormatTestProperties(-320, -180, Format.STANDARD, false),
-            FormatTestProperties(-320, -180, Format.REDUCED, false),
-        )
-    }
+    @Suppress("unused")
+    private fun getWidgetCurrentFormatAndExpectedOutput(): Stream<FormatTestProperties> = Stream.of(
+        FormatTestProperties(180, 70, Format.STANDARD, true),
+        FormatTestProperties(180, 70, Format.REDUCED, true),
+        FormatTestProperties(180, 71, Format.STANDARD, true),
+        FormatTestProperties(180, 71, Format.REDUCED, true),
+        FormatTestProperties(181, 70, Format.STANDARD, true),
+        FormatTestProperties(181, 70, Format.REDUCED, true),
+        FormatTestProperties(200, 90, Format.STANDARD, true),
+        FormatTestProperties(200, 90, Format.REDUCED, true),
+        FormatTestProperties(179, 70, Format.STANDARD, false),
+        FormatTestProperties(179, 70, Format.REDUCED, true),
+        FormatTestProperties(180, 69, Format.STANDARD, false),
+        FormatTestProperties(180, 69, Format.REDUCED, true),
+        FormatTestProperties(180, 50, Format.STANDARD, false),
+        FormatTestProperties(180, 50, Format.REDUCED, true),
+        FormatTestProperties(0, 0, Format.STANDARD, false),
+        FormatTestProperties(0, 0, Format.REDUCED, true),
+        FormatTestProperties(-1, 0, Format.STANDARD, false),
+        FormatTestProperties(-1, 0, Format.REDUCED, false),
+        FormatTestProperties(0, -1, Format.STANDARD, false),
+        FormatTestProperties(0, -1, Format.REDUCED, false),
+        FormatTestProperties(-320, -180, Format.STANDARD, false),
+        FormatTestProperties(-320, -180, Format.REDUCED, false),
+    )
 
     internal data class FormatTestProperties(
         val width: Int,

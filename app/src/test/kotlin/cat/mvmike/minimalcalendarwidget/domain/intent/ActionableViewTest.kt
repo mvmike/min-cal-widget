@@ -45,25 +45,21 @@ internal class ActionableViewTest : BaseTest() {
         confirmVerified(widgetRv)
     }
 
-    companion object {
-
-        @JvmStatic
-        @Suppress("unused")
-        fun getActionableViewsWithTheirProperties(): Stream<ActionableViewTestProperties> = Stream.of(
-            ActionableViewTestProperties(
-                actionableView = ActionableView.OPEN_CONFIGURATION,
-                viewId = R.id.configuration_icon,
-                code = 98,
-                action = "action.WIDGET_CONFIGURATION"
-            ),
-            ActionableViewTestProperties(
-                actionableView = ActionableView.OPEN_CALENDAR,
-                viewId = R.id.calendar_widget,
-                code = 99,
-                action = "action.WIDGET_PRESS",
-            )
+    @Suppress("unused")
+    private fun getActionableViewsWithTheirProperties(): Stream<ActionableViewTestProperties> = Stream.of(
+        ActionableViewTestProperties(
+            actionableView = ActionableView.OPEN_CONFIGURATION,
+            viewId = R.id.configuration_icon,
+            code = 98,
+            action = "action.WIDGET_CONFIGURATION"
+        ),
+        ActionableViewTestProperties(
+            actionableView = ActionableView.OPEN_CALENDAR,
+            viewId = R.id.calendar_widget,
+            code = 99,
+            action = "action.WIDGET_PRESS",
         )
-    }
+    )
 
     internal data class ActionableViewTestProperties(
         val actionableView: ActionableView,

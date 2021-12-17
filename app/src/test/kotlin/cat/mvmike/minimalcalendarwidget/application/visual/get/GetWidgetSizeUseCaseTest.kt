@@ -64,28 +64,23 @@ internal class GetWidgetSizeUseCaseTest : BaseTest() {
         assertThat(result).isEqualTo(Format.STANDARD)
     }
 
-    companion object {
-
-        @JvmStatic
-        @Suppress("unused")
-        fun getWidgetCurrentSizeAndExpectedOutput(): Stream<GetWidgetSizeUseCaseTestProperties> = Stream.of(
-            GetWidgetSizeUseCaseTestProperties(
-                width = 180,
-                height = 120,
-                expectedSize = Format.STANDARD
-            ),
-            GetWidgetSizeUseCaseTestProperties(
-                width = 179,
-                height = 120,
-                expectedSize = Format.REDUCED
-            )
+    @Suppress("unused")
+    private fun getWidgetCurrentSizeAndExpectedOutput(): Stream<GetWidgetSizeUseCaseTestProperties> = Stream.of(
+        GetWidgetSizeUseCaseTestProperties(
+            width = 180,
+            height = 120,
+            expectedSize = Format.STANDARD
+        ),
+        GetWidgetSizeUseCaseTestProperties(
+            width = 179,
+            height = 120,
+            expectedSize = Format.REDUCED
         )
-    }
+    )
 
     internal data class GetWidgetSizeUseCaseTestProperties(
         val width: Int,
         val height: Int,
         val expectedSize: Format
     )
-
 }

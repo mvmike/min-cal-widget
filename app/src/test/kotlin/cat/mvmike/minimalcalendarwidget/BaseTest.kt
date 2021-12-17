@@ -32,18 +32,11 @@ import org.junit.jupiter.api.TestInstance
 private const val PREFERENCES_ID: String = "mincal_prefs"
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-abstract class BaseTest {
+open class BaseTest {
 
-    companion object {
-        @JvmStatic
-        val zoneId = ZoneId.of("Europe/Moscow")!!
-
-        @JvmStatic
-        val systemZoneOffset = zoneId.rules.getOffset(Instant.now())!!
-
-        @JvmStatic
-        val systemLocalDate = LocalDate.of(2018, 12, 4)!!
-    }
+    protected val zoneId = ZoneId.of("Europe/Moscow")!!
+    protected val systemZoneOffset = zoneId.rules.getOffset(Instant.now())!!
+    protected val systemLocalDate = LocalDate.of(2018, 12, 4)!!
 
     protected val context = mockk<Context>()
     protected val editor = mockk<SharedPreferences.Editor>()

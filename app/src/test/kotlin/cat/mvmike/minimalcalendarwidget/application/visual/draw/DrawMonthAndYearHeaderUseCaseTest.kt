@@ -51,41 +51,37 @@ internal class DrawMonthAndYearHeaderUseCaseTest : BaseTest() {
         confirmVerified(widgetRv)
     }
 
-    companion object {
+    @Suppress("unused")
+    private fun getSpreadInstantsAndFormatsWithExpectedMonthAndYearTranslation() = Stream.of(
+        Arguments.of("2018-01-26".toInstant(), Format.STANDARD, "January 2018"),
+        Arguments.of("2018-01-26".toInstant(), Format.REDUCED, "Jan 2018"),
+        Arguments.of("2005-02-19".toInstant(), Format.STANDARD, "February 2005"),
+        Arguments.of("2005-02-19".toInstant(), Format.REDUCED, "Feb 2005"),
+        Arguments.of("2027-03-05".toInstant(), Format.STANDARD, "March 2027"),
+        Arguments.of("2027-03-05".toInstant(), Format.REDUCED, "Mar 2027"),
+        Arguments.of("2099-04-30".toInstant(), Format.STANDARD, "April 2099"),
+        Arguments.of("2099-04-30".toInstant(), Format.REDUCED, "Apr 2099"),
+        Arguments.of("2000-05-01".toInstant(), Format.STANDARD, "May 2000"),
+        Arguments.of("2000-05-01".toInstant(), Format.REDUCED, "May 2000"),
+        Arguments.of("1998-06-02".toInstant(), Format.STANDARD, "June 1998"),
+        Arguments.of("1998-06-02".toInstant(), Format.REDUCED, "Jun 1998"),
+        Arguments.of("1992-07-07".toInstant(), Format.STANDARD, "July 1992"),
+        Arguments.of("1992-07-07".toInstant(), Format.REDUCED, "Jul 1992"),
+        Arguments.of("2018-08-01".toInstant(), Format.STANDARD, "August 2018"),
+        Arguments.of("2018-08-01".toInstant(), Format.REDUCED, "Aug 2018"),
+        Arguments.of("1987-09-12".toInstant(), Format.STANDARD, "September 1987"),
+        Arguments.of("1987-09-12".toInstant(), Format.REDUCED, "Sep 1987"),
+        Arguments.of("2017-10-01".toInstant(), Format.STANDARD, "October 2017"),
+        Arguments.of("2017-10-01".toInstant(), Format.REDUCED, "Oct 2017"),
+        Arguments.of("1000-11-12".toInstant(), Format.STANDARD, "November 1000"),
+        Arguments.of("1000-11-12".toInstant(), Format.REDUCED, "Nov 1000"),
+        Arguments.of("1994-12-13".toInstant(), Format.STANDARD, "December 1994"),
+        Arguments.of("1994-12-13".toInstant(), Format.REDUCED, "Dec 1994")
+    )!!
 
-        @JvmStatic
-        @Suppress("unused")
-        fun getSpreadInstantsAndFormatsWithExpectedMonthAndYearTranslation() = Stream.of(
-            Arguments.of("2018-01-26".toInstant(), Format.STANDARD, "January 2018"),
-            Arguments.of("2018-01-26".toInstant(), Format.REDUCED, "Jan 2018"),
-            Arguments.of("2005-02-19".toInstant(), Format.STANDARD, "February 2005"),
-            Arguments.of("2005-02-19".toInstant(), Format.REDUCED, "Feb 2005"),
-            Arguments.of("2027-03-05".toInstant(), Format.STANDARD, "March 2027"),
-            Arguments.of("2027-03-05".toInstant(), Format.REDUCED, "Mar 2027"),
-            Arguments.of("2099-04-30".toInstant(), Format.STANDARD, "April 2099"),
-            Arguments.of("2099-04-30".toInstant(), Format.REDUCED, "Apr 2099"),
-            Arguments.of("2000-05-01".toInstant(), Format.STANDARD, "May 2000"),
-            Arguments.of("2000-05-01".toInstant(), Format.REDUCED, "May 2000"),
-            Arguments.of("1998-06-02".toInstant(), Format.STANDARD, "June 1998"),
-            Arguments.of("1998-06-02".toInstant(), Format.REDUCED, "Jun 1998"),
-            Arguments.of("1992-07-07".toInstant(), Format.STANDARD, "July 1992"),
-            Arguments.of("1992-07-07".toInstant(), Format.REDUCED, "Jul 1992"),
-            Arguments.of("2018-08-01".toInstant(), Format.STANDARD, "August 2018"),
-            Arguments.of("2018-08-01".toInstant(), Format.REDUCED, "Aug 2018"),
-            Arguments.of("1987-09-12".toInstant(), Format.STANDARD, "September 1987"),
-            Arguments.of("1987-09-12".toInstant(), Format.REDUCED, "Sep 1987"),
-            Arguments.of("2017-10-01".toInstant(), Format.STANDARD, "October 2017"),
-            Arguments.of("2017-10-01".toInstant(), Format.REDUCED, "Oct 2017"),
-            Arguments.of("1000-11-12".toInstant(), Format.STANDARD, "November 1000"),
-            Arguments.of("1000-11-12".toInstant(), Format.REDUCED, "Nov 1000"),
-            Arguments.of("1994-12-13".toInstant(), Format.STANDARD, "December 1994"),
-            Arguments.of("1994-12-13".toInstant(), Format.REDUCED, "Dec 1994")
-        )!!
-
-        private fun String.toInstant() = LocalDateTime
-            .parse(this.plus("T00:00:00Z"), DateTimeFormatter.ISO_ZONED_DATE_TIME)
-            .toInstant(ZoneOffset.UTC)
-    }
+    private fun String.toInstant() = LocalDateTime
+        .parse(this.plus("T00:00:00Z"), DateTimeFormatter.ISO_ZONED_DATE_TIME)
+        .toInstant(ZoneOffset.UTC)
 
     private fun Month.getExpectedResourceId() =
         when (this) {

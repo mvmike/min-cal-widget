@@ -129,31 +129,27 @@ internal class ConfigurationTest : BaseTest() {
         verify { editor.apply() }
     }
 
-    companion object {
-
-        @JvmStatic
-        @Suppress("unused")
-        fun getCombinationOfEnumConfigurationItemsWithValuesAndKey(): Stream<Arguments> = Stream.of(
-            Arguments.of(
-                Theme.values(),
-                EnumConfiguration.WidgetTheme,
-                "WIDGET_THEME"
-            ),
-            Arguments.of(
-                DayOfWeek.values(),
-                EnumConfiguration.FirstDayOfWeek,
-                "FIRST_DAY_OF_WEEK"
-            ),
-            Arguments.of(
-                SymbolSet.values(),
-                EnumConfiguration.InstancesSymbolSet,
-                "INSTANCES_SYMBOL_SET"
-            ),
-            Arguments.of(
-                Colour.values(),
-                EnumConfiguration.InstancesColour,
-                "INSTANCES_COLOUR"
-            )
+    @Suppress("unused")
+    private fun getCombinationOfEnumConfigurationItemsWithValuesAndKey(): Stream<Arguments> = Stream.of(
+        Arguments.of(
+            Theme.values(),
+            EnumConfiguration.WidgetTheme,
+            "WIDGET_THEME"
+        ),
+        Arguments.of(
+            DayOfWeek.values(),
+            EnumConfiguration.FirstDayOfWeek,
+            "FIRST_DAY_OF_WEEK"
+        ),
+        Arguments.of(
+            SymbolSet.values(),
+            EnumConfiguration.InstancesSymbolSet,
+            "INSTANCES_SYMBOL_SET"
+        ),
+        Arguments.of(
+            Colour.values(),
+            EnumConfiguration.InstancesColour,
+            "INSTANCES_COLOUR"
         )
-    }
+    )
 }
