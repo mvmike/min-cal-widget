@@ -421,17 +421,6 @@ internal class DrawDaysUseCaseTest : BaseTest() {
             DrawDaysUseCaseTestProperties(dayLayout = dayLayoutNotInMonth, spanText = " 06 ·")
         )
 
-        internal data class DrawDaysUseCaseTestProperties(
-            val dayLayout: Int,
-            val spanText: String,
-            val dayBackgroundColour: Int? = null,
-            val isToday: Boolean = false,
-            val symbolRelativeSize: Float = 1f,
-            val instancesColour: Int = instancesColourId
-        ) {
-            fun isSingleDigitDay() = spanText.startsWith(" 0")
-        }
-
         private fun String.toInstant(zoneOffset: ZoneOffset) = LocalDateTime
             .parse(this, DateTimeFormatter.ISO_ZONED_DATE_TIME)
             .toInstant(zoneOffset)
@@ -629,5 +618,16 @@ internal class DrawDaysUseCaseTest : BaseTest() {
             Arguments.of(LocalDate.of(2019, 1, 5), true, 8),
             Arguments.of(LocalDate.of(2019, 1, 6), true, 2)
         )!!
+    }
+
+    internal data class DrawDaysUseCaseTestProperties(
+        val dayLayout: Int,
+        val spanText: String,
+        val dayBackgroundColour: Int? = null,
+        val isToday: Boolean = false,
+        val symbolRelativeSize: Float = 1f,
+        val instancesColour: Int = instancesColourId
+    ) {
+        fun isSingleDigitDay() = spanText.startsWith(" 0")
     }
 }
