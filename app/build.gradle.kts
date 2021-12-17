@@ -5,7 +5,7 @@ plugins {
     id("com.android.application")
     id("kotlin-android")
     //https://github.com/detekt/detekt/releases
-    id("io.gitlab.arturbosch.detekt").version("1.18.1")
+    id("io.gitlab.arturbosch.detekt").version("1.19.0")
 }
 
 android {
