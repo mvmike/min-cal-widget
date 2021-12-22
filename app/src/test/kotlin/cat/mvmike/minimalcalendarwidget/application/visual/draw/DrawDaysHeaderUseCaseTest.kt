@@ -69,15 +69,16 @@ internal class DrawDaysHeaderUseCaseTest : BaseTest() {
         verifyWidgetTheme()
         verify(exactly = 1) { SystemResolver.createDaysHeaderRow(context) }
         expectedDayHeaders.forEach {
-            val cellHeader = theme.getCellHeader(it.dayOfWeek)
             verify { context.getString(it.dayOfWeek.getExpectedResourceIdAndTranslation().first) }
             verifyGetDayHeaderCellBackground(it.cellBackground)
-            verifyOrder {
+        }
+        verifyOrder {
+            expectedDayHeaders.forEach {
                 SystemResolver.addToDaysHeaderRow(
                     context = context,
                     daysHeaderRow = daysHeaderRowRv,
                     text = it.expectedHeaderString,
-                    layoutId = cellHeader.layout,
+                    layoutId = theme.getCellHeader(it.dayOfWeek).layout,
                     viewId = 16908308,
                     dayHeaderBackgroundColour = it.cellBackground
                 )
