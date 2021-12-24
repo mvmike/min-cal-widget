@@ -28,6 +28,8 @@ import java.time.DayOfWeek.TUESDAY
 import java.time.DayOfWeek.WEDNESDAY
 import java.util.stream.Stream
 
+
+private const val dayHeaderCellViewId = 16908308
 private const val dayHeaderSaturdayDarkThemeBackground = 2131034148
 private const val dayHeaderSundayDarkThemeBackground = 2131034152
 private const val dayHeaderSaturdayLightThemeBackground = 2131034149
@@ -79,7 +81,7 @@ internal class DrawDaysHeaderUseCaseTest : BaseTest() {
                     daysHeaderRow = daysHeaderRowRv,
                     text = it.expectedHeaderString,
                     layoutId = theme.getCellHeader(it.dayOfWeek).layout,
-                    viewId = 16908308,
+                    viewId = dayHeaderCellViewId,
                     dayHeaderBackgroundColour = it.cellBackground
                 )
             }
