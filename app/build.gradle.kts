@@ -127,7 +127,7 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter-params:$junitJupiterVersion")
 
     //https://github.com/mockk/mockk/releases
-    testImplementation("io.mockk:mockk:1.12.1")
+    testImplementation("io.mockk:mockk:1.12.2")
 
     //https://github.com/assertj/assertj-core/releases
     testImplementation("org.assertj:assertj-core:3.21.0")
