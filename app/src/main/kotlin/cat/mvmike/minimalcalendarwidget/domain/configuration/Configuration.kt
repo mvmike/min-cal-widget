@@ -47,7 +47,6 @@ sealed class Configuration<E>(
 
         override fun set(context: Context, value: Boolean) =
             getConfiguration(context).edit().putBoolean(key, value).apply()
-
     }
 }
 
