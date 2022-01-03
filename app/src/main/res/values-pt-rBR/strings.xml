@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!--app name-->
+    <!--PORTUGUESE (BRAZIL)-->
     <string name="app_name">MinCal Widget</string>
 
-    <!--configuration-->
+    <!--Configuration-->
     <string name="configuration">Configuração</string>
 
     <string name="theme">Tema:</string>
