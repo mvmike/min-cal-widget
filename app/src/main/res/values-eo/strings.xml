@@ -74,4 +74,7 @@
     <string name="green">Verda</string>
     <string name="yellow">Flava</string>
 
+    <!-- messages-->
+    <string name="no_calendar_application">Neniu kalendara aplikaĵo trovita</string>
+
 </resources>

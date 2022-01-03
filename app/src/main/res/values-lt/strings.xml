@@ -74,4 +74,7 @@
     <string name="green">Žalia</string>
     <string name="yellow">Geltona</string>
 
+    <!-- messages-->
+    <string name="no_calendar_application">Kalendoriaus programa nerasta</string>
+
 </resources>

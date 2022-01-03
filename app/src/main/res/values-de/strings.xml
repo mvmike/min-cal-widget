@@ -74,4 +74,7 @@
     <string name="green">Grün</string>
     <string name="yellow">Gelb</string>
 
+    <!-- messages-->
+    <string name="no_calendar_application">Keine Kalenderanwendung gefunden</string>
+
 </resources>
