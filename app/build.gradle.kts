@@ -112,7 +112,7 @@ android {
 
 dependencies {
 
-    //https://github.com/google/desugar_jdk_libs/releases
+    //https://github.com/google/desugar_jdk_libs/tags
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
 
     //https://developer.android.com/jetpack/androidx/versions/
@@ -129,6 +129,6 @@ dependencies {
     //https://github.com/mockk/mockk/releases
     testImplementation("io.mockk:mockk:1.12.2")
 
-    //https://github.com/assertj/assertj-core/releases
+    //https://github.com/assertj/assertj-core/tags
     testImplementation("org.assertj:assertj-core:3.22.0")
 }
