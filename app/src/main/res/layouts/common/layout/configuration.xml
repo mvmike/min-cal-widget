@@ -32,8 +32,7 @@
             android:id="@+id/themeSpinner"
             android:layout_width="130dp"
             android:layout_height="25dp"
-            android:layout_gravity="top|end"
-            android:textColor="@color/config_value" />
+            android:layout_gravity="top|end"/>
 
     </LinearLayout>
 
@@ -59,8 +58,7 @@
             android:id="@+id/startWeekDaySpinner"
             android:layout_width="130dp"
             android:layout_height="25dp"
-            android:layout_gravity="top|end"
-            android:textColor="@color/config_value" />
+            android:layout_gravity="top|end"/>
 
     </LinearLayout>
 
@@ -86,8 +84,7 @@
             android:id="@+id/symbolSetSpinner"
             android:layout_width="130dp"
             android:layout_height="25dp"
-            android:layout_gravity="top|end"
-            android:textColor="@color/config_value" />
+            android:layout_gravity="top|end"/>
 
     </LinearLayout>
 
@@ -113,8 +110,7 @@
             android:id="@+id/symbolColourSpinner"
             android:layout_width="130dp"
             android:layout_height="25dp"
-            android:layout_gravity="top|end"
-            android:textColor="@color/config_value" />
+            android:layout_gravity="top|end"/>
 
     </LinearLayout>
 
