@@ -39,8 +39,8 @@ private const val dayLayoutWeekdayInMonth = 2131427363
 private const val dayLayoutSaturdayInMonth = 2131427359
 private const val dayLayoutSundayInMonth = 2131427361
 
-private const val instancesColourTodayId = 2131034185
-private const val instancesColourId = 2131034182
+private const val instancesColourTodayId = 2131034184
+private const val instancesColourId = 2131034181
 
 private const val dayCellTodayBackground = 2131034158
 private const val dayCellWeekdayInMonthBackground = 2131034156
