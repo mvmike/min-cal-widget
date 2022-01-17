@@ -29,6 +29,4 @@ enum class Format(
     fun getMonthHeaderLabel(value: String) = value.take(monthHeaderLabelLength)
 
     fun getDayHeaderLabel(value: String) = value.take(dayHeaderLabelLength)
-
-
 }
