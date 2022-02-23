@@ -4,8 +4,7 @@ package cat.mvmike.minimalcalendarwidget.application.visual.draw
 
 import android.widget.RemoteViews
 import cat.mvmike.minimalcalendarwidget.BaseTest
-import cat.mvmike.minimalcalendarwidget.application.visual.DrawDaysUseCase
-import cat.mvmike.minimalcalendarwidget.application.visual.DrawDaysUseCase.getNumberOfInstances
+import cat.mvmike.minimalcalendarwidget.application.visual.draw.DrawDaysUseCase.getNumberOfInstances
 import cat.mvmike.minimalcalendarwidget.domain.Format
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Colour
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.SymbolSet

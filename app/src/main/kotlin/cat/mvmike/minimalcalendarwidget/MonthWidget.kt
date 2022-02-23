@@ -13,7 +13,7 @@ import cat.mvmike.minimalcalendarwidget.application.action.system.StartAlarmUseC
 import cat.mvmike.minimalcalendarwidget.application.action.system.StopAlarmUseCase
 import cat.mvmike.minimalcalendarwidget.application.action.user.AddListenersUseCase
 import cat.mvmike.minimalcalendarwidget.application.action.user.ProcessIntentUseCase
-import cat.mvmike.minimalcalendarwidget.application.visual.DrawDaysUseCase
+import cat.mvmike.minimalcalendarwidget.application.visual.draw.DrawDaysUseCase
 import cat.mvmike.minimalcalendarwidget.application.visual.draw.DrawDaysHeaderUseCase
 import cat.mvmike.minimalcalendarwidget.application.visual.draw.DrawMonthAndYearHeaderUseCase
 import cat.mvmike.minimalcalendarwidget.application.visual.draw.DrawWidgetLayout

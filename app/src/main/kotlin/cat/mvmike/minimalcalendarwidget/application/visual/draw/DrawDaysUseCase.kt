@@ -1,6 +1,6 @@
 // Copyright (c) 2016, Miquel Martí <miquelmarti111@gmail.com>
 // See LICENSE for licensing information
-package cat.mvmike.minimalcalendarwidget.application.visual
+package cat.mvmike.minimalcalendarwidget.application.visual.draw
 
 import android.content.Context
 import android.widget.RemoteViews
