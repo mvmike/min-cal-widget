@@ -29,11 +29,11 @@ enum class Theme(
             layout = R.layout.dark_cell_header
         ),
         cellHeaderSaturday = Cell(
-            layout = R.layout.dark_cell_header_saturday,
+            layout = R.layout.dark_cell_header,
             background = R.color.background_saturday_this_month_dark
         ),
         cellHeaderSunday = Cell(
-            layout = R.layout.dark_cell_header_sunday,
+            layout = R.layout.dark_cell_header,
             background = R.color.background_sunday_this_month_dark
         ),
         cellDay = Cell(layout = R.layout.dark_cell_day),
@@ -42,11 +42,11 @@ enum class Theme(
             background = R.color.background_this_month_dark
         ),
         cellDaySaturdayThisMonth = Cell(
-            layout = R.layout.dark_cell_day_saturday_this_month,
+            layout = R.layout.dark_cell_day_this_month,
             background = R.color.background_saturday_this_month_dark
         ),
         cellDaySundayThisMonth = Cell(
-            layout = R.layout.dark_cell_day_sunday_this_month,
+            layout = R.layout.dark_cell_day_this_month,
             background = R.color.background_sunday_this_month_dark
         ),
         cellDayToday = Cell(
@@ -54,11 +54,11 @@ enum class Theme(
             background = R.color.background_today_dark
         ),
         cellDaySaturdayToday = Cell(
-            layout = R.layout.dark_cell_day_saturday_today,
+            layout = R.layout.dark_cell_day_today,
             background = R.color.background_saturday_today_dark
         ),
         cellDaySundayToday = Cell(
-            layout = R.layout.dark_cell_day_sunday_today,
+            layout = R.layout.dark_cell_day_today,
             background = R.color.background_sunday_today_dark
         )
     ),
@@ -70,11 +70,11 @@ enum class Theme(
             layout = R.layout.light_cell_header
         ),
         cellHeaderSaturday = Cell(
-            layout = R.layout.light_cell_header_saturday,
+            layout = R.layout.light_cell_header,
             background = R.color.background_saturday_this_month_light
         ),
         cellHeaderSunday = Cell(
-            layout = R.layout.light_cell_header_sunday,
+            layout = R.layout.light_cell_header,
             background = R.color.background_sunday_this_month_light
         ),
         cellDay = Cell(layout = R.layout.light_cell_day),
@@ -83,11 +83,11 @@ enum class Theme(
             background = R.color.background_this_month_light
         ),
         cellDaySaturdayThisMonth = Cell(
-            layout = R.layout.light_cell_day_saturday_this_month,
+            layout = R.layout.light_cell_day_this_month,
             background = R.color.background_saturday_this_month_light
         ),
         cellDaySundayThisMonth = Cell(
-            layout = R.layout.light_cell_day_sunday_this_month,
+            layout = R.layout.light_cell_day_this_month,
             background = R.color.background_sunday_this_month_light
         ),
         cellDayToday = Cell(
@@ -95,11 +95,11 @@ enum class Theme(
             background = R.color.background_today_light
         ),
         cellDaySaturdayToday = Cell(
-            layout = R.layout.light_cell_day_saturday_today,
+            layout = R.layout.light_cell_day_today,
             background = R.color.background_saturday_today_light
         ),
         cellDaySundayToday = Cell(
-            layout = R.layout.light_cell_day_sunday_today,
+            layout = R.layout.light_cell_day_today,
             background = R.color.background_sunday_today_light
         )
     );

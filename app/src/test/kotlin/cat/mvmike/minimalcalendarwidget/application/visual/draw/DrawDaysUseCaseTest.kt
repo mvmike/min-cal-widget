@@ -33,10 +33,8 @@ import java.util.Random
 import java.util.stream.Stream
 
 private const val dayLayoutNotInMonth = 2131427358
-private const val dayLayoutToday = 2131427364
-private const val dayLayoutWeekdayInMonth = 2131427363
-private const val dayLayoutSaturdayInMonth = 2131427359
-private const val dayLayoutSundayInMonth = 2131427361
+private const val dayLayoutInMonth = 2131427359
+private const val dayLayoutToday = 2131427360
 
 private const val instancesColourTodayId = 2131034184
 private const val instancesColourId = 2131034181
@@ -377,40 +375,40 @@ internal class DrawDaysUseCaseTest : BaseTest() {
         DrawDaysUseCaseTestProperties(dayLayout = dayLayoutNotInMonth, spanText = " 28 ·"),
         DrawDaysUseCaseTestProperties(dayLayout = dayLayoutNotInMonth, spanText = " 29 ·"),
         DrawDaysUseCaseTestProperties(dayLayout = dayLayoutNotInMonth, spanText = " 30  "),
-        DrawDaysUseCaseTestProperties(dayLayout = dayLayoutSaturdayInMonth, spanText = " 01  ", dayBackgroundColour = dayCellSaturdayInMonthBackground),
-        DrawDaysUseCaseTestProperties(dayLayout = dayLayoutSundayInMonth, spanText = " 02  ", dayBackgroundColour = dayCellSundayInMonthBackground),
-        DrawDaysUseCaseTestProperties(dayLayout = dayLayoutWeekdayInMonth, spanText = " 03 ·", dayBackgroundColour = dayCellWeekdayInMonthBackground),
+        DrawDaysUseCaseTestProperties(dayLayout = dayLayoutInMonth, spanText = " 01  ", dayBackgroundColour = dayCellSaturdayInMonthBackground),
+        DrawDaysUseCaseTestProperties(dayLayout = dayLayoutInMonth, spanText = " 02  ", dayBackgroundColour = dayCellSundayInMonthBackground),
+        DrawDaysUseCaseTestProperties(dayLayout = dayLayoutInMonth, spanText = " 03 ·", dayBackgroundColour = dayCellWeekdayInMonthBackground),
         DrawDaysUseCaseTestProperties(
             dayLayout = dayLayoutToday, spanText = " 04 ·", dayBackgroundColour = dayCellTodayBackground,
             isToday = true, instancesColour = instancesColourTodayId
         ),
-        DrawDaysUseCaseTestProperties(dayLayout = dayLayoutWeekdayInMonth, spanText = " 05  ", dayBackgroundColour = dayCellWeekdayInMonthBackground),
-        DrawDaysUseCaseTestProperties(dayLayout = dayLayoutWeekdayInMonth, spanText = " 06 ∴", dayBackgroundColour = dayCellWeekdayInMonthBackground),
-        DrawDaysUseCaseTestProperties(dayLayout = dayLayoutWeekdayInMonth, spanText = " 07 ·", dayBackgroundColour = dayCellWeekdayInMonthBackground),
-        DrawDaysUseCaseTestProperties(dayLayout = dayLayoutSaturdayInMonth, spanText = " 08  ", dayBackgroundColour = dayCellSaturdayInMonthBackground),
-        DrawDaysUseCaseTestProperties(dayLayout = dayLayoutSundayInMonth, spanText = " 09  ", dayBackgroundColour = dayCellSundayInMonthBackground),
-        DrawDaysUseCaseTestProperties(dayLayout = dayLayoutWeekdayInMonth, spanText = " 10 ∷", dayBackgroundColour = dayCellWeekdayInMonthBackground),
-        DrawDaysUseCaseTestProperties(dayLayout = dayLayoutWeekdayInMonth, spanText = " 11 ·", dayBackgroundColour = dayCellWeekdayInMonthBackground),
-        DrawDaysUseCaseTestProperties(dayLayout = dayLayoutWeekdayInMonth, spanText = " 12  ", dayBackgroundColour = dayCellWeekdayInMonthBackground),
-        DrawDaysUseCaseTestProperties(dayLayout = dayLayoutWeekdayInMonth, spanText = " 13  ", dayBackgroundColour = dayCellWeekdayInMonthBackground),
-        DrawDaysUseCaseTestProperties(dayLayout = dayLayoutWeekdayInMonth, spanText = " 14  ", dayBackgroundColour = dayCellWeekdayInMonthBackground),
-        DrawDaysUseCaseTestProperties(dayLayout = dayLayoutSaturdayInMonth, spanText = " 15  ", dayBackgroundColour = dayCellSaturdayInMonthBackground),
-        DrawDaysUseCaseTestProperties(dayLayout = dayLayoutSundayInMonth, spanText = " 16  ", dayBackgroundColour = dayCellSundayInMonthBackground),
-        DrawDaysUseCaseTestProperties(dayLayout = dayLayoutWeekdayInMonth, spanText = " 17  ", dayBackgroundColour = dayCellWeekdayInMonthBackground),
-        DrawDaysUseCaseTestProperties(dayLayout = dayLayoutWeekdayInMonth, spanText = " 18  ", dayBackgroundColour = dayCellWeekdayInMonthBackground),
-        DrawDaysUseCaseTestProperties(dayLayout = dayLayoutWeekdayInMonth, spanText = " 19  ", dayBackgroundColour = dayCellWeekdayInMonthBackground),
-        DrawDaysUseCaseTestProperties(dayLayout = dayLayoutWeekdayInMonth, spanText = " 20  ", dayBackgroundColour = dayCellWeekdayInMonthBackground),
-        DrawDaysUseCaseTestProperties(dayLayout = dayLayoutWeekdayInMonth, spanText = " 21  ", dayBackgroundColour = dayCellWeekdayInMonthBackground),
-        DrawDaysUseCaseTestProperties(dayLayout = dayLayoutSaturdayInMonth, spanText = " 22  ", dayBackgroundColour = dayCellSaturdayInMonthBackground),
-        DrawDaysUseCaseTestProperties(dayLayout = dayLayoutSundayInMonth, spanText = " 23  ", dayBackgroundColour = dayCellSundayInMonthBackground),
-        DrawDaysUseCaseTestProperties(dayLayout = dayLayoutWeekdayInMonth, spanText = " 24  ", dayBackgroundColour = dayCellWeekdayInMonthBackground),
-        DrawDaysUseCaseTestProperties(dayLayout = dayLayoutWeekdayInMonth, spanText = " 25  ", dayBackgroundColour = dayCellWeekdayInMonthBackground),
-        DrawDaysUseCaseTestProperties(dayLayout = dayLayoutWeekdayInMonth, spanText = " 26  ", dayBackgroundColour = dayCellWeekdayInMonthBackground),
-        DrawDaysUseCaseTestProperties(dayLayout = dayLayoutWeekdayInMonth, spanText = " 27 ·", dayBackgroundColour = dayCellWeekdayInMonthBackground),
-        DrawDaysUseCaseTestProperties(dayLayout = dayLayoutWeekdayInMonth, spanText = " 28  ", dayBackgroundColour = dayCellWeekdayInMonthBackground),
-        DrawDaysUseCaseTestProperties(dayLayout = dayLayoutSaturdayInMonth, spanText = " 29  ", dayBackgroundColour = dayCellSaturdayInMonthBackground),
-        DrawDaysUseCaseTestProperties(dayLayout = dayLayoutSundayInMonth, spanText = " 30 ◇", dayBackgroundColour = dayCellSundayInMonthBackground),
-        DrawDaysUseCaseTestProperties(dayLayout = dayLayoutWeekdayInMonth, spanText = " 31  ", dayBackgroundColour = dayCellWeekdayInMonthBackground),
+        DrawDaysUseCaseTestProperties(dayLayout = dayLayoutInMonth, spanText = " 05  ", dayBackgroundColour = dayCellWeekdayInMonthBackground),
+        DrawDaysUseCaseTestProperties(dayLayout = dayLayoutInMonth, spanText = " 06 ∴", dayBackgroundColour = dayCellWeekdayInMonthBackground),
+        DrawDaysUseCaseTestProperties(dayLayout = dayLayoutInMonth, spanText = " 07 ·", dayBackgroundColour = dayCellWeekdayInMonthBackground),
+        DrawDaysUseCaseTestProperties(dayLayout = dayLayoutInMonth, spanText = " 08  ", dayBackgroundColour = dayCellSaturdayInMonthBackground),
+        DrawDaysUseCaseTestProperties(dayLayout = dayLayoutInMonth, spanText = " 09  ", dayBackgroundColour = dayCellSundayInMonthBackground),
+        DrawDaysUseCaseTestProperties(dayLayout = dayLayoutInMonth, spanText = " 10 ∷", dayBackgroundColour = dayCellWeekdayInMonthBackground),
+        DrawDaysUseCaseTestProperties(dayLayout = dayLayoutInMonth, spanText = " 11 ·", dayBackgroundColour = dayCellWeekdayInMonthBackground),
+        DrawDaysUseCaseTestProperties(dayLayout = dayLayoutInMonth, spanText = " 12  ", dayBackgroundColour = dayCellWeekdayInMonthBackground),
+        DrawDaysUseCaseTestProperties(dayLayout = dayLayoutInMonth, spanText = " 13  ", dayBackgroundColour = dayCellWeekdayInMonthBackground),
+        DrawDaysUseCaseTestProperties(dayLayout = dayLayoutInMonth, spanText = " 14  ", dayBackgroundColour = dayCellWeekdayInMonthBackground),
+        DrawDaysUseCaseTestProperties(dayLayout = dayLayoutInMonth, spanText = " 15  ", dayBackgroundColour = dayCellSaturdayInMonthBackground),
+        DrawDaysUseCaseTestProperties(dayLayout = dayLayoutInMonth, spanText = " 16  ", dayBackgroundColour = dayCellSundayInMonthBackground),
+        DrawDaysUseCaseTestProperties(dayLayout = dayLayoutInMonth, spanText = " 17  ", dayBackgroundColour = dayCellWeekdayInMonthBackground),
+        DrawDaysUseCaseTestProperties(dayLayout = dayLayoutInMonth, spanText = " 18  ", dayBackgroundColour = dayCellWeekdayInMonthBackground),
+        DrawDaysUseCaseTestProperties(dayLayout = dayLayoutInMonth, spanText = " 19  ", dayBackgroundColour = dayCellWeekdayInMonthBackground),
+        DrawDaysUseCaseTestProperties(dayLayout = dayLayoutInMonth, spanText = " 20  ", dayBackgroundColour = dayCellWeekdayInMonthBackground),
+        DrawDaysUseCaseTestProperties(dayLayout = dayLayoutInMonth, spanText = " 21  ", dayBackgroundColour = dayCellWeekdayInMonthBackground),
+        DrawDaysUseCaseTestProperties(dayLayout = dayLayoutInMonth, spanText = " 22  ", dayBackgroundColour = dayCellSaturdayInMonthBackground),
+        DrawDaysUseCaseTestProperties(dayLayout = dayLayoutInMonth, spanText = " 23  ", dayBackgroundColour = dayCellSundayInMonthBackground),
+        DrawDaysUseCaseTestProperties(dayLayout = dayLayoutInMonth, spanText = " 24  ", dayBackgroundColour = dayCellWeekdayInMonthBackground),
+        DrawDaysUseCaseTestProperties(dayLayout = dayLayoutInMonth, spanText = " 25  ", dayBackgroundColour = dayCellWeekdayInMonthBackground),
+        DrawDaysUseCaseTestProperties(dayLayout = dayLayoutInMonth, spanText = " 26  ", dayBackgroundColour = dayCellWeekdayInMonthBackground),
+        DrawDaysUseCaseTestProperties(dayLayout = dayLayoutInMonth, spanText = " 27 ·", dayBackgroundColour = dayCellWeekdayInMonthBackground),
+        DrawDaysUseCaseTestProperties(dayLayout = dayLayoutInMonth, spanText = " 28  ", dayBackgroundColour = dayCellWeekdayInMonthBackground),
+        DrawDaysUseCaseTestProperties(dayLayout = dayLayoutInMonth, spanText = " 29  ", dayBackgroundColour = dayCellSaturdayInMonthBackground),
+        DrawDaysUseCaseTestProperties(dayLayout = dayLayoutInMonth, spanText = " 30 ◇", dayBackgroundColour = dayCellSundayInMonthBackground),
+        DrawDaysUseCaseTestProperties(dayLayout = dayLayoutInMonth, spanText = " 31  ", dayBackgroundColour = dayCellWeekdayInMonthBackground),
         DrawDaysUseCaseTestProperties(dayLayout = dayLayoutNotInMonth, spanText = " 01 ·"),
         DrawDaysUseCaseTestProperties(dayLayout = dayLayoutNotInMonth, spanText = " 02 ·"),
         DrawDaysUseCaseTestProperties(dayLayout = dayLayoutNotInMonth, spanText = " 03 ·"),
