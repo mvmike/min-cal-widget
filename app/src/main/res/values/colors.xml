@@ -11,11 +11,11 @@
     <color name="background_today_dark">#009973</color>
     <color name="background_today_light">#009973</color>
 
-    <color name="background_saturday_dark">#99CCFF</color>
-    <color name="background_saturday_light">#41A1FF</color>
+    <color name="background_saturday_this_month_dark">#99CCFF</color>
+    <color name="background_saturday_this_month_light">#41A1FF</color>
 
-    <color name="background_sunday_dark">#FF9999</color>
-    <color name="background_sunday_light">#FF4B4B</color>
+    <color name="background_sunday_this_month_dark">#FF9999</color>
+    <color name="background_sunday_this_month_light">#FF4B4B</color>
 
     <color name="background_saturday_today_dark">#004080</color>
     <color name="background_saturday_today_light">#004080</color>
