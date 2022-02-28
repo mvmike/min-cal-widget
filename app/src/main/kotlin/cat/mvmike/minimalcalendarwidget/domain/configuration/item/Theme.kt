@@ -10,126 +10,64 @@ enum class Theme(
     val displayString: Int,
     val mainLayout: Int,
     val mainBackground: Int,
-    private val cellHeader: Cell,
-    private val cellHeaderSaturday: Cell,
-    private val cellHeaderSunday: Cell,
-    private val cellDay: Cell,
-    private val cellDayThisMonth: Cell,
-    private val cellDaySaturdayThisMonth: Cell,
-    private val cellDaySundayThisMonth: Cell,
-    private val cellDayToday: Cell,
-    private val cellDaySaturdayToday: Cell,
-    private val cellDaySundayToday: Cell
+    private val dayLayout: Int,
+    private val header: CellPack,
+    private val thisMonth: CellPack,
+    private val today: CellPack
 ) {
     DARK(
         displayString = R.string.dark,
         mainLayout = R.layout.widget_dark,
         mainBackground = R.color.background_full_dark,
-        cellHeader = Cell(
-            layout = R.layout.dark_cell_header
+        dayLayout = R.layout.dark_cell_day,
+        header = CellPack(
+            mainLayout = R.layout.dark_cell_header,
+            saturdayBackground = R.color.background_saturday_this_month_dark,
+            sundayBackground = R.color.background_sunday_this_month_dark
         ),
-        cellHeaderSaturday = Cell(
-            layout = R.layout.dark_cell_header,
-            background = R.color.background_saturday_this_month_dark
+        thisMonth = CellPack(
+            mainLayout = R.layout.dark_cell_day_this_month,
+            weekdayBackground = R.color.background_this_month_dark,
+            saturdayBackground = R.color.background_saturday_this_month_dark,
+            sundayBackground = R.color.background_sunday_this_month_dark
         ),
-        cellHeaderSunday = Cell(
-            layout = R.layout.dark_cell_header,
-            background = R.color.background_sunday_this_month_dark
-        ),
-        cellDay = Cell(layout = R.layout.dark_cell_day),
-        cellDayThisMonth = Cell(
-            layout = R.layout.dark_cell_day_this_month,
-            background = R.color.background_this_month_dark
-        ),
-        cellDaySaturdayThisMonth = Cell(
-            layout = R.layout.dark_cell_day_this_month,
-            background = R.color.background_saturday_this_month_dark
-        ),
-        cellDaySundayThisMonth = Cell(
-            layout = R.layout.dark_cell_day_this_month,
-            background = R.color.background_sunday_this_month_dark
-        ),
-        cellDayToday = Cell(
-            layout = R.layout.dark_cell_day_today,
-            background = R.color.background_today_dark
-        ),
-        cellDaySaturdayToday = Cell(
-            layout = R.layout.dark_cell_day_today,
-            background = R.color.background_saturday_today_dark
-        ),
-        cellDaySundayToday = Cell(
-            layout = R.layout.dark_cell_day_today,
-            background = R.color.background_sunday_today_dark
+        today = CellPack(
+            mainLayout = R.layout.dark_cell_day_today,
+            weekdayBackground = R.color.background_today_dark,
+            saturdayBackground = R.color.background_saturday_today_dark,
+            sundayBackground = R.color.background_sunday_today_dark
         )
     ),
     LIGHT(
         displayString = R.string.light,
         mainLayout = R.layout.widget_light,
         mainBackground = R.color.background_full_light,
-        cellHeader = Cell(
-            layout = R.layout.light_cell_header
+        dayLayout = R.layout.light_cell_day,
+        header = CellPack(
+            mainLayout = R.layout.light_cell_header,
+            saturdayBackground = R.color.background_saturday_this_month_light,
+            sundayBackground = R.color.background_sunday_this_month_light
         ),
-        cellHeaderSaturday = Cell(
-            layout = R.layout.light_cell_header,
-            background = R.color.background_saturday_this_month_light
+        thisMonth = CellPack(
+            mainLayout = R.layout.light_cell_day_this_month,
+            weekdayBackground = R.color.background_this_month_light,
+            saturdayBackground = R.color.background_saturday_this_month_light,
+            sundayBackground = R.color.background_sunday_this_month_light
         ),
-        cellHeaderSunday = Cell(
-            layout = R.layout.light_cell_header,
-            background = R.color.background_sunday_this_month_light
-        ),
-        cellDay = Cell(layout = R.layout.light_cell_day),
-        cellDayThisMonth = Cell(
-            layout = R.layout.light_cell_day_this_month,
-            background = R.color.background_this_month_light
-        ),
-        cellDaySaturdayThisMonth = Cell(
-            layout = R.layout.light_cell_day_this_month,
-            background = R.color.background_saturday_this_month_light
-        ),
-        cellDaySundayThisMonth = Cell(
-            layout = R.layout.light_cell_day_this_month,
-            background = R.color.background_sunday_this_month_light
-        ),
-        cellDayToday = Cell(
-            layout = R.layout.light_cell_day_today,
-            background = R.color.background_today_light
-        ),
-        cellDaySaturdayToday = Cell(
-            layout = R.layout.light_cell_day_today,
-            background = R.color.background_saturday_today_light
-        ),
-        cellDaySundayToday = Cell(
-            layout = R.layout.light_cell_day_today,
-            background = R.color.background_sunday_today_light
+        today = CellPack(
+            mainLayout = R.layout.light_cell_day_today,
+            weekdayBackground = R.color.background_today_light,
+            saturdayBackground = R.color.background_saturday_today_light,
+            sundayBackground = R.color.background_sunday_today_light
         )
     );
 
-    fun getCellHeader(dayOfWeek: DayOfWeek): Cell {
-        return when (dayOfWeek) {
-            DayOfWeek.SATURDAY -> cellHeaderSaturday
-            DayOfWeek.SUNDAY -> cellHeaderSunday
-            else -> cellHeader
-        }
-    }
+    fun getCellHeader(dayOfWeek: DayOfWeek) = header.get(dayOfWeek)
 
-    fun getCellDay(isToday: Boolean, inMonth: Boolean, dayOfWeek: DayOfWeek): Cell {
-        if (isToday) {
-            return when (dayOfWeek) {
-                DayOfWeek.SATURDAY -> cellDaySaturdayToday
-                DayOfWeek.SUNDAY -> cellDaySundayToday
-                else -> cellDayToday
-            }
-        }
-
-        if (inMonth) {
-            return when (dayOfWeek) {
-                DayOfWeek.SATURDAY -> cellDaySaturdayThisMonth
-                DayOfWeek.SUNDAY -> cellDaySundayThisMonth
-                else -> cellDayThisMonth
-            }
-        }
-
-        return cellDay
+    fun getCellDay(isToday: Boolean, inMonth: Boolean, dayOfWeek: DayOfWeek) = when {
+        isToday -> today.get(dayOfWeek)
+        inMonth -> thisMonth.get(dayOfWeek)
+        else -> Cell(layout = dayLayout)
     }
 }
 
@@ -137,6 +75,19 @@ fun getThemeDisplayValues(context: Context) =
     Theme.values().map { theme ->
         context.getString(theme.displayString).replaceFirstChar { it.uppercase() }
     }.toTypedArray()
+
+data class CellPack(
+    val mainLayout: Int,
+    val weekdayBackground: Int? = null,
+    val saturdayBackground: Int? = null,
+    val sundayBackground: Int? = null
+) {
+    fun get(dayOfWeek: DayOfWeek): Cell = when (dayOfWeek) {
+        DayOfWeek.SATURDAY -> Cell(layout = mainLayout, background = saturdayBackground)
+        DayOfWeek.SUNDAY -> Cell(layout = mainLayout, background = sundayBackground)
+        else -> Cell(layout = mainLayout, background = weekdayBackground)
+    }
+}
 
 data class Cell(
     val id: Int = android.R.id.text1,
