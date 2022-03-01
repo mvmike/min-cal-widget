@@ -8,6 +8,11 @@ import cat.mvmike.minimalcalendarwidget.R
 import cat.mvmike.minimalcalendarwidget.domain.Format
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Transparency
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.saturdayInMonthDarkThemeCellBackground
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.saturdayInMonthLightThemeCellBackground
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.sundayInMonthDarkThemeCellBackground
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.sundayInMonthLightThemeCellBackground
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.cellViewId
 import cat.mvmike.minimalcalendarwidget.infrastructure.SystemResolver
 import io.mockk.confirmVerified
 import io.mockk.every
@@ -27,12 +32,6 @@ import java.time.DayOfWeek.THURSDAY
 import java.time.DayOfWeek.TUESDAY
 import java.time.DayOfWeek.WEDNESDAY
 import java.util.stream.Stream
-
-private const val dayHeaderCellViewId = 16908308
-private const val dayHeaderSaturdayDarkThemeBackground = 2131034150
-private const val dayHeaderSundayDarkThemeBackground = 2131034156
-private const val dayHeaderSaturdayLightThemeBackground = 2131034151
-private const val dayHeaderSundayLightThemeBackground = 2131034157
 
 internal class DrawDaysHeaderUseCaseTest : BaseTest() {
 
@@ -80,7 +79,7 @@ internal class DrawDaysHeaderUseCaseTest : BaseTest() {
                     daysHeaderRow = daysHeaderRowRv,
                     text = it.expectedHeaderString,
                     layoutId = theme.getCellHeader(it.dayOfWeek).layout,
-                    viewId = dayHeaderCellViewId,
+                    viewId = cellViewId,
                     dayHeaderBackgroundColour = it.cellBackground
                 )
             }
@@ -98,8 +97,8 @@ internal class DrawDaysHeaderUseCaseTest : BaseTest() {
                 DayHeaderTestProperties(WEDNESDAY, "WED"),
                 DayHeaderTestProperties(THURSDAY, "THU"),
                 DayHeaderTestProperties(FRIDAY, "FRI"),
-                DayHeaderTestProperties(SATURDAY, "SAT", dayHeaderSaturdayDarkThemeBackground),
-                DayHeaderTestProperties(SUNDAY, "SUN", dayHeaderSundayDarkThemeBackground)
+                DayHeaderTestProperties(SATURDAY, "SAT", saturdayInMonthDarkThemeCellBackground),
+                DayHeaderTestProperties(SUNDAY, "SUN", sundayInMonthDarkThemeCellBackground)
             )
         ),
         Arguments.of(
@@ -108,8 +107,8 @@ internal class DrawDaysHeaderUseCaseTest : BaseTest() {
                 DayHeaderTestProperties(WEDNESDAY, "WED"),
                 DayHeaderTestProperties(THURSDAY, "THU"),
                 DayHeaderTestProperties(FRIDAY, "FRI"),
-                DayHeaderTestProperties(SATURDAY, "SAT", dayHeaderSaturdayDarkThemeBackground),
-                DayHeaderTestProperties(SUNDAY, "SUN", dayHeaderSundayDarkThemeBackground),
+                DayHeaderTestProperties(SATURDAY, "SAT", saturdayInMonthDarkThemeCellBackground),
+                DayHeaderTestProperties(SUNDAY, "SUN", sundayInMonthDarkThemeCellBackground),
                 DayHeaderTestProperties(MONDAY, "MON")
             )
         ),
@@ -118,8 +117,8 @@ internal class DrawDaysHeaderUseCaseTest : BaseTest() {
                 DayHeaderTestProperties(WEDNESDAY, "WED"),
                 DayHeaderTestProperties(THURSDAY, "THU"),
                 DayHeaderTestProperties(FRIDAY, "FRI"),
-                DayHeaderTestProperties(SATURDAY, "SAT", dayHeaderSaturdayDarkThemeBackground),
-                DayHeaderTestProperties(SUNDAY, "SUN", dayHeaderSundayDarkThemeBackground),
+                DayHeaderTestProperties(SATURDAY, "SAT", saturdayInMonthDarkThemeCellBackground),
+                DayHeaderTestProperties(SUNDAY, "SUN", sundayInMonthDarkThemeCellBackground),
                 DayHeaderTestProperties(MONDAY, "MON"),
                 DayHeaderTestProperties(TUESDAY, "DOO")
             )
@@ -128,8 +127,8 @@ internal class DrawDaysHeaderUseCaseTest : BaseTest() {
             THURSDAY, Theme.DARK, Format.STANDARD, listOf(
                 DayHeaderTestProperties(THURSDAY, "THU"),
                 DayHeaderTestProperties(FRIDAY, "FRI"),
-                DayHeaderTestProperties(SATURDAY, "SAT", dayHeaderSaturdayDarkThemeBackground),
-                DayHeaderTestProperties(SUNDAY, "SUN", dayHeaderSundayDarkThemeBackground),
+                DayHeaderTestProperties(SATURDAY, "SAT", saturdayInMonthDarkThemeCellBackground),
+                DayHeaderTestProperties(SUNDAY, "SUN", sundayInMonthDarkThemeCellBackground),
                 DayHeaderTestProperties(MONDAY, "MON"),
                 DayHeaderTestProperties(TUESDAY, "DOO"),
                 DayHeaderTestProperties(WEDNESDAY, "WED")
@@ -138,8 +137,8 @@ internal class DrawDaysHeaderUseCaseTest : BaseTest() {
         Arguments.of(
             FRIDAY, Theme.DARK, Format.STANDARD, listOf(
                 DayHeaderTestProperties(FRIDAY, "FRI"),
-                DayHeaderTestProperties(SATURDAY, "SAT", dayHeaderSaturdayDarkThemeBackground),
-                DayHeaderTestProperties(SUNDAY, "SUN", dayHeaderSundayDarkThemeBackground),
+                DayHeaderTestProperties(SATURDAY, "SAT", saturdayInMonthDarkThemeCellBackground),
+                DayHeaderTestProperties(SUNDAY, "SUN", sundayInMonthDarkThemeCellBackground),
                 DayHeaderTestProperties(MONDAY, "MON"),
                 DayHeaderTestProperties(TUESDAY, "DOO"),
                 DayHeaderTestProperties(WEDNESDAY, "WED"),
@@ -148,8 +147,8 @@ internal class DrawDaysHeaderUseCaseTest : BaseTest() {
         ),
         Arguments.of(
             SATURDAY, Theme.DARK, Format.STANDARD, listOf(
-                DayHeaderTestProperties(SATURDAY, "SAT", dayHeaderSaturdayDarkThemeBackground),
-                DayHeaderTestProperties(SUNDAY, "SUN", dayHeaderSundayDarkThemeBackground),
+                DayHeaderTestProperties(SATURDAY, "SAT", saturdayInMonthDarkThemeCellBackground),
+                DayHeaderTestProperties(SUNDAY, "SUN", sundayInMonthDarkThemeCellBackground),
                 DayHeaderTestProperties(MONDAY, "MON"),
                 DayHeaderTestProperties(TUESDAY, "DOO"),
                 DayHeaderTestProperties(WEDNESDAY, "WED"),
@@ -159,13 +158,13 @@ internal class DrawDaysHeaderUseCaseTest : BaseTest() {
         ),
         Arguments.of(
             SUNDAY, Theme.DARK, Format.STANDARD, listOf(
-                DayHeaderTestProperties(SUNDAY, "SUN", dayHeaderSundayDarkThemeBackground),
+                DayHeaderTestProperties(SUNDAY, "SUN", sundayInMonthDarkThemeCellBackground),
                 DayHeaderTestProperties(MONDAY, "MON"),
                 DayHeaderTestProperties(TUESDAY, "DOO"),
                 DayHeaderTestProperties(WEDNESDAY, "WED"),
                 DayHeaderTestProperties(THURSDAY, "THU"),
                 DayHeaderTestProperties(FRIDAY, "FRI"),
-                DayHeaderTestProperties(SATURDAY, "SAT", dayHeaderSaturdayDarkThemeBackground)
+                DayHeaderTestProperties(SATURDAY, "SAT", saturdayInMonthDarkThemeCellBackground)
             )
         ),
         Arguments.of(
@@ -175,8 +174,8 @@ internal class DrawDaysHeaderUseCaseTest : BaseTest() {
                 DayHeaderTestProperties(WEDNESDAY, "W"),
                 DayHeaderTestProperties(THURSDAY, "T"),
                 DayHeaderTestProperties(FRIDAY, "F"),
-                DayHeaderTestProperties(SATURDAY, "S", dayHeaderSaturdayDarkThemeBackground),
-                DayHeaderTestProperties(SUNDAY, "S", dayHeaderSundayDarkThemeBackground)
+                DayHeaderTestProperties(SATURDAY, "S", saturdayInMonthDarkThemeCellBackground),
+                DayHeaderTestProperties(SUNDAY, "S", sundayInMonthDarkThemeCellBackground)
             )
         ),
         Arguments.of(
@@ -185,8 +184,8 @@ internal class DrawDaysHeaderUseCaseTest : BaseTest() {
                 DayHeaderTestProperties(WEDNESDAY, "W"),
                 DayHeaderTestProperties(THURSDAY, "T"),
                 DayHeaderTestProperties(FRIDAY, "F"),
-                DayHeaderTestProperties(SATURDAY, "S", dayHeaderSaturdayDarkThemeBackground),
-                DayHeaderTestProperties(SUNDAY, "S", dayHeaderSundayDarkThemeBackground),
+                DayHeaderTestProperties(SATURDAY, "S", saturdayInMonthDarkThemeCellBackground),
+                DayHeaderTestProperties(SUNDAY, "S", sundayInMonthDarkThemeCellBackground),
                 DayHeaderTestProperties(MONDAY, "M")
             )
         ),
@@ -195,8 +194,8 @@ internal class DrawDaysHeaderUseCaseTest : BaseTest() {
                 DayHeaderTestProperties(WEDNESDAY, "W"),
                 DayHeaderTestProperties(THURSDAY, "T"),
                 DayHeaderTestProperties(FRIDAY, "F"),
-                DayHeaderTestProperties(SATURDAY, "S", dayHeaderSaturdayDarkThemeBackground),
-                DayHeaderTestProperties(SUNDAY, "S", dayHeaderSundayDarkThemeBackground),
+                DayHeaderTestProperties(SATURDAY, "S", saturdayInMonthDarkThemeCellBackground),
+                DayHeaderTestProperties(SUNDAY, "S", sundayInMonthDarkThemeCellBackground),
                 DayHeaderTestProperties(MONDAY, "M"),
                 DayHeaderTestProperties(TUESDAY, "D")
             )
@@ -205,8 +204,8 @@ internal class DrawDaysHeaderUseCaseTest : BaseTest() {
             THURSDAY, Theme.DARK, Format.REDUCED, listOf(
                 DayHeaderTestProperties(THURSDAY, "T"),
                 DayHeaderTestProperties(FRIDAY, "F"),
-                DayHeaderTestProperties(SATURDAY, "S", dayHeaderSaturdayDarkThemeBackground),
-                DayHeaderTestProperties(SUNDAY, "S", dayHeaderSundayDarkThemeBackground),
+                DayHeaderTestProperties(SATURDAY, "S", saturdayInMonthDarkThemeCellBackground),
+                DayHeaderTestProperties(SUNDAY, "S", sundayInMonthDarkThemeCellBackground),
                 DayHeaderTestProperties(MONDAY, "M"),
                 DayHeaderTestProperties(TUESDAY, "D"),
                 DayHeaderTestProperties(WEDNESDAY, "W")
@@ -215,8 +214,8 @@ internal class DrawDaysHeaderUseCaseTest : BaseTest() {
         Arguments.of(
             FRIDAY, Theme.DARK, Format.REDUCED, listOf(
                 DayHeaderTestProperties(FRIDAY, "F"),
-                DayHeaderTestProperties(SATURDAY, "S", dayHeaderSaturdayDarkThemeBackground),
-                DayHeaderTestProperties(SUNDAY, "S", dayHeaderSundayDarkThemeBackground),
+                DayHeaderTestProperties(SATURDAY, "S", saturdayInMonthDarkThemeCellBackground),
+                DayHeaderTestProperties(SUNDAY, "S", sundayInMonthDarkThemeCellBackground),
                 DayHeaderTestProperties(MONDAY, "M"),
                 DayHeaderTestProperties(TUESDAY, "D"),
                 DayHeaderTestProperties(WEDNESDAY, "W"),
@@ -225,8 +224,8 @@ internal class DrawDaysHeaderUseCaseTest : BaseTest() {
         ),
         Arguments.of(
             SATURDAY, Theme.DARK, Format.REDUCED, listOf(
-                DayHeaderTestProperties(SATURDAY, "S", dayHeaderSaturdayDarkThemeBackground),
-                DayHeaderTestProperties(SUNDAY, "S", dayHeaderSundayDarkThemeBackground),
+                DayHeaderTestProperties(SATURDAY, "S", saturdayInMonthDarkThemeCellBackground),
+                DayHeaderTestProperties(SUNDAY, "S", sundayInMonthDarkThemeCellBackground),
                 DayHeaderTestProperties(MONDAY, "M"),
                 DayHeaderTestProperties(TUESDAY, "D"),
                 DayHeaderTestProperties(WEDNESDAY, "W"),
@@ -236,13 +235,13 @@ internal class DrawDaysHeaderUseCaseTest : BaseTest() {
         ),
         Arguments.of(
             SUNDAY, Theme.DARK, Format.REDUCED, listOf(
-                DayHeaderTestProperties(SUNDAY, "S", dayHeaderSundayDarkThemeBackground),
+                DayHeaderTestProperties(SUNDAY, "S", sundayInMonthDarkThemeCellBackground),
                 DayHeaderTestProperties(MONDAY, "M"),
                 DayHeaderTestProperties(TUESDAY, "D"),
                 DayHeaderTestProperties(WEDNESDAY, "W"),
                 DayHeaderTestProperties(THURSDAY, "T"),
                 DayHeaderTestProperties(FRIDAY, "F"),
-                DayHeaderTestProperties(SATURDAY, "S", dayHeaderSaturdayDarkThemeBackground)
+                DayHeaderTestProperties(SATURDAY, "S", saturdayInMonthDarkThemeCellBackground)
             )
         ),
         Arguments.of(
@@ -252,8 +251,8 @@ internal class DrawDaysHeaderUseCaseTest : BaseTest() {
                 DayHeaderTestProperties(WEDNESDAY, "WED"),
                 DayHeaderTestProperties(THURSDAY, "THU"),
                 DayHeaderTestProperties(FRIDAY, "FRI"),
-                DayHeaderTestProperties(SATURDAY, "SAT", dayHeaderSaturdayLightThemeBackground),
-                DayHeaderTestProperties(SUNDAY, "SUN", dayHeaderSundayLightThemeBackground)
+                DayHeaderTestProperties(SATURDAY, "SAT", saturdayInMonthLightThemeCellBackground),
+                DayHeaderTestProperties(SUNDAY, "SUN", sundayInMonthLightThemeCellBackground)
             )
         ),
         Arguments.of(
@@ -262,8 +261,8 @@ internal class DrawDaysHeaderUseCaseTest : BaseTest() {
                 DayHeaderTestProperties(WEDNESDAY, "WED"),
                 DayHeaderTestProperties(THURSDAY, "THU"),
                 DayHeaderTestProperties(FRIDAY, "FRI"),
-                DayHeaderTestProperties(SATURDAY, "SAT", dayHeaderSaturdayLightThemeBackground),
-                DayHeaderTestProperties(SUNDAY, "SUN", dayHeaderSundayLightThemeBackground),
+                DayHeaderTestProperties(SATURDAY, "SAT", saturdayInMonthLightThemeCellBackground),
+                DayHeaderTestProperties(SUNDAY, "SUN", sundayInMonthLightThemeCellBackground),
                 DayHeaderTestProperties(MONDAY, "MON")
             )
         ),
@@ -272,8 +271,8 @@ internal class DrawDaysHeaderUseCaseTest : BaseTest() {
                 DayHeaderTestProperties(WEDNESDAY, "WED"),
                 DayHeaderTestProperties(THURSDAY, "THU"),
                 DayHeaderTestProperties(FRIDAY, "FRI"),
-                DayHeaderTestProperties(SATURDAY, "SAT", dayHeaderSaturdayLightThemeBackground),
-                DayHeaderTestProperties(SUNDAY, "SUN", dayHeaderSundayLightThemeBackground),
+                DayHeaderTestProperties(SATURDAY, "SAT", saturdayInMonthLightThemeCellBackground),
+                DayHeaderTestProperties(SUNDAY, "SUN", sundayInMonthLightThemeCellBackground),
                 DayHeaderTestProperties(MONDAY, "MON"),
                 DayHeaderTestProperties(TUESDAY, "DOO")
             )
@@ -282,8 +281,8 @@ internal class DrawDaysHeaderUseCaseTest : BaseTest() {
             THURSDAY, Theme.LIGHT, Format.STANDARD, listOf(
                 DayHeaderTestProperties(THURSDAY, "THU"),
                 DayHeaderTestProperties(FRIDAY, "FRI"),
-                DayHeaderTestProperties(SATURDAY, "SAT", dayHeaderSaturdayLightThemeBackground),
-                DayHeaderTestProperties(SUNDAY, "SUN", dayHeaderSundayLightThemeBackground),
+                DayHeaderTestProperties(SATURDAY, "SAT", saturdayInMonthLightThemeCellBackground),
+                DayHeaderTestProperties(SUNDAY, "SUN", sundayInMonthLightThemeCellBackground),
                 DayHeaderTestProperties(MONDAY, "MON"),
                 DayHeaderTestProperties(TUESDAY, "DOO"),
                 DayHeaderTestProperties(WEDNESDAY, "WED")
@@ -292,8 +291,8 @@ internal class DrawDaysHeaderUseCaseTest : BaseTest() {
         Arguments.of(
             FRIDAY, Theme.LIGHT, Format.STANDARD, listOf(
                 DayHeaderTestProperties(FRIDAY, "FRI"),
-                DayHeaderTestProperties(SATURDAY, "SAT", dayHeaderSaturdayLightThemeBackground),
-                DayHeaderTestProperties(SUNDAY, "SUN", dayHeaderSundayLightThemeBackground),
+                DayHeaderTestProperties(SATURDAY, "SAT", saturdayInMonthLightThemeCellBackground),
+                DayHeaderTestProperties(SUNDAY, "SUN", sundayInMonthLightThemeCellBackground),
                 DayHeaderTestProperties(MONDAY, "MON"),
                 DayHeaderTestProperties(TUESDAY, "DOO"),
                 DayHeaderTestProperties(WEDNESDAY, "WED"),
@@ -302,8 +301,8 @@ internal class DrawDaysHeaderUseCaseTest : BaseTest() {
         ),
         Arguments.of(
             SATURDAY, Theme.LIGHT, Format.STANDARD, listOf(
-                DayHeaderTestProperties(SATURDAY, "SAT", dayHeaderSaturdayLightThemeBackground),
-                DayHeaderTestProperties(SUNDAY, "SUN", dayHeaderSundayLightThemeBackground),
+                DayHeaderTestProperties(SATURDAY, "SAT", saturdayInMonthLightThemeCellBackground),
+                DayHeaderTestProperties(SUNDAY, "SUN", sundayInMonthLightThemeCellBackground),
                 DayHeaderTestProperties(MONDAY, "MON"),
                 DayHeaderTestProperties(TUESDAY, "DOO"),
                 DayHeaderTestProperties(WEDNESDAY, "WED"),
@@ -313,13 +312,13 @@ internal class DrawDaysHeaderUseCaseTest : BaseTest() {
         ),
         Arguments.of(
             SUNDAY, Theme.LIGHT, Format.STANDARD, listOf(
-                DayHeaderTestProperties(SUNDAY, "SUN", dayHeaderSundayLightThemeBackground),
+                DayHeaderTestProperties(SUNDAY, "SUN", sundayInMonthLightThemeCellBackground),
                 DayHeaderTestProperties(MONDAY, "MON"),
                 DayHeaderTestProperties(TUESDAY, "DOO"),
                 DayHeaderTestProperties(WEDNESDAY, "WED"),
                 DayHeaderTestProperties(THURSDAY, "THU"),
                 DayHeaderTestProperties(FRIDAY, "FRI"),
-                DayHeaderTestProperties(SATURDAY, "SAT", dayHeaderSaturdayLightThemeBackground)
+                DayHeaderTestProperties(SATURDAY, "SAT", saturdayInMonthLightThemeCellBackground)
             )
         ),
         Arguments.of(
@@ -329,8 +328,8 @@ internal class DrawDaysHeaderUseCaseTest : BaseTest() {
                 DayHeaderTestProperties(WEDNESDAY, "W"),
                 DayHeaderTestProperties(THURSDAY, "T"),
                 DayHeaderTestProperties(FRIDAY, "F"),
-                DayHeaderTestProperties(SATURDAY, "S", dayHeaderSaturdayLightThemeBackground),
-                DayHeaderTestProperties(SUNDAY, "S", dayHeaderSundayLightThemeBackground)
+                DayHeaderTestProperties(SATURDAY, "S", saturdayInMonthLightThemeCellBackground),
+                DayHeaderTestProperties(SUNDAY, "S", sundayInMonthLightThemeCellBackground)
             )
         ),
         Arguments.of(
@@ -339,8 +338,8 @@ internal class DrawDaysHeaderUseCaseTest : BaseTest() {
                 DayHeaderTestProperties(WEDNESDAY, "W"),
                 DayHeaderTestProperties(THURSDAY, "T"),
                 DayHeaderTestProperties(FRIDAY, "F"),
-                DayHeaderTestProperties(SATURDAY, "S", dayHeaderSaturdayLightThemeBackground),
-                DayHeaderTestProperties(SUNDAY, "S", dayHeaderSundayLightThemeBackground),
+                DayHeaderTestProperties(SATURDAY, "S", saturdayInMonthLightThemeCellBackground),
+                DayHeaderTestProperties(SUNDAY, "S", sundayInMonthLightThemeCellBackground),
                 DayHeaderTestProperties(MONDAY, "M")
             )
         ),
@@ -349,8 +348,8 @@ internal class DrawDaysHeaderUseCaseTest : BaseTest() {
                 DayHeaderTestProperties(WEDNESDAY, "W"),
                 DayHeaderTestProperties(THURSDAY, "T"),
                 DayHeaderTestProperties(FRIDAY, "F"),
-                DayHeaderTestProperties(SATURDAY, "S", dayHeaderSaturdayLightThemeBackground),
-                DayHeaderTestProperties(SUNDAY, "S", dayHeaderSundayLightThemeBackground),
+                DayHeaderTestProperties(SATURDAY, "S", saturdayInMonthLightThemeCellBackground),
+                DayHeaderTestProperties(SUNDAY, "S", sundayInMonthLightThemeCellBackground),
                 DayHeaderTestProperties(MONDAY, "M"),
                 DayHeaderTestProperties(TUESDAY, "D")
             )
@@ -359,8 +358,8 @@ internal class DrawDaysHeaderUseCaseTest : BaseTest() {
             THURSDAY, Theme.LIGHT, Format.REDUCED, listOf(
                 DayHeaderTestProperties(THURSDAY, "T"),
                 DayHeaderTestProperties(FRIDAY, "F"),
-                DayHeaderTestProperties(SATURDAY, "S", dayHeaderSaturdayLightThemeBackground),
-                DayHeaderTestProperties(SUNDAY, "S", dayHeaderSundayLightThemeBackground),
+                DayHeaderTestProperties(SATURDAY, "S", saturdayInMonthLightThemeCellBackground),
+                DayHeaderTestProperties(SUNDAY, "S", sundayInMonthLightThemeCellBackground),
                 DayHeaderTestProperties(MONDAY, "M"),
                 DayHeaderTestProperties(TUESDAY, "D"),
                 DayHeaderTestProperties(WEDNESDAY, "W")
@@ -369,8 +368,8 @@ internal class DrawDaysHeaderUseCaseTest : BaseTest() {
         Arguments.of(
             FRIDAY, Theme.LIGHT, Format.REDUCED, listOf(
                 DayHeaderTestProperties(FRIDAY, "F"),
-                DayHeaderTestProperties(SATURDAY, "S", dayHeaderSaturdayLightThemeBackground),
-                DayHeaderTestProperties(SUNDAY, "S", dayHeaderSundayLightThemeBackground),
+                DayHeaderTestProperties(SATURDAY, "S", saturdayInMonthLightThemeCellBackground),
+                DayHeaderTestProperties(SUNDAY, "S", sundayInMonthLightThemeCellBackground),
                 DayHeaderTestProperties(MONDAY, "M"),
                 DayHeaderTestProperties(TUESDAY, "D"),
                 DayHeaderTestProperties(WEDNESDAY, "W"),
@@ -379,8 +378,8 @@ internal class DrawDaysHeaderUseCaseTest : BaseTest() {
         ),
         Arguments.of(
             SATURDAY, Theme.LIGHT, Format.REDUCED, listOf(
-                DayHeaderTestProperties(SATURDAY, "S", dayHeaderSaturdayLightThemeBackground),
-                DayHeaderTestProperties(SUNDAY, "S", dayHeaderSundayLightThemeBackground),
+                DayHeaderTestProperties(SATURDAY, "S", saturdayInMonthLightThemeCellBackground),
+                DayHeaderTestProperties(SUNDAY, "S", sundayInMonthLightThemeCellBackground),
                 DayHeaderTestProperties(MONDAY, "M"),
                 DayHeaderTestProperties(TUESDAY, "D"),
                 DayHeaderTestProperties(WEDNESDAY, "W"),
@@ -390,13 +389,13 @@ internal class DrawDaysHeaderUseCaseTest : BaseTest() {
         ),
         Arguments.of(
             SUNDAY, Theme.LIGHT, Format.REDUCED, listOf(
-                DayHeaderTestProperties(SUNDAY, "S", dayHeaderSundayLightThemeBackground),
+                DayHeaderTestProperties(SUNDAY, "S", sundayInMonthLightThemeCellBackground),
                 DayHeaderTestProperties(MONDAY, "M"),
                 DayHeaderTestProperties(TUESDAY, "D"),
                 DayHeaderTestProperties(WEDNESDAY, "W"),
                 DayHeaderTestProperties(THURSDAY, "T"),
                 DayHeaderTestProperties(FRIDAY, "F"),
-                DayHeaderTestProperties(SATURDAY, "S", dayHeaderSaturdayLightThemeBackground)
+                DayHeaderTestProperties(SATURDAY, "S", saturdayInMonthLightThemeCellBackground)
             )
         )
     )!!
