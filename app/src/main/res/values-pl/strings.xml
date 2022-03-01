@@ -23,16 +23,16 @@
     <!-- Months of year-->
     <string name="january">Styczeń</string>
     <string name="february">Luty</string>
-    <string name="march">Brzezień</string>
+    <string name="march">Marzec</string>
     <string name="april">Kwiecień</string>
-    <string name="may">Trawień</string>
+    <string name="may">Maj</string>
     <string name="june">Czerwiec</string>
     <string name="july">Lipiec</string>
     <string name="august">Sierpień</string>
     <string name="september">Wrzesień</string>
     <string name="october">Październik</string>
     <string name="november">Listopad</string>
-    <string name="december">Frudzień</string>
+    <string name="december">Grudzień</string>
 
     <!--Days of week-->
     <string name="monday">Poniedziałek</string>
@@ -54,7 +54,7 @@
 
     <!--Themes-->
     <string name="dark">Ciemny</string>
-    <string name="light">Świetlny</string>
+    <string name="light">Jasny</string>
 
     <!--Symbols-->
     <string name="minimal">Minimalny</string>
