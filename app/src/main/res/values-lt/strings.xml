@@ -12,6 +12,7 @@
     <string name="symbol_set">Simbolių rinkinys:</string>
     <string name="symbol_colour">Simbolių spalva:</string>
     <string name="show_declined_events">Rodyti atmestus įvykius:</string>
+    <string name="focus_on_current_week">Susikoncentruokite į dabartinę savaitę:</string>
     <string name="transparency">Skaidrumas:</string>
 
     <string name="apply_changes">TAIKYTI</string>

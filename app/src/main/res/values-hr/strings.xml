@@ -12,6 +12,7 @@
     <string name="symbol_set">Vrsta simbola:</string>
     <string name="symbol_colour">Boja simbola:</string>
     <string name="show_declined_events">Prikazati odbijene događaje:</string>
+    <string name="focus_on_current_week">Usredotočite se na tekući tjedan:</string>
     <string name="transparency">Transparentnost :</string>
 
     <string name="apply_changes">PRIMIJENI</string>

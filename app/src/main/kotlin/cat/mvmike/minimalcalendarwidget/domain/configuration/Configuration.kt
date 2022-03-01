@@ -48,6 +48,18 @@ sealed class Configuration<E>(
         override fun set(context: Context, value: Boolean) =
             getConfiguration(context).edit().putBoolean(key, value).apply()
     }
+
+    object WidgetFocusOnCurrentWeek : Configuration<Boolean>(
+        key = "WIDGET_FOCUS_ON_CURRENT_WEEK",
+        resource = R.id.focus_on_current_weekCheckBox,
+        defaultValue = false
+    ) {
+        override fun get(context: Context) =
+            getConfiguration(context).getBoolean(key, defaultValue)
+
+        override fun set(context: Context, value: Boolean) =
+            getConfiguration(context).edit().putBoolean(key, value).apply()
+    }
 }
 
 sealed class EnumConfiguration<E : Enum<E>>(

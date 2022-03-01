@@ -73,6 +73,7 @@ internal class DrawDaysUseCaseTest : BaseTest() {
         mockWidgetShowDeclinedEvents()
         mockWidgetTransparency(Transparency(20))
         mockFirstDayOfWeek(DayOfWeek.MONDAY)
+        mockFocusOnCurrentWeek(false)
         mockWidgetTheme(Theme.DARK)
         mockInstancesSymbolSet(SymbolSet.MINIMAL)
         mockInstancesColour(Colour.CYAN)
@@ -109,6 +110,7 @@ internal class DrawDaysUseCaseTest : BaseTest() {
         verifyWidgetShowDeclinedEvents()
         verifyWidgetTransparency()
         verifyFirstDayOfWeek()
+        verifyFocusOnCurrentWeek()
         verifyWidgetTheme()
         verifyInstancesSymbolSet()
         verifyInstancesColour()
@@ -159,13 +161,25 @@ internal class DrawDaysUseCaseTest : BaseTest() {
     }
 
     @ParameterizedTest
-    @MethodSource("getSystemLocalDateAndFirstDayOfWeekWithExpectedInitialLocalDate")
-    fun getInitialLocalDate_shouldReturnWidgetInitialDate(
+    @MethodSource("getSystemLocalDateAndFirstDayOfWeekWithExpectedCurrentWeekFocusedInitialLocalDate")
+    fun getCurrentWeekFocusedInitialLocalDate_shouldReturnWidgetInitialDate(
         systemLocalDate: LocalDate,
         firstDayOfWeek: DayOfWeek,
         expectedInitialLocalDate: LocalDate
     ) {
-        val result = DrawDaysUseCase.getInitialLocalDate(systemLocalDate, firstDayOfWeek)
+        val result = DrawDaysUseCase.getFocusedOnCurrentWeekInitialLocalDate(systemLocalDate, firstDayOfWeek)
+
+        assertThat(result).isEqualTo(expectedInitialLocalDate)
+    }
+
+    @ParameterizedTest
+    @MethodSource("getSystemLocalDateAndFirstDayOfWeekWithExpectedNaturalMonthInitialLocalDate")
+    fun getNaturalMonthInitialLocalDate_shouldReturnWidgetInitialDate(
+        systemLocalDate: LocalDate,
+        firstDayOfWeek: DayOfWeek,
+        expectedInitialLocalDate: LocalDate
+    ) {
+        val result = DrawDaysUseCase.getNaturalMonthInitialLocalDate(systemLocalDate, firstDayOfWeek)
 
         assertThat(result).isEqualTo(expectedInitialLocalDate)
     }
@@ -425,8 +439,67 @@ internal class DrawDaysUseCaseTest : BaseTest() {
         .toInstant(zoneOffset)
 
 
+    @Suppress("unused")
+    private fun getSystemLocalDateAndFirstDayOfWeekWithExpectedCurrentWeekFocusedInitialLocalDate() = Stream.of(
+        Arguments.of(
+            LocalDate.of(2022, 2, 24),
+            DayOfWeek.MONDAY,
+            LocalDate.of(2022, 2, 14)
+        ),
+        Arguments.of(
+            LocalDate.of(2022, 2, 27),
+            DayOfWeek.MONDAY,
+            LocalDate.of(2022, 2, 14)
+        ),
+        Arguments.of(
+            LocalDate.of(2022, 2, 28),
+            DayOfWeek.MONDAY,
+            LocalDate.of(2022, 2, 21)
+        ),
+        Arguments.of(
+            LocalDate.of(2022, 2, 28),
+            DayOfWeek.TUESDAY,
+            LocalDate.of(2022, 2, 15)
+        ),
+        Arguments.of(
+            LocalDate.of(2022, 3, 1),
+            DayOfWeek.TUESDAY,
+            LocalDate.of(2022, 2, 22)
+        ),
+        Arguments.of(
+            LocalDate.of(2022, 1, 1),
+            DayOfWeek.WEDNESDAY,
+            LocalDate.of(2021, 12, 22)
+        ),
+        Arguments.of(
+            LocalDate.of(2022, 1, 1),
+            DayOfWeek.SATURDAY,
+            LocalDate.of(2021, 12, 25)
+        ),
+        Arguments.of(
+            LocalDate.of(2022, 2, 20),
+            DayOfWeek.SUNDAY,
+            LocalDate.of(2022, 2, 13)
+        ),
+        Arguments.of(
+            LocalDate.of(2022, 2, 25),
+            DayOfWeek.SUNDAY,
+            LocalDate.of(2022, 2, 13)
+        ),
+        Arguments.of(
+            LocalDate.of(2022, 2, 26),
+            DayOfWeek.SUNDAY,
+            LocalDate.of(2022, 2, 13)
+        ),
+        Arguments.of(
+            LocalDate.of(2022, 2, 27),
+            DayOfWeek.SUNDAY,
+            LocalDate.of(2022, 2, 20)
+        )
+    )
+
     @Suppress("unused", "LongMethod")
-    private fun getSystemLocalDateAndFirstDayOfWeekWithExpectedInitialLocalDate() = Stream.of(
+    private fun getSystemLocalDateAndFirstDayOfWeekWithExpectedNaturalMonthInitialLocalDate() = Stream.of(
         Arguments.of(
             LocalDate.of(2018, 1, 26),
             DayOfWeek.MONDAY,

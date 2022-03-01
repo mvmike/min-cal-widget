@@ -12,6 +12,7 @@
     <string name="symbol_set">Tipus símbols:</string>
     <string name="symbol_colour">Color símbols:</string>
     <string name="show_declined_events">Mostra events rebutjats:</string>
+    <string name="focus_on_current_week">Focus en la setmana actual:</string>
     <string name="transparency">Transparència:</string>
 
     <string name="apply_changes">APLICA</string>

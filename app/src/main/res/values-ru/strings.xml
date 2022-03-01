@@ -12,6 +12,7 @@
     <string name="symbol_set">Набор символов:</string>
     <string name="symbol_colour">Цвет символов:</string>
     <string name="show_declined_events">Показать отклоненные мероприятия:</string>
+    <string name="focus_on_current_week">Сосредоточиться на текущей неделе:</string>
     <string name="transparency">Прозрачность:</string>
 
     <string name="apply_changes">ПРИМЕНИТЬ</string>

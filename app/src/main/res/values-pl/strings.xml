@@ -12,6 +12,7 @@
     <string name="symbol_set">Zestaw symboli:</string>
     <string name="symbol_colour">Kolor symbolu:</string>
     <string name="show_declined_events">Pokaż odrzucone wydarzenia:</string>
+    <string name="focus_on_current_week">Skoncentruj się na bieżącym tygodniu:</string>
     <string name="transparency">Przezroczystość:</string>
 
     <string name="apply_changes">ZASTOSUJ</string>

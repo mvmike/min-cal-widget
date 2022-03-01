@@ -12,6 +12,7 @@
     <string name="symbol_set">Zeichensatz:</string>
     <string name="symbol_colour">Farbe des Symbols:</string>
     <string name="show_declined_events">Abgelehnte Veranstaltungen anzeigen:</string>
+    <string name="focus_on_current_week">Aktueller Wochenfokus:</string>
     <string name="transparency">Transparenz:</string>
 
     <string name="apply_changes">ANWENDEN</string>

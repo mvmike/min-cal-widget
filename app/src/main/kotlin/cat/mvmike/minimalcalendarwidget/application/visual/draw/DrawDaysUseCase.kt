@@ -26,8 +26,6 @@ object DrawDaysUseCase {
 
     private const val MONTH_FIRST_DAY = 1
 
-    private const val MAXIMUM_DAYS_IN_MONTH = 31
-
     private const val NUM_WEEKS = 6
 
     private const val DAYS_IN_WEEK = 7
@@ -36,26 +34,28 @@ object DrawDaysUseCase {
 
     fun execute(context: Context, widgetRemoteView: RemoteViews, format: Format) {
         val systemLocalDate: LocalDate = SystemResolver.getSystemLocalDate()
+        val firstDayOfWeek = EnumConfiguration.FirstDayOfWeek.get(context)
+        val initialLocalDate = when(Configuration.WidgetFocusOnCurrentWeek.get(context)) {
+            true -> getFocusedOnCurrentWeekInitialLocalDate(systemLocalDate, firstDayOfWeek)
+            else -> getNaturalMonthInitialLocalDate(systemLocalDate, firstDayOfWeek)
+        }
+
         val instanceSet = getInstances(
             context = context,
             from = systemLocalDate.minusDays(INSTANCES_QUERY_DAYS_SPAN),
             to = systemLocalDate.plusDays(INSTANCES_QUERY_DAYS_SPAN)
         )
-        val firstDayOfWeek = EnumConfiguration.FirstDayOfWeek.get(context)
         val widgetTheme = EnumConfiguration.WidgetTheme.get(context)
         val instancesSymbolSet = EnumConfiguration.InstancesSymbolSet.get(context)
         val instancesColour = EnumConfiguration.InstancesColour.get(context)
         val transparency = Configuration.WidgetTransparency.get(context)
         val showDeclinedEvents = Configuration.WidgetShowDeclinedEvents.get(context)
-        val initialLocalDate = getInitialLocalDate(systemLocalDate, firstDayOfWeek)
 
         for (week in 0 until NUM_WEEKS) {
             val weekRow: RemoteViews = SystemResolver.createDaysRow(context)
 
             for (weekDay in 0 until DAYS_IN_WEEK) {
-                val currentDay = Day(
-                    dayLocalDate = initialLocalDate.toCurrentWeekAndWeekDay(week, weekDay)
-                )
+                val currentDay = Day(initialLocalDate.toCurrentWeekAndWeekDay(week, weekDay))
                 val dayCell = widgetTheme.getCellDay(
                     isToday = currentDay.isToday(systemLocalDate),
                     inMonth = currentDay.isInMonth(systemLocalDate),
@@ -96,15 +96,21 @@ object DrawDaysUseCase {
         }
     }
 
-    internal fun getInitialLocalDate(systemLocalDate: LocalDate, firstDayOfWeek: DayOfWeek): LocalDate {
+    internal fun getFocusedOnCurrentWeekInitialLocalDate(systemLocalDate: LocalDate, firstDayOfWeek: DayOfWeek): LocalDate {
+        val systemLocalDateWithFirstDayOfWeek = systemLocalDate.with(firstDayOfWeek)
+        return when (systemLocalDateWithFirstDayOfWeek.isAfter(systemLocalDate)) {
+            true -> systemLocalDateWithFirstDayOfWeek.minusWeeks(2)
+            false -> systemLocalDateWithFirstDayOfWeek.minusWeeks(1)
+        }
+    }
+
+    internal fun getNaturalMonthInitialLocalDate(systemLocalDate: LocalDate, firstDayOfWeek: DayOfWeek): LocalDate {
         val firstDayOfMonth = LocalDate.of(systemLocalDate.year, systemLocalDate.monthValue, MONTH_FIRST_DAY)
         val difference = firstDayOfWeek.ordinal - firstDayOfMonth[ChronoField.DAY_OF_WEEK] + 1
         val adjustedInitialLocalDate = firstDayOfMonth.plus(difference.toLong(), ChronoUnit.DAYS)
 
-        // overlap month manually if dayOfMonth is in current month and greater than 1
-        val dayOfMonth = adjustedInitialLocalDate[ChronoField.DAY_OF_MONTH]
-        return when {
-            dayOfMonth > MONTH_FIRST_DAY && dayOfMonth < MAXIMUM_DAYS_IN_MONTH / 2 -> adjustedInitialLocalDate.minusDays(DAYS_IN_WEEK.toLong())
+        return when (adjustedInitialLocalDate[ChronoField.DAY_OF_MONTH]) {
+            in 2..15 -> adjustedInitialLocalDate.minusDays(DAYS_IN_WEEK.toLong())
             else -> adjustedInitialLocalDate
         }
     }

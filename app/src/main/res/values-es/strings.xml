@@ -12,6 +12,7 @@
     <string name="symbol_set">Tipo símbolos:</string>
     <string name="symbol_colour">Color símbolos:</string>
     <string name="show_declined_events">Mostrar eventos rechazados:</string>
+    <string name="focus_on_current_week">Foco en la semana actual:</string>
     <string name="transparency">Transparencia:</string>
 
     <string name="apply_changes">APLICA</string>

@@ -60,6 +60,8 @@ class ConfigurationActivity : AppCompatActivity() {
         }
         Configuration.WidgetShowDeclinedEvents.resource.getCheckBox().isChecked =
             Configuration.WidgetShowDeclinedEvents.get(applicationContext)
+        Configuration.WidgetFocusOnCurrentWeek.resource.getCheckBox().isChecked =
+            Configuration.WidgetFocusOnCurrentWeek.get(applicationContext)
         Configuration.WidgetTransparency.resource.getSeekBar().progress =
             Configuration.WidgetTransparency.get(applicationContext).percentage
     }
@@ -78,6 +80,10 @@ class ConfigurationActivity : AppCompatActivity() {
         Configuration.WidgetShowDeclinedEvents.set(
             applicationContext,
             Configuration.WidgetShowDeclinedEvents.resource.getCheckBox().isChecked
+        )
+        Configuration.WidgetFocusOnCurrentWeek.set(
+            applicationContext,
+            Configuration.WidgetFocusOnCurrentWeek.resource.getCheckBox().isChecked
         )
         MonthWidget.redraw(applicationContext)
     }

@@ -12,6 +12,7 @@
     <string name="symbol_set">Symboolset:</string>
     <string name="symbol_colour">Symboolkleur:</string>
     <string name="show_declined_events">Vise afviste begivenheder:</string>
+    <string name="focus_on_current_week">Focus op huidige week:</string>
     <string name="transparency">Transparantie:</string>
 
     <string name="apply_changes">TOEPASSEN</string>

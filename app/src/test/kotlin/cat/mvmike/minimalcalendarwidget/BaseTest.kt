@@ -175,6 +175,25 @@ open class BaseTest {
         }
     }
 
+    protected fun mockFocusOnCurrentWeek(enabled: Boolean) {
+        every {
+            sharedPreferences.getBoolean(
+                Configuration.WidgetFocusOnCurrentWeek.key,
+                Configuration.WidgetFocusOnCurrentWeek.defaultValue
+            )
+        } returns enabled
+    }
+
+    protected fun verifyFocusOnCurrentWeek() {
+        verifySharedPreferencesAccess()
+        verify {
+            sharedPreferences.getBoolean(
+                Configuration.WidgetFocusOnCurrentWeek.key,
+                Configuration.WidgetFocusOnCurrentWeek.defaultValue
+            )
+        }
+    }
+
     protected fun mockInstancesColour(colour: Colour) {
         every {
             sharedPreferences.getString(
