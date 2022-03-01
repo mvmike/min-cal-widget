@@ -15,6 +15,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import cat.mvmike.minimalcalendarwidget.MonthWidget
 import cat.mvmike.minimalcalendarwidget.R
+import cat.mvmike.minimalcalendarwidget.domain.configuration.BooleanConfiguration
 import cat.mvmike.minimalcalendarwidget.domain.configuration.Configuration
 import cat.mvmike.minimalcalendarwidget.domain.configuration.EnumConfiguration
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Transparency
@@ -58,10 +59,9 @@ class ConfigurationActivity : AppCompatActivity() {
         enumConfigurationItems().forEach {
             it.resource.getSpinner().setSelection(it.get(applicationContext).ordinal)
         }
-        Configuration.WidgetShowDeclinedEvents.resource.getCheckBox().isChecked =
-            Configuration.WidgetShowDeclinedEvents.get(applicationContext)
-        Configuration.WidgetFocusOnCurrentWeek.resource.getCheckBox().isChecked =
-            Configuration.WidgetFocusOnCurrentWeek.get(applicationContext)
+        booleanConfigurationItems().forEach{
+            it.resource.getCheckBox().isChecked = it.get(applicationContext)
+        }
         Configuration.WidgetTransparency.resource.getSeekBar().progress =
             Configuration.WidgetTransparency.get(applicationContext).percentage
     }
@@ -73,18 +73,17 @@ class ConfigurationActivity : AppCompatActivity() {
                 it.resource.getSpinner().selectedItemPosition
             )
         }
+        booleanConfigurationItems().forEach{
+            it.set(
+                applicationContext,
+                it.resource.getCheckBox().isChecked
+            )
+        }
         Configuration.WidgetTransparency.set(
             applicationContext,
             Transparency(Configuration.WidgetTransparency.resource.getSeekBar().progress)
         )
-        Configuration.WidgetShowDeclinedEvents.set(
-            applicationContext,
-            Configuration.WidgetShowDeclinedEvents.resource.getCheckBox().isChecked
-        )
-        Configuration.WidgetFocusOnCurrentWeek.set(
-            applicationContext,
-            Configuration.WidgetFocusOnCurrentWeek.resource.getCheckBox().isChecked
-        )
+
         MonthWidget.redraw(applicationContext)
     }
 
@@ -99,5 +98,10 @@ class ConfigurationActivity : AppCompatActivity() {
         EnumConfiguration.FirstDayOfWeek,
         EnumConfiguration.InstancesSymbolSet,
         EnumConfiguration.InstancesColour
+    )
+
+    private fun booleanConfigurationItems() = setOf(
+        BooleanConfiguration.WidgetShowDeclinedEvents,
+        BooleanConfiguration.WidgetFocusOnCurrentWeek
     )
 }

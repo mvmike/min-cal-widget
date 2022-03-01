@@ -36,30 +36,34 @@ sealed class Configuration<E>(
         override fun set(context: Context, value: Transparency) =
             getConfiguration(context).edit().putInt(key, value.percentage).apply()
     }
+}
 
-    object WidgetShowDeclinedEvents : Configuration<Boolean>(
+sealed class BooleanConfiguration(
+    override val key: String,
+    override val resource: Int,
+    override val defaultValue: Boolean,
+): Configuration<Boolean>(
+    key = key,
+    resource = resource,
+    defaultValue = defaultValue
+) {
+    override fun get(context: Context) =
+        getConfiguration(context).getBoolean(key, defaultValue)
+
+    override fun set(context: Context, value: Boolean) =
+        getConfiguration(context).edit().putBoolean(key, value).apply()
+
+    object WidgetShowDeclinedEvents : BooleanConfiguration(
         key = "WIDGET_SHOW_DECLINED_EVENTS",
         resource = R.id.show_declined_eventsCheckBox,
         defaultValue = false
-    ) {
-        override fun get(context: Context) =
-            getConfiguration(context).getBoolean(key, defaultValue)
+    )
 
-        override fun set(context: Context, value: Boolean) =
-            getConfiguration(context).edit().putBoolean(key, value).apply()
-    }
-
-    object WidgetFocusOnCurrentWeek : Configuration<Boolean>(
+    object WidgetFocusOnCurrentWeek : BooleanConfiguration(
         key = "WIDGET_FOCUS_ON_CURRENT_WEEK",
         resource = R.id.focus_on_current_weekCheckBox,
         defaultValue = false
-    ) {
-        override fun get(context: Context) =
-            getConfiguration(context).getBoolean(key, defaultValue)
-
-        override fun set(context: Context, value: Boolean) =
-            getConfiguration(context).edit().putBoolean(key, value).apply()
-    }
+    )
 }
 
 sealed class EnumConfiguration<E : Enum<E>>(

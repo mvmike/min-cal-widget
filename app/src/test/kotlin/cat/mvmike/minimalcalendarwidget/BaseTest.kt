@@ -4,6 +4,7 @@ package cat.mvmike.minimalcalendarwidget
 
 import android.content.Context
 import android.content.SharedPreferences
+import cat.mvmike.minimalcalendarwidget.domain.configuration.BooleanConfiguration
 import cat.mvmike.minimalcalendarwidget.domain.configuration.Configuration
 import cat.mvmike.minimalcalendarwidget.domain.configuration.EnumConfiguration
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Colour
@@ -102,8 +103,8 @@ open class BaseTest {
     protected fun mockWidgetShowDeclinedEvents() {
         every {
             sharedPreferences.getBoolean(
-                Configuration.WidgetShowDeclinedEvents.key,
-                Configuration.WidgetShowDeclinedEvents.defaultValue
+                BooleanConfiguration.WidgetShowDeclinedEvents.key,
+                BooleanConfiguration.WidgetShowDeclinedEvents.defaultValue
             )
         } returns false
     }
@@ -112,8 +113,8 @@ open class BaseTest {
         verifySharedPreferencesAccess()
         verify {
             sharedPreferences.getBoolean(
-                Configuration.WidgetShowDeclinedEvents.key,
-                Configuration.WidgetShowDeclinedEvents.defaultValue
+                BooleanConfiguration.WidgetShowDeclinedEvents.key,
+                BooleanConfiguration.WidgetShowDeclinedEvents.defaultValue
             )
         }
     }
@@ -178,8 +179,8 @@ open class BaseTest {
     protected fun mockFocusOnCurrentWeek(enabled: Boolean) {
         every {
             sharedPreferences.getBoolean(
-                Configuration.WidgetFocusOnCurrentWeek.key,
-                Configuration.WidgetFocusOnCurrentWeek.defaultValue
+                BooleanConfiguration.WidgetFocusOnCurrentWeek.key,
+                BooleanConfiguration.WidgetFocusOnCurrentWeek.defaultValue
             )
         } returns enabled
     }
@@ -188,8 +189,8 @@ open class BaseTest {
         verifySharedPreferencesAccess()
         verify {
             sharedPreferences.getBoolean(
-                Configuration.WidgetFocusOnCurrentWeek.key,
-                Configuration.WidgetFocusOnCurrentWeek.defaultValue
+                BooleanConfiguration.WidgetFocusOnCurrentWeek.key,
+                BooleanConfiguration.WidgetFocusOnCurrentWeek.defaultValue
             )
         }
     }

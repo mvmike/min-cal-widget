@@ -5,6 +5,7 @@ package cat.mvmike.minimalcalendarwidget.application.visual.draw
 import android.content.Context
 import android.widget.RemoteViews
 import cat.mvmike.minimalcalendarwidget.domain.Format
+import cat.mvmike.minimalcalendarwidget.domain.configuration.BooleanConfiguration
 import cat.mvmike.minimalcalendarwidget.domain.configuration.Configuration
 import cat.mvmike.minimalcalendarwidget.domain.configuration.EnumConfiguration
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Colour
@@ -35,7 +36,7 @@ object DrawDaysUseCase {
     fun execute(context: Context, widgetRemoteView: RemoteViews, format: Format) {
         val systemLocalDate: LocalDate = SystemResolver.getSystemLocalDate()
         val firstDayOfWeek = EnumConfiguration.FirstDayOfWeek.get(context)
-        val initialLocalDate = when(Configuration.WidgetFocusOnCurrentWeek.get(context)) {
+        val initialLocalDate = when(BooleanConfiguration.WidgetFocusOnCurrentWeek.get(context)) {
             true -> getFocusedOnCurrentWeekInitialLocalDate(systemLocalDate, firstDayOfWeek)
             else -> getNaturalMonthInitialLocalDate(systemLocalDate, firstDayOfWeek)
         }
@@ -49,7 +50,7 @@ object DrawDaysUseCase {
         val instancesSymbolSet = EnumConfiguration.InstancesSymbolSet.get(context)
         val instancesColour = EnumConfiguration.InstancesColour.get(context)
         val transparency = Configuration.WidgetTransparency.get(context)
-        val showDeclinedEvents = Configuration.WidgetShowDeclinedEvents.get(context)
+        val showDeclinedEvents = BooleanConfiguration.WidgetShowDeclinedEvents.get(context)
 
         for (week in 0 until NUM_WEEKS) {
             val weekRow: RemoteViews = SystemResolver.createDaysRow(context)
