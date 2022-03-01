@@ -28,12 +28,11 @@ import java.time.DayOfWeek.TUESDAY
 import java.time.DayOfWeek.WEDNESDAY
 import java.util.stream.Stream
 
-
 private const val dayHeaderCellViewId = 16908308
-private const val dayHeaderSaturdayDarkThemeBackground = 2131034148
-private const val dayHeaderSundayDarkThemeBackground = 2131034152
-private const val dayHeaderSaturdayLightThemeBackground = 2131034149
-private const val dayHeaderSundayLightThemeBackground = 2131034153
+private const val dayHeaderSaturdayDarkThemeBackground = 2131034150
+private const val dayHeaderSundayDarkThemeBackground = 2131034156
+private const val dayHeaderSaturdayLightThemeBackground = 2131034151
+private const val dayHeaderSundayLightThemeBackground = 2131034157
 
 internal class DrawDaysHeaderUseCaseTest : BaseTest() {
 

@@ -36,13 +36,15 @@ private const val dayLayoutNotInMonth = 2131427358
 private const val dayLayoutInMonth = 2131427359
 private const val dayLayoutToday = 2131427360
 
-private const val instancesColourTodayId = 2131034184
-private const val instancesColourId = 2131034181
+private const val instancesColourTodayId = 2131034188
+private const val instancesColourId = 2131034185
 
-private const val dayCellTodayBackground = 2131034158
-private const val dayCellWeekdayInMonthBackground = 2131034156
-private const val dayCellSaturdayInMonthBackground = 2131034148
-private const val dayCellSundayInMonthBackground = 2131034152
+private const val dayCellTodayBackground = 2131034162
+private const val dayCellWeekdayInMonthBackground = 2131034160
+private const val dayCellSaturdayInMonthBackground = 2131034150
+private const val dayCellSundayInMonthBackground = 2131034156
+private const val dayCellSaturdayBackground = 2131034148
+private const val dayCellSundayBackground = 2131034154
 
 private const val dayCellTransparentBackground = "transparentBackground"
 private const val dayCellModerateTransparentBackgroundInHex = "#40ground"
@@ -87,6 +89,8 @@ internal class DrawDaysUseCaseTest : BaseTest() {
             dayCellWeekdayInMonthBackground,
             dayCellSaturdayInMonthBackground,
             dayCellSundayInMonthBackground,
+            dayCellSaturdayBackground,
+            dayCellSundayBackground
         ).forEach {
             every { SystemResolver.getColourAsString(context, it) } returns dayCellTransparentBackground
         }
@@ -413,8 +417,8 @@ internal class DrawDaysUseCaseTest : BaseTest() {
         DrawDaysUseCaseTestProperties(dayLayout = dayLayoutNotInMonth, spanText = " 02 ·"),
         DrawDaysUseCaseTestProperties(dayLayout = dayLayoutNotInMonth, spanText = " 03 ·"),
         DrawDaysUseCaseTestProperties(dayLayout = dayLayoutNotInMonth, spanText = " 04 ·"),
-        DrawDaysUseCaseTestProperties(dayLayout = dayLayoutNotInMonth, spanText = " 05 ◈"),
-        DrawDaysUseCaseTestProperties(dayLayout = dayLayoutNotInMonth, spanText = " 06 ·")
+        DrawDaysUseCaseTestProperties(dayLayout = dayLayoutNotInMonth, spanText = " 05 ◈", dayBackgroundColour = dayCellSaturdayBackground),
+        DrawDaysUseCaseTestProperties(dayLayout = dayLayoutNotInMonth, spanText = " 06 ·", dayBackgroundColour = dayCellSundayBackground)
     )
 
     private fun String.toInstant(zoneOffset: ZoneOffset) = LocalDateTime

@@ -10,8 +10,8 @@ enum class Theme(
     val displayString: Int,
     val mainLayout: Int,
     val mainBackground: Int,
-    private val dayLayout: Int,
     private val header: CellPack,
+    private val day: CellPack,
     private val thisMonth: CellPack,
     private val today: CellPack
 ) {
@@ -19,11 +19,15 @@ enum class Theme(
         displayString = R.string.dark,
         mainLayout = R.layout.widget_dark,
         mainBackground = R.color.background_full_dark,
-        dayLayout = R.layout.dark_cell_day,
         header = CellPack(
             mainLayout = R.layout.dark_cell_header,
             saturdayBackground = R.color.background_saturday_this_month_dark,
             sundayBackground = R.color.background_sunday_this_month_dark
+        ),
+        day = CellPack(
+            mainLayout = R.layout.dark_cell_day,
+            saturdayBackground = R.color.background_saturday_dark,
+            sundayBackground = R.color.background_sunday_dark
         ),
         thisMonth = CellPack(
             mainLayout = R.layout.dark_cell_day_this_month,
@@ -42,11 +46,15 @@ enum class Theme(
         displayString = R.string.light,
         mainLayout = R.layout.widget_light,
         mainBackground = R.color.background_full_light,
-        dayLayout = R.layout.light_cell_day,
         header = CellPack(
             mainLayout = R.layout.light_cell_header,
             saturdayBackground = R.color.background_saturday_this_month_light,
             sundayBackground = R.color.background_sunday_this_month_light
+        ),
+        day = CellPack(
+            mainLayout = R.layout.light_cell_day,
+            saturdayBackground = R.color.background_saturday_light,
+            sundayBackground = R.color.background_sunday_light
         ),
         thisMonth = CellPack(
             mainLayout = R.layout.light_cell_day_this_month,
@@ -65,10 +73,10 @@ enum class Theme(
     fun getCellHeader(dayOfWeek: DayOfWeek) = header.get(dayOfWeek)
 
     fun getCellDay(isToday: Boolean, inMonth: Boolean, dayOfWeek: DayOfWeek) = when {
-        isToday -> today.get(dayOfWeek)
-        inMonth -> thisMonth.get(dayOfWeek)
-        else -> Cell(layout = dayLayout)
-    }
+        isToday -> today
+        inMonth -> thisMonth
+        else -> day
+    }.get(dayOfWeek)
 }
 
 fun getThemeDisplayValues(context: Context) =

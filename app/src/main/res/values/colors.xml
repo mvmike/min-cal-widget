@@ -11,8 +11,14 @@
     <color name="background_today_dark">#009973</color>
     <color name="background_today_light">#009973</color>
 
+    <color name="background_saturday_dark">#215487</color>
+    <color name="background_saturday_light">#B9C9FF</color>
+
     <color name="background_saturday_this_month_dark">#99CCFF</color>
     <color name="background_saturday_this_month_light">#41A1FF</color>
+
+    <color name="background_sunday_dark">#872121</color>
+    <color name="background_sunday_light">#FFC3C3</color>
 
     <color name="background_sunday_this_month_dark">#FF9999</color>
     <color name="background_sunday_this_month_light">#FF4B4B</color>
