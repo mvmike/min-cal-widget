@@ -15,7 +15,7 @@ android {
     val androidVersion = AndroidVersion.VersionCodes.S      // 12.0
 
     //https://openjdk.java.net/projects/jdk/
-    val javaVersion = JavaVersion.VERSION_11
+    val javaVersion = JavaVersion.VERSION_17
 
     compileSdk = androidVersion
     //https://developer.android.com/studio/releases/build-tools
