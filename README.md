@@ -6,7 +6,7 @@ Minimal calendar widget that's always on current date's month
 * Configuration accessible on widget's top right corner
 * Pressing on any other part of the widget opens calendar application
 * Configurable:
-    - widget theme
+    - theme
     - transparency
     - include declined events
     - focus on current week
