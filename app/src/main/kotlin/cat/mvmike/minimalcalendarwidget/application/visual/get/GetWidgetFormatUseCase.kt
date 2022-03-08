@@ -7,16 +7,15 @@ import cat.mvmike.minimalcalendarwidget.domain.Format
 
 object GetWidgetFormatUseCase {
 
-    fun execute(appWidgetManager: AppWidgetManager, appWidgetId: Int): Format =
-        try {
-            with(appWidgetManager.getAppWidgetOptions(appWidgetId)) {
-                val width = getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH)
-                val height = getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT)
-                return Format.values()
-                    .firstOrNull { it.fitsSize(width, height) }
-                    ?: Format.STANDARD
-            }
-        } catch (ignored: Exception) {
-            Format.STANDARD
+    fun execute(appWidgetManager: AppWidgetManager, appWidgetId: Int) = try {
+        with(appWidgetManager.getAppWidgetOptions(appWidgetId)) {
+            val width = getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH)
+            val height = getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT)
+            Format.values()
+                .firstOrNull { it.fitsSize(width, height) }
+                ?: Format.STANDARD
         }
+    } catch (ignored: Exception) {
+        Format.STANDARD
+    }
 }
