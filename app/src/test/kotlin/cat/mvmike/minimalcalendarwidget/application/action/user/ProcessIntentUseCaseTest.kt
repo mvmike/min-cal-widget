@@ -23,10 +23,11 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
     @ValueSource(
         strings = [
             ACTION_AUTO_UPDATE,
-            ACTION_APPWIDGET_UPDATE
+            ACTION_APPWIDGET_UPDATE,
+            "some_random_intent_action"
         ]
     )
-    fun shouldDoNothing_whenUpdateIntent(action: String) {
+    fun shouldDoNothing_whenNoActionableViewIntent(action: String) {
         ProcessIntentUseCase.execute(context, action)
     }
 
