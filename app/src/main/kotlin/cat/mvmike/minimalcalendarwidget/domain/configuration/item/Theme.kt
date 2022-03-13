@@ -17,7 +17,7 @@ enum class Theme(
 ) {
     DARK(
         displayString = R.string.dark,
-        mainLayout = R.layout.widget_dark,
+        mainLayout = R.layout.dark_widget,
         mainBackground = R.color.background_full_dark,
         header = CellPack(
             mainLayout = R.layout.dark_cell_header,
@@ -44,7 +44,7 @@ enum class Theme(
     ),
     LIGHT(
         displayString = R.string.light,
-        mainLayout = R.layout.widget_light,
+        mainLayout = R.layout.light_widget,
         mainBackground = R.color.background_full_light,
         header = CellPack(
             mainLayout = R.layout.light_cell_header,

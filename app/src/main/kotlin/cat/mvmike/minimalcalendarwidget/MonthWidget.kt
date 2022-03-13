@@ -70,7 +70,7 @@ class MonthWidget : AppWidgetProvider() {
 
         private fun redrawWidget(context: Context, appWidgetManager: AppWidgetManager, appWidgetId: Int) {
             val widgetRemoteView = RemoteViews(context.packageName, EnumConfiguration.WidgetTheme.get(context).mainLayout)
-            widgetRemoteView.removeAllViews(R.id.calendar_widget)
+            widgetRemoteView.removeAllViews(R.id.calendar_days_layout)
 
             AddListenersUseCase.execute(
                 context = context,

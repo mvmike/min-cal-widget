@@ -18,7 +18,7 @@ enum class ActionableView(
         action = "action.WIDGET_CONFIGURATION"
     ),
     OPEN_CALENDAR(
-        viewId = R.id.calendar_widget,
+        viewId = R.id.calendar_days_layout,
         code = 99,
         action = "action.WIDGET_PRESS"
     );

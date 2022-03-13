@@ -21,7 +21,7 @@ object DrawWidgetLayout {
 
         SystemResolver.setBackgroundColor(
             remoteViews = widgetRemoteView,
-            viewId = R.id.main_linear_layout,
+            viewId = R.id.widget_layout,
             colour = backgroundColour.withTransparency(
                 transparency = transparency,
                 transparencyRange = transparencyRange

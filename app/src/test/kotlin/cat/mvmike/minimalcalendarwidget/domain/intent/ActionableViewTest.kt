@@ -55,7 +55,7 @@ internal class ActionableViewTest : BaseTest() {
         ),
         ActionableViewTestProperties(
             actionableView = ActionableView.OPEN_CALENDAR,
-            viewId = R.id.calendar_widget,
+            viewId = R.id.calendar_days_layout,
             code = 99,
             action = "action.WIDGET_PRESS",
         )

@@ -162,7 +162,7 @@ object SystemResolver {
 
     // ADD VISUAL COMPONENTS TO WIDGET
 
-    fun addToWidget(widgetRemoteView: RemoteViews, remoteView: RemoteViews) = widgetRemoteView.addView(R.id.calendar_widget, remoteView)
+    fun addToWidget(widgetRemoteView: RemoteViews, remoteView: RemoteViews) = widgetRemoteView.addView(R.id.calendar_days_layout, remoteView)
 
     // MONTH YEAR HEADER
 

@@ -1,11 +1,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/main_linear_layout"
+    android:id="@+id/widget_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/month_bar"
+        android:id="@+id/top_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
@@ -16,7 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="26sp"
             android:gravity="start|top"
-            android:textColor="@color/text_colour_full_light"
+            android:textColor="@color/text_colour_full_dark"
             android:textSize="20sp" />
 
         <ImageView
@@ -27,12 +27,12 @@
             android:gravity="end"
             android:padding="5dip"
             android:scaleType="fitEnd"
-            android:src="@drawable/ic_configuration_light" />
+            android:src="@drawable/ic_configuration_dark" />
 
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/calendar_widget"
+        android:id="@+id/calendar_days_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_margin="3dp"

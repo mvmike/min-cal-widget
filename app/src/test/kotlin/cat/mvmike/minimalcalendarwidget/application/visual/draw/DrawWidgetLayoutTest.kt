@@ -41,7 +41,7 @@ internal class DrawWidgetLayoutTest : BaseTest() {
         justRun {
             SystemResolver.setBackgroundColor(
                 remoteViews = widgetRv,
-                viewId = R.id.main_linear_layout,
+                viewId = R.id.widget_layout,
                 colour = layoutWithTransparency
             )
         }
@@ -51,7 +51,7 @@ internal class DrawWidgetLayoutTest : BaseTest() {
         verify {
             SystemResolver.setBackgroundColor(
                 remoteViews = widgetRv,
-                viewId = R.id.main_linear_layout,
+                viewId = R.id.widget_layout,
                 colour = layoutWithTransparency
             )
         }
