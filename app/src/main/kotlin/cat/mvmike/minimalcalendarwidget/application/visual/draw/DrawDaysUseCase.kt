@@ -16,6 +16,7 @@ import cat.mvmike.minimalcalendarwidget.domain.entry.Day
 import cat.mvmike.minimalcalendarwidget.domain.entry.Instance
 import cat.mvmike.minimalcalendarwidget.domain.entry.getInstances
 import cat.mvmike.minimalcalendarwidget.infrastructure.SystemResolver
+import cat.mvmike.minimalcalendarwidget.infrastructure.config.ClockConfig
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.temporal.ChronoField
@@ -34,7 +35,7 @@ object DrawDaysUseCase {
     private const val INSTANCES_QUERY_DAYS_SPAN = 45L
 
     fun execute(context: Context, widgetRemoteView: RemoteViews, format: Format) {
-        val systemLocalDate: LocalDate = SystemResolver.getSystemLocalDate()
+        val systemLocalDate: LocalDate = ClockConfig.getSystemLocalDate()
         val firstDayOfWeek = EnumConfiguration.FirstDayOfWeek.get(context)
         val initialLocalDate = when(BooleanConfiguration.WidgetFocusOnCurrentWeek.get(context)) {
             true -> getFocusedOnCurrentWeekInitialLocalDate(systemLocalDate, firstDayOfWeek)

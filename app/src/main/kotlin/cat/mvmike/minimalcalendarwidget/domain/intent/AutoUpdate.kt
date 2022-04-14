@@ -4,6 +4,7 @@ package cat.mvmike.minimalcalendarwidget.domain.intent
 
 import android.content.Context
 import cat.mvmike.minimalcalendarwidget.infrastructure.SystemResolver
+import cat.mvmike.minimalcalendarwidget.infrastructure.config.ClockConfig
 
 object AutoUpdate {
 
@@ -14,7 +15,7 @@ object AutoUpdate {
     const val INTERVAL_MILLIS = 900000L // 1000*60*15 === 15'
 
     fun setAlarm(context: Context) {
-        val currentMillis = SystemResolver.getInstant().toEpochMilli()
+        val currentMillis = ClockConfig.getInstant().toEpochMilli()
         val firstTriggerMillis = currentMillis + INTERVAL_MILLIS
 
         SystemResolver.setRepeatingAlarm(

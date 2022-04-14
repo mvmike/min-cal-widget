@@ -12,6 +12,7 @@ import cat.mvmike.minimalcalendarwidget.domain.configuration.item.SymbolSet
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Transparency
 import cat.mvmike.minimalcalendarwidget.infrastructure.SystemResolver
+import cat.mvmike.minimalcalendarwidget.infrastructure.config.ClockConfig
 import io.mockk.clearAllMocks
 import io.mockk.confirmVerified
 import io.mockk.every
@@ -49,12 +50,16 @@ open class BaseTest {
         clearAllMocks()
         unmockkAll()
 
-        mockkObject(SystemResolver)
+        mockkObject(
+            ClockConfig,
+            SystemResolver
+        )
     }
 
     @AfterEach
     fun afterEach() {
         confirmVerified(
+            ClockConfig,
             SystemResolver,
             context,
             editor,
@@ -63,7 +68,7 @@ open class BaseTest {
     }
 
     protected fun mockGetSystemInstant(instant: Instant) {
-        every { SystemResolver.getInstant() } returns instant
+        every { ClockConfig.getInstant() } returns instant
     }
 
     protected fun mockGetSystemLocale(locale: Locale = Locale.ENGLISH) {
@@ -71,11 +76,11 @@ open class BaseTest {
     }
 
     protected fun mockGetSystemLocalDate() {
-        every { SystemResolver.getSystemLocalDate() } returns systemLocalDate
+        every { ClockConfig.getSystemLocalDate() } returns systemLocalDate
     }
 
     protected fun mockGetSystemZoneId() {
-        every { SystemResolver.getSystemZoneId() } returns zoneId
+        every { ClockConfig.getSystemZoneId() } returns zoneId
     }
 
     protected fun mockIsReadCalendarPermitted(permitted: Boolean) {

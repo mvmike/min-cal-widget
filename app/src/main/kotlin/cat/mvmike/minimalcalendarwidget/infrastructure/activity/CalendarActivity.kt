@@ -7,11 +7,12 @@ import android.content.Context
 import android.widget.Toast
 import cat.mvmike.minimalcalendarwidget.R
 import cat.mvmike.minimalcalendarwidget.infrastructure.SystemResolver
+import cat.mvmike.minimalcalendarwidget.infrastructure.config.ClockConfig
 
 object CalendarActivity {
 
     fun start(context: Context) {
-        val systemInstant = SystemResolver.getInstant()
+        val systemInstant = ClockConfig.getInstant()
 
         try {
             SystemResolver.startCalendarActivity(

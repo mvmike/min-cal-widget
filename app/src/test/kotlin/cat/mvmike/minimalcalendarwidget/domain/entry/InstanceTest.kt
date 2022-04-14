@@ -4,6 +4,7 @@ package cat.mvmike.minimalcalendarwidget.domain.entry
 
 import cat.mvmike.minimalcalendarwidget.BaseTest
 import cat.mvmike.minimalcalendarwidget.infrastructure.SystemResolver
+import cat.mvmike.minimalcalendarwidget.infrastructure.config.ClockConfig
 import io.mockk.every
 import io.mockk.verify
 import java.time.LocalDate
@@ -62,7 +63,7 @@ internal class InstanceTest : BaseTest() {
         val instances = getInstances(context, initLocalDate, endLocalDate)
 
         assertThat(instances).isEqualTo(expectedInstances)
-        verify { SystemResolver.getSystemZoneId() }
+        verify { ClockConfig.getSystemZoneId() }
         verify { SystemResolver.isReadCalendarPermitted(context) }
         verify { SystemResolver.getInstances(context, initEpochMillis, endEpochMillis) }
     }

@@ -24,22 +24,12 @@ import cat.mvmike.minimalcalendarwidget.MonthWidget
 import cat.mvmike.minimalcalendarwidget.R
 import cat.mvmike.minimalcalendarwidget.domain.entry.Instance
 import cat.mvmike.minimalcalendarwidget.domain.intent.AutoUpdate
-import java.time.Clock
 import java.time.Instant
 import java.time.Instant.ofEpochMilli
-import java.time.LocalDate
 import java.time.ZoneId
 import java.util.Locale
 
 object SystemResolver {
-
-    // CLOCK
-
-    fun getInstant() = Clock.systemUTC().instant()!!
-
-    fun getSystemLocalDate() = LocalDate.now(Clock.systemDefaultZone())!!
-
-    fun getSystemZoneId() = ZoneId.systemDefault()!!
 
     // LOCALE
 

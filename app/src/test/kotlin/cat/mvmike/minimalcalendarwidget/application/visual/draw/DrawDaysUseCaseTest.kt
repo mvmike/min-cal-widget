@@ -23,6 +23,7 @@ import cat.mvmike.minimalcalendarwidget.domain.configuration.item.sundayDarkThem
 import cat.mvmike.minimalcalendarwidget.domain.entry.Day
 import cat.mvmike.minimalcalendarwidget.domain.entry.Instance
 import cat.mvmike.minimalcalendarwidget.infrastructure.SystemResolver
+import cat.mvmike.minimalcalendarwidget.infrastructure.config.ClockConfig
 import io.mockk.confirmVerified
 import io.mockk.every
 import io.mockk.justRun
@@ -102,9 +103,9 @@ internal class DrawDaysUseCaseTest : BaseTest() {
 
         DrawDaysUseCase.execute(context, widgetRv, format)
 
-        verify { SystemResolver.getSystemLocalDate() }
+        verify { ClockConfig.getSystemLocalDate() }
         verify { SystemResolver.isReadCalendarPermitted(context) }
-        verify { SystemResolver.getSystemZoneId() }
+        verify { ClockConfig.getSystemZoneId() }
         verify { SystemResolver.getInstances(context, initEpochMillis, endEpochMillis) }
 
         verifyWidgetShowDeclinedEvents()

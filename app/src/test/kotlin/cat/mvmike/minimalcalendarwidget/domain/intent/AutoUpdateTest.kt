@@ -6,6 +6,7 @@ import cat.mvmike.minimalcalendarwidget.BaseTest
 import cat.mvmike.minimalcalendarwidget.domain.intent.AutoUpdate.ALARM_ID
 import cat.mvmike.minimalcalendarwidget.domain.intent.AutoUpdate.INTERVAL_MILLIS
 import cat.mvmike.minimalcalendarwidget.infrastructure.SystemResolver
+import cat.mvmike.minimalcalendarwidget.infrastructure.config.ClockConfig
 import io.mockk.justRun
 import io.mockk.verify
 import java.time.Instant
@@ -28,7 +29,7 @@ internal class AutoUpdateTest : BaseTest() {
 
         AutoUpdate.setAlarm(context)
 
-        verify { SystemResolver.getInstant() }
+        verify { ClockConfig.getInstant() }
         verify {
             SystemResolver.setRepeatingAlarm(
                 context = context,
