@@ -3,24 +3,28 @@
 package cat.mvmike.minimalcalendarwidget.infrastructure.activity
 
 import android.content.ActivityNotFoundException
+import android.content.ContentUris
 import android.content.Context
+import android.content.Intent
+import android.provider.CalendarContract
 import android.widget.Toast
 import cat.mvmike.minimalcalendarwidget.R
-import cat.mvmike.minimalcalendarwidget.infrastructure.SystemResolver
-import cat.mvmike.minimalcalendarwidget.infrastructure.config.ClockConfig
+import java.time.Instant
 
 object CalendarActivity {
 
-    fun start(context: Context) {
-        val systemInstant = ClockConfig.getInstant()
+    fun start(context: Context, startTime: Instant) = try {
+        val builder = CalendarContract.CONTENT_URI.buildUpon().appendPath("time")
+        ContentUris.appendId(builder, startTime.toEpochMilli())
 
-        try {
-            SystemResolver.startCalendarActivity(
-                context = context,
-                startInstant = systemInstant
-            )
-        } catch (ignored: ActivityNotFoundException) {
-            Toast.makeText(context, R.string.no_calendar_application, Toast.LENGTH_SHORT).show()
-        }
+        context.startActivity(
+            Intent(Intent.ACTION_VIEW)
+                .setData(builder.build())
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        )
+
+    } catch (ignored: ActivityNotFoundException) {
+        Toast.makeText(context, R.string.no_calendar_application, Toast.LENGTH_SHORT).show()
     }
+
 }

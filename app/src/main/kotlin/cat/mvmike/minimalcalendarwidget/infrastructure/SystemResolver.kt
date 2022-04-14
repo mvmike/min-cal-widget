@@ -4,14 +4,11 @@ package cat.mvmike.minimalcalendarwidget.infrastructure
 
 import android.app.AlarmManager
 import android.app.PendingIntent
-import android.content.ContentUris
 import android.content.Context
 import android.content.Intent
-import android.provider.CalendarContract
 import android.widget.RemoteViews
 import cat.mvmike.minimalcalendarwidget.MonthWidget
 import cat.mvmike.minimalcalendarwidget.domain.intent.AutoUpdate
-import java.time.Instant
 
 object SystemResolver {
 
@@ -67,16 +64,4 @@ object SystemResolver {
         Intent(context, clazz)
             .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
     )
-
-
-    fun startCalendarActivity(context: Context, startInstant: Instant) {
-        val builder = CalendarContract.CONTENT_URI.buildUpon().appendPath("time")
-        ContentUris.appendId(builder, startInstant.toEpochMilli())
-
-        context.startActivity(
-            Intent(Intent.ACTION_VIEW)
-                .setData(builder.build())
-                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        )
-    }
 }

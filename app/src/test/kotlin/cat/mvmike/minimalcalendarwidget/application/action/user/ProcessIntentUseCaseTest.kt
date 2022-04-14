@@ -7,6 +7,7 @@ import cat.mvmike.minimalcalendarwidget.BaseTest
 import cat.mvmike.minimalcalendarwidget.domain.intent.ActionableView
 import cat.mvmike.minimalcalendarwidget.domain.intent.AutoUpdate.ACTION_AUTO_UPDATE
 import cat.mvmike.minimalcalendarwidget.infrastructure.SystemResolver
+import cat.mvmike.minimalcalendarwidget.infrastructure.activity.CalendarActivity
 import cat.mvmike.minimalcalendarwidget.infrastructure.activity.ConfigurationActivity
 import cat.mvmike.minimalcalendarwidget.infrastructure.activity.PermissionsActivity
 import cat.mvmike.minimalcalendarwidget.infrastructure.config.ClockConfig
@@ -64,12 +65,12 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
         mockIsReadCalendarPermitted(true)
         mockGetSystemInstant(instant)
 
-        justRun { SystemResolver.startCalendarActivity(context, instant) }
+        justRun { CalendarActivity.start(context, instant) }
 
         ProcessIntentUseCase.execute(context, ActionableView.OPEN_CALENDAR.action)
 
         verify { CalendarResolver.isReadCalendarPermitted(context) }
         verify { ClockConfig.getInstant() }
-        verify { SystemResolver.startCalendarActivity(context, instant) }
+        verify { CalendarActivity.start(context, instant) }
     }
 }
