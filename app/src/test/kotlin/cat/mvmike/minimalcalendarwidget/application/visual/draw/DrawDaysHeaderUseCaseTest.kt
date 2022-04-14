@@ -8,12 +8,12 @@ import cat.mvmike.minimalcalendarwidget.R
 import cat.mvmike.minimalcalendarwidget.domain.Format
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Transparency
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.cellViewId
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.saturdayInMonthDarkThemeCellBackground
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.saturdayInMonthLightThemeCellBackground
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.sundayInMonthDarkThemeCellBackground
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.sundayInMonthLightThemeCellBackground
-import cat.mvmike.minimalcalendarwidget.domain.configuration.item.cellViewId
-import cat.mvmike.minimalcalendarwidget.infrastructure.SystemResolver
+import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.GraphicResolver
 import io.mockk.confirmVerified
 import io.mockk.every
 import io.mockk.justRun
@@ -47,7 +47,7 @@ internal class DrawDaysHeaderUseCaseTest : BaseTest() {
         format: Format,
         expectedDayHeaders: List<DayHeaderTestProperties>
     ) {
-        every { SystemResolver.createDaysHeaderRow(context) } returns daysHeaderRowRv
+        every { GraphicResolver.createDaysHeaderRow(context) } returns daysHeaderRowRv
 
         mockSharedPreferences()
         mockWidgetTransparency(Transparency(20))
@@ -59,22 +59,22 @@ internal class DrawDaysHeaderUseCaseTest : BaseTest() {
             every { context.getString(resourceAndTranslation.first) } returns resourceAndTranslation.second
         }
 
-        justRun { SystemResolver.addToDaysHeaderRow(context, daysHeaderRowRv, any(), any(), any(), any()) }
-        justRun { SystemResolver.addToWidget(widgetRv, daysHeaderRowRv) }
+        justRun { GraphicResolver.addToDaysHeaderRow(context, daysHeaderRowRv, any(), any(), any(), any()) }
+        justRun { GraphicResolver.addToWidget(widgetRv, daysHeaderRowRv) }
 
         DrawDaysHeaderUseCase.execute(context, widgetRv, format)
 
         verifyWidgetTransparency()
         verifyFirstDayOfWeek()
         verifyWidgetTheme()
-        verify(exactly = 1) { SystemResolver.createDaysHeaderRow(context) }
+        verify(exactly = 1) { GraphicResolver.createDaysHeaderRow(context) }
         expectedDayHeaders.forEach {
             verify { context.getString(it.dayOfWeek.getExpectedResourceIdAndTranslation().first) }
             verifyGetDayHeaderCellBackground(it.cellBackground)
         }
         verifyOrder {
             expectedDayHeaders.forEach {
-                SystemResolver.addToDaysHeaderRow(
+                GraphicResolver.addToDaysHeaderRow(
                     context = context,
                     daysHeaderRow = daysHeaderRowRv,
                     text = it.expectedHeaderString,
@@ -84,7 +84,7 @@ internal class DrawDaysHeaderUseCaseTest : BaseTest() {
                 )
             }
         }
-        verify(exactly = 1) { SystemResolver.addToWidget(widgetRv, daysHeaderRowRv) }
+        verify(exactly = 1) { GraphicResolver.addToWidget(widgetRv, daysHeaderRowRv) }
         confirmVerified(widgetRv, daysHeaderRowRv)
     }
 
@@ -414,15 +414,15 @@ internal class DrawDaysHeaderUseCaseTest : BaseTest() {
     private fun mockGetDayHeaderCellBackground(dayHeaderCellBackground: Int?) =
         dayHeaderCellBackground?.let {
             val stringColour = "transparentBackground$dayHeaderCellBackground"
-            every { SystemResolver.getColourAsString(context, dayHeaderCellBackground) } returns stringColour
-            every { SystemResolver.parseColour("#40${stringColour.takeLast(6)}") } returns dayHeaderCellBackground
+            every { GraphicResolver.getColourAsString(context, dayHeaderCellBackground) } returns stringColour
+            every { GraphicResolver.parseColour("#40${stringColour.takeLast(6)}") } returns dayHeaderCellBackground
         }
 
     private fun verifyGetDayHeaderCellBackground(dayHeaderCellBackground: Int?) =
         dayHeaderCellBackground?.let {
             val stringColour = "transparentBackground$dayHeaderCellBackground"
-            verify { SystemResolver.getColourAsString(context, dayHeaderCellBackground) }
-            verify { SystemResolver.parseColour("#40${stringColour.takeLast(6)}") }
+            verify { GraphicResolver.getColourAsString(context, dayHeaderCellBackground) }
+            verify { GraphicResolver.parseColour("#40${stringColour.takeLast(6)}") }
         }
 
     internal data class DayHeaderTestProperties(

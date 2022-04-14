@@ -10,14 +10,14 @@ import cat.mvmike.minimalcalendarwidget.domain.configuration.EnumConfiguration
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.TransparencyRange
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.withTransparency
 import cat.mvmike.minimalcalendarwidget.domain.entry.getAbbreviatedDisplayValue
-import cat.mvmike.minimalcalendarwidget.infrastructure.SystemResolver
+import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.GraphicResolver
 import java.time.DayOfWeek
 import java.util.Collections
 
 object DrawDaysHeaderUseCase {
 
     fun execute(context: Context, widgetRemoteView: RemoteViews, format: Format) {
-        val daysHeaderRow: RemoteViews = SystemResolver.createDaysHeaderRow(context)
+        val daysHeaderRow: RemoteViews = GraphicResolver.createDaysHeaderRow(context)
 
         val transparency = Configuration.WidgetTransparency.get(context)
         val firstDayOfWeek = EnumConfiguration.FirstDayOfWeek.get(context)
@@ -26,13 +26,13 @@ object DrawDaysHeaderUseCase {
         getRotatedWeekDays(firstDayOfWeek).forEach { dayOfWeek ->
             val cellHeader = theme.getCellHeader(dayOfWeek)
             val backgroundWithTransparency = cellHeader.background
-                ?.let { SystemResolver.getColourAsString(context, it) }
+                ?.let { GraphicResolver.getColourAsString(context, it) }
                 ?.withTransparency(
                     transparency = transparency,
                     transparencyRange = TransparencyRange.MODERATE
                 )
 
-            SystemResolver.addToDaysHeaderRow(
+            GraphicResolver.addToDaysHeaderRow(
                 context = context,
                 daysHeaderRow = daysHeaderRow,
                 text = format.getDayHeaderLabel(dayOfWeek.getAbbreviatedDisplayValue(context)),
@@ -42,7 +42,7 @@ object DrawDaysHeaderUseCase {
             )
         }
 
-        SystemResolver.addToWidget(
+        GraphicResolver.addToWidget(
             widgetRemoteView = widgetRemoteView,
             remoteView = daysHeaderRow
         )

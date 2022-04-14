@@ -15,6 +15,7 @@ import cat.mvmike.minimalcalendarwidget.infrastructure.SystemResolver
 import cat.mvmike.minimalcalendarwidget.infrastructure.config.ClockConfig
 import cat.mvmike.minimalcalendarwidget.infrastructure.config.LocaleConfig
 import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.CalendarResolver
+import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.GraphicResolver
 import io.mockk.clearAllMocks
 import io.mockk.confirmVerified
 import io.mockk.every
@@ -23,15 +24,15 @@ import io.mockk.mockk
 import io.mockk.mockkObject
 import io.mockk.unmockkAll
 import io.mockk.verify
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.TestInstance
 import java.time.DayOfWeek
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
 import java.util.Locale
 import java.util.TimeZone
-import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.TestInstance
 
 private const val PREFERENCES_ID: String = "mincal_prefs"
 
@@ -56,6 +57,7 @@ open class BaseTest {
             ClockConfig,
             LocaleConfig,
             CalendarResolver,
+            GraphicResolver,
             SystemResolver
         )
     }
@@ -66,6 +68,7 @@ open class BaseTest {
             ClockConfig,
             LocaleConfig,
             CalendarResolver,
+            GraphicResolver,
             SystemResolver,
             context,
             editor,

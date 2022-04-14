@@ -9,17 +9,17 @@ import cat.mvmike.minimalcalendarwidget.domain.configuration.Configuration
 import cat.mvmike.minimalcalendarwidget.domain.configuration.EnumConfiguration
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.TransparencyRange
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.withTransparency
-import cat.mvmike.minimalcalendarwidget.infrastructure.SystemResolver
+import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.GraphicResolver
 
 object DrawWidgetLayout {
 
     fun execute(context: Context, widgetRemoteView: RemoteViews) {
         val theme = EnumConfiguration.WidgetTheme.get(context)
-        val backgroundColour = SystemResolver.getColourAsString(context, theme.mainBackground)
+        val backgroundColour = GraphicResolver.getColourAsString(context, theme.mainBackground)
         val transparency = Configuration.WidgetTransparency.get(context)
         val transparencyRange = TransparencyRange.COMPLETE
 
-        SystemResolver.setBackgroundColor(
+        GraphicResolver.setBackgroundColor(
             remoteViews = widgetRemoteView,
             viewId = R.id.widget_layout,
             colour = backgroundColour.withTransparency(

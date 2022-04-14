@@ -15,8 +15,8 @@ import cat.mvmike.minimalcalendarwidget.domain.configuration.item.withTransparen
 import cat.mvmike.minimalcalendarwidget.domain.entry.Day
 import cat.mvmike.minimalcalendarwidget.domain.entry.Instance
 import cat.mvmike.minimalcalendarwidget.domain.entry.getInstances
-import cat.mvmike.minimalcalendarwidget.infrastructure.SystemResolver
 import cat.mvmike.minimalcalendarwidget.infrastructure.config.ClockConfig
+import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.GraphicResolver
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.temporal.ChronoField
@@ -54,7 +54,7 @@ object DrawDaysUseCase {
         val showDeclinedEvents = BooleanConfiguration.WidgetShowDeclinedEvents.get(context)
 
         for (week in 0 until NUM_WEEKS) {
-            val weekRow: RemoteViews = SystemResolver.createDaysRow(context)
+            val weekRow: RemoteViews = GraphicResolver.createDaysRow(context)
 
             for (weekDay in 0 until DAYS_IN_WEEK) {
                 val currentDay = Day(initialLocalDate.toCurrentWeekAndWeekDay(week, weekDay))
@@ -66,7 +66,7 @@ object DrawDaysUseCase {
                 val instancesSymbol = currentDay.getNumberOfInstances(instanceSet, showDeclinedEvents).getSymbol(instancesSymbolSet)
                 val dayInstancesColour = currentDay.getInstancesColor(context, instancesColour, systemLocalDate)
                 val backgroundWithTransparency = dayCell.background
-                    ?.let { SystemResolver.getColourAsString(context, it) }
+                    ?.let { GraphicResolver.getColourAsString(context, it) }
                     ?.withTransparency(
                         transparency = transparency,
                         transparencyRange = when (currentDay.getDayOfWeek()) {
@@ -76,7 +76,7 @@ object DrawDaysUseCase {
                         }
                     )
 
-                SystemResolver.addToDaysRow(
+                GraphicResolver.addToDaysRow(
                     context = context,
                     weekRow = weekRow,
                     dayLayout = dayCell.layout,
@@ -91,7 +91,7 @@ object DrawDaysUseCase {
                 )
             }
 
-            SystemResolver.addToWidget(
+            GraphicResolver.addToWidget(
                 widgetRemoteView = widgetRemoteView,
                 remoteView = weekRow
             )
@@ -128,5 +128,5 @@ object DrawDaysUseCase {
     private fun Int.getSymbol(symbolSet: SymbolSet) = symbolSet.get(this)
 
     private fun Day.getInstancesColor(context: Context, colour: Colour, systemLocalDate: LocalDate) =
-        SystemResolver.getColour(context, colour.getInstancesColour(isToday(systemLocalDate)))
+        GraphicResolver.getColour(context, colour.getInstancesColour(isToday(systemLocalDate)))
 }
