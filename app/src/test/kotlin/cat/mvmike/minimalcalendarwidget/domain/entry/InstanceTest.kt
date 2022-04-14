@@ -3,20 +3,20 @@
 package cat.mvmike.minimalcalendarwidget.domain.entry
 
 import cat.mvmike.minimalcalendarwidget.BaseTest
-import cat.mvmike.minimalcalendarwidget.infrastructure.SystemResolver
 import cat.mvmike.minimalcalendarwidget.infrastructure.config.ClockConfig
+import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.CalendarResolver
 import io.mockk.every
 import io.mockk.verify
+import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.MethodSource
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import java.util.Random
 import java.util.stream.Stream
-import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.MethodSource
 
 internal class InstanceTest : BaseTest() {
 
@@ -43,7 +43,7 @@ internal class InstanceTest : BaseTest() {
         val instances = getInstances(context, LocalDate.MIN, LocalDate.MAX)
 
         assertThat(instances).isEmpty()
-        verify { SystemResolver.isReadCalendarPermitted(context) }
+        verify { CalendarResolver.isReadCalendarPermitted(context) }
     }
 
     @ParameterizedTest
@@ -58,14 +58,14 @@ internal class InstanceTest : BaseTest() {
 
         val initEpochMillis = initLocalDate.atStartOfDay(zoneId).toInstant().toEpochMilli()
         val endEpochMillis = endLocalDate.atStartOfDay(zoneId).toInstant().toEpochMilli()
-        every { SystemResolver.getInstances(context, initEpochMillis, endEpochMillis) } returns expectedInstances
+        every { CalendarResolver.getInstances(context, initEpochMillis, endEpochMillis) } returns expectedInstances
 
         val instances = getInstances(context, initLocalDate, endLocalDate)
 
         assertThat(instances).isEqualTo(expectedInstances)
         verify { ClockConfig.getSystemZoneId() }
-        verify { SystemResolver.isReadCalendarPermitted(context) }
-        verify { SystemResolver.getInstances(context, initEpochMillis, endEpochMillis) }
+        verify { CalendarResolver.isReadCalendarPermitted(context) }
+        verify { CalendarResolver.getInstances(context, initEpochMillis, endEpochMillis) }
     }
 
 

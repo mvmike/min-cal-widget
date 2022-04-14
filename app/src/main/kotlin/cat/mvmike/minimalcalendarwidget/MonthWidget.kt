@@ -13,14 +13,14 @@ import cat.mvmike.minimalcalendarwidget.application.action.system.StartAlarmUseC
 import cat.mvmike.minimalcalendarwidget.application.action.system.StopAlarmUseCase
 import cat.mvmike.minimalcalendarwidget.application.action.user.AddListenersUseCase
 import cat.mvmike.minimalcalendarwidget.application.action.user.ProcessIntentUseCase
-import cat.mvmike.minimalcalendarwidget.application.visual.draw.DrawDaysUseCase
 import cat.mvmike.minimalcalendarwidget.application.visual.draw.DrawDaysHeaderUseCase
+import cat.mvmike.minimalcalendarwidget.application.visual.draw.DrawDaysUseCase
 import cat.mvmike.minimalcalendarwidget.application.visual.draw.DrawMonthAndYearHeaderUseCase
 import cat.mvmike.minimalcalendarwidget.application.visual.draw.DrawWidgetLayout
 import cat.mvmike.minimalcalendarwidget.application.visual.get.GetWidgetFormatUseCase
 import cat.mvmike.minimalcalendarwidget.domain.configuration.EnumConfiguration
 import cat.mvmike.minimalcalendarwidget.domain.configuration.clearAllConfiguration
-import cat.mvmike.minimalcalendarwidget.infrastructure.SystemResolver
+import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.CalendarResolver
 
 class MonthWidget : AppWidgetProvider() {
 
@@ -42,7 +42,7 @@ class MonthWidget : AppWidgetProvider() {
     override fun onReceive(context: Context, intent: Intent) {
         super.onReceive(context, intent)
         ProcessIntentUseCase.execute(context, intent.action)
-        if (SystemResolver.isReadCalendarPermitted(context)) {
+        if (CalendarResolver.isReadCalendarPermitted(context)) {
             redraw(context)
         }
     }

@@ -24,6 +24,7 @@ import cat.mvmike.minimalcalendarwidget.domain.entry.Day
 import cat.mvmike.minimalcalendarwidget.domain.entry.Instance
 import cat.mvmike.minimalcalendarwidget.infrastructure.SystemResolver
 import cat.mvmike.minimalcalendarwidget.infrastructure.config.ClockConfig
+import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.CalendarResolver
 import io.mockk.confirmVerified
 import io.mockk.every
 import io.mockk.justRun
@@ -68,7 +69,7 @@ internal class DrawDaysUseCaseTest : BaseTest() {
         val initEpochMillis = initLocalDate.atStartOfDay(zoneId).toInstant().toEpochMilli()
         val endEpochMillis = endLocalDate.atStartOfDay(zoneId).toInstant().toEpochMilli()
         mockGetSystemZoneId()
-        every { SystemResolver.getInstances(context, initEpochMillis, endEpochMillis) } returns getSystemInstances()
+        every { CalendarResolver.getInstances(context, initEpochMillis, endEpochMillis) } returns getSystemInstances()
 
         mockSharedPreferences()
         mockWidgetShowDeclinedEvents()
@@ -104,9 +105,9 @@ internal class DrawDaysUseCaseTest : BaseTest() {
         DrawDaysUseCase.execute(context, widgetRv, format)
 
         verify { ClockConfig.getSystemLocalDate() }
-        verify { SystemResolver.isReadCalendarPermitted(context) }
+        verify { CalendarResolver.isReadCalendarPermitted(context) }
         verify { ClockConfig.getSystemZoneId() }
-        verify { SystemResolver.getInstances(context, initEpochMillis, endEpochMillis) }
+        verify { CalendarResolver.getInstances(context, initEpochMillis, endEpochMillis) }
 
         verifyWidgetShowDeclinedEvents()
         verifyWidgetTransparency()

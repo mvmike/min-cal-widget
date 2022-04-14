@@ -2,17 +2,14 @@
 // See LICENSE for licensing information
 package cat.mvmike.minimalcalendarwidget.infrastructure
 
-import android.Manifest
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.ContentUris
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.Typeface
 import android.provider.CalendarContract
-import android.provider.CalendarContract.Instances
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
@@ -22,11 +19,8 @@ import android.widget.RemoteViews
 import androidx.core.content.ContextCompat
 import cat.mvmike.minimalcalendarwidget.MonthWidget
 import cat.mvmike.minimalcalendarwidget.R
-import cat.mvmike.minimalcalendarwidget.domain.entry.Instance
 import cat.mvmike.minimalcalendarwidget.domain.intent.AutoUpdate
 import java.time.Instant
-import java.time.Instant.ofEpochMilli
-import java.time.ZoneId
 
 object SystemResolver {
 
@@ -92,39 +86,6 @@ object SystemResolver {
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         )
     }
-
-    // CALENDAR CONTRACT
-
-    private val instanceQueryFields = arrayOf(
-        Instances.EVENT_ID,
-        Instances.BEGIN,
-        Instances.END,
-        Instances.EVENT_TIMEZONE,
-        Instances.SELF_ATTENDEE_STATUS
-    )
-
-    fun getInstances(context: Context, begin: Long, end: Long): Set<Instance> {
-        val instances: MutableSet<Instance> = HashSet()
-        Instances.query(context.contentResolver, instanceQueryFields, begin, end).use { instanceCursor ->
-            while (instanceCursor.moveToNext()) {
-                instances.add(
-                    Instance(
-                        eventId = instanceCursor.getInt(0),
-                        start = ofEpochMilli(instanceCursor.getLong(1)),
-                        end = ofEpochMilli(instanceCursor.getLong(2)),
-                        zoneId = ZoneId.of(instanceCursor.getString(3)),
-                        isDeclined = instanceCursor.getInt(4) == Instances.STATUS_CANCELED
-                    )
-                )
-            }
-        }
-        return instances.toSet()
-    }
-
-    // CONTEXT COMPAT
-
-    fun isReadCalendarPermitted(context: Context) =
-        ContextCompat.checkSelfPermission(context, Manifest.permission.READ_CALENDAR) == PackageManager.PERMISSION_GRANTED
 
     // ADD VISUAL COMPONENTS TO WIDGET
 

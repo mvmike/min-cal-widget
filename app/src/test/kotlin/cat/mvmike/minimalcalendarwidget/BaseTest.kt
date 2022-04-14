@@ -14,6 +14,7 @@ import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Transparency
 import cat.mvmike.minimalcalendarwidget.infrastructure.SystemResolver
 import cat.mvmike.minimalcalendarwidget.infrastructure.config.ClockConfig
 import cat.mvmike.minimalcalendarwidget.infrastructure.config.LocaleConfig
+import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.CalendarResolver
 import io.mockk.clearAllMocks
 import io.mockk.confirmVerified
 import io.mockk.every
@@ -54,6 +55,7 @@ open class BaseTest {
         mockkObject(
             ClockConfig,
             LocaleConfig,
+            CalendarResolver,
             SystemResolver
         )
     }
@@ -63,6 +65,7 @@ open class BaseTest {
         confirmVerified(
             ClockConfig,
             LocaleConfig,
+            CalendarResolver,
             SystemResolver,
             context,
             editor,
@@ -87,7 +90,7 @@ open class BaseTest {
     }
 
     protected fun mockIsReadCalendarPermitted(permitted: Boolean) {
-        every { SystemResolver.isReadCalendarPermitted(context) } returns permitted
+        every { CalendarResolver.isReadCalendarPermitted(context) } returns permitted
     }
 
     protected fun mockSharedPreferences() {

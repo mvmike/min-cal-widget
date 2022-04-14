@@ -10,6 +10,7 @@ import cat.mvmike.minimalcalendarwidget.infrastructure.SystemResolver
 import cat.mvmike.minimalcalendarwidget.infrastructure.activity.ConfigurationActivity
 import cat.mvmike.minimalcalendarwidget.infrastructure.activity.PermissionsActivity
 import cat.mvmike.minimalcalendarwidget.infrastructure.config.ClockConfig
+import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.CalendarResolver
 import io.mockk.justRun
 import io.mockk.verify
 import java.time.Instant.now
@@ -42,7 +43,7 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
 
         ProcessIntentUseCase.execute(context, action)
 
-        verify { SystemResolver.isReadCalendarPermitted(context) }
+        verify { CalendarResolver.isReadCalendarPermitted(context) }
         verify { SystemResolver.startActivity(context, PermissionsActivity::class.java) }
     }
 
@@ -53,7 +54,7 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
 
         ProcessIntentUseCase.execute(context, ActionableView.OPEN_CONFIGURATION.action)
 
-        verify { SystemResolver.isReadCalendarPermitted(context) }
+        verify { CalendarResolver.isReadCalendarPermitted(context) }
         verify { SystemResolver.startActivity(context, ConfigurationActivity::class.java) }
     }
 
@@ -67,7 +68,7 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
 
         ProcessIntentUseCase.execute(context, ActionableView.OPEN_CALENDAR.action)
 
-        verify { SystemResolver.isReadCalendarPermitted(context) }
+        verify { CalendarResolver.isReadCalendarPermitted(context) }
         verify { ClockConfig.getInstant() }
         verify { SystemResolver.startCalendarActivity(context, instant) }
     }
