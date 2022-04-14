@@ -8,6 +8,7 @@ import cat.mvmike.minimalcalendarwidget.R
 import cat.mvmike.minimalcalendarwidget.domain.Format
 import cat.mvmike.minimalcalendarwidget.infrastructure.SystemResolver
 import cat.mvmike.minimalcalendarwidget.infrastructure.config.ClockConfig
+import cat.mvmike.minimalcalendarwidget.infrastructure.config.LocaleConfig
 import io.mockk.confirmVerified
 import io.mockk.every
 import io.mockk.justRun
@@ -44,7 +45,7 @@ internal class DrawMonthAndYearHeaderUseCaseTest : BaseTest() {
 
         DrawMonthAndYearHeaderUseCase.execute(context, widgetRv, format)
 
-        verify { SystemResolver.getLocale(context) }
+        verify { LocaleConfig.getLocale(context) }
         verify { ClockConfig.getInstant() }
         verify { ClockConfig.getSystemZoneId() }
         verify { context.getString(month.getExpectedResourceId()) }

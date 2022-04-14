@@ -13,6 +13,7 @@ import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Transparency
 import cat.mvmike.minimalcalendarwidget.infrastructure.SystemResolver
 import cat.mvmike.minimalcalendarwidget.infrastructure.config.ClockConfig
+import cat.mvmike.minimalcalendarwidget.infrastructure.config.LocaleConfig
 import io.mockk.clearAllMocks
 import io.mockk.confirmVerified
 import io.mockk.every
@@ -52,6 +53,7 @@ open class BaseTest {
 
         mockkObject(
             ClockConfig,
+            LocaleConfig,
             SystemResolver
         )
     }
@@ -60,6 +62,7 @@ open class BaseTest {
     fun afterEach() {
         confirmVerified(
             ClockConfig,
+            LocaleConfig,
             SystemResolver,
             context,
             editor,
@@ -72,7 +75,7 @@ open class BaseTest {
     }
 
     protected fun mockGetSystemLocale(locale: Locale = Locale.ENGLISH) {
-        every { SystemResolver.getLocale(context) } returns locale
+        every { LocaleConfig.getLocale(context) } returns locale
     }
 
     protected fun mockGetSystemLocalDate() {

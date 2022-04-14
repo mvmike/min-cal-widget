@@ -27,32 +27,8 @@ import cat.mvmike.minimalcalendarwidget.domain.intent.AutoUpdate
 import java.time.Instant
 import java.time.Instant.ofEpochMilli
 import java.time.ZoneId
-import java.util.Locale
 
 object SystemResolver {
-
-    // LOCALE
-
-    private val supportedLocales: Set<Locale> = setOf(
-        Locale.ENGLISH,
-        Locale("ca"), // catalan
-        Locale("hr"), // croatian
-        Locale("nl"), // dutch
-        Locale("eo"), // esperanto
-        Locale("fr"), // french
-        Locale("de"), // german
-        Locale("lt"), // lithuanian
-        Locale("nb"), // norwegian
-        Locale("pl"), // polish
-        Locale("pt"), // portuguese
-        Locale("ru"), // russian
-        Locale("es") // spanish
-    )
-
-    fun getLocale(context: Context): Locale = context.resources.configuration.locales
-        .takeIf { !it.isEmpty }
-        ?.let { supportedLocales.firstOrNull { sl -> sl.language == it[0].language } }
-        ?: Locale.ENGLISH
 
     // INTENT
 

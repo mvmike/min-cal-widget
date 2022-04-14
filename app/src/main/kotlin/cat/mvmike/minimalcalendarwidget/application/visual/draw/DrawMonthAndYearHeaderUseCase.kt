@@ -8,6 +8,7 @@ import cat.mvmike.minimalcalendarwidget.R
 import cat.mvmike.minimalcalendarwidget.domain.Format
 import cat.mvmike.minimalcalendarwidget.infrastructure.SystemResolver
 import cat.mvmike.minimalcalendarwidget.infrastructure.config.ClockConfig
+import cat.mvmike.minimalcalendarwidget.infrastructure.config.LocaleConfig
 import java.time.Instant
 import java.time.Month
 import java.time.ZoneId
@@ -23,7 +24,7 @@ object DrawMonthAndYearHeaderUseCase {
     fun execute(context: Context, widgetRemoteView: RemoteViews, format: Format) {
         val systemInstant = ClockConfig.getInstant()
         val systemZoneId = ClockConfig.getSystemZoneId()
-        val locale = SystemResolver.getLocale(context)
+        val locale = LocaleConfig.getLocale(context)
         val displayMonth = format.getMonthHeaderLabel(systemInstant.toMonthDisplayValue(systemZoneId, context))
         val displayYear = systemInstant.toYearDisplayValue(locale, systemZoneId)
 
