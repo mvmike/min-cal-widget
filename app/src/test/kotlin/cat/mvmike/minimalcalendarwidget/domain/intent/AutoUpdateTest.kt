@@ -5,8 +5,8 @@ package cat.mvmike.minimalcalendarwidget.domain.intent
 import cat.mvmike.minimalcalendarwidget.BaseTest
 import cat.mvmike.minimalcalendarwidget.domain.intent.AutoUpdate.ALARM_ID
 import cat.mvmike.minimalcalendarwidget.domain.intent.AutoUpdate.INTERVAL_MILLIS
-import cat.mvmike.minimalcalendarwidget.infrastructure.SystemResolver
 import cat.mvmike.minimalcalendarwidget.infrastructure.config.ClockConfig
+import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.AlarmManagerResolver
 import io.mockk.justRun
 import io.mockk.verify
 import java.time.Instant
@@ -19,7 +19,7 @@ internal class AutoUpdateTest : BaseTest() {
         val instant = Instant.now()
         mockGetSystemInstant(instant)
         justRun {
-            SystemResolver.setRepeatingAlarm(
+            AlarmManagerResolver.setRepeatingAlarm(
                 context = context,
                 alarmId = ALARM_ID,
                 firstTriggerMillis = instant.toEpochMilli() + INTERVAL_MILLIS,
@@ -31,7 +31,7 @@ internal class AutoUpdateTest : BaseTest() {
 
         verify { ClockConfig.getInstant() }
         verify {
-            SystemResolver.setRepeatingAlarm(
+            AlarmManagerResolver.setRepeatingAlarm(
                 context = context,
                 alarmId = ALARM_ID,
                 firstTriggerMillis = instant.toEpochMilli() + INTERVAL_MILLIS,
@@ -43,7 +43,7 @@ internal class AutoUpdateTest : BaseTest() {
     @Test
     fun cancelAlarm_shouldCancelAlarm() {
         justRun {
-            SystemResolver.cancelRepeatingAlarm(
+            AlarmManagerResolver.cancelRepeatingAlarm(
                 context = context,
                 alarmId = ALARM_ID
             )
@@ -52,7 +52,7 @@ internal class AutoUpdateTest : BaseTest() {
         AutoUpdate.cancelAlarm(context)
 
         verify {
-            SystemResolver.cancelRepeatingAlarm(
+            AlarmManagerResolver.cancelRepeatingAlarm(
                 context = context,
                 alarmId = ALARM_ID
             )

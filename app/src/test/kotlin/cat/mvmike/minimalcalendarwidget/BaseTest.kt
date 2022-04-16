@@ -15,6 +15,7 @@ import cat.mvmike.minimalcalendarwidget.infrastructure.SystemResolver
 import cat.mvmike.minimalcalendarwidget.infrastructure.activity.CalendarActivity
 import cat.mvmike.minimalcalendarwidget.infrastructure.config.ClockConfig
 import cat.mvmike.minimalcalendarwidget.infrastructure.config.LocaleConfig
+import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.AlarmManagerResolver
 import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.CalendarResolver
 import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.GraphicResolver
 import io.mockk.clearAllMocks
@@ -60,6 +61,7 @@ open class BaseTest {
             CalendarResolver,
             GraphicResolver,
             CalendarActivity,
+            AlarmManagerResolver,
             SystemResolver
         )
     }
@@ -72,6 +74,7 @@ open class BaseTest {
             CalendarResolver,
             GraphicResolver,
             CalendarActivity,
+            AlarmManagerResolver,
             SystemResolver,
             context,
             editor,

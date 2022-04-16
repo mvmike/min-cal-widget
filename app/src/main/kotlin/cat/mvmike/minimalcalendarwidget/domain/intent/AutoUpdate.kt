@@ -3,8 +3,8 @@
 package cat.mvmike.minimalcalendarwidget.domain.intent
 
 import android.content.Context
-import cat.mvmike.minimalcalendarwidget.infrastructure.SystemResolver
 import cat.mvmike.minimalcalendarwidget.infrastructure.config.ClockConfig
+import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.AlarmManagerResolver
 
 object AutoUpdate {
 
@@ -18,7 +18,7 @@ object AutoUpdate {
         val currentMillis = ClockConfig.getInstant().toEpochMilli()
         val firstTriggerMillis = currentMillis + INTERVAL_MILLIS
 
-        SystemResolver.setRepeatingAlarm(
+        AlarmManagerResolver.setRepeatingAlarm(
             context = context,
             alarmId = ALARM_ID,
             firstTriggerMillis = firstTriggerMillis,
@@ -27,6 +27,6 @@ object AutoUpdate {
     }
 
     fun cancelAlarm(context: Context) {
-        SystemResolver.cancelRepeatingAlarm(context, ALARM_ID)
+        AlarmManagerResolver.cancelRepeatingAlarm(context, ALARM_ID)
     }
 }
