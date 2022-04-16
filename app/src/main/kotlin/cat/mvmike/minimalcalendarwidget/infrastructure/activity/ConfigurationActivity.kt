@@ -3,6 +3,7 @@
 package cat.mvmike.minimalcalendarwidget.infrastructure.activity
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.text.method.LinkMovementMethod
 import android.view.Window
@@ -19,12 +20,14 @@ import cat.mvmike.minimalcalendarwidget.domain.configuration.BooleanConfiguratio
 import cat.mvmike.minimalcalendarwidget.domain.configuration.Configuration
 import cat.mvmike.minimalcalendarwidget.domain.configuration.EnumConfiguration
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Transparency
-import cat.mvmike.minimalcalendarwidget.infrastructure.SystemResolver
 
 class ConfigurationActivity : AppCompatActivity() {
 
     companion object {
-        fun start(context: Context) = SystemResolver.startActivity(context, ConfigurationActivity::class.java)
+        fun start(context: Context) = context.startActivity(
+            Intent(context, ConfigurationActivity::class.java)
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        )
     }
 
     public override fun onCreate(savedInstanceState: Bundle?) {

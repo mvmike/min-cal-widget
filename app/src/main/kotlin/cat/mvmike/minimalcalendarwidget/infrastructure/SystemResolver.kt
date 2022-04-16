@@ -27,11 +27,4 @@ object SystemResolver {
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
     )
-
-    // ACTIVITY
-
-    fun <E> startActivity(context: Context, clazz: Class<E>) = context.startActivity(
-        Intent(context, clazz)
-            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-    )
 }

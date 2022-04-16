@@ -6,7 +6,6 @@ import android.appwidget.AppWidgetManager.ACTION_APPWIDGET_UPDATE
 import cat.mvmike.minimalcalendarwidget.BaseTest
 import cat.mvmike.minimalcalendarwidget.domain.intent.ActionableView
 import cat.mvmike.minimalcalendarwidget.domain.intent.AutoUpdate.ACTION_AUTO_UPDATE
-import cat.mvmike.minimalcalendarwidget.infrastructure.SystemResolver
 import cat.mvmike.minimalcalendarwidget.infrastructure.activity.CalendarActivity
 import cat.mvmike.minimalcalendarwidget.infrastructure.activity.ConfigurationActivity
 import cat.mvmike.minimalcalendarwidget.infrastructure.activity.PermissionsActivity
@@ -14,11 +13,11 @@ import cat.mvmike.minimalcalendarwidget.infrastructure.config.ClockConfig
 import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.CalendarResolver
 import io.mockk.justRun
 import io.mockk.verify
-import java.time.Instant.now
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.EnumSource
 import org.junit.jupiter.params.provider.ValueSource
+import java.time.Instant.now
 
 internal class ProcessIntentUseCaseTest : BaseTest() {
 
@@ -40,23 +39,23 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
         val action = actionableView.action
 
         mockIsReadCalendarPermitted(false)
-        justRun { SystemResolver.startActivity(context, PermissionsActivity::class.java) }
+        justRun { PermissionsActivity.Companion.start(context) }
 
         ProcessIntentUseCase.execute(context, action)
 
         verify { CalendarResolver.isReadCalendarPermitted(context) }
-        verify { SystemResolver.startActivity(context, PermissionsActivity::class.java) }
+        verify { PermissionsActivity.Companion.start(context) }
     }
 
     @Test
     fun shouldLaunchConfigurationActivity_whenOpenConfigurationIntentAndPermissionsGiven() {
         mockIsReadCalendarPermitted(true)
-        justRun { SystemResolver.startActivity(context, ConfigurationActivity::class.java) }
+        justRun { ConfigurationActivity.Companion.start(context) }
 
         ProcessIntentUseCase.execute(context, ActionableView.OPEN_CONFIGURATION.action)
 
         verify { CalendarResolver.isReadCalendarPermitted(context) }
-        verify { SystemResolver.startActivity(context, ConfigurationActivity::class.java) }
+        verify { ConfigurationActivity.Companion.start(context) }
     }
 
     @Test
