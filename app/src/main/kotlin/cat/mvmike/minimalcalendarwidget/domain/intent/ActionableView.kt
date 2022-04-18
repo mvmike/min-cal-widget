@@ -2,10 +2,12 @@
 // See LICENSE for licensing information
 package cat.mvmike.minimalcalendarwidget.domain.intent
 
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import android.widget.RemoteViews
+import cat.mvmike.minimalcalendarwidget.MonthWidget
 import cat.mvmike.minimalcalendarwidget.R
-import cat.mvmike.minimalcalendarwidget.infrastructure.SystemResolver
 
 enum class ActionableView(
     val viewId: Int,
@@ -24,11 +26,13 @@ enum class ActionableView(
     );
 
     fun addListener(context: Context, widgetRemoteView: RemoteViews) =
-        SystemResolver.setOnClickPendingIntent(
-            context = context,
-            widgetRemoteView = widgetRemoteView,
-            viewId = viewId,
-            code = code,
-            action = action
+        widgetRemoteView.setOnClickPendingIntent(
+            viewId,
+            PendingIntent.getBroadcast(
+                context,
+                code,
+                Intent(context, MonthWidget::class.java).setAction(action),
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            )
         )
 }

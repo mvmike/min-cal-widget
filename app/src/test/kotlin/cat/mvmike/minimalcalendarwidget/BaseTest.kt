@@ -11,7 +11,6 @@ import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Colour
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.SymbolSet
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Transparency
-import cat.mvmike.minimalcalendarwidget.infrastructure.SystemResolver
 import cat.mvmike.minimalcalendarwidget.infrastructure.activity.CalendarActivity
 import cat.mvmike.minimalcalendarwidget.infrastructure.activity.ConfigurationActivity
 import cat.mvmike.minimalcalendarwidget.infrastructure.activity.PermissionsActivity
@@ -65,8 +64,7 @@ open class BaseTest {
             CalendarActivity,
             ConfigurationActivity.Companion,
             PermissionsActivity.Companion,
-            AlarmManagerResolver,
-            SystemResolver
+            AlarmManagerResolver
         )
     }
 
@@ -79,7 +77,6 @@ open class BaseTest {
             GraphicResolver,
             CalendarActivity,
             AlarmManagerResolver,
-            SystemResolver,
             context,
             editor,
             sharedPreferences
