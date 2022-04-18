@@ -11,7 +11,13 @@ import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Colour
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.SymbolSet
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Transparency
-import cat.mvmike.minimalcalendarwidget.infrastructure.SystemResolver
+import cat.mvmike.minimalcalendarwidget.infrastructure.activity.CalendarActivity
+import cat.mvmike.minimalcalendarwidget.infrastructure.activity.ConfigurationActivity
+import cat.mvmike.minimalcalendarwidget.infrastructure.activity.PermissionsActivity
+import cat.mvmike.minimalcalendarwidget.infrastructure.config.ClockConfig
+import cat.mvmike.minimalcalendarwidget.infrastructure.config.LocaleConfig
+import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.CalendarResolver
+import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.GraphicResolver
 import io.mockk.clearAllMocks
 import io.mockk.confirmVerified
 import io.mockk.every
@@ -20,15 +26,15 @@ import io.mockk.mockk
 import io.mockk.mockkObject
 import io.mockk.unmockkAll
 import io.mockk.verify
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.TestInstance
 import java.time.DayOfWeek
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
 import java.util.Locale
 import java.util.TimeZone
-import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.TestInstance
 
 private const val PREFERENCES_ID: String = "mincal_prefs"
 
@@ -49,13 +55,27 @@ open class BaseTest {
         clearAllMocks()
         unmockkAll()
 
-        mockkObject(SystemResolver)
+        mockkObject(
+            ClockConfig,
+            LocaleConfig,
+            CalendarResolver,
+            GraphicResolver,
+            CalendarActivity,
+            ConfigurationActivity.Companion,
+            PermissionsActivity.Companion
+        )
     }
 
     @AfterEach
     fun afterEach() {
         confirmVerified(
-            SystemResolver,
+            ClockConfig,
+            LocaleConfig,
+            CalendarResolver,
+            GraphicResolver,
+            CalendarActivity,
+            ConfigurationActivity.Companion,
+            PermissionsActivity.Companion,
             context,
             editor,
             sharedPreferences
@@ -63,23 +83,23 @@ open class BaseTest {
     }
 
     protected fun mockGetSystemInstant(instant: Instant) {
-        every { SystemResolver.getInstant() } returns instant
+        every { ClockConfig.getInstant() } returns instant
     }
 
     protected fun mockGetSystemLocale(locale: Locale = Locale.ENGLISH) {
-        every { SystemResolver.getLocale(context) } returns locale
+        every { LocaleConfig.getLocale(context) } returns locale
     }
 
     protected fun mockGetSystemLocalDate() {
-        every { SystemResolver.getSystemLocalDate() } returns systemLocalDate
+        every { ClockConfig.getSystemLocalDate() } returns systemLocalDate
     }
 
     protected fun mockGetSystemZoneId() {
-        every { SystemResolver.getSystemZoneId() } returns zoneId
+        every { ClockConfig.getSystemZoneId() } returns zoneId
     }
 
     protected fun mockIsReadCalendarPermitted(permitted: Boolean) {
-        every { SystemResolver.isReadCalendarPermitted(context) } returns permitted
+        every { CalendarResolver.isReadCalendarPermitted(context) } returns permitted
     }
 
     protected fun mockSharedPreferences() {

@@ -10,19 +10,21 @@ import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Colour
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.SymbolSet
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Transparency
-import cat.mvmike.minimalcalendarwidget.domain.configuration.item.saturdayInMonthDarkThemeCellBackground
-import cat.mvmike.minimalcalendarwidget.domain.configuration.item.sundayInMonthDarkThemeCellBackground
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.cellViewId
-import cat.mvmike.minimalcalendarwidget.domain.configuration.item.todayDarkThemeCellBackground
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.darkThemeCellLayout
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.inMonthDarkThemeCellBackground
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.inMonthDarkThemeCellLayout
-import cat.mvmike.minimalcalendarwidget.domain.configuration.item.darkThemeCellLayout
-import cat.mvmike.minimalcalendarwidget.domain.configuration.item.todayDarkThemeCellLayout
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.saturdayDarkThemeCellBackground
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.saturdayInMonthDarkThemeCellBackground
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.sundayDarkThemeCellBackground
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.sundayInMonthDarkThemeCellBackground
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.todayDarkThemeCellBackground
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.todayDarkThemeCellLayout
 import cat.mvmike.minimalcalendarwidget.domain.entry.Day
 import cat.mvmike.minimalcalendarwidget.domain.entry.Instance
-import cat.mvmike.minimalcalendarwidget.infrastructure.SystemResolver
+import cat.mvmike.minimalcalendarwidget.infrastructure.config.ClockConfig
+import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.CalendarResolver
+import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.GraphicResolver
 import io.mockk.confirmVerified
 import io.mockk.every
 import io.mockk.justRun
@@ -67,7 +69,7 @@ internal class DrawDaysUseCaseTest : BaseTest() {
         val initEpochMillis = initLocalDate.atStartOfDay(zoneId).toInstant().toEpochMilli()
         val endEpochMillis = endLocalDate.atStartOfDay(zoneId).toInstant().toEpochMilli()
         mockGetSystemZoneId()
-        every { SystemResolver.getInstances(context, initEpochMillis, endEpochMillis) } returns getSystemInstances()
+        every { CalendarResolver.getInstances(context, initEpochMillis, endEpochMillis) } returns getSystemInstances()
 
         mockSharedPreferences()
         mockWidgetShowDeclinedEvents()
@@ -78,10 +80,10 @@ internal class DrawDaysUseCaseTest : BaseTest() {
         mockInstancesSymbolSet(SymbolSet.MINIMAL)
         mockInstancesColour(Colour.CYAN)
 
-        every { SystemResolver.createDaysRow(context) } returns rowRv
+        every { GraphicResolver.createDaysRow(context) } returns rowRv
 
-        every { SystemResolver.getColour(context, instancesColourTodayId) } returns instancesColourTodayId
-        every { SystemResolver.getColour(context, instancesColourId) } returns instancesColourId
+        every { GraphicResolver.getColour(context, instancesColourTodayId) } returns instancesColourTodayId
+        every { GraphicResolver.getColour(context, instancesColourId) } returns instancesColourId
 
         val expectedBackground = Random().nextInt()
         listOf(
@@ -92,20 +94,20 @@ internal class DrawDaysUseCaseTest : BaseTest() {
             saturdayDarkThemeCellBackground,
             sundayDarkThemeCellBackground
         ).forEach {
-            every { SystemResolver.getColourAsString(context, it) } returns dayCellTransparentBackground
+            every { GraphicResolver.getColourAsString(context, it) } returns dayCellTransparentBackground
         }
-        every { SystemResolver.parseColour(dayCellModerateTransparentBackgroundInHex) } returns expectedBackground
-        every { SystemResolver.parseColour(dayCellLowTransparentBackgroundInHex) } returns expectedBackground
+        every { GraphicResolver.parseColour(dayCellModerateTransparentBackgroundInHex) } returns expectedBackground
+        every { GraphicResolver.parseColour(dayCellLowTransparentBackgroundInHex) } returns expectedBackground
 
-        justRun { SystemResolver.addToDaysRow(context, rowRv, any(), any(), any(), any(), any(), any(), any(), any(), any()) }
-        justRun { SystemResolver.addToWidget(widgetRv, rowRv) }
+        justRun { GraphicResolver.addToDaysRow(context, rowRv, any(), any(), any(), any(), any(), any(), any(), any(), any()) }
+        justRun { GraphicResolver.addToWidget(widgetRv, rowRv) }
 
         DrawDaysUseCase.execute(context, widgetRv, format)
 
-        verify { SystemResolver.getSystemLocalDate() }
-        verify { SystemResolver.isReadCalendarPermitted(context) }
-        verify { SystemResolver.getSystemZoneId() }
-        verify { SystemResolver.getInstances(context, initEpochMillis, endEpochMillis) }
+        verify { ClockConfig.getSystemLocalDate() }
+        verify { CalendarResolver.isReadCalendarPermitted(context) }
+        verify { ClockConfig.getSystemZoneId() }
+        verify { CalendarResolver.getInstances(context, initEpochMillis, endEpochMillis) }
 
         verifyWidgetShowDeclinedEvents()
         verifyWidgetTransparency()
@@ -115,12 +117,12 @@ internal class DrawDaysUseCaseTest : BaseTest() {
         verifyInstancesSymbolSet()
         verifyInstancesColour()
 
-        verify(exactly = 6) { SystemResolver.createDaysRow(context) }
+        verify(exactly = 6) { GraphicResolver.createDaysRow(context) }
 
         getDrawDaysUseCaseTestProperties().forEach { dayUseCaseTest ->
 
             verify {
-                SystemResolver.getColour(
+                GraphicResolver.getColour(
                     context, when {
                         dayUseCaseTest.isToday -> instancesColourTodayId
                         else -> instancesColourId
@@ -129,11 +131,11 @@ internal class DrawDaysUseCaseTest : BaseTest() {
             }
             dayUseCaseTest.dayBackgroundColour?.let {
                 verify {
-                    SystemResolver.getColourAsString(context, dayUseCaseTest.dayBackgroundColour)
+                    GraphicResolver.getColourAsString(context, dayUseCaseTest.dayBackgroundColour)
                     when (dayUseCaseTest.dayBackgroundColour) {
                         saturdayInMonthDarkThemeCellBackground,
-                        sundayInMonthDarkThemeCellBackground -> SystemResolver.parseColour(dayCellModerateTransparentBackgroundInHex)
-                        inMonthDarkThemeCellBackground -> SystemResolver.parseColour(dayCellLowTransparentBackgroundInHex)
+                        sundayInMonthDarkThemeCellBackground -> GraphicResolver.parseColour(dayCellModerateTransparentBackgroundInHex)
+                        inMonthDarkThemeCellBackground -> GraphicResolver.parseColour(dayCellLowTransparentBackgroundInHex)
                         else -> {}
                     }
 
@@ -141,7 +143,7 @@ internal class DrawDaysUseCaseTest : BaseTest() {
             }
 
             verifyOrder {
-                SystemResolver.addToDaysRow(
+                GraphicResolver.addToDaysRow(
                     context = context,
                     weekRow = rowRv,
                     dayLayout = dayUseCaseTest.dayLayout,
@@ -156,7 +158,7 @@ internal class DrawDaysUseCaseTest : BaseTest() {
                 )
             }
         }
-        verify(exactly = 6) { SystemResolver.addToWidget(widgetRv, rowRv) }
+        verify(exactly = 6) { GraphicResolver.addToWidget(widgetRv, rowRv) }
         confirmVerified(widgetRv, rowRv)
     }
 

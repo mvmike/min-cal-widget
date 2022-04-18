@@ -7,17 +7,17 @@ import cat.mvmike.minimalcalendarwidget.BaseTest
 import cat.mvmike.minimalcalendarwidget.R
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Transparency
-import cat.mvmike.minimalcalendarwidget.infrastructure.SystemResolver
+import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.GraphicResolver
 import io.mockk.confirmVerified
 import io.mockk.every
 import io.mockk.justRun
 import io.mockk.mockk
 import io.mockk.verify
-import java.util.Random
-import java.util.stream.Stream
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
+import java.util.Random
+import java.util.stream.Stream
 
 private const val darkThemeMainLayout = 2131034144
 private const val lightThemeMainLayout = 2131034145
@@ -32,14 +32,14 @@ internal class DrawWidgetLayoutTest : BaseTest() {
         mockSharedPreferences()
         mockWidgetTheme(theme)
         mockWidgetTransparency(transparency)
-        every { SystemResolver.getColourAsString(context, mainLayout) } returns "expectedMainLayout"
+        every { GraphicResolver.getColourAsString(context, mainLayout) } returns "expectedMainLayout"
 
         val layoutWithTransparency = Random().nextInt()
         val mainLayoutWithTransparency = "#${expectedMainLayoutHexTransparency}Layout"
-        every { SystemResolver.parseColour(mainLayoutWithTransparency) } returns layoutWithTransparency
+        every { GraphicResolver.parseColour(mainLayoutWithTransparency) } returns layoutWithTransparency
 
         justRun {
-            SystemResolver.setBackgroundColor(
+            GraphicResolver.setBackgroundColor(
                 remoteViews = widgetRv,
                 viewId = R.id.widget_layout,
                 colour = layoutWithTransparency
@@ -49,7 +49,7 @@ internal class DrawWidgetLayoutTest : BaseTest() {
         DrawWidgetLayout.execute(context, widgetRv)
 
         verify {
-            SystemResolver.setBackgroundColor(
+            GraphicResolver.setBackgroundColor(
                 remoteViews = widgetRv,
                 viewId = R.id.widget_layout,
                 colour = layoutWithTransparency
@@ -58,8 +58,8 @@ internal class DrawWidgetLayoutTest : BaseTest() {
 
         verifyWidgetTheme()
         verifyWidgetTransparency()
-        verify { SystemResolver.getColourAsString(context, mainLayout) }
-        verify { SystemResolver.parseColour(mainLayoutWithTransparency) }
+        verify { GraphicResolver.getColourAsString(context, mainLayout) }
+        verify { GraphicResolver.parseColour(mainLayoutWithTransparency) }
         confirmVerified(widgetRv)
     }
 

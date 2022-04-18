@@ -2,7 +2,7 @@
 // See LICENSE for licensing information
 package cat.mvmike.minimalcalendarwidget.domain.configuration.item
 
-import cat.mvmike.minimalcalendarwidget.infrastructure.SystemResolver
+import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.GraphicResolver
 import java.util.Locale
 
 // ranges from 0 (fully transparent) to 255 (fully opaque)
@@ -55,6 +55,6 @@ enum class TransparencyRange(
 internal fun String.withTransparency(
     transparency: Transparency,
     transparencyRange: TransparencyRange
-) = SystemResolver.parseColour("#${transparency.getAlphaInHex(transparencyRange)}${this.takeLast(6)}")
+) = GraphicResolver.parseColour("#${transparency.getAlphaInHex(transparencyRange)}${this.takeLast(6)}")
 
 
