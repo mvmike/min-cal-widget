@@ -1,7 +1,7 @@
 buildscript {
 
     //https://kotlinlang.org/releases.html
-    val kotlinVersion by extra { "1.6.20" }
+    val kotlinVersion by extra { "1.6.21" }
 
     dependencies {
         //https://developer.android.com/studio/releases/gradle-plugin
