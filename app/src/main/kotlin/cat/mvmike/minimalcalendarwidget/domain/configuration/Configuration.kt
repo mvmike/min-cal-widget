@@ -42,7 +42,7 @@ sealed class BooleanConfiguration(
     override val key: String,
     override val resource: Int,
     override val defaultValue: Boolean,
-): Configuration<Boolean>(
+) : Configuration<Boolean>(
     key = key,
     resource = resource,
     defaultValue = defaultValue
@@ -71,7 +71,7 @@ sealed class EnumConfiguration<E : Enum<E>>(
     override val resource: Int,
     override val defaultValue: E,
     private val enumClass: Class<E>
-): Configuration<E>(
+) : Configuration<E>(
     key = key,
     resource = resource,
     defaultValue = defaultValue
