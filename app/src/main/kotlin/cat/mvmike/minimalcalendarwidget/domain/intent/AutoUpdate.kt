@@ -13,9 +13,9 @@ object AutoUpdate {
 
     const val ACTION_AUTO_UPDATE = "cat.mvmike.minimalcalendarwidget.AUTO_UPDATE"
 
-    const val ALARM_ID = 859345
+    private const val ALARM_ID = 859345
 
-    const val INTERVAL_MILLIS = 900000L // 1000*60*15 === 15'
+    private const val INTERVAL_MILLIS = 900000L // 1000*60*15 === 15'
 
     fun setAlarm(context: Context) {
         val currentMillis = ClockConfig.getInstant().toEpochMilli()
