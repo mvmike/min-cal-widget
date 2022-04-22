@@ -3,14 +3,14 @@
 package cat.mvmike.minimalcalendarwidget.domain.configuration.item
 
 import cat.mvmike.minimalcalendarwidget.BaseTest
-import java.util.stream.Stream
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.MethodSource
 import org.junit.jupiter.params.provider.ValueSource
+import java.util.stream.Stream
 
-internal class TransparencyTest: BaseTest() {
+internal class TransparencyTest : BaseTest() {
 
     @ParameterizedTest
     @ValueSource(ints = [Integer.MIN_VALUE, -1, 101, Integer.MAX_VALUE])

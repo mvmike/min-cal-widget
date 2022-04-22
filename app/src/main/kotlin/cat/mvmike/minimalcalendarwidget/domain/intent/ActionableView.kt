@@ -36,3 +36,8 @@ enum class ActionableView(
             )
         )
 }
+
+fun addAllListeners(context: Context, widgetRemoteView: RemoteViews) =
+    ActionableView.values().forEach {
+        it.addListener(context, widgetRemoteView)
+    }

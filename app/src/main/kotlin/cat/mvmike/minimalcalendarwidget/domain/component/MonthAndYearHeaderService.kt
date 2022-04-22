@@ -1,6 +1,6 @@
 // Copyright (c) 2016, Miquel Martí <miquelmarti111@gmail.com>
 // See LICENSE for licensing information
-package cat.mvmike.minimalcalendarwidget.application.visual.draw
+package cat.mvmike.minimalcalendarwidget.domain.component
 
 import android.content.Context
 import android.widget.RemoteViews
@@ -15,13 +15,13 @@ import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
-object DrawMonthAndYearHeaderUseCase {
+object MonthAndYearHeaderService {
 
     private const val YEAR_FORMAT = "yyyy"
 
     private const val HEADER_RELATIVE_YEAR_SIZE = 0.7f
 
-    fun execute(context: Context, widgetRemoteView: RemoteViews, format: Format) {
+    fun draw(context: Context, widgetRemoteView: RemoteViews, format: Format) {
         val systemInstant = ClockConfig.getInstant()
         val systemZoneId = ClockConfig.getSystemZoneId()
         val locale = LocaleConfig.getLocale(context)

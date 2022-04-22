@@ -3,12 +3,12 @@
 package cat.mvmike.minimalcalendarwidget.domain.configuration.item
 
 import cat.mvmike.minimalcalendarwidget.BaseTest
-import java.time.DayOfWeek
-import java.util.stream.Stream
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
+import java.time.DayOfWeek
+import java.util.stream.Stream
 
 const val cellViewId = 16908308
 
@@ -34,7 +34,7 @@ private const val inMonthLightThemeCellBackground = 2131034161
 private const val inMonthLightThemeCellLayout = 2131427364
 private const val lightThemeCellLayout = 2131427363
 
-internal class ThemeTest: BaseTest() {
+internal class ThemeTest : BaseTest() {
 
     @ParameterizedTest
     @MethodSource("getCombinationOfThemesAndDaysOfWeek")

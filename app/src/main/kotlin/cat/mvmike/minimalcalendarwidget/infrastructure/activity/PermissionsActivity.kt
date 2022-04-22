@@ -8,7 +8,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import androidx.core.app.ActivityCompat
-import cat.mvmike.minimalcalendarwidget.MonthWidget
+import cat.mvmike.minimalcalendarwidget.application.RedrawWidgetUseCase
 
 private const val READ_CALENDAR_PERM = 225
 
@@ -30,7 +30,7 @@ class PermissionsActivity : Activity() {
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         if (requestCode.isReadCalendarPermission() && grantResults.isPermissionGranted()) {
             setResult(RESULT_OK)
-            MonthWidget.redraw(this)
+            RedrawWidgetUseCase.execute(this)
         }
         finish()
     }

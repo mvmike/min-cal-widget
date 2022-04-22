@@ -106,7 +106,7 @@ open class BaseTest {
         every { context.getSharedPreferences(PREFERENCES_ID, Context.MODE_PRIVATE) } returns sharedPreferences
         every { sharedPreferences.edit() } returns editor
         every { editor.putString(any(), any()) } returns editor
-        every { editor.putInt(any(), any()) } returns  editor
+        every { editor.putInt(any(), any()) } returns editor
         every { editor.clear() } returns editor
         every { editor.commit() } returns true
         justRun { editor.apply() }

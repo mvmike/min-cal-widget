@@ -1,6 +1,6 @@
 // Copyright (c) 2016, Miquel Martí <miquelmarti111@gmail.com>
 // See LICENSE for licensing information
-package cat.mvmike.minimalcalendarwidget.application.visual.draw
+package cat.mvmike.minimalcalendarwidget.domain.component
 
 import android.widget.RemoteViews
 import cat.mvmike.minimalcalendarwidget.BaseTest
@@ -22,7 +22,7 @@ import java.util.stream.Stream
 private const val darkThemeMainLayout = 2131034144
 private const val lightThemeMainLayout = 2131034145
 
-internal class DrawWidgetLayoutTest : BaseTest() {
+internal class LayoutServiceTest : BaseTest() {
 
     private val widgetRv = mockk<RemoteViews>()
 
@@ -46,7 +46,7 @@ internal class DrawWidgetLayoutTest : BaseTest() {
             )
         }
 
-        DrawWidgetLayout.execute(context, widgetRv)
+        LayoutService.draw(context, widgetRv)
 
         verify {
             GraphicResolver.setBackgroundColor(

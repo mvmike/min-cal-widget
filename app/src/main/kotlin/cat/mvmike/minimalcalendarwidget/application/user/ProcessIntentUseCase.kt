@@ -1,8 +1,9 @@
 // Copyright (c) 2016, Miquel Martí <miquelmarti111@gmail.com>
 // See LICENSE for licensing information
-package cat.mvmike.minimalcalendarwidget.application.action.user
+package cat.mvmike.minimalcalendarwidget.application.user
 
 import android.content.Context
+import cat.mvmike.minimalcalendarwidget.application.RedrawWidgetUseCase
 import cat.mvmike.minimalcalendarwidget.domain.intent.ActionableView
 import cat.mvmike.minimalcalendarwidget.infrastructure.activity.CalendarActivity
 import cat.mvmike.minimalcalendarwidget.infrastructure.activity.ConfigurationActivity
@@ -12,15 +13,20 @@ import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.CalendarResolver
 
 object ProcessIntentUseCase {
 
-    fun execute(context: Context, action: String?) = when (action) {
-        ActionableView.OPEN_CONFIGURATION.action -> context.askForPermissionsOrElse { ConfigurationActivity.start(context) }
-        ActionableView.OPEN_CALENDAR.action -> context.askForPermissionsOrElse { CalendarActivity.start(context, ClockConfig.getInstant()) }
-        else -> {}
+    fun execute(context: Context, action: String?) {
+        when (action) {
+            ActionableView.OPEN_CONFIGURATION.action -> context.executeAndRedrawOrAskForPermissions { ConfigurationActivity.start(context) }
+            ActionableView.OPEN_CALENDAR.action -> context.executeAndRedrawOrAskForPermissions { CalendarActivity.start(context, ClockConfig.getInstant()) }
+            else -> {}
+        }
     }
 
-    private fun Context.askForPermissionsOrElse(function: () -> Unit) =
+    private fun Context.executeAndRedrawOrAskForPermissions(function: () -> Unit) =
         when (CalendarResolver.isReadCalendarPermitted(this)) {
-            true -> function.invoke()
+            true -> {
+                function.invoke()
+                RedrawWidgetUseCase.execute(this)
+            }
             else -> PermissionsActivity.start(this)
         }
 }

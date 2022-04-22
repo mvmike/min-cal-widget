@@ -1,10 +1,12 @@
 // Copyright (c) 2016, Miquel Martí <miquelmarti111@gmail.com>
 // See LICENSE for licensing information
-package cat.mvmike.minimalcalendarwidget.application.visual.draw
+package cat.mvmike.minimalcalendarwidget.domain.component
 
 import android.content.Context
 import android.widget.RemoteViews
+import cat.mvmike.minimalcalendarwidget.domain.Day
 import cat.mvmike.minimalcalendarwidget.domain.Format
+import cat.mvmike.minimalcalendarwidget.domain.Instance
 import cat.mvmike.minimalcalendarwidget.domain.configuration.BooleanConfiguration
 import cat.mvmike.minimalcalendarwidget.domain.configuration.Configuration
 import cat.mvmike.minimalcalendarwidget.domain.configuration.EnumConfiguration
@@ -12,9 +14,7 @@ import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Colour
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.SymbolSet
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.TransparencyRange
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.withTransparency
-import cat.mvmike.minimalcalendarwidget.domain.entry.Day
-import cat.mvmike.minimalcalendarwidget.domain.entry.Instance
-import cat.mvmike.minimalcalendarwidget.domain.entry.getInstances
+import cat.mvmike.minimalcalendarwidget.domain.getInstances
 import cat.mvmike.minimalcalendarwidget.infrastructure.config.ClockConfig
 import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.GraphicResolver
 import java.time.DayOfWeek
@@ -22,7 +22,7 @@ import java.time.LocalDate
 import java.time.temporal.ChronoField
 import java.time.temporal.ChronoUnit
 
-object DrawDaysUseCase {
+object DaysService {
 
     private const val PADDING: String = " "
 
@@ -34,10 +34,10 @@ object DrawDaysUseCase {
 
     private const val INSTANCES_QUERY_DAYS_SPAN = 45L
 
-    fun execute(context: Context, widgetRemoteView: RemoteViews, format: Format) {
+    fun draw(context: Context, widgetRemoteView: RemoteViews, format: Format) {
         val systemLocalDate: LocalDate = ClockConfig.getSystemLocalDate()
         val firstDayOfWeek = EnumConfiguration.FirstDayOfWeek.get(context)
-        val initialLocalDate = when(BooleanConfiguration.WidgetFocusOnCurrentWeek.get(context)) {
+        val initialLocalDate = when (BooleanConfiguration.WidgetFocusOnCurrentWeek.get(context)) {
             true -> getFocusedOnCurrentWeekInitialLocalDate(systemLocalDate, firstDayOfWeek)
             else -> getNaturalMonthInitialLocalDate(systemLocalDate, firstDayOfWeek)
         }

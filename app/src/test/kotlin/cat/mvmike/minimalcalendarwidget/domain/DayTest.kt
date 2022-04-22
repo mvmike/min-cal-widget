@@ -1,14 +1,14 @@
 // Copyright (c) 2016, Miquel Martí <miquelmarti111@gmail.com>
 // See LICENSE for licensing information
-package cat.mvmike.minimalcalendarwidget.domain.entry
+package cat.mvmike.minimalcalendarwidget.domain
 
 import cat.mvmike.minimalcalendarwidget.BaseTest
-import java.time.DayOfWeek
-import java.time.LocalDate
-import java.util.stream.Stream
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.MethodSource
+import java.time.DayOfWeek
+import java.time.LocalDate
+import java.util.stream.Stream
 
 internal class DayTest : BaseTest() {
 

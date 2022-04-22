@@ -14,8 +14,8 @@ import android.widget.SeekBar
 import android.widget.Spinner
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import cat.mvmike.minimalcalendarwidget.MonthWidget
 import cat.mvmike.minimalcalendarwidget.R
+import cat.mvmike.minimalcalendarwidget.application.RedrawWidgetUseCase
 import cat.mvmike.minimalcalendarwidget.domain.configuration.BooleanConfiguration
 import cat.mvmike.minimalcalendarwidget.domain.configuration.Configuration
 import cat.mvmike.minimalcalendarwidget.domain.configuration.EnumConfiguration
@@ -62,7 +62,7 @@ class ConfigurationActivity : AppCompatActivity() {
         enumConfigurationItems().forEach {
             it.resource.getSpinner().setSelection(it.get(applicationContext).ordinal)
         }
-        booleanConfigurationItems().forEach{
+        booleanConfigurationItems().forEach {
             it.resource.getCheckBox().isChecked = it.get(applicationContext)
         }
         Configuration.WidgetTransparency.resource.getSeekBar().progress =
@@ -76,7 +76,7 @@ class ConfigurationActivity : AppCompatActivity() {
                 it.resource.getSpinner().selectedItemPosition
             )
         }
-        booleanConfigurationItems().forEach{
+        booleanConfigurationItems().forEach {
             it.set(
                 applicationContext,
                 it.resource.getCheckBox().isChecked
@@ -87,7 +87,7 @@ class ConfigurationActivity : AppCompatActivity() {
             Transparency(Configuration.WidgetTransparency.resource.getSeekBar().progress)
         )
 
-        MonthWidget.redraw(applicationContext)
+        RedrawWidgetUseCase.execute(applicationContext)
     }
 
     private fun Int.getSpinner() = findViewById<Spinner>(this)

@@ -11,7 +11,7 @@ import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Transparency
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.getColourDisplayValues
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.getSymbolSetDisplayValues
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.getThemeDisplayValues
-import cat.mvmike.minimalcalendarwidget.domain.entry.getDayOfWeekDisplayValues
+import cat.mvmike.minimalcalendarwidget.domain.getDayOfWeekDisplayValues
 import java.lang.Enum.valueOf
 import java.time.DayOfWeek
 

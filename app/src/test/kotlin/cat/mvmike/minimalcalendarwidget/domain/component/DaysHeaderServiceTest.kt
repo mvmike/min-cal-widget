@@ -1,6 +1,6 @@
 // Copyright (c) 2016, Miquel Martí <miquelmarti111@gmail.com>
 // See LICENSE for licensing information
-package cat.mvmike.minimalcalendarwidget.application.visual.draw
+package cat.mvmike.minimalcalendarwidget.domain.component
 
 import android.widget.RemoteViews
 import cat.mvmike.minimalcalendarwidget.BaseTest
@@ -33,7 +33,7 @@ import java.time.DayOfWeek.TUESDAY
 import java.time.DayOfWeek.WEDNESDAY
 import java.util.stream.Stream
 
-internal class DrawDaysHeaderUseCaseTest : BaseTest() {
+internal class DaysHeaderServiceTest : BaseTest() {
 
     private val widgetRv = mockk<RemoteViews>()
 
@@ -62,7 +62,7 @@ internal class DrawDaysHeaderUseCaseTest : BaseTest() {
         justRun { GraphicResolver.addToDaysHeaderRow(context, daysHeaderRowRv, any(), any(), any(), any()) }
         justRun { GraphicResolver.addToWidget(widgetRv, daysHeaderRowRv) }
 
-        DrawDaysHeaderUseCase.execute(context, widgetRv, format)
+        DaysHeaderService.draw(context, widgetRv, format)
 
         verifyWidgetTransparency()
         verifyFirstDayOfWeek()

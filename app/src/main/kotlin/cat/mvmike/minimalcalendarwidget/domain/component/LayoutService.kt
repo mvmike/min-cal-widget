@@ -1,6 +1,6 @@
 // Copyright (c) 2016, Miquel Martí <miquelmarti111@gmail.com>
 // See LICENSE for licensing information
-package cat.mvmike.minimalcalendarwidget.application.visual.draw
+package cat.mvmike.minimalcalendarwidget.domain.component
 
 import android.content.Context
 import android.widget.RemoteViews
@@ -11,9 +11,9 @@ import cat.mvmike.minimalcalendarwidget.domain.configuration.item.TransparencyRa
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.withTransparency
 import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.GraphicResolver
 
-object DrawWidgetLayout {
+object LayoutService {
 
-    fun execute(context: Context, widgetRemoteView: RemoteViews) {
+    fun draw(context: Context, widgetRemoteView: RemoteViews) {
         val theme = EnumConfiguration.WidgetTheme.get(context)
         val backgroundColour = GraphicResolver.getColourAsString(context, theme.mainBackground)
         val transparency = Configuration.WidgetTransparency.get(context)

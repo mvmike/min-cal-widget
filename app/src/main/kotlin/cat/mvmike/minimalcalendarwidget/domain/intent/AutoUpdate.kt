@@ -17,7 +17,7 @@ object AutoUpdate {
 
     private const val INTERVAL_MILLIS = 900000L // 1000*60*15 === 15'
 
-    fun setAlarm(context: Context) {
+    fun set(context: Context) {
         val currentMillis = ClockConfig.getInstant().toEpochMilli()
         val firstTriggerMillis = currentMillis + INTERVAL_MILLIS
 
@@ -34,7 +34,7 @@ object AutoUpdate {
         )
     }
 
-    fun cancelAlarm(context: Context) = context.getAlarmManager().cancel(
+    fun cancel(context: Context) = context.getAlarmManager().cancel(
         PendingIntent.getBroadcast(
             context,
             ALARM_ID,

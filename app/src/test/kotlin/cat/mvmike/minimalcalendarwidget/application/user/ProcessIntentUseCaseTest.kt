@@ -1,9 +1,10 @@
 // Copyright (c) 2016, Miquel Martí <miquelmarti111@gmail.com>
 // See LICENSE for licensing information
-package cat.mvmike.minimalcalendarwidget.application.action.user
+package cat.mvmike.minimalcalendarwidget.application.user
 
 import android.appwidget.AppWidgetManager.ACTION_APPWIDGET_UPDATE
 import cat.mvmike.minimalcalendarwidget.BaseTest
+import cat.mvmike.minimalcalendarwidget.application.RedrawWidgetUseCase
 import cat.mvmike.minimalcalendarwidget.domain.intent.ActionableView
 import cat.mvmike.minimalcalendarwidget.domain.intent.AutoUpdate.ACTION_AUTO_UPDATE
 import cat.mvmike.minimalcalendarwidget.infrastructure.activity.CalendarActivity
@@ -12,6 +13,7 @@ import cat.mvmike.minimalcalendarwidget.infrastructure.activity.PermissionsActiv
 import cat.mvmike.minimalcalendarwidget.infrastructure.config.ClockConfig
 import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.CalendarResolver
 import io.mockk.justRun
+import io.mockk.mockkObject
 import io.mockk.verify
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
@@ -50,12 +52,16 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
     @Test
     fun shouldLaunchConfigurationActivity_whenOpenConfigurationIntentAndPermissionsGiven() {
         mockIsReadCalendarPermitted(true)
+        mockkObject(RedrawWidgetUseCase)
+
         justRun { ConfigurationActivity.Companion.start(context) }
+        justRun { RedrawWidgetUseCase.execute(context) }
 
         ProcessIntentUseCase.execute(context, ActionableView.OPEN_CONFIGURATION.action)
 
         verify { CalendarResolver.isReadCalendarPermitted(context) }
         verify { ConfigurationActivity.Companion.start(context) }
+        verify { RedrawWidgetUseCase.execute(context) }
     }
 
     @Test
@@ -63,13 +69,16 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
         val instant = now()
         mockIsReadCalendarPermitted(true)
         mockGetSystemInstant(instant)
+        mockkObject(RedrawWidgetUseCase)
 
         justRun { CalendarActivity.start(context, instant) }
+        justRun { RedrawWidgetUseCase.execute(context) }
 
         ProcessIntentUseCase.execute(context, ActionableView.OPEN_CALENDAR.action)
 
         verify { CalendarResolver.isReadCalendarPermitted(context) }
         verify { ClockConfig.getInstant() }
         verify { CalendarActivity.start(context, instant) }
+        verify { RedrawWidgetUseCase.execute(context) }
     }
 }

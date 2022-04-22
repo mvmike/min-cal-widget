@@ -1,11 +1,13 @@
 // Copyright (c) 2016, Miquel Martí <miquelmarti111@gmail.com>
 // See LICENSE for licensing information
-package cat.mvmike.minimalcalendarwidget.application.visual.draw
+package cat.mvmike.minimalcalendarwidget.domain.component
 
 import android.widget.RemoteViews
 import cat.mvmike.minimalcalendarwidget.BaseTest
-import cat.mvmike.minimalcalendarwidget.application.visual.draw.DrawDaysUseCase.getNumberOfInstances
+import cat.mvmike.minimalcalendarwidget.domain.Day
 import cat.mvmike.minimalcalendarwidget.domain.Format
+import cat.mvmike.minimalcalendarwidget.domain.Instance
+import cat.mvmike.minimalcalendarwidget.domain.component.DaysService.getNumberOfInstances
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Colour
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.SymbolSet
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
@@ -20,8 +22,6 @@ import cat.mvmike.minimalcalendarwidget.domain.configuration.item.sundayDarkThem
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.sundayInMonthDarkThemeCellBackground
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.todayDarkThemeCellBackground
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.todayDarkThemeCellLayout
-import cat.mvmike.minimalcalendarwidget.domain.entry.Day
-import cat.mvmike.minimalcalendarwidget.domain.entry.Instance
 import cat.mvmike.minimalcalendarwidget.infrastructure.config.ClockConfig
 import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.CalendarResolver
 import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.GraphicResolver
@@ -51,7 +51,7 @@ private const val dayCellTransparentBackground = "transparentBackground"
 private const val dayCellModerateTransparentBackgroundInHex = "#40ground"
 private const val dayCellLowTransparentBackgroundInHex = "#18ground"
 
-internal class DrawDaysUseCaseTest : BaseTest() {
+internal class DaysServiceTest : BaseTest() {
 
     private val widgetRv = mockk<RemoteViews>()
 
@@ -102,7 +102,7 @@ internal class DrawDaysUseCaseTest : BaseTest() {
         justRun { GraphicResolver.addToDaysRow(context, rowRv, any(), any(), any(), any(), any(), any(), any(), any(), any()) }
         justRun { GraphicResolver.addToWidget(widgetRv, rowRv) }
 
-        DrawDaysUseCase.execute(context, widgetRv, format)
+        DaysService.draw(context, widgetRv, format)
 
         verify { ClockConfig.getSystemLocalDate() }
         verify { CalendarResolver.isReadCalendarPermitted(context) }
@@ -169,7 +169,7 @@ internal class DrawDaysUseCaseTest : BaseTest() {
         firstDayOfWeek: DayOfWeek,
         expectedInitialLocalDate: LocalDate
     ) {
-        val result = DrawDaysUseCase.getFocusedOnCurrentWeekInitialLocalDate(systemLocalDate, firstDayOfWeek)
+        val result = DaysService.getFocusedOnCurrentWeekInitialLocalDate(systemLocalDate, firstDayOfWeek)
 
         assertThat(result).isEqualTo(expectedInitialLocalDate)
     }
@@ -181,7 +181,7 @@ internal class DrawDaysUseCaseTest : BaseTest() {
         firstDayOfWeek: DayOfWeek,
         expectedInitialLocalDate: LocalDate
     ) {
-        val result = DrawDaysUseCase.getNaturalMonthInitialLocalDate(systemLocalDate, firstDayOfWeek)
+        val result = DaysService.getNaturalMonthInitialLocalDate(systemLocalDate, firstDayOfWeek)
 
         assertThat(result).isEqualTo(expectedInitialLocalDate)
     }

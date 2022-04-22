@@ -5,7 +5,7 @@ package cat.mvmike.minimalcalendarwidget.infrastructure.receiver
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import cat.mvmike.minimalcalendarwidget.MonthWidget
+import cat.mvmike.minimalcalendarwidget.application.RedrawWidgetUseCase
 
 class CalendarChangeReceiver : BroadcastReceiver() {
 
@@ -13,7 +13,7 @@ class CalendarChangeReceiver : BroadcastReceiver() {
         Intent.ACTION_TIME_CHANGED,
         Intent.ACTION_DATE_CHANGED,
         Intent.ACTION_TIMEZONE_CHANGED,
-        Intent.ACTION_PROVIDER_CHANGED -> MonthWidget.redraw(context)
-        else -> { }
+        Intent.ACTION_PROVIDER_CHANGED -> RedrawWidgetUseCase.execute(context)
+        else -> {}
     }
 }

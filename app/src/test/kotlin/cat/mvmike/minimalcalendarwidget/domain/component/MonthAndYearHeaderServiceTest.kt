@@ -1,6 +1,6 @@
 // Copyright (c) 2016, Miquel Martí <miquelmarti111@gmail.com>
 // See LICENSE for licensing information
-package cat.mvmike.minimalcalendarwidget.application.visual.draw
+package cat.mvmike.minimalcalendarwidget.domain.component
 
 import android.widget.RemoteViews
 import cat.mvmike.minimalcalendarwidget.BaseTest
@@ -24,7 +24,7 @@ import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import java.util.stream.Stream
 
-internal class DrawMonthAndYearHeaderUseCaseTest : BaseTest() {
+internal class MonthAndYearHeaderServiceTest : BaseTest() {
 
     private val widgetRv = mockk<RemoteViews>()
 
@@ -43,7 +43,7 @@ internal class DrawMonthAndYearHeaderUseCaseTest : BaseTest() {
         every { context.getString(month.getExpectedResourceId()) } returns month.getExpectedAbbreviatedString()
         justRun { GraphicResolver.createMonthAndYearHeader(widgetRv, expectedMonthAndYear, expectedHeaderRelativeYearSize) }
 
-        DrawMonthAndYearHeaderUseCase.execute(context, widgetRv, format)
+        MonthAndYearHeaderService.draw(context, widgetRv, format)
 
         verify { LocaleConfig.getLocale(context) }
         verify { ClockConfig.getInstant() }
