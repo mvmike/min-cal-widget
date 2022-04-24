@@ -7,7 +7,7 @@ import cat.mvmike.minimalcalendarwidget.R
 
 enum class Colour(
     val hexValue: Int,
-    val displayString: Int,
+    val displayString: Int
 ) {
     CYAN(
         hexValue = R.color.instances_cyan,

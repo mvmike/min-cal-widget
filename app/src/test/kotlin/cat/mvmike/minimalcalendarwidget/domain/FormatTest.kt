@@ -69,7 +69,7 @@ internal class FormatTest : BaseTest() {
         FormatTestProperties(0, -1, Format.STANDARD, false),
         FormatTestProperties(0, -1, Format.REDUCED, false),
         FormatTestProperties(-320, -180, Format.STANDARD, false),
-        FormatTestProperties(-320, -180, Format.REDUCED, false),
+        FormatTestProperties(-320, -180, Format.REDUCED, false)
     )
 
     @ParameterizedTest

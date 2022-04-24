@@ -41,7 +41,7 @@ sealed class Configuration<E>(
 sealed class BooleanConfiguration(
     override val key: String,
     override val resource: Int,
-    override val defaultValue: Boolean,
+    override val defaultValue: Boolean
 ) : Configuration<Boolean>(
     key = key,
     resource = resource,
