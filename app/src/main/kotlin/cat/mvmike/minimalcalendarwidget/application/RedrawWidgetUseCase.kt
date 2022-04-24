@@ -24,7 +24,7 @@ object RedrawWidgetUseCase {
         execute(
             context = context,
             appWidgetManager = appWidgetManager,
-            appWidgetIds = appWidgetManager.getAppWidgetIds(name),
+            appWidgetIds = appWidgetManager.getAppWidgetIds(name)
         )
     }
 
