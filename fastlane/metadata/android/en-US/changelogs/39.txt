@@ -1,0 +1,3 @@
+v2.5.1
+- fix corner case when app crashed while fetching instances
+- technical improvements
