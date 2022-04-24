@@ -12,7 +12,7 @@ import cat.mvmike.minimalcalendarwidget.domain.component.LayoutService
 import cat.mvmike.minimalcalendarwidget.domain.component.MonthAndYearHeaderService
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
 import cat.mvmike.minimalcalendarwidget.domain.getFormat
-import cat.mvmike.minimalcalendarwidget.domain.intent.ActionableView
+import cat.mvmike.minimalcalendarwidget.domain.intent.addAllListeners
 import io.mockk.EqMatcher
 import io.mockk.confirmVerified
 import io.mockk.every
@@ -75,11 +75,12 @@ internal class RedrawWidgetUseCaseTest : BaseTest() {
             LayoutService,
             MonthAndYearHeaderService,
             DaysHeaderService,
-            DaysService,
-            ActionableView.OPEN_CONFIGURATION,
-            ActionableView.OPEN_CALENDAR
+            DaysService
         )
-        mockkStatic(::getFormat)
+        mockkStatic(
+            ::addAllListeners,
+            ::getFormat
+        )
 
         mockSharedPreferences()
         mockWidgetTheme(Theme.DARK)
@@ -89,8 +90,7 @@ internal class RedrawWidgetUseCaseTest : BaseTest() {
         mockkConstructor(RemoteViews::class)
         justRun { constructedWith<RemoteViews>(EqMatcher(packageName), EqMatcher(2131427362)).removeAllViews(any()) }
 
-        justRun { ActionableView.OPEN_CONFIGURATION.addListener(context, any()) }
-        justRun { ActionableView.OPEN_CALENDAR.addListener(context, any()) }
+        justRun { addAllListeners(context, any()) }
 
         val format = Format.STANDARD
         every { getFormat(appWidgetManager, appWidgetId) } returns format
@@ -105,11 +105,7 @@ internal class RedrawWidgetUseCaseTest : BaseTest() {
 
         verify { context.packageName }
         verifyWidgetTheme()
-        verify { ActionableView.OPEN_CONFIGURATION.addListener(context, any()) }
-        verify { ActionableView.OPEN_CALENDAR.addListener(context, any()) }
-        verify { ActionableView.OPEN_CONFIGURATION.hashCode() }
-        verify { ActionableView.OPEN_CALENDAR.hashCode() }
-
+        verify { addAllListeners(context, any()) }
         verify { LayoutService.draw(context, any()) }
         verify { MonthAndYearHeaderService.draw(context, any(), format) }
         verify { DaysHeaderService.draw(context, any(), format) }
@@ -119,8 +115,6 @@ internal class RedrawWidgetUseCaseTest : BaseTest() {
 
         confirmVerified(
             appWidgetManager,
-            ActionableView.OPEN_CONFIGURATION,
-            ActionableView.OPEN_CALENDAR,
             LayoutService,
             MonthAndYearHeaderService,
             DaysHeaderService,
