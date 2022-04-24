@@ -26,7 +26,7 @@ object CalendarResolver {
     fun getInstances(context: Context, begin: Long, end: Long): Set<Instance> {
         val instances: MutableSet<Instance> = HashSet()
         CalendarContract.Instances.query(context.contentResolver, instanceQueryFields, begin, end).use { instanceCursor ->
-            while (instanceCursor.moveToNext()) {
+            while (instanceCursor != null && instanceCursor.moveToNext()) {
                 instances.add(
                     Instance(
                         eventId = instanceCursor.getInt(0),
