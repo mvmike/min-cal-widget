@@ -13,8 +13,6 @@ import java.time.ZoneId
 
 object CalendarResolver {
 
-    // CALENDAR CONTRACT
-
     private val instanceQueryFields = arrayOf(
         CalendarContract.Instances.EVENT_ID,
         CalendarContract.Instances.BEGIN,
