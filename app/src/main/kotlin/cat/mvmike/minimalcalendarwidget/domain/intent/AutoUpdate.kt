@@ -11,7 +11,7 @@ import cat.mvmike.minimalcalendarwidget.infrastructure.config.ClockConfig
 
 object AutoUpdate {
 
-    const val ACTION_AUTO_UPDATE = "cat.mvmike.minimalcalendarwidget.AUTO_UPDATE"
+    internal const val ACTION_AUTO_UPDATE = "cat.mvmike.minimalcalendarwidget.AUTO_UPDATE"
 
     private const val ALARM_ID = 859345
 

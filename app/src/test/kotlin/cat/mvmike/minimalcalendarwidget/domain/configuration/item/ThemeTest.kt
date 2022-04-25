@@ -10,20 +10,20 @@ import org.junit.jupiter.params.provider.MethodSource
 import java.time.DayOfWeek
 import java.util.stream.Stream
 
-const val cellViewId = 16908308
+internal const val cellViewId = 16908308
 
-const val saturdayInMonthDarkThemeCellBackground = 2131034150
-const val sundayInMonthDarkThemeCellBackground = 2131034156
-const val saturdayDarkThemeCellBackground = 2131034148
-const val sundayDarkThemeCellBackground = 2131034154
-const val saturdayInMonthLightThemeCellBackground = 2131034151
-const val sundayInMonthLightThemeCellBackground = 2131034157
+internal const val saturdayInMonthDarkThemeCellBackground = 2131034150
+internal const val sundayInMonthDarkThemeCellBackground = 2131034156
+internal const val saturdayDarkThemeCellBackground = 2131034148
+internal const val sundayDarkThemeCellBackground = 2131034154
+internal const val saturdayInMonthLightThemeCellBackground = 2131034151
+internal const val sundayInMonthLightThemeCellBackground = 2131034157
 
-const val todayDarkThemeCellBackground = 2131034162
-const val todayDarkThemeCellLayout = 2131427360
-const val inMonthDarkThemeCellBackground = 2131034160
-const val inMonthDarkThemeCellLayout = 2131427359
-const val darkThemeCellLayout = 2131427358
+internal const val todayDarkThemeCellBackground = 2131034162
+internal const val todayDarkThemeCellLayout = 2131427360
+internal const val inMonthDarkThemeCellBackground = 2131034160
+internal const val inMonthDarkThemeCellLayout = 2131427359
+internal const val darkThemeCellLayout = 2131427358
 
 private const val darkThemeHeaderLayout = 2131427361
 private const val lightThemeHeaderLayout = 2131427366
