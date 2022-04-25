@@ -18,7 +18,7 @@ Minimal calendar widget that's always on current date's month
 
 [<img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png" alt="Get it on Google Play" height="80">](https://play.google.com/store/apps/details?id=cat.mvmike.minimalcalendarwidget)
 [<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" alt="Get it on F-Droid" height="80">](https://f-droid.org/en/packages/cat.mvmike.minimalcalendarwidget)
-[<img src="badge_github.png" alt="Get it on GitHub" height="80">](https://github.com/mvmike/min-cal-widget/releases)
+[<img src="/.github/badge.png" alt="Get it on GitHub" height="80">](https://github.com/mvmike/min-cal-widget/releases)
 
 ## Screenshots
 
