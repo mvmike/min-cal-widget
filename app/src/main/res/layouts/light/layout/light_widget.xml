@@ -22,7 +22,7 @@
         <ImageView
             android:id="@+id/configuration_icon"
             android:layout_width="match_parent"
-            android:layout_height="24sp"
+            android:layout_height="26sp"
             android:contentDescription="@string/configuration"
             android:gravity="end"
             android:padding="5dip"
