@@ -1,6 +1,5 @@
 <!-- Copyright (c) 2016, Miquel Martí <miquelmarti111@gmail.com> - See LICENSE for licensing information -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     package="cat.mvmike.minimalcalendarwidget">
 
     <uses-permission android:name="android.permission.READ_CALENDAR" />
@@ -9,8 +8,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="false"
-        tools:ignore="GoogleAppIndexingWarning">
+        android:supportsRtl="false">
 
         <receiver
             android:name=".MonthWidget"
