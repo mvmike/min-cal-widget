@@ -82,13 +82,13 @@ android {
      * signingKeyAlias=alias
      * signingKeyPassword=xxx
      */
-    val isSignedRelease = project.hasProperty("signingStoreFile")
+    val isKeyStoreDefined = project.hasProperty("signingStoreFile")
             && project.hasProperty("signingStorePassword")
             && project.hasProperty("signingKeyAlias")
             && project.hasProperty("signingKeyPassword")
     signingConfigs {
         create("release") {
-            if (isSignedRelease) {
+            if (isKeyStoreDefined) {
                 println("Found sign properties in gradle.properties! Signing build…")
                 storeFile = file(properties["signingStoreFile"]!!)
                 storePassword = properties["signingStorePassword"]!! as String
@@ -101,7 +101,7 @@ android {
     buildTypes {
         release {
             signingConfig = when {
-                isSignedRelease -> signingConfigs.getByName("release")
+                isKeyStoreDefined -> signingConfigs.getByName("release")
                 else -> null
             }
             isMinifyEnabled = true
