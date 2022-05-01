@@ -1,5 +1,8 @@
 import com.android.sdklib.AndroidVersion
-import org.gradle.api.tasks.testing.logging.TestLogEvent.*
+import org.gradle.api.tasks.testing.logging.TestLogEvent.FAILED
+import org.gradle.api.tasks.testing.logging.TestLogEvent.SKIPPED
+import org.gradle.api.tasks.testing.logging.TestLogEvent.STANDARD_ERROR
+import org.gradle.api.tasks.testing.logging.TestLogEvent.STANDARD_OUT
 
 plugins {
     id("com.android.application")
@@ -89,7 +92,7 @@ android {
     signingConfigs {
         create("release") {
             if (isKeyStoreDefined) {
-                println("Found sign properties in gradle.properties! Signing build…")
+                println("Found sign properties in gradle.properties! Signing build...")
                 storeFile = file(properties["signingStoreFile"]!!)
                 storePassword = properties["signingStorePassword"]!! as String
                 keyAlias = properties["signingKeyAlias"]!! as String
