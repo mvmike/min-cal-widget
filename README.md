@@ -44,4 +44,4 @@ Minimal calendar widget that's always on current date's month
 
 ## Licensing
 
-MinCal Widget is licensed under the [BSD 3-clause](LICENSE).
+MinCal Widget is licensed under the [BSD 3-clause](LICENSE.md).
