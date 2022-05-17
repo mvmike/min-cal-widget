@@ -81,8 +81,11 @@ enum class Theme(
 
 fun getThemeDisplayValues(context: Context) =
     Theme.values().map { theme ->
-        context.getString(theme.displayString).replaceFirstChar { it.uppercase() }
+        theme.getDisplayValue(context)
     }.toTypedArray()
+
+fun Theme.getDisplayValue(context: Context) =
+    context.getString(this.displayString).replaceFirstChar { it.uppercase() }
 
 data class CellPack(
     val mainLayout: Int,

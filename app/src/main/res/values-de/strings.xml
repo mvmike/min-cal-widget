@@ -2,24 +2,24 @@
 <resources>
 
     <!--GERMAN-->
-    <string name="app_name">MinCal Widget</string>
 
     <!--Configuration-->
     <string name="configuration">Konfiguration</string>
 
-    <string name="theme">Thema:</string>
-    <string name="start_week_day">Start Tag:</string>
-    <string name="symbol_set">Zeichensatz:</string>
-    <string name="symbol_colour">Farbe des Symbols:</string>
-    <string name="show_declined_events">Abgelehnte Veranstaltungen anzeigen:</string>
-    <string name="focus_on_current_week">Aktueller Wochenfokus:</string>
-    <string name="transparency">Transparenz:</string>
+    <string name="behaviour">Verhalten</string>
+    <string name="start_week_day">Start Tag</string>
+    <string name="show_declined_events">Abgelehnte Veranstaltungen anzeigen</string>
+    <string name="focus_on_current_week">Aktueller Wochenfokus</string>
 
-    <string name="apply_changes">ANWENDEN</string>
+    <string name="appearance">Aussehen</string>
+    <string name="theme">Thema</string>
+    <string name="symbol_set">Zeichensatz</string>
+    <string name="symbol_colour">Farbe des Symbols</string>
+    <string name="transparency">Transparenz</string>
 
-    <string name="source">
-        <a href="https://github.com/mvmike/min-cal-widget">quellcode</a>
-    </string>
+    <string name="about">Über</string>
+    <string name="version">Ausführung</string>
+    <string name="source">Quellcode</string>
 
     <!-- Months of year-->
     <string name="january">Januar</string>
@@ -77,5 +77,6 @@
 
     <!-- messages-->
     <string name="no_calendar_application">Keine Kalenderanwendung gefunden</string>
+    <string name="no_browser_application">Keine Browseranwendung gefunden</string>
 
 </resources>

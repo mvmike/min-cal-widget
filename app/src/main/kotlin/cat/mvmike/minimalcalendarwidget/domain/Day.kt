@@ -29,17 +29,22 @@ data class Day(
 }
 
 fun getDayOfWeekDisplayValues(context: Context) =
-    arrayOf(
-        R.string.monday,
-        R.string.tuesday,
-        R.string.wednesday,
-        R.string.thursday,
-        R.string.friday,
-        R.string.saturday,
-        R.string.sunday
-    ).map { dayOfWeek ->
-        context.getString(dayOfWeek).replaceFirstChar { it.uppercase() }
-    }.toTypedArray()
+    DayOfWeek.values()
+        .map { it.getDisplayValue(context) }
+        .toTypedArray()
+
+fun DayOfWeek.getDisplayValue(context: Context) =
+    context.getString(
+        when (this) {
+            DayOfWeek.MONDAY -> R.string.monday
+            DayOfWeek.TUESDAY -> R.string.tuesday
+            DayOfWeek.WEDNESDAY -> R.string.wednesday
+            DayOfWeek.THURSDAY -> R.string.thursday
+            DayOfWeek.FRIDAY -> R.string.friday
+            DayOfWeek.SATURDAY -> R.string.saturday
+            DayOfWeek.SUNDAY -> R.string.sunday
+        }
+    ).replaceFirstChar { it.uppercase() }
 
 fun DayOfWeek.getAbbreviatedDisplayValue(context: Context) =
     context.getString(

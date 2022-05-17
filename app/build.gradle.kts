@@ -131,6 +131,7 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.4.1")
     implementation("androidx.core:core-ktx:1.7.0")
     implementation("androidx.multidex:multidex:2.0.1")
+    implementation("androidx.preference:preference-ktx:1.2.0")
 
     //https://github.com/junit-team/junit5/releases
     val junitJupiterVersion = "5.8.2"

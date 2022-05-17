@@ -3,77 +3,70 @@
 package cat.mvmike.minimalcalendarwidget.domain.configuration
 
 import android.content.Context
-import cat.mvmike.minimalcalendarwidget.R
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Colour
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.SymbolSet
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Transparency
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.getColourDisplayValues
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.getDisplayValue
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.getSymbolSetDisplayValues
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.getThemeDisplayValues
 import cat.mvmike.minimalcalendarwidget.domain.getDayOfWeekDisplayValues
+import cat.mvmike.minimalcalendarwidget.domain.getDisplayValue
 import java.lang.Enum.valueOf
 import java.time.DayOfWeek
 
+const val PREFERENCE_KEY = "mincal_prefs"
+
+const val VERSION_KEY = "VERSION"
+
+const val SOURCE_KEY = "SOURCE"
+
+const val SOURCE_VALUE = "https://github.com/mvmike/min-cal-widget"
+
 sealed class Configuration<E>(
     internal open val key: String,
-    internal open val resource: Int,
     internal open val defaultValue: E
 ) {
     abstract fun get(context: Context): E
 
-    abstract fun set(context: Context, value: E)
-
     object WidgetTransparency : Configuration<Transparency>(
         key = "WIDGET_TRANSPARENCY",
-        resource = R.id.transparencySeekBar,
         defaultValue = Transparency(20)
     ) {
         override fun get(context: Context) = Transparency(
             getConfiguration(context).getInt(key, defaultValue.percentage)
         )
-
-        override fun set(context: Context, value: Transparency) =
-            getConfiguration(context).edit().putInt(key, value.percentage).apply()
     }
 }
 
 sealed class BooleanConfiguration(
     override val key: String,
-    override val resource: Int,
     override val defaultValue: Boolean
 ) : Configuration<Boolean>(
     key = key,
-    resource = resource,
     defaultValue = defaultValue
 ) {
     override fun get(context: Context) =
         getConfiguration(context).getBoolean(key, defaultValue)
 
-    override fun set(context: Context, value: Boolean) =
-        getConfiguration(context).edit().putBoolean(key, value).apply()
-
     object WidgetShowDeclinedEvents : BooleanConfiguration(
         key = "WIDGET_SHOW_DECLINED_EVENTS",
-        resource = R.id.show_declined_eventsCheckBox,
         defaultValue = false
     )
 
     object WidgetFocusOnCurrentWeek : BooleanConfiguration(
         key = "WIDGET_FOCUS_ON_CURRENT_WEEK",
-        resource = R.id.focus_on_current_weekCheckBox,
         defaultValue = false
     )
 }
 
 sealed class EnumConfiguration<E : Enum<E>>(
     override val key: String,
-    override val resource: Int,
     override val defaultValue: E,
     private val enumClass: Class<E>
 ) : Configuration<E>(
     key = key,
-    resource = resource,
     defaultValue = defaultValue
 ) {
     override fun get(context: Context): E = valueOf(
@@ -81,50 +74,55 @@ sealed class EnumConfiguration<E : Enum<E>>(
         getConfiguration(context).getString(key, defaultValue.name)!!
     )
 
-    override fun set(context: Context, value: E) =
-        getConfiguration(context).edit().putString(key, value.name).apply()
+    fun getKeys() = enumClass.enumConstants?.map { it.name }!!.toTypedArray()
+
+    fun getCurrentKey(context: Context) = get(context).name
 
     abstract fun getDisplayValues(context: Context): Array<String>
 
-    fun set(context: Context, ordinal: Int) = set(context, enumClass.enumConstants!![ordinal])
-
-    object FirstDayOfWeek : EnumConfiguration<DayOfWeek>(
-        key = "FIRST_DAY_OF_WEEK",
-        resource = R.id.startWeekDaySpinner,
-        enumClass = DayOfWeek::class.java,
-        defaultValue = DayOfWeek.MONDAY
-    ) {
-        override fun getDisplayValues(context: Context) = getDayOfWeekDisplayValues(context)
-    }
+    abstract fun getCurrentDisplayValue(context: Context): String
 
     object WidgetTheme : EnumConfiguration<Theme>(
         key = "WIDGET_THEME",
-        resource = R.id.themeSpinner,
         enumClass = Theme::class.java,
         defaultValue = Theme.DARK
     ) {
         override fun getDisplayValues(context: Context) = getThemeDisplayValues(context)
+
+        override fun getCurrentDisplayValue(context: Context) = get(context).getDisplayValue(context)
+    }
+
+    object FirstDayOfWeek : EnumConfiguration<DayOfWeek>(
+        key = "FIRST_DAY_OF_WEEK",
+        enumClass = DayOfWeek::class.java,
+        defaultValue = DayOfWeek.MONDAY
+    ) {
+        override fun getDisplayValues(context: Context) = getDayOfWeekDisplayValues(context)
+
+        override fun getCurrentDisplayValue(context: Context) = get(context).getDisplayValue(context)
     }
 
     object InstancesSymbolSet : EnumConfiguration<SymbolSet>(
         key = "INSTANCES_SYMBOL_SET",
-        resource = R.id.symbolSetSpinner,
         enumClass = SymbolSet::class.java,
         defaultValue = SymbolSet.MINIMAL
     ) {
         override fun getDisplayValues(context: Context) = getSymbolSetDisplayValues(context)
+
+        override fun getCurrentDisplayValue(context: Context) = get(context).getDisplayValue(context)
     }
 
     object InstancesColour : EnumConfiguration<Colour>(
         key = "INSTANCES_COLOUR",
-        resource = R.id.symbolColourSpinner,
         enumClass = Colour::class.java,
         defaultValue = Colour.CYAN
     ) {
         override fun getDisplayValues(context: Context) = getColourDisplayValues(context)
+
+        override fun getCurrentDisplayValue(context: Context) = get(context).getDisplayValue(context)
     }
 }
 
 fun clearAllConfiguration(context: Context) = getConfiguration(context).edit().clear().apply()
 
-private fun getConfiguration(context: Context) = context.getSharedPreferences("mincal_prefs", Context.MODE_PRIVATE)
+private fun getConfiguration(context: Context) = context.getSharedPreferences(PREFERENCE_KEY, Context.MODE_PRIVATE)

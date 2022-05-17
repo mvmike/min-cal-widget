@@ -2,24 +2,24 @@
 <resources>
 
     <!--CATALAN-->
-    <string name="app_name">MinCal Widget</string>
 
     <!--Configuration-->
     <string name="configuration">Configuració</string>
 
-    <string name="theme">Tema:</string>
-    <string name="start_week_day">Dia d\'inici:</string>
-    <string name="symbol_set">Tipus símbols:</string>
-    <string name="symbol_colour">Color símbols:</string>
-    <string name="show_declined_events">Mostra events rebutjats:</string>
-    <string name="focus_on_current_week">Focus en la setmana actual:</string>
-    <string name="transparency">Transparència:</string>
+    <string name="behaviour">Comportament</string>
+    <string name="start_week_day">Dia d\'inici</string>
+    <string name="show_declined_events">Mostra esdeveniments rebutjats</string>
+    <string name="focus_on_current_week">Focus en la setmana actual</string>
 
-    <string name="apply_changes">APLICA</string>
+    <string name="appearance">Aparença</string>
+    <string name="theme">Tema</string>
+    <string name="symbol_set">Tipus símbols</string>
+    <string name="symbol_colour">Color símbols</string>
+    <string name="transparency">Transparència</string>
 
-    <string name="source">
-        <a href="https://github.com/mvmike/min-cal-widget">codi</a>
-    </string>
+    <string name="about">Sobre l\'aplicació</string>
+    <string name="version">Versió</string>
+    <string name="source">Codi</string>
 
     <!-- Months of year-->
     <string name="january">Gener</string>
@@ -77,5 +77,6 @@
 
     <!-- messages-->
     <string name="no_calendar_application">No s\'ha trobat aplicació de calendari</string>
+    <string name="no_browser_application">No s\'ha trobat aplicació de navegador</string>
 
 </resources>

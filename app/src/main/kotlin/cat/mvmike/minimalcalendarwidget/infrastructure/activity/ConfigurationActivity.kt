@@ -2,24 +2,29 @@
 // See LICENSE for licensing information
 package cat.mvmike.minimalcalendarwidget.infrastructure.activity
 
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener
+import android.net.Uri
 import android.os.Bundle
-import android.text.method.LinkMovementMethod
-import android.view.Window
-import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.CheckBox
-import android.widget.SeekBar
-import android.widget.Spinner
-import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.preference.CheckBoxPreference
+import androidx.preference.ListPreference
+import androidx.preference.Preference
+import androidx.preference.PreferenceFragmentCompat
+import androidx.preference.SeekBarPreference
 import cat.mvmike.minimalcalendarwidget.R
 import cat.mvmike.minimalcalendarwidget.application.RedrawWidgetUseCase
 import cat.mvmike.minimalcalendarwidget.domain.configuration.BooleanConfiguration
 import cat.mvmike.minimalcalendarwidget.domain.configuration.Configuration
 import cat.mvmike.minimalcalendarwidget.domain.configuration.EnumConfiguration
-import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Transparency
+import cat.mvmike.minimalcalendarwidget.domain.configuration.PREFERENCE_KEY
+import cat.mvmike.minimalcalendarwidget.domain.configuration.SOURCE_KEY
+import cat.mvmike.minimalcalendarwidget.domain.configuration.SOURCE_VALUE
+import cat.mvmike.minimalcalendarwidget.domain.configuration.VERSION_KEY
 
 class ConfigurationActivity : AppCompatActivity() {
 
@@ -30,81 +35,100 @@ class ConfigurationActivity : AppCompatActivity() {
         )
     }
 
-    public override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        requestWindowFeature(Window.FEATURE_NO_TITLE)
         setContentView(R.layout.configuration)
-        setHyperlinks()
-        setAvailableValues()
-        loadPreviousConfig()
-        applyListener()
+
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.configuration_view, SettingsFragment())
+            .commit()
     }
 
-    private fun setHyperlinks() {
-        R.id.source.getTextView().movementMethod = LinkMovementMethod.getInstance()
-    }
+    class SettingsFragment : PreferenceFragmentCompat(), OnSharedPreferenceChangeListener {
 
-    private fun applyListener() =
-        R.id.applyButton.getButton().setOnClickListener {
-            saveConfig()
-            finish()
+        override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+            preferenceManager.sharedPreferencesName = PREFERENCE_KEY
+            setPreferencesFromResource(R.xml.preferences, rootKey)
+
+            fillEntriesAndValues()
+            updateCurrentSelection()
+            fillAboutSection()
+
+            preferenceManager.sharedPreferences!!.registerOnSharedPreferenceChangeListener(this)
         }
 
-    private fun setAvailableValues() {
-        enumConfigurationItems().forEach {
-            val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, it.getDisplayValues(applicationContext))
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            it.resource.getSpinner().adapter = adapter
+        override fun onSharedPreferenceChanged(p0: SharedPreferences?, p1: String?) {
+            updateCurrentSelection()
         }
-    }
 
-    private fun loadPreviousConfig() {
-        enumConfigurationItems().forEach {
-            it.resource.getSpinner().setSelection(it.get(applicationContext).ordinal)
+        override fun onDestroyView() {
+            super.onDestroyView()
+            preferenceManager.sharedPreferences!!.unregisterOnSharedPreferenceChangeListener(this)
+            RedrawWidgetUseCase.execute(this.requireContext())
         }
-        booleanConfigurationItems().forEach {
-            it.resource.getCheckBox().isChecked = it.get(applicationContext)
-        }
-        Configuration.WidgetTransparency.resource.getSeekBar().progress =
-            Configuration.WidgetTransparency.get(applicationContext).percentage
-    }
 
-    private fun saveConfig() {
-        enumConfigurationItems().forEach {
-            it.set(
-                applicationContext,
-                it.resource.getSpinner().selectedItemPosition
-            )
+        private fun fillEntriesAndValues() = enumConfigurationItems().forEach {
+            it.asListPreference().apply {
+                entries = it.getDisplayValues(this@SettingsFragment.requireContext())
+                entryValues = it.getKeys()
+                value = it.getCurrentKey(this@SettingsFragment.requireContext())
+            }
         }
-        booleanConfigurationItems().forEach {
-            it.set(
-                applicationContext,
-                it.resource.getCheckBox().isChecked
-            )
+
+        private fun fillAboutSection() {
+            VERSION_KEY.asPreference().summary = this.requireContext().packageManager.getPackageInfo(this.requireContext().packageName, 0).versionName
+            SOURCE_KEY.asPreference().let {
+                it.summary = SOURCE_VALUE
+                it.setOnPreferenceClickListener {
+                    try {
+                        this.requireContext().startActivity(
+                            Intent(Intent.ACTION_VIEW)
+                                .setData(Uri.parse(SOURCE_VALUE))
+                                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        )
+                    } catch (ignored: ActivityNotFoundException) {
+                        Toast.makeText(this.requireContext(), R.string.no_browser_application, Toast.LENGTH_SHORT).show()
+                    }
+                    true
+                }
+            }
         }
-        Configuration.WidgetTransparency.set(
-            applicationContext,
-            Transparency(Configuration.WidgetTransparency.resource.getSeekBar().progress)
+
+        private fun updateCurrentSelection() {
+            enumConfigurationItems().forEach {
+                it.asListPreference().summary = it.getCurrentDisplayValue(this.requireContext())
+            }
+
+            booleanConfigurationItems().forEach {
+                it.asCheckBoxPreference().isChecked = it.get(this.requireContext())
+            }
+
+            Configuration.WidgetTransparency.asSeekBarPreference().value = Configuration.WidgetTransparency.get(this.requireContext()).percentage
+        }
+
+        private fun enumConfigurationItems() = setOf(
+            EnumConfiguration.WidgetTheme,
+            EnumConfiguration.FirstDayOfWeek,
+            EnumConfiguration.InstancesSymbolSet,
+            EnumConfiguration.InstancesColour
         )
 
-        RedrawWidgetUseCase.execute(applicationContext)
+        private fun booleanConfigurationItems() = setOf(
+            BooleanConfiguration.WidgetShowDeclinedEvents,
+            BooleanConfiguration.WidgetFocusOnCurrentWeek
+        )
+
+        private fun String.asPreference() =
+            preferenceManager.findPreference<Preference>(this) as Preference
+
+        private fun <E> Configuration<E>.asListPreference() =
+            preferenceManager.findPreference<Preference>(this.key) as ListPreference
+
+        private fun <E> Configuration<E>.asCheckBoxPreference() =
+            preferenceManager.findPreference<Preference>(this.key) as CheckBoxPreference
+
+        private fun <E> Configuration<E>.asSeekBarPreference() =
+            preferenceManager.findPreference<Preference>(this.key) as SeekBarPreference
     }
-
-    private fun Int.getSpinner() = findViewById<Spinner>(this)
-    private fun Int.getCheckBox() = findViewById<CheckBox>(this)
-    private fun Int.getSeekBar() = findViewById<SeekBar>(this)
-    private fun Int.getTextView() = findViewById<TextView>(this)
-    private fun Int.getButton() = findViewById<Button>(this)
-
-    private fun enumConfigurationItems() = setOf(
-        EnumConfiguration.WidgetTheme,
-        EnumConfiguration.FirstDayOfWeek,
-        EnumConfiguration.InstancesSymbolSet,
-        EnumConfiguration.InstancesColour
-    )
-
-    private fun booleanConfigurationItems() = setOf(
-        BooleanConfiguration.WidgetShowDeclinedEvents,
-        BooleanConfiguration.WidgetFocusOnCurrentWeek
-    )
 }

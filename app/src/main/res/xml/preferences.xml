@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+        android:title="@string/behaviour"
+        app:iconSpaceReserved="false">
+
+        <ListPreference
+            android:key="FIRST_DAY_OF_WEEK"
+            android:title="@string/start_week_day"
+            app:iconSpaceReserved="false" />
+
+        <CheckBoxPreference
+            android:key="WIDGET_SHOW_DECLINED_EVENTS"
+            android:title="@string/show_declined_events"
+            app:iconSpaceReserved="false" />
+
+        <CheckBoxPreference
+            android:key="WIDGET_FOCUS_ON_CURRENT_WEEK"
+            android:title="@string/focus_on_current_week"
+            app:iconSpaceReserved="false" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/appearance"
+        app:iconSpaceReserved="false">
+
+        <ListPreference
+            android:key="WIDGET_THEME"
+            android:title="@string/theme"
+            app:iconSpaceReserved="false" />
+
+        <ListPreference
+            android:key="INSTANCES_SYMBOL_SET"
+            android:title="@string/symbol_set"
+            app:iconSpaceReserved="false" />
+
+        <ListPreference
+            android:key="INSTANCES_COLOUR"
+            android:title="@string/symbol_colour"
+            app:iconSpaceReserved="false" />
+
+        <SeekBarPreference
+            android:key="WIDGET_TRANSPARENCY"
+            android:max="100"
+            android:title="@string/transparency"
+            app:iconSpaceReserved="false"
+            app:showSeekBarValue="true" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/about"
+        app:iconSpaceReserved="false">
+
+        <Preference
+            android:key="VERSION"
+            android:title="@string/version"
+            app:iconSpaceReserved="false" />
+
+        <Preference
+            android:key="SOURCE"
+            android:title="@string/source"
+            app:iconSpaceReserved="false" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

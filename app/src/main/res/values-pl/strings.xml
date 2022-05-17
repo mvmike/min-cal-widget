@@ -2,24 +2,24 @@
 <resources>
 
     <!--POLISH-->
-    <string name="app_name">MinCal Widget</string>
 
     <!--Configuration-->
     <string name="configuration">Konfiguracja</string>
 
-    <string name="theme">Motyw:</string>
-    <string name="start_week_day">Dzień startowy:</string>
-    <string name="symbol_set">Zestaw symboli:</string>
-    <string name="symbol_colour">Kolor symbolu:</string>
-    <string name="show_declined_events">Pokaż odrzucone wydarzenia:</string>
-    <string name="focus_on_current_week">Skoncentruj się na bieżącym tygodniu:</string>
-    <string name="transparency">Przezroczystość:</string>
+    <string name="behaviour">Zachowanie</string>
+    <string name="start_week_day">Dzień startowy</string>
+    <string name="show_declined_events">Pokaż odrzucone wydarzenia</string>
+    <string name="focus_on_current_week">Skoncentruj się na bieżącym tygodniu</string>
 
-    <string name="apply_changes">ZASTOSUJ</string>
+    <string name="appearance">Wygląd</string>
+    <string name="theme">Motyw</string>
+    <string name="symbol_set">Zestaw symboli</string>
+    <string name="symbol_colour">Kolor symbolu</string>
+    <string name="transparency">Przezroczystość</string>
 
-    <string name="source">
-        <a href="https://github.com/mvmike/min-cal-widget">źródło</a>
-    </string>
+    <string name="about">Dookoła</string>
+    <string name="version">Wersja</string>
+    <string name="source">Źródło</string>
 
     <!-- Months of year-->
     <string name="january">Styczeń</string>
@@ -77,5 +77,6 @@
 
     <!-- messages-->
     <string name="no_calendar_application">Nie znaleziono aplikacji kalendarza</string>
+    <string name="no_browser_application">Nie znaleziono aplikacji przeglądarki</string>
 
 </resources>

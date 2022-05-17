@@ -44,7 +44,10 @@ enum class Colour(
     }
 }
 
+fun Colour.getDisplayValue(context: Context) =
+    context.getString(this.displayString).replaceFirstChar { it.uppercase() }
+
 fun getColourDisplayValues(context: Context) =
-    Colour.values().map { colour ->
-        context.getString(colour.displayString).replaceFirstChar { it.uppercase() }
-    }.toTypedArray()
+    Colour.values()
+        .map { it.getDisplayValue(context) }
+        .toTypedArray()

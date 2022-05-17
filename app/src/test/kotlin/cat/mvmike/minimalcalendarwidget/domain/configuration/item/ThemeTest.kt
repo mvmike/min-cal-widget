@@ -26,13 +26,13 @@ internal const val inMonthDarkThemeCellLayout = 2131427359
 internal const val darkThemeCellLayout = 2131427358
 
 private const val darkThemeHeaderLayout = 2131427361
-private const val lightThemeHeaderLayout = 2131427366
+private const val lightThemeHeaderLayout = 2131427368
 
 private const val todayLightThemeCellBackground = 2131034163
-private const val todayLightThemeCellLayout = 2131427365
+private const val todayLightThemeCellLayout = 2131427367
 private const val inMonthLightThemeCellBackground = 2131034161
-private const val inMonthLightThemeCellLayout = 2131427364
-private const val lightThemeCellLayout = 2131427363
+private const val inMonthLightThemeCellLayout = 2131427366
+private const val lightThemeCellLayout = 2131427365
 
 internal class ThemeTest : BaseTest() {
 
