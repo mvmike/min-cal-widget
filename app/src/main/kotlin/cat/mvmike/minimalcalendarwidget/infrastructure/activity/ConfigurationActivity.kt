@@ -60,12 +60,12 @@ class ConfigurationActivity : AppCompatActivity() {
 
         override fun onSharedPreferenceChanged(p0: SharedPreferences?, p1: String?) {
             updateCurrentSelection()
+            RedrawWidgetUseCase.execute(this.requireContext())
         }
 
         override fun onDestroyView() {
             super.onDestroyView()
             preferenceManager.sharedPreferences!!.unregisterOnSharedPreferenceChangeListener(this)
-            RedrawWidgetUseCase.execute(this.requireContext())
         }
 
         private fun fillEntriesAndValues() = enumConfigurationItems().forEach {
