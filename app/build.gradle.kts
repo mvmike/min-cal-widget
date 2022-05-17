@@ -116,7 +116,7 @@ android {
         if (this.buildType.name == "release") {
             outputs.all {
                 val output = this as? com.android.build.gradle.internal.api.BaseVariantOutputImpl
-                output?.outputFileName = "min-cal-widget-${defaultConfig.versionName}.apk"
+                output?.outputFileName = "min-cal-widget-v${defaultConfig.versionName}.apk"
             }
         }
     }
