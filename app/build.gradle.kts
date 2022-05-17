@@ -29,8 +29,8 @@ android {
         applicationId = "cat.mvmike.minimalcalendarwidget"
         minSdk = minAndroidVersion
         targetSdk = androidVersion
-        versionCode = 41
-        versionName = "2.6.0"
+        versionCode = 42
+        versionName = "2.6.1"
 
         multiDexEnabled = true
     }
