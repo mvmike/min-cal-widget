@@ -62,25 +62,22 @@ object GraphicResolver {
         weekRow: RemoteViews,
         dayLayout: Int,
         viewId: Int,
+        cellText: String,
+        dayOfMonthInBold: Boolean,
+        instancesColour: Int,
+        instancesRelativeSize: Float,
         dayBackgroundColour: Int?,
-        spanText: String,
-        isToday: Boolean,
-        isSingleDigitDay: Boolean,
-        symbolRelativeSize: Float,
-        generalRelativeSize: Float,
-        instancesColour: Int
+        generalRelativeSize: Float
     ) {
-        val daySpSt = SpannableString(spanText)
-        daySpSt.setSpan(StyleSpan(Typeface.BOLD), spanText.length - 1, spanText.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-        if (isSingleDigitDay) {
-            daySpSt.setSpan(ForegroundColorSpan(ContextCompat.getColor(context, R.color.alpha)), 1, 2, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        val daySpSt = SpannableString(cellText)
+        if (dayOfMonthInBold) {
+            daySpSt.setSpan(StyleSpan(Typeface.BOLD), 0, daySpSt.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        } else {
+            daySpSt.setSpan(StyleSpan(Typeface.BOLD), daySpSt.length - 1, daySpSt.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         }
-        if (isToday) {
-            daySpSt.setSpan(StyleSpan(Typeface.BOLD), 0, spanText.length - 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-        }
-        daySpSt.setSpan(ForegroundColorSpan(instancesColour), spanText.length - 1, spanText.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-        daySpSt.setSpan(RelativeSizeSpan(generalRelativeSize), 0, spanText.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-        daySpSt.setSpan(RelativeSizeSpan(symbolRelativeSize), spanText.length - 1, spanText.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        daySpSt.setSpan(ForegroundColorSpan(instancesColour), daySpSt.length - 1, daySpSt.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        daySpSt.setSpan(RelativeSizeSpan(generalRelativeSize), 0, daySpSt.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        daySpSt.setSpan(RelativeSizeSpan(instancesRelativeSize), daySpSt.length - 1, daySpSt.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
 
         val dayRv = getById(context, dayLayout)
         dayRv.setTextViewText(android.R.id.text1, daySpSt)

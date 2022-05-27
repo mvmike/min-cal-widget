@@ -24,8 +24,6 @@ import java.time.temporal.ChronoUnit
 
 object DaysService {
 
-    private const val PADDING: String = " "
-
     private const val MONTH_FIRST_DAY = 1
 
     private const val NUM_WEEKS = 6
@@ -81,13 +79,12 @@ object DaysService {
                     weekRow = weekRow,
                     dayLayout = dayCell.layout,
                     viewId = dayCell.id,
+                    cellText = " ${currentDay.getDayOfMonthString()} $instancesSymbol",
+                    dayOfMonthInBold = currentDay.isToday(systemLocalDate),
+                    instancesColour = dayInstancesColour,
+                    instancesRelativeSize = instancesSymbolSet.relativeSize,
                     dayBackgroundColour = backgroundWithTransparency,
-                    spanText = PADDING + currentDay.getDayOfMonthString() + PADDING + instancesSymbol,
-                    isToday = currentDay.isToday(systemLocalDate),
-                    isSingleDigitDay = currentDay.isSingleDigitDay(),
-                    symbolRelativeSize = instancesSymbolSet.relativeSize,
-                    generalRelativeSize = format.dayCellValueRelativeSize,
-                    instancesColour = dayInstancesColour
+                    generalRelativeSize = format.dayCellValueRelativeSize
                 )
             }
 

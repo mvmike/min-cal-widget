@@ -4,28 +4,21 @@ package cat.mvmike.minimalcalendarwidget.domain
 
 import android.content.Context
 import cat.mvmike.minimalcalendarwidget.R
-import java.text.DecimalFormat
 import java.time.DayOfWeek
 import java.time.LocalDate
-
-private const val DAY_OF_MONTH_DF_PATTERN: String = "00"
 
 data class Day(
     val dayLocalDate: LocalDate
 ) {
-
     fun getDayOfWeek(): DayOfWeek = dayLocalDate.dayOfWeek
 
-    fun getDayOfMonthString(): String = DecimalFormat(DAY_OF_MONTH_DF_PATTERN)
-        .format(dayLocalDate.dayOfMonth.toLong())
+    fun getDayOfMonthString(): String = " ${dayLocalDate.dayOfMonth}".takeLast(2)
 
     fun isInMonth(systemLocalDate: LocalDate) = dayLocalDate.year == systemLocalDate.year
             && dayLocalDate.month == systemLocalDate.month
 
     fun isToday(systemLocalDate: LocalDate) = isInMonth(systemLocalDate)
             && dayLocalDate.dayOfYear == systemLocalDate.dayOfYear
-
-    fun isSingleDigitDay() = dayLocalDate.dayOfMonth < 10
 }
 
 fun getDayOfWeekDisplayValues(context: Context) =

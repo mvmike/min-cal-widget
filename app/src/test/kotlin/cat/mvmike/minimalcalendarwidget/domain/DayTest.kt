@@ -60,64 +60,46 @@ internal class DayTest : BaseTest() {
         assertThat(result).isEqualTo(dayProperties.expectedIsToday)
     }
 
-    @ParameterizedTest
-    @MethodSource("getLocalDatesWithExpectations")
-    fun isSingleDigitDay(dayProperties: DayTestProperties) {
-        val day = Day(
-            dayLocalDate = dayProperties.localDate
-        )
-
-        val result = day.isSingleDigitDay()
-
-        assertThat(result).isEqualTo(dayProperties.expectedIsSingleDigitDay)
-    }
-
     @Suppress("unused", "LongMethod")
     private fun getLocalDatesWithExpectations(): Stream<DayTestProperties> = Stream.of(
         DayTestProperties(
             localDate = LocalDate.of(2018, 1, 1),
-            expectedDayOfMonthString = "01",
-            expectedIsSingleDigitDay = true,
+            expectedDayOfMonthString = " 1",
             expectedDayOfWeek = DayOfWeek.MONDAY,
             expectedIsInMonth = false,
             expectedIsToday = false
         ),
         DayTestProperties(
             localDate = LocalDate.of(2017, 12, 2),
-            expectedDayOfMonthString = "02",
-            expectedIsSingleDigitDay = true,
+            expectedDayOfMonthString = " 2",
             expectedDayOfWeek = DayOfWeek.SATURDAY,
             expectedIsInMonth = false,
             expectedIsToday = false
         ),
         DayTestProperties(
             localDate = LocalDate.of(2018, 12, 4),
-            expectedDayOfMonthString = "04",
-            expectedIsSingleDigitDay = true,
+            expectedDayOfMonthString = " 4",
             expectedDayOfWeek = DayOfWeek.TUESDAY,
             expectedIsInMonth = true,
             expectedIsToday = true
         ),
         DayTestProperties(
             localDate = LocalDate.of(2012, 7, 5),
-            expectedDayOfMonthString = "05",
-            expectedIsSingleDigitDay = true,
+            expectedDayOfMonthString = " 5",
             expectedDayOfWeek = DayOfWeek.THURSDAY,
             expectedIsInMonth = false,
             expectedIsToday = false
         ),
         DayTestProperties(
             localDate = LocalDate.of(2018, 5, 5),
-            expectedDayOfMonthString = "05",
-            expectedIsSingleDigitDay = true,
+            expectedDayOfMonthString = " 5",
             expectedDayOfWeek = DayOfWeek.SATURDAY,
             expectedIsInMonth = false,
             expectedIsToday = false
         ),
         DayTestProperties(
             localDate = LocalDate.of(2020, 12, 9),
-            expectedDayOfMonthString = "09",
-            expectedIsSingleDigitDay = true,
+            expectedDayOfMonthString = " 9",
             expectedDayOfWeek = DayOfWeek.WEDNESDAY,
             expectedIsInMonth = false,
             expectedIsToday = false
@@ -125,7 +107,6 @@ internal class DayTest : BaseTest() {
         DayTestProperties(
             localDate = LocalDate.of(2021, 11, 11),
             expectedDayOfMonthString = "11",
-            expectedIsSingleDigitDay = false,
             expectedDayOfWeek = DayOfWeek.THURSDAY,
             expectedIsInMonth = false,
             expectedIsToday = false
@@ -133,7 +114,6 @@ internal class DayTest : BaseTest() {
         DayTestProperties(
             localDate = LocalDate.of(2030, 2, 12),
             expectedDayOfMonthString = "12",
-            expectedIsSingleDigitDay = false,
             expectedDayOfWeek = DayOfWeek.TUESDAY,
             expectedIsInMonth = false,
             expectedIsToday = false
@@ -141,7 +121,6 @@ internal class DayTest : BaseTest() {
         DayTestProperties(
             localDate = LocalDate.of(2015, 3, 15),
             expectedDayOfMonthString = "15",
-            expectedIsSingleDigitDay = false,
             expectedDayOfWeek = DayOfWeek.SUNDAY,
             expectedIsInMonth = false,
             expectedIsToday = false
@@ -149,7 +128,6 @@ internal class DayTest : BaseTest() {
         DayTestProperties(
             localDate = LocalDate.of(2016, 6, 21),
             expectedDayOfMonthString = "21",
-            expectedIsSingleDigitDay = false,
             expectedDayOfWeek = DayOfWeek.TUESDAY,
             expectedIsInMonth = false,
             expectedIsToday = false
@@ -157,7 +135,6 @@ internal class DayTest : BaseTest() {
         DayTestProperties(
             localDate = LocalDate.of(1994, 4, 23),
             expectedDayOfMonthString = "23",
-            expectedIsSingleDigitDay = false,
             expectedDayOfWeek = DayOfWeek.SATURDAY,
             expectedIsInMonth = false,
             expectedIsToday = false
@@ -165,7 +142,6 @@ internal class DayTest : BaseTest() {
         DayTestProperties(
             localDate = LocalDate.of(2000, 8, 27),
             expectedDayOfMonthString = "27",
-            expectedIsSingleDigitDay = false,
             expectedDayOfWeek = DayOfWeek.SUNDAY,
             expectedIsInMonth = false,
             expectedIsToday = false
@@ -173,7 +149,6 @@ internal class DayTest : BaseTest() {
         DayTestProperties(
             localDate = LocalDate.of(2018, 12, 28),
             expectedDayOfMonthString = "28",
-            expectedIsSingleDigitDay = false,
             expectedDayOfWeek = DayOfWeek.FRIDAY,
             expectedIsInMonth = true,
             expectedIsToday = false
@@ -181,7 +156,6 @@ internal class DayTest : BaseTest() {
         DayTestProperties(
             localDate = LocalDate.of(2019, 12, 31),
             expectedDayOfMonthString = "31",
-            expectedIsSingleDigitDay = false,
             expectedDayOfWeek = DayOfWeek.TUESDAY,
             expectedIsInMonth = false,
             expectedIsToday = false
@@ -191,7 +165,6 @@ internal class DayTest : BaseTest() {
     internal data class DayTestProperties(
         val localDate: LocalDate,
         val expectedDayOfMonthString: String,
-        val expectedIsSingleDigitDay: Boolean,
         val expectedDayOfWeek: DayOfWeek,
         val expectedIsInMonth: Boolean,
         val expectedIsToday: Boolean
