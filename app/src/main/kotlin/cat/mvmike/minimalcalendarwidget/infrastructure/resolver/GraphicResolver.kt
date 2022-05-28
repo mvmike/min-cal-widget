@@ -27,9 +27,9 @@ object GraphicResolver {
         monthAndYear: String,
         headerRelativeYearSize: Float
     ) {
-        val ss = SpannableString(monthAndYear)
-        ss.setSpan(RelativeSizeSpan(headerRelativeYearSize), monthAndYear.length - 4, monthAndYear.length, 0)
-        widgetRemoteView.setTextViewText(R.id.month_year_label, ss)
+        val monthAndYearSpSt = SpannableString(monthAndYear)
+        monthAndYearSpSt.setSpan(RelativeSizeSpan(headerRelativeYearSize), monthAndYear.length - 4, monthAndYear.length, 0)
+        widgetRemoteView.setTextViewText(R.id.month_year_label, monthAndYearSpSt)
     }
 
     // DAY HEADER
