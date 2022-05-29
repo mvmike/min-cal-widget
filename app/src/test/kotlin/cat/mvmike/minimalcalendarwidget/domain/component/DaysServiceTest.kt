@@ -396,8 +396,10 @@ internal class DaysServiceTest : BaseTest() {
         DrawDaysUseCaseTestProperties(dayLayout = inMonthDarkThemeCellLayout, spanText = "  1  ", dayBackgroundColour = saturdayInMonthDarkThemeCellBackground),
         DrawDaysUseCaseTestProperties(dayLayout = inMonthDarkThemeCellLayout, spanText = "  2  ", dayBackgroundColour = sundayInMonthDarkThemeCellBackground),
         DrawDaysUseCaseTestProperties(dayLayout = inMonthDarkThemeCellLayout, spanText = "  3 ·", dayBackgroundColour = inMonthDarkThemeCellBackground),
-        DrawDaysUseCaseTestProperties(dayLayout = todayDarkThemeCellLayout, spanText = "  4 ·", dayBackgroundColour = todayDarkThemeCellBackground,
-            isToday = true, instancesColour = instancesColourTodayId),
+        DrawDaysUseCaseTestProperties(
+            dayLayout = todayDarkThemeCellLayout, spanText = "  4 ·", dayBackgroundColour = todayDarkThemeCellBackground,
+            isToday = true, instancesColour = instancesColourTodayId
+        ),
         DrawDaysUseCaseTestProperties(dayLayout = inMonthDarkThemeCellLayout, spanText = "  5  ", dayBackgroundColour = inMonthDarkThemeCellBackground),
         DrawDaysUseCaseTestProperties(dayLayout = inMonthDarkThemeCellLayout, spanText = "  6 ∴", dayBackgroundColour = inMonthDarkThemeCellBackground),
         DrawDaysUseCaseTestProperties(dayLayout = inMonthDarkThemeCellLayout, spanText = "  7 ·", dayBackgroundColour = inMonthDarkThemeCellBackground),

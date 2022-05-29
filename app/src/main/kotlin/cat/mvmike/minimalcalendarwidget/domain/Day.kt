@@ -15,10 +15,10 @@ data class Day(
     fun getDayOfMonthString(): String = " ${dayLocalDate.dayOfMonth}".takeLast(2)
 
     fun isInMonth(systemLocalDate: LocalDate) = dayLocalDate.year == systemLocalDate.year
-            && dayLocalDate.month == systemLocalDate.month
+        && dayLocalDate.month == systemLocalDate.month
 
     fun isToday(systemLocalDate: LocalDate) = isInMonth(systemLocalDate)
-            && dayLocalDate.dayOfYear == systemLocalDate.dayOfYear
+        && dayLocalDate.dayOfYear == systemLocalDate.dayOfYear
 }
 
 fun getDayOfWeekDisplayValues(context: Context) =
