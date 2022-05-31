@@ -143,5 +143,5 @@ dependencies {
     testImplementation("io.mockk:mockk:1.12.4")
 
     //https://github.com/assertj/assertj-core/tags
-    testImplementation("org.assertj:assertj-core:3.22.0")
+    testImplementation("org.assertj:assertj-core:3.23.1")
 }
