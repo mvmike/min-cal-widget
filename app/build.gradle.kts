@@ -129,7 +129,7 @@ dependencies {
 
     //https://developer.android.com/jetpack/androidx/versions/
     implementation("androidx.appcompat:appcompat:1.4.2")
-    implementation("androidx.core:core-ktx:1.7.0")
+    implementation("androidx.core:core-ktx:1.8.0")
     implementation("androidx.multidex:multidex:2.0.1")
     implementation("androidx.preference:preference-ktx:1.2.0")
 
