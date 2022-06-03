@@ -8,8 +8,8 @@ import java.time.DayOfWeek
 
 enum class Theme(
     val displayString: Int,
-    val mainLayout: Int,
     val mainBackground: Int,
+    val mainTextColour: Int,
     private val header: CellPack,
     private val day: CellPack,
     private val thisMonth: CellPack,
@@ -17,26 +17,30 @@ enum class Theme(
 ) {
     DARK(
         displayString = R.string.dark,
-        mainLayout = R.layout.dark_widget,
         mainBackground = R.color.background_full_dark,
+        mainTextColour = R.color.text_colour_dark,
         header = CellPack(
-            mainLayout = R.layout.dark_cell_header,
+            mainLayout = R.layout.cell_header,
+            textColour = R.color.text_colour_dark,
             saturdayBackground = R.color.background_saturday_this_month_dark,
             sundayBackground = R.color.background_sunday_this_month_dark
         ),
         day = CellPack(
-            mainLayout = R.layout.dark_cell_day,
+            mainLayout = R.layout.cell_day,
+            textColour = R.color.text_colour_semi_dark,
             saturdayBackground = R.color.background_saturday_dark,
             sundayBackground = R.color.background_sunday_dark
         ),
         thisMonth = CellPack(
-            mainLayout = R.layout.dark_cell_day_this_month,
+            mainLayout = R.layout.cell_day,
+            textColour = R.color.text_colour_dark,
             weekdayBackground = R.color.background_this_month_dark,
             saturdayBackground = R.color.background_saturday_this_month_dark,
             sundayBackground = R.color.background_sunday_this_month_dark
         ),
         today = CellPack(
-            mainLayout = R.layout.dark_cell_day_today,
+            mainLayout = R.layout.cell_day,
+            textColour = R.color.text_colour_dark,
             weekdayBackground = R.color.background_today_dark,
             saturdayBackground = R.color.background_saturday_today_dark,
             sundayBackground = R.color.background_sunday_today_dark
@@ -44,26 +48,30 @@ enum class Theme(
     ),
     LIGHT(
         displayString = R.string.light,
-        mainLayout = R.layout.light_widget,
         mainBackground = R.color.background_full_light,
+        mainTextColour = R.color.text_colour_light,
         header = CellPack(
-            mainLayout = R.layout.light_cell_header,
+            mainLayout = R.layout.cell_header,
+            textColour = R.color.text_colour_light,
             saturdayBackground = R.color.background_saturday_this_month_light,
             sundayBackground = R.color.background_sunday_this_month_light
         ),
         day = CellPack(
-            mainLayout = R.layout.light_cell_day,
+            mainLayout = R.layout.cell_day,
+            textColour = R.color.text_colour_semi_light,
             saturdayBackground = R.color.background_saturday_light,
             sundayBackground = R.color.background_sunday_light
         ),
         thisMonth = CellPack(
-            mainLayout = R.layout.light_cell_day_this_month,
+            mainLayout = R.layout.cell_day,
+            textColour = R.color.text_colour_light,
             weekdayBackground = R.color.background_this_month_light,
             saturdayBackground = R.color.background_saturday_this_month_light,
             sundayBackground = R.color.background_sunday_this_month_light
         ),
         today = CellPack(
-            mainLayout = R.layout.light_cell_day_today,
+            mainLayout = R.layout.cell_day,
+            textColour = R.color.text_colour_light,
             weekdayBackground = R.color.background_today_light,
             saturdayBackground = R.color.background_saturday_today_light,
             sundayBackground = R.color.background_sunday_today_light
@@ -89,19 +97,25 @@ fun Theme.getDisplayValue(context: Context) =
 
 data class CellPack(
     val mainLayout: Int,
+    val textColour: Int,
     val weekdayBackground: Int? = null,
     val saturdayBackground: Int? = null,
     val sundayBackground: Int? = null
 ) {
-    fun get(dayOfWeek: DayOfWeek): Cell = when (dayOfWeek) {
-        DayOfWeek.SATURDAY -> Cell(layout = mainLayout, background = saturdayBackground)
-        DayOfWeek.SUNDAY -> Cell(layout = mainLayout, background = sundayBackground)
-        else -> Cell(layout = mainLayout, background = weekdayBackground)
-    }
+    fun get(dayOfWeek: DayOfWeek) = Cell(
+        layout = mainLayout,
+        textColour = textColour,
+        background = when (dayOfWeek) {
+            DayOfWeek.SATURDAY -> saturdayBackground
+            DayOfWeek.SUNDAY -> sundayBackground
+            else -> weekdayBackground
+        }
+    )
 }
 
 data class Cell(
     val id: Int = android.R.id.text1,
     val layout: Int,
+    val textColour: Int,
     val background: Int? = null
 )

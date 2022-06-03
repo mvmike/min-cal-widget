@@ -36,6 +36,7 @@ object DaysHeaderService {
                 context = context,
                 daysHeaderRow = daysHeaderRow,
                 text = format.getDayHeaderLabel(dayOfWeek.getAbbreviatedDisplayValue(context)),
+                textColour = cellHeader.textColour,
                 layoutId = cellHeader.layout,
                 viewId = cellHeader.id,
                 dayHeaderBackgroundColour = backgroundWithTransparency

@@ -23,12 +23,15 @@ object GraphicResolver {
     // MONTH YEAR HEADER
 
     fun createMonthAndYearHeader(
+        context: Context,
         widgetRemoteView: RemoteViews,
-        monthAndYear: String,
+        text: String,
+        textColour: Int,
         headerRelativeYearSize: Float
     ) {
-        val monthAndYearSpSt = SpannableString(monthAndYear)
-        monthAndYearSpSt.setSpan(RelativeSizeSpan(headerRelativeYearSize), monthAndYear.length - 4, monthAndYear.length, 0)
+        val monthAndYearSpSt = SpannableString(text)
+        monthAndYearSpSt.setSpan(RelativeSizeSpan(headerRelativeYearSize), text.length - 4, text.length, 0)
+        monthAndYearSpSt.setSpan(ForegroundColorSpan(getColour(context, textColour)), 0, text.length, 0)
         widgetRemoteView.setTextViewText(R.id.month_year_label, monthAndYearSpSt)
     }
 
@@ -40,16 +43,18 @@ object GraphicResolver {
         context: Context,
         daysHeaderRow: RemoteViews,
         text: String,
+        textColour: Int,
         layoutId: Int,
         viewId: Int,
         dayHeaderBackgroundColour: Int?
     ) {
         val dayRv = getById(context, layoutId)
         dayRv.setTextViewText(android.R.id.text1, text)
+        dayRv.setTextColor(android.R.id.text1, getColour(context, textColour))
         dayHeaderBackgroundColour?.let {
             setBackgroundColor(dayRv, viewId, it)
         }
-        daysHeaderRow.addView(R.id.row_container, dayRv)
+        daysHeaderRow.addView(R.id.row_header, dayRv)
     }
 
     // DAY
@@ -62,14 +67,15 @@ object GraphicResolver {
         weekRow: RemoteViews,
         dayLayout: Int,
         viewId: Int,
-        cellText: String,
+        text: String,
+        textColour: Int,
         dayOfMonthInBold: Boolean,
         instancesColour: Int,
         instancesRelativeSize: Float,
         dayBackgroundColour: Int?,
         generalRelativeSize: Float
     ) {
-        val daySpSt = SpannableString(cellText)
+        val daySpSt = SpannableString(text)
         if (dayOfMonthInBold) {
             daySpSt.setSpan(StyleSpan(Typeface.BOLD), 0, daySpSt.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         } else {
@@ -81,10 +87,11 @@ object GraphicResolver {
 
         val dayRv = getById(context, dayLayout)
         dayRv.setTextViewText(android.R.id.text1, daySpSt)
+        dayRv.setTextColor(android.R.id.text1, getColour(context, textColour))
         dayBackgroundColour?.let {
             setBackgroundColor(dayRv, viewId, it)
         }
-        weekRow.addView(R.id.row_container, dayRv)
+        weekRow.addView(R.id.row_week, dayRv)
     }
 
     // COLOUR

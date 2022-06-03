@@ -10,7 +10,6 @@ import cat.mvmike.minimalcalendarwidget.domain.component.DaysHeaderService
 import cat.mvmike.minimalcalendarwidget.domain.component.DaysService
 import cat.mvmike.minimalcalendarwidget.domain.component.LayoutService
 import cat.mvmike.minimalcalendarwidget.domain.component.MonthAndYearHeaderService
-import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
 import cat.mvmike.minimalcalendarwidget.domain.getFormat
 import cat.mvmike.minimalcalendarwidget.domain.intent.addAllListeners
 import io.mockk.EqMatcher
@@ -82,13 +81,10 @@ internal class RedrawWidgetUseCaseTest : BaseTest() {
             ::getFormat
         )
 
-        mockSharedPreferences()
-        mockWidgetTheme(Theme.DARK)
-
         val packageName = "mincalWidget"
         every { context.packageName } returns packageName
         mockkConstructor(RemoteViews::class)
-        justRun { constructedWith<RemoteViews>(EqMatcher(packageName), EqMatcher(2131427362)).removeAllViews(any()) }
+        justRun { constructedWith<RemoteViews>(EqMatcher(packageName), EqMatcher(2131427390)).removeAllViews(any()) }
 
         justRun { addAllListeners(context, any()) }
 
@@ -104,7 +100,6 @@ internal class RedrawWidgetUseCaseTest : BaseTest() {
         RedrawWidgetUseCase.execute(context, appWidgetManager, appWidgetId)
 
         verify { context.packageName }
-        verifyWidgetTheme()
         verify { addAllListeners(context, any()) }
         verify { LayoutService.draw(context, any()) }
         verify { MonthAndYearHeaderService.draw(context, any(), format) }

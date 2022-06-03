@@ -31,14 +31,11 @@
 
     <!--foreground-->
 
-    <color name="text_colour_full_dark">#FFFFFF</color>
-    <color name="text_colour_full_light">#000000</color>
+    <color name="text_colour_dark">#FFFFFF</color>
+    <color name="text_colour_light">#000000</color>
 
     <color name="text_colour_semi_dark">#44FFFFFF</color>
     <color name="text_colour_semi_light">#44000000</color>
-
-    <color name="text_colour_today_dark">#FFFFFF</color>
-    <color name="text_colour_today_light">#000000</color>
 
     <!--instances-->
 

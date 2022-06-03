@@ -12,7 +12,6 @@ import cat.mvmike.minimalcalendarwidget.domain.component.DaysHeaderService
 import cat.mvmike.minimalcalendarwidget.domain.component.DaysService
 import cat.mvmike.minimalcalendarwidget.domain.component.LayoutService
 import cat.mvmike.minimalcalendarwidget.domain.component.MonthAndYearHeaderService
-import cat.mvmike.minimalcalendarwidget.domain.configuration.EnumConfiguration
 import cat.mvmike.minimalcalendarwidget.domain.getFormat
 import cat.mvmike.minimalcalendarwidget.domain.intent.addAllListeners
 
@@ -32,7 +31,7 @@ object RedrawWidgetUseCase {
         appWidgetIds.forEach { appWidgetId -> execute(context, appWidgetManager, appWidgetId) }
 
     fun execute(context: Context, appWidgetManager: AppWidgetManager, appWidgetId: Int) {
-        val widgetRemoteView = RemoteViews(context.packageName, EnumConfiguration.WidgetTheme.get(context).mainLayout)
+        val widgetRemoteView = RemoteViews(context.packageName, R.layout.widget)
         widgetRemoteView.removeAllViews(R.id.calendar_days_layout)
 
         addAllListeners(context, widgetRemoteView)

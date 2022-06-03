@@ -6,6 +6,7 @@ import android.content.Context
 import android.widget.RemoteViews
 import cat.mvmike.minimalcalendarwidget.R
 import cat.mvmike.minimalcalendarwidget.domain.Format
+import cat.mvmike.minimalcalendarwidget.domain.configuration.EnumConfiguration
 import cat.mvmike.minimalcalendarwidget.infrastructure.config.ClockConfig
 import cat.mvmike.minimalcalendarwidget.infrastructure.config.LocaleConfig
 import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.GraphicResolver
@@ -27,10 +28,13 @@ object MonthAndYearHeaderService {
         val locale = LocaleConfig.getLocale(context)
         val displayMonth = format.getMonthHeaderLabel(systemInstant.toMonthDisplayValue(systemZoneId, context))
         val displayYear = systemInstant.toYearDisplayValue(locale, systemZoneId)
+        val widgetTheme = EnumConfiguration.WidgetTheme.get(context)
 
         GraphicResolver.createMonthAndYearHeader(
+            context = context,
             widgetRemoteView = widgetRemoteView,
-            monthAndYear = "$displayMonth $displayYear",
+            text = "$displayMonth $displayYear",
+            textColour = widgetTheme.mainTextColour,
             headerRelativeYearSize = HEADER_RELATIVE_YEAR_SIZE
         )
     }
