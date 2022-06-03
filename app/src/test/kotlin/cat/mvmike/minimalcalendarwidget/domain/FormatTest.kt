@@ -21,7 +21,7 @@ internal class FormatTest : BaseTest() {
 
     private val appWidgetId = 2304985
 
-    @Suppress("unused")
+    @Suppress("UnusedPrivateMember")
     private fun getWidgetCurrentSizeAndExpectedOutput(): Stream<GetWidgetSizeUseCaseTestProperties> = Stream.of(
         GetWidgetSizeUseCaseTestProperties(
             width = 180,
@@ -46,7 +46,7 @@ internal class FormatTest : BaseTest() {
         ).isEqualTo(formatTestProperties.shouldFitSize)
     }
 
-    @Suppress("unused")
+    @Suppress("UnusedPrivateMember")
     private fun getWidgetCurrentFormatAndExpectedOutput(): Stream<FormatTestProperties> = Stream.of(
         FormatTestProperties(180, 70, Format.STANDARD, true),
         FormatTestProperties(180, 70, Format.REDUCED, true),

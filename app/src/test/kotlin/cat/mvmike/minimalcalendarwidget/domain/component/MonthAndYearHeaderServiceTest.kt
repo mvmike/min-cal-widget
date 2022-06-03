@@ -61,7 +61,7 @@ internal class MonthAndYearHeaderServiceTest : BaseTest() {
         confirmVerified(widgetRv)
     }
 
-    @Suppress("unused")
+    @Suppress("UnusedPrivateMember")
     private fun getSpreadInstantsAndFormatsWithExpectedTextAndColour() = Stream.of(
         Arguments.of("2018-01-26".toInstant(), Format.STANDARD, Theme.DARK, "January 2018", darkThemeMainTextColour),
         Arguments.of("2018-01-26".toInstant(), Format.REDUCED, Theme.DARK, "Jan 2018", darkThemeMainTextColour),

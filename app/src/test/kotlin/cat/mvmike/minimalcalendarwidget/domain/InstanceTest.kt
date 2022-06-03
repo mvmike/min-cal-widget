@@ -70,7 +70,7 @@ internal class InstanceTest : BaseTest() {
 
 
     // calendarProvider uses UTC when allDay, systemOffset otherwise
-    @Suppress("unused", "LongMethod")
+    @Suppress("UnusedPrivateMember", "LongMethod")
     private fun getTimeSpansAndIfTheyAreAllDayAndShouldBeInDay(): Stream<InstantTestProperties> = Stream.of(
         //starting and ending before day
         InstantTestProperties(
@@ -152,7 +152,7 @@ internal class InstanceTest : BaseTest() {
         )
     )
 
-    @Suppress("unused")
+    @Suppress("UnusedPrivateMember")
     private fun getSetsOfExpectedInstances(): Stream<Set<Instance>> = Stream.of(
         emptySet(),
         setOf(

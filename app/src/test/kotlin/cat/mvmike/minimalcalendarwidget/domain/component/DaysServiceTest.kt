@@ -387,7 +387,7 @@ internal class DaysServiceTest : BaseTest() {
         )
     }
 
-    @Suppress("unused")
+    @Suppress("UnusedPrivateMember")
     private fun getDrawDaysUseCaseTestProperties() = Stream.of(
         DrawDaysUseCaseTestProperties(" 26 ·", darkThemeCellTextColour),
         DrawDaysUseCaseTestProperties(" 27  ", darkThemeCellTextColour),
@@ -440,7 +440,7 @@ internal class DaysServiceTest : BaseTest() {
         .toInstant(zoneOffset)
 
 
-    @Suppress("unused")
+    @Suppress("UnusedPrivateMember")
     private fun getSystemLocalDateAndFirstDayOfWeekWithExpectedCurrentWeekFocusedInitialLocalDate() = Stream.of(
         Arguments.of(
             LocalDate.of(2022, 2, 24),
@@ -499,7 +499,7 @@ internal class DaysServiceTest : BaseTest() {
         )
     )
 
-    @Suppress("unused", "LongMethod")
+    @Suppress("UnusedPrivateMember", "LongMethod")
     private fun getSystemLocalDateAndFirstDayOfWeekWithExpectedNaturalMonthInitialLocalDate() = Stream.of(
         Arguments.of(
             LocalDate.of(2018, 1, 26),
@@ -603,7 +603,7 @@ internal class DaysServiceTest : BaseTest() {
         )
     )!!
 
-    @Suppress("unused", "LongMethod")
+    @Suppress("UnusedPrivateMember", "LongMethod")
     private fun getLocalDateAndIncludeDeclinedEventsWithExpectedNumberOfInstances() = Stream.of(
         Arguments.of(LocalDate.of(2018, 11, 26), false, 1),
         Arguments.of(LocalDate.of(2018, 11, 27), false, 0),

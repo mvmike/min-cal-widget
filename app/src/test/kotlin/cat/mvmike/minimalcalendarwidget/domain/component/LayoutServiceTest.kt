@@ -63,7 +63,7 @@ internal class LayoutServiceTest : BaseTest() {
         confirmVerified(widgetRv)
     }
 
-    @Suppress("unused")
+    @Suppress("UnusedPrivateMember")
     private fun getCombinationOfThemesAndTransparencyLevels() = Stream.of(
         Arguments.of(Theme.DARK, Transparency(0), darkThemeMainLayout, "FF"),
         Arguments.of(Theme.DARK, Transparency(1), darkThemeMainLayout, "FC"),

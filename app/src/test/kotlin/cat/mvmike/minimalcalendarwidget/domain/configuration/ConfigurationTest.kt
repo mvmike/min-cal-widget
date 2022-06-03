@@ -97,7 +97,7 @@ internal class ConfigurationTest : BaseTest() {
         verify { editor.apply() }
     }
 
-    @Suppress("unused")
+    @Suppress("UnusedPrivateMember")
     private fun getCombinationOfEnumConfigurationItemsWithValuesAndKey(): Stream<Arguments> = Stream.of(
         Arguments.of(
             Theme.values(),

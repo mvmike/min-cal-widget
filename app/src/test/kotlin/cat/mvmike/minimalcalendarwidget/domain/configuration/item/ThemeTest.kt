@@ -68,7 +68,7 @@ internal class ThemeTest : BaseTest() {
         assertThat(result).isEqualTo(expectedResult)
     }
 
-    @Suppress("unused")
+    @Suppress("UnusedPrivateMember")
     private fun getCombinationOfThemesAndDaysOfWeekWithExpectedCellHeader(): Stream<Arguments> = Stream.of(
         Arguments.of(
             Theme.DARK, DayOfWeek.MONDAY,
@@ -128,7 +128,7 @@ internal class ThemeTest : BaseTest() {
         )
     )
 
-    @Suppress("unused", "LongMethod")
+    @Suppress("UnusedPrivateMember", "LongMethod")
     private fun getCombinationOfThemesAndDayStatusesWithExpectedCellDay(): Stream<Arguments> = Stream.of(
         Arguments.of(
             Theme.DARK, true, true, DayOfWeek.MONDAY,

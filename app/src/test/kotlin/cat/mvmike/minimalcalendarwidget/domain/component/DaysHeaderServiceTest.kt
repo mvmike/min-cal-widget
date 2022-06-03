@@ -91,7 +91,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
         confirmVerified(widgetRv, daysHeaderRowRv)
     }
 
-    @Suppress("unused", "LongMethod")
+    @Suppress("UnusedPrivateMember", "LongMethod")
     private fun startWeekDayAndThemeAndFormatWithExpectedOutput() = Stream.of(
         Arguments.of(
             MONDAY, Theme.DARK, Format.STANDARD, listOf(

@@ -36,7 +36,7 @@ internal class TransparencyTest : BaseTest() {
         assertThat(result).isEqualTo(transparencyProperties.expectedAlphaInHex)
     }
 
-    @Suppress("unused")
+    @Suppress("UnusedPrivateMember")
     private fun getTransparencyWithAlphaLimitsAndExpectedOutputs(): Stream<TransparencyTestProperties> = Stream.of(
         TransparencyTestProperties(0, TransparencyRange.COMPLETE, 255, "FF"),
         TransparencyTestProperties(0, TransparencyRange.MODERATE, 80, "50"),
