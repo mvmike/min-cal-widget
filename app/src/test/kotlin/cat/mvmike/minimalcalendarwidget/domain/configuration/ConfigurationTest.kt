@@ -12,11 +12,9 @@ import io.mockk.verify
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.EnumSource
 import org.junit.jupiter.params.provider.ValueSource
 import java.time.DayOfWeek
-import java.util.stream.Stream
 
 internal class ConfigurationTest : BaseTest() {
 
@@ -96,28 +94,4 @@ internal class ConfigurationTest : BaseTest() {
         verify { editor.clear() }
         verify { editor.apply() }
     }
-
-    @Suppress("UnusedPrivateMember")
-    private fun getCombinationOfEnumConfigurationItemsWithValuesAndKey(): Stream<Arguments> = Stream.of(
-        Arguments.of(
-            Theme.values(),
-            EnumConfiguration.WidgetTheme,
-            "WIDGET_THEME"
-        ),
-        Arguments.of(
-            DayOfWeek.values(),
-            EnumConfiguration.FirstDayOfWeek,
-            "FIRST_DAY_OF_WEEK"
-        ),
-        Arguments.of(
-            SymbolSet.values(),
-            EnumConfiguration.InstancesSymbolSet,
-            "INSTANCES_SYMBOL_SET"
-        ),
-        Arguments.of(
-            Colour.values(),
-            EnumConfiguration.InstancesColour,
-            "INSTANCES_COLOUR"
-        )
-    )
 }
