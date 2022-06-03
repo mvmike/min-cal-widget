@@ -698,7 +698,5 @@ internal class DaysServiceTest : BaseTest() {
         val isToday: Boolean = false,
         val symbolRelativeSize: Float = 1f,
         val instancesColour: Int = instancesColourId
-    ) {
-        fun isSingleDigitDay() = spanText.startsWith(" 0")
-    }
+    )
 }
