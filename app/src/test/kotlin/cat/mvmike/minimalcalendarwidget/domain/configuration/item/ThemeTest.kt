@@ -12,25 +12,25 @@ import java.util.stream.Stream
 
 internal const val cellViewId = 16908308
 
-internal const val saturdayInMonthDarkThemeCellBackground = 2131034150
-internal const val sundayInMonthDarkThemeCellBackground = 2131034156
-internal const val saturdayDarkThemeCellBackground = 2131034148
-internal const val sundayDarkThemeCellBackground = 2131034154
-internal const val saturdayInMonthLightThemeCellBackground = 2131034151
-internal const val sundayInMonthLightThemeCellBackground = 2131034157
+internal const val saturdayInMonthDarkThemeCellBackground = 2131034149
+internal const val sundayInMonthDarkThemeCellBackground = 2131034155
+internal const val saturdayDarkThemeCellBackground = 2131034147
+internal const val sundayDarkThemeCellBackground = 2131034153
+internal const val saturdayInMonthLightThemeCellBackground = 2131034150
+internal const val sundayInMonthLightThemeCellBackground = 2131034156
 
-internal const val todayDarkThemeCellBackground = 2131034162
+internal const val todayDarkThemeCellBackground = 2131034161
 internal const val todayDarkThemeCellLayout = 2131427360
-internal const val inMonthDarkThemeCellBackground = 2131034160
+internal const val inMonthDarkThemeCellBackground = 2131034159
 internal const val inMonthDarkThemeCellLayout = 2131427359
 internal const val darkThemeCellLayout = 2131427358
 
 private const val darkThemeHeaderLayout = 2131427361
 private const val lightThemeHeaderLayout = 2131427368
 
-private const val todayLightThemeCellBackground = 2131034163
+private const val todayLightThemeCellBackground = 2131034162
 private const val todayLightThemeCellLayout = 2131427367
-private const val inMonthLightThemeCellBackground = 2131034161
+private const val inMonthLightThemeCellBackground = 2131034160
 private const val inMonthLightThemeCellLayout = 2131427366
 private const val lightThemeCellLayout = 2131427365
 
@@ -140,11 +140,11 @@ internal class ThemeTest : BaseTest() {
         ),
         Arguments.of(
             Theme.DARK, true, true, DayOfWeek.SATURDAY,
-            Cell(id = cellViewId, layout = todayDarkThemeCellLayout, background = 2131034152)
+            Cell(id = cellViewId, layout = todayDarkThemeCellLayout, background = 2131034151)
         ),
         Arguments.of(
             Theme.DARK, true, true, DayOfWeek.SUNDAY,
-            Cell(id = cellViewId, layout = todayDarkThemeCellLayout, background = 2131034158)
+            Cell(id = cellViewId, layout = todayDarkThemeCellLayout, background = 2131034157)
         ),
         Arguments.of(
             Theme.DARK, false, true, DayOfWeek.MONDAY,
@@ -224,11 +224,11 @@ internal class ThemeTest : BaseTest() {
         ),
         Arguments.of(
             Theme.LIGHT, true, true, DayOfWeek.SATURDAY,
-            Cell(id = cellViewId, layout = todayLightThemeCellLayout, background = 2131034153)
+            Cell(id = cellViewId, layout = todayLightThemeCellLayout, background = 2131034152)
         ),
         Arguments.of(
             Theme.LIGHT, true, true, DayOfWeek.SUNDAY,
-            Cell(id = cellViewId, layout = todayLightThemeCellLayout, background = 2131034159)
+            Cell(id = cellViewId, layout = todayLightThemeCellLayout, background = 2131034158)
         ),
         Arguments.of(
             Theme.LIGHT, false, true, DayOfWeek.MONDAY,
@@ -280,11 +280,11 @@ internal class ThemeTest : BaseTest() {
         ),
         Arguments.of(
             Theme.LIGHT, false, false, DayOfWeek.SATURDAY,
-            Cell(id = cellViewId, layout = lightThemeCellLayout, background = 2131034149)
+            Cell(id = cellViewId, layout = lightThemeCellLayout, background = 2131034148)
         ),
         Arguments.of(
             Theme.LIGHT, false, false, DayOfWeek.SUNDAY,
-            Cell(id = cellViewId, layout = lightThemeCellLayout, background = 2131034155)
+            Cell(id = cellViewId, layout = lightThemeCellLayout, background = 2131034154)
         )
     )
 }

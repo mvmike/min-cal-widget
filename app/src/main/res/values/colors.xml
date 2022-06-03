@@ -52,11 +52,4 @@
     <color name="instances_black">#000000</color>
     <color name="instances_white">#FFFFFF</color>
 
-    <!--configuration-->
-
-    <color name="config_label">#FFFFFF</color>
-
-    <!--generic-->
-    <color name="alpha">#00FFFFFF</color>
-
 </resources>

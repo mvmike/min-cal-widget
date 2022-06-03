@@ -19,8 +19,8 @@ import org.junit.jupiter.params.provider.MethodSource
 import java.util.Random
 import java.util.stream.Stream
 
-private const val darkThemeMainLayout = 2131034144
-private const val lightThemeMainLayout = 2131034145
+private const val darkThemeMainLayout = 2131034143
+private const val lightThemeMainLayout = 2131034144
 
 internal class LayoutServiceTest : BaseTest() {
 

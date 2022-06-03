@@ -44,8 +44,8 @@ import java.time.format.DateTimeFormatter
 import java.util.Random
 import java.util.stream.Stream
 
-private const val instancesColourTodayId = 2131034188
-private const val instancesColourId = 2131034185
+private const val instancesColourTodayId = 2131034186
+private const val instancesColourId = 2131034183
 
 private const val dayCellTransparentBackground = "transparentBackground"
 private const val dayCellModerateTransparentBackgroundInHex = "#40ground"
