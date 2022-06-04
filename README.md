@@ -29,7 +29,7 @@ Minimal calendar widget that's always on current date's month
   <img src="/fastlane/metadata/android/en-US/images/phoneScreenshots/2.png" width="32%" >
 </p>
 
-#### Themes and reduced format
+#### Appearance and format variations
 
 <p align="middle">
   <img src="/fastlane/metadata/android/en-US/images/phoneScreenshots/3.png" width="30%" >
