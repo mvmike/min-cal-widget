@@ -1,0 +1,4 @@
+v2.6.2
+- unify and align config icon
+- update and adjust preview
+- technical maintenance
