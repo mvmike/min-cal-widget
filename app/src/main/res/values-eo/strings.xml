@@ -2,6 +2,7 @@
 <resources>
 
     <!--ESPERANTO-->
+    <string name="app_name" translatable="false"/>
 
     <!--Configuration-->
     <string name="configuration">Agordoj</string>

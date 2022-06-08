@@ -2,6 +2,7 @@
 <resources>
 
     <!--GERMAN-->
+    <string name="app_name" translatable="false"/>
 
     <!--Configuration-->
     <string name="configuration">Konfiguration</string>
