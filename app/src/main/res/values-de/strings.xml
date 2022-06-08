@@ -1,27 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <!--GERMAN-->
     <string name="app_name" translatable="false"/>
-
     <!--Configuration-->
     <string name="configuration">Konfiguration</string>
-
     <string name="behaviour">Verhalten</string>
     <string name="start_week_day">Start Tag</string>
     <string name="show_declined_events">Abgelehnte Veranstaltungen anzeigen</string>
     <string name="focus_on_current_week">Aktueller Wochenfokus</string>
-
     <string name="appearance">Aussehen</string>
     <string name="theme">Thema</string>
     <string name="symbol_set">Zeichensatz</string>
     <string name="symbol_colour">Farbe des Symbols</string>
     <string name="transparency">Transparenz</string>
-
     <string name="about">Über</string>
     <string name="version">Ausführung</string>
     <string name="source">Quellcode</string>
-
     <!-- Months of year-->
     <string name="january">Januar</string>
     <string name="february">Februar</string>
@@ -35,7 +29,6 @@
     <string name="october">Oktober</string>
     <string name="november">November</string>
     <string name="december">Dezember</string>
-
     <!--Days of week-->
     <string name="monday">Montag</string>
     <string name="tuesday">Dienstag</string>
@@ -44,7 +37,6 @@
     <string name="friday">Freitag</string>
     <string name="saturday">Samstag</string>
     <string name="sunday">Sonntag</string>
-
     <!--Days of week abbreviated-->
     <string name="monday_abb">mo</string>
     <string name="tuesday_abb">di</string>
@@ -53,11 +45,9 @@
     <string name="friday_abb">fr</string>
     <string name="saturday_abb">sa</string>
     <string name="sunday_abb">so</string>
-
     <!--Themes-->
     <string name="dark">Dunkel</string>
     <string name="light">Licht</string>
-
     <!--Symbols-->
     <string name="minimal">Minimum</string>
     <string name="vertical">Vertikal</string>
@@ -66,7 +56,6 @@
     <string name="roman">Römisch</string>
     <string name="binary">Binär</string>
     <string name="none">Keine</string>
-
     <!--Colours-->
     <string name="black">Schwarz</string>
     <string name="white">Weiß</string>
@@ -75,9 +64,7 @@
     <string name="blue">Blau</string>
     <string name="green">Grün</string>
     <string name="yellow">Gelb</string>
-
     <!-- messages-->
     <string name="no_calendar_application">Keine Kalenderanwendung gefunden</string>
     <string name="no_browser_application">Keine Browseranwendung gefunden</string>
-
 </resources>
