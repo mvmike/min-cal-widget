@@ -46,13 +46,13 @@
     <string name="sunday">Zondag</string>
 
     <!--Days of week abbreviated-->
-    <string name="monday_abb">ma</string>
-    <string name="tuesday_abb">di</string>
-    <string name="wednesday_abb">woe</string>
-    <string name="thursday_abb">do</string>
-    <string name="friday_abb">vrij</string>
-    <string name="saturday_abb">za</string>
-    <string name="sunday_abb">zo</string>
+    <string name="monday_abb">Ma</string>
+    <string name="tuesday_abb">Di</string>
+    <string name="wednesday_abb">Woe</string>
+    <string name="thursday_abb">Do</string>
+    <string name="friday_abb">Vrij</string>
+    <string name="saturday_abb">Za</string>
+    <string name="sunday_abb">Zo</string>
 
     <!--Themes-->
     <string name="dark">Donker</string>

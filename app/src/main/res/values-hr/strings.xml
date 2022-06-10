@@ -46,13 +46,13 @@
     <string name="sunday">Nedjelja</string>
 
     <!--Days of week abbreviated-->
-    <string name="monday_abb">pon</string>
-    <string name="tuesday_abb">uto</string>
-    <string name="wednesday_abb">sri</string>
-    <string name="thursday_abb">čet</string>
-    <string name="friday_abb">pet</string>
-    <string name="saturday_abb">sub</string>
-    <string name="sunday_abb">ned</string>
+    <string name="monday_abb">Pon</string>
+    <string name="tuesday_abb">Uto</string>
+    <string name="wednesday_abb">Sri</string>
+    <string name="thursday_abb">Čet</string>
+    <string name="friday_abb">Pet</string>
+    <string name="saturday_abb">Sub</string>
+    <string name="sunday_abb">Ned</string>
 
     <!--Themes-->
     <string name="dark">Taman</string>

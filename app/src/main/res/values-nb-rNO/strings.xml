@@ -46,13 +46,13 @@
     <string name="sunday">Søndag</string>
 
     <!--Days of week abbreviated-->
-    <string name="monday_abb">man</string>
-    <string name="tuesday_abb">tir</string>
-    <string name="wednesday_abb">ons</string>
-    <string name="thursday_abb">tor</string>
-    <string name="friday_abb">fre</string>
-    <string name="saturday_abb">lør</string>
-    <string name="sunday_abb">søn</string>
+    <string name="monday_abb">Man</string>
+    <string name="tuesday_abb">Tir</string>
+    <string name="wednesday_abb">Ons</string>
+    <string name="thursday_abb">Tor</string>
+    <string name="friday_abb">Fre</string>
+    <string name="saturday_abb">Lør</string>
+    <string name="sunday_abb">Søn</string>
 
     <!--Themes-->
     <string name="dark">Mørk</string>

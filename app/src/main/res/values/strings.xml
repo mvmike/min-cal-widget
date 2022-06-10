@@ -46,13 +46,13 @@
     <string name="sunday">Sunday</string>
 
     <!--Days of week abbreviated-->
-    <string name="monday_abb">mon</string>
-    <string name="tuesday_abb">tue</string>
-    <string name="wednesday_abb">wed</string>
-    <string name="thursday_abb">thu</string>
-    <string name="friday_abb">fri</string>
-    <string name="saturday_abb">sat</string>
-    <string name="sunday_abb">sun</string>
+    <string name="monday_abb">Mon</string>
+    <string name="tuesday_abb">Tue</string>
+    <string name="wednesday_abb">Wed</string>
+    <string name="thursday_abb">Thu</string>
+    <string name="friday_abb">Fri</string>
+    <string name="saturday_abb">Sat</string>
+    <string name="sunday_abb">Sun</string>
 
     <!--Themes-->
     <string name="dark">Dark</string>

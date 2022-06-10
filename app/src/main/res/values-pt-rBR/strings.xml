@@ -46,13 +46,13 @@
     <string name="sunday">Domingo</string>
 
     <!--Days of week abbreviated-->
-    <string name="monday_abb">seg</string>
-    <string name="tuesday_abb">ter</string>
-    <string name="wednesday_abb">qua</string>
-    <string name="thursday_abb">qui</string>
-    <string name="friday_abb">sex</string>
-    <string name="saturday_abb">sab</string>
-    <string name="sunday_abb">dom</string>
+    <string name="monday_abb">Seg</string>
+    <string name="tuesday_abb">Ter</string>
+    <string name="wednesday_abb">Qua</string>
+    <string name="thursday_abb">Qui</string>
+    <string name="friday_abb">Sex</string>
+    <string name="saturday_abb">Sab</string>
+    <string name="sunday_abb">Dom</string>
 
     <!--Themes-->
     <string name="dark">Escuro</string>
