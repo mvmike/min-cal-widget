@@ -125,7 +125,7 @@ android {
 dependencies {
 
     //https://github.com/google/desugar_jdk_libs/tags
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.6")
 
     //https://developer.android.com/jetpack/androidx/versions/
     implementation("androidx.appcompat:appcompat:1.4.2")
