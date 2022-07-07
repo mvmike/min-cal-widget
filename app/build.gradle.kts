@@ -13,6 +13,8 @@ plugins {
 
 android {
 
+    namespace = "cat.mvmike.minimalcalendarwidget"
+
     //https://source.android.com/setup/start/build-numbers
     val minAndroidVersion = AndroidVersion.VersionCodes.N   // 7.0
     val androidVersion = AndroidVersion.VersionCodes.S      // 12.0
@@ -26,7 +28,7 @@ android {
 
     defaultConfig {
 
-        applicationId = "cat.mvmike.minimalcalendarwidget"
+        applicationId = namespace
         minSdk = minAndroidVersion
         targetSdk = androidVersion
         versionCode = 43

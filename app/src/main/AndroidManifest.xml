@@ -1,6 +1,5 @@
 <!-- Copyright (c) 2016, Miquel Martí <miquelmarti111@gmail.com> - See LICENSE for licensing information -->
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="cat.mvmike.minimalcalendarwidget">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.READ_CALENDAR" />
 
