@@ -38,7 +38,6 @@ android {
     }
 
     compileOptions {
-        isCoreLibraryDesugaringEnabled = true
         compileOptions.encoding = Charsets.UTF_8.name()
 
         sourceCompatibility = javaVersion
@@ -125,9 +124,6 @@ android {
 }
 
 dependencies {
-
-    //https://github.com/google/desugar_jdk_libs/tags
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.2.0")
 
     //https://developer.android.com/jetpack/androidx/versions/
     implementation("androidx.appcompat:appcompat:1.4.2")
