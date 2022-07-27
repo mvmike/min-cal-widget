@@ -132,7 +132,7 @@ dependencies {
     implementation("androidx.preference:preference-ktx:1.2.0")
 
     //https://github.com/junit-team/junit5/releases
-    val junitJupiterVersion = "5.8.2"
+    val junitJupiterVersion = "5.9.0"
     testImplementation("org.junit.jupiter:junit-jupiter-api:$junitJupiterVersion")
     testImplementation("org.junit.jupiter:junit-jupiter-engine:$junitJupiterVersion")
     testImplementation("org.junit.jupiter:junit-jupiter-params:$junitJupiterVersion")
