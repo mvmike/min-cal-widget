@@ -5,35 +5,28 @@ package cat.mvmike.minimalcalendarwidget.infrastructure.resolver
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
+import android.database.Cursor
 import android.provider.CalendarContract
 import androidx.core.content.ContextCompat
 import cat.mvmike.minimalcalendarwidget.domain.Instance
 import java.time.Instant
 import java.time.ZoneId
 
-object CalendarResolver {
+internal val instanceQueryFields = arrayOf(
+    CalendarContract.Instances.EVENT_ID,
+    CalendarContract.Instances.BEGIN,
+    CalendarContract.Instances.END,
+    CalendarContract.Instances.EVENT_TIMEZONE,
+    CalendarContract.Instances.SELF_ATTENDEE_STATUS
+)
 
-    private val instanceQueryFields = arrayOf(
-        CalendarContract.Instances.EVENT_ID,
-        CalendarContract.Instances.BEGIN,
-        CalendarContract.Instances.END,
-        CalendarContract.Instances.EVENT_TIMEZONE,
-        CalendarContract.Instances.SELF_ATTENDEE_STATUS
-    )
+object CalendarResolver {
 
     fun getInstances(context: Context, begin: Long, end: Long): Set<Instance> {
         val instances: MutableSet<Instance> = HashSet()
-        CalendarContract.Instances.query(context.contentResolver, instanceQueryFields, begin, end).use { instanceCursor ->
-            while (instanceCursor != null && instanceCursor.moveToNext()) {
-                instances.add(
-                    Instance(
-                        eventId = instanceCursor.getInt(0),
-                        start = Instant.ofEpochMilli(instanceCursor.getLong(1)),
-                        end = Instant.ofEpochMilli(instanceCursor.getLong(2)),
-                        zoneId = instanceCursor.getString(3).toZoneIdOrDefault(),
-                        isDeclined = instanceCursor.getInt(4) == CalendarContract.Instances.STATUS_CANCELED
-                    )
-                )
+        queryInstances(context, begin, end)?.use { instanceCursor ->
+            while (instanceCursor.moveToNext()) {
+                instanceCursor.toInstance()?.let { instances.add(it) }
             }
         }
         return instances.toSet()
@@ -42,9 +35,32 @@ object CalendarResolver {
     fun isReadCalendarPermitted(context: Context) =
         ContextCompat.checkSelfPermission(context, Manifest.permission.READ_CALENDAR) == PackageManager.PERMISSION_GRANTED
 
-    private fun String.toZoneIdOrDefault(): ZoneId = try {
-        ZoneId.of(this)
-    } catch (ignored: RuntimeException) {
-        ZoneId.systemDefault()
-    }
+    private fun queryInstances(context: Context, begin: Long, end: Long): Cursor? = runCatching {
+        CalendarContract.Instances.query(context.contentResolver, instanceQueryFields, begin, end)
+    }.fold(
+        onSuccess = { it },
+        onFailure = { null }
+    )
+
+    private fun Cursor.toInstance(): Instance? = runCatching {
+        Instance(
+            eventId = this.getInt(0),
+            start = Instant.ofEpochMilli(this.getLong(1)),
+            end = Instant.ofEpochMilli(this.getLong(2)),
+            zoneId = toZoneIdOrDefault(this.getString(3)),
+            isDeclined = this.getInt(4) == CalendarContract.Instances.STATUS_CANCELED
+        )
+    }.fold(
+        onSuccess = { it },
+        onFailure = { null }
+    )
+
+    private fun toZoneIdOrDefault(zoneId: String?): ZoneId = zoneId?.let {
+        runCatching {
+            ZoneId.of(it)
+        }.fold(
+            onSuccess = { it },
+            onFailure = { ZoneId.systemDefault() }
+        )
+    } ?: ZoneId.systemDefault()
 }
