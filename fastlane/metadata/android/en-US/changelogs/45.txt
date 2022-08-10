@@ -1,0 +1,3 @@
+v2.6.4
+- refined and more granular day cells text size
+- center text in day cells
