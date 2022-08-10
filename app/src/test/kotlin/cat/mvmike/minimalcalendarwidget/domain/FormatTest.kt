@@ -3,10 +3,13 @@
 package cat.mvmike.minimalcalendarwidget.domain
 
 import android.appwidget.AppWidgetManager
+import android.content.res.Configuration
 import android.os.Bundle
 import cat.mvmike.minimalcalendarwidget.BaseTest
+import io.mockk.confirmVerified
 import io.mockk.every
 import io.mockk.mockk
+import io.mockk.verify
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
@@ -21,109 +24,70 @@ internal class FormatTest : BaseTest() {
 
     private val appWidgetId = 2304985
 
-    @Suppress("UnusedPrivateMember")
-    private fun getWidgetCurrentSizeAndExpectedOutput(): Stream<GetWidgetSizeUseCaseTestProperties> = Stream.of(
-        GetWidgetSizeUseCaseTestProperties(
-            width = 180,
-            height = 120,
-            expectedSize = Format.STANDARD
-        ),
-        GetWidgetSizeUseCaseTestProperties(
-            width = 179,
-            height = 120,
-            expectedSize = Format.REDUCED
-        )
-    )
-
     @ParameterizedTest
-    @MethodSource("getWidgetCurrentFormatAndExpectedOutput")
-    fun fitsSize_shouldCheckIfItFitsItsWidthAndHeight(formatTestProperties: FormatTestProperties) {
-        assertThat(
-            formatTestProperties.format.fitsSize(
-                width = formatTestProperties.width,
-                height = formatTestProperties.height
-            )
-        ).isEqualTo(formatTestProperties.shouldFitSize)
-    }
-
-    @Suppress("UnusedPrivateMember")
-    private fun getWidgetCurrentFormatAndExpectedOutput(): Stream<FormatTestProperties> = Stream.of(
-        FormatTestProperties(180, 70, Format.STANDARD, true),
-        FormatTestProperties(180, 70, Format.REDUCED, true),
-        FormatTestProperties(180, 71, Format.STANDARD, true),
-        FormatTestProperties(180, 71, Format.REDUCED, true),
-        FormatTestProperties(181, 70, Format.STANDARD, true),
-        FormatTestProperties(181, 70, Format.REDUCED, true),
-        FormatTestProperties(200, 90, Format.STANDARD, true),
-        FormatTestProperties(200, 90, Format.REDUCED, true),
-        FormatTestProperties(179, 70, Format.STANDARD, false),
-        FormatTestProperties(179, 70, Format.REDUCED, true),
-        FormatTestProperties(180, 69, Format.STANDARD, false),
-        FormatTestProperties(180, 69, Format.REDUCED, true),
-        FormatTestProperties(180, 50, Format.STANDARD, false),
-        FormatTestProperties(180, 50, Format.REDUCED, true),
-        FormatTestProperties(0, 0, Format.STANDARD, false),
-        FormatTestProperties(0, 0, Format.REDUCED, true),
-        FormatTestProperties(-1, 0, Format.STANDARD, false),
-        FormatTestProperties(-1, 0, Format.REDUCED, false),
-        FormatTestProperties(0, -1, Format.STANDARD, false),
-        FormatTestProperties(0, -1, Format.REDUCED, false),
-        FormatTestProperties(-320, -180, Format.STANDARD, false),
-        FormatTestProperties(-320, -180, Format.REDUCED, false)
-    )
-
-    @ParameterizedTest
-    @MethodSource("getWidgetCurrentSizeAndExpectedOutput")
+    @MethodSource("getWidgetSizeAndExpectedFormat")
     fun getFormat(getWidgetSizeUseCaseTestProperties: GetWidgetSizeUseCaseTestProperties) {
         every { appWidgetManager.getAppWidgetOptions(appWidgetId) } returns bundle
+        every { context.resources.configuration } returns Configuration()
         every { bundle.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH) } returns getWidgetSizeUseCaseTestProperties.width
-        every { bundle.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT) } returns getWidgetSizeUseCaseTestProperties.height
 
-        val result = getFormat(appWidgetManager, appWidgetId)
+        val result = getFormat(context, appWidgetManager, appWidgetId)
 
-        assertThat(result).isEqualTo(getWidgetSizeUseCaseTestProperties.expectedSize)
+        assertThat(result).isEqualTo(getWidgetSizeUseCaseTestProperties.expectedFormat)
+        verify { context.resources.configuration }
+        verify { bundle.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH) }
+        confirmVerified(bundle)
     }
 
     @Test
     fun getFormat_shouldReturnStandardWhenAnExceptionIsThrown_whenGettingBundle() {
         every { appWidgetManager.getAppWidgetOptions(appWidgetId) } throws Exception()
 
-        val result = getFormat(appWidgetManager, appWidgetId)
+        val result = getFormat(context, appWidgetManager, appWidgetId)
 
-        assertThat(result).isEqualTo(Format.STANDARD)
+        assertThat(result).isEqualTo(Format())
+        confirmVerified(bundle)
     }
 
     @Test
     fun getFormat_shouldReturnStandardWhenAnExceptionIsThrown_whenGettingWidth() {
         every { appWidgetManager.getAppWidgetOptions(appWidgetId) } returns bundle
+        every { context.resources.configuration } returns Configuration()
         every { bundle.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH) } throws Exception()
 
-        val result = getFormat(appWidgetManager, appWidgetId)
+        val result = getFormat(context, appWidgetManager, appWidgetId)
 
-        assertThat(result).isEqualTo(Format.STANDARD)
+        assertThat(result).isEqualTo(Format())
+        verify { context.resources.configuration }
+        verify { bundle.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH) }
+        confirmVerified(bundle)
     }
 
     @Test
-    fun getFormat_shouldReturnStandardWhenAnExceptionIsThrown_whenGettingHeight() {
+    fun getFormat_shouldReturnStandardWhenAnExceptionIsThrown_whenGettingOrientation() {
         every { appWidgetManager.getAppWidgetOptions(appWidgetId) } returns bundle
-        every { bundle.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH) } returns 200
-        every { bundle.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT) } throws Exception()
+        every { context.resources.configuration } throws Exception()
 
-        val result = getFormat(appWidgetManager, appWidgetId)
+        val result = getFormat(context, appWidgetManager, appWidgetId)
 
-        assertThat(result).isEqualTo(Format.STANDARD)
+        assertThat(result).isEqualTo(Format())
+        verify { context.resources.configuration }
+        confirmVerified(bundle)
     }
 
-    internal data class FormatTestProperties(
-        val width: Int,
-        val height: Int,
-        val format: Format,
-        val shouldFitSize: Boolean
+    @Suppress("UnusedPrivateMember")
+    private fun getWidgetSizeAndExpectedFormat(): Stream<GetWidgetSizeUseCaseTestProperties> = Stream.of(
+        GetWidgetSizeUseCaseTestProperties(180, Format()),
+        GetWidgetSizeUseCaseTestProperties(181, Format()),
+        GetWidgetSizeUseCaseTestProperties(200, Format()),
+        GetWidgetSizeUseCaseTestProperties(179, Format(monthHeaderLabelLength = 3, dayHeaderLabelLength = 1, dayCellValueRelativeSize = 0.6f)),
+        GetWidgetSizeUseCaseTestProperties(0, Format(monthHeaderLabelLength = 3, dayHeaderLabelLength = 1, dayCellValueRelativeSize = 0.6f)),
+        GetWidgetSizeUseCaseTestProperties(-1, Format(monthHeaderLabelLength = 3, dayHeaderLabelLength = 1, dayCellValueRelativeSize = 0.6f)),
+        GetWidgetSizeUseCaseTestProperties(-320, Format(monthHeaderLabelLength = 3, dayHeaderLabelLength = 1, dayCellValueRelativeSize = 0.6f))
     )
 
     internal data class GetWidgetSizeUseCaseTestProperties(
         val width: Int,
-        val height: Int,
-        val expectedSize: Format
+        val expectedFormat: Format
     )
 }

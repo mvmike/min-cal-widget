@@ -3,44 +3,48 @@
 package cat.mvmike.minimalcalendarwidget.domain
 
 import android.appwidget.AppWidgetManager
+import android.content.Context
+import android.content.res.Configuration.ORIENTATION_LANDSCAPE
+import android.os.Bundle
 
-enum class Format(
-    private val minWidth: Int,
-    private val minHeight: Int,
-    private val monthHeaderLabelLength: Int,
-    private val dayHeaderLabelLength: Int,
-    val dayCellValueRelativeSize: Float
+private const val DEFAULT_DAY_HEADER_LABEL_LENGTH = 3
+private const val DEFAULT_DAY_CELL_VALUE_RELATIVE_SIZE = 1f
+
+data class Format(
+    private val monthHeaderLabelLength: Int = Int.MAX_VALUE,
+    private val dayHeaderLabelLength: Int = DEFAULT_DAY_HEADER_LABEL_LENGTH,
+    val dayCellValueRelativeSize: Float = DEFAULT_DAY_CELL_VALUE_RELATIVE_SIZE
 ) {
-    STANDARD(
-        minWidth = 180,
-        minHeight = 70,
-        monthHeaderLabelLength = Int.MAX_VALUE,
-        dayHeaderLabelLength = 3,
-        dayCellValueRelativeSize = 1f
-    ),
-    REDUCED(
-        minWidth = 0,
-        minHeight = 0,
-        monthHeaderLabelLength = 3,
-        dayHeaderLabelLength = 1,
-        dayCellValueRelativeSize = 0.6f
-    );
-
-    fun fitsSize(width: Int, height: Int) = minWidth <= width && minHeight <= height
-
     fun getMonthHeaderLabel(value: String) = value.take(monthHeaderLabelLength)
 
     fun getDayHeaderLabel(value: String) = value.take(dayHeaderLabelLength)
 }
 
-fun getFormat(appWidgetManager: AppWidgetManager, appWidgetId: Int) = try {
+fun getFormat(context: Context, appWidgetManager: AppWidgetManager, appWidgetId: Int) = try {
     with(appWidgetManager.getAppWidgetOptions(appWidgetId)) {
-        val width = getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH)
-        val height = getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT)
-        Format.values()
-            .firstOrNull { it.fitsSize(width, height) }
-            ?: Format.STANDARD
+        val width = getWidth(context)
+        Format(
+            monthHeaderLabelLength = when {
+                width >= 180 -> Int.MAX_VALUE
+                else -> 3
+            },
+            dayHeaderLabelLength = when {
+                width >= 180 -> DEFAULT_DAY_HEADER_LABEL_LENGTH
+                else -> 1
+            },
+            dayCellValueRelativeSize = when {
+                width >= 180 -> DEFAULT_DAY_CELL_VALUE_RELATIVE_SIZE
+                else -> 0.6f
+            }
+        )
     }
 } catch (ignored: Exception) {
-    Format.STANDARD
+    Format()
+}
+
+private fun Bundle.getWidth(context: Context) = when(
+    context.resources.configuration.orientation == ORIENTATION_LANDSCAPE
+) {
+    true -> getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT)
+    else -> getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH)
 }

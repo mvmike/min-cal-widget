@@ -32,12 +32,13 @@ import io.mockk.mockk
 import io.mockk.verify
 import io.mockk.verifyOrder
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
-import org.junit.jupiter.params.provider.EnumSource
 import org.junit.jupiter.params.provider.MethodSource
 import java.time.DayOfWeek
 import java.time.LocalDate
+import java.time.LocalDate.of
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
@@ -57,10 +58,10 @@ internal class DaysServiceTest : BaseTest() {
 
     private val rowRv = mockk<RemoteViews>()
 
-    @ParameterizedTest
-    @EnumSource(value = Format::class)
+    @Test
     @SuppressWarnings("LongMethod")
-    fun setDays_shouldReturnSafeDateSpanOfSystemTimeZoneInstances(format: Format) {
+    fun setDays_shouldReturnSafeDateSpanOfSystemTimeZoneInstances() {
+        val format = Format()
         mockGetSystemLocalDate()
         mockIsReadCalendarPermitted(true)
 
@@ -439,256 +440,131 @@ internal class DaysServiceTest : BaseTest() {
         .parse(this, DateTimeFormatter.ISO_ZONED_DATE_TIME)
         .toInstant(zoneOffset)
 
-
     @Suppress("UnusedPrivateMember")
     private fun getSystemLocalDateAndFirstDayOfWeekWithExpectedCurrentWeekFocusedInitialLocalDate() = Stream.of(
-        Arguments.of(
-            LocalDate.of(2022, 2, 24),
-            DayOfWeek.MONDAY,
-            LocalDate.of(2022, 2, 14)
-        ),
-        Arguments.of(
-            LocalDate.of(2022, 2, 27),
-            DayOfWeek.MONDAY,
-            LocalDate.of(2022, 2, 14)
-        ),
-        Arguments.of(
-            LocalDate.of(2022, 2, 28),
-            DayOfWeek.MONDAY,
-            LocalDate.of(2022, 2, 21)
-        ),
-        Arguments.of(
-            LocalDate.of(2022, 2, 28),
-            DayOfWeek.TUESDAY,
-            LocalDate.of(2022, 2, 15)
-        ),
-        Arguments.of(
-            LocalDate.of(2022, 3, 1),
-            DayOfWeek.TUESDAY,
-            LocalDate.of(2022, 2, 22)
-        ),
-        Arguments.of(
-            LocalDate.of(2022, 1, 1),
-            DayOfWeek.WEDNESDAY,
-            LocalDate.of(2021, 12, 22)
-        ),
-        Arguments.of(
-            LocalDate.of(2022, 1, 1),
-            DayOfWeek.SATURDAY,
-            LocalDate.of(2021, 12, 25)
-        ),
-        Arguments.of(
-            LocalDate.of(2022, 2, 20),
-            DayOfWeek.SUNDAY,
-            LocalDate.of(2022, 2, 13)
-        ),
-        Arguments.of(
-            LocalDate.of(2022, 2, 25),
-            DayOfWeek.SUNDAY,
-            LocalDate.of(2022, 2, 13)
-        ),
-        Arguments.of(
-            LocalDate.of(2022, 2, 26),
-            DayOfWeek.SUNDAY,
-            LocalDate.of(2022, 2, 13)
-        ),
-        Arguments.of(
-            LocalDate.of(2022, 2, 27),
-            DayOfWeek.SUNDAY,
-            LocalDate.of(2022, 2, 20)
-        )
+        Arguments.of(of(2022, 2, 24), DayOfWeek.MONDAY, of(2022, 2, 14)),
+        Arguments.of(of(2022, 2, 27), DayOfWeek.MONDAY, of(2022, 2, 14)),
+        Arguments.of(of(2022, 2, 28), DayOfWeek.MONDAY, of(2022, 2, 21)),
+        Arguments.of(of(2022, 2, 28), DayOfWeek.TUESDAY, of(2022, 2, 15)),
+        Arguments.of(of(2022, 3, 1), DayOfWeek.TUESDAY, of(2022, 2, 22)),
+        Arguments.of(of(2022, 1, 1), DayOfWeek.WEDNESDAY, of(2021, 12, 22)),
+        Arguments.of(of(2022, 1, 1), DayOfWeek.SATURDAY, of(2021, 12, 25)),
+        Arguments.of(of(2022, 2, 20), DayOfWeek.SUNDAY, of(2022, 2, 13)),
+        Arguments.of(of(2022, 2, 25), DayOfWeek.SUNDAY, of(2022, 2, 13)),
+        Arguments.of(of(2022, 2, 26), DayOfWeek.SUNDAY, of(2022, 2, 13)),
+        Arguments.of(of(2022, 2, 27), DayOfWeek.SUNDAY, of(2022, 2, 20))
     )
 
-    @Suppress("UnusedPrivateMember", "LongMethod")
+    @Suppress("UnusedPrivateMember")
     private fun getSystemLocalDateAndFirstDayOfWeekWithExpectedNaturalMonthInitialLocalDate() = Stream.of(
-        Arguments.of(
-            LocalDate.of(2018, 1, 26),
-            DayOfWeek.MONDAY,
-            LocalDate.of(2018, 1, 1)
-        ),
-        Arguments.of(
-            LocalDate.of(2018, 1, 26),
-            DayOfWeek.TUESDAY,
-            LocalDate.of(2017, 12, 26)
-        ),
-        Arguments.of(
-            LocalDate.of(2018, 1, 26),
-            DayOfWeek.WEDNESDAY,
-            LocalDate.of(2017, 12, 27)
-        ),
-        Arguments.of(
-            LocalDate.of(2018, 1, 26),
-            DayOfWeek.THURSDAY,
-            LocalDate.of(2017, 12, 28)
-        ),
-        Arguments.of(
-            LocalDate.of(2018, 1, 26),
-            DayOfWeek.FRIDAY,
-            LocalDate.of(2017, 12, 29)
-        ),
-        Arguments.of(
-            LocalDate.of(2018, 1, 26),
-            DayOfWeek.SATURDAY,
-            LocalDate.of(2017, 12, 30)
-        ),
-        Arguments.of(
-            LocalDate.of(2018, 1, 26),
-            DayOfWeek.SUNDAY,
-            LocalDate.of(2017, 12, 31)
-        ),
-        Arguments.of(
-            LocalDate.of(2005, 2, 19),
-            DayOfWeek.WEDNESDAY,
-            LocalDate.of(2005, 1, 26)
-        ),
-        Arguments.of(
-            LocalDate.of(2027, 3, 5),
-            DayOfWeek.SUNDAY,
-            LocalDate.of(2027, 2, 28)
-        ),
-        Arguments.of(
-            LocalDate.of(2099, 4, 30),
-            DayOfWeek.MONDAY,
-            LocalDate.of(2099, 3, 30)
-        ),
-        Arguments.of(
-            LocalDate.of(2000, 5, 1),
-            DayOfWeek.SATURDAY,
-            LocalDate.of(2000, 4, 29)
-        ),
-        Arguments.of(
-            LocalDate.of(1998, 6, 2),
-            DayOfWeek.WEDNESDAY,
-            LocalDate.of(1998, 5, 27)
-        ),
-        Arguments.of(
-            LocalDate.of(1992, 7, 7),
-            DayOfWeek.TUESDAY,
-            LocalDate.of(1992, 6, 30)
-        ),
-        Arguments.of(
-            LocalDate.of(2018, 8, 1),
-            DayOfWeek.FRIDAY,
-            LocalDate.of(2018, 7, 27)
-        ),
-        Arguments.of(
-            LocalDate.of(1987, 9, 12),
-            DayOfWeek.FRIDAY,
-            LocalDate.of(1987, 8, 28)
-        ),
-        Arguments.of(
-            LocalDate.of(2017, 10, 1),
-            DayOfWeek.THURSDAY,
-            LocalDate.of(2017, 9, 28)
-        ),
-        Arguments.of(
-            LocalDate.of(1000, 11, 12),
-            DayOfWeek.SATURDAY,
-            LocalDate.of(1000, 11, 1)
-        ),
-        Arguments.of(
-            LocalDate.of(1994, 12, 13),
-            DayOfWeek.THURSDAY,
-            LocalDate.of(1994, 12, 1)
-        ),
-        Arguments.of(
-            LocalDate.of(2021, 2, 13),
-            DayOfWeek.MONDAY,
-            LocalDate.of(2021, 2, 1)
-        ),
-        Arguments.of(
-            LocalDate.of(2021, 3, 13),
-            DayOfWeek.MONDAY,
-            LocalDate.of(2021, 3, 1)
-        )
+        Arguments.of(of(2018, 1, 26), DayOfWeek.MONDAY, of(2018, 1, 1)),
+        Arguments.of(of(2018, 1, 26), DayOfWeek.TUESDAY, of(2017, 12, 26)),
+        Arguments.of(of(2018, 1, 26), DayOfWeek.WEDNESDAY, of(2017, 12, 27)),
+        Arguments.of(of(2018, 1, 26), DayOfWeek.THURSDAY, of(2017, 12, 28)),
+        Arguments.of(of(2018, 1, 26), DayOfWeek.FRIDAY, of(2017, 12, 29)),
+        Arguments.of(of(2018, 1, 26), DayOfWeek.SATURDAY, of(2017, 12, 30)),
+        Arguments.of(of(2018, 1, 26), DayOfWeek.SUNDAY, of(2017, 12, 31)),
+        Arguments.of(of(2005, 2, 19), DayOfWeek.WEDNESDAY, of(2005, 1, 26)),
+        Arguments.of(of(2027, 3, 5), DayOfWeek.SUNDAY, of(2027, 2, 28)),
+        Arguments.of(of(2099, 4, 30), DayOfWeek.MONDAY, of(2099, 3, 30)),
+        Arguments.of(of(2000, 5, 1), DayOfWeek.SATURDAY, of(2000, 4, 29)),
+        Arguments.of(of(1998, 6, 2), DayOfWeek.WEDNESDAY, of(1998, 5, 27)),
+        Arguments.of(of(1992, 7, 7), DayOfWeek.TUESDAY, of(1992, 6, 30)),
+        Arguments.of(of(2018, 8, 1), DayOfWeek.FRIDAY, of(2018, 7, 27)),
+        Arguments.of(of(1987, 9, 12), DayOfWeek.FRIDAY, of(1987, 8, 28)),
+        Arguments.of(of(2017, 10, 1), DayOfWeek.THURSDAY, of(2017, 9, 28)),
+        Arguments.of(of(1000, 11, 12), DayOfWeek.SATURDAY, of(1000, 11, 1)),
+        Arguments.of(of(1994, 12, 13), DayOfWeek.THURSDAY, of(1994, 12, 1)),
+        Arguments.of(of(2021, 2, 13), DayOfWeek.MONDAY, of(2021, 2, 1)),
+        Arguments.of(of(2021, 3, 13), DayOfWeek.MONDAY, of(2021, 3, 1))
     )!!
 
     @Suppress("UnusedPrivateMember", "LongMethod")
     private fun getLocalDateAndIncludeDeclinedEventsWithExpectedNumberOfInstances() = Stream.of(
-        Arguments.of(LocalDate.of(2018, 11, 26), false, 1),
-        Arguments.of(LocalDate.of(2018, 11, 27), false, 0),
-        Arguments.of(LocalDate.of(2018, 11, 28), false, 1),
-        Arguments.of(LocalDate.of(2018, 11, 29), false, 1),
-        Arguments.of(LocalDate.of(2018, 11, 30), false, 0),
-        Arguments.of(LocalDate.of(2018, 12, 1), false, 0),
-        Arguments.of(LocalDate.of(2018, 12, 2), false, 0),
-        Arguments.of(LocalDate.of(2018, 12, 3), false, 1),
-        Arguments.of(LocalDate.of(2018, 12, 4), false, 1),
-        Arguments.of(LocalDate.of(2018, 12, 5), false, 0),
-        Arguments.of(LocalDate.of(2018, 12, 6), false, 3),
-        Arguments.of(LocalDate.of(2018, 12, 7), false, 1),
-        Arguments.of(LocalDate.of(2018, 12, 8), false, 0),
-        Arguments.of(LocalDate.of(2018, 12, 9), false, 0),
-        Arguments.of(LocalDate.of(2018, 12, 10), false, 4),
-        Arguments.of(LocalDate.of(2018, 12, 11), false, 1),
-        Arguments.of(LocalDate.of(2018, 12, 12), false, 0),
-        Arguments.of(LocalDate.of(2018, 12, 13), false, 0),
-        Arguments.of(LocalDate.of(2018, 12, 14), false, 0),
-        Arguments.of(LocalDate.of(2018, 12, 15), false, 0),
-        Arguments.of(LocalDate.of(2018, 12, 16), false, 0),
-        Arguments.of(LocalDate.of(2018, 12, 17), false, 0),
-        Arguments.of(LocalDate.of(2018, 12, 18), false, 0),
-        Arguments.of(LocalDate.of(2018, 12, 19), false, 0),
-        Arguments.of(LocalDate.of(2018, 12, 20), false, 0),
-        Arguments.of(LocalDate.of(2018, 12, 21), false, 0),
-        Arguments.of(LocalDate.of(2018, 12, 22), false, 0),
-        Arguments.of(LocalDate.of(2018, 12, 23), false, 0),
-        Arguments.of(LocalDate.of(2018, 12, 24), false, 0),
-        Arguments.of(LocalDate.of(2018, 12, 25), false, 0),
-        Arguments.of(LocalDate.of(2018, 12, 26), false, 0),
-        Arguments.of(LocalDate.of(2018, 12, 27), false, 1),
-        Arguments.of(LocalDate.of(2018, 12, 28), false, 0),
-        Arguments.of(LocalDate.of(2018, 12, 29), false, 0),
-        Arguments.of(LocalDate.of(2018, 12, 30), false, 5),
-        Arguments.of(LocalDate.of(2018, 12, 31), false, 0),
-        Arguments.of(LocalDate.of(2019, 1, 1), false, 1),
-        Arguments.of(LocalDate.of(2019, 1, 2), false, 1),
-        Arguments.of(LocalDate.of(2019, 1, 3), false, 1),
-        Arguments.of(LocalDate.of(2019, 1, 4), false, 1),
-        Arguments.of(LocalDate.of(2019, 1, 5), false, 7),
-        Arguments.of(LocalDate.of(2019, 1, 6), false, 1),
-        Arguments.of(LocalDate.of(2018, 11, 26), true, 1),
-        Arguments.of(LocalDate.of(2018, 11, 27), true, 0),
-        Arguments.of(LocalDate.of(2018, 11, 28), true, 1),
-        Arguments.of(LocalDate.of(2018, 11, 29), true, 1),
-        Arguments.of(LocalDate.of(2018, 11, 30), true, 0),
-        Arguments.of(LocalDate.of(2018, 12, 1), true, 0),
-        Arguments.of(LocalDate.of(2018, 12, 2), true, 0),
-        Arguments.of(LocalDate.of(2018, 12, 3), true, 1),
-        Arguments.of(LocalDate.of(2018, 12, 4), true, 1),
-        Arguments.of(LocalDate.of(2018, 12, 5), true, 0),
-        Arguments.of(LocalDate.of(2018, 12, 6), true, 3),
-        Arguments.of(LocalDate.of(2018, 12, 7), true, 1),
-        Arguments.of(LocalDate.of(2018, 12, 8), true, 0),
-        Arguments.of(LocalDate.of(2018, 12, 9), true, 0),
-        Arguments.of(LocalDate.of(2018, 12, 10), true, 4),
-        Arguments.of(LocalDate.of(2018, 12, 11), true, 1),
-        Arguments.of(LocalDate.of(2018, 12, 12), true, 0),
-        Arguments.of(LocalDate.of(2018, 12, 13), true, 0),
-        Arguments.of(LocalDate.of(2018, 12, 14), true, 0),
-        Arguments.of(LocalDate.of(2018, 12, 15), true, 0),
-        Arguments.of(LocalDate.of(2018, 12, 16), true, 0),
-        Arguments.of(LocalDate.of(2018, 12, 17), true, 0),
-        Arguments.of(LocalDate.of(2018, 12, 18), true, 1),
-        Arguments.of(LocalDate.of(2018, 12, 19), true, 0),
-        Arguments.of(LocalDate.of(2018, 12, 20), true, 0),
-        Arguments.of(LocalDate.of(2018, 12, 21), true, 0),
-        Arguments.of(LocalDate.of(2018, 12, 22), true, 0),
-        Arguments.of(LocalDate.of(2018, 12, 23), true, 0),
-        Arguments.of(LocalDate.of(2018, 12, 24), true, 0),
-        Arguments.of(LocalDate.of(2018, 12, 25), true, 0),
-        Arguments.of(LocalDate.of(2018, 12, 26), true, 0),
-        Arguments.of(LocalDate.of(2018, 12, 27), true, 1),
-        Arguments.of(LocalDate.of(2018, 12, 28), true, 0),
-        Arguments.of(LocalDate.of(2018, 12, 29), true, 0),
-        Arguments.of(LocalDate.of(2018, 12, 30), true, 5),
-        Arguments.of(LocalDate.of(2018, 12, 31), true, 0),
-        Arguments.of(LocalDate.of(2019, 1, 1), true, 1),
-        Arguments.of(LocalDate.of(2019, 1, 2), true, 2),
-        Arguments.of(LocalDate.of(2019, 1, 3), true, 2),
-        Arguments.of(LocalDate.of(2019, 1, 4), true, 2),
-        Arguments.of(LocalDate.of(2019, 1, 5), true, 8),
-        Arguments.of(LocalDate.of(2019, 1, 6), true, 2)
+        Arguments.of(of(2018, 11, 26), false, 1),
+        Arguments.of(of(2018, 11, 27), false, 0),
+        Arguments.of(of(2018, 11, 28), false, 1),
+        Arguments.of(of(2018, 11, 29), false, 1),
+        Arguments.of(of(2018, 11, 30), false, 0),
+        Arguments.of(of(2018, 12, 1), false, 0),
+        Arguments.of(of(2018, 12, 2), false, 0),
+        Arguments.of(of(2018, 12, 3), false, 1),
+        Arguments.of(of(2018, 12, 4), false, 1),
+        Arguments.of(of(2018, 12, 5), false, 0),
+        Arguments.of(of(2018, 12, 6), false, 3),
+        Arguments.of(of(2018, 12, 7), false, 1),
+        Arguments.of(of(2018, 12, 8), false, 0),
+        Arguments.of(of(2018, 12, 9), false, 0),
+        Arguments.of(of(2018, 12, 10), false, 4),
+        Arguments.of(of(2018, 12, 11), false, 1),
+        Arguments.of(of(2018, 12, 12), false, 0),
+        Arguments.of(of(2018, 12, 13), false, 0),
+        Arguments.of(of(2018, 12, 14), false, 0),
+        Arguments.of(of(2018, 12, 15), false, 0),
+        Arguments.of(of(2018, 12, 16), false, 0),
+        Arguments.of(of(2018, 12, 17), false, 0),
+        Arguments.of(of(2018, 12, 18), false, 0),
+        Arguments.of(of(2018, 12, 19), false, 0),
+        Arguments.of(of(2018, 12, 20), false, 0),
+        Arguments.of(of(2018, 12, 21), false, 0),
+        Arguments.of(of(2018, 12, 22), false, 0),
+        Arguments.of(of(2018, 12, 23), false, 0),
+        Arguments.of(of(2018, 12, 24), false, 0),
+        Arguments.of(of(2018, 12, 25), false, 0),
+        Arguments.of(of(2018, 12, 26), false, 0),
+        Arguments.of(of(2018, 12, 27), false, 1),
+        Arguments.of(of(2018, 12, 28), false, 0),
+        Arguments.of(of(2018, 12, 29), false, 0),
+        Arguments.of(of(2018, 12, 30), false, 5),
+        Arguments.of(of(2018, 12, 31), false, 0),
+        Arguments.of(of(2019, 1, 1), false, 1),
+        Arguments.of(of(2019, 1, 2), false, 1),
+        Arguments.of(of(2019, 1, 3), false, 1),
+        Arguments.of(of(2019, 1, 4), false, 1),
+        Arguments.of(of(2019, 1, 5), false, 7),
+        Arguments.of(of(2019, 1, 6), false, 1),
+        Arguments.of(of(2018, 11, 26), true, 1),
+        Arguments.of(of(2018, 11, 27), true, 0),
+        Arguments.of(of(2018, 11, 28), true, 1),
+        Arguments.of(of(2018, 11, 29), true, 1),
+        Arguments.of(of(2018, 11, 30), true, 0),
+        Arguments.of(of(2018, 12, 1), true, 0),
+        Arguments.of(of(2018, 12, 2), true, 0),
+        Arguments.of(of(2018, 12, 3), true, 1),
+        Arguments.of(of(2018, 12, 4), true, 1),
+        Arguments.of(of(2018, 12, 5), true, 0),
+        Arguments.of(of(2018, 12, 6), true, 3),
+        Arguments.of(of(2018, 12, 7), true, 1),
+        Arguments.of(of(2018, 12, 8), true, 0),
+        Arguments.of(of(2018, 12, 9), true, 0),
+        Arguments.of(of(2018, 12, 10), true, 4),
+        Arguments.of(of(2018, 12, 11), true, 1),
+        Arguments.of(of(2018, 12, 12), true, 0),
+        Arguments.of(of(2018, 12, 13), true, 0),
+        Arguments.of(of(2018, 12, 14), true, 0),
+        Arguments.of(of(2018, 12, 15), true, 0),
+        Arguments.of(of(2018, 12, 16), true, 0),
+        Arguments.of(of(2018, 12, 17), true, 0),
+        Arguments.of(of(2018, 12, 18), true, 1),
+        Arguments.of(of(2018, 12, 19), true, 0),
+        Arguments.of(of(2018, 12, 20), true, 0),
+        Arguments.of(of(2018, 12, 21), true, 0),
+        Arguments.of(of(2018, 12, 22), true, 0),
+        Arguments.of(of(2018, 12, 23), true, 0),
+        Arguments.of(of(2018, 12, 24), true, 0),
+        Arguments.of(of(2018, 12, 25), true, 0),
+        Arguments.of(of(2018, 12, 26), true, 0),
+        Arguments.of(of(2018, 12, 27), true, 1),
+        Arguments.of(of(2018, 12, 28), true, 0),
+        Arguments.of(of(2018, 12, 29), true, 0),
+        Arguments.of(of(2018, 12, 30), true, 5),
+        Arguments.of(of(2018, 12, 31), true, 0),
+        Arguments.of(of(2019, 1, 1), true, 1),
+        Arguments.of(of(2019, 1, 2), true, 2),
+        Arguments.of(of(2019, 1, 3), true, 2),
+        Arguments.of(of(2019, 1, 4), true, 2),
+        Arguments.of(of(2019, 1, 5), true, 8),
+        Arguments.of(of(2019, 1, 6), true, 2)
     )!!
 
     internal data class DrawDaysUseCaseTestProperties(

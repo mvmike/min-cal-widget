@@ -94,7 +94,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
     @Suppress("UnusedPrivateMember", "LongMethod")
     private fun startWeekDayAndThemeAndFormatWithExpectedOutput() = Stream.of(
         Arguments.of(
-            MONDAY, Theme.DARK, Format.STANDARD, listOf(
+            MONDAY, Theme.DARK, Format(), listOf(
                 DayHeaderTestProperties(MONDAY, "MON", darkThemeHeaderTextColour),
                 DayHeaderTestProperties(TUESDAY, "DOO", darkThemeHeaderTextColour),
                 DayHeaderTestProperties(WEDNESDAY, "WED", darkThemeHeaderTextColour),
@@ -105,7 +105,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
             )
         ),
         Arguments.of(
-            TUESDAY, Theme.DARK, Format.STANDARD, listOf(
+            TUESDAY, Theme.DARK, Format(), listOf(
                 DayHeaderTestProperties(TUESDAY, "DOO", darkThemeHeaderTextColour),
                 DayHeaderTestProperties(WEDNESDAY, "WED", darkThemeHeaderTextColour),
                 DayHeaderTestProperties(THURSDAY, "THU", darkThemeHeaderTextColour),
@@ -116,7 +116,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
             )
         ),
         Arguments.of(
-            WEDNESDAY, Theme.DARK, Format.STANDARD, listOf(
+            WEDNESDAY, Theme.DARK, Format(), listOf(
                 DayHeaderTestProperties(WEDNESDAY, "WED", darkThemeHeaderTextColour),
                 DayHeaderTestProperties(THURSDAY, "THU", darkThemeHeaderTextColour),
                 DayHeaderTestProperties(FRIDAY, "FRI", darkThemeHeaderTextColour),
@@ -127,7 +127,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
             )
         ),
         Arguments.of(
-            THURSDAY, Theme.DARK, Format.STANDARD, listOf(
+            THURSDAY, Theme.DARK, Format(), listOf(
                 DayHeaderTestProperties(THURSDAY, "THU", darkThemeHeaderTextColour),
                 DayHeaderTestProperties(FRIDAY, "FRI", darkThemeHeaderTextColour),
                 DayHeaderTestProperties(SATURDAY, "SAT", darkThemeHeaderTextColour, saturdayInMonthDarkThemeCellBackground),
@@ -138,7 +138,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
             )
         ),
         Arguments.of(
-            FRIDAY, Theme.DARK, Format.STANDARD, listOf(
+            FRIDAY, Theme.DARK, Format(), listOf(
                 DayHeaderTestProperties(FRIDAY, "FRI", darkThemeHeaderTextColour),
                 DayHeaderTestProperties(SATURDAY, "SAT", darkThemeHeaderTextColour, saturdayInMonthDarkThemeCellBackground),
                 DayHeaderTestProperties(SUNDAY, "SUN", darkThemeHeaderTextColour, sundayInMonthDarkThemeCellBackground),
@@ -149,7 +149,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
             )
         ),
         Arguments.of(
-            SATURDAY, Theme.DARK, Format.STANDARD, listOf(
+            SATURDAY, Theme.DARK, Format(), listOf(
                 DayHeaderTestProperties(SATURDAY, "SAT", darkThemeHeaderTextColour, saturdayInMonthDarkThemeCellBackground),
                 DayHeaderTestProperties(SUNDAY, "SUN", darkThemeHeaderTextColour, sundayInMonthDarkThemeCellBackground),
                 DayHeaderTestProperties(MONDAY, "MON", darkThemeHeaderTextColour),
@@ -160,7 +160,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
             )
         ),
         Arguments.of(
-            SUNDAY, Theme.DARK, Format.STANDARD, listOf(
+            SUNDAY, Theme.DARK, Format(), listOf(
                 DayHeaderTestProperties(SUNDAY, "SUN", darkThemeHeaderTextColour, sundayInMonthDarkThemeCellBackground),
                 DayHeaderTestProperties(MONDAY, "MON", darkThemeHeaderTextColour),
                 DayHeaderTestProperties(TUESDAY, "DOO", darkThemeHeaderTextColour),
@@ -171,7 +171,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
             )
         ),
         Arguments.of(
-            MONDAY, Theme.DARK, Format.REDUCED, listOf(
+            MONDAY, Theme.DARK, Format(dayHeaderLabelLength = 1), listOf(
                 DayHeaderTestProperties(MONDAY, "M", darkThemeHeaderTextColour),
                 DayHeaderTestProperties(TUESDAY, "D", darkThemeHeaderTextColour),
                 DayHeaderTestProperties(WEDNESDAY, "W", darkThemeHeaderTextColour),
@@ -182,7 +182,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
             )
         ),
         Arguments.of(
-            TUESDAY, Theme.DARK, Format.REDUCED, listOf(
+            TUESDAY, Theme.DARK, Format(dayHeaderLabelLength = 1), listOf(
                 DayHeaderTestProperties(TUESDAY, "D", darkThemeHeaderTextColour),
                 DayHeaderTestProperties(WEDNESDAY, "W", darkThemeHeaderTextColour),
                 DayHeaderTestProperties(THURSDAY, "T", darkThemeHeaderTextColour),
@@ -193,7 +193,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
             )
         ),
         Arguments.of(
-            WEDNESDAY, Theme.DARK, Format.REDUCED, listOf(
+            WEDNESDAY, Theme.DARK, Format(dayHeaderLabelLength = 1), listOf(
                 DayHeaderTestProperties(WEDNESDAY, "W", darkThemeHeaderTextColour),
                 DayHeaderTestProperties(THURSDAY, "T", darkThemeHeaderTextColour),
                 DayHeaderTestProperties(FRIDAY, "F", darkThemeHeaderTextColour),
@@ -204,7 +204,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
             )
         ),
         Arguments.of(
-            THURSDAY, Theme.DARK, Format.REDUCED, listOf(
+            THURSDAY, Theme.DARK, Format(dayHeaderLabelLength = 1), listOf(
                 DayHeaderTestProperties(THURSDAY, "T", darkThemeHeaderTextColour),
                 DayHeaderTestProperties(FRIDAY, "F", darkThemeHeaderTextColour),
                 DayHeaderTestProperties(SATURDAY, "S", darkThemeHeaderTextColour, saturdayInMonthDarkThemeCellBackground),
@@ -215,7 +215,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
             )
         ),
         Arguments.of(
-            FRIDAY, Theme.DARK, Format.REDUCED, listOf(
+            FRIDAY, Theme.DARK, Format(dayHeaderLabelLength = 1), listOf(
                 DayHeaderTestProperties(FRIDAY, "F", darkThemeHeaderTextColour),
                 DayHeaderTestProperties(SATURDAY, "S", darkThemeHeaderTextColour, saturdayInMonthDarkThemeCellBackground),
                 DayHeaderTestProperties(SUNDAY, "S", darkThemeHeaderTextColour, sundayInMonthDarkThemeCellBackground),
@@ -226,7 +226,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
             )
         ),
         Arguments.of(
-            SATURDAY, Theme.DARK, Format.REDUCED, listOf(
+            SATURDAY, Theme.DARK, Format(dayHeaderLabelLength = 1), listOf(
                 DayHeaderTestProperties(SATURDAY, "S", darkThemeHeaderTextColour, saturdayInMonthDarkThemeCellBackground),
                 DayHeaderTestProperties(SUNDAY, "S", darkThemeHeaderTextColour, sundayInMonthDarkThemeCellBackground),
                 DayHeaderTestProperties(MONDAY, "M", darkThemeHeaderTextColour),
@@ -237,7 +237,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
             )
         ),
         Arguments.of(
-            SUNDAY, Theme.DARK, Format.REDUCED, listOf(
+            SUNDAY, Theme.DARK, Format(dayHeaderLabelLength = 1), listOf(
                 DayHeaderTestProperties(SUNDAY, "S", darkThemeHeaderTextColour, sundayInMonthDarkThemeCellBackground),
                 DayHeaderTestProperties(MONDAY, "M", darkThemeHeaderTextColour),
                 DayHeaderTestProperties(TUESDAY, "D", darkThemeHeaderTextColour),
@@ -248,7 +248,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
             )
         ),
         Arguments.of(
-            MONDAY, Theme.LIGHT, Format.STANDARD, listOf(
+            MONDAY, Theme.LIGHT, Format(), listOf(
                 DayHeaderTestProperties(MONDAY, "MON", lightThemeHeaderTextColour),
                 DayHeaderTestProperties(TUESDAY, "DOO", lightThemeHeaderTextColour),
                 DayHeaderTestProperties(WEDNESDAY, "WED", lightThemeHeaderTextColour),
@@ -259,7 +259,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
             )
         ),
         Arguments.of(
-            TUESDAY, Theme.LIGHT, Format.STANDARD, listOf(
+            TUESDAY, Theme.LIGHT, Format(), listOf(
                 DayHeaderTestProperties(TUESDAY, "DOO", lightThemeHeaderTextColour),
                 DayHeaderTestProperties(WEDNESDAY, "WED", lightThemeHeaderTextColour),
                 DayHeaderTestProperties(THURSDAY, "THU", lightThemeHeaderTextColour),
@@ -270,7 +270,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
             )
         ),
         Arguments.of(
-            WEDNESDAY, Theme.LIGHT, Format.STANDARD, listOf(
+            WEDNESDAY, Theme.LIGHT, Format(), listOf(
                 DayHeaderTestProperties(WEDNESDAY, "WED", lightThemeHeaderTextColour),
                 DayHeaderTestProperties(THURSDAY, "THU", lightThemeHeaderTextColour),
                 DayHeaderTestProperties(FRIDAY, "FRI", lightThemeHeaderTextColour),
@@ -281,7 +281,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
             )
         ),
         Arguments.of(
-            THURSDAY, Theme.LIGHT, Format.STANDARD, listOf(
+            THURSDAY, Theme.LIGHT, Format(), listOf(
                 DayHeaderTestProperties(THURSDAY, "THU", lightThemeHeaderTextColour),
                 DayHeaderTestProperties(FRIDAY, "FRI", lightThemeHeaderTextColour),
                 DayHeaderTestProperties(SATURDAY, "SAT", lightThemeHeaderTextColour, saturdayInMonthLightThemeCellBackground),
@@ -292,7 +292,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
             )
         ),
         Arguments.of(
-            FRIDAY, Theme.LIGHT, Format.STANDARD, listOf(
+            FRIDAY, Theme.LIGHT, Format(), listOf(
                 DayHeaderTestProperties(FRIDAY, "FRI", lightThemeHeaderTextColour),
                 DayHeaderTestProperties(SATURDAY, "SAT", lightThemeHeaderTextColour, saturdayInMonthLightThemeCellBackground),
                 DayHeaderTestProperties(SUNDAY, "SUN", lightThemeHeaderTextColour, sundayInMonthLightThemeCellBackground),
@@ -303,7 +303,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
             )
         ),
         Arguments.of(
-            SATURDAY, Theme.LIGHT, Format.STANDARD, listOf(
+            SATURDAY, Theme.LIGHT, Format(), listOf(
                 DayHeaderTestProperties(SATURDAY, "SAT", lightThemeHeaderTextColour, saturdayInMonthLightThemeCellBackground),
                 DayHeaderTestProperties(SUNDAY, "SUN", lightThemeHeaderTextColour, sundayInMonthLightThemeCellBackground),
                 DayHeaderTestProperties(MONDAY, "MON", lightThemeHeaderTextColour),
@@ -314,7 +314,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
             )
         ),
         Arguments.of(
-            SUNDAY, Theme.LIGHT, Format.STANDARD, listOf(
+            SUNDAY, Theme.LIGHT, Format(), listOf(
                 DayHeaderTestProperties(SUNDAY, "SUN", lightThemeHeaderTextColour, sundayInMonthLightThemeCellBackground),
                 DayHeaderTestProperties(MONDAY, "MON", lightThemeHeaderTextColour),
                 DayHeaderTestProperties(TUESDAY, "DOO", lightThemeHeaderTextColour),
@@ -325,7 +325,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
             )
         ),
         Arguments.of(
-            MONDAY, Theme.LIGHT, Format.REDUCED, listOf(
+            MONDAY, Theme.LIGHT, Format(dayHeaderLabelLength = 1), listOf(
                 DayHeaderTestProperties(MONDAY, "M", lightThemeHeaderTextColour),
                 DayHeaderTestProperties(TUESDAY, "D", lightThemeHeaderTextColour),
                 DayHeaderTestProperties(WEDNESDAY, "W", lightThemeHeaderTextColour),
@@ -336,7 +336,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
             )
         ),
         Arguments.of(
-            TUESDAY, Theme.LIGHT, Format.REDUCED, listOf(
+            TUESDAY, Theme.LIGHT, Format(dayHeaderLabelLength = 1), listOf(
                 DayHeaderTestProperties(TUESDAY, "D", lightThemeHeaderTextColour),
                 DayHeaderTestProperties(WEDNESDAY, "W", lightThemeHeaderTextColour),
                 DayHeaderTestProperties(THURSDAY, "T", lightThemeHeaderTextColour),
@@ -347,7 +347,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
             )
         ),
         Arguments.of(
-            WEDNESDAY, Theme.LIGHT, Format.REDUCED, listOf(
+            WEDNESDAY, Theme.LIGHT, Format(dayHeaderLabelLength = 1), listOf(
                 DayHeaderTestProperties(WEDNESDAY, "W", lightThemeHeaderTextColour),
                 DayHeaderTestProperties(THURSDAY, "T", lightThemeHeaderTextColour),
                 DayHeaderTestProperties(FRIDAY, "F", lightThemeHeaderTextColour),
@@ -358,7 +358,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
             )
         ),
         Arguments.of(
-            THURSDAY, Theme.LIGHT, Format.REDUCED, listOf(
+            THURSDAY, Theme.LIGHT, Format(dayHeaderLabelLength = 1), listOf(
                 DayHeaderTestProperties(THURSDAY, "T", lightThemeHeaderTextColour),
                 DayHeaderTestProperties(FRIDAY, "F", lightThemeHeaderTextColour),
                 DayHeaderTestProperties(SATURDAY, "S", lightThemeHeaderTextColour, saturdayInMonthLightThemeCellBackground),
@@ -369,7 +369,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
             )
         ),
         Arguments.of(
-            FRIDAY, Theme.LIGHT, Format.REDUCED, listOf(
+            FRIDAY, Theme.LIGHT, Format(dayHeaderLabelLength = 1), listOf(
                 DayHeaderTestProperties(FRIDAY, "F", lightThemeHeaderTextColour),
                 DayHeaderTestProperties(SATURDAY, "S", lightThemeHeaderTextColour, saturdayInMonthLightThemeCellBackground),
                 DayHeaderTestProperties(SUNDAY, "S", lightThemeHeaderTextColour, sundayInMonthLightThemeCellBackground),
@@ -380,7 +380,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
             )
         ),
         Arguments.of(
-            SATURDAY, Theme.LIGHT, Format.REDUCED, listOf(
+            SATURDAY, Theme.LIGHT, Format(dayHeaderLabelLength = 1), listOf(
                 DayHeaderTestProperties(SATURDAY, "S", lightThemeHeaderTextColour, saturdayInMonthLightThemeCellBackground),
                 DayHeaderTestProperties(SUNDAY, "S", lightThemeHeaderTextColour, sundayInMonthLightThemeCellBackground),
                 DayHeaderTestProperties(MONDAY, "M", lightThemeHeaderTextColour),
@@ -391,7 +391,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
             )
         ),
         Arguments.of(
-            SUNDAY, Theme.LIGHT, Format.REDUCED, listOf(
+            SUNDAY, Theme.LIGHT, Format(dayHeaderLabelLength = 1), listOf(
                 DayHeaderTestProperties(SUNDAY, "S", lightThemeHeaderTextColour, sundayInMonthLightThemeCellBackground),
                 DayHeaderTestProperties(MONDAY, "M", lightThemeHeaderTextColour),
                 DayHeaderTestProperties(TUESDAY, "D", lightThemeHeaderTextColour),

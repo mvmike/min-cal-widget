@@ -88,8 +88,8 @@ internal class RedrawWidgetUseCaseTest : BaseTest() {
 
         justRun { addAllListeners(context, any()) }
 
-        val format = Format.STANDARD
-        every { getFormat(appWidgetManager, appWidgetId) } returns format
+        val format = Format()
+        every { getFormat(context, appWidgetManager, appWidgetId) } returns format
         justRun { LayoutService.draw(context, any()) }
         justRun { MonthAndYearHeaderService.draw(context, any(), format) }
         justRun { DaysHeaderService.draw(context, any(), format) }

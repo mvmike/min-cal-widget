@@ -36,7 +36,7 @@ object RedrawWidgetUseCase {
 
         addAllListeners(context, widgetRemoteView)
 
-        val format = getFormat(appWidgetManager, appWidgetId)
+        val format = getFormat(context, appWidgetManager, appWidgetId)
         LayoutService.draw(
             context = context,
             widgetRemoteView = widgetRemoteView
