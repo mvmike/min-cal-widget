@@ -80,7 +80,7 @@ object DaysService {
                     dayLayout = dayCell.layout,
                     viewId = dayCell.id,
                     text = " ${currentDay.getDayOfMonthString()} $instancesSymbol",
-                    textColour= dayCell.textColour,
+                    textColour = dayCell.textColour,
                     dayOfMonthInBold = currentDay.isToday(systemLocalDate),
                     instancesColour = dayInstancesColour,
                     instancesRelativeSize = instancesSymbolSet.relativeSize,
