@@ -33,8 +33,11 @@ fun getFormat(context: Context, appWidgetManager: AppWidgetManager, appWidgetId:
                 else -> 1
             },
             dayCellValueRelativeSize = when {
-                width >= 180 -> DEFAULT_DAY_CELL_VALUE_RELATIVE_SIZE
-                else -> 0.6f
+                width >= 260 -> 1.2f
+                width >= 240 -> 1.1f
+                width >= 220 -> DEFAULT_DAY_CELL_VALUE_RELATIVE_SIZE
+                width >= 200 -> 0.9f
+                else -> 0.8f
             }
         )
     }
@@ -42,7 +45,7 @@ fun getFormat(context: Context, appWidgetManager: AppWidgetManager, appWidgetId:
     Format()
 }
 
-private fun Bundle.getWidth(context: Context) = when(
+private fun Bundle.getWidth(context: Context) = when (
     context.resources.configuration.orientation == ORIENTATION_LANDSCAPE
 ) {
     true -> getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT)

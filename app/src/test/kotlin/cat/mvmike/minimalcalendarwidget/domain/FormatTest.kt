@@ -77,13 +77,24 @@ internal class FormatTest : BaseTest() {
 
     @Suppress("UnusedPrivateMember")
     private fun getWidgetSizeAndExpectedFormat(): Stream<GetWidgetSizeUseCaseTestProperties> = Stream.of(
-        GetWidgetSizeUseCaseTestProperties(180, Format()),
-        GetWidgetSizeUseCaseTestProperties(181, Format()),
-        GetWidgetSizeUseCaseTestProperties(200, Format()),
-        GetWidgetSizeUseCaseTestProperties(179, Format(monthHeaderLabelLength = 3, dayHeaderLabelLength = 1, dayCellValueRelativeSize = 0.6f)),
-        GetWidgetSizeUseCaseTestProperties(0, Format(monthHeaderLabelLength = 3, dayHeaderLabelLength = 1, dayCellValueRelativeSize = 0.6f)),
-        GetWidgetSizeUseCaseTestProperties(-1, Format(monthHeaderLabelLength = 3, dayHeaderLabelLength = 1, dayCellValueRelativeSize = 0.6f)),
-        GetWidgetSizeUseCaseTestProperties(-320, Format(monthHeaderLabelLength = 3, dayHeaderLabelLength = 1, dayCellValueRelativeSize = 0.6f))
+        GetWidgetSizeUseCaseTestProperties(261, Format(dayCellValueRelativeSize = 1.2f)),
+        GetWidgetSizeUseCaseTestProperties(260, Format(dayCellValueRelativeSize = 1.2f)),
+        GetWidgetSizeUseCaseTestProperties(259, Format(dayCellValueRelativeSize = 1.1f)),
+        GetWidgetSizeUseCaseTestProperties(241, Format(dayCellValueRelativeSize = 1.1f)),
+        GetWidgetSizeUseCaseTestProperties(240, Format(dayCellValueRelativeSize = 1.1f)),
+        GetWidgetSizeUseCaseTestProperties(239, Format()),
+        GetWidgetSizeUseCaseTestProperties(221, Format()),
+        GetWidgetSizeUseCaseTestProperties(220, Format()),
+        GetWidgetSizeUseCaseTestProperties(219, Format(dayCellValueRelativeSize = 0.9f)),
+        GetWidgetSizeUseCaseTestProperties(201, Format(dayCellValueRelativeSize = 0.9f)),
+        GetWidgetSizeUseCaseTestProperties(200, Format(dayCellValueRelativeSize = 0.9f)),
+        GetWidgetSizeUseCaseTestProperties(199, Format(dayCellValueRelativeSize = 0.8f)),
+        GetWidgetSizeUseCaseTestProperties(181, Format(dayCellValueRelativeSize = 0.8f)),
+        GetWidgetSizeUseCaseTestProperties(180, Format(dayCellValueRelativeSize = 0.8f)),
+        GetWidgetSizeUseCaseTestProperties(179, Format(monthHeaderLabelLength = 3, dayHeaderLabelLength = 1, dayCellValueRelativeSize = 0.8f)),
+        GetWidgetSizeUseCaseTestProperties(0, Format(monthHeaderLabelLength = 3, dayHeaderLabelLength = 1, dayCellValueRelativeSize = 0.8f)),
+        GetWidgetSizeUseCaseTestProperties(-1, Format(monthHeaderLabelLength = 3, dayHeaderLabelLength = 1, dayCellValueRelativeSize = 0.8f)),
+        GetWidgetSizeUseCaseTestProperties(-320, Format(monthHeaderLabelLength = 3, dayHeaderLabelLength = 1, dayCellValueRelativeSize = 0.8f))
     )
 
     internal data class GetWidgetSizeUseCaseTestProperties(
