@@ -11,7 +11,7 @@ import cat.mvmike.minimalcalendarwidget.domain.configuration.item.darkThemeMainT
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.lightThemeMainTextColour
 import cat.mvmike.minimalcalendarwidget.infrastructure.config.ClockConfig
 import cat.mvmike.minimalcalendarwidget.infrastructure.config.LocaleConfig
-import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.GraphicResolver
+import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.GraphicResolver.createMonthAndYearHeader
 import io.mockk.confirmVerified
 import io.mockk.every
 import io.mockk.justRun
@@ -48,7 +48,7 @@ internal class MonthAndYearHeaderServiceTest : BaseTest() {
         mockWidgetTheme(theme)
         val month = instant.atZone(zoneId).month
         every { context.getString(month.getExpectedResourceId()) } returns month.getExpectedAbbreviatedString()
-        justRun { GraphicResolver.createMonthAndYearHeader(context, widgetRv, expectedText, expectedTextColour, expectedHeaderRelativeYearSize) }
+        justRun { createMonthAndYearHeader(context, widgetRv, expectedText, expectedTextColour, expectedHeaderRelativeYearSize, format.headerTextRelativeSize) }
 
         MonthAndYearHeaderService.draw(context, widgetRv, format)
 
@@ -57,7 +57,7 @@ internal class MonthAndYearHeaderServiceTest : BaseTest() {
         verify { ClockConfig.getSystemZoneId() }
         verify { context.getString(month.getExpectedResourceId()) }
         verifyWidgetTheme()
-        verify { GraphicResolver.createMonthAndYearHeader(context, widgetRv, expectedText, expectedTextColour, expectedHeaderRelativeYearSize) }
+        verify { createMonthAndYearHeader(context, widgetRv, expectedText, expectedTextColour, expectedHeaderRelativeYearSize, format.headerTextRelativeSize) }
         confirmVerified(widgetRv)
     }
 

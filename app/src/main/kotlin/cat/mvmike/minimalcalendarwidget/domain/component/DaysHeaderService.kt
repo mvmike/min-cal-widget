@@ -39,7 +39,8 @@ object DaysHeaderService {
                 textColour = cellHeader.textColour,
                 layoutId = cellHeader.layout,
                 viewId = cellHeader.id,
-                dayHeaderBackgroundColour = backgroundWithTransparency
+                dayHeaderBackgroundColour = backgroundWithTransparency,
+                textRelativeSize = format.headerTextRelativeSize
             )
         }
 

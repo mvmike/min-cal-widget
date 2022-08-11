@@ -85,16 +85,28 @@ internal class FormatTest : BaseTest() {
         GetWidgetSizeUseCaseTestProperties(239, Format()),
         GetWidgetSizeUseCaseTestProperties(221, Format()),
         GetWidgetSizeUseCaseTestProperties(220, Format()),
-        GetWidgetSizeUseCaseTestProperties(219, Format(dayCellTextRelativeSize = 0.9f)),
-        GetWidgetSizeUseCaseTestProperties(201, Format(dayCellTextRelativeSize = 0.9f)),
-        GetWidgetSizeUseCaseTestProperties(200, Format(dayCellTextRelativeSize = 0.9f)),
-        GetWidgetSizeUseCaseTestProperties(199, Format(dayCellTextRelativeSize = 0.8f)),
-        GetWidgetSizeUseCaseTestProperties(181, Format(dayCellTextRelativeSize = 0.8f)),
-        GetWidgetSizeUseCaseTestProperties(180, Format(dayCellTextRelativeSize = 0.8f)),
-        GetWidgetSizeUseCaseTestProperties(179, Format(monthHeaderLabelLength = 3, dayHeaderLabelLength = 1, dayCellTextRelativeSize = 0.8f)),
-        GetWidgetSizeUseCaseTestProperties(0, Format(monthHeaderLabelLength = 3, dayHeaderLabelLength = 1, dayCellTextRelativeSize = 0.8f)),
-        GetWidgetSizeUseCaseTestProperties(-1, Format(monthHeaderLabelLength = 3, dayHeaderLabelLength = 1, dayCellTextRelativeSize = 0.8f)),
-        GetWidgetSizeUseCaseTestProperties(-320, Format(monthHeaderLabelLength = 3, dayHeaderLabelLength = 1, dayCellTextRelativeSize = 0.8f))
+        GetWidgetSizeUseCaseTestProperties(219, Format(headerTextRelativeSize = 0.9f, dayCellTextRelativeSize = 0.9f)),
+        GetWidgetSizeUseCaseTestProperties(201, Format(headerTextRelativeSize = 0.9f, dayCellTextRelativeSize = 0.9f)),
+        GetWidgetSizeUseCaseTestProperties(200, Format(headerTextRelativeSize = 0.9f, dayCellTextRelativeSize = 0.9f)),
+        GetWidgetSizeUseCaseTestProperties(199, Format(headerTextRelativeSize = 0.8f, dayCellTextRelativeSize = 0.8f)),
+        GetWidgetSizeUseCaseTestProperties(181, Format(headerTextRelativeSize = 0.8f, dayCellTextRelativeSize = 0.8f)),
+        GetWidgetSizeUseCaseTestProperties(180, Format(headerTextRelativeSize = 0.8f, dayCellTextRelativeSize = 0.8f)),
+        GetWidgetSizeUseCaseTestProperties(
+            179,
+            Format(monthHeaderLabelLength = 3, dayHeaderLabelLength = 1, headerTextRelativeSize = 0.8f, dayCellTextRelativeSize = 0.8f)
+        ),
+        GetWidgetSizeUseCaseTestProperties(
+            0,
+            Format(monthHeaderLabelLength = 3, dayHeaderLabelLength = 1, headerTextRelativeSize = 0.8f, dayCellTextRelativeSize = 0.8f)
+        ),
+        GetWidgetSizeUseCaseTestProperties(
+            -1,
+            Format(monthHeaderLabelLength = 3, dayHeaderLabelLength = 1, headerTextRelativeSize = 0.8f, dayCellTextRelativeSize = 0.8f)
+        ),
+        GetWidgetSizeUseCaseTestProperties(
+            -320,
+            Format(monthHeaderLabelLength = 3, dayHeaderLabelLength = 1, headerTextRelativeSize = 0.8f, dayCellTextRelativeSize = 0.8f)
+        )
     )
 
     internal data class GetWidgetSizeUseCaseTestProperties(

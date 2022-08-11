@@ -35,7 +35,8 @@ object MonthAndYearHeaderService {
             widgetRemoteView = widgetRemoteView,
             text = "$displayMonth $displayYear",
             textColour = widgetTheme.mainTextColour,
-            headerRelativeYearSize = HEADER_RELATIVE_YEAR_SIZE
+            headerRelativeYearSize = HEADER_RELATIVE_YEAR_SIZE,
+            textRelativeSize = format.headerTextRelativeSize
         )
     }
 

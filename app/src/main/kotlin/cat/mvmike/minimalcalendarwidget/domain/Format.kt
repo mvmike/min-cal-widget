@@ -8,11 +8,13 @@ import android.content.res.Configuration.ORIENTATION_LANDSCAPE
 import android.os.Bundle
 
 private const val DEFAULT_DAY_HEADER_LABEL_LENGTH = 3
+private const val DEFAULT_HEADER_TEXT_RELATIVE_SIZE = 1f
 private const val DEFAULT_DAY_CELL_TEXT_RELATIVE_SIZE = 1f
 
 data class Format(
     private val monthHeaderLabelLength: Int = Int.MAX_VALUE,
     private val dayHeaderLabelLength: Int = DEFAULT_DAY_HEADER_LABEL_LENGTH,
+    val headerTextRelativeSize: Float = DEFAULT_HEADER_TEXT_RELATIVE_SIZE,
     val dayCellTextRelativeSize: Float = DEFAULT_DAY_CELL_TEXT_RELATIVE_SIZE
 ) {
     fun getMonthHeaderLabel(value: String) = value.take(monthHeaderLabelLength)
@@ -31,6 +33,11 @@ fun getFormat(context: Context, appWidgetManager: AppWidgetManager, appWidgetId:
             dayHeaderLabelLength = when {
                 width >= 180 -> DEFAULT_DAY_HEADER_LABEL_LENGTH
                 else -> 1
+            },
+            headerTextRelativeSize = when {
+                width >= 220 -> DEFAULT_DAY_CELL_TEXT_RELATIVE_SIZE
+                width >= 200 -> 0.9f
+                else -> 0.8f
             },
             dayCellTextRelativeSize = when {
                 width >= 260 -> 1.2f

@@ -27,10 +27,12 @@ object GraphicResolver {
         widgetRemoteView: RemoteViews,
         text: String,
         textColour: Int,
-        headerRelativeYearSize: Float
+        headerRelativeYearSize: Float,
+        textRelativeSize: Float
     ) {
         val monthAndYearSpSt = SpannableString(text)
-        monthAndYearSpSt.setSpan(RelativeSizeSpan(headerRelativeYearSize), text.length - 4, text.length, 0)
+        monthAndYearSpSt.setSpan(RelativeSizeSpan(textRelativeSize), 0, monthAndYearSpSt.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        monthAndYearSpSt.setSpan(RelativeSizeSpan(headerRelativeYearSize * textRelativeSize), text.length - 4, text.length, 0)
         monthAndYearSpSt.setSpan(ForegroundColorSpan(getColour(context, textColour)), 0, text.length, 0)
         widgetRemoteView.setTextViewText(R.id.month_year_label, monthAndYearSpSt)
     }
@@ -46,10 +48,14 @@ object GraphicResolver {
         textColour: Int,
         layoutId: Int,
         viewId: Int,
-        dayHeaderBackgroundColour: Int?
+        dayHeaderBackgroundColour: Int?,
+        textRelativeSize: Float
     ) {
+        val dayHeaderSpSt = SpannableString(text)
+        dayHeaderSpSt.setSpan(RelativeSizeSpan(textRelativeSize), 0, dayHeaderSpSt.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+
         val dayRv = getById(context, layoutId)
-        dayRv.setTextViewText(android.R.id.text1, text)
+        dayRv.setTextViewText(android.R.id.text1, dayHeaderSpSt)
         dayRv.setTextColor(android.R.id.text1, getColour(context, textColour))
         dayHeaderBackgroundColour?.let {
             setBackgroundColor(dayRv, viewId, it)

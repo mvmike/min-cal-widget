@@ -61,7 +61,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
             every { context.getString(resourceAndTranslation.first) } returns resourceAndTranslation.second
         }
 
-        justRun { GraphicResolver.addToDaysHeaderRow(context, daysHeaderRowRv, any(), any(), any(), any(), any()) }
+        justRun { GraphicResolver.addToDaysHeaderRow(context, daysHeaderRowRv, any(), any(), any(), any(), any(), any()) }
         justRun { GraphicResolver.addToWidget(widgetRv, daysHeaderRowRv) }
 
         DaysHeaderService.draw(context, widgetRv, format)
@@ -83,7 +83,8 @@ internal class DaysHeaderServiceTest : BaseTest() {
                     textColour = it.expectedHeaderTextColour,
                     layoutId = theme.getCellHeader(it.dayOfWeek).layout,
                     viewId = cellViewId,
-                    dayHeaderBackgroundColour = it.cellBackground
+                    dayHeaderBackgroundColour = it.cellBackground,
+                    textRelativeSize = format.headerTextRelativeSize
                 )
             }
         }
