@@ -85,7 +85,7 @@ object DaysService {
                     instancesColour = dayInstancesColour,
                     instancesRelativeSize = instancesSymbolSet.relativeSize,
                     dayBackgroundColour = backgroundWithTransparency,
-                    generalRelativeSize = format.dayCellValueRelativeSize
+                    textRelativeSize = format.dayCellTextRelativeSize
                 )
             }
 

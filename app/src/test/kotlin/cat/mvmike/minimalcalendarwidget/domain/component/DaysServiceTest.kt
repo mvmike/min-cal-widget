@@ -155,7 +155,7 @@ internal class DaysServiceTest : BaseTest() {
                     instancesColour = dayUseCaseTest.instancesColour,
                     instancesRelativeSize = dayUseCaseTest.symbolRelativeSize,
                     dayBackgroundColour = dayUseCaseTest.dayBackgroundColour?.let { expectedBackground },
-                    generalRelativeSize = format.dayCellValueRelativeSize
+                    textRelativeSize = format.dayCellTextRelativeSize
                 )
             }
         }

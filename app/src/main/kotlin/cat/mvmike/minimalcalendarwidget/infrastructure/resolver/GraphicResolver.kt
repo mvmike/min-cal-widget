@@ -73,7 +73,7 @@ object GraphicResolver {
         instancesColour: Int,
         instancesRelativeSize: Float,
         dayBackgroundColour: Int?,
-        generalRelativeSize: Float
+        textRelativeSize: Float
     ) {
         val daySpSt = SpannableString(text)
         if (dayOfMonthInBold) {
@@ -82,7 +82,7 @@ object GraphicResolver {
             daySpSt.setSpan(StyleSpan(Typeface.BOLD), daySpSt.length - 1, daySpSt.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         }
         daySpSt.setSpan(ForegroundColorSpan(instancesColour), daySpSt.length - 1, daySpSt.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-        daySpSt.setSpan(RelativeSizeSpan(generalRelativeSize), 0, daySpSt.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        daySpSt.setSpan(RelativeSizeSpan(textRelativeSize), 0, daySpSt.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         daySpSt.setSpan(RelativeSizeSpan(instancesRelativeSize), daySpSt.length - 1, daySpSt.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
 
         val dayRv = getById(context, dayLayout)
