@@ -26,14 +26,14 @@ internal class FormatTest : BaseTest() {
 
     @ParameterizedTest
     @MethodSource("getWidgetSizeAndExpectedFormat")
-    fun getFormat(getWidgetSizeUseCaseTestProperties: GetWidgetSizeUseCaseTestProperties) {
+    fun getFormat_shouldReturnExpectedFormatBasedOnCurrentWidth(formatTestProperties: FormatTestProperties) {
         every { appWidgetManager.getAppWidgetOptions(appWidgetId) } returns bundle
         every { context.resources.configuration } returns Configuration()
-        every { bundle.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH) } returns getWidgetSizeUseCaseTestProperties.width
+        every { bundle.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH) } returns formatTestProperties.width
 
         val result = getFormat(context, appWidgetManager, appWidgetId)
 
-        assertThat(result).isEqualTo(getWidgetSizeUseCaseTestProperties.expectedFormat)
+        assertThat(result).isEqualTo(formatTestProperties.expectedFormat)
         verify { context.resources.configuration }
         verify { bundle.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH) }
         confirmVerified(bundle)
@@ -76,40 +76,28 @@ internal class FormatTest : BaseTest() {
     }
 
     @Suppress("UnusedPrivateMember")
-    private fun getWidgetSizeAndExpectedFormat(): Stream<GetWidgetSizeUseCaseTestProperties> = Stream.of(
-        GetWidgetSizeUseCaseTestProperties(261, Format(dayCellTextRelativeSize = 1.2f)),
-        GetWidgetSizeUseCaseTestProperties(260, Format(dayCellTextRelativeSize = 1.2f)),
-        GetWidgetSizeUseCaseTestProperties(259, Format(dayCellTextRelativeSize = 1.1f)),
-        GetWidgetSizeUseCaseTestProperties(241, Format(dayCellTextRelativeSize = 1.1f)),
-        GetWidgetSizeUseCaseTestProperties(240, Format(dayCellTextRelativeSize = 1.1f)),
-        GetWidgetSizeUseCaseTestProperties(239, Format()),
-        GetWidgetSizeUseCaseTestProperties(221, Format()),
-        GetWidgetSizeUseCaseTestProperties(220, Format()),
-        GetWidgetSizeUseCaseTestProperties(219, Format(headerTextRelativeSize = 0.9f, dayCellTextRelativeSize = 0.9f)),
-        GetWidgetSizeUseCaseTestProperties(201, Format(headerTextRelativeSize = 0.9f, dayCellTextRelativeSize = 0.9f)),
-        GetWidgetSizeUseCaseTestProperties(200, Format(headerTextRelativeSize = 0.9f, dayCellTextRelativeSize = 0.9f)),
-        GetWidgetSizeUseCaseTestProperties(199, Format(headerTextRelativeSize = 0.8f, dayCellTextRelativeSize = 0.8f)),
-        GetWidgetSizeUseCaseTestProperties(181, Format(headerTextRelativeSize = 0.8f, dayCellTextRelativeSize = 0.8f)),
-        GetWidgetSizeUseCaseTestProperties(180, Format(headerTextRelativeSize = 0.8f, dayCellTextRelativeSize = 0.8f)),
-        GetWidgetSizeUseCaseTestProperties(
-            179,
-            Format(monthHeaderLabelLength = 3, dayHeaderLabelLength = 1, headerTextRelativeSize = 0.8f, dayCellTextRelativeSize = 0.8f)
-        ),
-        GetWidgetSizeUseCaseTestProperties(
-            0,
-            Format(monthHeaderLabelLength = 3, dayHeaderLabelLength = 1, headerTextRelativeSize = 0.8f, dayCellTextRelativeSize = 0.8f)
-        ),
-        GetWidgetSizeUseCaseTestProperties(
-            -1,
-            Format(monthHeaderLabelLength = 3, dayHeaderLabelLength = 1, headerTextRelativeSize = 0.8f, dayCellTextRelativeSize = 0.8f)
-        ),
-        GetWidgetSizeUseCaseTestProperties(
-            -320,
-            Format(monthHeaderLabelLength = 3, dayHeaderLabelLength = 1, headerTextRelativeSize = 0.8f, dayCellTextRelativeSize = 0.8f)
-        )
+    private fun getWidgetSizeAndExpectedFormat(): Stream<FormatTestProperties> = Stream.of(
+        FormatTestProperties(261, Format(dayCellTextRelativeSize = 1.2f)),
+        FormatTestProperties(260, Format(dayCellTextRelativeSize = 1.2f)),
+        FormatTestProperties(259, Format(dayCellTextRelativeSize = 1.1f)),
+        FormatTestProperties(241, Format(dayCellTextRelativeSize = 1.1f)),
+        FormatTestProperties(240, Format(dayCellTextRelativeSize = 1.1f)),
+        FormatTestProperties(239, Format()),
+        FormatTestProperties(221, Format()),
+        FormatTestProperties(220, Format()),
+        FormatTestProperties(219, Format(headerTextRelativeSize = 0.9f, dayCellTextRelativeSize = 0.9f)),
+        FormatTestProperties(201, Format(headerTextRelativeSize = 0.9f, dayCellTextRelativeSize = 0.9f)),
+        FormatTestProperties(200, Format(headerTextRelativeSize = 0.9f, dayCellTextRelativeSize = 0.9f)),
+        FormatTestProperties(199, Format(headerTextRelativeSize = 0.8f, dayCellTextRelativeSize = 0.8f)),
+        FormatTestProperties(181, Format(headerTextRelativeSize = 0.8f, dayCellTextRelativeSize = 0.8f)),
+        FormatTestProperties(180, Format(headerTextRelativeSize = 0.8f, dayCellTextRelativeSize = 0.8f)),
+        FormatTestProperties(179, Format(monthHeaderLabelLength = 3, dayHeaderLabelLength = 1, headerTextRelativeSize = 0.8f, dayCellTextRelativeSize = 0.8f)),
+        FormatTestProperties(0, Format(monthHeaderLabelLength = 3, dayHeaderLabelLength = 1, headerTextRelativeSize = 0.8f, dayCellTextRelativeSize = 0.8f)),
+        FormatTestProperties(-1, Format(monthHeaderLabelLength = 3, dayHeaderLabelLength = 1, headerTextRelativeSize = 0.8f, dayCellTextRelativeSize = 0.8f)),
+        FormatTestProperties(-320, Format(monthHeaderLabelLength = 3, dayHeaderLabelLength = 1, headerTextRelativeSize = 0.8f, dayCellTextRelativeSize = 0.8f))
     )
 
-    internal data class GetWidgetSizeUseCaseTestProperties(
+    internal data class FormatTestProperties(
         val width: Int,
         val expectedFormat: Format
     )
