@@ -1,5 +1,5 @@
 Minimal Calendar Widget that's always on current date's month
-· 3x2 (resizable)
+· 3x2 (resizable, adaptive format)
 · Displays all events from your calendars with a symbol set (high number becomes generic)
 · Configuration accessible on widget's top right corner
 · Pressing on any other part of the widget opens calendar application
