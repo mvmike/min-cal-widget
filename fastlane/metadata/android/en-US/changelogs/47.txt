@@ -1,0 +1,3 @@
+v2.6.6
+- refine month and year text alignment
+- fix invalid width Format calculation
