@@ -1,0 +1,2 @@
+v2.6.7
+- fix wrong format update when active landscape activity
