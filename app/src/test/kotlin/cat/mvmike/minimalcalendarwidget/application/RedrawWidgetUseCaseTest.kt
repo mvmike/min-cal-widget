@@ -10,6 +10,7 @@ import cat.mvmike.minimalcalendarwidget.domain.component.DaysHeaderService
 import cat.mvmike.minimalcalendarwidget.domain.component.DaysService
 import cat.mvmike.minimalcalendarwidget.domain.component.LayoutService
 import cat.mvmike.minimalcalendarwidget.domain.component.MonthAndYearHeaderService
+import cat.mvmike.minimalcalendarwidget.domain.configuration.Configuration
 import cat.mvmike.minimalcalendarwidget.domain.getFormat
 import cat.mvmike.minimalcalendarwidget.domain.intent.addAllListeners
 import io.mockk.EqMatcher
@@ -69,7 +70,7 @@ internal class RedrawWidgetUseCaseTest : BaseTest() {
 
     @ParameterizedTest
     @ValueSource(ints = [1, 5, 7, 14])
-    fun shouldRedrawWidget(appWidgetId: Int) {
+    fun shouldRedrawWidgetAndUpsertFormat(appWidgetId: Int) {
         mockkObject(
             LayoutService,
             MonthAndYearHeaderService,
@@ -90,6 +91,63 @@ internal class RedrawWidgetUseCaseTest : BaseTest() {
 
         val format = Format()
         every { getFormat(context, appWidgetManager, appWidgetId) } returns format
+        mockSharedPreferences()
+
+        justRun { LayoutService.draw(context, any()) }
+        justRun { MonthAndYearHeaderService.draw(context, any(), format) }
+        justRun { DaysHeaderService.draw(context, any(), format) }
+        justRun { DaysService.draw(context, any(), format) }
+
+        justRun { appWidgetManager.updateAppWidget(appWidgetId, any()) }
+
+        RedrawWidgetUseCase.execute(context, appWidgetManager, appWidgetId, true)
+
+        verifySharedPreferencesAccess()
+        verifySharedPreferencesEdit()
+        verify { editor.putInt(Configuration.WidgetWidth.key, Configuration.WidgetWidth.defaultValue.width) }
+        verify { editor.apply() }
+        verify { context.packageName }
+        verify { addAllListeners(context, any()) }
+        verify { LayoutService.draw(context, any()) }
+        verify { MonthAndYearHeaderService.draw(context, any(), format) }
+        verify { DaysHeaderService.draw(context, any(), format) }
+        verify { DaysService.draw(context, any(), format) }
+
+        verify { appWidgetManager.updateAppWidget(appWidgetId, any()) }
+
+        confirmVerified(
+            appWidgetManager,
+            LayoutService,
+            MonthAndYearHeaderService,
+            DaysHeaderService,
+            DaysService
+        )
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = [1, 5, 7, 14])
+    fun shouldRedrawWidgetWithPreviousExistingFormat(appWidgetId: Int) {
+        mockkObject(
+            LayoutService,
+            MonthAndYearHeaderService,
+            DaysHeaderService,
+            DaysService
+        )
+        mockkStatic(
+            ::addAllListeners
+        )
+        mockSharedPreferences()
+        mockWidgetWidth(Format())
+
+        val packageName = "mincalWidget"
+        every { context.packageName } returns packageName
+        mockkConstructor(RemoteViews::class)
+        justRun { constructedWith<RemoteViews>(EqMatcher(packageName), EqMatcher(2131427390)).removeAllViews(any()) }
+
+        justRun { addAllListeners(context, any()) }
+
+        val format = Format()
+        every { getFormat(context, appWidgetManager, appWidgetId) } returns format
         justRun { LayoutService.draw(context, any()) }
         justRun { MonthAndYearHeaderService.draw(context, any(), format) }
         justRun { DaysHeaderService.draw(context, any(), format) }
@@ -99,6 +157,7 @@ internal class RedrawWidgetUseCaseTest : BaseTest() {
 
         RedrawWidgetUseCase.execute(context, appWidgetManager, appWidgetId)
 
+        verifyWidgetWidth()
         verify { context.packageName }
         verify { addAllListeners(context, any()) }
         verify { LayoutService.draw(context, any()) }

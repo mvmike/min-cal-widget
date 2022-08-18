@@ -3,6 +3,7 @@
 package cat.mvmike.minimalcalendarwidget.domain.configuration
 
 import android.content.Context
+import cat.mvmike.minimalcalendarwidget.domain.Format
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Colour
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.SymbolSet
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
@@ -29,6 +30,15 @@ sealed class Configuration<E>(
     internal open val defaultValue: E
 ) {
     abstract fun get(context: Context): E
+
+    object WidgetWidth : Configuration<Format>(
+        key = "WIDGET_WIDTH",
+        defaultValue = Format()
+    ) {
+        override fun get(context: Context) = Format(getConfiguration(context).getInt(key, defaultValue.width))
+
+        fun set(context: Context, value: Format) = getConfiguration(context).edit().putInt(key, value.width).apply()
+    }
 
     object WidgetTransparency : Configuration<Transparency>(
         key = "WIDGET_TRANSPARENCY",

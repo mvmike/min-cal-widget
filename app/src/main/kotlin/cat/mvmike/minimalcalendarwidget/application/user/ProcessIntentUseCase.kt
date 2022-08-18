@@ -25,7 +25,7 @@ object ProcessIntentUseCase {
         when (CalendarResolver.isReadCalendarPermitted(this)) {
             true -> {
                 function.invoke()
-                RedrawWidgetUseCase.execute(this)
+                RedrawWidgetUseCase.execute(this, true)
             }
             else -> PermissionsActivity.start(this)
         }

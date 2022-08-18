@@ -21,7 +21,7 @@ class MonthWidget : AppWidgetProvider() {
 
     override fun onAppWidgetOptionsChanged(context: Context, appWidgetManager: AppWidgetManager, appWidgetId: Int, newOptions: Bundle) {
         super.onAppWidgetOptionsChanged(context, appWidgetManager, appWidgetId, newOptions)
-        RedrawWidgetUseCase.execute(context, appWidgetManager, appWidgetId)
+        RedrawWidgetUseCase.execute(context, appWidgetManager, appWidgetId, true)
     }
 
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {

@@ -4,6 +4,7 @@ package cat.mvmike.minimalcalendarwidget
 
 import android.content.Context
 import android.content.SharedPreferences
+import cat.mvmike.minimalcalendarwidget.domain.Format
 import cat.mvmike.minimalcalendarwidget.domain.configuration.BooleanConfiguration
 import cat.mvmike.minimalcalendarwidget.domain.configuration.Configuration
 import cat.mvmike.minimalcalendarwidget.domain.configuration.EnumConfiguration
@@ -139,6 +140,15 @@ open class BaseTest {
         }
     }
 
+    protected fun mockWidgetWidth(format: Format) {
+        every {
+            sharedPreferences.getInt(
+                Configuration.WidgetWidth.key,
+                Configuration.WidgetWidth.defaultValue.width
+            )
+        } returns format.width
+    }
+
     protected fun mockWidgetTransparency(transparency: Transparency) {
         every {
             sharedPreferences.getInt(
@@ -146,6 +156,16 @@ open class BaseTest {
                 Configuration.WidgetTransparency.defaultValue.percentage
             )
         } returns transparency.percentage
+    }
+
+    protected fun verifyWidgetWidth() {
+        verifySharedPreferencesAccess()
+        verify {
+            sharedPreferences.getInt(
+                Configuration.WidgetWidth.key,
+                Configuration.WidgetWidth.defaultValue.width
+            )
+        }
     }
 
     protected fun verifyWidgetTransparency() {

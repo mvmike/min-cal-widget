@@ -12,31 +12,49 @@ import cat.mvmike.minimalcalendarwidget.domain.component.DaysHeaderService
 import cat.mvmike.minimalcalendarwidget.domain.component.DaysService
 import cat.mvmike.minimalcalendarwidget.domain.component.LayoutService
 import cat.mvmike.minimalcalendarwidget.domain.component.MonthAndYearHeaderService
+import cat.mvmike.minimalcalendarwidget.domain.configuration.Configuration
 import cat.mvmike.minimalcalendarwidget.domain.getFormat
 import cat.mvmike.minimalcalendarwidget.domain.intent.addAllListeners
 
 object RedrawWidgetUseCase {
 
-    fun execute(context: Context) {
+    fun execute(
+        context: Context,
+        upsertFormat: Boolean = false
+    ) {
         val name = ComponentName(context, MonthWidget::class.java)
         val appWidgetManager = AppWidgetManager.getInstance(context)
         execute(
             context = context,
             appWidgetManager = appWidgetManager,
-            appWidgetIds = appWidgetManager.getAppWidgetIds(name)
+            appWidgetIds = appWidgetManager.getAppWidgetIds(name),
+            upsertFormat = upsertFormat
         )
     }
 
-    fun execute(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) =
-        appWidgetIds.forEach { appWidgetId -> execute(context, appWidgetManager, appWidgetId) }
+    fun execute(
+        context: Context,
+        appWidgetManager: AppWidgetManager,
+        appWidgetIds: IntArray,
+        upsertFormat: Boolean = false
+    ) = appWidgetIds.forEach { appWidgetId -> execute(context, appWidgetManager, appWidgetId, upsertFormat) }
 
-    fun execute(context: Context, appWidgetManager: AppWidgetManager, appWidgetId: Int) {
+    fun execute(
+        context: Context,
+        appWidgetManager: AppWidgetManager,
+        appWidgetId: Int,
+        upsertFormat: Boolean = false
+    ) {
         val widgetRemoteView = RemoteViews(context.packageName, R.layout.widget)
         widgetRemoteView.removeAllViews(R.id.calendar_days_layout)
 
         addAllListeners(context, widgetRemoteView)
 
-        val format = getFormat(context, appWidgetManager, appWidgetId)
+        val format = when {
+            upsertFormat -> getFormat(context, appWidgetManager, appWidgetId).also { Configuration.WidgetWidth.set(context, it) }
+            else -> Configuration.WidgetWidth.get(context)
+        }
+
         LayoutService.draw(
             context = context,
             widgetRemoteView = widgetRemoteView

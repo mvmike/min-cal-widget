@@ -55,13 +55,13 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
         mockkObject(RedrawWidgetUseCase)
 
         justRun { ConfigurationActivity.Companion.start(context) }
-        justRun { RedrawWidgetUseCase.execute(context) }
+        justRun { RedrawWidgetUseCase.execute(context, true) }
 
         ProcessIntentUseCase.execute(context, ActionableView.OPEN_CONFIGURATION.action)
 
         verify { CalendarResolver.isReadCalendarPermitted(context) }
         verify { ConfigurationActivity.Companion.start(context) }
-        verify { RedrawWidgetUseCase.execute(context) }
+        verify { RedrawWidgetUseCase.execute(context, true) }
     }
 
     @Test
@@ -72,13 +72,13 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
         mockkObject(RedrawWidgetUseCase)
 
         justRun { CalendarActivity.start(context, instant) }
-        justRun { RedrawWidgetUseCase.execute(context) }
+        justRun { RedrawWidgetUseCase.execute(context, true) }
 
         ProcessIntentUseCase.execute(context, ActionableView.OPEN_CALENDAR.action)
 
         verify { CalendarResolver.isReadCalendarPermitted(context) }
         verify { ClockConfig.getInstant() }
         verify { CalendarActivity.start(context, instant) }
-        verify { RedrawWidgetUseCase.execute(context) }
+        verify { RedrawWidgetUseCase.execute(context, true) }
     }
 }
