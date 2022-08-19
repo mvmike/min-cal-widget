@@ -31,8 +31,8 @@ sealed class Configuration<E>(
 ) {
     abstract fun get(context: Context): E
 
-    object WidgetWidth : Configuration<Format>(
-        key = "WIDGET_WIDTH",
+    object WidgetFormat : Configuration<Format>(
+        key = "WIDGET_FORMAT",
         defaultValue = Format()
     ) {
         override fun get(context: Context) = Format(getConfiguration(context).getInt(key, defaultValue.width))

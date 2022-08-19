@@ -89,7 +89,7 @@ internal class RedrawWidgetUseCaseTest : BaseTest() {
 
         justRun { addAllListeners(context, any()) }
 
-        val format = Format()
+        val format = Format(120)
         every { getFormat(context, appWidgetManager, appWidgetId) } returns format
         mockSharedPreferences()
 
@@ -104,7 +104,7 @@ internal class RedrawWidgetUseCaseTest : BaseTest() {
 
         verifySharedPreferencesAccess()
         verifySharedPreferencesEdit()
-        verify { editor.putInt(Configuration.WidgetWidth.key, Configuration.WidgetWidth.defaultValue.width) }
+        verify { editor.putInt(Configuration.WidgetFormat.key, format.width) }
         verify { editor.apply() }
         verify { context.packageName }
         verify { addAllListeners(context, any()) }
@@ -137,7 +137,7 @@ internal class RedrawWidgetUseCaseTest : BaseTest() {
             ::addAllListeners
         )
         mockSharedPreferences()
-        mockWidgetWidth(Format())
+        mockWidgetFormat(Format())
 
         val packageName = "mincalWidget"
         every { context.packageName } returns packageName
@@ -157,7 +157,59 @@ internal class RedrawWidgetUseCaseTest : BaseTest() {
 
         RedrawWidgetUseCase.execute(context, appWidgetManager, appWidgetId)
 
-        verifyWidgetWidth()
+        verifyWidgetFormat()
+        verify { context.packageName }
+        verify { addAllListeners(context, any()) }
+        verify { LayoutService.draw(context, any()) }
+        verify { MonthAndYearHeaderService.draw(context, any(), format) }
+        verify { DaysHeaderService.draw(context, any(), format) }
+        verify { DaysService.draw(context, any(), format) }
+
+        verify { appWidgetManager.updateAppWidget(appWidgetId, any()) }
+
+        confirmVerified(
+            appWidgetManager,
+            LayoutService,
+            MonthAndYearHeaderService,
+            DaysHeaderService,
+            DaysService
+        )
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = [1, 5, 7, 14])
+    fun shouldRedrawWidgetWithPreviousExistingFormat_whenCurrentFormatIsInvalid(appWidgetId: Int) {
+        mockkObject(
+            LayoutService,
+            MonthAndYearHeaderService,
+            DaysHeaderService,
+            DaysService
+        )
+        mockkStatic(
+            ::addAllListeners
+        )
+        mockSharedPreferences()
+        mockWidgetFormat(Format())
+
+        val packageName = "mincalWidget"
+        every { context.packageName } returns packageName
+        mockkConstructor(RemoteViews::class)
+        justRun { constructedWith<RemoteViews>(EqMatcher(packageName), EqMatcher(2131427390)).removeAllViews(any()) }
+
+        justRun { addAllListeners(context, any()) }
+
+        val format = Format()
+        every { getFormat(context, appWidgetManager, appWidgetId) } returns null
+        justRun { LayoutService.draw(context, any()) }
+        justRun { MonthAndYearHeaderService.draw(context, any(), format) }
+        justRun { DaysHeaderService.draw(context, any(), format) }
+        justRun { DaysService.draw(context, any(), format) }
+
+        justRun { appWidgetManager.updateAppWidget(appWidgetId, any()) }
+
+        RedrawWidgetUseCase.execute(context, appWidgetManager, appWidgetId)
+
+        verifyWidgetFormat()
         verify { context.packageName }
         verify { addAllListeners(context, any()) }
         verify { LayoutService.draw(context, any()) }

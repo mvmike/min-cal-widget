@@ -45,14 +45,14 @@ data class Format(
 }
 
 fun getFormat(context: Context, appWidgetManager: AppWidgetManager, appWidgetId: Int) = try {
-    with(appWidgetManager.getAppWidgetOptions(appWidgetId)) {
-        Format(getWidth(context))
-    }
+   appWidgetManager.getAppWidgetOptions(appWidgetId)
+       .getWidth(context)
+       ?.let { Format(it) }
 } catch (ignored: Exception) {
-    Format()
+    null
 }
 
 private fun Bundle.getWidth(context: Context) = when (context.resources.configuration.orientation) {
     ORIENTATION_LANDSCAPE -> getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT)
     else -> getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH)
-}.takeUnless { it <= 0 } ?: throw IllegalStateException("Invalid width")
+}.takeUnless { it <= 0 }

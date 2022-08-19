@@ -3,6 +3,7 @@
 package cat.mvmike.minimalcalendarwidget.domain.configuration
 
 import cat.mvmike.minimalcalendarwidget.BaseTest
+import cat.mvmike.minimalcalendarwidget.domain.Format
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Colour
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.SymbolSet
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
@@ -17,6 +18,34 @@ import org.junit.jupiter.params.provider.ValueSource
 import java.time.DayOfWeek
 
 internal class ConfigurationTest : BaseTest() {
+
+    @ParameterizedTest
+    @ValueSource(ints = [-10, 1, 5, 100, 180, 351])
+    fun getWidgetFormat_shouldReturnSharedPreferencesValue(width: Int) {
+        val format = Format(width)
+        mockSharedPreferences()
+        mockWidgetFormat(format)
+
+        val result = Configuration.WidgetFormat.get(context)
+
+        assertThat(result).isEqualTo(format)
+        verifyWidgetFormat()
+        verify { editor wasNot Called }
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = [1, 5, 100, 180, 351])
+    fun setWidgetFormat_shouldSetSharedPreferencesValue(width: Int) {
+        val format = Format(width)
+        mockSharedPreferences()
+
+        Configuration.WidgetFormat.set(context, format)
+
+        verifySharedPreferencesAccess()
+        verifySharedPreferencesEdit()
+        verify { editor.putInt(Configuration.WidgetFormat.key, format.width) }
+        verify { editor.apply() }
+    }
 
     @ParameterizedTest
     @ValueSource(ints = [0, 1, 5, 17, 50, 51, 72, 80, 99, 100])

@@ -14,6 +14,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.MethodSource
+import org.junit.jupiter.params.provider.ValueSource
 import java.util.stream.Stream
 
 internal class FormatTest : BaseTest() {
@@ -31,7 +32,7 @@ internal class FormatTest : BaseTest() {
         every { context.resources.configuration } returns Configuration()
         every { bundle.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH) } returns formatTestProperties.width
 
-        val result = getFormat(context, appWidgetManager, appWidgetId)
+        val result = getFormat(context, appWidgetManager, appWidgetId)!!
 
         val headerLabel = "someLongHeaderLabel"
         assertThat(result.getMonthHeaderLabel(headerLabel)).isEqualTo(headerLabel.take(formatTestProperties.expectedMonthHeaderLabelLength))
@@ -49,7 +50,7 @@ internal class FormatTest : BaseTest() {
 
         val result = getFormat(context, appWidgetManager, appWidgetId)
 
-        assertThat(result).isEqualTo(Format())
+        assertThat(result).isNull()
         confirmVerified(bundle)
     }
 
@@ -61,7 +62,7 @@ internal class FormatTest : BaseTest() {
 
         val result = getFormat(context, appWidgetManager, appWidgetId)
 
-        assertThat(result).isEqualTo(Format())
+        assertThat(result).isNull()
         verify { context.resources.configuration }
         verify { bundle.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH) }
         confirmVerified(bundle)
@@ -74,8 +75,23 @@ internal class FormatTest : BaseTest() {
 
         val result = getFormat(context, appWidgetManager, appWidgetId)
 
-        assertThat(result).isEqualTo(Format())
+        assertThat(result).isNull()
         verify { context.resources.configuration }
+        confirmVerified(bundle)
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = [-500, -1, 0])
+    fun getFormat_shouldReturnStandardWhenInvalidWidth(width: Int) {
+        every { appWidgetManager.getAppWidgetOptions(appWidgetId) } returns bundle
+        every { context.resources.configuration } returns Configuration()
+        every { bundle.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH) } returns width
+
+        val result = getFormat(context, appWidgetManager, appWidgetId)
+
+        assertThat(result).isNull()
+        verify { context.resources.configuration }
+        verify { bundle.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH) }
         confirmVerified(bundle)
     }
 
@@ -109,9 +125,13 @@ internal class FormatTest : BaseTest() {
             expectedHeaderTextRelativeSize = 0.8f,
             expectedDayCellTextRelativeSize = 0.8f
         ),
-        FormatTestProperties(width = 0),
-        FormatTestProperties(width = -1),
-        FormatTestProperties(width = -320)
+        FormatTestProperties(
+            width = 1,
+            expectedMonthHeaderLabelLength = 3,
+            expectedDayHeaderLabelLength = 1,
+            expectedHeaderTextRelativeSize = 0.8f,
+            expectedDayCellTextRelativeSize = 0.8f
+        )
     )
 
     internal data class FormatTestProperties(

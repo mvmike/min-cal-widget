@@ -140,13 +140,23 @@ open class BaseTest {
         }
     }
 
-    protected fun mockWidgetWidth(format: Format) {
+    protected fun mockWidgetFormat(format: Format) {
         every {
             sharedPreferences.getInt(
-                Configuration.WidgetWidth.key,
-                Configuration.WidgetWidth.defaultValue.width
+                Configuration.WidgetFormat.key,
+                Configuration.WidgetFormat.defaultValue.width
             )
         } returns format.width
+    }
+
+    protected fun verifyWidgetFormat() {
+        verifySharedPreferencesAccess()
+        verify {
+            sharedPreferences.getInt(
+                Configuration.WidgetFormat.key,
+                Configuration.WidgetFormat.defaultValue.width
+            )
+        }
     }
 
     protected fun mockWidgetTransparency(transparency: Transparency) {
@@ -156,16 +166,6 @@ open class BaseTest {
                 Configuration.WidgetTransparency.defaultValue.percentage
             )
         } returns transparency.percentage
-    }
-
-    protected fun verifyWidgetWidth() {
-        verifySharedPreferencesAccess()
-        verify {
-            sharedPreferences.getInt(
-                Configuration.WidgetWidth.key,
-                Configuration.WidgetWidth.defaultValue.width
-            )
-        }
     }
 
     protected fun verifyWidgetTransparency() {
