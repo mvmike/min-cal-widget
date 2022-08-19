@@ -45,7 +45,7 @@ internal class FormatTest : BaseTest() {
     }
 
     @Test
-    fun getFormat_shouldReturnStandardWhenAnExceptionIsThrown_whenGettingBundle() {
+    fun getFormat_shouldReturnNullWhenAnExceptionIsThrown_whenGettingBundle() {
         every { appWidgetManager.getAppWidgetOptions(appWidgetId) } throws Exception()
 
         val result = getFormat(context, appWidgetManager, appWidgetId)
@@ -55,7 +55,7 @@ internal class FormatTest : BaseTest() {
     }
 
     @Test
-    fun getFormat_shouldReturnStandardWhenAnExceptionIsThrown_whenGettingWidth() {
+    fun getFormat_shouldReturnNullWhenAnExceptionIsThrown_whenGettingWidth() {
         every { appWidgetManager.getAppWidgetOptions(appWidgetId) } returns bundle
         every { context.resources.configuration } returns Configuration()
         every { bundle.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH) } throws Exception()
@@ -69,7 +69,7 @@ internal class FormatTest : BaseTest() {
     }
 
     @Test
-    fun getFormat_shouldReturnStandardWhenAnExceptionIsThrown_whenGettingOrientation() {
+    fun getFormat_shouldReturnNullWhenAnExceptionIsThrown_whenGettingOrientation() {
         every { appWidgetManager.getAppWidgetOptions(appWidgetId) } returns bundle
         every { context.resources.configuration } throws Exception()
 
@@ -82,7 +82,7 @@ internal class FormatTest : BaseTest() {
 
     @ParameterizedTest
     @ValueSource(ints = [-500, -1, 0])
-    fun getFormat_shouldReturnStandardWhenInvalidWidth(width: Int) {
+    fun getFormat_shouldReturnNullWhenInvalidWidth(width: Int) {
         every { appWidgetManager.getAppWidgetOptions(appWidgetId) } returns bundle
         every { context.resources.configuration } returns Configuration()
         every { bundle.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH) } returns width
