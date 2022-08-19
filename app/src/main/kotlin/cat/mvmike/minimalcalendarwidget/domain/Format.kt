@@ -44,15 +44,13 @@ data class Format(
     fun getDayHeaderLabel(value: String) = value.take(dayHeaderLabelLength)
 }
 
-fun getFormat(context: Context, appWidgetManager: AppWidgetManager, appWidgetId: Int) = try {
+fun getFormat(context: Context, appWidgetManager: AppWidgetManager, appWidgetId: Int) = runCatching {
    appWidgetManager.getAppWidgetOptions(appWidgetId)
        .getWidth(context)
        ?.let { Format(it) }
-} catch (ignored: Exception) {
-    null
-}
+}.getOrNull()
 
 private fun Bundle.getWidth(context: Context) = when (context.resources.configuration.orientation) {
     ORIENTATION_LANDSCAPE -> getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT)
     else -> getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH)
-}.takeUnless { it <= 0 }
+}.takeIf { it > 0 }
