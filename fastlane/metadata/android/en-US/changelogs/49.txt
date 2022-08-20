@@ -1,0 +1,2 @@
+v2.6.8
+- fix wrong format update when phone is locked
