@@ -33,7 +33,7 @@ internal class MonthAndYearHeaderServiceTest : BaseTest() {
 
     @ParameterizedTest
     @MethodSource("getSpreadInstantsAndFormatsWithExpectedTextAndColour")
-    fun execute(
+    fun draw_shouldAddMonthAndYearWithColourAndRelativeMonthAndYearSize(
         instant: Instant,
         format: Format,
         theme: Theme,

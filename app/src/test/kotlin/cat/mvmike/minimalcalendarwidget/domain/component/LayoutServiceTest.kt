@@ -28,7 +28,12 @@ internal class LayoutServiceTest : BaseTest() {
 
     @ParameterizedTest
     @MethodSource("getCombinationOfThemesAndTransparencyLevels")
-    fun execute(theme: Theme, transparency: Transparency, mainLayout: Int, expectedMainLayoutHexTransparency: String) {
+    fun draw_shouldSetLayoutWithThemeBackgroundColourAndTransparency(
+        theme: Theme,
+        transparency: Transparency,
+        mainLayout: Int,
+        expectedMainLayoutHexTransparency: String
+    ) {
         mockSharedPreferences()
         mockWidgetTheme(theme)
         mockWidgetTransparency(transparency)

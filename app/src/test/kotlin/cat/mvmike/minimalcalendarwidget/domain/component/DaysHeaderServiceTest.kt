@@ -42,8 +42,8 @@ internal class DaysHeaderServiceTest : BaseTest() {
     private val daysHeaderRowRv = mockk<RemoteViews>()
 
     @ParameterizedTest
-    @MethodSource("startWeekDayAndThemeAndFormatWithExpectedOutput")
-    fun setDayHeaders_shouldAddViewBasedOnCurrentConfigAndFormat(
+    @MethodSource("getStartWeekDayAndThemeAndFormatWithExpectedOutput")
+    fun draw_shouldAddViewBasedOnCurrentConfigAndFormat(
         startWeekDay: DayOfWeek,
         theme: Theme,
         format: Format,
@@ -93,7 +93,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
     }
 
     @Suppress("UnusedPrivateMember", "LongMethod")
-    private fun startWeekDayAndThemeAndFormatWithExpectedOutput() = Stream.of(
+    private fun getStartWeekDayAndThemeAndFormatWithExpectedOutput() = Stream.of(
         Arguments.of(
             MONDAY, Theme.DARK, Format(), listOf(
                 DayHeaderTestProperties(MONDAY, "MON", darkThemeHeaderTextColour),

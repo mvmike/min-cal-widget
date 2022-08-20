@@ -50,7 +50,7 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
     }
 
     @Test
-    fun shouldLaunchConfigurationActivity_whenOpenConfigurationIntentAndPermissionsGiven() {
+    fun shouldLaunchConfigurationActivityAndRedrawWidgetWithUpsertFormat_whenOpenConfigurationIntentAndPermissionsGiven() {
         mockIsReadCalendarPermitted(true)
         mockkObject(RedrawWidgetUseCase)
 
@@ -65,7 +65,7 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
     }
 
     @Test
-    fun shouldLaunchCalendarActivity_whenOpenCalendarIntentAndPermissionsGiven() {
+    fun shouldLaunchCalendarActivityAndRedrawWidgetWithUpsertFormat_whenOpenCalendarIntentAndPermissionsGiven() {
         val instant = now()
         mockIsReadCalendarPermitted(true)
         mockGetSystemInstant(instant)
