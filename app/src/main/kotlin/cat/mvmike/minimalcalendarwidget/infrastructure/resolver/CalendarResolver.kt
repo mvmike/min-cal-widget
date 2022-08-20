@@ -35,13 +35,11 @@ object CalendarResolver {
     fun isReadCalendarPermitted(context: Context) =
         ContextCompat.checkSelfPermission(context, Manifest.permission.READ_CALENDAR) == PackageManager.PERMISSION_GRANTED
 
-    private fun queryInstances(context: Context, begin: Long, end: Long): Cursor? = try {
+    private fun queryInstances(context: Context, begin: Long, end: Long): Cursor? = runCatching {
         CalendarContract.Instances.query(context.contentResolver, instanceQueryFields, begin, end)
-    } catch (ignored: Exception) {
-        null
-    }
+    }.getOrNull()
 
-    private fun Cursor.toInstance(): Instance? = try {
+    private fun Cursor.toInstance(): Instance? = runCatching {
         Instance(
             eventId = this.getInt(0),
             start = Instant.ofEpochMilli(this.getLong(1)),
@@ -49,15 +47,11 @@ object CalendarResolver {
             zoneId = toZoneIdOrDefault(this.getString(3)),
             isDeclined = this.getInt(4) == CalendarContract.Instances.STATUS_CANCELED
         )
-    } catch (ignored: Exception) {
-        null
-    }
+    }.getOrNull()
 
     private fun toZoneIdOrDefault(zoneId: String?): ZoneId = zoneId?.let {
-        try {
+        runCatching {
             ZoneId.of(it)
-        } catch (ignored: Exception) {
-            ZoneId.systemDefault()
-        }
+        }.getOrNull()
     } ?: ZoneId.systemDefault()
 }
