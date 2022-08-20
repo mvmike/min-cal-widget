@@ -32,7 +32,6 @@ import io.mockk.mockk
 import io.mockk.verify
 import io.mockk.verifyOrder
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
@@ -58,10 +57,10 @@ internal class DaysServiceTest : BaseTest() {
 
     private val rowRv = mockk<RemoteViews>()
 
-    @Test
     @SuppressWarnings("LongMethod")
-    fun setDays_shouldReturnSafeDateSpanOfSystemTimeZoneInstances() {
-        val format = Format()
+    @ParameterizedTest
+    @MethodSource("getFormatAndFocusOnCurrentWeekWithExpectedOutput")
+    fun draw_shouldReturnSafeDateSpanOfSystemTimeZoneInstances(testProperties: DrawDaysUseCaseTestProperties) {
         mockGetSystemLocalDate()
         mockIsReadCalendarPermitted(true)
 
@@ -72,13 +71,14 @@ internal class DaysServiceTest : BaseTest() {
         mockGetSystemZoneId()
         every { CalendarResolver.getInstances(context, initEpochMillis, endEpochMillis) } returns getSystemInstances()
 
+        val symbolSet = SymbolSet.MINIMAL
         mockSharedPreferences()
         mockWidgetShowDeclinedEvents()
         mockWidgetTransparency(Transparency(20))
         mockFirstDayOfWeek(DayOfWeek.MONDAY)
-        mockFocusOnCurrentWeek(false)
+        mockFocusOnCurrentWeek(testProperties.focusOnCurrentWeek)
         mockWidgetTheme(Theme.DARK)
-        mockInstancesSymbolSet(SymbolSet.MINIMAL)
+        mockInstancesSymbolSet(symbolSet)
         mockInstancesColour(Colour.CYAN)
 
         every { GraphicResolver.createDaysRow(context) } returns rowRv
@@ -103,7 +103,7 @@ internal class DaysServiceTest : BaseTest() {
         justRun { GraphicResolver.addToDaysRow(context, rowRv, any(), any(), any(), any(), any(), any(), any(), any(), any()) }
         justRun { GraphicResolver.addToWidget(widgetRv, rowRv) }
 
-        DaysService.draw(context, widgetRv, format)
+        DaysService.draw(context, widgetRv, testProperties.format)
 
         verify { ClockConfig.getSystemLocalDate() }
         verify { CalendarResolver.isReadCalendarPermitted(context) }
@@ -120,7 +120,7 @@ internal class DaysServiceTest : BaseTest() {
 
         verify(exactly = 6) { GraphicResolver.createDaysRow(context) }
 
-        getDrawDaysUseCaseTestProperties().forEach { dayUseCaseTest ->
+        testProperties.expectedDayProperties.forEach { dayUseCaseTest ->
 
             verify {
                 GraphicResolver.getColour(
@@ -153,9 +153,9 @@ internal class DaysServiceTest : BaseTest() {
                     textColour = dayUseCaseTest.textColour,
                     dayOfMonthInBold = dayUseCaseTest.isToday,
                     instancesColour = dayUseCaseTest.instancesColour,
-                    instancesRelativeSize = dayUseCaseTest.symbolRelativeSize,
+                    instancesRelativeSize = symbolSet.relativeSize,
                     dayBackgroundColour = dayUseCaseTest.dayBackgroundColour?.let { expectedBackground },
-                    textRelativeSize = format.dayCellTextRelativeSize
+                    textRelativeSize = testProperties.format.dayCellTextRelativeSize
                 )
             }
         }
@@ -165,7 +165,7 @@ internal class DaysServiceTest : BaseTest() {
 
     @ParameterizedTest
     @MethodSource("getSystemLocalDateAndFirstDayOfWeekWithExpectedCurrentWeekFocusedInitialLocalDate")
-    fun getCurrentWeekFocusedInitialLocalDate_shouldReturnWidgetInitialDate(
+    fun getFocusedOnCurrentWeekInitialLocalDate_shouldReturnWidgetInitialDate(
         systemLocalDate: LocalDate,
         firstDayOfWeek: DayOfWeek,
         expectedInitialLocalDate: LocalDate
@@ -388,57 +388,66 @@ internal class DaysServiceTest : BaseTest() {
         )
     }
 
-    @Suppress("UnusedPrivateMember")
-    private fun getDrawDaysUseCaseTestProperties() = Stream.of(
-        DrawDaysUseCaseTestProperties(" 26 ·", darkThemeCellTextColour),
-        DrawDaysUseCaseTestProperties(" 27  ", darkThemeCellTextColour),
-        DrawDaysUseCaseTestProperties(" 28 ·", darkThemeCellTextColour),
-        DrawDaysUseCaseTestProperties(" 29 ·", darkThemeCellTextColour),
-        DrawDaysUseCaseTestProperties(" 30  ", darkThemeCellTextColour),
-        DrawDaysUseCaseTestProperties("  1  ", darkThemeInMonthCellTextColour, saturdayInMonthDarkThemeCellBackground),
-        DrawDaysUseCaseTestProperties("  2  ", darkThemeInMonthCellTextColour, sundayInMonthDarkThemeCellBackground),
-        DrawDaysUseCaseTestProperties("  3 ·", darkThemeInMonthCellTextColour, inMonthDarkThemeCellBackground),
-        DrawDaysUseCaseTestProperties("  4 ·", darkThemeInMonthCellTextColour, todayDarkThemeCellBackground,
-            isToday = true, instancesColour = instancesColourTodayId
-        ),
-        DrawDaysUseCaseTestProperties("  5  ", darkThemeInMonthCellTextColour, inMonthDarkThemeCellBackground),
-        DrawDaysUseCaseTestProperties("  6 ∴", darkThemeInMonthCellTextColour, inMonthDarkThemeCellBackground),
-        DrawDaysUseCaseTestProperties("  7 ·", darkThemeInMonthCellTextColour, inMonthDarkThemeCellBackground),
-        DrawDaysUseCaseTestProperties("  8  ", darkThemeInMonthCellTextColour, saturdayInMonthDarkThemeCellBackground),
-        DrawDaysUseCaseTestProperties("  9  ", darkThemeInMonthCellTextColour, sundayInMonthDarkThemeCellBackground),
-        DrawDaysUseCaseTestProperties(" 10 ∷", darkThemeInMonthCellTextColour, inMonthDarkThemeCellBackground),
-        DrawDaysUseCaseTestProperties(" 11 ·", darkThemeInMonthCellTextColour, inMonthDarkThemeCellBackground),
-        DrawDaysUseCaseTestProperties(" 12  ", darkThemeInMonthCellTextColour, inMonthDarkThemeCellBackground),
-        DrawDaysUseCaseTestProperties(" 13  ", darkThemeInMonthCellTextColour, inMonthDarkThemeCellBackground),
-        DrawDaysUseCaseTestProperties(" 14  ", darkThemeInMonthCellTextColour, inMonthDarkThemeCellBackground),
-        DrawDaysUseCaseTestProperties(" 15  ", darkThemeInMonthCellTextColour, saturdayInMonthDarkThemeCellBackground),
-        DrawDaysUseCaseTestProperties(" 16  ", darkThemeInMonthCellTextColour, sundayInMonthDarkThemeCellBackground),
-        DrawDaysUseCaseTestProperties(" 17  ", darkThemeInMonthCellTextColour, inMonthDarkThemeCellBackground),
-        DrawDaysUseCaseTestProperties(" 18  ", darkThemeInMonthCellTextColour, inMonthDarkThemeCellBackground),
-        DrawDaysUseCaseTestProperties(" 19  ", darkThemeInMonthCellTextColour, inMonthDarkThemeCellBackground),
-        DrawDaysUseCaseTestProperties(" 20  ", darkThemeInMonthCellTextColour, inMonthDarkThemeCellBackground),
-        DrawDaysUseCaseTestProperties(" 21  ", darkThemeInMonthCellTextColour, inMonthDarkThemeCellBackground),
-        DrawDaysUseCaseTestProperties(" 22  ", darkThemeInMonthCellTextColour, saturdayInMonthDarkThemeCellBackground),
-        DrawDaysUseCaseTestProperties(" 23  ", darkThemeInMonthCellTextColour, sundayInMonthDarkThemeCellBackground),
-        DrawDaysUseCaseTestProperties(" 24  ", darkThemeInMonthCellTextColour, inMonthDarkThemeCellBackground),
-        DrawDaysUseCaseTestProperties(" 25  ", darkThemeInMonthCellTextColour, inMonthDarkThemeCellBackground),
-        DrawDaysUseCaseTestProperties(" 26  ", darkThemeInMonthCellTextColour, inMonthDarkThemeCellBackground),
-        DrawDaysUseCaseTestProperties(" 27 ·", darkThemeInMonthCellTextColour, inMonthDarkThemeCellBackground),
-        DrawDaysUseCaseTestProperties(" 28  ", darkThemeInMonthCellTextColour, inMonthDarkThemeCellBackground),
-        DrawDaysUseCaseTestProperties(" 29  ", darkThemeInMonthCellTextColour, saturdayInMonthDarkThemeCellBackground),
-        DrawDaysUseCaseTestProperties(" 30 ◇", darkThemeInMonthCellTextColour, sundayInMonthDarkThemeCellBackground),
-        DrawDaysUseCaseTestProperties(" 31  ", darkThemeInMonthCellTextColour, inMonthDarkThemeCellBackground),
-        DrawDaysUseCaseTestProperties("  1 ·", darkThemeCellTextColour),
-        DrawDaysUseCaseTestProperties("  2 ·", darkThemeCellTextColour),
-        DrawDaysUseCaseTestProperties("  3 ·", darkThemeCellTextColour),
-        DrawDaysUseCaseTestProperties("  4 ·", darkThemeCellTextColour),
-        DrawDaysUseCaseTestProperties("  5 ◈", darkThemeCellTextColour, saturdayDarkThemeCellBackground),
-        DrawDaysUseCaseTestProperties("  6 ·", darkThemeCellTextColour, sundayDarkThemeCellBackground)
-    )
-
     private fun String.toInstant(zoneOffset: ZoneOffset) = LocalDateTime
         .parse(this, DateTimeFormatter.ISO_ZONED_DATE_TIME)
         .toInstant(zoneOffset)
+
+    @Suppress("UnusedPrivateMember")
+    private fun getFormatAndFocusOnCurrentWeekWithExpectedOutput() = Stream.of(
+        DrawDaysUseCaseTestProperties(Format(50), false, getDrawDaysUseCaseTestProperties()),
+        DrawDaysUseCaseTestProperties(Format(130), true, getDrawDaysUseCaseTestProperties()),
+        DrawDaysUseCaseTestProperties(Format(185), false, getDrawDaysUseCaseTestProperties()),
+        DrawDaysUseCaseTestProperties(Format(200), true, getDrawDaysUseCaseTestProperties()),
+        DrawDaysUseCaseTestProperties(Format(250), false, getDrawDaysUseCaseTestProperties()),
+        DrawDaysUseCaseTestProperties(Format(1000), true, getDrawDaysUseCaseTestProperties())
+    )!!
+
+    private fun getDrawDaysUseCaseTestProperties() = Stream.of(
+        DrawDaysUseCaseTestDayProperties(" 26 ·", darkThemeCellTextColour),
+        DrawDaysUseCaseTestDayProperties(" 27  ", darkThemeCellTextColour),
+        DrawDaysUseCaseTestDayProperties(" 28 ·", darkThemeCellTextColour),
+        DrawDaysUseCaseTestDayProperties(" 29 ·", darkThemeCellTextColour),
+        DrawDaysUseCaseTestDayProperties(" 30  ", darkThemeCellTextColour),
+        DrawDaysUseCaseTestDayProperties("  1  ", darkThemeInMonthCellTextColour, saturdayInMonthDarkThemeCellBackground),
+        DrawDaysUseCaseTestDayProperties("  2  ", darkThemeInMonthCellTextColour, sundayInMonthDarkThemeCellBackground),
+        DrawDaysUseCaseTestDayProperties("  3 ·", darkThemeInMonthCellTextColour, inMonthDarkThemeCellBackground),
+        DrawDaysUseCaseTestDayProperties("  4 ·", darkThemeInMonthCellTextColour, todayDarkThemeCellBackground,
+            isToday = true, instancesColour = instancesColourTodayId
+        ),
+        DrawDaysUseCaseTestDayProperties("  5  ", darkThemeInMonthCellTextColour, inMonthDarkThemeCellBackground),
+        DrawDaysUseCaseTestDayProperties("  6 ∴", darkThemeInMonthCellTextColour, inMonthDarkThemeCellBackground),
+        DrawDaysUseCaseTestDayProperties("  7 ·", darkThemeInMonthCellTextColour, inMonthDarkThemeCellBackground),
+        DrawDaysUseCaseTestDayProperties("  8  ", darkThemeInMonthCellTextColour, saturdayInMonthDarkThemeCellBackground),
+        DrawDaysUseCaseTestDayProperties("  9  ", darkThemeInMonthCellTextColour, sundayInMonthDarkThemeCellBackground),
+        DrawDaysUseCaseTestDayProperties(" 10 ∷", darkThemeInMonthCellTextColour, inMonthDarkThemeCellBackground),
+        DrawDaysUseCaseTestDayProperties(" 11 ·", darkThemeInMonthCellTextColour, inMonthDarkThemeCellBackground),
+        DrawDaysUseCaseTestDayProperties(" 12  ", darkThemeInMonthCellTextColour, inMonthDarkThemeCellBackground),
+        DrawDaysUseCaseTestDayProperties(" 13  ", darkThemeInMonthCellTextColour, inMonthDarkThemeCellBackground),
+        DrawDaysUseCaseTestDayProperties(" 14  ", darkThemeInMonthCellTextColour, inMonthDarkThemeCellBackground),
+        DrawDaysUseCaseTestDayProperties(" 15  ", darkThemeInMonthCellTextColour, saturdayInMonthDarkThemeCellBackground),
+        DrawDaysUseCaseTestDayProperties(" 16  ", darkThemeInMonthCellTextColour, sundayInMonthDarkThemeCellBackground),
+        DrawDaysUseCaseTestDayProperties(" 17  ", darkThemeInMonthCellTextColour, inMonthDarkThemeCellBackground),
+        DrawDaysUseCaseTestDayProperties(" 18  ", darkThemeInMonthCellTextColour, inMonthDarkThemeCellBackground),
+        DrawDaysUseCaseTestDayProperties(" 19  ", darkThemeInMonthCellTextColour, inMonthDarkThemeCellBackground),
+        DrawDaysUseCaseTestDayProperties(" 20  ", darkThemeInMonthCellTextColour, inMonthDarkThemeCellBackground),
+        DrawDaysUseCaseTestDayProperties(" 21  ", darkThemeInMonthCellTextColour, inMonthDarkThemeCellBackground),
+        DrawDaysUseCaseTestDayProperties(" 22  ", darkThemeInMonthCellTextColour, saturdayInMonthDarkThemeCellBackground),
+        DrawDaysUseCaseTestDayProperties(" 23  ", darkThemeInMonthCellTextColour, sundayInMonthDarkThemeCellBackground),
+        DrawDaysUseCaseTestDayProperties(" 24  ", darkThemeInMonthCellTextColour, inMonthDarkThemeCellBackground),
+        DrawDaysUseCaseTestDayProperties(" 25  ", darkThemeInMonthCellTextColour, inMonthDarkThemeCellBackground),
+        DrawDaysUseCaseTestDayProperties(" 26  ", darkThemeInMonthCellTextColour, inMonthDarkThemeCellBackground),
+        DrawDaysUseCaseTestDayProperties(" 27 ·", darkThemeInMonthCellTextColour, inMonthDarkThemeCellBackground),
+        DrawDaysUseCaseTestDayProperties(" 28  ", darkThemeInMonthCellTextColour, inMonthDarkThemeCellBackground),
+        DrawDaysUseCaseTestDayProperties(" 29  ", darkThemeInMonthCellTextColour, saturdayInMonthDarkThemeCellBackground),
+        DrawDaysUseCaseTestDayProperties(" 30 ◇", darkThemeInMonthCellTextColour, sundayInMonthDarkThemeCellBackground),
+        DrawDaysUseCaseTestDayProperties(" 31  ", darkThemeInMonthCellTextColour, inMonthDarkThemeCellBackground),
+        DrawDaysUseCaseTestDayProperties("  1 ·", darkThemeCellTextColour),
+        DrawDaysUseCaseTestDayProperties("  2 ·", darkThemeCellTextColour),
+        DrawDaysUseCaseTestDayProperties("  3 ·", darkThemeCellTextColour),
+        DrawDaysUseCaseTestDayProperties("  4 ·", darkThemeCellTextColour),
+        DrawDaysUseCaseTestDayProperties("  5 ◈", darkThemeCellTextColour, saturdayDarkThemeCellBackground),
+        DrawDaysUseCaseTestDayProperties("  6 ·", darkThemeCellTextColour, sundayDarkThemeCellBackground)
+    )
 
     @Suppress("UnusedPrivateMember")
     private fun getSystemLocalDateAndFirstDayOfWeekWithExpectedCurrentWeekFocusedInitialLocalDate() = Stream.of(
@@ -568,12 +577,17 @@ internal class DaysServiceTest : BaseTest() {
     )!!
 
     internal data class DrawDaysUseCaseTestProperties(
+        val format: Format,
+        val focusOnCurrentWeek: Boolean,
+        val expectedDayProperties: Stream<DrawDaysUseCaseTestDayProperties>
+    )
+
+    internal data class DrawDaysUseCaseTestDayProperties(
         val text: String,
         val textColour: Int,
         val dayBackgroundColour: Int? = null,
         val dayLayout: Int = darkThemeCellLayout,
         val isToday: Boolean = false,
-        val symbolRelativeSize: Float = 1f,
         val instancesColour: Int = instancesColourId
     )
 }
