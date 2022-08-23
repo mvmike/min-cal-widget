@@ -13,7 +13,7 @@ private const val DEFAULT_HEADER_TEXT_RELATIVE_SIZE = 1f
 private const val DEFAULT_DAY_CELL_TEXT_RELATIVE_SIZE = 1f
 
 data class Format(
-    val width: Int = 220
+    val width: Int
 ) {
     private val monthHeaderLabelLength: Int = when {
         width >= 180 -> DEFAULT_MONTH_HEADER_LABEL_LENGTH

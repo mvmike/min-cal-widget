@@ -137,7 +137,9 @@ internal class RedrawWidgetUseCaseTest : BaseTest() {
             ::addAllListeners
         )
         mockSharedPreferences()
-        mockWidgetFormat(Format())
+
+        val format = Format(220)
+        mockWidgetFormat(Format(220))
 
         val packageName = "mincalWidget"
         every { context.packageName } returns packageName
@@ -145,8 +147,6 @@ internal class RedrawWidgetUseCaseTest : BaseTest() {
         justRun { constructedWith<RemoteViews>(EqMatcher(packageName), EqMatcher(2131427390)).removeAllViews(any()) }
 
         justRun { addAllListeners(context, any()) }
-
-        val format = Format()
         every { getFormat(context, appWidgetManager, appWidgetId) } returns format
         justRun { LayoutService.draw(context, any()) }
         justRun { MonthAndYearHeaderService.draw(context, any(), format) }
@@ -189,7 +189,9 @@ internal class RedrawWidgetUseCaseTest : BaseTest() {
             ::addAllListeners
         )
         mockSharedPreferences()
-        mockWidgetFormat(Format())
+
+        val format = Format(220)
+        mockWidgetFormat(format)
 
         val packageName = "mincalWidget"
         every { context.packageName } returns packageName
@@ -197,8 +199,6 @@ internal class RedrawWidgetUseCaseTest : BaseTest() {
         justRun { constructedWith<RemoteViews>(EqMatcher(packageName), EqMatcher(2131427390)).removeAllViews(any()) }
 
         justRun { addAllListeners(context, any()) }
-
-        val format = Format()
         every { getFormat(context, appWidgetManager, appWidgetId) } returns null
         justRun { LayoutService.draw(context, any()) }
         justRun { MonthAndYearHeaderService.draw(context, any(), format) }

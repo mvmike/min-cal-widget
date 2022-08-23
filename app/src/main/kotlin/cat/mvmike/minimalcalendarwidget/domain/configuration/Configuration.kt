@@ -33,7 +33,7 @@ sealed class Configuration<E>(
 
     object WidgetFormat : Configuration<Format>(
         key = "WIDGET_FORMAT",
-        defaultValue = Format()
+        defaultValue = Format(220)
     ) {
         override fun get(context: Context) = Format(getConfiguration(context).getInt(key, defaultValue.width))
 
