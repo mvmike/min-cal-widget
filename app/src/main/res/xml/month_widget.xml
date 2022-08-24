@@ -8,5 +8,6 @@
     android:resizeMode="vertical|horizontal"
     android:updatePeriodMillis="3600000"
     android:widgetCategory="keyguard|home_screen" />
-    <!--    android:targetCellWidth="3"-->
-    <!--    android:targetCellHeight="2"-->
+    <!--  MIN_SDK 28  android:widgetFeatures="reconfigurable"-->
+    <!--  MIN_SDK 31  android:targetCellWidth="3"-->
+    <!--  MIN_SDK 31  android:targetCellHeight="2"-->
