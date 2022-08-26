@@ -51,10 +51,9 @@ object RedrawWidgetUseCase {
         addAllListeners(context, widgetRemoteView)
 
         val format = when {
-            upsertFormat -> {
-                getFormat(context, appWidgetManager, appWidgetId)
-                    ?.also { Configuration.WidgetFormat.set(context, it) }
-                    ?: Configuration.WidgetFormat.get(context) }
+            upsertFormat -> getFormat(context, appWidgetManager, appWidgetId)
+                ?.also { Configuration.WidgetFormat.set(context, it) }
+                ?: Configuration.WidgetFormat.get(context)
             else -> Configuration.WidgetFormat.get(context)
         }
 
