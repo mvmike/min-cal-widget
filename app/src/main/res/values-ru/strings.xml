@@ -2,7 +2,7 @@
 <resources>
 
     <!--RUSSIAN-->
-    <string name="app_name" translatable="false" />
+    <string name="app_name">Виджет МиниКалендарь</string>
 
     <!--Configuration-->
     <string name="configuration">Настройки</string>

@@ -2,7 +2,7 @@
 <resources>
 
     <!--PORTUGUESE (BRAZIL)-->
-    <string name="app_name" translatable="false" />
+    <string name="app_name">MinCal Widget</string>
 
     <!--Configuration-->
     <string name="configuration">Configuração</string>
