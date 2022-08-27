@@ -15,6 +15,7 @@ import cat.mvmike.minimalcalendarwidget.domain.configuration.item.getThemeDispla
 import cat.mvmike.minimalcalendarwidget.domain.getDayOfWeekDisplayValues
 import cat.mvmike.minimalcalendarwidget.domain.getDisplayValue
 import java.lang.Enum.valueOf
+import java.lang.UnsupportedOperationException
 import java.time.DayOfWeek
 
 const val PREFERENCE_KEY = "mincal_prefs"
@@ -35,9 +36,13 @@ sealed class Configuration<E>(
         key = "WIDGET_FORMAT",
         defaultValue = Format(220)
     ) {
-        override fun get(context: Context) = Format(getConfiguration(context).getInt(key, defaultValue.width))
+        override fun get(context: Context) = throw UnsupportedOperationException("must include appWidgetId")
 
-        fun set(context: Context, value: Format) = getConfiguration(context).edit().putInt(key, value.width).apply()
+        fun get(context: Context, appWidgetId: Int)= Format(getConfiguration(context).getInt(getKey(appWidgetId), defaultValue.width))
+
+        fun set(context: Context, value: Format, appWidgetId: Int) = getConfiguration(context).edit().putInt(getKey(appWidgetId), value.width).apply()
+
+        private fun getKey(appWidgetId: Int) = "${key}_${appWidgetId}"
     }
 
     object WidgetTransparency : Configuration<Transparency>(

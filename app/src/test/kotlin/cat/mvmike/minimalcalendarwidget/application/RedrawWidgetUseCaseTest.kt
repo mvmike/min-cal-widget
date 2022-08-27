@@ -104,7 +104,7 @@ internal class RedrawWidgetUseCaseTest : BaseTest() {
 
         verifySharedPreferencesAccess()
         verifySharedPreferencesEdit()
-        verify { editor.putInt(Configuration.WidgetFormat.key, format.width) }
+        verify { editor.putInt("${Configuration.WidgetFormat.key}_${appWidgetId}", format.width) }
         verify { editor.apply() }
         verify { context.packageName }
         verify { addAllListeners(context, any()) }
@@ -139,7 +139,7 @@ internal class RedrawWidgetUseCaseTest : BaseTest() {
         mockSharedPreferences()
 
         val format = Format(220)
-        mockWidgetFormat(Format(220))
+        mockWidgetFormat(Format(220), appWidgetId)
 
         val packageName = "mincalWidget"
         every { context.packageName } returns packageName
@@ -157,7 +157,7 @@ internal class RedrawWidgetUseCaseTest : BaseTest() {
 
         RedrawWidgetUseCase.execute(context, appWidgetManager, appWidgetId)
 
-        verifyWidgetFormat()
+        verifyWidgetFormat(appWidgetId)
         verify { context.packageName }
         verify { addAllListeners(context, any()) }
         verify { LayoutService.draw(context, any()) }
@@ -191,7 +191,7 @@ internal class RedrawWidgetUseCaseTest : BaseTest() {
         mockSharedPreferences()
 
         val format = Format(220)
-        mockWidgetFormat(format)
+        mockWidgetFormat(format, appWidgetId)
 
         val packageName = "mincalWidget"
         every { context.packageName } returns packageName
@@ -209,7 +209,7 @@ internal class RedrawWidgetUseCaseTest : BaseTest() {
 
         RedrawWidgetUseCase.execute(context, appWidgetManager, appWidgetId)
 
-        verifyWidgetFormat()
+        verifyWidgetFormat(appWidgetId)
         verify { context.packageName }
         verify { addAllListeners(context, any()) }
         verify { LayoutService.draw(context, any()) }

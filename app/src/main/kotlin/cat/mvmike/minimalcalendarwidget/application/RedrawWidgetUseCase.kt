@@ -52,9 +52,9 @@ object RedrawWidgetUseCase {
 
         val format = when {
             upsertFormat -> getFormat(context, appWidgetManager, appWidgetId)
-                ?.also { Configuration.WidgetFormat.set(context, it) }
-                ?: Configuration.WidgetFormat.get(context)
-            else -> Configuration.WidgetFormat.get(context)
+                ?.also { Configuration.WidgetFormat.set(context, it, appWidgetId) }
+                ?: Configuration.WidgetFormat.get(context, appWidgetId)
+            else -> Configuration.WidgetFormat.get(context, appWidgetId)
         }
 
         LayoutService.draw(

@@ -140,20 +140,20 @@ open class BaseTest {
         }
     }
 
-    protected fun mockWidgetFormat(format: Format) {
+    protected fun mockWidgetFormat(format: Format, appWidgetId: Int) {
         every {
             sharedPreferences.getInt(
-                Configuration.WidgetFormat.key,
+                "${Configuration.WidgetFormat.key}_${appWidgetId}",
                 Configuration.WidgetFormat.defaultValue.width
             )
         } returns format.width
     }
 
-    protected fun verifyWidgetFormat() {
+    protected fun verifyWidgetFormat(appWidgetId: Int) {
         verifySharedPreferencesAccess()
         verify {
             sharedPreferences.getInt(
-                Configuration.WidgetFormat.key,
+                "${Configuration.WidgetFormat.key}_${appWidgetId}",
                 Configuration.WidgetFormat.defaultValue.width
             )
         }

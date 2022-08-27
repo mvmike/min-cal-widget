@@ -19,17 +19,19 @@ import java.time.DayOfWeek
 
 internal class ConfigurationTest : BaseTest() {
 
+    private val appWidgetId = 39587345
+
     @ParameterizedTest
     @ValueSource(ints = [-10, 1, 5, 100, 180, 351])
     fun getWidgetFormat_shouldReturnSharedPreferencesValue(width: Int) {
         val format = Format(width)
         mockSharedPreferences()
-        mockWidgetFormat(format)
+        mockWidgetFormat(format, appWidgetId)
 
-        val result = Configuration.WidgetFormat.get(context)
+        val result = Configuration.WidgetFormat.get(context, appWidgetId)
 
         assertThat(result).isEqualTo(format)
-        verifyWidgetFormat()
+        verifyWidgetFormat(appWidgetId)
         verify { editor wasNot Called }
     }
 
@@ -39,11 +41,11 @@ internal class ConfigurationTest : BaseTest() {
         val format = Format(width)
         mockSharedPreferences()
 
-        Configuration.WidgetFormat.set(context, format)
+        Configuration.WidgetFormat.set(context, format, appWidgetId)
 
         verifySharedPreferencesAccess()
         verifySharedPreferencesEdit()
-        verify { editor.putInt(Configuration.WidgetFormat.key, format.width) }
+        verify { editor.putInt("${Configuration.WidgetFormat.key}_$appWidgetId", format.width) }
         verify { editor.apply() }
     }
 
