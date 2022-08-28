@@ -16,6 +16,7 @@ import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SeekBarPreference
+import cat.mvmike.minimalcalendarwidget.BuildConfig
 import cat.mvmike.minimalcalendarwidget.R
 import cat.mvmike.minimalcalendarwidget.application.RedrawWidgetUseCase
 import cat.mvmike.minimalcalendarwidget.domain.configuration.BooleanConfiguration
@@ -77,7 +78,7 @@ class ConfigurationActivity : AppCompatActivity() {
         }
 
         private fun fillAboutSection() {
-            VERSION_KEY.asPreference().summary = this.requireContext().packageManager.getPackageInfo(this.requireContext().packageName, 0).versionName
+            VERSION_KEY.asPreference().summary = BuildConfig.VERSION_NAME
             SOURCE_KEY.asPreference().let {
                 it.summary = SOURCE_VALUE
                 it.setOnPreferenceClickListener {

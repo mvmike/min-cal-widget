@@ -16,8 +16,8 @@ android {
     namespace = "cat.mvmike.minimalcalendarwidget"
 
     //https://source.android.com/setup/start/build-numbers
-    val minAndroidVersion = AndroidVersion.VersionCodes.O   // API 26 - AND 8.0
-    val androidVersion = AndroidVersion.VersionCodes.S      // API 31 - AND 12.0
+    val minAndroidVersion = 26   // 8.0
+    val androidVersion = 33      // 13.0
 
     //https://openjdk.java.net/projects/jdk/
     val javaVersion = JavaVersion.VERSION_17
