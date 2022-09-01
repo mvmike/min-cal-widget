@@ -64,6 +64,32 @@ internal class ConfigurationTest : BaseTest() {
     }
 
     @ParameterizedTest
+    @ValueSource(booleans = [true, false])
+    fun getWidgetShowDeclinedEvents_shouldReturnSharedPreferencesValue(showDeclinedEvents: Boolean) {
+        mockSharedPreferences()
+        mockWidgetShowDeclinedEvents(showDeclinedEvents)
+
+        val result = BooleanConfiguration.WidgetShowDeclinedEvents.get(context)
+
+        assertThat(result).isEqualTo(showDeclinedEvents)
+        verifyWidgetShowDeclinedEvents()
+        verify { editor wasNot Called }
+    }
+
+    @ParameterizedTest
+    @ValueSource(booleans = [true, false])
+    fun getWidgetFocusOnCurrentWeek_shouldReturnSharedPreferencesValue(focusOnCurrentWeek: Boolean) {
+        mockSharedPreferences()
+        mockWidgetFocusOnCurrentWeek(focusOnCurrentWeek)
+
+        val result = BooleanConfiguration.WidgetFocusOnCurrentWeek.get(context)
+
+        assertThat(result).isEqualTo(focusOnCurrentWeek)
+        verifyWidgetFocusOnCurrentWeek()
+        verify { editor wasNot Called }
+    }
+
+    @ParameterizedTest
     @EnumSource(value = Theme::class)
     fun getCalendarTheme_shouldReturnSharedPreferencesValue(theme: Theme) {
         mockSharedPreferences()

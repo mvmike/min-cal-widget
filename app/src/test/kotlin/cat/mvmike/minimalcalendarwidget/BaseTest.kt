@@ -121,25 +121,6 @@ open class BaseTest {
         verify { sharedPreferences.edit() }
     }
 
-    protected fun mockWidgetShowDeclinedEvents() {
-        every {
-            sharedPreferences.getBoolean(
-                BooleanConfiguration.WidgetShowDeclinedEvents.key,
-                BooleanConfiguration.WidgetShowDeclinedEvents.defaultValue
-            )
-        } returns false
-    }
-
-    protected fun verifyWidgetShowDeclinedEvents() {
-        verifySharedPreferencesAccess()
-        verify {
-            sharedPreferences.getBoolean(
-                BooleanConfiguration.WidgetShowDeclinedEvents.key,
-                BooleanConfiguration.WidgetShowDeclinedEvents.defaultValue
-            )
-        }
-    }
-
     protected fun mockWidgetFormat(format: Format, appWidgetId: Int) {
         every {
             sharedPreferences.getInt(
@@ -174,6 +155,44 @@ open class BaseTest {
             sharedPreferences.getInt(
                 Configuration.WidgetTransparency.key,
                 Configuration.WidgetTransparency.defaultValue.percentage
+            )
+        }
+    }
+
+    protected fun mockWidgetShowDeclinedEvents(widgetShowDeclinedEvents: Boolean = false) {
+        every {
+            sharedPreferences.getBoolean(
+                BooleanConfiguration.WidgetShowDeclinedEvents.key,
+                BooleanConfiguration.WidgetShowDeclinedEvents.defaultValue
+            )
+        } returns widgetShowDeclinedEvents
+    }
+
+    protected fun verifyWidgetShowDeclinedEvents() {
+        verifySharedPreferencesAccess()
+        verify {
+            sharedPreferences.getBoolean(
+                BooleanConfiguration.WidgetShowDeclinedEvents.key,
+                BooleanConfiguration.WidgetShowDeclinedEvents.defaultValue
+            )
+        }
+    }
+
+    protected fun mockWidgetFocusOnCurrentWeek(enabled: Boolean) {
+        every {
+            sharedPreferences.getBoolean(
+                BooleanConfiguration.WidgetFocusOnCurrentWeek.key,
+                BooleanConfiguration.WidgetFocusOnCurrentWeek.defaultValue
+            )
+        } returns enabled
+    }
+
+    protected fun verifyWidgetFocusOnCurrentWeek() {
+        verifySharedPreferencesAccess()
+        verify {
+            sharedPreferences.getBoolean(
+                BooleanConfiguration.WidgetFocusOnCurrentWeek.key,
+                BooleanConfiguration.WidgetFocusOnCurrentWeek.defaultValue
             )
         }
     }
@@ -216,21 +235,21 @@ open class BaseTest {
         }
     }
 
-    protected fun mockFocusOnCurrentWeek(enabled: Boolean) {
+    protected fun mockInstancesSymbolSet(symbolSet: SymbolSet) {
         every {
-            sharedPreferences.getBoolean(
-                BooleanConfiguration.WidgetFocusOnCurrentWeek.key,
-                BooleanConfiguration.WidgetFocusOnCurrentWeek.defaultValue
+            sharedPreferences.getString(
+                EnumConfiguration.InstancesSymbolSet.key,
+                EnumConfiguration.InstancesSymbolSet.defaultValue.name
             )
-        } returns enabled
+        } returns symbolSet.name
     }
 
-    protected fun verifyFocusOnCurrentWeek() {
+    protected fun verifyInstancesSymbolSet() {
         verifySharedPreferencesAccess()
         verify {
-            sharedPreferences.getBoolean(
-                BooleanConfiguration.WidgetFocusOnCurrentWeek.key,
-                BooleanConfiguration.WidgetFocusOnCurrentWeek.defaultValue
+            sharedPreferences.getString(
+                EnumConfiguration.InstancesSymbolSet.key,
+                EnumConfiguration.InstancesSymbolSet.defaultValue.name
             )
         }
     }
@@ -250,25 +269,6 @@ open class BaseTest {
             sharedPreferences.getString(
                 EnumConfiguration.InstancesColour.key,
                 EnumConfiguration.InstancesColour.defaultValue.name
-            )
-        }
-    }
-
-    protected fun mockInstancesSymbolSet(symbolSet: SymbolSet) {
-        every {
-            sharedPreferences.getString(
-                EnumConfiguration.InstancesSymbolSet.key,
-                EnumConfiguration.InstancesSymbolSet.defaultValue.name
-            )
-        } returns symbolSet.name
-    }
-
-    protected fun verifyInstancesSymbolSet() {
-        verifySharedPreferencesAccess()
-        verify {
-            sharedPreferences.getString(
-                EnumConfiguration.InstancesSymbolSet.key,
-                EnumConfiguration.InstancesSymbolSet.defaultValue.name
             )
         }
     }
