@@ -68,13 +68,14 @@
     <string name="none">Keine</string>
 
     <!--Colours-->
-    <string name="black">Schwarz</string>
-    <string name="white">Weiß</string>
+    <string name="system_accent">Systemakzent</string>
     <string name="cyan">Türkis</string>
-    <string name="mint">Mint</string>
     <string name="blue">Blau</string>
+    <string name="mint">Mint</string>
     <string name="green">Grün</string>
     <string name="yellow">Gelb</string>
+    <string name="black">Schwarz</string>
+    <string name="white">Weiß</string>
 
     <!-- messages-->
     <string name="no_calendar_application">Keine Kalenderanwendung gefunden</string>

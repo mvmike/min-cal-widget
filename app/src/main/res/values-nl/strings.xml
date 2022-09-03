@@ -68,13 +68,14 @@
     <string name="none">Geen</string>
 
     <!--Colours-->
-    <string name="black">Zwart</string>
-    <string name="white">Wit</string>
+    <string name="system_accent">System accent</string>
     <string name="cyan">Blauwgroen</string>
-    <string name="mint">Mint</string>
     <string name="blue">Blauw</string>
+    <string name="mint">Mint</string>
     <string name="green">Groen</string>
     <string name="yellow">Geel</string>
+    <string name="black">Zwart</string>
+    <string name="white">Wit</string>
 
     <!-- messages-->
     <string name="no_calendar_application">Geen agenda-applicatie gevonden</string>

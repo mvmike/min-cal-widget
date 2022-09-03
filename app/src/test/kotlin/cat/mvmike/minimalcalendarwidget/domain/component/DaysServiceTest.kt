@@ -12,8 +12,8 @@ import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Colour
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.SymbolSet
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Transparency
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.cellLayout
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.cellViewId
-import cat.mvmike.minimalcalendarwidget.domain.configuration.item.darkThemeCellLayout
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.darkThemeCellTextColour
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.darkThemeInMonthCellTextColour
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.inMonthDarkThemeCellBackground
@@ -44,7 +44,7 @@ import java.time.format.DateTimeFormatter
 import java.util.Random
 import java.util.stream.Stream
 
-private const val instancesColourTodayId = 2131034186
+private const val instancesColourTodayId = 2131034187
 private const val instancesColourId = 2131034183
 
 private const val dayCellTransparentBackground = "transparentBackground"
@@ -586,7 +586,7 @@ internal class DaysServiceTest : BaseTest() {
         val text: String,
         val textColour: Int,
         val dayBackgroundColour: Int? = null,
-        val dayLayout: Int = darkThemeCellLayout,
+        val dayLayout: Int = cellLayout,
         val isToday: Boolean = false,
         val instancesColour: Int = instancesColourId
     )

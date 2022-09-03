@@ -8,6 +8,7 @@ import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Colour
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.SymbolSet
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Transparency
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.getAvailableColors
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.getColourDisplayValues
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.getDisplayValue
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.getSymbolSetDisplayValues
@@ -89,9 +90,11 @@ sealed class EnumConfiguration<E : Enum<E>>(
         getConfiguration(context).getString(key, defaultValue.name)!!
     )
 
-    fun getKeys() = enumClass.enumConstants?.map { it.name }!!.toTypedArray()
+    fun getKeys() = getEnumConstants().map { it.name }.toTypedArray()
 
     fun getCurrentKey(context: Context) = get(context).name
+
+    internal open fun getEnumConstants() = enumClass.enumConstants!!
 
     abstract fun getDisplayValues(context: Context): Array<String>
 
@@ -130,8 +133,10 @@ sealed class EnumConfiguration<E : Enum<E>>(
     object InstancesColour : EnumConfiguration<Colour>(
         key = "INSTANCES_COLOUR",
         enumClass = Colour::class.java,
-        defaultValue = Colour.CYAN
+        defaultValue = getAvailableColors().first()
     ) {
+        override fun getEnumConstants() = getAvailableColors().toTypedArray()
+
         override fun getDisplayValues(context: Context) = getColourDisplayValues(context)
 
         override fun getCurrentDisplayValue(context: Context) = get(context).getDisplayValue(context)

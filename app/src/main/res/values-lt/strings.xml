@@ -68,13 +68,14 @@
     <string name="none">Jokie</string>
 
     <!--Colours-->
-    <string name="black">Juoda</string>
-    <string name="white">Balta</string>
+    <string name="system_accent">Sisteminis akcentas</string>
     <string name="cyan">Žalsvai mėlyna</string>
-    <string name="mint">Mėtos</string>
     <string name="blue">Mėlyna</string>
+    <string name="mint">Mėtos</string>
     <string name="green">Žalia</string>
     <string name="yellow">Geltona</string>
+    <string name="black">Juoda</string>
+    <string name="white">Balta</string>
 
     <!-- messages-->
     <string name="no_calendar_application">Kalendoriaus programa nerasta</string>

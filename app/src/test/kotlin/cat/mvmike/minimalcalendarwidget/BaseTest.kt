@@ -19,6 +19,7 @@ import cat.mvmike.minimalcalendarwidget.infrastructure.config.ClockConfig
 import cat.mvmike.minimalcalendarwidget.infrastructure.config.LocaleConfig
 import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.CalendarResolver
 import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.GraphicResolver
+import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.SystemResolver
 import io.mockk.clearAllMocks
 import io.mockk.confirmVerified
 import io.mockk.every
@@ -61,6 +62,7 @@ open class BaseTest {
             LocaleConfig,
             CalendarResolver,
             GraphicResolver,
+            SystemResolver,
             CalendarActivity,
             ConfigurationActivity.Companion,
             PermissionsActivity.Companion
@@ -74,6 +76,7 @@ open class BaseTest {
             LocaleConfig,
             CalendarResolver,
             GraphicResolver,
+            SystemResolver,
             CalendarActivity,
             ConfigurationActivity.Companion,
             PermissionsActivity.Companion,
@@ -81,6 +84,10 @@ open class BaseTest {
             editor,
             sharedPreferences
         )
+    }
+
+    protected fun mockGetRuntimeSDK(sdkVersion: Int) {
+        every { SystemResolver.getRuntimeSDK() } returns sdkVersion
     }
 
     protected fun mockGetSystemInstant(instant: Instant) {

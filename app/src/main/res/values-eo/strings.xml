@@ -68,13 +68,14 @@
     <string name="none">Nenio</string>
 
     <!--Colours-->
-    <string name="black">Nigra</string>
-    <string name="white">Blanka</string>
+    <string name="system_accent">Sistema akcento</string>
     <string name="cyan">Cejanblua</string>
-    <string name="mint">Menta</string>
     <string name="blue">Blua</string>
+    <string name="mint">Menta</string>
     <string name="green">Verda</string>
     <string name="yellow">Flava</string>
+    <string name="black">Nigra</string>
+    <string name="white">Blanka</string>
 
     <!-- messages-->
     <string name="no_calendar_application">Neniu kalendara aplikaĵo trovita</string>

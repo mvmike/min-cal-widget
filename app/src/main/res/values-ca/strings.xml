@@ -68,13 +68,14 @@
     <string name="none">Cap</string>
 
     <!--Colours-->
-    <string name="black">Negre</string>
-    <string name="white">Blanc</string>
+    <string name="system_accent">Accent del Sistema</string>
     <string name="cyan">Cian</string>
-    <string name="mint">Menta</string>
     <string name="blue">Blau</string>
+    <string name="mint">Menta</string>
     <string name="green">Verd</string>
     <string name="yellow">Groc</string>
+    <string name="black">Negre</string>
+    <string name="white">Blanc</string>
 
     <!-- messages-->
     <string name="no_calendar_application">No s\'ha trobat aplicació de calendari</string>

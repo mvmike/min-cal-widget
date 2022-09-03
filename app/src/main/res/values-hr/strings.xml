@@ -68,13 +68,14 @@
     <string name="none">Bez</string>
 
     <!--Colours-->
-    <string name="black">Crna</string>
-    <string name="white">Bijela</string>
+    <string name="system_accent">Sistemski naglasak</string>
     <string name="cyan">Cijan</string>
-    <string name="mint">Metvica</string>
     <string name="blue">Plava</string>
+    <string name="mint">Metvica</string>
     <string name="green">Zelena</string>
     <string name="yellow">Žuta</string>
+    <string name="black">Crna</string>
+    <string name="white">Bijela</string>
 
     <!-- messages-->
     <string name="no_calendar_application">Nije pronađena aplikacija za kalendar</string>

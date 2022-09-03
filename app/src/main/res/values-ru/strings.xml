@@ -68,13 +68,14 @@
     <string name="none">Пустой</string>
 
     <!--Colours-->
-    <string name="black">Чёрный</string>
-    <string name="white">Белый</string>
+    <string name="system_accent">Системный акцент</string>
     <string name="cyan">Голубой</string>
-    <string name="mint">Мятый</string>
     <string name="blue">Синий</string>
+    <string name="mint">Мятый</string>
     <string name="green">Зелёный</string>
     <string name="yellow">Жёлтый</string>
+    <string name="black">Чёрный</string>
+    <string name="white">Белый</string>
 
     <!-- messages-->
     <string name="no_calendar_application">Приложение-календарь не найдено</string>
