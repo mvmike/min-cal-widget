@@ -1,0 +1,2 @@
+v2.6.10
+- add system accent config option for instances color
