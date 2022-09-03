@@ -12,6 +12,7 @@ import cat.mvmike.minimalcalendarwidget.domain.configuration.Configuration
 import cat.mvmike.minimalcalendarwidget.domain.configuration.EnumConfiguration
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Colour
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.SymbolSet
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.TransparencyRange
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.withTransparency
 import cat.mvmike.minimalcalendarwidget.domain.getInstances
@@ -62,7 +63,7 @@ object DaysService {
                     dayOfWeek = currentDay.getDayOfWeek()
                 )
                 val instancesSymbol = currentDay.getNumberOfInstances(instanceSet, showDeclinedEvents).getSymbol(instancesSymbolSet)
-                val dayInstancesColour = currentDay.getInstancesColor(context, instancesColour, systemLocalDate)
+                val dayInstancesColour = currentDay.getInstancesColor(context, instancesColour, widgetTheme, systemLocalDate)
                 val backgroundWithTransparency = dayCell.background
                     ?.let { GraphicResolver.getColourAsString(context, it) }
                     ?.withTransparency(
@@ -125,6 +126,6 @@ object DaysService {
 
     private fun Int.getSymbol(symbolSet: SymbolSet) = symbolSet.get(this)
 
-    private fun Day.getInstancesColor(context: Context, colour: Colour, systemLocalDate: LocalDate) =
-        GraphicResolver.getColour(context, colour.getInstancesColour(isToday(systemLocalDate)))
+    private fun Day.getInstancesColor(context: Context, colour: Colour, widgetTheme: Theme, systemLocalDate: LocalDate) =
+        GraphicResolver.getColour(context, colour.getInstancesColour(isToday(systemLocalDate), widgetTheme))
 }

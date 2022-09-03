@@ -6,10 +6,29 @@ import cat.mvmike.minimalcalendarwidget.BaseTest
 import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.SystemResolver
 import io.mockk.verify
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
+import org.junit.jupiter.params.provider.EnumSource
 
 internal class ColourTest : BaseTest() {
+
+    @ParameterizedTest
+    @EnumSource(value = Colour::class, names = ["SYSTEM_ACCENT"], mode = EnumSource.Mode.EXCLUDE)
+    fun getHexValue_shouldReturnSameValue(colour: Colour) {
+        val darkThemeColour = colour.getHexValue(Theme.DARK)
+        val lightThemeColour = colour.getHexValue(Theme.LIGHT)
+
+        assertThat(darkThemeColour).isEqualTo(lightThemeColour)
+    }
+
+    @Test
+    fun getHexValue_shouldReturnDifferentValue() {
+        val darkThemeSystemAccentColour = Colour.SYSTEM_ACCENT.getHexValue(Theme.DARK)
+        val lightThemeSystemAccentColour = Colour.SYSTEM_ACCENT.getHexValue(Theme.LIGHT)
+
+        assertThat(darkThemeSystemAccentColour).isNotEqualTo(lightThemeSystemAccentColour)
+    }
 
     @ParameterizedTest
     @CsvSource(

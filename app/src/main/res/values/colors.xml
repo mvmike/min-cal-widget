@@ -42,6 +42,8 @@
     <color name="instances_today">#FF0000</color>
 
     <color name="instances_system_accent" tools:targetApi="s">@android:color/system_accent1_500</color>
+    <color name="instances_system_accent_dark" tools:targetApi="s">@android:color/system_accent1_800</color>
+    <color name="instances_system_accent_light" tools:targetApi="s">@android:color/system_accent1_200</color>
     <color name="instances_cyan">#00CCCC</color>
     <color name="instances_blue">#003BFF</color>
     <color name="instances_mint">#7EFF7E</color>
