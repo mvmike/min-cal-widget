@@ -14,9 +14,11 @@ import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Transparency
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.cellLayout
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.cellViewId
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.cyanInstancesColourId
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.darkThemeCellTextColour
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.darkThemeMainTextColour
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.inMonthDarkThemeCellBackground
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.instancesColourTodayId
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.saturdayDarkThemeCellBackground
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.saturdayInMonthDarkThemeCellBackground
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.sundayDarkThemeCellBackground
@@ -43,9 +45,6 @@ import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import java.util.Random
 import java.util.stream.Stream
-
-private const val instancesColourTodayId = 2131034189
-private const val instancesColourId = 2131034183
 
 private const val dayCellTransparentBackground = "transparentBackground"
 private const val dayCellModerateTransparentBackgroundInHex = "#40ground"
@@ -84,7 +83,7 @@ internal class DaysServiceTest : BaseTest() {
         every { GraphicResolver.createDaysRow(context) } returns rowRv
 
         every { GraphicResolver.getColour(context, instancesColourTodayId) } returns instancesColourTodayId
-        every { GraphicResolver.getColour(context, instancesColourId) } returns instancesColourId
+        every { GraphicResolver.getColour(context, cyanInstancesColourId) } returns cyanInstancesColourId
 
         val expectedBackground = Random().nextInt()
         listOf(
@@ -126,7 +125,7 @@ internal class DaysServiceTest : BaseTest() {
                 GraphicResolver.getColour(
                     context, when {
                         dayUseCaseTest.isToday -> instancesColourTodayId
-                        else -> instancesColourId
+                        else -> cyanInstancesColourId
                     }
                 )
             }
@@ -588,6 +587,6 @@ internal class DaysServiceTest : BaseTest() {
         val dayBackgroundColour: Int? = null,
         val dayLayout: Int = cellLayout,
         val isToday: Boolean = false,
-        val instancesColour: Int = instancesColourId
+        val instancesColour: Int = cyanInstancesColourId
     )
 }

@@ -8,12 +8,10 @@ import cat.mvmike.minimalcalendarwidget.R
 import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.SystemResolver
 
 enum class Colour(
-    val displayString: Int,
-    private val hexValue: Int
+    val displayString: Int
 ) {
     SYSTEM_ACCENT(
-        displayString = R.string.system_accent,
-        hexValue = R.color.instances_system_accent
+        displayString = R.string.system_accent
     ) {
         override fun isAvailable() = SystemResolver.getRuntimeSDK() >= Build.VERSION_CODES.S
 
@@ -23,37 +21,44 @@ enum class Colour(
         }
     },
     CYAN(
-        displayString = R.string.cyan,
-        hexValue = R.color.instances_cyan
-    ),
+        displayString = R.string.cyan
+    ) {
+        override fun getHexValue(widgetTheme: Theme) = R.color.instances_cyan
+    },
     MINT(
-        displayString = R.string.mint,
-        hexValue = R.color.instances_mint
-    ),
+        displayString = R.string.mint
+    ) {
+        override fun getHexValue(widgetTheme: Theme) = R.color.instances_mint
+    },
     BLUE(
-        displayString = R.string.blue,
-        hexValue = R.color.instances_blue
-    ),
+        displayString = R.string.blue
+    ) {
+        override fun getHexValue(widgetTheme: Theme) = R.color.instances_blue
+    },
     GREEN(
-        displayString = R.string.green,
-        hexValue = R.color.instances_green
-    ),
+        displayString = R.string.green
+    ) {
+        override fun getHexValue(widgetTheme: Theme) = R.color.instances_green
+    },
     YELLOW(
-        displayString = R.string.yellow,
-        hexValue = R.color.instances_yellow
-    ),
+        displayString = R.string.yellow
+    ) {
+        override fun getHexValue(widgetTheme: Theme) = R.color.instances_yellow
+    },
     BLACK(
-        displayString = R.string.black,
-        hexValue = R.color.instances_black
-    ),
+        displayString = R.string.black
+    ) {
+        override fun getHexValue(widgetTheme: Theme) = R.color.instances_black
+    },
     WHITE(
-        displayString = R.string.white,
-        hexValue = R.color.instances_white
-    );
+        displayString = R.string.white
+    ) {
+        override fun getHexValue(widgetTheme: Theme) = R.color.instances_white
+    };
 
     open fun isAvailable() = true
 
-    open fun getHexValue(widgetTheme: Theme) = hexValue
+    abstract fun getHexValue(widgetTheme: Theme): Int
 
     fun getInstancesColour(isToday: Boolean, widgetTheme: Theme) = when (isToday) {
         true -> R.color.instances_today

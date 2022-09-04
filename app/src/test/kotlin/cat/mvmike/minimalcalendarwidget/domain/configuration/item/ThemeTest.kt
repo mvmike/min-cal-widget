@@ -12,8 +12,8 @@ import java.util.stream.Stream
 
 // MAIN
 
-internal const val darkThemeMainTextColour = 2131034227
-internal const val lightThemeMainTextColour = 2131034228
+internal const val darkThemeMainTextColour = 2131034226
+internal const val lightThemeMainTextColour = 2131034227
 
 private const val headerLayout = 2131427357
 
@@ -22,8 +22,8 @@ private const val headerLayout = 2131427357
 internal const val cellViewId = 16908308
 internal const val cellLayout = 2131427356
 
-internal const val darkThemeCellTextColour = 2131034229
-internal const val lightThemeCellTextColour = 2131034230
+internal const val darkThemeCellTextColour = 2131034228
+internal const val lightThemeCellTextColour = 2131034229
 
 internal const val saturdayInMonthDarkThemeCellBackground = 2131034149
 internal const val sundayInMonthDarkThemeCellBackground = 2131034155
