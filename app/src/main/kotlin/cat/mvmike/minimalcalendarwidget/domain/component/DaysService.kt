@@ -25,8 +25,6 @@ import java.time.temporal.ChronoUnit
 
 object DaysService {
 
-    private const val MONTH_FIRST_DAY = 1
-
     private const val NUM_WEEKS = 6
 
     private const val DAYS_IN_WEEK = 7
@@ -106,7 +104,7 @@ object DaysService {
     }
 
     internal fun getNaturalMonthInitialLocalDate(systemLocalDate: LocalDate, firstDayOfWeek: DayOfWeek): LocalDate {
-        val firstDayOfMonth = LocalDate.of(systemLocalDate.year, systemLocalDate.monthValue, MONTH_FIRST_DAY)
+        val firstDayOfMonth = LocalDate.of(systemLocalDate.year, systemLocalDate.monthValue, 1)
         val difference = firstDayOfWeek.ordinal - firstDayOfMonth[ChronoField.DAY_OF_WEEK] + 1
         val adjustedInitialLocalDate = firstDayOfMonth.plus(difference.toLong(), ChronoUnit.DAYS)
 
