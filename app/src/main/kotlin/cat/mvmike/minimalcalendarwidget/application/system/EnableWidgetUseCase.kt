@@ -5,7 +5,7 @@ package cat.mvmike.minimalcalendarwidget.application.system
 import android.content.Context
 import cat.mvmike.minimalcalendarwidget.domain.intent.AutoUpdate
 
-internal const val INTERVAL_MILLIS = 900000L // 1000*60*15 === 15'
+internal const val INTERVAL_MILLIS = 600000L // 1000*60*10 === 10'
 
 object EnableWidgetUseCase {
 
