@@ -6,7 +6,6 @@ import cat.mvmike.minimalcalendarwidget.BaseTest
 import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.SystemResolver
 import io.mockk.verify
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 import org.junit.jupiter.params.provider.EnumSource
@@ -28,7 +27,7 @@ internal class ColourTest : BaseTest() {
 
     @ParameterizedTest
     @EnumSource(value = Colour::class)
-    fun getInstancesColour_shouldAlwaysReturnTheSameValue(colour: Colour){
+    fun getInstancesColour_shouldAlwaysReturnTheSameValueWhenIsToday(colour: Colour){
         Theme.values().forEach {
             val todayInstancesColour = colour.getInstancesColour(true, it)
             assertThat(todayInstancesColour).isEqualTo(instancesColourTodayId)
@@ -37,28 +36,21 @@ internal class ColourTest : BaseTest() {
 
     @ParameterizedTest
     @CsvSource(
-        "CYAN,$cyanInstancesColourId",
-        "MINT,$mintInstancesColourId",
-        "BLUE,$blueInstancesColourId",
-        "GREEN,$greenInstancesColourId",
-        "YELLOW,$yellowInstancesColourId",
-        "BLACK,$blackInstancesColourId",
-        "WHITE,$whiteInstancesColourId"
+        "SYSTEM_ACCENT,$systemAccentDarkThemeInstancesColourId,$systemAccentLightThemeInstancesColourId",
+        "CYAN,$cyanInstancesColourId,$cyanInstancesColourId",
+        "MINT,$mintInstancesColourId,$mintInstancesColourId",
+        "BLUE,$blueInstancesColourId,$blueInstancesColourId",
+        "GREEN,$greenInstancesColourId,$greenInstancesColourId",
+        "YELLOW,$yellowInstancesColourId,$yellowInstancesColourId",
+        "BLACK,$blackInstancesColourId,$blackInstancesColourId",
+        "WHITE,$whiteInstancesColourId,$whiteInstancesColourId"
     )
-    fun getHexValue_shouldReturnSameValueForAllThemes(colour: Colour, expectedColour: Int) {
-        Theme.values().forEach {
-            val hexValue = colour.getHexValue(it)
-            assertThat(hexValue).isEqualTo(expectedColour)
-        }
-    }
+    fun getInstancesColour_shouldReturnThemedInstancesColourWhenIsNotToday(colour: Colour, expectedDarkThemeColour: Int, expectedLightThemeColour: Int) {
+        val darkThemeInstancesColour = colour.getInstancesColour(false, Theme.DARK)
+        val lightThemeInstancesColour = colour.getInstancesColour(false, Theme.LIGHT)
 
-    @Test
-    fun getHexValue_shouldReturnDifferentValuesPerTheme() {
-        val darkThemeSystemAccentColour = Colour.SYSTEM_ACCENT.getHexValue(Theme.DARK)
-        val lightThemeSystemAccentColour = Colour.SYSTEM_ACCENT.getHexValue(Theme.LIGHT)
-
-        assertThat(darkThemeSystemAccentColour).isEqualTo(systemAccentDarkThemeInstancesColourId)
-        assertThat(lightThemeSystemAccentColour).isEqualTo(systemAccentLightThemeInstancesColourId)
+        assertThat(darkThemeInstancesColour).isEqualTo(expectedDarkThemeColour)
+        assertThat(lightThemeInstancesColour).isEqualTo(expectedLightThemeColour)
     }
 
     @ParameterizedTest
