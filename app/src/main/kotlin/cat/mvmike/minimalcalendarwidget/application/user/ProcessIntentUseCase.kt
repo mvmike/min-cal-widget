@@ -15,10 +15,10 @@ import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.CalendarResolver
 object ProcessIntentUseCase {
 
     fun execute(context: Context, action: String?) = when (action) {
-        OPEN_CONFIGURATION.action -> context.executeAndRedrawOrAskForPermissions { ConfigurationActivity.start(context) }
-        OPEN_CALENDAR.action -> context.executeAndRedrawOrAskForPermissions { CalendarActivity.start(context, ClockConfig.getInstant()) }
-        else -> {}
-    }
+        OPEN_CONFIGURATION.action -> { { ConfigurationActivity.start(context) } }
+        OPEN_CALENDAR.action -> { { CalendarActivity.start(context, ClockConfig.getInstant()) } }
+        else -> null
+    }?.let { context.executeAndRedrawOrAskForPermissions(it) }
 
     private fun Context.executeAndRedrawOrAskForPermissions(function: () -> Unit) =
         when (CalendarResolver.isReadCalendarPermitted(this)) {
