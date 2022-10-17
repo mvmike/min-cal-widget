@@ -46,13 +46,13 @@
     <string name="sunday">Воскресенье</string>
 
     <!--Days of week abbreviated-->
-    <string name="monday_abb">пн</string>
-    <string name="tuesday_abb">вт</string>
-    <string name="wednesday_abb">ср</string>
-    <string name="thursday_abb">чт</string>
-    <string name="friday_abb">пт</string>
-    <string name="saturday_abb">сб</string>
-    <string name="sunday_abb">вc</string>
+    <string name="monday_abb">Пн</string>
+    <string name="tuesday_abb">Вт</string>
+    <string name="wednesday_abb">Ср</string>
+    <string name="thursday_abb">Чт</string>
+    <string name="friday_abb">Пт</string>
+    <string name="saturday_abb">Сб</string>
+    <string name="sunday_abb">Вc</string>
 
     <!--Themes-->
     <string name="dark">Темный</string>
