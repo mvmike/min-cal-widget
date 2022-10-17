@@ -19,6 +19,7 @@ object LocaleConfig {
         Locale("nb"), // norwegian
         Locale("pl"), // polish
         Locale("pt"), // portuguese
+        Locale("pa"), // punjabi
         Locale("ru"), // russian
         Locale("es") // spanish
     )
