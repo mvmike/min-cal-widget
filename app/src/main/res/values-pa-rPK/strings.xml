@@ -1,2 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="focus_on_current_week">موجودہ ہفتے تے دھیان دیو</string>
+    <string name="app_name">کیلنڈر وِجٹ</string>
+    <string name="configuration">سیٹنگاں</string>
+    <string name="behaviour">وِوہار</string>
+    <string name="start_week_day">پہلا دن</string>
+    <string name="show_declined_events">رد کرن ویکھو</string>
+    <string name="appearance">ویکھݨ</string>
+</resources>
