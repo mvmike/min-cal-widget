@@ -1,21 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <!--LITHUANIAN-->
-    <string name="app_name">MinCal valdiklis</string>
+    <string name="app_name">MinCal Widget</string>
+
     <!--Configuration-->
     <string name="configuration">Konfigūracija</string>
+
     <string name="behaviour">Elgesys</string>
     <string name="start_week_day">Pradžios diena</string>
     <string name="show_declined_events">Rodyti atmestus įvykius</string>
     <string name="focus_on_current_week">Susikoncentruokite į dabartinę savaitę</string>
+
     <string name="appearance">Išvaizda</string>
     <string name="theme">Tema</string>
     <string name="symbol_set">Simbolių rinkinys</string>
     <string name="symbol_colour">Simbolių spalva</string>
     <string name="transparency">Skaidrumas</string>
+
     <string name="about">Apie</string>
     <string name="version">Versija</string>
     <string name="source">Source</string>
+
     <!-- Months of year-->
     <string name="january">Sausis</string>
     <string name="february">Vasaris</string>
@@ -29,6 +35,7 @@
     <string name="october">Spalis</string>
     <string name="november">Lapkritis</string>
     <string name="december">Gruodis</string>
+
     <!--Days of week-->
     <string name="monday">Pirmadienis</string>
     <string name="tuesday">Antradienis</string>
@@ -37,6 +44,7 @@
     <string name="friday">Penktadienis</string>
     <string name="saturday">Šeštadienis</string>
     <string name="sunday">Sekmadienis</string>
+
     <!--Days of week abbreviated-->
     <string name="monday_abb">Pirm</string>
     <string name="tuesday_abb">Antr</string>
@@ -45,9 +53,11 @@
     <string name="friday_abb">Penk</string>
     <string name="saturday_abb">Šešt</string>
     <string name="sunday_abb">Sekm</string>
+
     <!--Themes-->
     <string name="dark">Tamsi</string>
     <string name="light">Šviesi</string>
+
     <!--Symbols-->
     <string name="minimal">Minimalistiniai</string>
     <string name="vertical">Vertikalūs</string>
@@ -56,6 +66,7 @@
     <string name="roman">Romėniški</string>
     <string name="binary">Dvejetainiai</string>
     <string name="none">Jokie</string>
+
     <!--Colours-->
     <string name="system_accent">Sisteminis akcentas</string>
     <string name="cyan">Žalsvai mėlyna</string>
@@ -65,7 +76,9 @@
     <string name="yellow">Geltona</string>
     <string name="black">Juoda</string>
     <string name="white">Balta</string>
+
     <!-- messages-->
     <string name="no_calendar_application">Kalendoriaus programa nerasta</string>
     <string name="no_browser_application">Naršyklės programa nerasta</string>
+
 </resources>
