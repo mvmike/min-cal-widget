@@ -1,62 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="focus_on_current_week">موجودہ ہفتے تے دھیان دیو</string>
+
+    <!--PUNJABI - SHAHMUKHI(PAKISTAN)-->
     <string name="app_name">کیلنڈر وِجٹ</string>
+
+    <!--Configuration-->
     <string name="configuration">سیٹنگاں</string>
+
     <string name="behaviour">وِوہار</string>
     <string name="start_week_day">پہلا دن</string>
     <string name="show_declined_events">رد کرن ویکھو</string>
+    <string name="focus_on_current_week">موجودہ ہفتے تے دھیان دیو</string>
+
     <string name="appearance">ویکھݨ</string>
-    <string name="december">دسمبر</string>
-    <string name="thursday">جمعرات</string>
-    <string name="sunday">اتوار</string>
-    <string name="monday_abb">سـ</string>
-    <string name="friday_abb">جـ</string>
-    <string name="august">اگست</string>
-    <string name="wednesday">بدھوار</string>
-    <string name="tuesday_abb">مـ</string>
+    <string name="theme">تھیم</string>
     <string name="symbol_set">چِنھ</string>
     <string name="symbol_colour">چِنھ دا رنگ</string>
+    <string name="transparency">پاردرشتہ</string>
+
+    <string name="about">بارے</string>
+    <string name="version">ورژن</string>
+    <string name="source">سروت</string>
+
+    <!-- Months of year-->
+    <string name="january">جنوری</string>
+    <string name="february">فروری</string>
+    <string name="march">مارچ</string>
+    <string name="april">اپریل</string>
     <string name="may">مئی</string>
+    <string name="june">جون</string>
     <string name="july">جلائی</string>
+    <string name="august">اگست</string>
     <string name="september">ستمبر</string>
     <string name="october">اکتوبر</string>
     <string name="november">نوَمبر</string>
-    <string name="june">جون</string>
+    <string name="december">دسمبر</string>
+
+    <!--Days of week-->
+    <string name="monday">سوموار</string>
     <string name="tuesday">منگلوار</string>
+    <string name="wednesday">بدھوار</string>
+    <string name="thursday">جمعرات</string>
+    <string name="friday">جمعہ</string>
+    <string name="saturday">ہفتہ</string>
+    <string name="sunday">اتوار</string>
+
+    <!--Days of week abbreviated-->
+    <string name="monday_abb">سـ</string>
+    <string name="tuesday_abb">مـ</string>
+    <string name="wednesday_abb">بـ</string>
+    <string name="thursday_abb">جـ</string>
+    <string name="friday_abb">جـ</string>
+    <string name="saturday_abb">ہـ</string>
+    <string name="sunday_abb">اتـ</string>
+
+    <!--Themes-->
+    <string name="dark">ہنیر</string>
+    <string name="light">روشنی</string>
+
+    <!--Symbols-->
+    <string name="minimal">نیو تمام</string>
+    <string name="vertical">لمبکار</string>
+    <string name="circles">چکر</string>
+    <string name="numbers">نمبر</string>
+    <string name="roman">رومن</string>
+    <string name="binary">بائینری</string>
+    <string name="none">کوئی نہیں</string>
+
+    <!--Colours-->
     <string name="system_accent">سسٹم دا رنگ</string>
     <string name="cyan">سیان</string>
     <string name="blue">نیلا</string>
     <string name="mint">منٹ</string>
     <string name="green">ہرا</string>
-    <string name="theme">تھیم</string>
-    <string name="about">بارے</string>
-    <string name="january">جنوری</string>
-    <string name="transparency">پاردرشتہ</string>
-    <string name="version">ورژن</string>
-    <string name="source">سروت</string>
-    <string name="february">فروری</string>
-    <string name="march">مارچ</string>
-    <string name="april">اپریل</string>
-    <string name="minimal">نیو تمام</string>
-    <string name="vertical">لمبکار</string>
-    <string name="monday">سوموار</string>
-    <string name="friday">جمعہ</string>
-    <string name="wednesday_abb">بـ</string>
-    <string name="thursday_abb">جـ</string>
-    <string name="sunday_abb">اتـ</string>
-    <string name="circles">چکر</string>
-    <string name="numbers">نمبر</string>
-    <string name="light">روشنی</string>
-    <string name="roman">رومن</string>
-    <string name="none">کوئی نہیں</string>
     <string name="yellow">پیلا</string>
     <string name="black">کالا</string>
-    <string name="dark">ہنیر</string>
-    <string name="binary">بائینری</string>
     <string name="white">چٹا</string>
+
+    <!-- messages-->
     <string name="no_calendar_application">کوئی کیلنڈر ایپلیکیشن نہیں لبھی</string>
     <string name="no_browser_application">کوئی براؤزر ایپلیکیشن نہیں لبھی</string>
-    <string name="saturday">ہفتہ</string>
-    <string name="saturday_abb">ہـ</string>
+
 </resources>
