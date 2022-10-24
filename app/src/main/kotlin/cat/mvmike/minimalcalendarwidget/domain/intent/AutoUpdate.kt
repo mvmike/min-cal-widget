@@ -7,7 +7,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import cat.mvmike.minimalcalendarwidget.MonthWidget
-import cat.mvmike.minimalcalendarwidget.infrastructure.config.ClockConfig
+import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.SystemResolver
 
 object AutoUpdate {
 
@@ -16,7 +16,7 @@ object AutoUpdate {
     private const val ALARM_ID = 859345
 
     fun set(context: Context, intervalInMillis: Long) {
-        val currentMillis = ClockConfig.getInstant().toEpochMilli()
+        val currentMillis = SystemResolver.getSystemInstant().toEpochMilli()
         val firstTriggerMillis = currentMillis + intervalInMillis
 
         context.getAlarmManager().setRepeating(

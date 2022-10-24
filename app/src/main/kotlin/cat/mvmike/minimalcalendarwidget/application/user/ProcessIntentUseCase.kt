@@ -9,14 +9,14 @@ import cat.mvmike.minimalcalendarwidget.domain.intent.ActionableView.OPEN_CONFIG
 import cat.mvmike.minimalcalendarwidget.infrastructure.activity.CalendarActivity
 import cat.mvmike.minimalcalendarwidget.infrastructure.activity.ConfigurationActivity
 import cat.mvmike.minimalcalendarwidget.infrastructure.activity.PermissionsActivity
-import cat.mvmike.minimalcalendarwidget.infrastructure.config.ClockConfig
 import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.CalendarResolver
+import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.SystemResolver
 
 object ProcessIntentUseCase {
 
     fun execute(context: Context, action: String?) = when (action) {
         OPEN_CONFIGURATION.action -> { { ConfigurationActivity.start(context) } }
-        OPEN_CALENDAR.action -> { { CalendarActivity.start(context, ClockConfig.getInstant()) } }
+        OPEN_CALENDAR.action -> { { CalendarActivity.start(context, SystemResolver.getSystemInstant()) } }
         else -> null
     }?.let { context.executeAndRedrawOrAskForPermissions(it) }
 

@@ -24,9 +24,9 @@ import cat.mvmike.minimalcalendarwidget.domain.configuration.item.saturdayInMont
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.sundayDarkThemeCellBackground
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.sundayInMonthDarkThemeCellBackground
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.todayDarkThemeCellBackground
-import cat.mvmike.minimalcalendarwidget.infrastructure.config.ClockConfig
 import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.CalendarResolver
 import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.GraphicResolver
+import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.SystemResolver
 import io.mockk.confirmVerified
 import io.mockk.every
 import io.mockk.justRun
@@ -104,9 +104,9 @@ internal class DaysServiceTest : BaseTest() {
 
         DaysService.draw(context, widgetRv, testProperties.format)
 
-        verify { ClockConfig.getSystemLocalDate() }
+        verify { SystemResolver.getSystemLocalDate() }
         verify { CalendarResolver.isReadCalendarPermitted(context) }
-        verify { ClockConfig.getSystemZoneId() }
+        verify { SystemResolver.getSystemZoneId() }
         verify { CalendarResolver.getInstances(context, initEpochMillis, endEpochMillis) }
 
         verifyWidgetShowDeclinedEvents()

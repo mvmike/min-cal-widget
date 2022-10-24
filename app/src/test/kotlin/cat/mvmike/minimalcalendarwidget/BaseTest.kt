@@ -15,8 +15,6 @@ import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Transparency
 import cat.mvmike.minimalcalendarwidget.infrastructure.activity.CalendarActivity
 import cat.mvmike.minimalcalendarwidget.infrastructure.activity.ConfigurationActivity
 import cat.mvmike.minimalcalendarwidget.infrastructure.activity.PermissionsActivity
-import cat.mvmike.minimalcalendarwidget.infrastructure.config.ClockConfig
-import cat.mvmike.minimalcalendarwidget.infrastructure.config.LocaleConfig
 import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.CalendarResolver
 import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.GraphicResolver
 import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.SystemResolver
@@ -35,7 +33,6 @@ import java.time.DayOfWeek
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
-import java.util.Locale
 import java.util.TimeZone
 
 private const val PREFERENCES_ID: String = "mincal_prefs"
@@ -58,8 +55,6 @@ open class BaseTest {
         unmockkAll()
 
         mockkObject(
-            ClockConfig,
-            LocaleConfig,
             CalendarResolver,
             GraphicResolver,
             SystemResolver,
@@ -72,8 +67,6 @@ open class BaseTest {
     @AfterEach
     fun afterEach() {
         confirmVerified(
-            ClockConfig,
-            LocaleConfig,
             CalendarResolver,
             GraphicResolver,
             SystemResolver,
@@ -91,19 +84,15 @@ open class BaseTest {
     }
 
     protected fun mockGetSystemInstant(instant: Instant) {
-        every { ClockConfig.getInstant() } returns instant
-    }
-
-    protected fun mockGetLocale(locale: Locale = Locale.ENGLISH) {
-        every { LocaleConfig.getLocale(context) } returns locale
+        every { SystemResolver.getSystemInstant() } returns instant
     }
 
     protected fun mockGetSystemLocalDate() {
-        every { ClockConfig.getSystemLocalDate() } returns systemLocalDate
+        every { SystemResolver.getSystemLocalDate() } returns systemLocalDate
     }
 
     protected fun mockGetSystemZoneId() {
-        every { ClockConfig.getSystemZoneId() } returns zoneId
+        every { SystemResolver.getSystemZoneId() } returns zoneId
     }
 
     protected fun mockIsReadCalendarPermitted(permitted: Boolean) {

@@ -7,9 +7,8 @@ import android.widget.RemoteViews
 import cat.mvmike.minimalcalendarwidget.R
 import cat.mvmike.minimalcalendarwidget.domain.Format
 import cat.mvmike.minimalcalendarwidget.domain.configuration.EnumConfiguration
-import cat.mvmike.minimalcalendarwidget.infrastructure.config.ClockConfig
-import cat.mvmike.minimalcalendarwidget.infrastructure.config.LocaleConfig
 import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.GraphicResolver
+import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.SystemResolver
 import java.time.Instant
 import java.time.Month
 import java.time.ZoneId
@@ -23,11 +22,10 @@ object MonthAndYearHeaderService {
     private const val HEADER_RELATIVE_YEAR_SIZE = 0.7f
 
     fun draw(context: Context, widgetRemoteView: RemoteViews, format: Format) {
-        val systemInstant = ClockConfig.getInstant()
-        val systemZoneId = ClockConfig.getSystemZoneId()
-        val locale = LocaleConfig.getLocale(context)
+        val systemInstant = SystemResolver.getSystemInstant()
+        val systemZoneId = SystemResolver.getSystemZoneId()
         val displayMonth = format.getMonthHeaderLabel(systemInstant.toMonthDisplayValue(systemZoneId, context))
-        val displayYear = systemInstant.toYearDisplayValue(locale, systemZoneId)
+        val displayYear = systemInstant.toYearDisplayValue(systemZoneId)
         val widgetTheme = EnumConfiguration.WidgetTheme.get(context)
 
         GraphicResolver.createMonthAndYearHeader(
@@ -58,10 +56,10 @@ object MonthAndYearHeaderService {
             context.getString(dayOfWeek).replaceFirstChar { it.uppercase() }
         }
 
-    private fun Instant.toYearDisplayValue(locale: Locale, zoneId: ZoneId) =
+    private fun Instant.toYearDisplayValue(zoneId: ZoneId) =
         DateTimeFormatter
             .ofPattern(YEAR_FORMAT)
-            .withLocale(locale)
+            .withLocale(Locale.ENGLISH)
             .withZone(zoneId)
             .format(this)
 }

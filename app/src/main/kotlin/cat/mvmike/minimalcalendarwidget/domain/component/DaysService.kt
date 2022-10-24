@@ -16,8 +16,8 @@ import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.TransparencyRange
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.withTransparency
 import cat.mvmike.minimalcalendarwidget.domain.getInstances
-import cat.mvmike.minimalcalendarwidget.infrastructure.config.ClockConfig
 import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.GraphicResolver
+import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.SystemResolver
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.temporal.ChronoField
@@ -32,7 +32,7 @@ object DaysService {
     private const val INSTANCES_QUERY_DAYS_SPAN = 45L
 
     fun draw(context: Context, widgetRemoteView: RemoteViews, format: Format) {
-        val systemLocalDate: LocalDate = ClockConfig.getSystemLocalDate()
+        val systemLocalDate: LocalDate = SystemResolver.getSystemLocalDate()
         val firstDayOfWeek = EnumConfiguration.FirstDayOfWeek.get(context)
         val initialLocalDate = when (BooleanConfiguration.WidgetFocusOnCurrentWeek.get(context)) {
             true -> getFocusedOnCurrentWeekInitialLocalDate(systemLocalDate, firstDayOfWeek)

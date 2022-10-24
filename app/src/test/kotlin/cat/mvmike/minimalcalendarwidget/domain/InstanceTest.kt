@@ -3,8 +3,8 @@
 package cat.mvmike.minimalcalendarwidget.domain
 
 import cat.mvmike.minimalcalendarwidget.BaseTest
-import cat.mvmike.minimalcalendarwidget.infrastructure.config.ClockConfig
 import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.CalendarResolver
+import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.SystemResolver
 import io.mockk.every
 import io.mockk.verify
 import org.assertj.core.api.Assertions.assertThat
@@ -63,7 +63,7 @@ internal class InstanceTest : BaseTest() {
         val instances = getInstances(context, initLocalDate, endLocalDate)
 
         assertThat(instances).isEqualTo(expectedInstances)
-        verify { ClockConfig.getSystemZoneId() }
+        verify { SystemResolver.getSystemZoneId() }
         verify { CalendarResolver.isReadCalendarPermitted(context) }
         verify { CalendarResolver.getInstances(context, initEpochMillis, endEpochMillis) }
     }

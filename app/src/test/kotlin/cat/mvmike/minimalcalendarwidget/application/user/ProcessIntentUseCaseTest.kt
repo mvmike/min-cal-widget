@@ -10,8 +10,8 @@ import cat.mvmike.minimalcalendarwidget.domain.intent.AutoUpdate.ACTION_AUTO_UPD
 import cat.mvmike.minimalcalendarwidget.infrastructure.activity.CalendarActivity
 import cat.mvmike.minimalcalendarwidget.infrastructure.activity.ConfigurationActivity
 import cat.mvmike.minimalcalendarwidget.infrastructure.activity.PermissionsActivity
-import cat.mvmike.minimalcalendarwidget.infrastructure.config.ClockConfig
 import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.CalendarResolver
+import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.SystemResolver
 import io.mockk.justRun
 import io.mockk.mockkObject
 import io.mockk.verify
@@ -77,7 +77,7 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
         ProcessIntentUseCase.execute(context, ActionableView.OPEN_CALENDAR.action)
 
         verify { CalendarResolver.isReadCalendarPermitted(context) }
-        verify { ClockConfig.getInstant() }
+        verify { SystemResolver.getSystemInstant() }
         verify { CalendarActivity.start(context, instant) }
         verify { RedrawWidgetUseCase.execute(context, true) }
     }

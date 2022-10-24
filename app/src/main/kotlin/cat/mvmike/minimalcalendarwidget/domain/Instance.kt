@@ -3,8 +3,8 @@
 package cat.mvmike.minimalcalendarwidget.domain
 
 import android.content.Context
-import cat.mvmike.minimalcalendarwidget.infrastructure.config.ClockConfig
 import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.CalendarResolver
+import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.SystemResolver
 import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -30,7 +30,7 @@ fun getInstances(context: Context, from: LocalDate, to: LocalDate): Set<Instance
     return when (CalendarResolver.isReadCalendarPermitted(context)) {
         false -> HashSet()
         true -> {
-            val systemZoneId = ClockConfig.getSystemZoneId()
+            val systemZoneId = SystemResolver.getSystemZoneId()
             CalendarResolver.getInstances(
                 context = context,
                 begin = from.toStartOfDayInEpochMilli(systemZoneId),

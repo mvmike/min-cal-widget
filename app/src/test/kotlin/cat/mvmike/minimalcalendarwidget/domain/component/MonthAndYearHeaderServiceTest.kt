@@ -9,9 +9,8 @@ import cat.mvmike.minimalcalendarwidget.domain.Format
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.darkThemeMainTextColour
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.lightThemeMainTextColour
-import cat.mvmike.minimalcalendarwidget.infrastructure.config.ClockConfig
-import cat.mvmike.minimalcalendarwidget.infrastructure.config.LocaleConfig
 import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.GraphicResolver.createMonthAndYearHeader
+import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.SystemResolver
 import io.mockk.confirmVerified
 import io.mockk.every
 import io.mockk.justRun
@@ -43,7 +42,6 @@ internal class MonthAndYearHeaderServiceTest : BaseTest() {
         val expectedHeaderRelativeYearSize = 0.7f
         mockGetSystemInstant(instant)
         mockGetSystemZoneId()
-        mockGetLocale()
         mockSharedPreferences()
         mockWidgetTheme(theme)
         val month = instant.atZone(zoneId).month
@@ -52,9 +50,8 @@ internal class MonthAndYearHeaderServiceTest : BaseTest() {
 
         MonthAndYearHeaderService.draw(context, widgetRv, format)
 
-        verify { LocaleConfig.getLocale(context) }
-        verify { ClockConfig.getInstant() }
-        verify { ClockConfig.getSystemZoneId() }
+        verify { SystemResolver.getSystemInstant() }
+        verify { SystemResolver.getSystemZoneId() }
         verify { context.getString(month.getExpectedResourceId()) }
         verifyWidgetTheme()
         verify { createMonthAndYearHeader(context, widgetRv, expectedText, expectedTextColour, expectedHeaderRelativeYearSize, format.headerTextRelativeSize) }
