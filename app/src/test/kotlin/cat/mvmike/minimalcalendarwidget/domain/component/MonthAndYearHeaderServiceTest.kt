@@ -43,7 +43,7 @@ internal class MonthAndYearHeaderServiceTest : BaseTest() {
         val expectedHeaderRelativeYearSize = 0.7f
         mockGetSystemInstant(instant)
         mockGetSystemZoneId()
-        mockGetSystemLocale()
+        mockGetLocale()
         mockSharedPreferences()
         mockWidgetTheme(theme)
         val month = instant.atZone(zoneId).month

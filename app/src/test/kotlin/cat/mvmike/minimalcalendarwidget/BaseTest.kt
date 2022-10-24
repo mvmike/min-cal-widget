@@ -94,7 +94,7 @@ open class BaseTest {
         every { ClockConfig.getInstant() } returns instant
     }
 
-    protected fun mockGetSystemLocale(locale: Locale = Locale.ENGLISH) {
+    protected fun mockGetLocale(locale: Locale = Locale.ENGLISH) {
         every { LocaleConfig.getLocale(context) } returns locale
     }
 
