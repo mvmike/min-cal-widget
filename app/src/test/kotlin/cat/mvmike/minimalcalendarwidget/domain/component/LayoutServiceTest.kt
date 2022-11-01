@@ -19,8 +19,8 @@ import org.junit.jupiter.params.provider.MethodSource
 import java.util.Random
 import java.util.stream.Stream
 
-private const val darkThemeMainLayout = 2131034143
-private const val lightThemeMainLayout = 2131034144
+private const val DARK_THEME_MAIN_LAYOUT = 2131034143
+private const val LIGHT_THEME_MAIN_LAYOUT = 2131034144
 
 internal class LayoutServiceTest : BaseTest() {
 
@@ -70,19 +70,19 @@ internal class LayoutServiceTest : BaseTest() {
 
     @Suppress("UnusedPrivateMember")
     private fun getCombinationOfThemesAndTransparencyLevels() = Stream.of(
-        Arguments.of(Theme.DARK, Transparency(0), darkThemeMainLayout, "FF"),
-        Arguments.of(Theme.DARK, Transparency(1), darkThemeMainLayout, "FC"),
-        Arguments.of(Theme.DARK, Transparency(20), darkThemeMainLayout, "CC"),
-        Arguments.of(Theme.DARK, Transparency(50), darkThemeMainLayout, "7F"),
-        Arguments.of(Theme.DARK, Transparency(79), darkThemeMainLayout, "35"),
-        Arguments.of(Theme.DARK, Transparency(90), darkThemeMainLayout, "19"),
-        Arguments.of(Theme.DARK, Transparency(100), darkThemeMainLayout, "00"),
-        Arguments.of(Theme.LIGHT, Transparency(0), lightThemeMainLayout, "FF"),
-        Arguments.of(Theme.LIGHT, Transparency(5), lightThemeMainLayout, "F2"),
-        Arguments.of(Theme.LIGHT, Transparency(70), lightThemeMainLayout, "4C"),
-        Arguments.of(Theme.LIGHT, Transparency(72), lightThemeMainLayout, "47"),
-        Arguments.of(Theme.LIGHT, Transparency(98), lightThemeMainLayout, "05"),
-        Arguments.of(Theme.LIGHT, Transparency(99), lightThemeMainLayout, "02"),
-        Arguments.of(Theme.LIGHT, Transparency(100), lightThemeMainLayout, "00")
+        Arguments.of(Theme.DARK, Transparency(0), DARK_THEME_MAIN_LAYOUT, "FF"),
+        Arguments.of(Theme.DARK, Transparency(1), DARK_THEME_MAIN_LAYOUT, "FC"),
+        Arguments.of(Theme.DARK, Transparency(20), DARK_THEME_MAIN_LAYOUT, "CC"),
+        Arguments.of(Theme.DARK, Transparency(50), DARK_THEME_MAIN_LAYOUT, "7F"),
+        Arguments.of(Theme.DARK, Transparency(79), DARK_THEME_MAIN_LAYOUT, "35"),
+        Arguments.of(Theme.DARK, Transparency(90), DARK_THEME_MAIN_LAYOUT, "19"),
+        Arguments.of(Theme.DARK, Transparency(100), DARK_THEME_MAIN_LAYOUT, "00"),
+        Arguments.of(Theme.LIGHT, Transparency(0), LIGHT_THEME_MAIN_LAYOUT, "FF"),
+        Arguments.of(Theme.LIGHT, Transparency(5), LIGHT_THEME_MAIN_LAYOUT, "F2"),
+        Arguments.of(Theme.LIGHT, Transparency(70), LIGHT_THEME_MAIN_LAYOUT, "4C"),
+        Arguments.of(Theme.LIGHT, Transparency(72), LIGHT_THEME_MAIN_LAYOUT, "47"),
+        Arguments.of(Theme.LIGHT, Transparency(98), LIGHT_THEME_MAIN_LAYOUT, "05"),
+        Arguments.of(Theme.LIGHT, Transparency(99), LIGHT_THEME_MAIN_LAYOUT, "02"),
+        Arguments.of(Theme.LIGHT, Transparency(100), LIGHT_THEME_MAIN_LAYOUT, "00")
     )!!
 }

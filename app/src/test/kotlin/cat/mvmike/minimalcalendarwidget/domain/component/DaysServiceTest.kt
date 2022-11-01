@@ -12,18 +12,18 @@ import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Colour
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.SymbolSet
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Transparency
-import cat.mvmike.minimalcalendarwidget.domain.configuration.item.cellLayout
-import cat.mvmike.minimalcalendarwidget.domain.configuration.item.cellViewId
-import cat.mvmike.minimalcalendarwidget.domain.configuration.item.cyanInstancesColourId
-import cat.mvmike.minimalcalendarwidget.domain.configuration.item.darkThemeCellTextColour
-import cat.mvmike.minimalcalendarwidget.domain.configuration.item.darkThemeMainTextColour
-import cat.mvmike.minimalcalendarwidget.domain.configuration.item.inMonthDarkThemeCellBackground
-import cat.mvmike.minimalcalendarwidget.domain.configuration.item.instancesColourTodayId
-import cat.mvmike.minimalcalendarwidget.domain.configuration.item.saturdayDarkThemeCellBackground
-import cat.mvmike.minimalcalendarwidget.domain.configuration.item.saturdayInMonthDarkThemeCellBackground
-import cat.mvmike.minimalcalendarwidget.domain.configuration.item.sundayDarkThemeCellBackground
-import cat.mvmike.minimalcalendarwidget.domain.configuration.item.sundayInMonthDarkThemeCellBackground
-import cat.mvmike.minimalcalendarwidget.domain.configuration.item.todayDarkThemeCellBackground
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.CELL_LAYOUT
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.CELL_VIEW_ID
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.CYAN_INSTANCES_COLOUR_ID
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.DARK_THEME_CELL_TEXT_COLOUR
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.DARK_THEME_MAIN_TEXT_COLOUR
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.IN_MONTH_DARK_THEME_CELL_BACKGROUND
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.INSTANCES_COLOUR_TODAY_ID
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.SATURDAY_DARK_THEME_CELL_BACKGROUND
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.SATURDAY_IN_MONTH_DARK_THEME_CELL_BACKGROUND
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.SUNDAY_DARK_THEME_CELL_BACKGROUND
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.SUNDAY_IN_MONTH_DARK_THEME_CELL_BACKGROUND
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.TODAY_DARK_THEME_CELL_BACKGROUND
 import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.CalendarResolver
 import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.GraphicResolver
 import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.SystemResolver
@@ -46,9 +46,9 @@ import java.time.format.DateTimeFormatter
 import java.util.Random
 import java.util.stream.Stream
 
-private const val dayCellTransparentBackground = "transparentBackground"
-private const val dayCellModerateTransparentBackgroundInHex = "#40ground"
-private const val dayCellLowTransparentBackgroundInHex = "#18ground"
+private const val DAY_CELL_TRANSPARENT_BACKGROUND = "transparentBackground"
+private const val DAY_CELL_MODERATE_TRANSPARENT_BACKGROUND_IN_HEX = "#40ground"
+private const val DAY_CELL_LOW_TRANSPARENT_BACKGROUND_IN_HEX = "#18ground"
 
 internal class DaysServiceTest : BaseTest() {
 
@@ -82,22 +82,22 @@ internal class DaysServiceTest : BaseTest() {
 
         every { GraphicResolver.createDaysRow(context) } returns rowRv
 
-        every { GraphicResolver.getColour(context, instancesColourTodayId) } returns instancesColourTodayId
-        every { GraphicResolver.getColour(context, cyanInstancesColourId) } returns cyanInstancesColourId
+        every { GraphicResolver.getColour(context, INSTANCES_COLOUR_TODAY_ID) } returns INSTANCES_COLOUR_TODAY_ID
+        every { GraphicResolver.getColour(context, CYAN_INSTANCES_COLOUR_ID) } returns CYAN_INSTANCES_COLOUR_ID
 
         val expectedBackground = Random().nextInt()
         listOf(
-            todayDarkThemeCellBackground,
-            inMonthDarkThemeCellBackground,
-            saturdayInMonthDarkThemeCellBackground,
-            sundayInMonthDarkThemeCellBackground,
-            saturdayDarkThemeCellBackground,
-            sundayDarkThemeCellBackground
+            TODAY_DARK_THEME_CELL_BACKGROUND,
+            IN_MONTH_DARK_THEME_CELL_BACKGROUND,
+            SATURDAY_IN_MONTH_DARK_THEME_CELL_BACKGROUND,
+            SUNDAY_IN_MONTH_DARK_THEME_CELL_BACKGROUND,
+            SATURDAY_DARK_THEME_CELL_BACKGROUND,
+            SUNDAY_DARK_THEME_CELL_BACKGROUND
         ).forEach {
-            every { GraphicResolver.getColourAsString(context, it) } returns dayCellTransparentBackground
+            every { GraphicResolver.getColourAsString(context, it) } returns DAY_CELL_TRANSPARENT_BACKGROUND
         }
-        every { GraphicResolver.parseColour(dayCellModerateTransparentBackgroundInHex) } returns expectedBackground
-        every { GraphicResolver.parseColour(dayCellLowTransparentBackgroundInHex) } returns expectedBackground
+        every { GraphicResolver.parseColour(DAY_CELL_MODERATE_TRANSPARENT_BACKGROUND_IN_HEX) } returns expectedBackground
+        every { GraphicResolver.parseColour(DAY_CELL_LOW_TRANSPARENT_BACKGROUND_IN_HEX) } returns expectedBackground
 
         justRun { GraphicResolver.addToDaysRow(context, rowRv, any(), any(), any(), any(), any(), any(), any(), any(), any()) }
         justRun { GraphicResolver.addToWidget(widgetRv, rowRv) }
@@ -124,8 +124,8 @@ internal class DaysServiceTest : BaseTest() {
             verify {
                 GraphicResolver.getColour(
                     context, when {
-                        dayUseCaseTest.isToday -> instancesColourTodayId
-                        else -> cyanInstancesColourId
+                        dayUseCaseTest.isToday -> INSTANCES_COLOUR_TODAY_ID
+                        else -> CYAN_INSTANCES_COLOUR_ID
                     }
                 )
             }
@@ -133,9 +133,9 @@ internal class DaysServiceTest : BaseTest() {
                 verify {
                     GraphicResolver.getColourAsString(context, dayUseCaseTest.dayBackgroundColour)
                     when (dayUseCaseTest.dayBackgroundColour) {
-                        saturdayInMonthDarkThemeCellBackground,
-                        sundayInMonthDarkThemeCellBackground -> GraphicResolver.parseColour(dayCellModerateTransparentBackgroundInHex)
-                        inMonthDarkThemeCellBackground -> GraphicResolver.parseColour(dayCellLowTransparentBackgroundInHex)
+                        SATURDAY_IN_MONTH_DARK_THEME_CELL_BACKGROUND,
+                        SUNDAY_IN_MONTH_DARK_THEME_CELL_BACKGROUND -> GraphicResolver.parseColour(DAY_CELL_MODERATE_TRANSPARENT_BACKGROUND_IN_HEX)
+                        IN_MONTH_DARK_THEME_CELL_BACKGROUND -> GraphicResolver.parseColour(DAY_CELL_LOW_TRANSPARENT_BACKGROUND_IN_HEX)
                         else -> {}
                     }
 
@@ -147,7 +147,7 @@ internal class DaysServiceTest : BaseTest() {
                     context = context,
                     weekRow = rowRv,
                     dayLayout = dayUseCaseTest.dayLayout,
-                    viewId = cellViewId,
+                    viewId = CELL_VIEW_ID,
                     text = dayUseCaseTest.text,
                     textColour = dayUseCaseTest.textColour,
                     dayOfMonthInBold = dayUseCaseTest.isToday,
@@ -402,50 +402,50 @@ internal class DaysServiceTest : BaseTest() {
     )!!
 
     private fun getDrawDaysUseCaseTestProperties() = Stream.of(
-        DrawDaysUseCaseTestDayProperties(" 26 ·", darkThemeCellTextColour),
-        DrawDaysUseCaseTestDayProperties(" 27  ", darkThemeCellTextColour),
-        DrawDaysUseCaseTestDayProperties(" 28 ·", darkThemeCellTextColour),
-        DrawDaysUseCaseTestDayProperties(" 29 ·", darkThemeCellTextColour),
-        DrawDaysUseCaseTestDayProperties(" 30  ", darkThemeCellTextColour),
-        DrawDaysUseCaseTestDayProperties("  1  ", darkThemeMainTextColour, saturdayInMonthDarkThemeCellBackground),
-        DrawDaysUseCaseTestDayProperties("  2  ", darkThemeMainTextColour, sundayInMonthDarkThemeCellBackground),
-        DrawDaysUseCaseTestDayProperties("  3 ·", darkThemeMainTextColour, inMonthDarkThemeCellBackground),
-        DrawDaysUseCaseTestDayProperties("  4 ·", darkThemeMainTextColour, todayDarkThemeCellBackground,
-            isToday = true, instancesColour = instancesColourTodayId
+        DrawDaysUseCaseTestDayProperties(" 26 ·", DARK_THEME_CELL_TEXT_COLOUR),
+        DrawDaysUseCaseTestDayProperties(" 27  ", DARK_THEME_CELL_TEXT_COLOUR),
+        DrawDaysUseCaseTestDayProperties(" 28 ·", DARK_THEME_CELL_TEXT_COLOUR),
+        DrawDaysUseCaseTestDayProperties(" 29 ·", DARK_THEME_CELL_TEXT_COLOUR),
+        DrawDaysUseCaseTestDayProperties(" 30  ", DARK_THEME_CELL_TEXT_COLOUR),
+        DrawDaysUseCaseTestDayProperties("  1  ", DARK_THEME_MAIN_TEXT_COLOUR, SATURDAY_IN_MONTH_DARK_THEME_CELL_BACKGROUND),
+        DrawDaysUseCaseTestDayProperties("  2  ", DARK_THEME_MAIN_TEXT_COLOUR, SUNDAY_IN_MONTH_DARK_THEME_CELL_BACKGROUND),
+        DrawDaysUseCaseTestDayProperties("  3 ·", DARK_THEME_MAIN_TEXT_COLOUR, IN_MONTH_DARK_THEME_CELL_BACKGROUND),
+        DrawDaysUseCaseTestDayProperties("  4 ·", DARK_THEME_MAIN_TEXT_COLOUR, TODAY_DARK_THEME_CELL_BACKGROUND,
+            isToday = true, instancesColour = INSTANCES_COLOUR_TODAY_ID
         ),
-        DrawDaysUseCaseTestDayProperties("  5  ", darkThemeMainTextColour, inMonthDarkThemeCellBackground),
-        DrawDaysUseCaseTestDayProperties("  6 ∴", darkThemeMainTextColour, inMonthDarkThemeCellBackground),
-        DrawDaysUseCaseTestDayProperties("  7 ·", darkThemeMainTextColour, inMonthDarkThemeCellBackground),
-        DrawDaysUseCaseTestDayProperties("  8  ", darkThemeMainTextColour, saturdayInMonthDarkThemeCellBackground),
-        DrawDaysUseCaseTestDayProperties("  9  ", darkThemeMainTextColour, sundayInMonthDarkThemeCellBackground),
-        DrawDaysUseCaseTestDayProperties(" 10 ∷", darkThemeMainTextColour, inMonthDarkThemeCellBackground),
-        DrawDaysUseCaseTestDayProperties(" 11 ·", darkThemeMainTextColour, inMonthDarkThemeCellBackground),
-        DrawDaysUseCaseTestDayProperties(" 12  ", darkThemeMainTextColour, inMonthDarkThemeCellBackground),
-        DrawDaysUseCaseTestDayProperties(" 13  ", darkThemeMainTextColour, inMonthDarkThemeCellBackground),
-        DrawDaysUseCaseTestDayProperties(" 14  ", darkThemeMainTextColour, inMonthDarkThemeCellBackground),
-        DrawDaysUseCaseTestDayProperties(" 15  ", darkThemeMainTextColour, saturdayInMonthDarkThemeCellBackground),
-        DrawDaysUseCaseTestDayProperties(" 16  ", darkThemeMainTextColour, sundayInMonthDarkThemeCellBackground),
-        DrawDaysUseCaseTestDayProperties(" 17  ", darkThemeMainTextColour, inMonthDarkThemeCellBackground),
-        DrawDaysUseCaseTestDayProperties(" 18  ", darkThemeMainTextColour, inMonthDarkThemeCellBackground),
-        DrawDaysUseCaseTestDayProperties(" 19  ", darkThemeMainTextColour, inMonthDarkThemeCellBackground),
-        DrawDaysUseCaseTestDayProperties(" 20  ", darkThemeMainTextColour, inMonthDarkThemeCellBackground),
-        DrawDaysUseCaseTestDayProperties(" 21  ", darkThemeMainTextColour, inMonthDarkThemeCellBackground),
-        DrawDaysUseCaseTestDayProperties(" 22  ", darkThemeMainTextColour, saturdayInMonthDarkThemeCellBackground),
-        DrawDaysUseCaseTestDayProperties(" 23  ", darkThemeMainTextColour, sundayInMonthDarkThemeCellBackground),
-        DrawDaysUseCaseTestDayProperties(" 24  ", darkThemeMainTextColour, inMonthDarkThemeCellBackground),
-        DrawDaysUseCaseTestDayProperties(" 25  ", darkThemeMainTextColour, inMonthDarkThemeCellBackground),
-        DrawDaysUseCaseTestDayProperties(" 26  ", darkThemeMainTextColour, inMonthDarkThemeCellBackground),
-        DrawDaysUseCaseTestDayProperties(" 27 ·", darkThemeMainTextColour, inMonthDarkThemeCellBackground),
-        DrawDaysUseCaseTestDayProperties(" 28  ", darkThemeMainTextColour, inMonthDarkThemeCellBackground),
-        DrawDaysUseCaseTestDayProperties(" 29  ", darkThemeMainTextColour, saturdayInMonthDarkThemeCellBackground),
-        DrawDaysUseCaseTestDayProperties(" 30 ◇", darkThemeMainTextColour, sundayInMonthDarkThemeCellBackground),
-        DrawDaysUseCaseTestDayProperties(" 31  ", darkThemeMainTextColour, inMonthDarkThemeCellBackground),
-        DrawDaysUseCaseTestDayProperties("  1 ·", darkThemeCellTextColour),
-        DrawDaysUseCaseTestDayProperties("  2 ·", darkThemeCellTextColour),
-        DrawDaysUseCaseTestDayProperties("  3 ·", darkThemeCellTextColour),
-        DrawDaysUseCaseTestDayProperties("  4 ·", darkThemeCellTextColour),
-        DrawDaysUseCaseTestDayProperties("  5 ◈", darkThemeCellTextColour, saturdayDarkThemeCellBackground),
-        DrawDaysUseCaseTestDayProperties("  6 ·", darkThemeCellTextColour, sundayDarkThemeCellBackground)
+        DrawDaysUseCaseTestDayProperties("  5  ", DARK_THEME_MAIN_TEXT_COLOUR, IN_MONTH_DARK_THEME_CELL_BACKGROUND),
+        DrawDaysUseCaseTestDayProperties("  6 ∴", DARK_THEME_MAIN_TEXT_COLOUR, IN_MONTH_DARK_THEME_CELL_BACKGROUND),
+        DrawDaysUseCaseTestDayProperties("  7 ·", DARK_THEME_MAIN_TEXT_COLOUR, IN_MONTH_DARK_THEME_CELL_BACKGROUND),
+        DrawDaysUseCaseTestDayProperties("  8  ", DARK_THEME_MAIN_TEXT_COLOUR, SATURDAY_IN_MONTH_DARK_THEME_CELL_BACKGROUND),
+        DrawDaysUseCaseTestDayProperties("  9  ", DARK_THEME_MAIN_TEXT_COLOUR, SUNDAY_IN_MONTH_DARK_THEME_CELL_BACKGROUND),
+        DrawDaysUseCaseTestDayProperties(" 10 ∷", DARK_THEME_MAIN_TEXT_COLOUR, IN_MONTH_DARK_THEME_CELL_BACKGROUND),
+        DrawDaysUseCaseTestDayProperties(" 11 ·", DARK_THEME_MAIN_TEXT_COLOUR, IN_MONTH_DARK_THEME_CELL_BACKGROUND),
+        DrawDaysUseCaseTestDayProperties(" 12  ", DARK_THEME_MAIN_TEXT_COLOUR, IN_MONTH_DARK_THEME_CELL_BACKGROUND),
+        DrawDaysUseCaseTestDayProperties(" 13  ", DARK_THEME_MAIN_TEXT_COLOUR, IN_MONTH_DARK_THEME_CELL_BACKGROUND),
+        DrawDaysUseCaseTestDayProperties(" 14  ", DARK_THEME_MAIN_TEXT_COLOUR, IN_MONTH_DARK_THEME_CELL_BACKGROUND),
+        DrawDaysUseCaseTestDayProperties(" 15  ", DARK_THEME_MAIN_TEXT_COLOUR, SATURDAY_IN_MONTH_DARK_THEME_CELL_BACKGROUND),
+        DrawDaysUseCaseTestDayProperties(" 16  ", DARK_THEME_MAIN_TEXT_COLOUR, SUNDAY_IN_MONTH_DARK_THEME_CELL_BACKGROUND),
+        DrawDaysUseCaseTestDayProperties(" 17  ", DARK_THEME_MAIN_TEXT_COLOUR, IN_MONTH_DARK_THEME_CELL_BACKGROUND),
+        DrawDaysUseCaseTestDayProperties(" 18  ", DARK_THEME_MAIN_TEXT_COLOUR, IN_MONTH_DARK_THEME_CELL_BACKGROUND),
+        DrawDaysUseCaseTestDayProperties(" 19  ", DARK_THEME_MAIN_TEXT_COLOUR, IN_MONTH_DARK_THEME_CELL_BACKGROUND),
+        DrawDaysUseCaseTestDayProperties(" 20  ", DARK_THEME_MAIN_TEXT_COLOUR, IN_MONTH_DARK_THEME_CELL_BACKGROUND),
+        DrawDaysUseCaseTestDayProperties(" 21  ", DARK_THEME_MAIN_TEXT_COLOUR, IN_MONTH_DARK_THEME_CELL_BACKGROUND),
+        DrawDaysUseCaseTestDayProperties(" 22  ", DARK_THEME_MAIN_TEXT_COLOUR, SATURDAY_IN_MONTH_DARK_THEME_CELL_BACKGROUND),
+        DrawDaysUseCaseTestDayProperties(" 23  ", DARK_THEME_MAIN_TEXT_COLOUR, SUNDAY_IN_MONTH_DARK_THEME_CELL_BACKGROUND),
+        DrawDaysUseCaseTestDayProperties(" 24  ", DARK_THEME_MAIN_TEXT_COLOUR, IN_MONTH_DARK_THEME_CELL_BACKGROUND),
+        DrawDaysUseCaseTestDayProperties(" 25  ", DARK_THEME_MAIN_TEXT_COLOUR, IN_MONTH_DARK_THEME_CELL_BACKGROUND),
+        DrawDaysUseCaseTestDayProperties(" 26  ", DARK_THEME_MAIN_TEXT_COLOUR, IN_MONTH_DARK_THEME_CELL_BACKGROUND),
+        DrawDaysUseCaseTestDayProperties(" 27 ·", DARK_THEME_MAIN_TEXT_COLOUR, IN_MONTH_DARK_THEME_CELL_BACKGROUND),
+        DrawDaysUseCaseTestDayProperties(" 28  ", DARK_THEME_MAIN_TEXT_COLOUR, IN_MONTH_DARK_THEME_CELL_BACKGROUND),
+        DrawDaysUseCaseTestDayProperties(" 29  ", DARK_THEME_MAIN_TEXT_COLOUR, SATURDAY_IN_MONTH_DARK_THEME_CELL_BACKGROUND),
+        DrawDaysUseCaseTestDayProperties(" 30 ◇", DARK_THEME_MAIN_TEXT_COLOUR, SUNDAY_IN_MONTH_DARK_THEME_CELL_BACKGROUND),
+        DrawDaysUseCaseTestDayProperties(" 31  ", DARK_THEME_MAIN_TEXT_COLOUR, IN_MONTH_DARK_THEME_CELL_BACKGROUND),
+        DrawDaysUseCaseTestDayProperties("  1 ·", DARK_THEME_CELL_TEXT_COLOUR),
+        DrawDaysUseCaseTestDayProperties("  2 ·", DARK_THEME_CELL_TEXT_COLOUR),
+        DrawDaysUseCaseTestDayProperties("  3 ·", DARK_THEME_CELL_TEXT_COLOUR),
+        DrawDaysUseCaseTestDayProperties("  4 ·", DARK_THEME_CELL_TEXT_COLOUR),
+        DrawDaysUseCaseTestDayProperties("  5 ◈", DARK_THEME_CELL_TEXT_COLOUR, SATURDAY_DARK_THEME_CELL_BACKGROUND),
+        DrawDaysUseCaseTestDayProperties("  6 ·", DARK_THEME_CELL_TEXT_COLOUR, SUNDAY_DARK_THEME_CELL_BACKGROUND)
     )
 
     @Suppress("UnusedPrivateMember")
@@ -585,8 +585,8 @@ internal class DaysServiceTest : BaseTest() {
         val text: String,
         val textColour: Int,
         val dayBackgroundColour: Int? = null,
-        val dayLayout: Int = cellLayout,
+        val dayLayout: Int = CELL_LAYOUT,
         val isToday: Boolean = false,
-        val instancesColour: Int = cyanInstancesColourId
+        val instancesColour: Int = CYAN_INSTANCES_COLOUR_ID
     )
 }
