@@ -1,4 +1,4 @@
-#https://github.com/actions
+# https://github.com/actions
 name: CI
 on: push
 jobs:

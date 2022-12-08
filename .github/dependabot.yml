@@ -1,4 +1,4 @@
-#https://dependabot.com/docs/config-file
+# https://dependabot.com/docs/config-file
 version: 2
 updates:
 

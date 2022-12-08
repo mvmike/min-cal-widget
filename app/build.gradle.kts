@@ -6,7 +6,7 @@ import org.gradle.api.tasks.testing.logging.TestLogEvent.STANDARD_OUT
 plugins {
     id("com.android.application")
     id("kotlin-android")
-    //https://github.com/detekt/detekt/releases
+    // https://github.com/detekt/detekt/releases
     id("io.gitlab.arturbosch.detekt").version("1.21.0")
 }
 
@@ -14,15 +14,15 @@ android {
 
     namespace = "cat.mvmike.minimalcalendarwidget"
 
-    //https://source.android.com/setup/start/build-numbers
+    // https://source.android.com/setup/start/build-numbers
     val minAndroidVersion = 26   // 8.0
     val androidVersion = 33      // 13.0
 
-    //https://openjdk.java.net/projects/jdk/
+    // https://openjdk.java.net/projects/jdk/
     val javaVersion = JavaVersion.VERSION_17
 
     compileSdk = androidVersion
-    //https://developer.android.com/studio/releases/build-tools
+    // https://developer.android.com/studio/releases/build-tools
     buildToolsVersion = "30.0.3"
 
     defaultConfig {
@@ -124,7 +124,7 @@ android {
 
 dependencies {
 
-    //https://developer.android.com/jetpack/androidx/versions/
+    // https://developer.android.com/jetpack/androidx/versions/
     implementation("androidx.appcompat:appcompat:1.5.1")
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.multidex:multidex:2.0.1")
@@ -134,15 +134,15 @@ dependencies {
         exclude(group="androidx.lifecycle", module="lifecycle-viewmodel-ktx")
     }
 
-    //https://github.com/junit-team/junit5/releases
+    // https://github.com/junit-team/junit5/releases
     val junitJupiterVersion = "5.9.1"
     testImplementation("org.junit.jupiter:junit-jupiter-api:$junitJupiterVersion")
     testImplementation("org.junit.jupiter:junit-jupiter-engine:$junitJupiterVersion")
     testImplementation("org.junit.jupiter:junit-jupiter-params:$junitJupiterVersion")
 
-    //https://github.com/mockk/mockk/releases
+    // https://github.com/mockk/mockk/releases
     testImplementation("io.mockk:mockk:1.13.3")
 
-    //https://github.com/assertj/assertj-core/tags
+    // https://github.com/assertj/assertj-core/tags
     testImplementation("org.assertj:assertj-core:3.23.1")
 }

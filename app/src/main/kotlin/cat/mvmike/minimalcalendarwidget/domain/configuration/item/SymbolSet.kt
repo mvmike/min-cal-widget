@@ -7,7 +7,7 @@ import cat.mvmike.minimalcalendarwidget.R
 
 private const val INSTANCES_SYMBOLS_EMPTY = ' '
 
-//https://unicode-table.com
+// https://unicode-table.com
 enum class SymbolSet(
     val displayString: Int,
     val relativeSize: Float = 1f,
