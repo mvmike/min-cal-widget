@@ -2,15 +2,13 @@
 // See LICENSE for licensing information
 package cat.mvmike.minimalcalendarwidget
 
-import com.tngtech.archunit.core.importer.ImportOption
 import com.tngtech.archunit.junit.AnalyzeClasses
 import com.tngtech.archunit.junit.ArchTest
 import com.tngtech.archunit.lang.syntax.ArchRuleDefinition
 
 // https://www.archunit.org/userguide/html/000_Index.html
 @AnalyzeClasses(
-    packagesOf = [MonthWidget::class],
-    importOptions = [ImportOption.DoNotIncludeTests::class]
+    packagesOf = [MonthWidget::class]
 )
 internal class HexArchTest {
 
