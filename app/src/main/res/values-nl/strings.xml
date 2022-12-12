@@ -1,27 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <!--DUTCH-->
     <string name="app_name">MinCal Widget</string>
-
     <!--Configuration-->
     <string name="configuration">Instellingen</string>
-
     <string name="behaviour">Opførsel</string>
     <string name="start_week_day">Eerste dag</string>
     <string name="show_declined_events">Vise afviste begivenheder</string>
     <string name="focus_on_current_week">Focus op huidige week</string>
-
     <string name="appearance">Udseende</string>
     <string name="theme">Thema</string>
     <string name="symbol_set">Symboolset</string>
     <string name="symbol_colour">Symboolkleur</string>
     <string name="transparency">Transparantie</string>
-
     <string name="about">Om</string>
     <string name="version">Version</string>
     <string name="source">Broncode</string>
-
     <!-- Months of year-->
     <string name="january">Januari</string>
     <string name="february">Februari</string>
@@ -35,7 +29,6 @@
     <string name="october">Oktober</string>
     <string name="november">November</string>
     <string name="december">December</string>
-
     <!--Days of week-->
     <string name="monday">Maandag</string>
     <string name="tuesday">Dinsdag</string>
@@ -44,7 +37,6 @@
     <string name="friday">Vrijdag</string>
     <string name="saturday">Zaterdag</string>
     <string name="sunday">Zondag</string>
-
     <!--Days of week abbreviated-->
     <string name="monday_abb">Ma</string>
     <string name="tuesday_abb">Di</string>
@@ -53,11 +45,9 @@
     <string name="friday_abb">Vrij</string>
     <string name="saturday_abb">Za</string>
     <string name="sunday_abb">Zo</string>
-
     <!--Themes-->
     <string name="dark">Donker</string>
     <string name="light">Licht</string>
-
     <!--Symbols-->
     <string name="minimal">Minimaal</string>
     <string name="vertical">Verticaal</string>
@@ -66,7 +56,6 @@
     <string name="roman">Romeins</string>
     <string name="binary">Binair</string>
     <string name="none">Geen</string>
-
     <!--Colours-->
     <string name="system_accent">System accent</string>
     <string name="cyan">Blauwgroen</string>
@@ -76,9 +65,7 @@
     <string name="yellow">Geel</string>
     <string name="black">Zwart</string>
     <string name="white">Wit</string>
-
     <!-- messages-->
     <string name="no_calendar_application">Geen agenda-applicatie gevonden</string>
     <string name="no_browser_application">Der blev ikke fundet nogen browserapplikation</string>
-
 </resources>
