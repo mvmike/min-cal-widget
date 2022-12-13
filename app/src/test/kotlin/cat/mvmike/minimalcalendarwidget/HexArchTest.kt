@@ -19,7 +19,7 @@ internal class HexArchTest {
         .should().dependOnClassesThat().resideInAPackage("cat.mvmike.minimalcalendarwidget.application..")!!
 
     @ArchTest
-    val domainShouldNotDependActivityOrReceiverInfrastructure = ArchRuleDefinition
+    val domainShouldNotDependOnActivityOrReceiverInfrastructure = ArchRuleDefinition
         .noClasses()
         .that().resideInAnyPackage("cat.mvmike.minimalcalendarwidget.domain..")
         .should().dependOnClassesThat().resideInAnyPackage(
