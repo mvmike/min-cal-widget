@@ -19,12 +19,14 @@
 · French
 · German
 · Lithuanian
-· Norwegian
+· Norwegian Bokmål
 · Polish
-· Portuguese
+· Portuguese (Brazil)
 · Punjabi
+· Punjabi (Pakistan)
 · Russian
 · Spanish
+· Turkish
 
 You can help out translating through our weblate project page
 https://hosted.weblate.org/engage/min-cal-widget
