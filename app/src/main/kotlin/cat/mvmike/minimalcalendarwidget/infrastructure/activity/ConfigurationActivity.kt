@@ -24,7 +24,9 @@ import cat.mvmike.minimalcalendarwidget.domain.configuration.Configuration
 import cat.mvmike.minimalcalendarwidget.domain.configuration.EnumConfiguration
 import cat.mvmike.minimalcalendarwidget.domain.configuration.PREFERENCE_KEY
 import cat.mvmike.minimalcalendarwidget.domain.configuration.SOURCE_KEY
-import cat.mvmike.minimalcalendarwidget.domain.configuration.SOURCE_VALUE
+import cat.mvmike.minimalcalendarwidget.domain.configuration.SOURCE_URL
+import cat.mvmike.minimalcalendarwidget.domain.configuration.TRANSLATE_KEY
+import cat.mvmike.minimalcalendarwidget.domain.configuration.TRANSLATE_URL
 import cat.mvmike.minimalcalendarwidget.domain.configuration.VERSION_KEY
 
 class ConfigurationActivity : AppCompatActivity() {
@@ -78,34 +80,33 @@ class ConfigurationActivity : AppCompatActivity() {
         }
 
         private fun fillAboutSection() {
-            VERSION_KEY.asPreference().summary = BuildConfig.VERSION_NAME
             SOURCE_KEY.asPreference().let {
-                it.summary = SOURCE_VALUE
+                it.summary = SOURCE_URL
                 it.setOnPreferenceClickListener {
-                    try {
-                        this.requireContext().startActivity(
-                            Intent(Intent.ACTION_VIEW)
-                                .setData(Uri.parse(SOURCE_VALUE))
-                                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                        )
-                    } catch (ignored: ActivityNotFoundException) {
-                        Toast.makeText(this.requireContext(), R.string.no_browser_application, Toast.LENGTH_SHORT).show()
-                    }
+                    SOURCE_URL.openInBrowser()
                     true
                 }
             }
+            TRANSLATE_KEY.asPreference().let {
+                it.summary = TRANSLATE_URL
+                it.setOnPreferenceClickListener {
+                    TRANSLATE_URL.openInBrowser()
+                    true
+                }
+            }
+            VERSION_KEY.asPreference().summary = BuildConfig.VERSION_NAME
         }
 
         private fun updateCurrentSelection() {
             enumConfigurationItems().forEach {
-                it.asListPreference().summary = it.getCurrentDisplayValue(this.requireContext())
+                it.asListPreference().summary = it.getCurrentDisplayValue(requireContext())
             }
 
             booleanConfigurationItems().forEach {
-                it.asCheckBoxPreference().isChecked = it.get(this.requireContext())
+                it.asCheckBoxPreference().isChecked = it.get(requireContext())
             }
 
-            Configuration.WidgetTransparency.asSeekBarPreference().value = Configuration.WidgetTransparency.get(this.requireContext()).percentage
+            Configuration.WidgetTransparency.asSeekBarPreference().value = Configuration.WidgetTransparency.get(requireContext()).percentage
         }
 
         private fun enumConfigurationItems() = setOf(
@@ -131,5 +132,15 @@ class ConfigurationActivity : AppCompatActivity() {
 
         private fun <E> Configuration<E>.asSeekBarPreference() =
             preferenceManager.findPreference<Preference>(this.key) as SeekBarPreference
+
+        private fun String.openInBrowser() = try {
+            requireContext().startActivity(
+                Intent(Intent.ACTION_VIEW)
+                    .setData(Uri.parse(this))
+                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            )
+        } catch (ignored: ActivityNotFoundException) {
+            Toast.makeText(requireContext(), R.string.no_browser_application, Toast.LENGTH_SHORT).show()
+        }
     }
 }

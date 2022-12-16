@@ -19,8 +19,9 @@
     <string name="transparency">Transparència</string>
 
     <string name="about">Sobre l\'aplicació</string>
-    <string name="version">Versió</string>
     <string name="source">Codi</string>
+    <string name="translate">Tradueix</string>
+    <string name="version">Versió</string>
 
     <!-- Months of year-->
     <string name="january">Gener</string>

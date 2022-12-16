@@ -19,8 +19,9 @@
     <string name="transparency">Åpenhet</string>
 
     <string name="about">Om</string>
-    <string name="version">Versjon</string>
     <string name="source">Kildekode</string>
+    <string name="translate">Oversette</string>
+    <string name="version">Versjon</string>
 
     <!-- Months of year-->
     <string name="january">Januar</string>

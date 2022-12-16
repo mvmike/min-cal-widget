@@ -21,11 +21,15 @@ import java.time.DayOfWeek
 
 const val PREFERENCE_KEY = "mincal_prefs"
 
-const val VERSION_KEY = "VERSION"
-
 const val SOURCE_KEY = "SOURCE"
 
-const val SOURCE_VALUE = "https://github.com/mvmike/min-cal-widget"
+const val TRANSLATE_KEY = "TRANSLATE"
+
+const val VERSION_KEY = "VERSION"
+
+const val SOURCE_URL = "https://github.com/mvmike/min-cal-widget"
+
+const val TRANSLATE_URL = "https://hosted.weblate.org/engage/min-cal-widget"
 
 sealed class Configuration<E>(
     internal open val key: String,

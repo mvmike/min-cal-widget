@@ -56,14 +56,19 @@
         app:iconSpaceReserved="false">
 
         <Preference
-            android:key="VERSION"
-            android:icon="@drawable/ic_info"
-            android:title="@string/version"/>
-
-        <Preference
             android:key="SOURCE"
             android:icon="@drawable/ic_github"
             android:title="@string/source" />
+
+        <Preference
+            android:key="TRANSLATE"
+            android:icon="@drawable/ic_translate"
+            android:title="@string/translate" />
+
+        <Preference
+            android:key="VERSION"
+            android:icon="@drawable/ic_info"
+            android:title="@string/version" />
 
     </PreferenceCategory>
 

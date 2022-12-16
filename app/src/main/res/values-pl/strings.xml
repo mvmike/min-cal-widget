@@ -19,8 +19,9 @@
     <string name="transparency">Przezroczystość</string>
 
     <string name="about">Dookoła</string>
-    <string name="version">Wersja</string>
     <string name="source">Źródło</string>
+    <string name="translate">Tłumacz</string>
+    <string name="version">Wersja</string>
 
     <!-- Months of year-->
     <string name="january">Styczeń</string>

@@ -19,8 +19,9 @@
     <string name="transparency">Transparantie</string>
 
     <string name="about">Om</string>
-    <string name="version">Version</string>
     <string name="source">Broncode</string>
+    <string name="translate">Vertalen</string>
+    <string name="version">Version</string>
 
     <!-- Months of year-->
     <string name="january">Januari</string>

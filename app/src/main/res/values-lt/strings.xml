@@ -19,8 +19,9 @@
     <string name="transparency">Skaidrumas</string>
 
     <string name="about">Apie</string>
-    <string name="version">Versija</string>
     <string name="source">Source</string>
+    <string name="translate">Išversti</string>
+    <string name="version">Versija</string>
 
     <!-- Months of year-->
     <string name="january">Sausis</string>

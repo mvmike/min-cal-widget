@@ -19,8 +19,9 @@
     <string name="transparency">Transparência</string>
 
     <string name="about">Acerca de</string>
-    <string name="version">Versão</string>
     <string name="source">Código</string>
+    <string name="translate">Traduzir</string>
+    <string name="version">Versão</string>
 
     <!-- Months of year-->
     <string name="january">Janeiro</string>

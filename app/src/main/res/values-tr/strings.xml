@@ -19,8 +19,9 @@
     <string name="transparency">Şeffaflık</string>
 
     <string name="about">Hakkında</string>
-    <string name="version">Versiyon</string>
     <string name="source">Kaynak</string>
+    <string name="translate">Çevir</string>
+    <string name="version">Versiyon</string>
 
     <!-- Months of year-->
     <string name="january">Ocak</string>

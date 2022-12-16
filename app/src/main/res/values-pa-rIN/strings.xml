@@ -19,8 +19,9 @@
     <string name="transparency">ਪਾਰਦਰਸ਼ਤਾ</string>
 
     <string name="about">ਬਾਰੇ</string>
-    <string name="version">ਵਰਜ਼ਨ</string>
     <string name="source">ਸਰੋਤ</string>
+    <string name="translate">ਅਨੁਵਾਦ</string>
+    <string name="version">ਵਰਜ਼ਨ</string>
 
     <!-- Months of year-->
     <string name="january">ਜਨਵਰੀ</string>

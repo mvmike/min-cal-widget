@@ -19,8 +19,9 @@
     <string name="transparency">Прозрачность</string>
 
     <string name="about">Относительно</string>
-    <string name="version">Версия</string>
     <string name="source">Исходники</string>
+    <string name="translate">Перевести</string>
+    <string name="version">Версия</string>
 
     <!-- Months of year-->
     <string name="january">Январь</string>

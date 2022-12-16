@@ -19,8 +19,9 @@
     <string name="transparency">Prozirnost</string>
 
     <string name="about">Informacije</string>
-    <string name="version">Verzija</string>
     <string name="source">Izvor</string>
+    <string name="translate">Prevedi</string>
+    <string name="version">Verzija</string>
 
     <!-- Months of year-->
     <string name="january">Siječanj</string>
