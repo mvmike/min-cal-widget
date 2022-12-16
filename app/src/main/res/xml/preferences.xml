@@ -8,18 +8,18 @@
 
         <ListPreference
             android:key="FIRST_DAY_OF_WEEK"
-            android:title="@string/start_week_day"
-            app:iconSpaceReserved="false" />
+            android:icon="@drawable/ic_today"
+            android:title="@string/start_week_day" />
 
         <CheckBoxPreference
             android:key="WIDGET_SHOW_DECLINED_EVENTS"
-            android:title="@string/show_declined_events"
-            app:iconSpaceReserved="false" />
+            android:icon="@drawable/ic_deleted_events"
+            android:title="@string/show_declined_events" />
 
         <CheckBoxPreference
             android:key="WIDGET_FOCUS_ON_CURRENT_WEEK"
-            android:title="@string/focus_on_current_week"
-            app:iconSpaceReserved="false" />
+            android:icon="@drawable/ic_view_day"
+            android:title="@string/focus_on_current_week" />
 
     </PreferenceCategory>
 
@@ -29,24 +29,24 @@
 
         <ListPreference
             android:key="WIDGET_THEME"
-            android:title="@string/theme"
-            app:iconSpaceReserved="false" />
+            android:icon="@drawable/ic_invert_colors"
+            android:title="@string/theme" />
 
         <ListPreference
             android:key="INSTANCES_SYMBOL_SET"
-            android:title="@string/symbol_set"
-            app:iconSpaceReserved="false" />
+            android:icon="@drawable/ic_glyphs"
+            android:title="@string/symbol_set" />
 
         <ListPreference
             android:key="INSTANCES_COLOUR"
-            android:title="@string/symbol_colour"
-            app:iconSpaceReserved="false" />
+            android:icon="@drawable/ic_palette"
+            android:title="@string/symbol_colour" />
 
         <SeekBarPreference
             android:key="WIDGET_TRANSPARENCY"
+            android:icon="@drawable/ic_gradient"
             android:max="100"
             android:title="@string/transparency"
-            app:iconSpaceReserved="false"
             app:showSeekBarValue="true" />
 
     </PreferenceCategory>
@@ -57,13 +57,13 @@
 
         <Preference
             android:key="VERSION"
-            android:title="@string/version"
-            app:iconSpaceReserved="false" />
+            android:icon="@drawable/ic_info"
+            android:title="@string/version"/>
 
         <Preference
             android:key="SOURCE"
-            android:title="@string/source"
-            app:iconSpaceReserved="false" />
+            android:icon="@drawable/ic_github"
+            android:title="@string/source" />
 
     </PreferenceCategory>
 
