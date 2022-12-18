@@ -57,7 +57,7 @@
 
     <!--Themes-->
     <string name="dark">Karanlık</string>
-    <string name="light">Işık</string>
+    <string name="light">Aydınlık</string>
 
     <!--Symbols-->
     <string name="minimal">En az</string>
@@ -69,7 +69,7 @@
     <string name="none">Hiçbiri</string>
 
     <!--Colours-->
-    <string name="system_accent">Sistem aksanı</string>
+    <string name="system_accent">Sistem varsayılanı</string>
     <string name="cyan">Camgöbeği</string>
     <string name="blue">Mavi</string>
     <string name="mint">Nane yeşili</string>
