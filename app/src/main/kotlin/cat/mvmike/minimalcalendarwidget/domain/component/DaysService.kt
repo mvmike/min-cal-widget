@@ -116,8 +116,7 @@ object DaysService {
 
     internal fun Day.getNumberOfInstances(instanceSet: Set<Instance>, includeDeclinedEvents: Boolean) = instanceSet
         .filter { it.isInDay(this.dayLocalDate) }
-        .filter { includeDeclinedEvents || !it.isDeclined }
-        .count()
+        .count { includeDeclinedEvents || !it.isDeclined }
 
     private fun LocalDate.toCurrentWeekAndWeekDay(week: Int, weekDay: Int) =
         this.plus((week * DAYS_IN_WEEK + weekDay).toLong(), ChronoUnit.DAYS)
