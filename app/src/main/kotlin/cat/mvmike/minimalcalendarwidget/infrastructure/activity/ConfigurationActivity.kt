@@ -63,7 +63,7 @@ class ConfigurationActivity : AppCompatActivity() {
 
         override fun onSharedPreferenceChanged(p0: SharedPreferences?, p1: String?) {
             updateCurrentSelection()
-            RedrawWidgetUseCase.execute(this.requireContext())
+            RedrawWidgetUseCase.execute(requireContext())
         }
 
         override fun onDestroyView() {
