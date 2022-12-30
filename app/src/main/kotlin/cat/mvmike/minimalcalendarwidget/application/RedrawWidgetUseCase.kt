@@ -44,7 +44,7 @@ object RedrawWidgetUseCase {
         appWidgetManager: AppWidgetManager,
         appWidgetId: Int,
         upsertFormat: Boolean = false
-    ) {
+    ) = runCatching {
         val widgetRemoteView = RemoteViews(context.packageName, R.layout.widget)
         widgetRemoteView.removeAllViews(R.id.calendar_days_layout)
 
