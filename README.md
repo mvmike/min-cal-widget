@@ -42,6 +42,8 @@ Minimal calendar widget that's always on current date's month
 [<img align="right" src="https://hosted.weblate.org/widgets/min-cal-widget/-/287x66-white.png">](https://hosted.weblate.org/engage/min-cal-widget)
 [<img src="https://hosted.weblate.org/widgets/min-cal-widget/-/multi-auto.svg">](https://hosted.weblate.org/engage/min-cal-widget)
 
+Everyone can help adding or updating translations under https://hosted.weblate.org/engage/min-cal-widget
+
 ## Licensing
 
 MinCal Widget is licensed under the [BSD 3-clause](LICENSE.md).
