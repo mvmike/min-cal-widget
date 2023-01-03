@@ -2,7 +2,6 @@
 <resources>
 
     <!--NORWEGIAN BOKMÅL (NORWAY)-->
-    <string name="app_name">MinCal Widget</string>
 
     <!--Configuration-->
     <string name="configuration">Oppsett</string>

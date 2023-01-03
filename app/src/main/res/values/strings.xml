@@ -2,7 +2,7 @@
 <resources>
 
     <!--ENGLISH-->
-    <string name="app_name">MinCal Widget</string>
+    <string name="app_name" translatable="false">MinCal Widget</string>
 
     <!--Configuration-->
     <string name="configuration">Configuration</string>

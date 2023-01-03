@@ -2,7 +2,6 @@
 <resources>
 
     <!--CATALAN-->
-    <string name="app_name">MinCal Widget</string>
 
     <!--Configuration-->
     <string name="configuration">Configuració</string>
