@@ -4,11 +4,11 @@ package cat.mvmike.minimalcalendarwidget
 
 import android.content.Context
 import android.content.SharedPreferences
-import cat.mvmike.minimalcalendarwidget.domain.Format
-import cat.mvmike.minimalcalendarwidget.domain.configuration.BooleanConfiguration
-import cat.mvmike.minimalcalendarwidget.domain.configuration.Configuration
-import cat.mvmike.minimalcalendarwidget.domain.configuration.EnumConfiguration
+import cat.mvmike.minimalcalendarwidget.domain.configuration.BooleanConfigurationItem
+import cat.mvmike.minimalcalendarwidget.domain.configuration.ConfigurationItem
+import cat.mvmike.minimalcalendarwidget.domain.configuration.EnumConfigurationItem
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Colour
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Format
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.SymbolSet
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Transparency
@@ -120,8 +120,8 @@ open class BaseTest {
     protected fun mockWidgetFormat(format: Format, appWidgetId: Int) {
         every {
             sharedPreferences.getInt(
-                "${Configuration.WidgetFormat.key}_${appWidgetId}",
-                Configuration.WidgetFormat.defaultValue.width
+                "${ConfigurationItem.WidgetFormat.key}_${appWidgetId}",
+                ConfigurationItem.WidgetFormat.defaultValue.width
             )
         } returns format.width
     }
@@ -130,8 +130,8 @@ open class BaseTest {
         verifySharedPreferencesAccess()
         verify {
             sharedPreferences.getInt(
-                "${Configuration.WidgetFormat.key}_${appWidgetId}",
-                Configuration.WidgetFormat.defaultValue.width
+                "${ConfigurationItem.WidgetFormat.key}_${appWidgetId}",
+                ConfigurationItem.WidgetFormat.defaultValue.width
             )
         }
     }
@@ -139,8 +139,8 @@ open class BaseTest {
     protected fun mockWidgetTransparency(transparency: Transparency) {
         every {
             sharedPreferences.getInt(
-                Configuration.WidgetTransparency.key,
-                Configuration.WidgetTransparency.defaultValue.percentage
+                ConfigurationItem.WidgetTransparency.key,
+                ConfigurationItem.WidgetTransparency.defaultValue.percentage
             )
         } returns transparency.percentage
     }
@@ -149,8 +149,8 @@ open class BaseTest {
         verifySharedPreferencesAccess()
         verify {
             sharedPreferences.getInt(
-                Configuration.WidgetTransparency.key,
-                Configuration.WidgetTransparency.defaultValue.percentage
+                ConfigurationItem.WidgetTransparency.key,
+                ConfigurationItem.WidgetTransparency.defaultValue.percentage
             )
         }
     }
@@ -158,8 +158,8 @@ open class BaseTest {
     protected fun mockWidgetShowDeclinedEvents(widgetShowDeclinedEvents: Boolean = false) {
         every {
             sharedPreferences.getBoolean(
-                BooleanConfiguration.WidgetShowDeclinedEvents.key,
-                BooleanConfiguration.WidgetShowDeclinedEvents.defaultValue
+                BooleanConfigurationItem.WidgetShowDeclinedEvents.key,
+                BooleanConfigurationItem.WidgetShowDeclinedEvents.defaultValue
             )
         } returns widgetShowDeclinedEvents
     }
@@ -168,8 +168,8 @@ open class BaseTest {
         verifySharedPreferencesAccess()
         verify {
             sharedPreferences.getBoolean(
-                BooleanConfiguration.WidgetShowDeclinedEvents.key,
-                BooleanConfiguration.WidgetShowDeclinedEvents.defaultValue
+                BooleanConfigurationItem.WidgetShowDeclinedEvents.key,
+                BooleanConfigurationItem.WidgetShowDeclinedEvents.defaultValue
             )
         }
     }
@@ -177,8 +177,8 @@ open class BaseTest {
     protected fun mockWidgetFocusOnCurrentWeek(enabled: Boolean) {
         every {
             sharedPreferences.getBoolean(
-                BooleanConfiguration.WidgetFocusOnCurrentWeek.key,
-                BooleanConfiguration.WidgetFocusOnCurrentWeek.defaultValue
+                BooleanConfigurationItem.WidgetFocusOnCurrentWeek.key,
+                BooleanConfigurationItem.WidgetFocusOnCurrentWeek.defaultValue
             )
         } returns enabled
     }
@@ -187,8 +187,8 @@ open class BaseTest {
         verifySharedPreferencesAccess()
         verify {
             sharedPreferences.getBoolean(
-                BooleanConfiguration.WidgetFocusOnCurrentWeek.key,
-                BooleanConfiguration.WidgetFocusOnCurrentWeek.defaultValue
+                BooleanConfigurationItem.WidgetFocusOnCurrentWeek.key,
+                BooleanConfigurationItem.WidgetFocusOnCurrentWeek.defaultValue
             )
         }
     }
@@ -196,8 +196,8 @@ open class BaseTest {
     protected fun mockWidgetTheme(theme: Theme) {
         every {
             sharedPreferences.getString(
-                EnumConfiguration.WidgetTheme.key,
-                EnumConfiguration.WidgetTheme.defaultValue.name
+                EnumConfigurationItem.WidgetTheme.key,
+                EnumConfigurationItem.WidgetTheme.defaultValue.name
             )
         } returns theme.name
     }
@@ -206,8 +206,8 @@ open class BaseTest {
         verifySharedPreferencesAccess()
         verify {
             sharedPreferences.getString(
-                EnumConfiguration.WidgetTheme.key,
-                EnumConfiguration.WidgetTheme.defaultValue.name
+                EnumConfigurationItem.WidgetTheme.key,
+                EnumConfigurationItem.WidgetTheme.defaultValue.name
             )
         }
     }
@@ -215,8 +215,8 @@ open class BaseTest {
     protected fun mockFirstDayOfWeek(dayOfWeek: DayOfWeek) {
         every {
             sharedPreferences.getString(
-                EnumConfiguration.FirstDayOfWeek.key,
-                EnumConfiguration.FirstDayOfWeek.defaultValue.name
+                EnumConfigurationItem.FirstDayOfWeek.key,
+                EnumConfigurationItem.FirstDayOfWeek.defaultValue.name
             )
         } returns dayOfWeek.name
     }
@@ -225,8 +225,8 @@ open class BaseTest {
         verifySharedPreferencesAccess()
         verify {
             sharedPreferences.getString(
-                EnumConfiguration.FirstDayOfWeek.key,
-                EnumConfiguration.FirstDayOfWeek.defaultValue.name
+                EnumConfigurationItem.FirstDayOfWeek.key,
+                EnumConfigurationItem.FirstDayOfWeek.defaultValue.name
             )
         }
     }
@@ -234,8 +234,8 @@ open class BaseTest {
     protected fun mockInstancesSymbolSet(symbolSet: SymbolSet) {
         every {
             sharedPreferences.getString(
-                EnumConfiguration.InstancesSymbolSet.key,
-                EnumConfiguration.InstancesSymbolSet.defaultValue.name
+                EnumConfigurationItem.InstancesSymbolSet.key,
+                EnumConfigurationItem.InstancesSymbolSet.defaultValue.name
             )
         } returns symbolSet.name
     }
@@ -244,8 +244,8 @@ open class BaseTest {
         verifySharedPreferencesAccess()
         verify {
             sharedPreferences.getString(
-                EnumConfiguration.InstancesSymbolSet.key,
-                EnumConfiguration.InstancesSymbolSet.defaultValue.name
+                EnumConfigurationItem.InstancesSymbolSet.key,
+                EnumConfigurationItem.InstancesSymbolSet.defaultValue.name
             )
         }
     }
@@ -253,8 +253,8 @@ open class BaseTest {
     protected fun mockInstancesColour(colour: Colour) {
         every {
             sharedPreferences.getString(
-                EnumConfiguration.InstancesColour.key,
-                EnumConfiguration.InstancesColour.defaultValue.name
+                EnumConfigurationItem.InstancesColour.key,
+                EnumConfigurationItem.InstancesColour.defaultValue.name
             )
         } returns colour.name
     }
@@ -263,8 +263,8 @@ open class BaseTest {
         verifySharedPreferencesAccess()
         verify {
             sharedPreferences.getString(
-                EnumConfiguration.InstancesColour.key,
-                EnumConfiguration.InstancesColour.defaultValue.name
+                EnumConfigurationItem.InstancesColour.key,
+                EnumConfigurationItem.InstancesColour.defaultValue.name
             )
         }
     }

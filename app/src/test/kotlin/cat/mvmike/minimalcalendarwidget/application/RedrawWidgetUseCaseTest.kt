@@ -5,13 +5,13 @@ package cat.mvmike.minimalcalendarwidget.application
 import android.appwidget.AppWidgetManager
 import android.widget.RemoteViews
 import cat.mvmike.minimalcalendarwidget.BaseTest
-import cat.mvmike.minimalcalendarwidget.domain.Format
 import cat.mvmike.minimalcalendarwidget.domain.component.DaysHeaderService
 import cat.mvmike.minimalcalendarwidget.domain.component.DaysService
 import cat.mvmike.minimalcalendarwidget.domain.component.LayoutService
 import cat.mvmike.minimalcalendarwidget.domain.component.MonthAndYearHeaderService
-import cat.mvmike.minimalcalendarwidget.domain.configuration.Configuration
-import cat.mvmike.minimalcalendarwidget.domain.getFormat
+import cat.mvmike.minimalcalendarwidget.domain.configuration.ConfigurationItem
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Format
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.getFormat
 import cat.mvmike.minimalcalendarwidget.domain.intent.addAllListeners
 import io.mockk.EqMatcher
 import io.mockk.confirmVerified
@@ -104,7 +104,7 @@ internal class RedrawWidgetUseCaseTest : BaseTest() {
 
         verifySharedPreferencesAccess()
         verifySharedPreferencesEdit()
-        verify { editor.putInt("${Configuration.WidgetFormat.key}_${appWidgetId}", format.width) }
+        verify { editor.putInt("${ConfigurationItem.WidgetFormat.key}_${appWidgetId}", format.width) }
         verify { editor.apply() }
         verify { context.packageName }
         verify { addAllListeners(context, any()) }

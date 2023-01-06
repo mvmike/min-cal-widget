@@ -5,12 +5,12 @@ package cat.mvmike.minimalcalendarwidget.domain.component
 import android.content.Context
 import android.widget.RemoteViews
 import cat.mvmike.minimalcalendarwidget.domain.Day
-import cat.mvmike.minimalcalendarwidget.domain.Format
 import cat.mvmike.minimalcalendarwidget.domain.Instance
-import cat.mvmike.minimalcalendarwidget.domain.configuration.BooleanConfiguration
-import cat.mvmike.minimalcalendarwidget.domain.configuration.Configuration
-import cat.mvmike.minimalcalendarwidget.domain.configuration.EnumConfiguration
+import cat.mvmike.minimalcalendarwidget.domain.configuration.BooleanConfigurationItem
+import cat.mvmike.minimalcalendarwidget.domain.configuration.ConfigurationItem
+import cat.mvmike.minimalcalendarwidget.domain.configuration.EnumConfigurationItem
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Colour
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Format
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.SymbolSet
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.TransparencyRange
@@ -33,8 +33,8 @@ object DaysService {
 
     fun draw(context: Context, widgetRemoteView: RemoteViews, format: Format) {
         val systemLocalDate: LocalDate = SystemResolver.getSystemLocalDate()
-        val firstDayOfWeek = EnumConfiguration.FirstDayOfWeek.get(context)
-        val initialLocalDate = when (BooleanConfiguration.WidgetFocusOnCurrentWeek.get(context)) {
+        val firstDayOfWeek = EnumConfigurationItem.FirstDayOfWeek.get(context)
+        val initialLocalDate = when (BooleanConfigurationItem.WidgetFocusOnCurrentWeek.get(context)) {
             true -> getFocusedOnCurrentWeekInitialLocalDate(systemLocalDate, firstDayOfWeek)
             else -> getNaturalMonthInitialLocalDate(systemLocalDate, firstDayOfWeek)
         }
@@ -44,11 +44,11 @@ object DaysService {
             from = systemLocalDate.minusDays(INSTANCES_QUERY_DAYS_SPAN),
             to = systemLocalDate.plusDays(INSTANCES_QUERY_DAYS_SPAN)
         )
-        val widgetTheme = EnumConfiguration.WidgetTheme.get(context)
-        val instancesSymbolSet = EnumConfiguration.InstancesSymbolSet.get(context)
-        val instancesColour = EnumConfiguration.InstancesColour.get(context)
-        val transparency = Configuration.WidgetTransparency.get(context)
-        val showDeclinedEvents = BooleanConfiguration.WidgetShowDeclinedEvents.get(context)
+        val widgetTheme = EnumConfigurationItem.WidgetTheme.get(context)
+        val instancesSymbolSet = EnumConfigurationItem.InstancesSymbolSet.get(context)
+        val instancesColour = EnumConfigurationItem.InstancesColour.get(context)
+        val transparency = ConfigurationItem.WidgetTransparency.get(context)
+        val showDeclinedEvents = BooleanConfigurationItem.WidgetShowDeclinedEvents.get(context)
 
         for (week in 0 until NUM_WEEKS) {
             val weekRow: RemoteViews = GraphicResolver.createDaysRow(context)

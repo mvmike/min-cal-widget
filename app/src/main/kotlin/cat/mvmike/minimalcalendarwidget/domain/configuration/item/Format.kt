@@ -1,6 +1,6 @@
 // Copyright (c) 2016, Miquel Martí <miquelmarti111@gmail.com>
 // See LICENSE for licensing information
-package cat.mvmike.minimalcalendarwidget.domain
+package cat.mvmike.minimalcalendarwidget.domain.configuration.item
 
 import android.appwidget.AppWidgetManager
 import android.content.Context

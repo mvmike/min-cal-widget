@@ -5,8 +5,8 @@ package cat.mvmike.minimalcalendarwidget.domain.component
 import android.content.Context
 import android.widget.RemoteViews
 import cat.mvmike.minimalcalendarwidget.R
-import cat.mvmike.minimalcalendarwidget.domain.Format
-import cat.mvmike.minimalcalendarwidget.domain.configuration.EnumConfiguration
+import cat.mvmike.minimalcalendarwidget.domain.configuration.EnumConfigurationItem
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Format
 import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.GraphicResolver
 import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.SystemResolver
 import java.time.Instant
@@ -26,7 +26,7 @@ object MonthAndYearHeaderService {
         val systemZoneId = SystemResolver.getSystemZoneId()
         val displayMonth = format.getMonthHeaderLabel(systemInstant.toMonthDisplayValue(systemZoneId, context))
         val displayYear = systemInstant.toYearDisplayValue(systemZoneId)
-        val widgetTheme = EnumConfiguration.WidgetTheme.get(context)
+        val widgetTheme = EnumConfigurationItem.WidgetTheme.get(context)
 
         GraphicResolver.createMonthAndYearHeader(
             context = context,

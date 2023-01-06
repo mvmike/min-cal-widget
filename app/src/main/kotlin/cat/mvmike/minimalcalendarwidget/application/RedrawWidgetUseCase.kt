@@ -12,8 +12,8 @@ import cat.mvmike.minimalcalendarwidget.domain.component.DaysHeaderService
 import cat.mvmike.minimalcalendarwidget.domain.component.DaysService
 import cat.mvmike.minimalcalendarwidget.domain.component.LayoutService
 import cat.mvmike.minimalcalendarwidget.domain.component.MonthAndYearHeaderService
-import cat.mvmike.minimalcalendarwidget.domain.configuration.Configuration
-import cat.mvmike.minimalcalendarwidget.domain.getFormat
+import cat.mvmike.minimalcalendarwidget.domain.configuration.ConfigurationItem
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.getFormat
 import cat.mvmike.minimalcalendarwidget.domain.intent.addAllListeners
 
 object RedrawWidgetUseCase {
@@ -52,9 +52,9 @@ object RedrawWidgetUseCase {
 
         val format = when {
             upsertFormat -> getFormat(context, appWidgetManager, appWidgetId)
-                ?.also { Configuration.WidgetFormat.set(context, it, appWidgetId) }
-                ?: Configuration.WidgetFormat.get(context, appWidgetId)
-            else -> Configuration.WidgetFormat.get(context, appWidgetId)
+                ?.also { ConfigurationItem.WidgetFormat.set(context, it, appWidgetId) }
+                ?: ConfigurationItem.WidgetFormat.get(context, appWidgetId)
+            else -> ConfigurationItem.WidgetFormat.get(context, appWidgetId)
         }
 
         LayoutService.draw(

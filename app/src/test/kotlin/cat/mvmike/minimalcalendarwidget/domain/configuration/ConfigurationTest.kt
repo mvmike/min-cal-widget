@@ -3,8 +3,8 @@
 package cat.mvmike.minimalcalendarwidget.domain.configuration
 
 import cat.mvmike.minimalcalendarwidget.BaseTest
-import cat.mvmike.minimalcalendarwidget.domain.Format
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Colour
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Format
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.SymbolSet
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Transparency
@@ -29,7 +29,7 @@ internal class ConfigurationTest : BaseTest() {
         mockSharedPreferences()
         mockWidgetFormat(format, appWidgetId)
 
-        val result = Configuration.WidgetFormat.get(context, appWidgetId)
+        val result = ConfigurationItem.WidgetFormat.get(context, appWidgetId)
 
         assertThat(result).isEqualTo(format)
         verifyWidgetFormat(appWidgetId)
@@ -42,11 +42,11 @@ internal class ConfigurationTest : BaseTest() {
         val format = Format(width)
         mockSharedPreferences()
 
-        Configuration.WidgetFormat.set(context, format, appWidgetId)
+        ConfigurationItem.WidgetFormat.set(context, format, appWidgetId)
 
         verifySharedPreferencesAccess()
         verifySharedPreferencesEdit()
-        verify { editor.putInt("${Configuration.WidgetFormat.key}_$appWidgetId", format.width) }
+        verify { editor.putInt("${ConfigurationItem.WidgetFormat.key}_$appWidgetId", format.width) }
         verify { editor.apply() }
     }
 
@@ -57,7 +57,7 @@ internal class ConfigurationTest : BaseTest() {
         mockSharedPreferences()
         mockWidgetTransparency(transparency)
 
-        val result = Configuration.WidgetTransparency.get(context)
+        val result = ConfigurationItem.WidgetTransparency.get(context)
 
         assertThat(result).isEqualTo(transparency)
         verifyWidgetTransparency()
@@ -70,7 +70,7 @@ internal class ConfigurationTest : BaseTest() {
         mockSharedPreferences()
         mockWidgetShowDeclinedEvents(showDeclinedEvents)
 
-        val result = BooleanConfiguration.WidgetShowDeclinedEvents.get(context)
+        val result = BooleanConfigurationItem.WidgetShowDeclinedEvents.get(context)
 
         assertThat(result).isEqualTo(showDeclinedEvents)
         verifyWidgetShowDeclinedEvents()
@@ -83,7 +83,7 @@ internal class ConfigurationTest : BaseTest() {
         mockSharedPreferences()
         mockWidgetFocusOnCurrentWeek(focusOnCurrentWeek)
 
-        val result = BooleanConfiguration.WidgetFocusOnCurrentWeek.get(context)
+        val result = BooleanConfigurationItem.WidgetFocusOnCurrentWeek.get(context)
 
         assertThat(result).isEqualTo(focusOnCurrentWeek)
         verifyWidgetFocusOnCurrentWeek()
@@ -96,7 +96,7 @@ internal class ConfigurationTest : BaseTest() {
         mockSharedPreferences()
         mockWidgetTheme(theme)
 
-        val result = EnumConfiguration.WidgetTheme.get(context)
+        val result = EnumConfigurationItem.WidgetTheme.get(context)
 
         assertThat(result).isEqualTo(theme)
         verifyWidgetTheme()
@@ -109,7 +109,7 @@ internal class ConfigurationTest : BaseTest() {
         mockSharedPreferences()
         mockFirstDayOfWeek(dayOfWeek)
 
-        val result = EnumConfiguration.FirstDayOfWeek.get(context)
+        val result = EnumConfigurationItem.FirstDayOfWeek.get(context)
 
         assertThat(result).isEqualTo(dayOfWeek)
         verifyFirstDayOfWeek()
@@ -122,7 +122,7 @@ internal class ConfigurationTest : BaseTest() {
         mockSharedPreferences()
         mockInstancesSymbolSet(symbolSet)
 
-        val result = EnumConfiguration.InstancesSymbolSet.get(context)
+        val result = EnumConfigurationItem.InstancesSymbolSet.get(context)
 
         assertThat(result).isEqualTo(symbolSet)
         verifyInstancesSymbolSet()
@@ -135,7 +135,7 @@ internal class ConfigurationTest : BaseTest() {
         mockSharedPreferences()
         mockInstancesColour(colour)
 
-        val result = EnumConfiguration.InstancesColour.get(context)
+        val result = EnumConfigurationItem.InstancesColour.get(context)
 
         assertThat(result).isEqualTo(colour)
         verifyInstancesColour()
@@ -144,7 +144,7 @@ internal class ConfigurationTest : BaseTest() {
 
     @Test
     fun getInstancesColour_shouldReturnOnlyAvailableValues() {
-        val allowedColours = EnumConfiguration.InstancesColour.getEnumConstants().toSet()
+        val allowedColours = EnumConfigurationItem.InstancesColour.getEnumConstants().toSet()
 
         allowedColours.forEach {
             assertThat(it.isAvailable())

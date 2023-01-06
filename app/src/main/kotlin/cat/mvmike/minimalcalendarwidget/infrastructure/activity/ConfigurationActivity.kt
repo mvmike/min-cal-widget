@@ -19,9 +19,9 @@ import androidx.preference.SeekBarPreference
 import cat.mvmike.minimalcalendarwidget.BuildConfig
 import cat.mvmike.minimalcalendarwidget.R
 import cat.mvmike.minimalcalendarwidget.application.RedrawWidgetUseCase
-import cat.mvmike.minimalcalendarwidget.domain.configuration.BooleanConfiguration
-import cat.mvmike.minimalcalendarwidget.domain.configuration.Configuration
-import cat.mvmike.minimalcalendarwidget.domain.configuration.EnumConfiguration
+import cat.mvmike.minimalcalendarwidget.domain.configuration.BooleanConfigurationItem
+import cat.mvmike.minimalcalendarwidget.domain.configuration.ConfigurationItem
+import cat.mvmike.minimalcalendarwidget.domain.configuration.EnumConfigurationItem
 import cat.mvmike.minimalcalendarwidget.domain.configuration.PREFERENCE_KEY
 import cat.mvmike.minimalcalendarwidget.domain.configuration.SOURCE_KEY
 import cat.mvmike.minimalcalendarwidget.domain.configuration.SOURCE_URL
@@ -106,31 +106,31 @@ class ConfigurationActivity : AppCompatActivity() {
                 it.asCheckBoxPreference().isChecked = it.get(requireContext())
             }
 
-            Configuration.WidgetTransparency.asSeekBarPreference().value = Configuration.WidgetTransparency.get(requireContext()).percentage
+            ConfigurationItem.WidgetTransparency.asSeekBarPreference().value = ConfigurationItem.WidgetTransparency.get(requireContext()).percentage
         }
 
         private fun enumConfigurationItems() = setOf(
-            EnumConfiguration.WidgetTheme,
-            EnumConfiguration.FirstDayOfWeek,
-            EnumConfiguration.InstancesSymbolSet,
-            EnumConfiguration.InstancesColour
+            EnumConfigurationItem.WidgetTheme,
+            EnumConfigurationItem.FirstDayOfWeek,
+            EnumConfigurationItem.InstancesSymbolSet,
+            EnumConfigurationItem.InstancesColour
         )
 
         private fun booleanConfigurationItems() = setOf(
-            BooleanConfiguration.WidgetShowDeclinedEvents,
-            BooleanConfiguration.WidgetFocusOnCurrentWeek
+            BooleanConfigurationItem.WidgetShowDeclinedEvents,
+            BooleanConfigurationItem.WidgetFocusOnCurrentWeek
         )
 
         private fun String.asPreference() =
             preferenceManager.findPreference<Preference>(this) as Preference
 
-        private fun <E> Configuration<E>.asListPreference() =
+        private fun <E> ConfigurationItem<E>.asListPreference() =
             preferenceManager.findPreference<Preference>(this.key) as ListPreference
 
-        private fun <E> Configuration<E>.asCheckBoxPreference() =
+        private fun <E> ConfigurationItem<E>.asCheckBoxPreference() =
             preferenceManager.findPreference<Preference>(this.key) as CheckBoxPreference
 
-        private fun <E> Configuration<E>.asSeekBarPreference() =
+        private fun <E> ConfigurationItem<E>.asSeekBarPreference() =
             preferenceManager.findPreference<Preference>(this.key) as SeekBarPreference
 
         private fun String.openInBrowser() = try {

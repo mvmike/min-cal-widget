@@ -3,8 +3,8 @@
 package cat.mvmike.minimalcalendarwidget.domain.configuration
 
 import android.content.Context
-import cat.mvmike.minimalcalendarwidget.domain.Format
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Colour
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Format
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.SymbolSet
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Transparency
@@ -16,7 +16,6 @@ import cat.mvmike.minimalcalendarwidget.domain.configuration.item.getThemeDispla
 import cat.mvmike.minimalcalendarwidget.domain.getDayOfWeekDisplayValues
 import cat.mvmike.minimalcalendarwidget.domain.getDisplayValue
 import java.lang.Enum.valueOf
-import java.lang.UnsupportedOperationException
 import java.time.DayOfWeek
 
 const val PREFERENCE_KEY = "mincal_prefs"
@@ -31,13 +30,13 @@ const val SOURCE_URL = "https://github.com/mvmike/min-cal-widget"
 
 const val TRANSLATE_URL = "https://hosted.weblate.org/engage/min-cal-widget"
 
-sealed class Configuration<E>(
+sealed class ConfigurationItem<E>(
     internal open val key: String,
     internal open val defaultValue: E
 ) {
     abstract fun get(context: Context): E
 
-    object WidgetFormat : Configuration<Format>(
+    object WidgetFormat : ConfigurationItem<Format>(
         key = "WIDGET_FORMAT",
         defaultValue = Format(220)
     ) {
@@ -50,7 +49,7 @@ sealed class Configuration<E>(
         private fun getKey(appWidgetId: Int) = "${key}_${appWidgetId}"
     }
 
-    object WidgetTransparency : Configuration<Transparency>(
+    object WidgetTransparency : ConfigurationItem<Transparency>(
         key = "WIDGET_TRANSPARENCY",
         defaultValue = Transparency(20)
     ) {
@@ -60,32 +59,32 @@ sealed class Configuration<E>(
     }
 }
 
-sealed class BooleanConfiguration(
+sealed class BooleanConfigurationItem(
     override val key: String,
     override val defaultValue: Boolean
-) : Configuration<Boolean>(
+) : ConfigurationItem<Boolean>(
     key = key,
     defaultValue = defaultValue
 ) {
     override fun get(context: Context) =
         getConfiguration(context).getBoolean(key, defaultValue)
 
-    object WidgetShowDeclinedEvents : BooleanConfiguration(
+    object WidgetShowDeclinedEvents : BooleanConfigurationItem(
         key = "WIDGET_SHOW_DECLINED_EVENTS",
         defaultValue = false
     )
 
-    object WidgetFocusOnCurrentWeek : BooleanConfiguration(
+    object WidgetFocusOnCurrentWeek : BooleanConfigurationItem(
         key = "WIDGET_FOCUS_ON_CURRENT_WEEK",
         defaultValue = false
     )
 }
 
-sealed class EnumConfiguration<E : Enum<E>>(
+sealed class EnumConfigurationItem<E : Enum<E>>(
     override val key: String,
     override val defaultValue: E,
     private val enumClass: Class<E>
-) : Configuration<E>(
+) : ConfigurationItem<E>(
     key = key,
     defaultValue = defaultValue
 ) {
@@ -104,7 +103,7 @@ sealed class EnumConfiguration<E : Enum<E>>(
 
     abstract fun getCurrentDisplayValue(context: Context): String
 
-    object WidgetTheme : EnumConfiguration<Theme>(
+    object WidgetTheme : EnumConfigurationItem<Theme>(
         key = "WIDGET_THEME",
         enumClass = Theme::class.java,
         defaultValue = Theme.DARK
@@ -114,7 +113,7 @@ sealed class EnumConfiguration<E : Enum<E>>(
         override fun getCurrentDisplayValue(context: Context) = get(context).getDisplayValue(context)
     }
 
-    object FirstDayOfWeek : EnumConfiguration<DayOfWeek>(
+    object FirstDayOfWeek : EnumConfigurationItem<DayOfWeek>(
         key = "FIRST_DAY_OF_WEEK",
         enumClass = DayOfWeek::class.java,
         defaultValue = DayOfWeek.MONDAY
@@ -124,7 +123,7 @@ sealed class EnumConfiguration<E : Enum<E>>(
         override fun getCurrentDisplayValue(context: Context) = get(context).getDisplayValue(context)
     }
 
-    object InstancesSymbolSet : EnumConfiguration<SymbolSet>(
+    object InstancesSymbolSet : EnumConfigurationItem<SymbolSet>(
         key = "INSTANCES_SYMBOL_SET",
         enumClass = SymbolSet::class.java,
         defaultValue = SymbolSet.MINIMAL
@@ -134,7 +133,7 @@ sealed class EnumConfiguration<E : Enum<E>>(
         override fun getCurrentDisplayValue(context: Context) = get(context).getDisplayValue(context)
     }
 
-    object InstancesColour : EnumConfiguration<Colour>(
+    object InstancesColour : EnumConfigurationItem<Colour>(
         key = "INSTANCES_COLOUR",
         enumClass = Colour::class.java,
         defaultValue = getAvailableColors().first()
