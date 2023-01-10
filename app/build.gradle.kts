@@ -135,7 +135,7 @@ dependencies {
     }
 
     // https://github.com/junit-team/junit5/releases
-    val junitJupiterVersion = "5.9.1"
+    val junitJupiterVersion = "5.9.2"
     testImplementation("org.junit.jupiter:junit-jupiter-api:$junitJupiterVersion")
     testImplementation("org.junit.jupiter:junit-jupiter-engine:$junitJupiterVersion")
     testImplementation("org.junit.jupiter:junit-jupiter-params:$junitJupiterVersion")
