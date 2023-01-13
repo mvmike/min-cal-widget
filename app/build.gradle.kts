@@ -125,14 +125,10 @@ android {
 dependencies {
 
     // https://developer.android.com/jetpack/androidx/versions/
-    implementation("androidx.appcompat:appcompat:1.5.1")
+    implementation("androidx.appcompat:appcompat:1.6.0")
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.multidex:multidex:2.0.1")
-    implementation("androidx.preference:preference-ktx:1.2.0"){
-        // TODO remove after https://issuetracker.google.com/issues/238425626 is fixed
-        exclude(group="androidx.lifecycle", module="lifecycle-viewmodel")
-        exclude(group="androidx.lifecycle", module="lifecycle-viewmodel-ktx")
-    }
+    implementation("androidx.preference:preference-ktx:1.2.0")
 
     // https://github.com/junit-team/junit5/releases
     val junitJupiterVersion = "5.9.2"
