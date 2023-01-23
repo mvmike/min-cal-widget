@@ -1,0 +1,5 @@
+v2.7.1
+- added chinese (traditional) and yen languages
+- updated turkish translations
+- fix minor bug on some lenovo devices
+- technical maintenance
