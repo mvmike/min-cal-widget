@@ -13,6 +13,7 @@
 
 · English
 · Catalan
+· Chinese (Traditional)
 · Croatian
 · Dutch
 · Esperanto
@@ -27,6 +28,7 @@
 · Russian
 · Spanish
 · Turkish
+· Yue
 
 You can help out translating through our weblate project page
 https://hosted.weblate.org/engage/min-cal-widget
