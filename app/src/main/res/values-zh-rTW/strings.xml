@@ -1,62 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="april">四月</string>
-    <string name="tuesday">星期二</string>
-    <string name="appearance">外觀</string>
-    <string name="theme">佈景主題</string>
-    <string name="symbol_colour">符號色彩</string>
-    <string name="transparency">透明度</string>
-    <string name="september">九月</string>
-    <string name="wednesday_abb">三</string>
-    <string name="january">一月</string>
+
+    <!--CHINESE (TRADITIONAL)-->
+    <string name="app_name" translatable="false">MinCal Widget</string>
+
+    <!--Configuration-->
+    <string name="configuration">組態設定</string>
+
     <string name="behaviour">行為</string>
     <string name="start_week_day">起始日</string>
-    <string name="black">黑色</string>
-    <string name="configuration">組態設定</string>
+    <string name="show_declined_events">顯示已拒絕事件</string>
+    <string name="focus_on_current_week">專注於目前一週</string>
+
+    <string name="appearance">外觀</string>
+    <string name="theme">佈景主題</string>
+    <string name="symbol_set">符號集</string>
+    <string name="symbol_colour">符號色彩</string>
+    <string name="transparency">透明度</string>
+
+    <string name="about">關於</string>
+    <string name="source">原始碼</string>
     <string name="translate">翻譯</string>
     <string name="version">版本</string>
-    <string name="focus_on_current_week">專注於目前一週</string>
-    <string name="symbol_set">符號集</string>
-    <string name="source">原始碼</string>
-    <string name="december">十二月</string>
-    <string name="monday">星期一</string>
-    <string name="friday_abb">五</string>
-    <string name="show_declined_events">顯示已拒絕事件</string>
-    <string name="about">關於</string>
+
+    <!-- Months of year-->
+    <string name="january">一月</string>
     <string name="february">二月</string>
+    <string name="march">三月</string>
+    <string name="april">四月</string>
+    <string name="may">五月</string>
+    <string name="june">六月</string>
+    <string name="july">七月</string>
+    <string name="august">八月</string>
+    <string name="september">九月</string>
+    <string name="october">十月</string>
+    <string name="november">十一月</string>
+    <string name="december">十二月</string>
+
+    <!--Days of week-->
+    <string name="monday">星期一</string>
+    <string name="tuesday">星期二</string>
+    <string name="wednesday">星期三</string>
+    <string name="thursday">星期四</string>
     <string name="friday">星期五</string>
     <string name="saturday">星期六</string>
     <string name="sunday">星期日</string>
-    <string name="march">三月</string>
-    <string name="november">十一月</string>
-    <string name="thursday">星期四</string>
-    <string name="may">五月</string>
-    <string name="july">七月</string>
-    <string name="august">八月</string>
-    <string name="june">六月</string>
-    <string name="october">十月</string>
-    <string name="wednesday">星期三</string>
-    <string name="thursday_abb">四</string>
-    <string name="light">淺色</string>
+
+    <!--Days of week abbreviated-->
     <string name="monday_abb">一</string>
     <string name="tuesday_abb">二</string>
-    <string name="sunday_abb">日</string>
-    <string name="dark">深色</string>
-    <string name="minimal">精簡</string>
+    <string name="wednesday_abb">三</string>
+    <string name="thursday_abb">四</string>
+    <string name="friday_abb">五</string>
     <string name="saturday_abb">六</string>
+    <string name="sunday_abb">日</string>
+
+    <!--Themes-->
+    <string name="dark">深色</string>
+    <string name="light">淺色</string>
+
+    <!--Symbols-->
+    <string name="minimal">精簡</string>
     <string name="vertical">垂直</string>
     <string name="circles">圓點</string>
-    <string name="roman">羅馬數字</string>
     <string name="numbers">數字</string>
-    <string name="no_calendar_application">找不到行事曆應用程式</string>
-    <string name="cyan">粉藍</string>
+    <string name="roman">羅馬數字</string>
     <string name="binary">二進位</string>
-    <string name="mint">粉綠</string>
-    <string name="system_accent">系統主色</string>
-    <string name="blue">藍色</string>
-    <string name="white">白色</string>
     <string name="none">無</string>
+
+    <!--Colours-->
+    <string name="system_accent">系統主色</string>
+    <string name="cyan">粉藍</string>
+    <string name="blue">藍色</string>
+    <string name="mint">粉綠</string>
     <string name="green">綠色</string>
     <string name="yellow">黃色</string>
+    <string name="black">黑色</string>
+    <string name="white">白色</string>
+
+    <!-- messages-->
+    <string name="no_calendar_application">找不到行事曆應用程式</string>
     <string name="no_browser_application">找不到瀏覽器應用程式</string>
+
 </resources>
