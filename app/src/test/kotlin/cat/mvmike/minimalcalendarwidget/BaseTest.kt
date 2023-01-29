@@ -3,29 +3,19 @@
 package cat.mvmike.minimalcalendarwidget
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import cat.mvmike.minimalcalendarwidget.domain.configuration.BooleanConfigurationItem
 import cat.mvmike.minimalcalendarwidget.domain.configuration.ConfigurationItem
 import cat.mvmike.minimalcalendarwidget.domain.configuration.EnumConfigurationItem
-import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Colour
-import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Format
-import cat.mvmike.minimalcalendarwidget.domain.configuration.item.SymbolSet
-import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
-import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Transparency
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.*
 import cat.mvmike.minimalcalendarwidget.infrastructure.activity.CalendarActivity
 import cat.mvmike.minimalcalendarwidget.infrastructure.activity.ConfigurationActivity
 import cat.mvmike.minimalcalendarwidget.infrastructure.activity.PermissionsActivity
 import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.CalendarResolver
 import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.GraphicResolver
 import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.SystemResolver
-import io.mockk.clearAllMocks
-import io.mockk.confirmVerified
-import io.mockk.every
-import io.mockk.justRun
-import io.mockk.mockk
-import io.mockk.mockkObject
-import io.mockk.unmockkAll
-import io.mockk.verify
+import io.mockk.*
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.TestInstance
@@ -33,7 +23,7 @@ import java.time.DayOfWeek
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
-import java.util.TimeZone
+import java.util.*
 
 private const val PREFERENCES_ID: String = "mincal_prefs"
 
@@ -47,6 +37,8 @@ open class BaseTest {
     protected val context = mockk<Context>()
     protected val editor = mockk<SharedPreferences.Editor>()
     private val sharedPreferences = mockk<SharedPreferences>()
+
+    protected val intent = mockk<Intent>()
 
     @BeforeEach
     fun beforeEach() {
@@ -267,5 +259,12 @@ open class BaseTest {
                 EnumConfigurationItem.InstancesColour.defaultValue.name
             )
         }
+    }
+
+    @Suppress("DEPRECATION")
+    protected fun mockIntent(action: String, extra: Instant? = null) {
+        every { intent.getAction() } returns action
+        every { intent.getSerializableExtra("extra") } returns extra as java.io.Serializable?
+        every { intent.getSerializableExtra("extra", Instant::class.java) } returns extra
     }
 }

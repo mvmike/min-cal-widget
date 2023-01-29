@@ -13,6 +13,8 @@ import android.text.style.StyleSpan
 import android.widget.RemoteViews
 import androidx.core.content.ContextCompat
 import cat.mvmike.minimalcalendarwidget.R
+import cat.mvmike.minimalcalendarwidget.domain.intent.ActionableView
+import java.time.Instant
 
 object GraphicResolver {
 
@@ -55,8 +57,8 @@ object GraphicResolver {
         dayHeaderSpSt.setSpan(RelativeSizeSpan(textRelativeSize), 0, dayHeaderSpSt.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
 
         val dayRv = getById(context, layoutId)
-        dayRv.setTextViewText(android.R.id.text1, dayHeaderSpSt)
-        dayRv.setTextColor(android.R.id.text1, getColour(context, textColour))
+        dayRv.setTextViewText(viewId, dayHeaderSpSt)
+        dayRv.setTextColor(viewId, getColour(context, textColour))
         dayHeaderBackgroundColour?.let {
             setBackgroundColor(dayRv, viewId, it)
         }
@@ -79,7 +81,8 @@ object GraphicResolver {
         instancesColour: Int,
         instancesRelativeSize: Float,
         dayBackgroundColour: Int?,
-        textRelativeSize: Float
+        textRelativeSize: Float,
+        time: Instant,
     ) {
         val daySpSt = SpannableString(text)
         if (dayOfMonthInBold) {
@@ -94,6 +97,7 @@ object GraphicResolver {
         val dayRv = getById(context, dayLayout)
         dayRv.setTextViewText(android.R.id.text1, daySpSt)
         dayRv.setTextColor(android.R.id.text1, getColour(context, textColour))
+        ActionableView.OPEN_CALENDAR.addListener(context, dayRv, time)
         dayBackgroundColour?.let {
             setBackgroundColor(dayRv, viewId, it)
         }

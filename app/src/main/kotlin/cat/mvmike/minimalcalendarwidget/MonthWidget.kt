@@ -31,7 +31,7 @@ class MonthWidget : AppWidgetProvider() {
 
     override fun onReceive(context: Context, intent: Intent) {
         super.onReceive(context, intent)
-        ProcessIntentUseCase.execute(context, intent.action)
+        ProcessIntentUseCase.execute(context, intent)
     }
 
     override fun onDisabled(context: Context) {

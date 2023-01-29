@@ -14,7 +14,7 @@ import cat.mvmike.minimalcalendarwidget.domain.component.LayoutService
 import cat.mvmike.minimalcalendarwidget.domain.component.MonthAndYearHeaderService
 import cat.mvmike.minimalcalendarwidget.domain.configuration.ConfigurationItem
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.getFormat
-import cat.mvmike.minimalcalendarwidget.domain.intent.addAllListeners
+import cat.mvmike.minimalcalendarwidget.domain.intent.ActionableView
 
 object RedrawWidgetUseCase {
 
@@ -48,8 +48,6 @@ object RedrawWidgetUseCase {
         val widgetRemoteView = RemoteViews(context.packageName, R.layout.widget)
         widgetRemoteView.removeAllViews(R.id.calendar_days_layout)
 
-        addAllListeners(context, widgetRemoteView)
-
         val format = when {
             upsertFormat -> getFormat(context, appWidgetManager, appWidgetId)
                 ?.also { ConfigurationItem.WidgetFormat.set(context, it, appWidgetId) }
@@ -76,6 +74,8 @@ object RedrawWidgetUseCase {
             widgetRemoteView = widgetRemoteView,
             format = format
         )
+
+        ActionableView.OPEN_CONFIGURATION.addListener(context, widgetRemoteView)
 
         appWidgetManager.updateAppWidget(appWidgetId, widgetRemoteView)
     }
