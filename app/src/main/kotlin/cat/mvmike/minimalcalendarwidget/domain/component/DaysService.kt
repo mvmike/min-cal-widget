@@ -20,6 +20,7 @@ import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.GraphicResolver
 import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.SystemResolver
 import java.time.DayOfWeek
 import java.time.LocalDate
+import java.time.ZoneId
 import java.time.temporal.ChronoField
 import java.time.temporal.ChronoUnit
 
@@ -84,7 +85,8 @@ object DaysService {
                     instancesColour = dayInstancesColour,
                     instancesRelativeSize = instancesSymbolSet.relativeSize,
                     dayBackgroundColour = backgroundWithTransparency,
-                    textRelativeSize = format.dayCellTextRelativeSize
+                    textRelativeSize = format.dayCellTextRelativeSize,
+                    time = currentDay.dayLocalDate.atStartOfDay(ZoneId.systemDefault()).toInstant()
                 )
             }
 

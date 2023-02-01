@@ -32,18 +32,20 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
         ]
     )
     fun shouldDoNothing_whenNoActionableViewIntent(action: String) {
-        ProcessIntentUseCase.execute(context, action)
+        mockIntent(action)
+        ProcessIntentUseCase.execute(context, intent)
     }
 
     @ParameterizedTest
     @EnumSource(value = ActionableView::class)
     fun shouldLaunchPermissionsActivity_whenNoUpdateIntentAndNoPermissionsGiven(actionableView: ActionableView) {
         val action = actionableView.action
+        mockIntent(action)
 
         mockIsReadCalendarPermitted(false)
         justRun { PermissionsActivity.Companion.start(context) }
 
-        ProcessIntentUseCase.execute(context, action)
+        ProcessIntentUseCase.execute(context, intent)
 
         verify { CalendarResolver.isReadCalendarPermitted(context) }
         verify { PermissionsActivity.Companion.start(context) }
@@ -53,11 +55,12 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
     fun shouldLaunchConfigurationActivityAndRedrawWidgetWithUpsertFormat_whenOpenConfigurationIntentAndPermissionsGiven() {
         mockIsReadCalendarPermitted(true)
         mockkObject(RedrawWidgetUseCase)
+        mockIntent(ActionableView.OPEN_CONFIGURATION.action)
 
         justRun { ConfigurationActivity.Companion.start(context) }
         justRun { RedrawWidgetUseCase.execute(context, true) }
 
-        ProcessIntentUseCase.execute(context, ActionableView.OPEN_CONFIGURATION.action)
+        ProcessIntentUseCase.execute(context, intent)
 
         verify { CalendarResolver.isReadCalendarPermitted(context) }
         verify { ConfigurationActivity.Companion.start(context) }
@@ -70,15 +73,16 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
         mockIsReadCalendarPermitted(true)
         mockGetSystemInstant(instant)
         mockkObject(RedrawWidgetUseCase)
+        mockIntent(ActionableView.OPEN_CALENDAR.action, instant)
 
         justRun { CalendarActivity.start(context, instant) }
         justRun { RedrawWidgetUseCase.execute(context, true) }
 
-        ProcessIntentUseCase.execute(context, ActionableView.OPEN_CALENDAR.action)
+        ProcessIntentUseCase.execute(context, intent)
 
         verify { CalendarResolver.isReadCalendarPermitted(context) }
-        verify { SystemResolver.getSystemInstant() }
         verify { CalendarActivity.start(context, instant) }
+        verify { SystemResolver.getRuntimeSDK() }
         verify { RedrawWidgetUseCase.execute(context, true) }
     }
 }
