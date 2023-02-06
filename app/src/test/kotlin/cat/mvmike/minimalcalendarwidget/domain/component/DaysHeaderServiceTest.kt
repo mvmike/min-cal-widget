@@ -5,14 +5,7 @@ package cat.mvmike.minimalcalendarwidget.domain.component
 import android.widget.RemoteViews
 import cat.mvmike.minimalcalendarwidget.BaseTest
 import cat.mvmike.minimalcalendarwidget.R
-import cat.mvmike.minimalcalendarwidget.domain.configuration.item.CELL_VIEW_ID
-import cat.mvmike.minimalcalendarwidget.domain.configuration.item.DARK_THEME_MAIN_TEXT_COLOUR
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Format
-import cat.mvmike.minimalcalendarwidget.domain.configuration.item.LIGHT_THEME_MAIN_TEXT_COLOUR
-import cat.mvmike.minimalcalendarwidget.domain.configuration.item.SATURDAY_IN_MONTH_DARK_THEME_CELL_BACKGROUND
-import cat.mvmike.minimalcalendarwidget.domain.configuration.item.SATURDAY_IN_MONTH_LIGHT_THEME_CELL_BACKGROUND
-import cat.mvmike.minimalcalendarwidget.domain.configuration.item.SUNDAY_IN_MONTH_DARK_THEME_CELL_BACKGROUND
-import cat.mvmike.minimalcalendarwidget.domain.configuration.item.SUNDAY_IN_MONTH_LIGHT_THEME_CELL_BACKGROUND
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Transparency
 import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.GraphicResolver
@@ -56,7 +49,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
         mockFirstDayOfWeek(startWeekDay)
         mockWidgetTheme(theme)
         expectedDayHeaders.forEach {
-            mockGetDayHeaderCellBackground(it.cellBackground)
+            mockGetDayHeaderCellBackground(it.getCellHeader(theme).background)
             val resourceAndTranslation = it.dayOfWeek.getExpectedResourceIdAndTranslation()
             every { context.getString(resourceAndTranslation.first) } returns resourceAndTranslation.second
         }
@@ -72,7 +65,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
         verify(exactly = 1) { GraphicResolver.createDaysHeaderRow(context) }
         expectedDayHeaders.forEach {
             verify { context.getString(it.dayOfWeek.getExpectedResourceIdAndTranslation().first) }
-            verifyGetDayHeaderCellBackground(it.cellBackground)
+            verifyGetDayHeaderCellBackground(it.getCellHeader(theme).background)
         }
         verifyOrder {
             expectedDayHeaders.forEach {
@@ -80,10 +73,10 @@ internal class DaysHeaderServiceTest : BaseTest() {
                     context = context,
                     daysHeaderRow = daysHeaderRowRv,
                     text = it.expectedHeaderText,
-                    textColour = it.expectedHeaderTextColour,
-                    layoutId = theme.getCellHeader(it.dayOfWeek).layout,
-                    viewId = CELL_VIEW_ID,
-                    dayHeaderBackgroundColour = it.cellBackground,
+                    textColour = it.getCellHeader(theme).textColour,
+                    layoutId = it.getCellHeader(theme).layout,
+                    viewId = it.getCellHeader(theme).id,
+                    dayHeaderBackgroundColour = it.getCellHeader(theme).background,
                     textRelativeSize = format.headerTextRelativeSize
                 )
             }
@@ -96,310 +89,310 @@ internal class DaysHeaderServiceTest : BaseTest() {
     private fun getStartWeekDayAndThemeAndFormatWithExpectedOutput() = Stream.of(
         Arguments.of(
             MONDAY, Theme.DARK, Format(220), listOf(
-                DayHeaderTestProperties(MONDAY, "MON", DARK_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(TUESDAY, "DOO", DARK_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(WEDNESDAY, "WED", DARK_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(THURSDAY, "THU", DARK_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(FRIDAY, "FRI", DARK_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(SATURDAY, "SAT", DARK_THEME_MAIN_TEXT_COLOUR, SATURDAY_IN_MONTH_DARK_THEME_CELL_BACKGROUND),
-                DayHeaderTestProperties(SUNDAY, "SUN", DARK_THEME_MAIN_TEXT_COLOUR, SUNDAY_IN_MONTH_DARK_THEME_CELL_BACKGROUND)
+                DayHeaderTestProperties(MONDAY, "MON"),
+                DayHeaderTestProperties(TUESDAY, "DOO"),
+                DayHeaderTestProperties(WEDNESDAY, "WED"),
+                DayHeaderTestProperties(THURSDAY, "THU"),
+                DayHeaderTestProperties(FRIDAY, "FRI"),
+                DayHeaderTestProperties(SATURDAY, "SAT"),
+                DayHeaderTestProperties(SUNDAY, "SUN")
             )
         ),
         Arguments.of(
             TUESDAY, Theme.DARK, Format(220), listOf(
-                DayHeaderTestProperties(TUESDAY, "DOO", DARK_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(WEDNESDAY, "WED", DARK_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(THURSDAY, "THU", DARK_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(FRIDAY, "FRI", DARK_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(SATURDAY, "SAT", DARK_THEME_MAIN_TEXT_COLOUR, SATURDAY_IN_MONTH_DARK_THEME_CELL_BACKGROUND),
-                DayHeaderTestProperties(SUNDAY, "SUN", DARK_THEME_MAIN_TEXT_COLOUR, SUNDAY_IN_MONTH_DARK_THEME_CELL_BACKGROUND),
-                DayHeaderTestProperties(MONDAY, "MON", DARK_THEME_MAIN_TEXT_COLOUR)
+                DayHeaderTestProperties(TUESDAY, "DOO"),
+                DayHeaderTestProperties(WEDNESDAY, "WED"),
+                DayHeaderTestProperties(THURSDAY, "THU"),
+                DayHeaderTestProperties(FRIDAY, "FRI"),
+                DayHeaderTestProperties(SATURDAY, "SAT"),
+                DayHeaderTestProperties(SUNDAY, "SUN"),
+                DayHeaderTestProperties(MONDAY, "MON")
             )
         ),
         Arguments.of(
             WEDNESDAY, Theme.DARK, Format(220), listOf(
-                DayHeaderTestProperties(WEDNESDAY, "WED", DARK_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(THURSDAY, "THU", DARK_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(FRIDAY, "FRI", DARK_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(SATURDAY, "SAT", DARK_THEME_MAIN_TEXT_COLOUR, SATURDAY_IN_MONTH_DARK_THEME_CELL_BACKGROUND),
-                DayHeaderTestProperties(SUNDAY, "SUN", DARK_THEME_MAIN_TEXT_COLOUR, SUNDAY_IN_MONTH_DARK_THEME_CELL_BACKGROUND),
-                DayHeaderTestProperties(MONDAY, "MON", DARK_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(TUESDAY, "DOO", DARK_THEME_MAIN_TEXT_COLOUR)
+                DayHeaderTestProperties(WEDNESDAY, "WED"),
+                DayHeaderTestProperties(THURSDAY, "THU"),
+                DayHeaderTestProperties(FRIDAY, "FRI"),
+                DayHeaderTestProperties(SATURDAY, "SAT"),
+                DayHeaderTestProperties(SUNDAY, "SUN"),
+                DayHeaderTestProperties(MONDAY, "MON"),
+                DayHeaderTestProperties(TUESDAY, "DOO")
             )
         ),
         Arguments.of(
             THURSDAY, Theme.DARK, Format(220), listOf(
-                DayHeaderTestProperties(THURSDAY, "THU", DARK_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(FRIDAY, "FRI", DARK_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(SATURDAY, "SAT", DARK_THEME_MAIN_TEXT_COLOUR, SATURDAY_IN_MONTH_DARK_THEME_CELL_BACKGROUND),
-                DayHeaderTestProperties(SUNDAY, "SUN", DARK_THEME_MAIN_TEXT_COLOUR, SUNDAY_IN_MONTH_DARK_THEME_CELL_BACKGROUND),
-                DayHeaderTestProperties(MONDAY, "MON", DARK_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(TUESDAY, "DOO", DARK_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(WEDNESDAY, "WED", DARK_THEME_MAIN_TEXT_COLOUR)
+                DayHeaderTestProperties(THURSDAY, "THU"),
+                DayHeaderTestProperties(FRIDAY, "FRI"),
+                DayHeaderTestProperties(SATURDAY, "SAT"),
+                DayHeaderTestProperties(SUNDAY, "SUN"),
+                DayHeaderTestProperties(MONDAY, "MON"),
+                DayHeaderTestProperties(TUESDAY, "DOO"),
+                DayHeaderTestProperties(WEDNESDAY, "WED")
             )
         ),
         Arguments.of(
             FRIDAY, Theme.DARK, Format(220), listOf(
-                DayHeaderTestProperties(FRIDAY, "FRI", DARK_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(SATURDAY, "SAT", DARK_THEME_MAIN_TEXT_COLOUR, SATURDAY_IN_MONTH_DARK_THEME_CELL_BACKGROUND),
-                DayHeaderTestProperties(SUNDAY, "SUN", DARK_THEME_MAIN_TEXT_COLOUR, SUNDAY_IN_MONTH_DARK_THEME_CELL_BACKGROUND),
-                DayHeaderTestProperties(MONDAY, "MON", DARK_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(TUESDAY, "DOO", DARK_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(WEDNESDAY, "WED", DARK_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(THURSDAY, "THU", DARK_THEME_MAIN_TEXT_COLOUR)
+                DayHeaderTestProperties(FRIDAY, "FRI"),
+                DayHeaderTestProperties(SATURDAY, "SAT"),
+                DayHeaderTestProperties(SUNDAY, "SUN"),
+                DayHeaderTestProperties(MONDAY, "MON"),
+                DayHeaderTestProperties(TUESDAY, "DOO"),
+                DayHeaderTestProperties(WEDNESDAY, "WED"),
+                DayHeaderTestProperties(THURSDAY, "THU")
             )
         ),
         Arguments.of(
             SATURDAY, Theme.DARK, Format(220), listOf(
-                DayHeaderTestProperties(SATURDAY, "SAT", DARK_THEME_MAIN_TEXT_COLOUR, SATURDAY_IN_MONTH_DARK_THEME_CELL_BACKGROUND),
-                DayHeaderTestProperties(SUNDAY, "SUN", DARK_THEME_MAIN_TEXT_COLOUR, SUNDAY_IN_MONTH_DARK_THEME_CELL_BACKGROUND),
-                DayHeaderTestProperties(MONDAY, "MON", DARK_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(TUESDAY, "DOO", DARK_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(WEDNESDAY, "WED", DARK_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(THURSDAY, "THU", DARK_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(FRIDAY, "FRI", DARK_THEME_MAIN_TEXT_COLOUR)
+                DayHeaderTestProperties(SATURDAY, "SAT"),
+                DayHeaderTestProperties(SUNDAY, "SUN"),
+                DayHeaderTestProperties(MONDAY, "MON"),
+                DayHeaderTestProperties(TUESDAY, "DOO"),
+                DayHeaderTestProperties(WEDNESDAY, "WED"),
+                DayHeaderTestProperties(THURSDAY, "THU"),
+                DayHeaderTestProperties(FRIDAY, "FRI")
             )
         ),
         Arguments.of(
             SUNDAY, Theme.DARK, Format(220), listOf(
-                DayHeaderTestProperties(SUNDAY, "SUN", DARK_THEME_MAIN_TEXT_COLOUR, SUNDAY_IN_MONTH_DARK_THEME_CELL_BACKGROUND),
-                DayHeaderTestProperties(MONDAY, "MON", DARK_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(TUESDAY, "DOO", DARK_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(WEDNESDAY, "WED", DARK_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(THURSDAY, "THU", DARK_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(FRIDAY, "FRI", DARK_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(SATURDAY, "SAT", DARK_THEME_MAIN_TEXT_COLOUR, SATURDAY_IN_MONTH_DARK_THEME_CELL_BACKGROUND)
+                DayHeaderTestProperties(SUNDAY, "SUN"),
+                DayHeaderTestProperties(MONDAY, "MON"),
+                DayHeaderTestProperties(TUESDAY, "DOO"),
+                DayHeaderTestProperties(WEDNESDAY, "WED"),
+                DayHeaderTestProperties(THURSDAY, "THU"),
+                DayHeaderTestProperties(FRIDAY, "FRI"),
+                DayHeaderTestProperties(SATURDAY, "SAT")
             )
         ),
         Arguments.of(
             MONDAY, Theme.DARK, Format(150), listOf(
-                DayHeaderTestProperties(MONDAY, "M", DARK_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(TUESDAY, "D", DARK_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(WEDNESDAY, "W", DARK_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(THURSDAY, "T", DARK_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(FRIDAY, "F", DARK_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(SATURDAY, "S", DARK_THEME_MAIN_TEXT_COLOUR, SATURDAY_IN_MONTH_DARK_THEME_CELL_BACKGROUND),
-                DayHeaderTestProperties(SUNDAY, "S", DARK_THEME_MAIN_TEXT_COLOUR, SUNDAY_IN_MONTH_DARK_THEME_CELL_BACKGROUND)
+                DayHeaderTestProperties(MONDAY, "M"),
+                DayHeaderTestProperties(TUESDAY, "D"),
+                DayHeaderTestProperties(WEDNESDAY, "W"),
+                DayHeaderTestProperties(THURSDAY, "T"),
+                DayHeaderTestProperties(FRIDAY, "F"),
+                DayHeaderTestProperties(SATURDAY, "S"),
+                DayHeaderTestProperties(SUNDAY, "S")
             )
         ),
         Arguments.of(
             TUESDAY, Theme.DARK, Format(150), listOf(
-                DayHeaderTestProperties(TUESDAY, "D", DARK_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(WEDNESDAY, "W", DARK_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(THURSDAY, "T", DARK_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(FRIDAY, "F", DARK_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(SATURDAY, "S", DARK_THEME_MAIN_TEXT_COLOUR, SATURDAY_IN_MONTH_DARK_THEME_CELL_BACKGROUND),
-                DayHeaderTestProperties(SUNDAY, "S", DARK_THEME_MAIN_TEXT_COLOUR, SUNDAY_IN_MONTH_DARK_THEME_CELL_BACKGROUND),
-                DayHeaderTestProperties(MONDAY, "M", DARK_THEME_MAIN_TEXT_COLOUR)
+                DayHeaderTestProperties(TUESDAY, "D"),
+                DayHeaderTestProperties(WEDNESDAY, "W"),
+                DayHeaderTestProperties(THURSDAY, "T"),
+                DayHeaderTestProperties(FRIDAY, "F"),
+                DayHeaderTestProperties(SATURDAY, "S"),
+                DayHeaderTestProperties(SUNDAY, "S"),
+                DayHeaderTestProperties(MONDAY, "M")
             )
         ),
         Arguments.of(
             WEDNESDAY, Theme.DARK, Format(150), listOf(
-                DayHeaderTestProperties(WEDNESDAY, "W", DARK_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(THURSDAY, "T", DARK_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(FRIDAY, "F", DARK_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(SATURDAY, "S", DARK_THEME_MAIN_TEXT_COLOUR, SATURDAY_IN_MONTH_DARK_THEME_CELL_BACKGROUND),
-                DayHeaderTestProperties(SUNDAY, "S", DARK_THEME_MAIN_TEXT_COLOUR, SUNDAY_IN_MONTH_DARK_THEME_CELL_BACKGROUND),
-                DayHeaderTestProperties(MONDAY, "M", DARK_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(TUESDAY, "D", DARK_THEME_MAIN_TEXT_COLOUR)
+                DayHeaderTestProperties(WEDNESDAY, "W"),
+                DayHeaderTestProperties(THURSDAY, "T"),
+                DayHeaderTestProperties(FRIDAY, "F"),
+                DayHeaderTestProperties(SATURDAY, "S"),
+                DayHeaderTestProperties(SUNDAY, "S"),
+                DayHeaderTestProperties(MONDAY, "M"),
+                DayHeaderTestProperties(TUESDAY, "D")
             )
         ),
         Arguments.of(
             THURSDAY, Theme.DARK, Format(150), listOf(
-                DayHeaderTestProperties(THURSDAY, "T", DARK_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(FRIDAY, "F", DARK_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(SATURDAY, "S", DARK_THEME_MAIN_TEXT_COLOUR, SATURDAY_IN_MONTH_DARK_THEME_CELL_BACKGROUND),
-                DayHeaderTestProperties(SUNDAY, "S", DARK_THEME_MAIN_TEXT_COLOUR, SUNDAY_IN_MONTH_DARK_THEME_CELL_BACKGROUND),
-                DayHeaderTestProperties(MONDAY, "M", DARK_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(TUESDAY, "D", DARK_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(WEDNESDAY, "W", DARK_THEME_MAIN_TEXT_COLOUR)
+                DayHeaderTestProperties(THURSDAY, "T"),
+                DayHeaderTestProperties(FRIDAY, "F"),
+                DayHeaderTestProperties(SATURDAY, "S"),
+                DayHeaderTestProperties(SUNDAY, "S"),
+                DayHeaderTestProperties(MONDAY, "M"),
+                DayHeaderTestProperties(TUESDAY, "D"),
+                DayHeaderTestProperties(WEDNESDAY, "W")
             )
         ),
         Arguments.of(
             FRIDAY, Theme.DARK, Format(150), listOf(
-                DayHeaderTestProperties(FRIDAY, "F", DARK_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(SATURDAY, "S", DARK_THEME_MAIN_TEXT_COLOUR, SATURDAY_IN_MONTH_DARK_THEME_CELL_BACKGROUND),
-                DayHeaderTestProperties(SUNDAY, "S", DARK_THEME_MAIN_TEXT_COLOUR, SUNDAY_IN_MONTH_DARK_THEME_CELL_BACKGROUND),
-                DayHeaderTestProperties(MONDAY, "M", DARK_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(TUESDAY, "D", DARK_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(WEDNESDAY, "W", DARK_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(THURSDAY, "T", DARK_THEME_MAIN_TEXT_COLOUR)
+                DayHeaderTestProperties(FRIDAY, "F"),
+                DayHeaderTestProperties(SATURDAY, "S"),
+                DayHeaderTestProperties(SUNDAY, "S"),
+                DayHeaderTestProperties(MONDAY, "M"),
+                DayHeaderTestProperties(TUESDAY, "D"),
+                DayHeaderTestProperties(WEDNESDAY, "W"),
+                DayHeaderTestProperties(THURSDAY, "T")
             )
         ),
         Arguments.of(
             SATURDAY, Theme.DARK, Format(150), listOf(
-                DayHeaderTestProperties(SATURDAY, "S", DARK_THEME_MAIN_TEXT_COLOUR, SATURDAY_IN_MONTH_DARK_THEME_CELL_BACKGROUND),
-                DayHeaderTestProperties(SUNDAY, "S", DARK_THEME_MAIN_TEXT_COLOUR, SUNDAY_IN_MONTH_DARK_THEME_CELL_BACKGROUND),
-                DayHeaderTestProperties(MONDAY, "M", DARK_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(TUESDAY, "D", DARK_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(WEDNESDAY, "W", DARK_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(THURSDAY, "T", DARK_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(FRIDAY, "F", DARK_THEME_MAIN_TEXT_COLOUR)
+                DayHeaderTestProperties(SATURDAY, "S"),
+                DayHeaderTestProperties(SUNDAY, "S"),
+                DayHeaderTestProperties(MONDAY, "M"),
+                DayHeaderTestProperties(TUESDAY, "D"),
+                DayHeaderTestProperties(WEDNESDAY, "W"),
+                DayHeaderTestProperties(THURSDAY, "T"),
+                DayHeaderTestProperties(FRIDAY, "F")
             )
         ),
         Arguments.of(
             SUNDAY, Theme.DARK, Format(150), listOf(
-                DayHeaderTestProperties(SUNDAY, "S", DARK_THEME_MAIN_TEXT_COLOUR, SUNDAY_IN_MONTH_DARK_THEME_CELL_BACKGROUND),
-                DayHeaderTestProperties(MONDAY, "M", DARK_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(TUESDAY, "D", DARK_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(WEDNESDAY, "W", DARK_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(THURSDAY, "T", DARK_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(FRIDAY, "F", DARK_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(SATURDAY, "S", DARK_THEME_MAIN_TEXT_COLOUR, SATURDAY_IN_MONTH_DARK_THEME_CELL_BACKGROUND)
+                DayHeaderTestProperties(SUNDAY, "S"),
+                DayHeaderTestProperties(MONDAY, "M"),
+                DayHeaderTestProperties(TUESDAY, "D"),
+                DayHeaderTestProperties(WEDNESDAY, "W"),
+                DayHeaderTestProperties(THURSDAY, "T"),
+                DayHeaderTestProperties(FRIDAY, "F"),
+                DayHeaderTestProperties(SATURDAY, "S")
             )
         ),
         Arguments.of(
             MONDAY, Theme.LIGHT, Format(220), listOf(
-                DayHeaderTestProperties(MONDAY, "MON", LIGHT_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(TUESDAY, "DOO", LIGHT_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(WEDNESDAY, "WED", LIGHT_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(THURSDAY, "THU", LIGHT_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(FRIDAY, "FRI", LIGHT_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(SATURDAY, "SAT", LIGHT_THEME_MAIN_TEXT_COLOUR, SATURDAY_IN_MONTH_LIGHT_THEME_CELL_BACKGROUND),
-                DayHeaderTestProperties(SUNDAY, "SUN", LIGHT_THEME_MAIN_TEXT_COLOUR, SUNDAY_IN_MONTH_LIGHT_THEME_CELL_BACKGROUND)
+                DayHeaderTestProperties(MONDAY, "MON"),
+                DayHeaderTestProperties(TUESDAY, "DOO"),
+                DayHeaderTestProperties(WEDNESDAY, "WED"),
+                DayHeaderTestProperties(THURSDAY, "THU"),
+                DayHeaderTestProperties(FRIDAY, "FRI"),
+                DayHeaderTestProperties(SATURDAY, "SAT"),
+                DayHeaderTestProperties(SUNDAY, "SUN")
             )
         ),
         Arguments.of(
             TUESDAY, Theme.LIGHT, Format(220), listOf(
-                DayHeaderTestProperties(TUESDAY, "DOO", LIGHT_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(WEDNESDAY, "WED", LIGHT_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(THURSDAY, "THU", LIGHT_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(FRIDAY, "FRI", LIGHT_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(SATURDAY, "SAT", LIGHT_THEME_MAIN_TEXT_COLOUR, SATURDAY_IN_MONTH_LIGHT_THEME_CELL_BACKGROUND),
-                DayHeaderTestProperties(SUNDAY, "SUN", LIGHT_THEME_MAIN_TEXT_COLOUR, SUNDAY_IN_MONTH_LIGHT_THEME_CELL_BACKGROUND),
-                DayHeaderTestProperties(MONDAY, "MON", LIGHT_THEME_MAIN_TEXT_COLOUR)
+                DayHeaderTestProperties(TUESDAY, "DOO"),
+                DayHeaderTestProperties(WEDNESDAY, "WED"),
+                DayHeaderTestProperties(THURSDAY, "THU"),
+                DayHeaderTestProperties(FRIDAY, "FRI"),
+                DayHeaderTestProperties(SATURDAY, "SAT"),
+                DayHeaderTestProperties(SUNDAY, "SUN"),
+                DayHeaderTestProperties(MONDAY, "MON")
             )
         ),
         Arguments.of(
             WEDNESDAY, Theme.LIGHT, Format(220), listOf(
-                DayHeaderTestProperties(WEDNESDAY, "WED", LIGHT_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(THURSDAY, "THU", LIGHT_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(FRIDAY, "FRI", LIGHT_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(SATURDAY, "SAT", LIGHT_THEME_MAIN_TEXT_COLOUR, SATURDAY_IN_MONTH_LIGHT_THEME_CELL_BACKGROUND),
-                DayHeaderTestProperties(SUNDAY, "SUN", LIGHT_THEME_MAIN_TEXT_COLOUR, SUNDAY_IN_MONTH_LIGHT_THEME_CELL_BACKGROUND),
-                DayHeaderTestProperties(MONDAY, "MON", LIGHT_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(TUESDAY, "DOO", LIGHT_THEME_MAIN_TEXT_COLOUR)
+                DayHeaderTestProperties(WEDNESDAY, "WED"),
+                DayHeaderTestProperties(THURSDAY, "THU"),
+                DayHeaderTestProperties(FRIDAY, "FRI"),
+                DayHeaderTestProperties(SATURDAY, "SAT"),
+                DayHeaderTestProperties(SUNDAY, "SUN"),
+                DayHeaderTestProperties(MONDAY, "MON"),
+                DayHeaderTestProperties(TUESDAY, "DOO")
             )
         ),
         Arguments.of(
             THURSDAY, Theme.LIGHT, Format(220), listOf(
-                DayHeaderTestProperties(THURSDAY, "THU", LIGHT_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(FRIDAY, "FRI", LIGHT_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(SATURDAY, "SAT", LIGHT_THEME_MAIN_TEXT_COLOUR, SATURDAY_IN_MONTH_LIGHT_THEME_CELL_BACKGROUND),
-                DayHeaderTestProperties(SUNDAY, "SUN", LIGHT_THEME_MAIN_TEXT_COLOUR, SUNDAY_IN_MONTH_LIGHT_THEME_CELL_BACKGROUND),
-                DayHeaderTestProperties(MONDAY, "MON", LIGHT_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(TUESDAY, "DOO", LIGHT_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(WEDNESDAY, "WED", LIGHT_THEME_MAIN_TEXT_COLOUR)
+                DayHeaderTestProperties(THURSDAY, "THU"),
+                DayHeaderTestProperties(FRIDAY, "FRI"),
+                DayHeaderTestProperties(SATURDAY, "SAT"),
+                DayHeaderTestProperties(SUNDAY, "SUN"),
+                DayHeaderTestProperties(MONDAY, "MON"),
+                DayHeaderTestProperties(TUESDAY, "DOO"),
+                DayHeaderTestProperties(WEDNESDAY, "WED")
             )
         ),
         Arguments.of(
             FRIDAY, Theme.LIGHT, Format(220), listOf(
-                DayHeaderTestProperties(FRIDAY, "FRI", LIGHT_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(SATURDAY, "SAT", LIGHT_THEME_MAIN_TEXT_COLOUR, SATURDAY_IN_MONTH_LIGHT_THEME_CELL_BACKGROUND),
-                DayHeaderTestProperties(SUNDAY, "SUN", LIGHT_THEME_MAIN_TEXT_COLOUR, SUNDAY_IN_MONTH_LIGHT_THEME_CELL_BACKGROUND),
-                DayHeaderTestProperties(MONDAY, "MON", LIGHT_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(TUESDAY, "DOO", LIGHT_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(WEDNESDAY, "WED", LIGHT_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(THURSDAY, "THU", LIGHT_THEME_MAIN_TEXT_COLOUR)
+                DayHeaderTestProperties(FRIDAY, "FRI"),
+                DayHeaderTestProperties(SATURDAY, "SAT"),
+                DayHeaderTestProperties(SUNDAY, "SUN"),
+                DayHeaderTestProperties(MONDAY, "MON"),
+                DayHeaderTestProperties(TUESDAY, "DOO"),
+                DayHeaderTestProperties(WEDNESDAY, "WED"),
+                DayHeaderTestProperties(THURSDAY, "THU")
             )
         ),
         Arguments.of(
             SATURDAY, Theme.LIGHT, Format(220), listOf(
-                DayHeaderTestProperties(SATURDAY, "SAT", LIGHT_THEME_MAIN_TEXT_COLOUR, SATURDAY_IN_MONTH_LIGHT_THEME_CELL_BACKGROUND),
-                DayHeaderTestProperties(SUNDAY, "SUN", LIGHT_THEME_MAIN_TEXT_COLOUR, SUNDAY_IN_MONTH_LIGHT_THEME_CELL_BACKGROUND),
-                DayHeaderTestProperties(MONDAY, "MON", LIGHT_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(TUESDAY, "DOO", LIGHT_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(WEDNESDAY, "WED", LIGHT_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(THURSDAY, "THU", LIGHT_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(FRIDAY, "FRI", LIGHT_THEME_MAIN_TEXT_COLOUR)
+                DayHeaderTestProperties(SATURDAY, "SAT"),
+                DayHeaderTestProperties(SUNDAY, "SUN"),
+                DayHeaderTestProperties(MONDAY, "MON"),
+                DayHeaderTestProperties(TUESDAY, "DOO"),
+                DayHeaderTestProperties(WEDNESDAY, "WED"),
+                DayHeaderTestProperties(THURSDAY, "THU"),
+                DayHeaderTestProperties(FRIDAY, "FRI")
             )
         ),
         Arguments.of(
             SUNDAY, Theme.LIGHT, Format(220), listOf(
-                DayHeaderTestProperties(SUNDAY, "SUN", LIGHT_THEME_MAIN_TEXT_COLOUR, SUNDAY_IN_MONTH_LIGHT_THEME_CELL_BACKGROUND),
-                DayHeaderTestProperties(MONDAY, "MON", LIGHT_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(TUESDAY, "DOO", LIGHT_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(WEDNESDAY, "WED", LIGHT_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(THURSDAY, "THU", LIGHT_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(FRIDAY, "FRI", LIGHT_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(SATURDAY, "SAT", LIGHT_THEME_MAIN_TEXT_COLOUR, SATURDAY_IN_MONTH_LIGHT_THEME_CELL_BACKGROUND)
+                DayHeaderTestProperties(SUNDAY, "SUN"),
+                DayHeaderTestProperties(MONDAY, "MON"),
+                DayHeaderTestProperties(TUESDAY, "DOO"),
+                DayHeaderTestProperties(WEDNESDAY, "WED"),
+                DayHeaderTestProperties(THURSDAY, "THU"),
+                DayHeaderTestProperties(FRIDAY, "FRI"),
+                DayHeaderTestProperties(SATURDAY, "SAT")
             )
         ),
         Arguments.of(
             MONDAY, Theme.LIGHT, Format(150), listOf(
-                DayHeaderTestProperties(MONDAY, "M", LIGHT_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(TUESDAY, "D", LIGHT_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(WEDNESDAY, "W", LIGHT_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(THURSDAY, "T", LIGHT_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(FRIDAY, "F", LIGHT_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(SATURDAY, "S", LIGHT_THEME_MAIN_TEXT_COLOUR, SATURDAY_IN_MONTH_LIGHT_THEME_CELL_BACKGROUND),
-                DayHeaderTestProperties(SUNDAY, "S", LIGHT_THEME_MAIN_TEXT_COLOUR, SUNDAY_IN_MONTH_LIGHT_THEME_CELL_BACKGROUND)
+                DayHeaderTestProperties(MONDAY, "M"),
+                DayHeaderTestProperties(TUESDAY, "D"),
+                DayHeaderTestProperties(WEDNESDAY, "W"),
+                DayHeaderTestProperties(THURSDAY, "T"),
+                DayHeaderTestProperties(FRIDAY, "F"),
+                DayHeaderTestProperties(SATURDAY, "S"),
+                DayHeaderTestProperties(SUNDAY, "S")
             )
         ),
         Arguments.of(
             TUESDAY, Theme.LIGHT, Format(150), listOf(
-                DayHeaderTestProperties(TUESDAY, "D", LIGHT_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(WEDNESDAY, "W", LIGHT_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(THURSDAY, "T", LIGHT_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(FRIDAY, "F", LIGHT_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(SATURDAY, "S", LIGHT_THEME_MAIN_TEXT_COLOUR, SATURDAY_IN_MONTH_LIGHT_THEME_CELL_BACKGROUND),
-                DayHeaderTestProperties(SUNDAY, "S", LIGHT_THEME_MAIN_TEXT_COLOUR, SUNDAY_IN_MONTH_LIGHT_THEME_CELL_BACKGROUND),
-                DayHeaderTestProperties(MONDAY, "M", LIGHT_THEME_MAIN_TEXT_COLOUR)
+                DayHeaderTestProperties(TUESDAY, "D"),
+                DayHeaderTestProperties(WEDNESDAY, "W"),
+                DayHeaderTestProperties(THURSDAY, "T"),
+                DayHeaderTestProperties(FRIDAY, "F"),
+                DayHeaderTestProperties(SATURDAY, "S"),
+                DayHeaderTestProperties(SUNDAY, "S"),
+                DayHeaderTestProperties(MONDAY, "M")
             )
         ),
         Arguments.of(
             WEDNESDAY, Theme.LIGHT, Format(150), listOf(
-                DayHeaderTestProperties(WEDNESDAY, "W", LIGHT_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(THURSDAY, "T", LIGHT_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(FRIDAY, "F", LIGHT_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(SATURDAY, "S", LIGHT_THEME_MAIN_TEXT_COLOUR, SATURDAY_IN_MONTH_LIGHT_THEME_CELL_BACKGROUND),
-                DayHeaderTestProperties(SUNDAY, "S", LIGHT_THEME_MAIN_TEXT_COLOUR, SUNDAY_IN_MONTH_LIGHT_THEME_CELL_BACKGROUND),
-                DayHeaderTestProperties(MONDAY, "M", LIGHT_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(TUESDAY, "D", LIGHT_THEME_MAIN_TEXT_COLOUR)
+                DayHeaderTestProperties(WEDNESDAY, "W"),
+                DayHeaderTestProperties(THURSDAY, "T"),
+                DayHeaderTestProperties(FRIDAY, "F"),
+                DayHeaderTestProperties(SATURDAY, "S"),
+                DayHeaderTestProperties(SUNDAY, "S"),
+                DayHeaderTestProperties(MONDAY, "M"),
+                DayHeaderTestProperties(TUESDAY, "D")
             )
         ),
         Arguments.of(
             THURSDAY, Theme.LIGHT, Format(150), listOf(
-                DayHeaderTestProperties(THURSDAY, "T", LIGHT_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(FRIDAY, "F", LIGHT_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(SATURDAY, "S", LIGHT_THEME_MAIN_TEXT_COLOUR, SATURDAY_IN_MONTH_LIGHT_THEME_CELL_BACKGROUND),
-                DayHeaderTestProperties(SUNDAY, "S", LIGHT_THEME_MAIN_TEXT_COLOUR, SUNDAY_IN_MONTH_LIGHT_THEME_CELL_BACKGROUND),
-                DayHeaderTestProperties(MONDAY, "M", LIGHT_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(TUESDAY, "D", LIGHT_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(WEDNESDAY, "W", LIGHT_THEME_MAIN_TEXT_COLOUR)
+                DayHeaderTestProperties(THURSDAY, "T"),
+                DayHeaderTestProperties(FRIDAY, "F"),
+                DayHeaderTestProperties(SATURDAY, "S"),
+                DayHeaderTestProperties(SUNDAY, "S"),
+                DayHeaderTestProperties(MONDAY, "M"),
+                DayHeaderTestProperties(TUESDAY, "D"),
+                DayHeaderTestProperties(WEDNESDAY, "W")
             )
         ),
         Arguments.of(
             FRIDAY, Theme.LIGHT, Format(150), listOf(
-                DayHeaderTestProperties(FRIDAY, "F", LIGHT_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(SATURDAY, "S", LIGHT_THEME_MAIN_TEXT_COLOUR, SATURDAY_IN_MONTH_LIGHT_THEME_CELL_BACKGROUND),
-                DayHeaderTestProperties(SUNDAY, "S", LIGHT_THEME_MAIN_TEXT_COLOUR, SUNDAY_IN_MONTH_LIGHT_THEME_CELL_BACKGROUND),
-                DayHeaderTestProperties(MONDAY, "M", LIGHT_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(TUESDAY, "D", LIGHT_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(WEDNESDAY, "W", LIGHT_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(THURSDAY, "T", LIGHT_THEME_MAIN_TEXT_COLOUR)
+                DayHeaderTestProperties(FRIDAY, "F"),
+                DayHeaderTestProperties(SATURDAY, "S"),
+                DayHeaderTestProperties(SUNDAY, "S"),
+                DayHeaderTestProperties(MONDAY, "M"),
+                DayHeaderTestProperties(TUESDAY, "D"),
+                DayHeaderTestProperties(WEDNESDAY, "W"),
+                DayHeaderTestProperties(THURSDAY, "T")
             )
         ),
         Arguments.of(
             SATURDAY, Theme.LIGHT, Format(150), listOf(
-                DayHeaderTestProperties(SATURDAY, "S", LIGHT_THEME_MAIN_TEXT_COLOUR, SATURDAY_IN_MONTH_LIGHT_THEME_CELL_BACKGROUND),
-                DayHeaderTestProperties(SUNDAY, "S", LIGHT_THEME_MAIN_TEXT_COLOUR, SUNDAY_IN_MONTH_LIGHT_THEME_CELL_BACKGROUND),
-                DayHeaderTestProperties(MONDAY, "M", LIGHT_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(TUESDAY, "D", LIGHT_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(WEDNESDAY, "W", LIGHT_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(THURSDAY, "T", LIGHT_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(FRIDAY, "F", LIGHT_THEME_MAIN_TEXT_COLOUR)
+                DayHeaderTestProperties(SATURDAY, "S"),
+                DayHeaderTestProperties(SUNDAY, "S"),
+                DayHeaderTestProperties(MONDAY, "M"),
+                DayHeaderTestProperties(TUESDAY, "D"),
+                DayHeaderTestProperties(WEDNESDAY, "W"),
+                DayHeaderTestProperties(THURSDAY, "T"),
+                DayHeaderTestProperties(FRIDAY, "F")
             )
         ),
         Arguments.of(
             SUNDAY, Theme.LIGHT, Format(150), listOf(
-                DayHeaderTestProperties(SUNDAY, "S", LIGHT_THEME_MAIN_TEXT_COLOUR, SUNDAY_IN_MONTH_LIGHT_THEME_CELL_BACKGROUND),
-                DayHeaderTestProperties(MONDAY, "M", LIGHT_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(TUESDAY, "D", LIGHT_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(WEDNESDAY, "W", LIGHT_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(THURSDAY, "T", LIGHT_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(FRIDAY, "F", LIGHT_THEME_MAIN_TEXT_COLOUR),
-                DayHeaderTestProperties(SATURDAY, "S", LIGHT_THEME_MAIN_TEXT_COLOUR, SATURDAY_IN_MONTH_LIGHT_THEME_CELL_BACKGROUND)
+                DayHeaderTestProperties(SUNDAY, "S"),
+                DayHeaderTestProperties(MONDAY, "M"),
+                DayHeaderTestProperties(TUESDAY, "D"),
+                DayHeaderTestProperties(WEDNESDAY, "W"),
+                DayHeaderTestProperties(THURSDAY, "T"),
+                DayHeaderTestProperties(FRIDAY, "F"),
+                DayHeaderTestProperties(SATURDAY, "S")
             )
         )
     )!!
@@ -431,8 +424,8 @@ internal class DaysHeaderServiceTest : BaseTest() {
 
     internal data class DayHeaderTestProperties(
         val dayOfWeek: DayOfWeek,
-        val expectedHeaderText: String,
-        val expectedHeaderTextColour: Int,
-        val cellBackground: Int? = null
-    )
+        val expectedHeaderText: String
+    ) {
+        fun getCellHeader(theme: Theme) = theme.getCellHeader(dayOfWeek)
+    }
 }
