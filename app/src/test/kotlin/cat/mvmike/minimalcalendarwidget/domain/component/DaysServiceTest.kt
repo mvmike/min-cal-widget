@@ -99,7 +99,7 @@ internal class DaysServiceTest : BaseTest() {
         every { GraphicResolver.parseColour(DAY_CELL_MODERATE_TRANSPARENT_BACKGROUND_IN_HEX) } returns expectedBackground
         every { GraphicResolver.parseColour(DAY_CELL_LOW_TRANSPARENT_BACKGROUND_IN_HEX) } returns expectedBackground
 
-        justRun { GraphicResolver.addToDaysRow(context, rowRv, any(), any(), any(), any(), any(), any(), any(), any(), any()) }
+        justRun { GraphicResolver.addToDaysRow(context, rowRv, any(), any(), any(), any(), any(), any(), any(), any(), any(), any()) }
         justRun { GraphicResolver.addToWidget(widgetRv, rowRv) }
 
         DaysService.draw(context, widgetRv, testProperties.format)
@@ -154,7 +154,8 @@ internal class DaysServiceTest : BaseTest() {
                     instancesColour = dayUseCaseTest.instancesColour,
                     instancesRelativeSize = symbolSet.relativeSize,
                     dayBackgroundColour = dayUseCaseTest.dayBackgroundColour?.let { expectedBackground },
-                    textRelativeSize = testProperties.format.dayCellTextRelativeSize
+                    textRelativeSize = testProperties.format.dayCellTextRelativeSize,
+                    time = any()
                 )
             }
         }
