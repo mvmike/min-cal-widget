@@ -34,7 +34,7 @@ object GraphicResolver {
         monthAndYearSpSt.setSpan(RelativeSizeSpan(textRelativeSize), 0, monthAndYearSpSt.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         monthAndYearSpSt.setSpan(RelativeSizeSpan(headerRelativeYearSize * textRelativeSize), text.length - 4, text.length, 0)
         monthAndYearSpSt.setSpan(ForegroundColorSpan(getColour(context, textColour)), 0, text.length, 0)
-        widgetRemoteView.setTextViewText(R.id.month_year_label, monthAndYearSpSt)
+        widgetRemoteView.setTextViewText(R.id.month_and_year_header, monthAndYearSpSt)
     }
 
     // DAY HEADER

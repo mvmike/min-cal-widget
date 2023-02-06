@@ -50,22 +50,26 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
     }
 
     @Test
-    fun shouldLaunchConfigurationActivityAndRedrawWidgetWithUpsertFormat_whenOpenConfigurationIntentAndPermissionsGiven() {
+    fun shouldLaunchConfigurationActivityAndRedrawWidgetWithUpsertFormat_whenConfigurationIconIntentAndPermissionsGiven() {
         mockIsReadCalendarPermitted(true)
         mockkObject(RedrawWidgetUseCase)
 
         justRun { ConfigurationActivity.Companion.start(context) }
         justRun { RedrawWidgetUseCase.execute(context, true) }
 
-        ProcessIntentUseCase.execute(context, ActionableView.OPEN_CONFIGURATION.action)
+        ProcessIntentUseCase.execute(context, ActionableView.CONFIGURATION_ICON.action)
 
         verify { CalendarResolver.isReadCalendarPermitted(context) }
         verify { ConfigurationActivity.Companion.start(context) }
         verify { RedrawWidgetUseCase.execute(context, true) }
     }
 
-    @Test
-    fun shouldLaunchCalendarActivityAndRedrawWidgetWithUpsertFormat_whenOpenCalendarIntentAndPermissionsGiven() {
+    @ParameterizedTest
+    @EnumSource(
+        value = ActionableView::class,
+        names = ["MONTH_AND_YEAR_HEADER", "CALENDAR_DAYS"]
+    )
+    fun shouldLaunchCalendarActivityAndRedrawWidgetWithUpsertFormat_whenIntentAndPermissionsGiven(actionableView: ActionableView) {
         val instant = now()
         mockIsReadCalendarPermitted(true)
         mockGetSystemInstant(instant)
@@ -74,7 +78,7 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
         justRun { CalendarActivity.start(context, instant) }
         justRun { RedrawWidgetUseCase.execute(context, true) }
 
-        ProcessIntentUseCase.execute(context, ActionableView.OPEN_CALENDAR.action)
+        ProcessIntentUseCase.execute(context, actionableView.action)
 
         verify { CalendarResolver.isReadCalendarPermitted(context) }
         verify { SystemResolver.getSystemInstant() }

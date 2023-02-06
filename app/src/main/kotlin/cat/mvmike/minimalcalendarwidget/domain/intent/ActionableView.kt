@@ -14,18 +14,23 @@ enum class ActionableView(
     val code: Int,
     val action: String
 ) {
-    OPEN_CONFIGURATION(
+    CONFIGURATION_ICON(
         viewId = R.id.configuration_icon,
-        code = 98,
-        action = "action.WIDGET_CONFIGURATION"
+        code = 90,
+        action = "action.mincal.configuration_icon_click"
     ),
-    OPEN_CALENDAR(
+    MONTH_AND_YEAR_HEADER(
+        viewId = R.id.month_and_year_header,
+        code = 91,
+        action = "action.mincal.month_and_year_header_click"
+    ),
+    CALENDAR_DAYS(
         viewId = R.id.calendar_days_layout,
-        code = 99,
-        action = "action.WIDGET_PRESS"
+        code = 92,
+        action = "action.mincal.calendar_days_click"
     );
 
-    fun addListener(context: Context, widgetRemoteView: RemoteViews) =
+    internal fun addListener(context: Context, widgetRemoteView: RemoteViews) =
         widgetRemoteView.setOnClickPendingIntent(
             viewId,
             PendingIntent.getBroadcast(
