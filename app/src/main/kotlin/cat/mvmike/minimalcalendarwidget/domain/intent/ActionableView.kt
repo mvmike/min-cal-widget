@@ -9,7 +9,7 @@ import android.widget.RemoteViews
 import cat.mvmike.minimalcalendarwidget.MonthWidget
 import cat.mvmike.minimalcalendarwidget.R
 import java.time.Instant
-import java.util.*
+import java.util.UUID
 
 enum class ActionableView(
     val viewId: Int,
