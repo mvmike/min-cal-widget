@@ -55,8 +55,8 @@ object GraphicResolver {
         dayHeaderSpSt.setSpan(RelativeSizeSpan(textRelativeSize), 0, dayHeaderSpSt.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
 
         val dayRv = getById(context, layoutId)
-        dayRv.setTextViewText(android.R.id.text1, dayHeaderSpSt)
-        dayRv.setTextColor(android.R.id.text1, getColour(context, textColour))
+        dayRv.setTextViewText(viewId, dayHeaderSpSt)
+        dayRv.setTextColor(viewId, getColour(context, textColour))
         dayHeaderBackgroundColour?.let {
             setBackgroundColor(dayRv, viewId, it)
         }
@@ -92,8 +92,8 @@ object GraphicResolver {
         daySpSt.setSpan(RelativeSizeSpan(instancesRelativeSize), daySpSt.length - 1, daySpSt.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
 
         val dayRv = getById(context, dayLayout)
-        dayRv.setTextViewText(android.R.id.text1, daySpSt)
-        dayRv.setTextColor(android.R.id.text1, getColour(context, textColour))
+        dayRv.setTextViewText(viewId, daySpSt)
+        dayRv.setTextColor(viewId, getColour(context, textColour))
         dayBackgroundColour?.let {
             setBackgroundColor(dayRv, viewId, it)
         }
