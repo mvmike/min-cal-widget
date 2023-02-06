@@ -12,7 +12,6 @@ import cat.mvmike.minimalcalendarwidget.domain.component.MonthAndYearHeaderServi
 import cat.mvmike.minimalcalendarwidget.domain.configuration.ConfigurationItem
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Format
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.getFormat
-import cat.mvmike.minimalcalendarwidget.domain.intent.addAllListeners
 import io.mockk.EqMatcher
 import io.mockk.confirmVerified
 import io.mockk.every
@@ -78,7 +77,6 @@ internal class RedrawWidgetUseCaseTest : BaseTest() {
             DaysService
         )
         mockkStatic(
-            ::addAllListeners,
             ::getFormat
         )
 
@@ -86,8 +84,6 @@ internal class RedrawWidgetUseCaseTest : BaseTest() {
         every { context.packageName } returns packageName
         mockkConstructor(RemoteViews::class)
         justRun { constructedWith<RemoteViews>(EqMatcher(packageName), EqMatcher(2131427390)).removeAllViews(any()) }
-
-        justRun { addAllListeners(context, any()) }
 
         val format = Format(120)
         every { getFormat(context, appWidgetManager, appWidgetId) } returns format
@@ -107,7 +103,6 @@ internal class RedrawWidgetUseCaseTest : BaseTest() {
         verify { editor.putInt("${ConfigurationItem.WidgetFormat.key}_${appWidgetId}", format.width) }
         verify { editor.apply() }
         verify { context.packageName }
-        verify { addAllListeners(context, any()) }
         verify { LayoutService.draw(context, any()) }
         verify { MonthAndYearHeaderService.draw(context, any(), format) }
         verify { DaysHeaderService.draw(context, any(), format) }
@@ -133,9 +128,6 @@ internal class RedrawWidgetUseCaseTest : BaseTest() {
             DaysHeaderService,
             DaysService
         )
-        mockkStatic(
-            ::addAllListeners
-        )
         mockSharedPreferences()
 
         val format = Format(220)
@@ -146,7 +138,6 @@ internal class RedrawWidgetUseCaseTest : BaseTest() {
         mockkConstructor(RemoteViews::class)
         justRun { constructedWith<RemoteViews>(EqMatcher(packageName), EqMatcher(2131427390)).removeAllViews(any()) }
 
-        justRun { addAllListeners(context, any()) }
         every { getFormat(context, appWidgetManager, appWidgetId) } returns format
         justRun { LayoutService.draw(context, any()) }
         justRun { MonthAndYearHeaderService.draw(context, any(), format) }
@@ -159,7 +150,6 @@ internal class RedrawWidgetUseCaseTest : BaseTest() {
 
         verifyWidgetFormat(appWidgetId)
         verify { context.packageName }
-        verify { addAllListeners(context, any()) }
         verify { LayoutService.draw(context, any()) }
         verify { MonthAndYearHeaderService.draw(context, any(), format) }
         verify { DaysHeaderService.draw(context, any(), format) }
@@ -185,9 +175,6 @@ internal class RedrawWidgetUseCaseTest : BaseTest() {
             DaysHeaderService,
             DaysService
         )
-        mockkStatic(
-            ::addAllListeners
-        )
         mockSharedPreferences()
 
         val format = Format(220)
@@ -198,7 +185,6 @@ internal class RedrawWidgetUseCaseTest : BaseTest() {
         mockkConstructor(RemoteViews::class)
         justRun { constructedWith<RemoteViews>(EqMatcher(packageName), EqMatcher(2131427390)).removeAllViews(any()) }
 
-        justRun { addAllListeners(context, any()) }
         every { getFormat(context, appWidgetManager, appWidgetId) } returns null
         justRun { LayoutService.draw(context, any()) }
         justRun { MonthAndYearHeaderService.draw(context, any(), format) }
@@ -211,16 +197,12 @@ internal class RedrawWidgetUseCaseTest : BaseTest() {
 
         verifyWidgetFormat(appWidgetId)
         verify { context.packageName }
-        verify { addAllListeners(context, any()) }
         verify { LayoutService.draw(context, any()) }
         verify { MonthAndYearHeaderService.draw(context, any(), format) }
         verify { DaysHeaderService.draw(context, any(), format) }
         verify { DaysService.draw(context, any(), format) }
 
-        verify { appWidgetManager.updateAppWidget(appWidgetId, any()) }
-
         confirmVerified(
-            appWidgetManager,
             LayoutService,
             MonthAndYearHeaderService,
             DaysHeaderService,
