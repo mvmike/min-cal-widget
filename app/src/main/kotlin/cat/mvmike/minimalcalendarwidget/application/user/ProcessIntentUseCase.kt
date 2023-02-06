@@ -19,8 +19,15 @@ import java.time.Instant
 object ProcessIntentUseCase {
 
     fun execute(context: Context, intent: Intent) = when {
-        intent.action == OPEN_CONFIGURATION.action -> { { ConfigurationActivity.start(context) } }
-        intent.action?.startsWith(OPEN_CALENDAR.action) ?: false -> { { CalendarActivity.start(context, intent.supportGetSerializableExtra("extra", Instant::class.java)) } }
+        intent.action == OPEN_CONFIGURATION.action -> {
+            { ConfigurationActivity.start(context) }
+        }
+        intent.action?.startsWith(OPEN_CALENDAR.action) ?: false -> {
+            { CalendarActivity.start(
+                context,
+                intent.supportGetSerializableExtra("extra", Instant::class.java)
+            ) }
+        }
         else -> null
     }?.let { context.executeAndRedrawOrAskForPermissions(it) }
 
