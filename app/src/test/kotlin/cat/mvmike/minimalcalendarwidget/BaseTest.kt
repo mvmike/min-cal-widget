@@ -34,7 +34,7 @@ import java.time.DayOfWeek
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
-import java.util.*
+import java.util.TimeZone
 
 private const val PREFERENCES_ID: String = "mincal_prefs"
 
