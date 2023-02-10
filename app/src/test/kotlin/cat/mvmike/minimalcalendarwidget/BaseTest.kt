@@ -3,16 +3,15 @@
 package cat.mvmike.minimalcalendarwidget
 
 import android.content.Context
-import android.content.Intent
 import android.content.SharedPreferences
 import cat.mvmike.minimalcalendarwidget.domain.configuration.BooleanConfigurationItem
 import cat.mvmike.minimalcalendarwidget.domain.configuration.ConfigurationItem
 import cat.mvmike.minimalcalendarwidget.domain.configuration.EnumConfigurationItem
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Colour
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Format
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.SymbolSet
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Transparency
-import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Colour
 import cat.mvmike.minimalcalendarwidget.infrastructure.activity.CalendarActivity
 import cat.mvmike.minimalcalendarwidget.infrastructure.activity.ConfigurationActivity
 import cat.mvmike.minimalcalendarwidget.infrastructure.activity.PermissionsActivity
@@ -20,12 +19,12 @@ import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.CalendarResolver
 import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.GraphicResolver
 import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.SystemResolver
 import io.mockk.clearAllMocks
-import io.mockk.unmockkAll
-import io.mockk.mockkObject
 import io.mockk.confirmVerified
-import io.mockk.mockk
-import io.mockk.justRun
 import io.mockk.every
+import io.mockk.justRun
+import io.mockk.mockk
+import io.mockk.mockkObject
+import io.mockk.unmockkAll
 import io.mockk.verify
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
@@ -48,8 +47,6 @@ open class BaseTest {
     protected val context = mockk<Context>()
     protected val editor = mockk<SharedPreferences.Editor>()
     private val sharedPreferences = mockk<SharedPreferences>()
-
-    protected val intent = mockk<Intent>()
 
     @BeforeEach
     fun beforeEach() {
@@ -98,8 +95,8 @@ open class BaseTest {
         every { SystemResolver.getSystemZoneId() } returns zoneId
     }
 
-    protected fun mockIsReadCalendarPermitted(permitted: Boolean) {
-        every { CalendarResolver.isReadCalendarPermitted(context) } returns permitted
+    protected fun mockIsReadCalendarPermitted(isPermitted: Boolean) {
+        every { CalendarResolver.isReadCalendarPermitted(context) } returns isPermitted
     }
 
     protected fun mockSharedPreferences() {
@@ -270,12 +267,5 @@ open class BaseTest {
                 EnumConfigurationItem.InstancesColour.defaultValue.name
             )
         }
-    }
-
-    @Suppress("DEPRECATION")
-    protected fun mockIntent(action: String, extra: Instant? = null) {
-        every { intent.getAction() } returns action
-        every { intent.getSerializableExtra("extra") } returns extra as java.io.Serializable?
-        every { intent.getSerializableExtra("extra", Instant::class.java) } returns extra
     }
 }

@@ -8,40 +8,83 @@ import android.content.Intent
 import android.widget.RemoteViews
 import cat.mvmike.minimalcalendarwidget.MonthWidget
 import cat.mvmike.minimalcalendarwidget.R
+import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.SystemResolver
 import java.time.Instant
-import java.util.UUID
+import java.time.Instant.ofEpochSecond
 
-enum class ActionableView(
-    val viewId: Int,
-    val code: Int,
-    val action: String,
-    val mustBeUnique: Boolean,
+private const val MINCAL_INTENT_ACTION = "action.mincal"
+
+sealed class ActionableView(
+    internal open val viewId: Int,
+    internal open val code: Int,
+    open val action: String
 ) {
-    OPEN_CONFIGURATION(
+
+    object ConfigurationIcon : ActionableView(
         viewId = R.id.configuration_icon,
-        code = 98,
-        action = "action.WIDGET_CONFIGURATION",
-        mustBeUnique = false,
-    ),
-    OPEN_CALENDAR(
-        viewId = android.R.id.text1,
-        code = 99,
-        action = "action.WIDGET_PRESS",
-        mustBeUnique = true,
-    );
+        code = 90,
+        action = "$MINCAL_INTENT_ACTION.configuration_icon_click"
+    )
 
-    fun addListener(context: Context, widgetRemoteView: RemoteViews, extra: Instant? = null) {
-        val intent = Intent(context, MonthWidget::class.java).setAction(if (mustBeUnique) action + UUID.randomUUID().toString() else action)
-        extra?.let { intent.putExtra("extra", extra) }
+    object MonthAndYearHeader : ActionableView(
+        viewId = R.id.month_and_year_header,
+        code = 91,
+        action = "$MINCAL_INTENT_ACTION.month_and_year_header_click"
+    )
 
-        widgetRemoteView.setOnClickPendingIntent(
+    object RowHeader : ActionableView(
+        viewId = R.id.row_header,
+        code = 92,
+        action = "$MINCAL_INTENT_ACTION.row_header_click"
+    )
+
+    object CellDay : ActionableView(
+        viewId = R.id.cell_day,
+        code = 93,
+        action = "$MINCAL_INTENT_ACTION.cell_day_click"
+    ) {
+
+        private const val CELL_DAY_INTENT_EXTRA_NAME = "startOfDayInEpochSeconds"
+
+        override fun addListener(context: Context, remoteViews: RemoteViews) = throw UnsupportedOperationException("must call overloaded addListener method")
+
+        fun addListener(context: Context, remoteViews: RemoteViews, startOfDay: Instant) {
+            remoteViews.setOnClickPendingIntent(
+                viewId,
+                PendingIntent.getBroadcast(
+                    context,
+                    code,
+                    Intent(context, MonthWidget::class.java)
+                        .apply { action = "${CellDay.action}.${startOfDay.epochSecond}" }
+                        .apply { putExtra(CELL_DAY_INTENT_EXTRA_NAME, startOfDay.epochSecond) },
+                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+                )
+            )
+        }
+
+        fun Intent.getExtraInstant() = ofEpochSecond(this.getLongExtra(CELL_DAY_INTENT_EXTRA_NAME, SystemResolver.getSystemInstant().epochSecond))!!
+    }
+
+    internal open fun addListener(context: Context, remoteViews: RemoteViews) =
+        remoteViews.setOnClickPendingIntent(
             viewId,
             PendingIntent.getBroadcast(
                 context,
                 code,
-                intent,
+                Intent(context, MonthWidget::class.java).setAction(action),
                 PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
             )
         )
+}
+
+fun Intent.toActionableView(): ActionableView? {
+    return listOf(
+        ActionableView.ConfigurationIcon,
+        ActionableView.MonthAndYearHeader,
+        ActionableView.RowHeader
+    ).firstOrNull { it.action == this.action } ?: when {
+        this.action == null -> null
+        this.action!!.startsWith(ActionableView.CellDay.action) -> ActionableView.CellDay
+        else -> null
     }
 }

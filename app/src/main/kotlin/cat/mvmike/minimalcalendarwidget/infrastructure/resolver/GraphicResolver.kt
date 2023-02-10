@@ -13,8 +13,6 @@ import android.text.style.StyleSpan
 import android.widget.RemoteViews
 import androidx.core.content.ContextCompat
 import cat.mvmike.minimalcalendarwidget.R
-import cat.mvmike.minimalcalendarwidget.domain.intent.ActionableView
-import java.time.Instant
 
 object GraphicResolver {
 
@@ -36,7 +34,7 @@ object GraphicResolver {
         monthAndYearSpSt.setSpan(RelativeSizeSpan(textRelativeSize), 0, monthAndYearSpSt.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         monthAndYearSpSt.setSpan(RelativeSizeSpan(headerRelativeYearSize * textRelativeSize), text.length - 4, text.length, 0)
         monthAndYearSpSt.setSpan(ForegroundColorSpan(getColour(context, textColour)), 0, text.length, 0)
-        widgetRemoteView.setTextViewText(R.id.month_year_label, monthAndYearSpSt)
+        widgetRemoteView.setTextViewText(R.id.month_and_year_header, monthAndYearSpSt)
     }
 
     // DAY HEADER
@@ -45,7 +43,7 @@ object GraphicResolver {
 
     fun addToDaysHeaderRow(
         context: Context,
-        daysHeaderRow: RemoteViews,
+        daysHeaderRowRemoteView: RemoteViews,
         text: String,
         textColour: Int,
         layoutId: Int,
@@ -62,7 +60,7 @@ object GraphicResolver {
         dayHeaderBackgroundColour?.let {
             setBackgroundColor(dayRv, viewId, it)
         }
-        daysHeaderRow.addView(R.id.row_header, dayRv)
+        daysHeaderRowRemoteView.addView(R.id.row_header, dayRv)
     }
 
     // DAY
@@ -72,7 +70,7 @@ object GraphicResolver {
     @SuppressWarnings("LongParameterList")
     fun addToDaysRow(
         context: Context,
-        weekRow: RemoteViews,
+        weekRowRemoteView: RemoteViews,
         dayLayout: Int,
         viewId: Int,
         text: String,
@@ -81,8 +79,7 @@ object GraphicResolver {
         instancesColour: Int,
         instancesRelativeSize: Float,
         dayBackgroundColour: Int?,
-        textRelativeSize: Float,
-        time: Instant,
+        textRelativeSize: Float
     ) {
         val daySpSt = SpannableString(text)
         if (dayOfMonthInBold) {
@@ -94,14 +91,13 @@ object GraphicResolver {
         daySpSt.setSpan(RelativeSizeSpan(textRelativeSize), 0, daySpSt.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         daySpSt.setSpan(RelativeSizeSpan(instancesRelativeSize), daySpSt.length - 1, daySpSt.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
 
-        val dayRv = getById(context, dayLayout)
-        dayRv.setTextViewText(android.R.id.text1, daySpSt)
-        dayRv.setTextColor(android.R.id.text1, getColour(context, textColour))
-        ActionableView.OPEN_CALENDAR.addListener(context, dayRv, time)
+        val dayRemoteView = getById(context, dayLayout)
+        dayRemoteView.setTextViewText(viewId, daySpSt)
+        dayRemoteView.setTextColor(viewId, getColour(context, textColour))
         dayBackgroundColour?.let {
-            setBackgroundColor(dayRv, viewId, it)
+            setBackgroundColor(dayRemoteView, viewId, it)
         }
-        weekRow.addView(R.id.row_week, dayRv)
+        weekRowRemoteView.addView(R.id.row_week, dayRemoteView)
     }
 
     // COLOUR
