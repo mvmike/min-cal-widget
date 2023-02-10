@@ -125,7 +125,7 @@ android {
 dependencies {
 
     // https://developer.android.com/jetpack/androidx/versions/
-    implementation("androidx.appcompat:appcompat:1.6.0")
+    implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.multidex:multidex:2.0.1")
     implementation("androidx.preference:preference-ktx:1.2.0")
@@ -144,4 +144,7 @@ dependencies {
 
     // https://github.com/TNG/ArchUnit/releases
     testImplementation("com.tngtech.archunit:archunit-junit5:1.0.1")
+
+    // https://github.com/qos-ch/slf4j/tags
+    testImplementation("org.slf4j:slf4j-simple:2.0.6")
 }
