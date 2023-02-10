@@ -91,10 +91,12 @@ internal class DaysHeaderServiceTest : BaseTest() {
         confirmVerified(widgetRv, daysHeaderRowRv)
     }
 
-    @Suppress("UnusedPrivateMember", "LongMethod")
     private fun getStartWeekDayAndThemeAndFormatWithExpectedOutput() = Stream.of(
         Arguments.of(
-            MONDAY, Theme.DARK, Format(220), listOf(
+            MONDAY,
+            Theme.DARK,
+            Format(220),
+            listOf(
                 DayHeaderTestProperties(MONDAY, "MON"),
                 DayHeaderTestProperties(TUESDAY, "DOO"),
                 DayHeaderTestProperties(WEDNESDAY, "WED"),
@@ -105,7 +107,10 @@ internal class DaysHeaderServiceTest : BaseTest() {
             )
         ),
         Arguments.of(
-            TUESDAY, Theme.DARK, Format(220), listOf(
+            TUESDAY,
+            Theme.DARK,
+            Format(220),
+            listOf(
                 DayHeaderTestProperties(TUESDAY, "DOO"),
                 DayHeaderTestProperties(WEDNESDAY, "WED"),
                 DayHeaderTestProperties(THURSDAY, "THU"),
@@ -116,7 +121,10 @@ internal class DaysHeaderServiceTest : BaseTest() {
             )
         ),
         Arguments.of(
-            WEDNESDAY, Theme.DARK, Format(220), listOf(
+            WEDNESDAY,
+            Theme.DARK,
+            Format(220),
+            listOf(
                 DayHeaderTestProperties(WEDNESDAY, "WED"),
                 DayHeaderTestProperties(THURSDAY, "THU"),
                 DayHeaderTestProperties(FRIDAY, "FRI"),
@@ -127,7 +135,10 @@ internal class DaysHeaderServiceTest : BaseTest() {
             )
         ),
         Arguments.of(
-            THURSDAY, Theme.DARK, Format(220), listOf(
+            THURSDAY,
+            Theme.DARK,
+            Format(220),
+            listOf(
                 DayHeaderTestProperties(THURSDAY, "THU"),
                 DayHeaderTestProperties(FRIDAY, "FRI"),
                 DayHeaderTestProperties(SATURDAY, "SAT"),
@@ -138,7 +149,10 @@ internal class DaysHeaderServiceTest : BaseTest() {
             )
         ),
         Arguments.of(
-            FRIDAY, Theme.DARK, Format(220), listOf(
+            FRIDAY,
+            Theme.DARK,
+            Format(220),
+            listOf(
                 DayHeaderTestProperties(FRIDAY, "FRI"),
                 DayHeaderTestProperties(SATURDAY, "SAT"),
                 DayHeaderTestProperties(SUNDAY, "SUN"),
@@ -149,7 +163,10 @@ internal class DaysHeaderServiceTest : BaseTest() {
             )
         ),
         Arguments.of(
-            SATURDAY, Theme.DARK, Format(220), listOf(
+            SATURDAY,
+            Theme.DARK,
+            Format(220),
+            listOf(
                 DayHeaderTestProperties(SATURDAY, "SAT"),
                 DayHeaderTestProperties(SUNDAY, "SUN"),
                 DayHeaderTestProperties(MONDAY, "MON"),
@@ -160,7 +177,10 @@ internal class DaysHeaderServiceTest : BaseTest() {
             )
         ),
         Arguments.of(
-            SUNDAY, Theme.DARK, Format(220), listOf(
+            SUNDAY,
+            Theme.DARK,
+            Format(220),
+            listOf(
                 DayHeaderTestProperties(SUNDAY, "SUN"),
                 DayHeaderTestProperties(MONDAY, "MON"),
                 DayHeaderTestProperties(TUESDAY, "DOO"),
@@ -171,7 +191,10 @@ internal class DaysHeaderServiceTest : BaseTest() {
             )
         ),
         Arguments.of(
-            MONDAY, Theme.DARK, Format(150), listOf(
+            MONDAY,
+            Theme.DARK,
+            Format(150),
+            listOf(
                 DayHeaderTestProperties(MONDAY, "M"),
                 DayHeaderTestProperties(TUESDAY, "D"),
                 DayHeaderTestProperties(WEDNESDAY, "W"),
@@ -182,7 +205,10 @@ internal class DaysHeaderServiceTest : BaseTest() {
             )
         ),
         Arguments.of(
-            TUESDAY, Theme.DARK, Format(150), listOf(
+            TUESDAY,
+            Theme.DARK,
+            Format(150),
+            listOf(
                 DayHeaderTestProperties(TUESDAY, "D"),
                 DayHeaderTestProperties(WEDNESDAY, "W"),
                 DayHeaderTestProperties(THURSDAY, "T"),
@@ -193,7 +219,10 @@ internal class DaysHeaderServiceTest : BaseTest() {
             )
         ),
         Arguments.of(
-            WEDNESDAY, Theme.DARK, Format(150), listOf(
+            WEDNESDAY,
+            Theme.DARK,
+            Format(150),
+            listOf(
                 DayHeaderTestProperties(WEDNESDAY, "W"),
                 DayHeaderTestProperties(THURSDAY, "T"),
                 DayHeaderTestProperties(FRIDAY, "F"),
@@ -204,7 +233,10 @@ internal class DaysHeaderServiceTest : BaseTest() {
             )
         ),
         Arguments.of(
-            THURSDAY, Theme.DARK, Format(150), listOf(
+            THURSDAY,
+            Theme.DARK,
+            Format(150),
+            listOf(
                 DayHeaderTestProperties(THURSDAY, "T"),
                 DayHeaderTestProperties(FRIDAY, "F"),
                 DayHeaderTestProperties(SATURDAY, "S"),
@@ -215,7 +247,10 @@ internal class DaysHeaderServiceTest : BaseTest() {
             )
         ),
         Arguments.of(
-            FRIDAY, Theme.DARK, Format(150), listOf(
+            FRIDAY,
+            Theme.DARK,
+            Format(150),
+            listOf(
                 DayHeaderTestProperties(FRIDAY, "F"),
                 DayHeaderTestProperties(SATURDAY, "S"),
                 DayHeaderTestProperties(SUNDAY, "S"),
@@ -226,7 +261,10 @@ internal class DaysHeaderServiceTest : BaseTest() {
             )
         ),
         Arguments.of(
-            SATURDAY, Theme.DARK, Format(150), listOf(
+            SATURDAY,
+            Theme.DARK,
+            Format(150),
+            listOf(
                 DayHeaderTestProperties(SATURDAY, "S"),
                 DayHeaderTestProperties(SUNDAY, "S"),
                 DayHeaderTestProperties(MONDAY, "M"),
@@ -237,7 +275,10 @@ internal class DaysHeaderServiceTest : BaseTest() {
             )
         ),
         Arguments.of(
-            SUNDAY, Theme.DARK, Format(150), listOf(
+            SUNDAY,
+            Theme.DARK,
+            Format(150),
+            listOf(
                 DayHeaderTestProperties(SUNDAY, "S"),
                 DayHeaderTestProperties(MONDAY, "M"),
                 DayHeaderTestProperties(TUESDAY, "D"),
@@ -248,7 +289,10 @@ internal class DaysHeaderServiceTest : BaseTest() {
             )
         ),
         Arguments.of(
-            MONDAY, Theme.LIGHT, Format(220), listOf(
+            MONDAY,
+            Theme.LIGHT,
+            Format(220),
+            listOf(
                 DayHeaderTestProperties(MONDAY, "MON"),
                 DayHeaderTestProperties(TUESDAY, "DOO"),
                 DayHeaderTestProperties(WEDNESDAY, "WED"),
@@ -259,7 +303,10 @@ internal class DaysHeaderServiceTest : BaseTest() {
             )
         ),
         Arguments.of(
-            TUESDAY, Theme.LIGHT, Format(220), listOf(
+            TUESDAY,
+            Theme.LIGHT,
+            Format(220),
+            listOf(
                 DayHeaderTestProperties(TUESDAY, "DOO"),
                 DayHeaderTestProperties(WEDNESDAY, "WED"),
                 DayHeaderTestProperties(THURSDAY, "THU"),
@@ -270,7 +317,10 @@ internal class DaysHeaderServiceTest : BaseTest() {
             )
         ),
         Arguments.of(
-            WEDNESDAY, Theme.LIGHT, Format(220), listOf(
+            WEDNESDAY,
+            Theme.LIGHT,
+            Format(220),
+            listOf(
                 DayHeaderTestProperties(WEDNESDAY, "WED"),
                 DayHeaderTestProperties(THURSDAY, "THU"),
                 DayHeaderTestProperties(FRIDAY, "FRI"),
@@ -281,7 +331,10 @@ internal class DaysHeaderServiceTest : BaseTest() {
             )
         ),
         Arguments.of(
-            THURSDAY, Theme.LIGHT, Format(220), listOf(
+            THURSDAY,
+            Theme.LIGHT,
+            Format(220),
+            listOf(
                 DayHeaderTestProperties(THURSDAY, "THU"),
                 DayHeaderTestProperties(FRIDAY, "FRI"),
                 DayHeaderTestProperties(SATURDAY, "SAT"),
@@ -292,7 +345,10 @@ internal class DaysHeaderServiceTest : BaseTest() {
             )
         ),
         Arguments.of(
-            FRIDAY, Theme.LIGHT, Format(220), listOf(
+            FRIDAY,
+            Theme.LIGHT,
+            Format(220),
+            listOf(
                 DayHeaderTestProperties(FRIDAY, "FRI"),
                 DayHeaderTestProperties(SATURDAY, "SAT"),
                 DayHeaderTestProperties(SUNDAY, "SUN"),
@@ -303,7 +359,10 @@ internal class DaysHeaderServiceTest : BaseTest() {
             )
         ),
         Arguments.of(
-            SATURDAY, Theme.LIGHT, Format(220), listOf(
+            SATURDAY,
+            Theme.LIGHT,
+            Format(220),
+            listOf(
                 DayHeaderTestProperties(SATURDAY, "SAT"),
                 DayHeaderTestProperties(SUNDAY, "SUN"),
                 DayHeaderTestProperties(MONDAY, "MON"),
@@ -314,7 +373,10 @@ internal class DaysHeaderServiceTest : BaseTest() {
             )
         ),
         Arguments.of(
-            SUNDAY, Theme.LIGHT, Format(220), listOf(
+            SUNDAY,
+            Theme.LIGHT,
+            Format(220),
+            listOf(
                 DayHeaderTestProperties(SUNDAY, "SUN"),
                 DayHeaderTestProperties(MONDAY, "MON"),
                 DayHeaderTestProperties(TUESDAY, "DOO"),
@@ -325,7 +387,10 @@ internal class DaysHeaderServiceTest : BaseTest() {
             )
         ),
         Arguments.of(
-            MONDAY, Theme.LIGHT, Format(150), listOf(
+            MONDAY,
+            Theme.LIGHT,
+            Format(150),
+            listOf(
                 DayHeaderTestProperties(MONDAY, "M"),
                 DayHeaderTestProperties(TUESDAY, "D"),
                 DayHeaderTestProperties(WEDNESDAY, "W"),
@@ -336,7 +401,10 @@ internal class DaysHeaderServiceTest : BaseTest() {
             )
         ),
         Arguments.of(
-            TUESDAY, Theme.LIGHT, Format(150), listOf(
+            TUESDAY,
+            Theme.LIGHT,
+            Format(150),
+            listOf(
                 DayHeaderTestProperties(TUESDAY, "D"),
                 DayHeaderTestProperties(WEDNESDAY, "W"),
                 DayHeaderTestProperties(THURSDAY, "T"),
@@ -347,7 +415,10 @@ internal class DaysHeaderServiceTest : BaseTest() {
             )
         ),
         Arguments.of(
-            WEDNESDAY, Theme.LIGHT, Format(150), listOf(
+            WEDNESDAY,
+            Theme.LIGHT,
+            Format(150),
+            listOf(
                 DayHeaderTestProperties(WEDNESDAY, "W"),
                 DayHeaderTestProperties(THURSDAY, "T"),
                 DayHeaderTestProperties(FRIDAY, "F"),
@@ -358,7 +429,10 @@ internal class DaysHeaderServiceTest : BaseTest() {
             )
         ),
         Arguments.of(
-            THURSDAY, Theme.LIGHT, Format(150), listOf(
+            THURSDAY,
+            Theme.LIGHT,
+            Format(150),
+            listOf(
                 DayHeaderTestProperties(THURSDAY, "T"),
                 DayHeaderTestProperties(FRIDAY, "F"),
                 DayHeaderTestProperties(SATURDAY, "S"),
@@ -369,7 +443,10 @@ internal class DaysHeaderServiceTest : BaseTest() {
             )
         ),
         Arguments.of(
-            FRIDAY, Theme.LIGHT, Format(150), listOf(
+            FRIDAY,
+            Theme.LIGHT,
+            Format(150),
+            listOf(
                 DayHeaderTestProperties(FRIDAY, "F"),
                 DayHeaderTestProperties(SATURDAY, "S"),
                 DayHeaderTestProperties(SUNDAY, "S"),
@@ -380,7 +457,10 @@ internal class DaysHeaderServiceTest : BaseTest() {
             )
         ),
         Arguments.of(
-            SATURDAY, Theme.LIGHT, Format(150), listOf(
+            SATURDAY,
+            Theme.LIGHT,
+            Format(150),
+            listOf(
                 DayHeaderTestProperties(SATURDAY, "S"),
                 DayHeaderTestProperties(SUNDAY, "S"),
                 DayHeaderTestProperties(MONDAY, "M"),
@@ -391,7 +471,10 @@ internal class DaysHeaderServiceTest : BaseTest() {
             )
         ),
         Arguments.of(
-            SUNDAY, Theme.LIGHT, Format(150), listOf(
+            SUNDAY,
+            Theme.LIGHT,
+            Format(150),
+            listOf(
                 DayHeaderTestProperties(SUNDAY, "S"),
                 DayHeaderTestProperties(MONDAY, "M"),
                 DayHeaderTestProperties(TUESDAY, "D"),

@@ -67,7 +67,6 @@ object GraphicResolver {
 
     fun createDaysRow(context: Context) = getById(context, R.layout.row_week)
 
-    @SuppressWarnings("LongParameterList")
     fun addToDaysRow(
         context: Context,
         weekRowRemoteView: RemoteViews,
@@ -117,5 +116,4 @@ object GraphicResolver {
     // INTERNAL UTILS
 
     private fun getById(context: Context, layoutId: Int) = RemoteViews(context.packageName, layoutId)
-
 }

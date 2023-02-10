@@ -95,7 +95,6 @@ internal class FormatTest : BaseTest() {
         confirmVerified(bundle)
     }
 
-    @Suppress("UnusedPrivateMember")
     private fun getWidgetSizeAndExpectedFormat(): Stream<FormatTestProperties> = Stream.of(
         FormatTestProperties(width = 261, expectedDayCellTextRelativeSize = 1.2f),
         FormatTestProperties(width = 260, expectedDayCellTextRelativeSize = 1.2f),

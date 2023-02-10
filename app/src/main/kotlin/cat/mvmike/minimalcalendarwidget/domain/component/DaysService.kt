@@ -32,7 +32,6 @@ object DaysService {
 
     private const val INSTANCES_QUERY_DAYS_SPAN = 45L
 
-    @Suppress("LongMethod")
     fun draw(context: Context, widgetRemoteView: RemoteViews, format: Format) {
         val systemLocalDate: LocalDate = SystemResolver.getSystemLocalDate()
         val firstDayOfWeek = EnumConfigurationItem.FirstDayOfWeek.get(context)

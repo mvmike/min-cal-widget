@@ -21,8 +21,7 @@ data class Instance(
     fun isInDay(day: LocalDate): Boolean {
         val instanceStartLocalDate = LocalDateTime.ofInstant(start, zoneId).toLocalDate()
         val instanceEndLocalDate = LocalDateTime.ofInstant(end.minusMillis(5), zoneId).toLocalDate()
-        return !instanceStartLocalDate.isAfter(day)
-            && !instanceEndLocalDate.isBefore(day)
+        return !instanceStartLocalDate.isAfter(day) && !instanceEndLocalDate.isBefore(day)
     }
 }
 

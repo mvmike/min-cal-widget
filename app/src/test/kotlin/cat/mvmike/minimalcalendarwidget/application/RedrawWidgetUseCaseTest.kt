@@ -106,7 +106,7 @@ internal class RedrawWidgetUseCaseTest : BaseTest() {
 
         verifySharedPreferencesAccess()
         verifySharedPreferencesEdit()
-        verify { editor.putInt("${ConfigurationItem.WidgetFormat.key}_${appWidgetId}", format.width) }
+        verify { editor.putInt("${ConfigurationItem.WidgetFormat.key}_$appWidgetId", format.width) }
         verify { editor.apply() }
         verify { context.packageName }
         verify { ActionableView.ConfigurationIcon.addListener(context, any()) }

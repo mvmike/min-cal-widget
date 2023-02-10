@@ -100,7 +100,6 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
         verify { RedrawWidgetUseCase.execute(context, true) }
     }
 
-    @Suppress("UnusedPrivateMember")
     private fun getMincalIntentActionAndExpectedExtraInstant() = Stream.concat(
         getMincalConfigurationIntentActionAndExpectedExtraInstant(),
         getMincalCalendarIntentActionAndExpectedExtraInstant()
@@ -122,7 +121,6 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
     private fun mockIntent(action: String) {
         every { intent.action } returns action
         every { intent.addFlags(any()) } returns intent
-
     }
 
     private fun mockIntentWithLongExtra(action: String, systemInstant: Instant, extraInstant: Instant) {

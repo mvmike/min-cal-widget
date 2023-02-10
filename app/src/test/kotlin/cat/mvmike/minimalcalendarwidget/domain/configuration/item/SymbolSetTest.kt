@@ -24,7 +24,6 @@ internal class SymbolSetTest : BaseTest() {
         assertThat(symbolSet.get(numberOfInstances)).isEqualTo(expectedCharacter)
     }
 
-    @Suppress("UnusedPrivateMember")
     private fun getSymbolSetAndExpectedCharacter(): Stream<Arguments> = Stream.of(
         Arguments.of(SymbolSet.MINIMAL, 1, '·'),
         Arguments.of(SymbolSet.MINIMAL, 6, '◈'),

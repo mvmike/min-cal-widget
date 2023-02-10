@@ -46,7 +46,6 @@ internal class DaysServiceTest : BaseTest() {
 
     private val rowRv = mockk<RemoteViews>()
 
-    @SuppressWarnings("LongMethod")
     @ParameterizedTest
     @MethodSource("getFormatAndFocusOnCurrentWeekWithExpectedOutput")
     fun draw_shouldReturnSafeDateSpanOfSystemTimeZoneInstances(testProperties: DrawDaysUseCaseTestProperties) {
@@ -88,7 +87,7 @@ internal class DaysServiceTest : BaseTest() {
             theme.getCellDay(isToday = false, inMonth = true, dayOfWeek = DayOfWeek.SATURDAY),
             theme.getCellDay(isToday = false, inMonth = true, dayOfWeek = DayOfWeek.SUNDAY),
             theme.getCellDay(isToday = false, inMonth = false, dayOfWeek = DayOfWeek.SATURDAY),
-            theme.getCellDay(isToday = false, inMonth = false, dayOfWeek = DayOfWeek.SUNDAY),
+            theme.getCellDay(isToday = false, inMonth = false, dayOfWeek = DayOfWeek.SUNDAY)
         ).forEach {
             every { GraphicResolver.getColourAsString(context, it.background!!) } returns DAY_CELL_TRANSPARENT_BACKGROUND
         }
@@ -130,7 +129,6 @@ internal class DaysServiceTest : BaseTest() {
                         DayOfWeek.SUNDAY -> GraphicResolver.parseColour(DAY_CELL_MODERATE_TRANSPARENT_BACKGROUND_IN_HEX)
                         else -> GraphicResolver.parseColour(DAY_CELL_LOW_TRANSPARENT_BACKGROUND_IN_HEX)
                     }
-
                 }
             }
 
@@ -191,7 +189,6 @@ internal class DaysServiceTest : BaseTest() {
         assertThat(result).isEqualTo(expectedNumberOfInstances)
     }
 
-    @Suppress("LongMethod")
     private fun getSystemInstances(): Set<Instance> {
         val random = Random()
         return setOf(
@@ -384,7 +381,6 @@ internal class DaysServiceTest : BaseTest() {
         .parse(this, DateTimeFormatter.ISO_ZONED_DATE_TIME)
         .toInstant(zoneOffset)
 
-    @Suppress("UnusedPrivateMember")
     private fun getFormatAndFocusOnCurrentWeekWithExpectedOutput() = Stream.of(
         DrawDaysUseCaseTestProperties(Format(50), false, getDrawDaysUseCaseTestProperties()),
         DrawDaysUseCaseTestProperties(Format(130), true, getDrawDaysUseCaseTestProperties()),
@@ -439,7 +435,6 @@ internal class DaysServiceTest : BaseTest() {
         DrawDaysUseCaseTestDayProperties("2019-01-06", "  6 ·", DayOfWeek.SUNDAY)
     )
 
-    @Suppress("UnusedPrivateMember")
     private fun getSystemLocalDateAndFirstDayOfWeekWithExpectedCurrentWeekFocusedInitialLocalDate() = Stream.of(
         Arguments.of(of(2022, 2, 24), DayOfWeek.MONDAY, of(2022, 2, 14)),
         Arguments.of(of(2022, 2, 27), DayOfWeek.MONDAY, of(2022, 2, 14)),
@@ -454,7 +449,6 @@ internal class DaysServiceTest : BaseTest() {
         Arguments.of(of(2022, 2, 27), DayOfWeek.SUNDAY, of(2022, 2, 20))
     )
 
-    @Suppress("UnusedPrivateMember")
     private fun getSystemLocalDateAndFirstDayOfWeekWithExpectedNaturalMonthInitialLocalDate() = Stream.of(
         Arguments.of(of(2018, 1, 26), DayOfWeek.MONDAY, of(2018, 1, 1)),
         Arguments.of(of(2018, 1, 26), DayOfWeek.TUESDAY, of(2017, 12, 26)),
@@ -478,7 +472,6 @@ internal class DaysServiceTest : BaseTest() {
         Arguments.of(of(2021, 3, 13), DayOfWeek.MONDAY, of(2021, 3, 1))
     )!!
 
-    @Suppress("UnusedPrivateMember", "LongMethod")
     private fun getLocalDateAndIncludeDeclinedEventsWithExpectedNumberOfInstances() = Stream.of(
         Arguments.of(of(2018, 11, 26), false, 1),
         Arguments.of(of(2018, 11, 27), false, 0),
@@ -578,7 +571,7 @@ internal class DaysServiceTest : BaseTest() {
         val dayOfWeek: DayOfWeek,
         val isInMonth: Boolean = false,
         val isToday: Boolean = false
-    ){
+    ) {
         fun startOfDay(zoneOffset: ZoneOffset): Instant =
             LocalDateTime.parse("${day}T00:00:00Z", DateTimeFormatter.ISO_ZONED_DATE_TIME).toInstant(zoneOffset)
     }

@@ -56,5 +56,3 @@ internal fun String.withTransparency(
     transparency: Transparency,
     transparencyRange: TransparencyRange
 ) = GraphicResolver.parseColour("#${transparency.getAlphaInHex(transparencyRange)}${this.takeLast(6)}")
-
-

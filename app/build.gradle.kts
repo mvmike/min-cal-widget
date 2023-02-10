@@ -6,8 +6,8 @@ import org.gradle.api.tasks.testing.logging.TestLogEvent.STANDARD_OUT
 plugins {
     id("com.android.application")
     id("kotlin-android")
-    // https://github.com/detekt/detekt/releases
-    id("io.gitlab.arturbosch.detekt").version("1.22.0")
+    // https://github.com/jeremymailen/kotlinter-gradle/releases
+    id("org.jmailen.kotlinter") version "3.13.0"
 }
 
 android {
@@ -72,10 +72,6 @@ android {
         }
     }
 
-    detekt {
-        config = files("${project.rootDir}/config/detekt/detekt.yml")
-    }
-
     /*
      * To sign release builds, create the file gradle.properties in
      * ~/.gradle/ with this content:
@@ -86,9 +82,9 @@ android {
      * signingKeyPassword=xxx
      */
     val isKeyStoreDefined = project.hasProperty("signingStoreFile")
-            && project.hasProperty("signingStorePassword")
-            && project.hasProperty("signingKeyAlias")
-            && project.hasProperty("signingKeyPassword")
+        && project.hasProperty("signingStorePassword")
+        && project.hasProperty("signingKeyAlias")
+        && project.hasProperty("signingKeyPassword")
     signingConfigs {
         create("release") {
             if (isKeyStoreDefined) {

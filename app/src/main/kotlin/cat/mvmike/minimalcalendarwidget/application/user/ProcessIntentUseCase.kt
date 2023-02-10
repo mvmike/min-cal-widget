@@ -5,11 +5,11 @@ package cat.mvmike.minimalcalendarwidget.application.user
 import android.content.Context
 import android.content.Intent
 import cat.mvmike.minimalcalendarwidget.application.RedrawWidgetUseCase
+import cat.mvmike.minimalcalendarwidget.domain.intent.ActionableView.CellDay
+import cat.mvmike.minimalcalendarwidget.domain.intent.ActionableView.CellDay.getExtraInstant
 import cat.mvmike.minimalcalendarwidget.domain.intent.ActionableView.ConfigurationIcon
 import cat.mvmike.minimalcalendarwidget.domain.intent.ActionableView.MonthAndYearHeader
 import cat.mvmike.minimalcalendarwidget.domain.intent.ActionableView.RowHeader
-import cat.mvmike.minimalcalendarwidget.domain.intent.ActionableView.CellDay
-import cat.mvmike.minimalcalendarwidget.domain.intent.ActionableView.CellDay.getExtraInstant
 import cat.mvmike.minimalcalendarwidget.domain.intent.toActionableView
 import cat.mvmike.minimalcalendarwidget.infrastructure.activity.CalendarActivity
 import cat.mvmike.minimalcalendarwidget.infrastructure.activity.ConfigurationActivity

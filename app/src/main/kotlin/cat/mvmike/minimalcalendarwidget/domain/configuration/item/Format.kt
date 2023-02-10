@@ -45,9 +45,9 @@ data class Format(
 }
 
 fun getFormat(context: Context, appWidgetManager: AppWidgetManager, appWidgetId: Int) = runCatching {
-   appWidgetManager.getAppWidgetOptions(appWidgetId)
-       .getWidth(context)
-       ?.let { Format(it) }
+    appWidgetManager.getAppWidgetOptions(appWidgetId)
+        .getWidth(context)
+        ?.let { Format(it) }
 }.getOrNull()
 
 private fun Bundle.getWidth(context: Context) = when (context.resources.configuration.orientation) {

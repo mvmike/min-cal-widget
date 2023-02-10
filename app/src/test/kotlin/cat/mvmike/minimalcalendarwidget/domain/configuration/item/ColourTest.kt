@@ -27,7 +27,7 @@ internal class ColourTest : BaseTest() {
 
     @ParameterizedTest
     @EnumSource(value = Colour::class)
-    fun getInstancesColour_shouldAlwaysReturnTheSameValueWhenIsToday(colour: Colour){
+    fun getInstancesColour_shouldAlwaysReturnTheSameValueWhenIsToday(colour: Colour) {
         Theme.values().forEach {
             val todayInstancesColour = colour.getInstancesColour(true, it)
             assertThat(todayInstancesColour).isEqualTo(INSTANCES_COLOUR_TODAY_ID)

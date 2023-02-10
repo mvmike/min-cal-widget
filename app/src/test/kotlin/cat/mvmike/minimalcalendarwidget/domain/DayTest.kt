@@ -60,7 +60,6 @@ internal class DayTest : BaseTest() {
         assertThat(result).isEqualTo(dayProperties.expectedIsToday)
     }
 
-    @Suppress("UnusedPrivateMember", "LongMethod")
     private fun getLocalDatesWithExpectations(): Stream<DayTestProperties> = Stream.of(
         DayTestProperties(
             localDate = LocalDate.of(2018, 1, 1),

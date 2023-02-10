@@ -120,7 +120,7 @@ open class BaseTest {
     protected fun mockWidgetFormat(format: Format, appWidgetId: Int) {
         every {
             sharedPreferences.getInt(
-                "${ConfigurationItem.WidgetFormat.key}_${appWidgetId}",
+                "${ConfigurationItem.WidgetFormat.key}_$appWidgetId",
                 ConfigurationItem.WidgetFormat.defaultValue.width
             )
         } returns format.width
@@ -130,7 +130,7 @@ open class BaseTest {
         verifySharedPreferencesAccess()
         verify {
             sharedPreferences.getInt(
-                "${ConfigurationItem.WidgetFormat.key}_${appWidgetId}",
+                "${ConfigurationItem.WidgetFormat.key}_$appWidgetId",
                 ConfigurationItem.WidgetFormat.defaultValue.width
             )
         }
