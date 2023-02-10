@@ -16,6 +16,7 @@ import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.TransparencyRange
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.withTransparency
 import cat.mvmike.minimalcalendarwidget.domain.getInstances
+import cat.mvmike.minimalcalendarwidget.domain.intent.ActionableView.CellDay
 import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.GraphicResolver
 import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.SystemResolver
 import java.time.DayOfWeek
@@ -31,6 +32,7 @@ object DaysService {
 
     private const val INSTANCES_QUERY_DAYS_SPAN = 45L
 
+    @Suppress("LongMethod")
     fun draw(context: Context, widgetRemoteView: RemoteViews, format: Format) {
         val systemLocalDate: LocalDate = SystemResolver.getSystemLocalDate()
         val firstDayOfWeek = EnumConfigurationItem.FirstDayOfWeek.get(context)
@@ -75,7 +77,7 @@ object DaysService {
 
                 GraphicResolver.addToDaysRow(
                     context = context,
-                    weekRow = weekRow,
+                    weekRowRemoteView = weekRow,
                     dayLayout = dayCell.layout,
                     viewId = dayCell.id,
                     text = " ${currentDay.getDayOfMonthString()} $instancesSymbol",
@@ -85,6 +87,11 @@ object DaysService {
                     instancesRelativeSize = instancesSymbolSet.relativeSize,
                     dayBackgroundColour = backgroundWithTransparency,
                     textRelativeSize = format.dayCellTextRelativeSize
+                )
+                CellDay.addListener(
+                    context = context,
+                    remoteViews = widgetRemoteView,
+                    startOfDay = currentDay.dayLocalDate.atStartOfDay(SystemResolver.getSystemZoneId()).toInstant()
                 )
             }
 

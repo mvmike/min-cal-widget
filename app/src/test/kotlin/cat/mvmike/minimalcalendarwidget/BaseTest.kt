@@ -95,8 +95,8 @@ open class BaseTest {
         every { SystemResolver.getSystemZoneId() } returns zoneId
     }
 
-    protected fun mockIsReadCalendarPermitted(permitted: Boolean) {
-        every { CalendarResolver.isReadCalendarPermitted(context) } returns permitted
+    protected fun mockIsReadCalendarPermitted(isPermitted: Boolean) {
+        every { CalendarResolver.isReadCalendarPermitted(context) } returns isPermitted
     }
 
     protected fun mockSharedPreferences() {

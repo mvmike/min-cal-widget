@@ -10,6 +10,7 @@ import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Format
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.TransparencyRange
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.withTransparency
 import cat.mvmike.minimalcalendarwidget.domain.getAbbreviatedDisplayValue
+import cat.mvmike.minimalcalendarwidget.domain.intent.ActionableView
 import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.GraphicResolver
 import java.time.DayOfWeek
 import java.util.Collections
@@ -34,7 +35,7 @@ object DaysHeaderService {
 
             GraphicResolver.addToDaysHeaderRow(
                 context = context,
-                daysHeaderRow = daysHeaderRow,
+                daysHeaderRowRemoteView = daysHeaderRow,
                 text = format.getDayHeaderLabel(dayOfWeek.getAbbreviatedDisplayValue(context)),
                 textColour = cellHeader.textColour,
                 layoutId = cellHeader.layout,
@@ -48,6 +49,7 @@ object DaysHeaderService {
             widgetRemoteView = widgetRemoteView,
             remoteView = daysHeaderRow
         )
+        ActionableView.RowHeader.addListener(context, widgetRemoteView)
     }
 
     private fun getRotatedWeekDays(startDayOfWeek: DayOfWeek): List<DayOfWeek> {

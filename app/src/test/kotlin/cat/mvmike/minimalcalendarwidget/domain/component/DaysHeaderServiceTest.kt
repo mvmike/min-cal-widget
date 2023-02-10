@@ -8,11 +8,13 @@ import cat.mvmike.minimalcalendarwidget.R
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Format
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Transparency
+import cat.mvmike.minimalcalendarwidget.domain.intent.ActionableView
 import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.GraphicResolver
 import io.mockk.confirmVerified
 import io.mockk.every
 import io.mockk.justRun
 import io.mockk.mockk
+import io.mockk.mockkObject
 import io.mockk.verify
 import io.mockk.verifyOrder
 import org.junit.jupiter.params.ParameterizedTest
@@ -42,6 +44,8 @@ internal class DaysHeaderServiceTest : BaseTest() {
         format: Format,
         expectedDayHeaders: List<DayHeaderTestProperties>
     ) {
+        mockkObject(ActionableView.RowHeader)
+
         every { GraphicResolver.createDaysHeaderRow(context) } returns daysHeaderRowRv
 
         mockSharedPreferences()
@@ -56,6 +60,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
 
         justRun { GraphicResolver.addToDaysHeaderRow(context, daysHeaderRowRv, any(), any(), any(), any(), any(), any()) }
         justRun { GraphicResolver.addToWidget(widgetRv, daysHeaderRowRv) }
+        justRun { ActionableView.RowHeader.addListener(context, widgetRv) }
 
         DaysHeaderService.draw(context, widgetRv, format)
 
@@ -71,7 +76,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
             expectedDayHeaders.forEach {
                 GraphicResolver.addToDaysHeaderRow(
                     context = context,
-                    daysHeaderRow = daysHeaderRowRv,
+                    daysHeaderRowRemoteView = daysHeaderRowRv,
                     text = it.expectedHeaderText,
                     textColour = it.getCellHeader(theme).textColour,
                     layoutId = it.getCellHeader(theme).layout,
@@ -82,6 +87,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
             }
         }
         verify(exactly = 1) { GraphicResolver.addToWidget(widgetRv, daysHeaderRowRv) }
+        verify(exactly = 1) { ActionableView.RowHeader.addListener(context, widgetRv) }
         confirmVerified(widgetRv, daysHeaderRowRv)
     }
 

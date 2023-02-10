@@ -43,7 +43,7 @@ object GraphicResolver {
 
     fun addToDaysHeaderRow(
         context: Context,
-        daysHeaderRow: RemoteViews,
+        daysHeaderRowRemoteView: RemoteViews,
         text: String,
         textColour: Int,
         layoutId: Int,
@@ -60,7 +60,7 @@ object GraphicResolver {
         dayHeaderBackgroundColour?.let {
             setBackgroundColor(dayRv, viewId, it)
         }
-        daysHeaderRow.addView(R.id.row_header, dayRv)
+        daysHeaderRowRemoteView.addView(R.id.row_header, dayRv)
     }
 
     // DAY
@@ -70,7 +70,7 @@ object GraphicResolver {
     @SuppressWarnings("LongParameterList")
     fun addToDaysRow(
         context: Context,
-        weekRow: RemoteViews,
+        weekRowRemoteView: RemoteViews,
         dayLayout: Int,
         viewId: Int,
         text: String,
@@ -91,13 +91,13 @@ object GraphicResolver {
         daySpSt.setSpan(RelativeSizeSpan(textRelativeSize), 0, daySpSt.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         daySpSt.setSpan(RelativeSizeSpan(instancesRelativeSize), daySpSt.length - 1, daySpSt.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
 
-        val dayRv = getById(context, dayLayout)
-        dayRv.setTextViewText(viewId, daySpSt)
-        dayRv.setTextColor(viewId, getColour(context, textColour))
+        val dayRemoteView = getById(context, dayLayout)
+        dayRemoteView.setTextViewText(viewId, daySpSt)
+        dayRemoteView.setTextColor(viewId, getColour(context, textColour))
         dayBackgroundColour?.let {
-            setBackgroundColor(dayRv, viewId, it)
+            setBackgroundColor(dayRemoteView, viewId, it)
         }
-        weekRow.addView(R.id.row_week, dayRv)
+        weekRowRemoteView.addView(R.id.row_week, dayRemoteView)
     }
 
     // COLOUR
