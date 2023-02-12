@@ -2,7 +2,6 @@
 <resources>
 
     <!--CHINESE (TRADITIONAL)-->
-    <string name="app_name" translatable="false">MinCal Widget</string>
 
     <!--Configuration-->
     <string name="configuration">組態設定</string>

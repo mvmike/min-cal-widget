@@ -2,7 +2,6 @@
 <resources>
 
     <!--YUE-->
-    <string name="app_name" translatable="false">MinCal Widget</string>
 
     <!--Configuration-->
     <string name="configuration">調校</string>
