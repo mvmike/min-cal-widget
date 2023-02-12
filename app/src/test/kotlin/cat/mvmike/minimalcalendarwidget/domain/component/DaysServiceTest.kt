@@ -46,6 +46,8 @@ internal class DaysServiceTest : BaseTest() {
 
     private val rowRv = mockk<RemoteViews>()
 
+    private val dayRv = mockk<RemoteViews>()
+
     @ParameterizedTest
     @MethodSource("getFormatAndFocusOnCurrentWeekWithExpectedOutput")
     fun draw_shouldReturnSafeDateSpanOfSystemTimeZoneInstances(testProperties: DrawDaysUseCaseTestProperties) {
@@ -94,8 +96,9 @@ internal class DaysServiceTest : BaseTest() {
         every { GraphicResolver.parseColour(DAY_CELL_MODERATE_TRANSPARENT_BACKGROUND_IN_HEX) } returns expectedBackground
         every { GraphicResolver.parseColour(DAY_CELL_LOW_TRANSPARENT_BACKGROUND_IN_HEX) } returns expectedBackground
 
+        every { GraphicResolver.createDay(context, any()) } returns dayRv
         justRun { GraphicResolver.addToDaysRow(context, rowRv, any(), any(), any(), any(), any(), any(), any(), any(), any()) }
-        justRun { ActionableView.CellDay.addListener(context, widgetRv, any()) }
+        justRun { ActionableView.CellDay.addListener(context, dayRv, any()) }
         justRun { GraphicResolver.addToWidget(widgetRv, rowRv) }
 
         DaysService.draw(context, widgetRv, testProperties.format)
@@ -133,10 +136,11 @@ internal class DaysServiceTest : BaseTest() {
             }
 
             verify {
+                GraphicResolver.createDay(context, cellDay.layout)
                 GraphicResolver.addToDaysRow(
                     context = context,
                     weekRowRemoteView = rowRv,
-                    dayLayout = cellDay.layout,
+                    dayRemoteView = dayRv,
                     viewId = cellDay.id,
                     text = dayUseCaseTest.text,
                     textColour = cellDay.textColour,
@@ -146,7 +150,7 @@ internal class DaysServiceTest : BaseTest() {
                     dayBackgroundColour = cellDay.background?.let { expectedBackground },
                     textRelativeSize = testProperties.format.dayCellTextRelativeSize
                 )
-                ActionableView.CellDay.addListener(context, widgetRv, dayUseCaseTest.startOfDay(systemZoneOffset))
+                ActionableView.CellDay.addListener(context, dayRv, dayUseCaseTest.startOfDay(systemZoneOffset))
             }
         }
         verify(exactly = 6) { GraphicResolver.addToWidget(widgetRv, rowRv) }

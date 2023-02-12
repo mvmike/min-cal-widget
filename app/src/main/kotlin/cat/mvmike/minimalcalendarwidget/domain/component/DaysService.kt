@@ -74,10 +74,11 @@ object DaysService {
                         }
                     )
 
+                val dayRemoteView = GraphicResolver.createDay(context, dayCell.layout)
                 GraphicResolver.addToDaysRow(
                     context = context,
                     weekRowRemoteView = weekRow,
-                    dayLayout = dayCell.layout,
+                    dayRemoteView = dayRemoteView,
                     viewId = dayCell.id,
                     text = " ${currentDay.getDayOfMonthString()} $instancesSymbol",
                     textColour = dayCell.textColour,
@@ -89,7 +90,7 @@ object DaysService {
                 )
                 CellDay.addListener(
                     context = context,
-                    remoteViews = widgetRemoteView,
+                    remoteViews = dayRemoteView,
                     startOfDay = currentDay.dayLocalDate.atStartOfDay(SystemResolver.getSystemZoneId()).toInstant()
                 )
             }

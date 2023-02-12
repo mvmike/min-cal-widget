@@ -67,10 +67,12 @@ object GraphicResolver {
 
     fun createDaysRow(context: Context) = getById(context, R.layout.row_week)
 
+    fun createDay(context: Context, dayLayout: Int) = getById(context, dayLayout)
+
     fun addToDaysRow(
         context: Context,
         weekRowRemoteView: RemoteViews,
-        dayLayout: Int,
+        dayRemoteView: RemoteViews,
         viewId: Int,
         text: String,
         textColour: Int,
@@ -90,7 +92,6 @@ object GraphicResolver {
         daySpSt.setSpan(RelativeSizeSpan(textRelativeSize), 0, daySpSt.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         daySpSt.setSpan(RelativeSizeSpan(instancesRelativeSize), daySpSt.length - 1, daySpSt.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
 
-        val dayRemoteView = getById(context, dayLayout)
         dayRemoteView.setTextViewText(viewId, daySpSt)
         dayRemoteView.setTextColor(viewId, getColour(context, textColour))
         dayBackgroundColour?.let {
