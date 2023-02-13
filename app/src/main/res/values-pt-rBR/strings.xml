@@ -10,6 +10,7 @@
     <string name="start_week_day">Dia início</string>
     <string name="show_declined_events">Mostrar eventos recusados</string>
     <string name="focus_on_current_week">Foco na semana atual</string>
+    <string name="open_calendar_into_clicked_day">Abra o calendário no dia clicado</string>
 
     <string name="appearance">Aparência</string>
     <string name="theme">Tema</string>

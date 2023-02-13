@@ -91,6 +91,19 @@ internal class ConfigurationTest : BaseTest() {
     }
 
     @ParameterizedTest
+    @ValueSource(booleans = [true, false])
+    fun getOpenCalendarOnClickedDay_shouldReturnSharedPreferencesValue(openCalendarOnClickedDay: Boolean) {
+        mockSharedPreferences()
+        mockOpenCalendarOnClickedDay(openCalendarOnClickedDay)
+
+        val result = BooleanConfigurationItem.OpenCalendarOnClickedDay.get(context)
+
+        assertThat(result).isEqualTo(openCalendarOnClickedDay)
+        verifyOpenCalendarOnClickedDay()
+        verify { editor wasNot Called }
+    }
+
+    @ParameterizedTest
     @EnumSource(value = Theme::class)
     fun getCalendarTheme_shouldReturnSharedPreferencesValue(theme: Theme) {
         mockSharedPreferences()

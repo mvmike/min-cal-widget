@@ -45,7 +45,17 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
     }
 
     @ParameterizedTest
-    @MethodSource("getMincalIntentActionAndExpectedExtraInstant")
+    @ValueSource(
+        strings = [
+            "action.mincal.configuration_icon_click",
+            "action.mincal.month_and_year_header_click",
+            "action.mincal.row_header_click",
+            "action.mincal.cell_day_click.1675886154",
+            "action.mincal.cell_day_click.1671249586",
+            "action.mincal.cell_day_click.1624398458",
+            "action.mincal.cell_day_click.1434987405"
+        ]
+    )
     fun shouldLaunchPermissionsActivity_whenActionableViewIntentAndNoPermissionsGiven(action: String) {
         mockIntent(action)
         mockIsReadCalendarPermitted(false)
@@ -59,7 +69,11 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
     }
 
     @ParameterizedTest
-    @MethodSource("getMincalConfigurationIntentActionAndExpectedExtraInstant")
+    @ValueSource(
+        strings = [
+            "action.mincal.configuration_icon_click"
+        ]
+    )
     fun shouldLaunchConfigurationActivityAndRedrawWidgetWithUpsertFormat_whenConfigurationIconIntentAndPermissionsGiven(action: String) {
         mockIntent(action)
         mockIsReadCalendarPermitted(true)
@@ -77,41 +91,84 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
     }
 
     @ParameterizedTest
-    @MethodSource("getMincalCalendarIntentActionAndExpectedExtraInstant")
-    fun shouldLaunchCalendarActivityAndRedrawWidgetWithUpsertFormat_whenIntentAndPermissionsGiven(action: String, extraInstant: Instant?) {
+    @ValueSource(
+        strings = [
+            "action.mincal.month_and_year_header_click",
+            "action.mincal.row_header_click"
+        ]
+    )
+    fun shouldLaunchCalendarActivityAndRedrawWidgetWithUpsertFormat_whenIntentAndPermissionsGiven(action: String) {
         val instant = now()
-        extraInstant
-            ?.let { mockIntentWithLongExtra(action, instant, it) }
-            ?: mockIntent(action)
+        mockIntent(action)
         mockIsReadCalendarPermitted(true)
         mockGetSystemInstant(instant)
+        mockOpenCalendarOnClickedDay(false)
         mockkObject(RedrawWidgetUseCase)
 
-        justRun { CalendarActivity.start(context, extraInstant ?: instant) }
+        justRun { CalendarActivity.start(context, instant) }
         justRun { RedrawWidgetUseCase.execute(context, true) }
 
         ProcessIntentUseCase.execute(context, intent)
 
         verify { intent.action }
-        extraInstant?.let { verify { intent.getLongExtra(any(), instant.epochSecond) } }
         verify { CalendarResolver.isReadCalendarPermitted(context) }
         verify { SystemResolver.getSystemInstant() }
-        verify { CalendarActivity.start(context, extraInstant ?: instant) }
+        verify { CalendarActivity.start(context, instant) }
         verify { RedrawWidgetUseCase.execute(context, true) }
     }
 
-    private fun getMincalIntentActionAndExpectedExtraInstant() = Stream.concat(
-        getMincalConfigurationIntentActionAndExpectedExtraInstant(),
-        getMincalCalendarIntentActionAndExpectedExtraInstant()
-    )
+    @ParameterizedTest
+    @MethodSource("getMincalCalendarIntentActionAndExpectedExtraInstant")
+    fun shouldLaunchCalendarActivityOnTodayAndRedrawWidgetWithUpsertFormat_whenIntentAndPermissionsGiven(action: String) {
+        val instant = now()
+        mockIntent(action)
+        mockIsReadCalendarPermitted(true)
+        mockGetSystemInstant(instant)
+        mockSharedPreferences()
+        mockOpenCalendarOnClickedDay(false)
+        mockkObject(RedrawWidgetUseCase)
 
-    private fun getMincalConfigurationIntentActionAndExpectedExtraInstant() = Stream.of(
-        Arguments.of("action.mincal.configuration_icon_click", null)
-    )
+        justRun { CalendarActivity.start(context, instant) }
+        justRun { RedrawWidgetUseCase.execute(context, true) }
+
+        ProcessIntentUseCase.execute(context, intent)
+
+        verify { intent.action }
+        verify { CalendarResolver.isReadCalendarPermitted(context) }
+        verify { SystemResolver.getSystemInstant() }
+        verifySharedPreferencesAccess()
+        verifyOpenCalendarOnClickedDay()
+        verify { CalendarActivity.start(context, instant) }
+        verify { RedrawWidgetUseCase.execute(context, true) }
+    }
+
+    @ParameterizedTest
+    @MethodSource("getMincalCalendarIntentActionAndExpectedExtraInstant")
+    fun shouldLaunchCalendarActivityOnIntentExtraAndRedrawWidgetWithUpsertFormat_whenIntentAndPermissionsGiven(action: String, extraInstant: Instant) {
+        val instant = now()
+        mockIntentWithLongExtra(action, instant, extraInstant)
+        mockIsReadCalendarPermitted(true)
+        mockGetSystemInstant(instant)
+        mockSharedPreferences()
+        mockOpenCalendarOnClickedDay(true)
+        mockkObject(RedrawWidgetUseCase)
+
+        justRun { CalendarActivity.start(context, extraInstant) }
+        justRun { RedrawWidgetUseCase.execute(context, true) }
+
+        ProcessIntentUseCase.execute(context, intent)
+
+        verify { intent.action }
+        verify { intent.getLongExtra(any(), instant.epochSecond) }
+        verify { CalendarResolver.isReadCalendarPermitted(context) }
+        verify { SystemResolver.getSystemInstant() }
+        verifySharedPreferencesAccess()
+        verifyOpenCalendarOnClickedDay()
+        verify { CalendarActivity.start(context, extraInstant) }
+        verify { RedrawWidgetUseCase.execute(context, true) }
+    }
 
     private fun getMincalCalendarIntentActionAndExpectedExtraInstant() = Stream.of(
-        Arguments.of("action.mincal.month_and_year_header_click", null),
-        Arguments.of("action.mincal.row_header_click", null),
         Arguments.of("action.mincal.cell_day_click.1675886154", Instant.ofEpochSecond(1675886154)),
         Arguments.of("action.mincal.cell_day_click.1671249586", Instant.ofEpochSecond(1671249586)),
         Arguments.of("action.mincal.cell_day_click.1624398458", Instant.ofEpochSecond(1624398458)),

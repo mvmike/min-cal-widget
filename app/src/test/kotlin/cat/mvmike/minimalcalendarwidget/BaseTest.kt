@@ -193,6 +193,25 @@ open class BaseTest {
         }
     }
 
+    protected fun mockOpenCalendarOnClickedDay(enabled: Boolean) {
+        every {
+            sharedPreferences.getBoolean(
+                BooleanConfigurationItem.OpenCalendarOnClickedDay.key,
+                BooleanConfigurationItem.OpenCalendarOnClickedDay.defaultValue
+            )
+        } returns enabled
+    }
+
+    protected fun verifyOpenCalendarOnClickedDay() {
+        verifySharedPreferencesAccess()
+        verify {
+            sharedPreferences.getBoolean(
+                BooleanConfigurationItem.OpenCalendarOnClickedDay.key,
+                BooleanConfigurationItem.OpenCalendarOnClickedDay.defaultValue
+            )
+        }
+    }
+
     protected fun mockWidgetTheme(theme: Theme) {
         every {
             sharedPreferences.getString(

@@ -10,6 +10,7 @@
     <string name="start_week_day">Eerste dag</string>
     <string name="show_declined_events">Vise afviste begivenheder</string>
     <string name="focus_on_current_week">Focus op huidige week</string>
+    <string name="open_calendar_into_clicked_day">Åbn kalender til klikket dag</string>
 
     <string name="appearance">Udseende</string>
     <string name="theme">Thema</string>

@@ -10,6 +10,7 @@
     <string name="start_week_day">Komenca tago</string>
     <string name="show_declined_events">Montri malkreskintajn eventojn</string>
     <string name="focus_on_current_week">Koncentru la nunan semajnon</string>
+    <string name="open_calendar_into_clicked_day">Malfermu kalendaron en klakita tago</string>
 
     <string name="appearance">Aspekto</string>
     <string name="theme">Etoso</string>

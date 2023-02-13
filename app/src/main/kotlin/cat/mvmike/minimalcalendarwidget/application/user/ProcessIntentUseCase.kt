@@ -5,6 +5,7 @@ package cat.mvmike.minimalcalendarwidget.application.user
 import android.content.Context
 import android.content.Intent
 import cat.mvmike.minimalcalendarwidget.application.RedrawWidgetUseCase
+import cat.mvmike.minimalcalendarwidget.domain.configuration.BooleanConfigurationItem
 import cat.mvmike.minimalcalendarwidget.domain.intent.ActionableView.CellDay
 import cat.mvmike.minimalcalendarwidget.domain.intent.ActionableView.CellDay.getExtraInstant
 import cat.mvmike.minimalcalendarwidget.domain.intent.ActionableView.ConfigurationIcon
@@ -23,9 +24,14 @@ object ProcessIntentUseCase {
         ConfigurationIcon -> { { ConfigurationActivity.start(context) } }
         MonthAndYearHeader,
         RowHeader -> { { CalendarActivity.start(context, SystemResolver.getSystemInstant()) } }
-        CellDay -> { { CalendarActivity.start(context, intent.getExtraInstant()) } }
+        CellDay -> { { CalendarActivity.start(context, getCalendarStartTime(context, intent)) } }
         else -> null
     }?.let { context.executeAndRedrawOrAskForPermissions(it) }
+
+    private fun getCalendarStartTime(context: Context, intent: Intent) = when {
+        BooleanConfigurationItem.OpenCalendarOnClickedDay.get(context) -> intent.getExtraInstant()
+        else -> SystemResolver.getSystemInstant()
+    }
 
     private fun Context.executeAndRedrawOrAskForPermissions(function: () -> Unit) =
         when (CalendarResolver.isReadCalendarPermitted(this)) {

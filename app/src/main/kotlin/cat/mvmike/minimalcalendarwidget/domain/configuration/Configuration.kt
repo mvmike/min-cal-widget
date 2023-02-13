@@ -78,6 +78,11 @@ sealed class BooleanConfigurationItem(
         key = "WIDGET_FOCUS_ON_CURRENT_WEEK",
         defaultValue = false
     )
+
+    object OpenCalendarOnClickedDay : BooleanConfigurationItem(
+        key = "OPEN_CALENDAR_ON_CLICKED_DAY",
+        defaultValue = false
+    )
 }
 
 sealed class EnumConfigurationItem<E : Enum<E>>(

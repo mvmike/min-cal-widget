@@ -21,6 +21,11 @@
             android:icon="@drawable/ic_view_day"
             android:title="@string/focus_on_current_week" />
 
+        <CheckBoxPreference
+            android:key="OPEN_CALENDAR_ON_CLICKED_DAY"
+            android:icon="@drawable/ic_clicked_cell"
+            android:title="@string/open_calendar_into_clicked_day" />
+
     </PreferenceCategory>
 
     <PreferenceCategory

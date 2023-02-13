@@ -10,6 +10,7 @@
     <string name="start_week_day">Prvi dan tjedna</string>
     <string name="show_declined_events">Prikaži odbijene događaje</string>
     <string name="focus_on_current_week">Usredotoči se na tekući tjedan</string>
+    <string name="open_calendar_into_clicked_day">Otvorite kalendar u kliknuti dan</string>
 
     <string name="appearance">Izgled</string>
     <string name="theme">Tema</string>
