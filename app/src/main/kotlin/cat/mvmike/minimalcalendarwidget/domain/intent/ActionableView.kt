@@ -62,7 +62,18 @@ sealed class ActionableView(
             )
         }
 
-        fun Intent.getExtraInstant() = ofEpochSecond(this.getLongExtra(CELL_DAY_INTENT_EXTRA_NAME, SystemResolver.getSystemInstant().epochSecond))!!
+        fun Intent.getExtraInstant(): Instant {
+            val systemInstant = SystemResolver.getSystemInstant()
+            val systemZoneId = SystemResolver.getSystemZoneId()
+            val extraInstant = ofEpochSecond(this.getLongExtra(CELL_DAY_INTENT_EXTRA_NAME, systemInstant.epochSecond))
+
+            val systemLocalDateTime = systemInstant.atZone(systemZoneId)
+            return extraInstant.atZone(systemZoneId)
+                .withHour(systemLocalDateTime.hour)
+                .withMinute(systemLocalDateTime.minute)
+                .withSecond(systemLocalDateTime.second)
+                .toInstant()
+        }
     }
 
     internal open fun addListener(context: Context, remoteViews: RemoteViews) =

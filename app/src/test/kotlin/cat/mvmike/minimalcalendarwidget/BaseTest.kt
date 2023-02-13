@@ -43,6 +43,7 @@ open class BaseTest {
     protected val zoneId = ZoneId.of("Europe/Moscow")!!
     protected val systemZoneOffset = zoneId.rules.getOffset(Instant.now())!!
     protected val systemLocalDate = LocalDate.of(2018, 12, 4)!!
+    protected val systemInstant = systemLocalDate.atTime(16, 32, 14).toInstant(systemZoneOffset)!!
 
     protected val context = mockk<Context>()
     protected val editor = mockk<SharedPreferences.Editor>()
@@ -83,7 +84,7 @@ open class BaseTest {
         every { SystemResolver.getRuntimeSDK() } returns sdkVersion
     }
 
-    protected fun mockGetSystemInstant(instant: Instant) {
+    protected fun mockGetSystemInstant(instant: Instant = systemInstant) {
         every { SystemResolver.getSystemInstant() } returns instant
     }
 
