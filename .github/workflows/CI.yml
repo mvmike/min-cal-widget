@@ -38,4 +38,4 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
-      - run: ./gradlew clean testRelease assemble
+      - run: ./gradlew clean testRelease assembleRelease
