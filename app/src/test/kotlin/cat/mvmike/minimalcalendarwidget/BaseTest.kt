@@ -7,6 +7,7 @@ import android.content.SharedPreferences
 import cat.mvmike.minimalcalendarwidget.domain.configuration.BooleanConfigurationItem
 import cat.mvmike.minimalcalendarwidget.domain.configuration.ConfigurationItem
 import cat.mvmike.minimalcalendarwidget.domain.configuration.EnumConfigurationItem
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Calendar
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Colour
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Format
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.SymbolSet
@@ -32,7 +33,10 @@ import org.junit.jupiter.api.TestInstance
 import java.time.DayOfWeek
 import java.time.Instant
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.ZoneId
+import java.time.ZoneOffset
+import java.time.format.DateTimeFormatter
 import java.util.TimeZone
 
 private const val PREFERENCES_ID: String = "mincal_prefs"
@@ -156,40 +160,40 @@ open class BaseTest {
         }
     }
 
-    protected fun mockWidgetShowDeclinedEvents(widgetShowDeclinedEvents: Boolean = false) {
+    protected fun mockShowDeclinedEvents(ShowDeclinedEvents: Boolean = false) {
         every {
             sharedPreferences.getBoolean(
-                BooleanConfigurationItem.WidgetShowDeclinedEvents.key,
-                BooleanConfigurationItem.WidgetShowDeclinedEvents.defaultValue
+                BooleanConfigurationItem.ShowDeclinedEvents.key,
+                BooleanConfigurationItem.ShowDeclinedEvents.defaultValue
             )
-        } returns widgetShowDeclinedEvents
+        } returns ShowDeclinedEvents
     }
 
-    protected fun verifyWidgetShowDeclinedEvents() {
+    protected fun verifyShowDeclinedEvents() {
         verifySharedPreferencesAccess()
         verify {
             sharedPreferences.getBoolean(
-                BooleanConfigurationItem.WidgetShowDeclinedEvents.key,
-                BooleanConfigurationItem.WidgetShowDeclinedEvents.defaultValue
+                BooleanConfigurationItem.ShowDeclinedEvents.key,
+                BooleanConfigurationItem.ShowDeclinedEvents.defaultValue
             )
         }
     }
 
-    protected fun mockWidgetFocusOnCurrentWeek(enabled: Boolean) {
+    protected fun mockFocusOnCurrentWeek(enabled: Boolean) {
         every {
             sharedPreferences.getBoolean(
-                BooleanConfigurationItem.WidgetFocusOnCurrentWeek.key,
-                BooleanConfigurationItem.WidgetFocusOnCurrentWeek.defaultValue
+                BooleanConfigurationItem.FocusOnCurrentWeek.key,
+                BooleanConfigurationItem.FocusOnCurrentWeek.defaultValue
             )
         } returns enabled
     }
 
-    protected fun verifyWidgetFocusOnCurrentWeek() {
+    protected fun verifyFocusOnCurrentWeek() {
         verifySharedPreferencesAccess()
         verify {
             sharedPreferences.getBoolean(
-                BooleanConfigurationItem.WidgetFocusOnCurrentWeek.key,
-                BooleanConfigurationItem.WidgetFocusOnCurrentWeek.defaultValue
+                BooleanConfigurationItem.FocusOnCurrentWeek.key,
+                BooleanConfigurationItem.FocusOnCurrentWeek.defaultValue
             )
         }
     }
@@ -228,6 +232,25 @@ open class BaseTest {
             sharedPreferences.getString(
                 EnumConfigurationItem.WidgetTheme.key,
                 EnumConfigurationItem.WidgetTheme.defaultValue.name
+            )
+        }
+    }
+
+    protected fun mockWidgetCalendar(calendar: Calendar) {
+        every {
+            sharedPreferences.getString(
+                EnumConfigurationItem.WidgetCalendar.key,
+                EnumConfigurationItem.WidgetCalendar.defaultValue.name
+            )
+        } returns calendar.name
+    }
+
+    protected fun verifyWidgetCalendar() {
+        verifySharedPreferencesAccess()
+        verify {
+            sharedPreferences.getString(
+                EnumConfigurationItem.WidgetCalendar.key,
+                EnumConfigurationItem.WidgetCalendar.defaultValue.name
             )
         }
     }
@@ -288,4 +311,18 @@ open class BaseTest {
             )
         }
     }
+
+    // UTILS
+
+    protected fun String.toInstant(
+        zoneOffset: ZoneOffset = ZoneOffset.UTC
+    ) = LocalDateTime
+        .parse(
+            when {
+                this.endsWith("Z") -> this
+                else -> this.plus("T00:00:00Z")
+            },
+            DateTimeFormatter.ISO_ZONED_DATE_TIME
+        )
+        .toInstant(zoneOffset)!!
 }

@@ -35,7 +35,7 @@ object DaysService {
     fun draw(context: Context, widgetRemoteView: RemoteViews, format: Format) {
         val systemLocalDate: LocalDate = SystemResolver.getSystemLocalDate()
         val firstDayOfWeek = EnumConfigurationItem.FirstDayOfWeek.get(context)
-        val initialLocalDate = when (BooleanConfigurationItem.WidgetFocusOnCurrentWeek.get(context)) {
+        val initialLocalDate = when (BooleanConfigurationItem.FocusOnCurrentWeek.get(context)) {
             true -> getFocusedOnCurrentWeekInitialLocalDate(systemLocalDate, firstDayOfWeek)
             else -> getNaturalMonthInitialLocalDate(systemLocalDate, firstDayOfWeek)
         }
@@ -49,7 +49,7 @@ object DaysService {
         val instancesSymbolSet = EnumConfigurationItem.InstancesSymbolSet.get(context)
         val instancesColour = EnumConfigurationItem.InstancesColour.get(context)
         val transparency = ConfigurationItem.WidgetTransparency.get(context)
-        val showDeclinedEvents = BooleanConfigurationItem.WidgetShowDeclinedEvents.get(context)
+        val showDeclinedEvents = BooleanConfigurationItem.ShowDeclinedEvents.get(context)
 
         for (week in 0 until NUM_WEEKS) {
             val weekRow: RemoteViews = GraphicResolver.createDaysRow(context)

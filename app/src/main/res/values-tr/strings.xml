@@ -8,6 +8,7 @@
 
     <string name="behaviour">Davranış</string>
     <string name="start_week_day">Başlangıç günü</string>
+    <string name="calendar">Takvim</string>
     <string name="show_declined_events">Reddedilen etkinlikleri göster</string>
     <string name="focus_on_current_week">Geçerli haftaya odaklan</string>
     <string name="open_calendar_into_clicked_day">Takvimi tıklanan güne aç</string>
@@ -55,11 +56,15 @@
     <string name="saturday_abb">Cmt</string>
     <string name="sunday_abb">Paz</string>
 
+    <!--Calendars-->
+    <string name="gregorian">Gregoryen</string>
+    <string name="holocene">Holosen</string>
+
     <!--Themes-->
     <string name="dark">Karanlık</string>
     <string name="light">Aydınlık</string>
 
-    <!--Symbols-->
+    <!--Symbol sets-->
     <string name="minimal">En az</string>
     <string name="vertical">Dikey</string>
     <string name="circles">Daireler</string>
@@ -68,7 +73,7 @@
     <string name="binary">İkili</string>
     <string name="none">Hiçbiri</string>
 
-    <!--Colours-->
+    <!--Symbol colours-->
     <string name="system_accent">Sistem varsayılanı</string>
     <string name="cyan">Camgöbeği</string>
     <string name="blue">Mavi</string>

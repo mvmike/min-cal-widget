@@ -11,13 +11,18 @@
             android:icon="@drawable/ic_today"
             android:title="@string/start_week_day" />
 
+        <ListPreference
+            android:key="WIDGET_CALENDAR"
+            android:icon="@drawable/ic_calendar"
+            android:title="@string/calendar" />
+
         <CheckBoxPreference
-            android:key="WIDGET_SHOW_DECLINED_EVENTS"
+            android:key="SHOW_DECLINED_EVENTS"
             android:icon="@drawable/ic_deleted_events"
             android:title="@string/show_declined_events" />
 
         <CheckBoxPreference
-            android:key="WIDGET_FOCUS_ON_CURRENT_WEEK"
+            android:key="FOCUS_ON_CURRENT_WEEK"
             android:icon="@drawable/ic_view_day"
             android:title="@string/focus_on_current_week" />
 

@@ -66,27 +66,27 @@ internal class ConfigurationTest : BaseTest() {
 
     @ParameterizedTest
     @ValueSource(booleans = [true, false])
-    fun getWidgetShowDeclinedEvents_shouldReturnSharedPreferencesValue(showDeclinedEvents: Boolean) {
+    fun getShowDeclinedEvents_shouldReturnSharedPreferencesValue(showDeclinedEvents: Boolean) {
         mockSharedPreferences()
-        mockWidgetShowDeclinedEvents(showDeclinedEvents)
+        mockShowDeclinedEvents(showDeclinedEvents)
 
-        val result = BooleanConfigurationItem.WidgetShowDeclinedEvents.get(context)
+        val result = BooleanConfigurationItem.ShowDeclinedEvents.get(context)
 
         assertThat(result).isEqualTo(showDeclinedEvents)
-        verifyWidgetShowDeclinedEvents()
+        verifyShowDeclinedEvents()
         verify { editor wasNot Called }
     }
 
     @ParameterizedTest
     @ValueSource(booleans = [true, false])
-    fun getWidgetFocusOnCurrentWeek_shouldReturnSharedPreferencesValue(focusOnCurrentWeek: Boolean) {
+    fun getFocusOnCurrentWeek_shouldReturnSharedPreferencesValue(focusOnCurrentWeek: Boolean) {
         mockSharedPreferences()
-        mockWidgetFocusOnCurrentWeek(focusOnCurrentWeek)
+        mockFocusOnCurrentWeek(focusOnCurrentWeek)
 
-        val result = BooleanConfigurationItem.WidgetFocusOnCurrentWeek.get(context)
+        val result = BooleanConfigurationItem.FocusOnCurrentWeek.get(context)
 
         assertThat(result).isEqualTo(focusOnCurrentWeek)
-        verifyWidgetFocusOnCurrentWeek()
+        verifyFocusOnCurrentWeek()
         verify { editor wasNot Called }
     }
 

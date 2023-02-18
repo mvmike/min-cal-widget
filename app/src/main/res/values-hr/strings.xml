@@ -8,6 +8,7 @@
 
     <string name="behaviour">Ponašanje</string>
     <string name="start_week_day">Prvi dan tjedna</string>
+    <string name="calendar">Kalendar</string>
     <string name="show_declined_events">Prikaži odbijene događaje</string>
     <string name="focus_on_current_week">Usredotoči se na tekući tjedan</string>
     <string name="open_calendar_into_clicked_day">Otvorite kalendar u kliknuti dan</string>
@@ -55,11 +56,15 @@
     <string name="saturday_abb">Sub</string>
     <string name="sunday_abb">Ned</string>
 
+    <!--Calendars-->
+    <string name="gregorian">Gregorijanski</string>
+    <string name="holocene">Holocen</string>
+
     <!--Themes-->
     <string name="dark">Tamna</string>
     <string name="light">Svijetla</string>
 
-    <!--Symbols-->
+    <!--Symbol sets-->
     <string name="minimal">Najmanji</string>
     <string name="vertical">Okomiti</string>
     <string name="circles">Krugovi</string>
@@ -68,7 +73,7 @@
     <string name="binary">Binarni</string>
     <string name="none">Bez</string>
 
-    <!--Colours-->
+    <!--Symbol colours-->
     <string name="system_accent">Boje sustava</string>
     <string name="cyan">Cijan</string>
     <string name="blue">Plava</string>

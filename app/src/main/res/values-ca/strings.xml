@@ -8,6 +8,7 @@
 
     <string name="behaviour">Comportament</string>
     <string name="start_week_day">Dia d\'inici</string>
+    <string name="calendar">Calendari</string>
     <string name="show_declined_events">Mostra esdeveniments rebutjats</string>
     <string name="focus_on_current_week">Focus en la setmana actual</string>
     <string name="open_calendar_into_clicked_day">Obrir calendari en el dia clicat</string>
@@ -55,11 +56,15 @@
     <string name="saturday_abb">Ds</string>
     <string name="sunday_abb">Dg</string>
 
+    <!--Calendars-->
+    <string name="gregorian">Gregorià</string>
+    <string name="holocene">Holocè</string>
+
     <!--Themes-->
     <string name="dark">Fosc</string>
     <string name="light">Clar</string>
 
-    <!--Symbols-->
+    <!--Symbol sets-->
     <string name="minimal">Mínim</string>
     <string name="vertical">Vertical</string>
     <string name="circles">Cercles</string>
@@ -68,7 +73,7 @@
     <string name="binary">Binari</string>
     <string name="none">Cap</string>
 
-    <!--Colours-->
+    <!--Symbol colours-->
     <string name="system_accent">Accent del Sistema</string>
     <string name="cyan">Cian</string>
     <string name="blue">Blau</string>

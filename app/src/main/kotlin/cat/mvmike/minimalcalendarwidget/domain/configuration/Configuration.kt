@@ -3,12 +3,15 @@
 package cat.mvmike.minimalcalendarwidget.domain.configuration
 
 import android.content.Context
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Calendar
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Colour
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Format
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.SymbolSet
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Transparency
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.getAvailableCalendars
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.getAvailableColors
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.getCalendarDisplayValues
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.getColourDisplayValues
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.getDisplayValue
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.getSymbolSetDisplayValues
@@ -69,13 +72,13 @@ sealed class BooleanConfigurationItem(
     override fun get(context: Context) =
         getConfiguration(context).getBoolean(key, defaultValue)
 
-    object WidgetShowDeclinedEvents : BooleanConfigurationItem(
-        key = "WIDGET_SHOW_DECLINED_EVENTS",
+    object ShowDeclinedEvents : BooleanConfigurationItem(
+        key = "SHOW_DECLINED_EVENTS",
         defaultValue = false
     )
 
-    object WidgetFocusOnCurrentWeek : BooleanConfigurationItem(
-        key = "WIDGET_FOCUS_ON_CURRENT_WEEK",
+    object FocusOnCurrentWeek : BooleanConfigurationItem(
+        key = "FOCUS_ON_CURRENT_WEEK",
         defaultValue = false
     )
 
@@ -114,6 +117,18 @@ sealed class EnumConfigurationItem<E : Enum<E>>(
         defaultValue = Theme.DARK
     ) {
         override fun getDisplayValues(context: Context) = getThemeDisplayValues(context)
+
+        override fun getCurrentDisplayValue(context: Context) = get(context).getDisplayValue(context)
+    }
+
+    object WidgetCalendar : EnumConfigurationItem<Calendar>(
+        key = "WIDGET_CALENDAR",
+        enumClass = Calendar::class.java,
+        defaultValue = getAvailableCalendars().first()
+    ) {
+        override fun getEnumConstants() = getAvailableCalendars()
+
+        override fun getDisplayValues(context: Context) = getCalendarDisplayValues(context)
 
         override fun getCurrentDisplayValue(context: Context) = get(context).getDisplayValue(context)
     }

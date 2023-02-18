@@ -9,6 +9,7 @@
 
     <string name="behaviour">Behaviour</string>
     <string name="start_week_day">Start day</string>
+    <string name="calendar">Calendar</string>
     <string name="show_declined_events">Show declined events</string>
     <string name="focus_on_current_week">Focus on current week</string>
     <string name="open_calendar_into_clicked_day">Open calendar into clicked day</string>
@@ -56,11 +57,15 @@
     <string name="saturday_abb">Sat</string>
     <string name="sunday_abb">Sun</string>
 
+    <!--Calendars-->
+    <string name="gregorian">Gregorian</string>
+    <string name="holocene">Holocene</string>
+
     <!--Themes-->
     <string name="dark">Dark</string>
     <string name="light">Light</string>
 
-    <!--Symbols-->
+    <!--Symbol sets-->
     <string name="minimal">Minimal</string>
     <string name="vertical">Vertical</string>
     <string name="circles">Circles</string>
@@ -69,7 +74,7 @@
     <string name="binary">Binary</string>
     <string name="none">None</string>
 
-    <!--Colours-->
+    <!--Symbol colours-->
     <string name="system_accent">System accent</string>
     <string name="cyan">Cyan</string>
     <string name="blue">Blue</string>

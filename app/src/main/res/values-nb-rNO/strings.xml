@@ -8,6 +8,7 @@
 
     <string name="behaviour">Oppførsel</string>
     <string name="start_week_day">Startdag</string>
+    <string name="calendar">Kalender</string>
     <string name="show_declined_events">Vise avviste hendelser</string>
     <string name="focus_on_current_week">Fokus på inneværende uke</string>
     <string name="open_calendar_into_clicked_day">Åpne kalender til klikket dag</string>
@@ -55,11 +56,15 @@
     <string name="saturday_abb">Lør</string>
     <string name="sunday_abb">Søn</string>
 
+    <!--Calendars-->
+    <string name="gregorian">Gregoriansk</string>
+    <string name="holocene">Holocen</string>
+
     <!--Themes-->
     <string name="dark">Mørk</string>
     <string name="light">Lys</string>
 
-    <!--Symbols-->
+    <!--Symbol sets-->
     <string name="minimal">Minimal</string>
     <string name="vertical">Vertikal</string>
     <string name="circles">Sirkler</string>
@@ -68,7 +73,7 @@
     <string name="binary">Binær</string>
     <string name="none">Ingen</string>
 
-    <!--Colours-->
+    <!--Symbol colours-->
     <string name="system_accent">Systemaksent</string>
     <string name="cyan">Turkis</string>
     <string name="blue">Blå</string>

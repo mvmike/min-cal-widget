@@ -12,9 +12,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.MethodSource
 import java.time.LocalDate
-import java.time.LocalDateTime
 import java.time.ZoneOffset
-import java.time.format.DateTimeFormatter
 import java.util.Random
 import java.util.stream.Stream
 
@@ -25,8 +23,8 @@ internal class InstanceTest : BaseTest() {
     fun isInDay(instantProperties: InstantTestProperties) {
         val instance = Instance(
             eventId = instantProperties.id(),
-            start = instantProperties.start.toInstant(instantProperties.zoneOffset)!!,
-            end = instantProperties.end.toInstant(instantProperties.zoneOffset)!!,
+            start = instantProperties.start.toInstant(instantProperties.zoneOffset),
+            end = instantProperties.end.toInstant(instantProperties.zoneOffset),
             zoneId = instantProperties.zoneOffset,
             isDeclined = false
         )
@@ -194,8 +192,4 @@ internal class InstanceTest : BaseTest() {
 
         fun id() = random.nextInt()
     }
-
-    private fun String.toInstant(zoneOffset: ZoneOffset) = LocalDateTime
-        .parse(this, DateTimeFormatter.ISO_ZONED_DATE_TIME)
-        .toInstant(zoneOffset)
 }

@@ -7,7 +7,16 @@
 · Displays all events from your calendars with a symbol set (high number becomes generic)
 · Configuration accessible on widget's top right corner
 · Pressing on any other part of the widget opens calendar application
-· Configurable: theme, transparency, include declined events, focus on current week, open calendar into clicked day, start day of the week, symbol set type and its colour
+· Configurable:
+    - start day of the week
+    - calendar (gregorian or holocene)
+    - show declined events
+    - focus on current week
+    - open calendar on clicked day
+    - theme
+    - symbol set
+    - symbol set colour
+    - transparency
 
 <b>Supported languages</b>
 

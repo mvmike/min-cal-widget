@@ -66,10 +66,10 @@ internal class DaysServiceTest : BaseTest() {
         val theme = Theme.DARK
         val instancesColour = Colour.CYAN
         mockSharedPreferences()
-        mockWidgetShowDeclinedEvents()
+        mockShowDeclinedEvents()
         mockWidgetTransparency(Transparency(20))
         mockFirstDayOfWeek(DayOfWeek.MONDAY)
-        mockWidgetFocusOnCurrentWeek(testProperties.focusOnCurrentWeek)
+        mockFocusOnCurrentWeek(testProperties.focusOnCurrentWeek)
         mockWidgetTheme(theme)
         mockInstancesSymbolSet(symbolSet)
         mockInstancesColour(instancesColour)
@@ -108,10 +108,10 @@ internal class DaysServiceTest : BaseTest() {
         verify { SystemResolver.getSystemZoneId() }
         verify { CalendarResolver.getInstances(context, initEpochMillis, endEpochMillis) }
 
-        verifyWidgetShowDeclinedEvents()
+        verifyShowDeclinedEvents()
         verifyWidgetTransparency()
         verifyFirstDayOfWeek()
-        verifyWidgetFocusOnCurrentWeek()
+        verifyFocusOnCurrentWeek()
         verifyWidgetTheme()
         verifyInstancesSymbolSet()
         verifyInstancesColour()
@@ -380,10 +380,6 @@ internal class DaysServiceTest : BaseTest() {
             )
         )
     }
-
-    private fun String.toInstant(zoneOffset: ZoneOffset) = LocalDateTime
-        .parse(this, DateTimeFormatter.ISO_ZONED_DATE_TIME)
-        .toInstant(zoneOffset)
 
     private fun getFormatAndFocusOnCurrentWeekWithExpectedOutput() = Stream.of(
         DrawDaysUseCaseTestProperties(Format(50), false, getDrawDaysUseCaseTestProperties()),

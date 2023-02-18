@@ -25,14 +25,16 @@ object GraphicResolver {
     fun createMonthAndYearHeader(
         context: Context,
         widgetRemoteView: RemoteViews,
-        text: String,
+        month: String,
+        year: String,
         textColour: Int,
-        headerRelativeYearSize: Float,
+        headerYearRelativeSize: Float,
         textRelativeSize: Float
     ) {
+        val text = "$month $year"
         val monthAndYearSpSt = SpannableString(text)
         monthAndYearSpSt.setSpan(RelativeSizeSpan(textRelativeSize), 0, monthAndYearSpSt.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-        monthAndYearSpSt.setSpan(RelativeSizeSpan(headerRelativeYearSize * textRelativeSize), text.length - 4, text.length, 0)
+        monthAndYearSpSt.setSpan(RelativeSizeSpan(headerYearRelativeSize * textRelativeSize), month.length, text.length, 0)
         monthAndYearSpSt.setSpan(ForegroundColorSpan(getColour(context, textColour)), 0, text.length, 0)
         widgetRemoteView.setTextViewText(R.id.month_and_year_header, monthAndYearSpSt)
     }

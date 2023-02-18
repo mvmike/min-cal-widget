@@ -6,13 +6,15 @@ Minimal calendar widget that's always on current date's month
 * Configuration accessible on widget's top right corner
 * Pressing on any other part of the widget opens calendar application
 * Configurable:
-    - theme
-    - transparency
-    - include declined events
-    - focus on current week
     - start day of the week
-    - symbol set type
+    - calendar (gregorian or holocene)
+    - show declined events
+    - focus on current week
+    - open calendar on clicked day
+    - theme
+    - symbol set
     - symbol set colour
+    - transparency
 
 ## Installation
 

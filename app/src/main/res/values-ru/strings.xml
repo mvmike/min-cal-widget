@@ -8,6 +8,7 @@
 
     <string name="behaviour">Поведение</string>
     <string name="start_week_day">Первый день недели</string>
+    <string name="calendar">Календарь</string>
     <string name="show_declined_events">Показать отклоненные мероприятия</string>
     <string name="focus_on_current_week">Сосредоточиться на текущей неделе</string>
     <string name="open_calendar_into_clicked_day">Открыть календарь в выбранный день</string>
@@ -55,11 +56,15 @@
     <string name="saturday_abb">Сб</string>
     <string name="sunday_abb">Вc</string>
 
+    <!--Calendars-->
+    <string name="gregorian">Григорианский</string>
+    <string name="holocene">Голоцен</string>
+
     <!--Themes-->
     <string name="dark">Темный</string>
     <string name="light">Световой</string>
 
-    <!--Symbols-->
+    <!--Symbol sets-->
     <string name="minimal">Минимальный</string>
     <string name="vertical">Вертикальный</string>
     <string name="circles">Круги</string>
@@ -68,7 +73,7 @@
     <string name="binary">Двоичный</string>
     <string name="none">Пустой</string>
 
-    <!--Colours-->
+    <!--Symbol colours-->
     <string name="system_accent">Системный акцент</string>
     <string name="cyan">Голубой</string>
     <string name="blue">Синий</string>

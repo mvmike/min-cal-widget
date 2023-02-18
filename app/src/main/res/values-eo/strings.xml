@@ -8,6 +8,7 @@
 
     <string name="behaviour">Konduto</string>
     <string name="start_week_day">Komenca tago</string>
+    <string name="calendar">Kalendaro</string>
     <string name="show_declined_events">Montri malkreskintajn eventojn</string>
     <string name="focus_on_current_week">Koncentru la nunan semajnon</string>
     <string name="open_calendar_into_clicked_day">Malfermu kalendaron en klakita tago</string>
@@ -55,11 +56,15 @@
     <string name="saturday_abb">Sab</string>
     <string name="sunday_abb">Dim</string>
 
+    <!--Calendars-->
+    <string name="gregorian">Gregoriano</string>
+    <string name="holocene">Holoceno</string>
+
     <!--Themes-->
     <string name="dark">Malhela</string>
     <string name="light">Malpeza</string>
 
-    <!--Symbols-->
+    <!--Symbol sets-->
     <string name="minimal">Minimuma</string>
     <string name="vertical">Vertikala</string>
     <string name="circles">Cirkloj</string>
@@ -68,7 +73,7 @@
     <string name="binary">Dubaza</string>
     <string name="none">Nenio</string>
 
-    <!--Colours-->
+    <!--Symbol colours-->
     <string name="system_accent">Sistema akcento</string>
     <string name="cyan">Cejanblua</string>
     <string name="blue">Blua</string>

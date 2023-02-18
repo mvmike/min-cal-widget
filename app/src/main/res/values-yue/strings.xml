@@ -8,6 +8,7 @@
 
     <string name="behaviour">做法</string>
     <string name="start_week_day">邊日開頭</string>
+    <string name="calendar">日历</string>
     <string name="show_declined_events">推咗嗰啲事幹都照顯示</string>
     <string name="focus_on_current_week">專心目前呢個禮拜</string>
     <string name="open_calendar_into_clicked_day">打開日曆進入點擊日期</string>
@@ -55,11 +56,15 @@
     <string name="saturday_abb">六</string>
     <string name="sunday_abb">日</string>
 
+    <!--Calendars-->
+    <string name="gregorian">公历</string>
+    <string name="holocene">全新世</string>
+
     <!--Themes-->
     <string name="dark">黑眼睛</string>
     <string name="light">白頭浪</string>
 
-    <!--Symbols-->
+    <!--Symbol sets-->
     <string name="minimal">從簡</string>
     <string name="vertical">打直</string>
     <string name="circles">圓圈</string>
@@ -68,7 +73,7 @@
     <string name="binary">二進制</string>
     <string name="none">無</string>
 
-    <!--Colours-->
+    <!--Symbol colours-->
     <string name="system_accent">系統配色</string>
     <string name="cyan">青色</string>
     <string name="blue">藍色</string>

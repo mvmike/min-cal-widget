@@ -8,6 +8,7 @@
 
     <string name="behaviour">وِوہار</string>
     <string name="start_week_day">پہلا دن</string>
+    <string name="calendar">کیلنڈر</string>
     <string name="show_declined_events">رد کرن ویکھو</string>
     <string name="focus_on_current_week">موجودہ ہفتے تے دھیان دیو</string>
     <string name="open_calendar_into_clicked_day">کلک کردہ دن میں کیلنڈر کھولیں۔</string>
@@ -55,11 +56,15 @@
     <string name="saturday_abb">ہـ</string>
     <string name="sunday_abb">اتـ</string>
 
+    <!--Calendars-->
+    <string name="gregorian">گریگورین</string>
+    <string name="holocene">ہولوسین</string>
+
     <!--Themes-->
     <string name="dark">ہنیر</string>
     <string name="light">روشنی</string>
 
-    <!--Symbols-->
+    <!--Symbol sets-->
     <string name="minimal">نیو تمام</string>
     <string name="vertical">لمبکار</string>
     <string name="circles">چکر</string>
@@ -68,7 +73,7 @@
     <string name="binary">بائینری</string>
     <string name="none">کوئی نہیں</string>
 
-    <!--Colours-->
+    <!--Symbol colours-->
     <string name="system_accent">سسٹم دا رنگ</string>
     <string name="cyan">سیان</string>
     <string name="blue">نیلا</string>

@@ -8,6 +8,7 @@
 
     <string name="behaviour">ਵਿਵਹਾਰ</string>
     <string name="start_week_day">ਪਹਿਲਾ ਦਿਨ</string>
+    <string name="calendar">ਕੈਲੰਡਰ</string>
     <string name="show_declined_events">ਰੱਦ ਕਰਨ ਵੇਖੋ</string>
     <string name="focus_on_current_week">ਮੌਜੂਦਾ ਹਫ਼ਤੇ ’ਤੇ ਧਿਆਨ ਦਿਓ</string>
     <string name="open_calendar_into_clicked_day">ਕਲਿਕ ਕੀਤੇ ਦਿਨ ਵਿੱਚ ਕੈਲੰਡਰ ਖੋਲ੍ਹੋ</string>
@@ -55,11 +56,15 @@
     <string name="saturday_abb">ਸ਼ਨੀ</string>
     <string name="sunday_abb">ਐਤ</string>
 
+    <!--Calendars-->
+    <string name="gregorian">ਗ੍ਰੈਗੋਰੀਅਨ</string>
+    <string name="holocene">ਹੋਲੋਸੀਨ</string>
+
     <!--Themes-->
     <string name="dark">ਹਨੇਰ</string>
     <string name="light">ਰੋਸ਼ਨੀ</string>
 
-    <!--Symbols-->
+    <!--Symbol sets-->
     <string name="minimal">ਨਿਊਨਤਮ</string>
     <string name="vertical">ਲੰਬਕਾਰ</string>
     <string name="circles">ਚੱਕਰ</string>
@@ -68,7 +73,7 @@
     <string name="binary">ਬਾਈਨਰੀ</string>
     <string name="none">ਕੋਈ ਨਹੀਂ</string>
 
-    <!--Colours-->
+    <!--Symbol colours-->
     <string name="system_accent">ਸਿਸਟਮ ਦਾ ਰੰਗ</string>
     <string name="cyan">ਸਿਆਨ</string>
     <string name="blue">ਨੀਲਾ</string>

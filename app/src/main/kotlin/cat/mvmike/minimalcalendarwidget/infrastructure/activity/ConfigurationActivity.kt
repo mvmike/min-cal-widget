@@ -111,14 +111,15 @@ class ConfigurationActivity : AppCompatActivity() {
 
         private fun enumConfigurationItems() = setOf(
             EnumConfigurationItem.WidgetTheme,
+            EnumConfigurationItem.WidgetCalendar,
             EnumConfigurationItem.FirstDayOfWeek,
             EnumConfigurationItem.InstancesSymbolSet,
             EnumConfigurationItem.InstancesColour
         )
 
         private fun booleanConfigurationItems() = setOf(
-            BooleanConfigurationItem.WidgetShowDeclinedEvents,
-            BooleanConfigurationItem.WidgetFocusOnCurrentWeek
+            BooleanConfigurationItem.ShowDeclinedEvents,
+            BooleanConfigurationItem.FocusOnCurrentWeek
         )
 
         private fun String.asPreference() =
