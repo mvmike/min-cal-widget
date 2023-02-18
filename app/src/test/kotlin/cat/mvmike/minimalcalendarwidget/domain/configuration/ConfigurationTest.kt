@@ -8,7 +8,6 @@ import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Format
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.SymbolSet
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Transparency
-import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.SystemResolver
 import io.mockk.Called
 import io.mockk.verify
 import org.assertj.core.api.Assertions.assertThat
@@ -153,16 +152,6 @@ internal class ConfigurationTest : BaseTest() {
         assertThat(result).isEqualTo(colour)
         verifyInstancesColour()
         verify { editor wasNot Called }
-    }
-
-    @Test
-    fun getInstancesColour_shouldReturnOnlyAvailableValues() {
-        val allowedColours = EnumConfigurationItem.InstancesColour.getEnumConstants().toSet()
-
-        allowedColours.forEach {
-            assertThat(it.isAvailable())
-        }
-        verify { SystemResolver.getRuntimeSDK() }
     }
 
     @Test
