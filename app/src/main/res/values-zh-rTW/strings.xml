@@ -1,23 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <!--CHINESE (TRADITIONAL)-->
+
     <!--Configuration-->
     <string name="configuration">組態設定</string>
+
     <string name="behaviour">行為</string>
     <string name="start_week_day">起始日</string>
     <string name="calendar">曆法</string>
     <string name="show_declined_events">顯示已拒絕事件</string>
     <string name="focus_on_current_week">專注於目前一週</string>
     <string name="open_calendar_into_clicked_day">開啟行事曆時移至按下的日子</string>
+
     <string name="appearance">外觀</string>
     <string name="theme">佈景主題</string>
     <string name="symbol_set">符號集</string>
     <string name="symbol_colour">符號色彩</string>
     <string name="transparency">透明度</string>
+
     <string name="about">關於</string>
     <string name="source">原始碼</string>
     <string name="translate">翻譯</string>
     <string name="version">版本</string>
+
     <!-- Months of year-->
     <string name="january">一月</string>
     <string name="february">二月</string>
@@ -31,6 +37,7 @@
     <string name="october">十月</string>
     <string name="november">十一月</string>
     <string name="december">十二月</string>
+
     <!--Days of week-->
     <string name="monday">星期一</string>
     <string name="tuesday">星期二</string>
@@ -39,6 +46,7 @@
     <string name="friday">星期五</string>
     <string name="saturday">星期六</string>
     <string name="sunday">星期日</string>
+
     <!--Days of week abbreviated-->
     <string name="monday_abb">一</string>
     <string name="tuesday_abb">二</string>
@@ -47,12 +55,15 @@
     <string name="friday_abb">五</string>
     <string name="saturday_abb">六</string>
     <string name="sunday_abb">日</string>
+
     <!--Calendars-->
     <string name="gregorian">公曆</string>
     <string name="holocene">全新世紀年</string>
+
     <!--Themes-->
     <string name="dark">深色</string>
     <string name="light">淺色</string>
+
     <!--Symbol sets-->
     <string name="minimal">精簡</string>
     <string name="vertical">垂直</string>
@@ -61,6 +72,7 @@
     <string name="roman">羅馬數字</string>
     <string name="binary">二進位</string>
     <string name="none">無</string>
+
     <!--Symbol colours-->
     <string name="system_accent">系統主色</string>
     <string name="cyan">粉藍</string>
@@ -70,7 +82,9 @@
     <string name="yellow">黃色</string>
     <string name="black">黑色</string>
     <string name="white">白色</string>
+
     <!-- messages-->
     <string name="no_calendar_application">找不到行事曆應用程式</string>
     <string name="no_browser_application">找不到瀏覽器應用程式</string>
+
 </resources>
