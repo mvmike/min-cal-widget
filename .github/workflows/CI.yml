@@ -21,4 +21,4 @@ jobs:
         run: ./gradlew lintKotlin
 
       - name: test-assemble
-        run: ./gradlew -Dorg.gradle.jvmargs=-Xmx2048m clean testRelease assembleRelease
+        run: ./gradlew -Dorg.gradle.jvmargs=-Xmx4096m clean testRelease assembleRelease
