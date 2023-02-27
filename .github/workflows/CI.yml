@@ -16,4 +16,12 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '17'
-      - run: ./gradlew lintKotlin clean testRelease assembleRelease
+
+      - name: lint
+      - run: ./gradlew lintKotlin
+
+      - name: test
+      - run: ./gradlew clean testRelease
+
+      - name: assemble
+      - run: ./gradlew assembleRelease
