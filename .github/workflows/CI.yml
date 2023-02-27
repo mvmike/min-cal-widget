@@ -11,16 +11,21 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      # https://github.com/actions/checkout
       - uses: actions/checkout@v3
+      # https://github.com/actions/cache
       - uses: actions/cache@v3
         with:
+          # https://github.com/actions/cache/blob/main/examples.md#java---gradle
           path: |
             ~/.gradle/caches
             ~/.gradle/wrapper
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
+      # https://github.com/gradle/wrapper-validation-action
       - uses: gradle/wrapper-validation-action@v1
+      # https://github.com/actions/setup-java
       - uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
