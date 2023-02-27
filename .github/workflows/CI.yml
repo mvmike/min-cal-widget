@@ -18,10 +18,10 @@ jobs:
           java-version: '17'
 
       - name: lint
-      - run: ./gradlew lintKotlin
+        run: ./gradlew lintKotlin
 
       - name: test
-      - run: ./gradlew clean testRelease
+        run: ./gradlew clean testRelease
 
       - name: assemble
-      - run: ./gradlew assembleRelease
+        run: ./gradlew assembleRelease
