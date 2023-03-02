@@ -31,10 +31,4 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: lint
-        run: ./gradlew lintKotlin
-
-      - name: test-assemble
-        run: |
-          ./gradlew clean testRelease assembleRelease \
-            -Dorg.gradle.jvmargs=-Xmx4096m
+      - run: ./gradlew -Dorg.gradle.jvmargs=-Xmx4096m

@@ -19,3 +19,5 @@ allprojects {
         google()
     }
 }
+
+defaultTasks("lintKotlin", "clean", "testRelease", "assembleRelease")
