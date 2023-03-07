@@ -61,6 +61,19 @@ internal class CalendarResolverTest : BaseTest() {
     }
 
     @Test
+    fun shouldReturnEmptySetWhenMovingCursorThrowsException() {
+        mockkStatic(CalendarContract.Instances::class)
+        every { CalendarContract.Instances.query(context.contentResolver, instanceQueryFields, begin, end) } returns cursor
+        every { cursor.moveToNext() } throws RuntimeException()
+
+        val result = CalendarResolver.getInstances(context, begin, end)
+
+        assertThat(result).isEqualTo(emptySet<Instance>())
+        verify { context.contentResolver }
+        verify { CalendarResolver.getInstances(context, begin, end) }
+    }
+
+    @Test
     fun shouldSkipInvalidInstance() {
         mockkStatic(CalendarContract.Instances::class)
         every { CalendarContract.Instances.query(context.contentResolver, instanceQueryFields, begin, end) } returns cursor

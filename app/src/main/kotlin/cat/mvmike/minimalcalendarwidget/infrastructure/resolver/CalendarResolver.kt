@@ -24,9 +24,11 @@ object CalendarResolver {
 
     fun getInstances(context: Context, begin: Long, end: Long): Set<Instance> {
         val instances: MutableSet<Instance> = HashSet()
-        queryInstances(context, begin, end)?.use { instanceCursor ->
-            while (instanceCursor.moveToNext()) {
-                instanceCursor.toInstance()?.let { instances.add(it) }
+        runCatching {
+            queryInstances(context, begin, end)?.use { instanceCursor ->
+                while (instanceCursor.moveToNext()) {
+                    instanceCursor.toInstance()?.let { instances.add(it) }
+                }
             }
         }
         return instances.toSet()
@@ -35,9 +37,8 @@ object CalendarResolver {
     fun isReadCalendarPermitted(context: Context) =
         ContextCompat.checkSelfPermission(context, Manifest.permission.READ_CALENDAR) == PackageManager.PERMISSION_GRANTED
 
-    private fun queryInstances(context: Context, begin: Long, end: Long): Cursor? = runCatching {
+    private fun queryInstances(context: Context, begin: Long, end: Long): Cursor? =
         CalendarContract.Instances.query(context.contentResolver, instanceQueryFields, begin, end)
-    }.getOrNull()
 
     private fun Cursor.toInstance(): Instance? = runCatching {
         Instance(
