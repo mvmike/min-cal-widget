@@ -7,7 +7,7 @@ plugins {
     id("com.android.application")
     id("kotlin-android")
     // https://github.com/jeremymailen/kotlinter-gradle/releases
-    id("org.jmailen.kotlinter") version "3.13.0"
+    id("org.jmailen.kotlinter") version "3.14.0"
 }
 
 android {
