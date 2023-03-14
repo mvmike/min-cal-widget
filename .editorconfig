@@ -1,0 +1,6 @@
+root = true
+
+[*.{kt,kts}]
+max_line_length = 160
+ktlint_standard_trailing-comma-on-call-site = disabled
+ktlint_standard_trailing-comma-on-declaration-site = disabled
