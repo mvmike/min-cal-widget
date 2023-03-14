@@ -49,7 +49,7 @@ enum class TransparencyRange(
     LOW(
         minAlpha = MIN_ALPHA,
         maxAlpha = 30
-    );
+    )
 }
 
 internal fun String.withTransparency(
