@@ -64,72 +64,142 @@ internal class ThemeTest : BaseTest() {
         Arguments.of(
             Theme.DARK,
             DayOfWeek.MONDAY,
-            Cell(CELL_HEADER_VIEW, CELL_HEADER_LAYOUT, textColour = DARK_THEME_MAIN_TEXT_COLOUR, background = null)
+            Cell(
+                id = CELL_HEADER_VIEW,
+                layout = CELL_HEADER_LAYOUT,
+                textColour = DARK_THEME_MAIN_TEXT_COLOUR,
+                background = null
+            )
         ),
         Arguments.of(
             Theme.DARK,
             DayOfWeek.TUESDAY,
-            Cell(CELL_HEADER_VIEW, CELL_HEADER_LAYOUT, textColour = DARK_THEME_MAIN_TEXT_COLOUR, background = null)
+            Cell(
+                id = CELL_HEADER_VIEW,
+                layout = CELL_HEADER_LAYOUT,
+                textColour = DARK_THEME_MAIN_TEXT_COLOUR,
+                background = null
+            )
         ),
         Arguments.of(
             Theme.DARK,
             DayOfWeek.WEDNESDAY,
-            Cell(CELL_HEADER_VIEW, CELL_HEADER_LAYOUT, textColour = DARK_THEME_MAIN_TEXT_COLOUR, background = null)
+            Cell(
+                id = CELL_HEADER_VIEW,
+                layout = CELL_HEADER_LAYOUT,
+                textColour = DARK_THEME_MAIN_TEXT_COLOUR,
+                background = null
+            )
         ),
         Arguments.of(
             Theme.DARK,
             DayOfWeek.THURSDAY,
-            Cell(CELL_HEADER_VIEW, CELL_HEADER_LAYOUT, textColour = DARK_THEME_MAIN_TEXT_COLOUR, background = null)
+            Cell(
+                id = CELL_HEADER_VIEW,
+                layout = CELL_HEADER_LAYOUT,
+                textColour = DARK_THEME_MAIN_TEXT_COLOUR,
+                background = null
+            )
         ),
         Arguments.of(
             Theme.DARK,
             DayOfWeek.FRIDAY,
-            Cell(CELL_HEADER_VIEW, CELL_HEADER_LAYOUT, textColour = DARK_THEME_MAIN_TEXT_COLOUR, background = null)
+            Cell(
+                id = CELL_HEADER_VIEW,
+                layout = CELL_HEADER_LAYOUT,
+                textColour = DARK_THEME_MAIN_TEXT_COLOUR,
+                background = null
+            )
         ),
         Arguments.of(
             Theme.DARK,
             DayOfWeek.SATURDAY,
-            Cell(CELL_HEADER_VIEW, CELL_HEADER_LAYOUT, textColour = DARK_THEME_MAIN_TEXT_COLOUR, background = SATURDAY_IN_MONTH_DARK_THEME_CELL_BACKGROUND)
+            Cell(
+                id = CELL_HEADER_VIEW,
+                layout = CELL_HEADER_LAYOUT,
+                textColour = DARK_THEME_MAIN_TEXT_COLOUR,
+                background = SATURDAY_IN_MONTH_DARK_THEME_CELL_BACKGROUND
+            )
         ),
         Arguments.of(
             Theme.DARK,
             DayOfWeek.SUNDAY,
-            Cell(CELL_HEADER_VIEW, CELL_HEADER_LAYOUT, textColour = DARK_THEME_MAIN_TEXT_COLOUR, background = SUNDAY_IN_MONTH_DARK_THEME_CELL_BACKGROUND)
+            Cell(
+                id = CELL_HEADER_VIEW,
+                layout = CELL_HEADER_LAYOUT,
+                textColour = DARK_THEME_MAIN_TEXT_COLOUR,
+                background = SUNDAY_IN_MONTH_DARK_THEME_CELL_BACKGROUND
+            )
         ),
         Arguments.of(
             Theme.LIGHT,
             DayOfWeek.MONDAY,
-            Cell(CELL_HEADER_VIEW, CELL_HEADER_LAYOUT, textColour = LIGHT_THEME_MAIN_TEXT_COLOUR, background = null)
+            Cell(
+                id = CELL_HEADER_VIEW,
+                layout = CELL_HEADER_LAYOUT,
+                textColour = LIGHT_THEME_MAIN_TEXT_COLOUR,
+                background = null
+            )
         ),
         Arguments.of(
             Theme.LIGHT,
             DayOfWeek.TUESDAY,
-            Cell(CELL_HEADER_VIEW, CELL_HEADER_LAYOUT, textColour = LIGHT_THEME_MAIN_TEXT_COLOUR, background = null)
+            Cell(
+                id = CELL_HEADER_VIEW,
+                layout = CELL_HEADER_LAYOUT,
+                textColour = LIGHT_THEME_MAIN_TEXT_COLOUR,
+                background = null
+            )
         ),
         Arguments.of(
             Theme.LIGHT,
             DayOfWeek.WEDNESDAY,
-            Cell(CELL_HEADER_VIEW, CELL_HEADER_LAYOUT, textColour = LIGHT_THEME_MAIN_TEXT_COLOUR, background = null)
+            Cell(
+                id = CELL_HEADER_VIEW,
+                layout = CELL_HEADER_LAYOUT,
+                textColour = LIGHT_THEME_MAIN_TEXT_COLOUR,
+                background = null
+            )
         ),
         Arguments.of(
             Theme.LIGHT,
             DayOfWeek.THURSDAY,
-            Cell(CELL_HEADER_VIEW, CELL_HEADER_LAYOUT, textColour = LIGHT_THEME_MAIN_TEXT_COLOUR, background = null)
+            Cell(
+                id = CELL_HEADER_VIEW,
+                layout = CELL_HEADER_LAYOUT,
+                textColour = LIGHT_THEME_MAIN_TEXT_COLOUR,
+                background = null
+            )
         ),
         Arguments.of(
             Theme.LIGHT,
             DayOfWeek.FRIDAY,
-            Cell(CELL_HEADER_VIEW, CELL_HEADER_LAYOUT, textColour = LIGHT_THEME_MAIN_TEXT_COLOUR, background = null)
+            Cell(
+                id = CELL_HEADER_VIEW,
+                layout = CELL_HEADER_LAYOUT,
+                textColour = LIGHT_THEME_MAIN_TEXT_COLOUR,
+                background = null
+            )
         ),
         Arguments.of(
             Theme.LIGHT,
             DayOfWeek.SATURDAY,
-            Cell(CELL_HEADER_VIEW, CELL_HEADER_LAYOUT, textColour = LIGHT_THEME_MAIN_TEXT_COLOUR, background = SATURDAY_IN_MONTH_LIGHT_THEME_CELL_BACKGROUND)
+            Cell(
+                id = CELL_HEADER_VIEW,
+                layout = CELL_HEADER_LAYOUT,
+                textColour = LIGHT_THEME_MAIN_TEXT_COLOUR,
+                background = SATURDAY_IN_MONTH_LIGHT_THEME_CELL_BACKGROUND
+            )
         ),
         Arguments.of(
             Theme.LIGHT,
             DayOfWeek.SUNDAY,
-            Cell(CELL_HEADER_VIEW, CELL_HEADER_LAYOUT, textColour = LIGHT_THEME_MAIN_TEXT_COLOUR, background = SUNDAY_IN_MONTH_LIGHT_THEME_CELL_BACKGROUND)
+            Cell(
+                id = CELL_HEADER_VIEW,
+                layout = CELL_HEADER_LAYOUT,
+                textColour = LIGHT_THEME_MAIN_TEXT_COLOUR,
+                background = SUNDAY_IN_MONTH_LIGHT_THEME_CELL_BACKGROUND
+            )
         )
     )
 
@@ -139,294 +209,504 @@ internal class ThemeTest : BaseTest() {
             true,
             true,
             DayOfWeek.MONDAY,
-            Cell(CELL_DAY_VIEW, CELL_DAY_LAYOUT, textColour = DARK_THEME_MAIN_TEXT_COLOUR, background = TODAY_DARK_THEME_CELL_BACKGROUND)
+            Cell(
+                id = CELL_DAY_VIEW,
+                layout = CELL_DAY_LAYOUT,
+                textColour = DARK_THEME_MAIN_TEXT_COLOUR,
+                background = TODAY_DARK_THEME_CELL_BACKGROUND
+            )
         ),
         Arguments.of(
             Theme.DARK,
             true,
             true,
             DayOfWeek.TUESDAY,
-            Cell(CELL_DAY_VIEW, CELL_DAY_LAYOUT, textColour = DARK_THEME_MAIN_TEXT_COLOUR, background = TODAY_DARK_THEME_CELL_BACKGROUND)
+            Cell(
+                id = CELL_DAY_VIEW,
+                layout = CELL_DAY_LAYOUT,
+                textColour = DARK_THEME_MAIN_TEXT_COLOUR,
+                background = TODAY_DARK_THEME_CELL_BACKGROUND
+            )
         ),
         Arguments.of(
             Theme.DARK,
             true,
             true,
             DayOfWeek.WEDNESDAY,
-            Cell(CELL_DAY_VIEW, CELL_DAY_LAYOUT, textColour = DARK_THEME_MAIN_TEXT_COLOUR, background = TODAY_DARK_THEME_CELL_BACKGROUND)
+            Cell(
+                id = CELL_DAY_VIEW,
+                layout = CELL_DAY_LAYOUT,
+                textColour = DARK_THEME_MAIN_TEXT_COLOUR,
+                background = TODAY_DARK_THEME_CELL_BACKGROUND
+            )
         ),
         Arguments.of(
             Theme.DARK,
             true,
             true,
             DayOfWeek.THURSDAY,
-            Cell(CELL_DAY_VIEW, CELL_DAY_LAYOUT, textColour = DARK_THEME_MAIN_TEXT_COLOUR, background = TODAY_DARK_THEME_CELL_BACKGROUND)
+            Cell(
+                id = CELL_DAY_VIEW,
+                layout = CELL_DAY_LAYOUT,
+                textColour = DARK_THEME_MAIN_TEXT_COLOUR,
+                background = TODAY_DARK_THEME_CELL_BACKGROUND
+            )
         ),
         Arguments.of(
             Theme.DARK,
             true,
             true,
             DayOfWeek.FRIDAY,
-            Cell(CELL_DAY_VIEW, CELL_DAY_LAYOUT, textColour = DARK_THEME_MAIN_TEXT_COLOUR, background = TODAY_DARK_THEME_CELL_BACKGROUND)
+            Cell(
+                id = CELL_DAY_VIEW,
+                layout = CELL_DAY_LAYOUT,
+                textColour = DARK_THEME_MAIN_TEXT_COLOUR,
+                background = TODAY_DARK_THEME_CELL_BACKGROUND
+            )
         ),
         Arguments.of(
             Theme.DARK,
             true,
             true,
             DayOfWeek.SATURDAY,
-            Cell(CELL_DAY_VIEW, CELL_DAY_LAYOUT, textColour = DARK_THEME_MAIN_TEXT_COLOUR, background = 2131034151)
+            Cell(
+                id = CELL_DAY_VIEW,
+                layout = CELL_DAY_LAYOUT,
+                textColour = DARK_THEME_MAIN_TEXT_COLOUR,
+                background = 2131034151
+            )
         ),
         Arguments.of(
             Theme.DARK,
             true,
             true,
             DayOfWeek.SUNDAY,
-            Cell(CELL_DAY_VIEW, CELL_DAY_LAYOUT, textColour = DARK_THEME_MAIN_TEXT_COLOUR, background = 2131034157)
+            Cell(
+                id = CELL_DAY_VIEW,
+                layout = CELL_DAY_LAYOUT,
+                textColour = DARK_THEME_MAIN_TEXT_COLOUR,
+                background = 2131034157
+            )
         ),
         Arguments.of(
             Theme.DARK,
             false,
             true,
             DayOfWeek.MONDAY,
-            Cell(CELL_DAY_VIEW, CELL_DAY_LAYOUT, textColour = DARK_THEME_MAIN_TEXT_COLOUR, background = IN_MONTH_DARK_THEME_CELL_BACKGROUND)
+            Cell(
+                id = CELL_DAY_VIEW,
+                layout = CELL_DAY_LAYOUT,
+                textColour = DARK_THEME_MAIN_TEXT_COLOUR,
+                background = IN_MONTH_DARK_THEME_CELL_BACKGROUND
+            )
         ),
         Arguments.of(
             Theme.DARK,
             false,
             true,
             DayOfWeek.TUESDAY,
-            Cell(CELL_DAY_VIEW, CELL_DAY_LAYOUT, textColour = DARK_THEME_MAIN_TEXT_COLOUR, background = IN_MONTH_DARK_THEME_CELL_BACKGROUND)
+            Cell(
+                id = CELL_DAY_VIEW,
+                layout = CELL_DAY_LAYOUT,
+                textColour = DARK_THEME_MAIN_TEXT_COLOUR,
+                background = IN_MONTH_DARK_THEME_CELL_BACKGROUND
+            )
         ),
         Arguments.of(
             Theme.DARK,
             false,
             true,
             DayOfWeek.WEDNESDAY,
-            Cell(CELL_DAY_VIEW, CELL_DAY_LAYOUT, textColour = DARK_THEME_MAIN_TEXT_COLOUR, background = IN_MONTH_DARK_THEME_CELL_BACKGROUND)
+            Cell(
+                id = CELL_DAY_VIEW,
+                layout = CELL_DAY_LAYOUT,
+                textColour = DARK_THEME_MAIN_TEXT_COLOUR,
+                background = IN_MONTH_DARK_THEME_CELL_BACKGROUND
+            )
         ),
         Arguments.of(
             Theme.DARK,
             false,
             true,
             DayOfWeek.THURSDAY,
-            Cell(CELL_DAY_VIEW, CELL_DAY_LAYOUT, textColour = DARK_THEME_MAIN_TEXT_COLOUR, background = IN_MONTH_DARK_THEME_CELL_BACKGROUND)
+            Cell(
+                id = CELL_DAY_VIEW,
+                layout = CELL_DAY_LAYOUT,
+                textColour = DARK_THEME_MAIN_TEXT_COLOUR,
+                background = IN_MONTH_DARK_THEME_CELL_BACKGROUND
+            )
         ),
         Arguments.of(
             Theme.DARK,
             false,
             true,
             DayOfWeek.FRIDAY,
-            Cell(CELL_DAY_VIEW, CELL_DAY_LAYOUT, textColour = DARK_THEME_MAIN_TEXT_COLOUR, background = IN_MONTH_DARK_THEME_CELL_BACKGROUND)
+            Cell(
+                id = CELL_DAY_VIEW,
+                layout = CELL_DAY_LAYOUT,
+                textColour = DARK_THEME_MAIN_TEXT_COLOUR,
+                background = IN_MONTH_DARK_THEME_CELL_BACKGROUND
+            )
         ),
         Arguments.of(
             Theme.DARK,
             false,
             true,
             DayOfWeek.SATURDAY,
-            Cell(CELL_DAY_VIEW, CELL_DAY_LAYOUT, textColour = DARK_THEME_MAIN_TEXT_COLOUR, background = SATURDAY_IN_MONTH_DARK_THEME_CELL_BACKGROUND)
+            Cell(
+                id = CELL_DAY_VIEW,
+                layout = CELL_DAY_LAYOUT,
+                textColour = DARK_THEME_MAIN_TEXT_COLOUR,
+                background = SATURDAY_IN_MONTH_DARK_THEME_CELL_BACKGROUND
+            )
         ),
         Arguments.of(
             Theme.DARK,
             false,
             true,
             DayOfWeek.SUNDAY,
-            Cell(CELL_DAY_VIEW, CELL_DAY_LAYOUT, textColour = DARK_THEME_MAIN_TEXT_COLOUR, background = SUNDAY_IN_MONTH_DARK_THEME_CELL_BACKGROUND)
+            Cell(
+                id = CELL_DAY_VIEW,
+                layout = CELL_DAY_LAYOUT,
+                textColour = DARK_THEME_MAIN_TEXT_COLOUR,
+                background = SUNDAY_IN_MONTH_DARK_THEME_CELL_BACKGROUND
+            )
         ),
         Arguments.of(
             Theme.DARK,
             false,
             false,
             DayOfWeek.MONDAY,
-            Cell(CELL_DAY_VIEW, CELL_DAY_LAYOUT, textColour = DARK_THEME_CELL_TEXT_COLOUR, background = null)
+            Cell(
+                id = CELL_DAY_VIEW,
+                layout = CELL_DAY_LAYOUT,
+                textColour = DARK_THEME_CELL_TEXT_COLOUR,
+                background = null
+            )
         ),
         Arguments.of(
             Theme.DARK,
             false,
             false,
             DayOfWeek.TUESDAY,
-            Cell(CELL_DAY_VIEW, CELL_DAY_LAYOUT, textColour = DARK_THEME_CELL_TEXT_COLOUR, background = null)
+            Cell(
+                id = CELL_DAY_VIEW,
+                layout = CELL_DAY_LAYOUT,
+                textColour = DARK_THEME_CELL_TEXT_COLOUR,
+                background = null
+            )
         ),
         Arguments.of(
             Theme.DARK,
             false,
             false,
             DayOfWeek.WEDNESDAY,
-            Cell(CELL_DAY_VIEW, CELL_DAY_LAYOUT, textColour = DARK_THEME_CELL_TEXT_COLOUR, background = null)
+            Cell(
+                id = CELL_DAY_VIEW,
+                layout = CELL_DAY_LAYOUT,
+                textColour = DARK_THEME_CELL_TEXT_COLOUR,
+                background = null
+            )
         ),
         Arguments.of(
             Theme.DARK,
             false,
             false,
             DayOfWeek.THURSDAY,
-            Cell(CELL_DAY_VIEW, CELL_DAY_LAYOUT, textColour = DARK_THEME_CELL_TEXT_COLOUR, background = null)
+            Cell(
+                id = CELL_DAY_VIEW,
+                layout = CELL_DAY_LAYOUT,
+                textColour = DARK_THEME_CELL_TEXT_COLOUR,
+                background = null
+            )
         ),
         Arguments.of(
             Theme.DARK,
             false,
             false,
             DayOfWeek.FRIDAY,
-            Cell(CELL_DAY_VIEW, CELL_DAY_LAYOUT, textColour = DARK_THEME_CELL_TEXT_COLOUR, background = null)
+            Cell(
+                id = CELL_DAY_VIEW,
+                layout = CELL_DAY_LAYOUT,
+                textColour = DARK_THEME_CELL_TEXT_COLOUR,
+                background = null
+            )
         ),
         Arguments.of(
             Theme.DARK,
             false,
             false,
             DayOfWeek.SATURDAY,
-            Cell(CELL_DAY_VIEW, CELL_DAY_LAYOUT, textColour = DARK_THEME_CELL_TEXT_COLOUR, background = SATURDAY_DARK_THEME_CELL_BACKGROUND)
+            Cell(
+                id = CELL_DAY_VIEW,
+                layout = CELL_DAY_LAYOUT,
+                textColour = DARK_THEME_CELL_TEXT_COLOUR,
+                background = SATURDAY_DARK_THEME_CELL_BACKGROUND
+            )
         ),
         Arguments.of(
             Theme.DARK,
             false,
             false,
             DayOfWeek.SUNDAY,
-            Cell(CELL_DAY_VIEW, CELL_DAY_LAYOUT, textColour = DARK_THEME_CELL_TEXT_COLOUR, background = SUNDAY_DARK_THEME_CELL_BACKGROUND)
+            Cell(
+                id = CELL_DAY_VIEW,
+                layout = CELL_DAY_LAYOUT,
+                textColour = DARK_THEME_CELL_TEXT_COLOUR,
+                background = SUNDAY_DARK_THEME_CELL_BACKGROUND
+            )
         ),
         Arguments.of(
             Theme.LIGHT,
             true,
             true,
             DayOfWeek.MONDAY,
-            Cell(CELL_DAY_VIEW, CELL_DAY_LAYOUT, textColour = LIGHT_THEME_MAIN_TEXT_COLOUR, background = TODAY_LIGHT_THEME_CELL_BACKGROUND)
+            Cell(
+                id = CELL_DAY_VIEW,
+                layout = CELL_DAY_LAYOUT,
+                textColour = LIGHT_THEME_MAIN_TEXT_COLOUR,
+                background = TODAY_LIGHT_THEME_CELL_BACKGROUND
+            )
         ),
         Arguments.of(
             Theme.LIGHT,
             true,
             true,
             DayOfWeek.TUESDAY,
-            Cell(CELL_DAY_VIEW, CELL_DAY_LAYOUT, textColour = LIGHT_THEME_MAIN_TEXT_COLOUR, background = TODAY_LIGHT_THEME_CELL_BACKGROUND)
+            Cell(
+                id = CELL_DAY_VIEW,
+                layout = CELL_DAY_LAYOUT,
+                textColour = LIGHT_THEME_MAIN_TEXT_COLOUR,
+                background = TODAY_LIGHT_THEME_CELL_BACKGROUND
+            )
         ),
         Arguments.of(
             Theme.LIGHT,
             true,
             true,
             DayOfWeek.WEDNESDAY,
-            Cell(CELL_DAY_VIEW, CELL_DAY_LAYOUT, textColour = LIGHT_THEME_MAIN_TEXT_COLOUR, background = TODAY_LIGHT_THEME_CELL_BACKGROUND)
+            Cell(
+                id = CELL_DAY_VIEW,
+                layout = CELL_DAY_LAYOUT,
+                textColour = LIGHT_THEME_MAIN_TEXT_COLOUR,
+                background = TODAY_LIGHT_THEME_CELL_BACKGROUND
+            )
         ),
         Arguments.of(
             Theme.LIGHT,
             true,
             true,
             DayOfWeek.THURSDAY,
-            Cell(CELL_DAY_VIEW, CELL_DAY_LAYOUT, textColour = LIGHT_THEME_MAIN_TEXT_COLOUR, background = TODAY_LIGHT_THEME_CELL_BACKGROUND)
+            Cell(
+                id = CELL_DAY_VIEW,
+                layout = CELL_DAY_LAYOUT,
+                textColour = LIGHT_THEME_MAIN_TEXT_COLOUR,
+                background = TODAY_LIGHT_THEME_CELL_BACKGROUND
+            )
         ),
         Arguments.of(
             Theme.LIGHT,
             true,
             true,
             DayOfWeek.FRIDAY,
-            Cell(CELL_DAY_VIEW, CELL_DAY_LAYOUT, textColour = LIGHT_THEME_MAIN_TEXT_COLOUR, background = TODAY_LIGHT_THEME_CELL_BACKGROUND)
+            Cell(
+                id = CELL_DAY_VIEW,
+                layout = CELL_DAY_LAYOUT,
+                textColour = LIGHT_THEME_MAIN_TEXT_COLOUR,
+                background = TODAY_LIGHT_THEME_CELL_BACKGROUND
+            )
         ),
         Arguments.of(
             Theme.LIGHT,
             true,
             true,
             DayOfWeek.SATURDAY,
-            Cell(CELL_DAY_VIEW, CELL_DAY_LAYOUT, textColour = LIGHT_THEME_MAIN_TEXT_COLOUR, background = 2131034152)
+            Cell(
+                id = CELL_DAY_VIEW,
+                layout = CELL_DAY_LAYOUT,
+                textColour = LIGHT_THEME_MAIN_TEXT_COLOUR,
+                background = 2131034152
+            )
         ),
         Arguments.of(
             Theme.LIGHT,
             true,
             true,
             DayOfWeek.SUNDAY,
-            Cell(CELL_DAY_VIEW, CELL_DAY_LAYOUT, textColour = LIGHT_THEME_MAIN_TEXT_COLOUR, background = 2131034158)
+            Cell(
+                id = CELL_DAY_VIEW,
+                layout = CELL_DAY_LAYOUT,
+                textColour = LIGHT_THEME_MAIN_TEXT_COLOUR,
+                background = 2131034158
+            )
         ),
         Arguments.of(
             Theme.LIGHT,
             false,
             true,
             DayOfWeek.MONDAY,
-            Cell(CELL_DAY_VIEW, CELL_DAY_LAYOUT, textColour = LIGHT_THEME_MAIN_TEXT_COLOUR, background = IN_MONTH_LIGHT_THEME_CELL_BACKGROUND)
+            Cell(
+                id = CELL_DAY_VIEW,
+                layout = CELL_DAY_LAYOUT,
+                textColour = LIGHT_THEME_MAIN_TEXT_COLOUR,
+                background = IN_MONTH_LIGHT_THEME_CELL_BACKGROUND
+            )
         ),
         Arguments.of(
             Theme.LIGHT,
             false,
             true,
             DayOfWeek.TUESDAY,
-            Cell(CELL_DAY_VIEW, CELL_DAY_LAYOUT, textColour = LIGHT_THEME_MAIN_TEXT_COLOUR, background = IN_MONTH_LIGHT_THEME_CELL_BACKGROUND)
+            Cell(
+                id = CELL_DAY_VIEW,
+                layout = CELL_DAY_LAYOUT,
+                textColour = LIGHT_THEME_MAIN_TEXT_COLOUR,
+                background = IN_MONTH_LIGHT_THEME_CELL_BACKGROUND
+            )
         ),
         Arguments.of(
             Theme.LIGHT,
             false,
             true,
             DayOfWeek.WEDNESDAY,
-            Cell(CELL_DAY_VIEW, CELL_DAY_LAYOUT, textColour = LIGHT_THEME_MAIN_TEXT_COLOUR, background = IN_MONTH_LIGHT_THEME_CELL_BACKGROUND)
+            Cell(
+                id = CELL_DAY_VIEW,
+                layout = CELL_DAY_LAYOUT,
+                textColour = LIGHT_THEME_MAIN_TEXT_COLOUR,
+                background = IN_MONTH_LIGHT_THEME_CELL_BACKGROUND
+            )
         ),
         Arguments.of(
             Theme.LIGHT,
             false,
             true,
             DayOfWeek.THURSDAY,
-            Cell(CELL_DAY_VIEW, CELL_DAY_LAYOUT, textColour = LIGHT_THEME_MAIN_TEXT_COLOUR, background = IN_MONTH_LIGHT_THEME_CELL_BACKGROUND)
+            Cell(
+                id = CELL_DAY_VIEW,
+                layout = CELL_DAY_LAYOUT,
+                textColour = LIGHT_THEME_MAIN_TEXT_COLOUR,
+                background = IN_MONTH_LIGHT_THEME_CELL_BACKGROUND
+            )
         ),
         Arguments.of(
             Theme.LIGHT,
             false,
             true,
             DayOfWeek.FRIDAY,
-            Cell(CELL_DAY_VIEW, CELL_DAY_LAYOUT, textColour = LIGHT_THEME_MAIN_TEXT_COLOUR, background = IN_MONTH_LIGHT_THEME_CELL_BACKGROUND)
+            Cell(
+                id = CELL_DAY_VIEW,
+                layout = CELL_DAY_LAYOUT,
+                textColour = LIGHT_THEME_MAIN_TEXT_COLOUR,
+                background = IN_MONTH_LIGHT_THEME_CELL_BACKGROUND
+            )
         ),
         Arguments.of(
             Theme.LIGHT,
             false,
             true,
             DayOfWeek.SATURDAY,
-            Cell(CELL_DAY_VIEW, CELL_DAY_LAYOUT, textColour = LIGHT_THEME_MAIN_TEXT_COLOUR, background = SATURDAY_IN_MONTH_LIGHT_THEME_CELL_BACKGROUND)
+            Cell(
+                id = CELL_DAY_VIEW,
+                layout = CELL_DAY_LAYOUT,
+                textColour = LIGHT_THEME_MAIN_TEXT_COLOUR,
+                background = SATURDAY_IN_MONTH_LIGHT_THEME_CELL_BACKGROUND
+            )
         ),
         Arguments.of(
             Theme.LIGHT,
             false,
             true,
             DayOfWeek.SUNDAY,
-            Cell(CELL_DAY_VIEW, CELL_DAY_LAYOUT, textColour = LIGHT_THEME_MAIN_TEXT_COLOUR, background = SUNDAY_IN_MONTH_LIGHT_THEME_CELL_BACKGROUND)
+            Cell(
+                id = CELL_DAY_VIEW,
+                layout = CELL_DAY_LAYOUT,
+                textColour = LIGHT_THEME_MAIN_TEXT_COLOUR,
+                background = SUNDAY_IN_MONTH_LIGHT_THEME_CELL_BACKGROUND
+            )
         ),
         Arguments.of(
             Theme.LIGHT,
             false,
             false,
             DayOfWeek.MONDAY,
-            Cell(CELL_DAY_VIEW, CELL_DAY_LAYOUT, textColour = LIGHT_THEME_CELL_TEXT_COLOUR, background = null)
+            Cell(
+                id = CELL_DAY_VIEW,
+                layout = CELL_DAY_LAYOUT,
+                textColour = LIGHT_THEME_CELL_TEXT_COLOUR,
+                background = null
+            )
         ),
         Arguments.of(
             Theme.LIGHT,
             false,
             false,
             DayOfWeek.TUESDAY,
-            Cell(CELL_DAY_VIEW, CELL_DAY_LAYOUT, textColour = LIGHT_THEME_CELL_TEXT_COLOUR, background = null)
+            Cell(
+                id = CELL_DAY_VIEW,
+                layout = CELL_DAY_LAYOUT,
+                textColour = LIGHT_THEME_CELL_TEXT_COLOUR,
+                background = null
+            )
         ),
         Arguments.of(
             Theme.LIGHT,
             false,
             false,
             DayOfWeek.WEDNESDAY,
-            Cell(CELL_DAY_VIEW, CELL_DAY_LAYOUT, textColour = LIGHT_THEME_CELL_TEXT_COLOUR, background = null)
+            Cell(
+                id = CELL_DAY_VIEW,
+                layout = CELL_DAY_LAYOUT,
+                textColour = LIGHT_THEME_CELL_TEXT_COLOUR,
+                background = null
+            )
         ),
         Arguments.of(
             Theme.LIGHT,
             false,
             false,
             DayOfWeek.THURSDAY,
-            Cell(CELL_DAY_VIEW, CELL_DAY_LAYOUT, textColour = LIGHT_THEME_CELL_TEXT_COLOUR, background = null)
+            Cell(
+                id = CELL_DAY_VIEW,
+                layout = CELL_DAY_LAYOUT,
+                textColour = LIGHT_THEME_CELL_TEXT_COLOUR,
+                background = null
+            )
         ),
         Arguments.of(
             Theme.LIGHT,
             false,
             false,
             DayOfWeek.FRIDAY,
-            Cell(CELL_DAY_VIEW, CELL_DAY_LAYOUT, textColour = LIGHT_THEME_CELL_TEXT_COLOUR, background = null)
+            Cell(
+                id = CELL_DAY_VIEW,
+                layout = CELL_DAY_LAYOUT,
+                textColour = LIGHT_THEME_CELL_TEXT_COLOUR,
+                background = null
+            )
         ),
         Arguments.of(
             Theme.LIGHT,
             false,
             false,
             DayOfWeek.SATURDAY,
-            Cell(CELL_DAY_VIEW, CELL_DAY_LAYOUT, textColour = LIGHT_THEME_CELL_TEXT_COLOUR, background = 2131034148)
+            Cell(
+                id = CELL_DAY_VIEW,
+                layout = CELL_DAY_LAYOUT,
+                textColour = LIGHT_THEME_CELL_TEXT_COLOUR,
+                background = 2131034148
+            )
         ),
         Arguments.of(
             Theme.LIGHT,
             false,
             false,
             DayOfWeek.SUNDAY,
-            Cell(CELL_DAY_VIEW, CELL_DAY_LAYOUT, textColour = LIGHT_THEME_CELL_TEXT_COLOUR, background = 2131034154)
+            Cell(
+                id = CELL_DAY_VIEW,
+                layout = CELL_DAY_LAYOUT,
+                textColour = LIGHT_THEME_CELL_TEXT_COLOUR,
+                background = 2131034154
+            )
         )
     )
 }

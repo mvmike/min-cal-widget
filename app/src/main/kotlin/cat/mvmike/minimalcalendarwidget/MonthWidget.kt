@@ -19,22 +19,36 @@ class MonthWidget : AppWidgetProvider() {
         EnableWidgetUseCase.execute(context)
     }
 
-    override fun onAppWidgetOptionsChanged(context: Context, appWidgetManager: AppWidgetManager, appWidgetId: Int, newOptions: Bundle) {
+    override fun onAppWidgetOptionsChanged(
+        context: Context,
+        appWidgetManager: AppWidgetManager,
+        appWidgetId: Int,
+        newOptions: Bundle
+    ) {
         super.onAppWidgetOptionsChanged(context, appWidgetManager, appWidgetId, newOptions)
         RedrawWidgetUseCase.execute(context, appWidgetManager, appWidgetId, true)
     }
 
-    override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
+    override fun onUpdate(
+        context: Context,
+        appWidgetManager: AppWidgetManager,
+        appWidgetIds: IntArray
+    ) {
         super.onUpdate(context, appWidgetManager, appWidgetIds)
         RedrawWidgetUseCase.execute(context, appWidgetManager, appWidgetIds)
     }
 
-    override fun onReceive(context: Context, intent: Intent) {
+    override fun onReceive(
+        context: Context,
+        intent: Intent
+    ) {
         super.onReceive(context, intent)
         ProcessIntentUseCase.execute(context, intent)
     }
 
-    override fun onDisabled(context: Context) {
+    override fun onDisabled(
+        context: Context
+    ) {
         super.onDisabled(context)
         DisableWidgetUseCase.execute(context)
     }

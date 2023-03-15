@@ -46,7 +46,8 @@ sealed class ActionableView(
 
         private const val CELL_DAY_INTENT_EXTRA_NAME = "startOfDayInEpochSeconds"
 
-        override fun addListener(context: Context, remoteViews: RemoteViews) = throw UnsupportedOperationException("must call overloaded addListener method")
+        override fun addListener(context: Context, remoteViews: RemoteViews) =
+            throw UnsupportedOperationException("must call overloaded addListener method")
 
         fun addListener(context: Context, remoteViews: RemoteViews, startOfDay: Instant) {
             remoteViews.setOnClickPendingIntent(

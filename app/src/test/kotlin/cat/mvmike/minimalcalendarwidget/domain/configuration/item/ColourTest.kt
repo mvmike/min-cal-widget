@@ -45,7 +45,11 @@ internal class ColourTest : BaseTest() {
         "BLACK,$BLACK_INSTANCES_COLOUR_ID,$BLACK_INSTANCES_COLOUR_ID",
         "WHITE,$WHITE_INSTANCES_COLOUR_ID,$WHITE_INSTANCES_COLOUR_ID"
     )
-    fun getInstancesColour_shouldReturnThemedInstancesColourWhenIsNotToday(colour: Colour, expectedDarkThemeColour: Int, expectedLightThemeColour: Int) {
+    fun getInstancesColour_shouldReturnThemedInstancesColourWhenIsNotToday(
+        colour: Colour,
+        expectedDarkThemeColour: Int,
+        expectedLightThemeColour: Int
+    ) {
         val darkThemeInstancesColour = colour.getInstancesColour(false, Theme.DARK)
         val lightThemeInstancesColour = colour.getInstancesColour(false, Theme.LIGHT)
 
@@ -63,7 +67,10 @@ internal class ColourTest : BaseTest() {
         "32,true",
         "99,true"
     )
-    fun systemAccentColourAvailability_shouldDependOnSystemSDK(sdkVersion: Int, expectedAvailability: Boolean) {
+    fun systemAccentColourAvailability_shouldDependOnSystemSDK(
+        sdkVersion: Int,
+        expectedAvailability: Boolean
+    ) {
         mockGetRuntimeSDK(sdkVersion)
 
         val result = Colour.SYSTEM_ACCENT.isAvailable()

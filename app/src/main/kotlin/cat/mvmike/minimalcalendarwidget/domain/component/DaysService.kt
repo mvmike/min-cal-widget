@@ -61,8 +61,11 @@ object DaysService {
                     inMonth = currentDay.isInMonth(systemLocalDate),
                     dayOfWeek = currentDay.getDayOfWeek()
                 )
-                val instancesSymbol = currentDay.getNumberOfInstances(instanceSet, showDeclinedEvents).getSymbol(instancesSymbolSet)
-                val dayInstancesColour = currentDay.getInstancesColor(context, instancesColour, widgetTheme, systemLocalDate)
+                val instancesSymbol = currentDay
+                    .getNumberOfInstances(instanceSet, showDeclinedEvents)
+                    .getSymbol(instancesSymbolSet)
+                val dayInstancesColour = currentDay
+                    .getInstancesColor(context, instancesColour, widgetTheme, systemLocalDate)
                 val backgroundWithTransparency = dayCell.background
                     ?.let { GraphicResolver.getColourAsString(context, it) }
                     ?.withTransparency(
@@ -102,7 +105,10 @@ object DaysService {
         }
     }
 
-    internal fun getFocusedOnCurrentWeekInitialLocalDate(systemLocalDate: LocalDate, firstDayOfWeek: DayOfWeek): LocalDate {
+    internal fun getFocusedOnCurrentWeekInitialLocalDate(
+        systemLocalDate: LocalDate,
+        firstDayOfWeek: DayOfWeek
+    ): LocalDate {
         val systemLocalDateWithFirstDayOfWeek = systemLocalDate.with(firstDayOfWeek)
         return when (systemLocalDateWithFirstDayOfWeek.isAfter(systemLocalDate)) {
             true -> systemLocalDateWithFirstDayOfWeek.minusWeeks(2)
@@ -110,7 +116,10 @@ object DaysService {
         }
     }
 
-    internal fun getNaturalMonthInitialLocalDate(systemLocalDate: LocalDate, firstDayOfWeek: DayOfWeek): LocalDate {
+    internal fun getNaturalMonthInitialLocalDate(
+        systemLocalDate: LocalDate,
+        firstDayOfWeek: DayOfWeek
+    ): LocalDate {
         val firstDayOfMonth = LocalDate.of(systemLocalDate.year, systemLocalDate.monthValue, 1)
         val difference = firstDayOfWeek.ordinal - firstDayOfMonth[ChronoField.DAY_OF_WEEK] + 1
         val adjustedInitialLocalDate = firstDayOfMonth.plus(difference.toLong(), ChronoUnit.DAYS)
@@ -121,7 +130,10 @@ object DaysService {
         }
     }
 
-    internal fun Day.getNumberOfInstances(instanceSet: Set<Instance>, includeDeclinedEvents: Boolean) = instanceSet
+    internal fun Day.getNumberOfInstances(
+        instanceSet: Set<Instance>,
+        includeDeclinedEvents: Boolean
+    ) = instanceSet
         .filter { it.isInDay(this.dayLocalDate) }
         .count { includeDeclinedEvents || !it.isDeclined }
 
@@ -130,6 +142,10 @@ object DaysService {
 
     private fun Int.getSymbol(symbolSet: SymbolSet) = symbolSet.get(this)
 
-    private fun Day.getInstancesColor(context: Context, colour: Colour, widgetTheme: Theme, systemLocalDate: LocalDate) =
-        GraphicResolver.getColour(context, colour.getInstancesColour(isToday(systemLocalDate), widgetTheme))
+    private fun Day.getInstancesColor(
+        context: Context,
+        colour: Colour,
+        widgetTheme: Theme,
+        systemLocalDate: LocalDate
+    ) = GraphicResolver.getColour(context, colour.getInstancesColour(isToday(systemLocalDate), widgetTheme))
 }

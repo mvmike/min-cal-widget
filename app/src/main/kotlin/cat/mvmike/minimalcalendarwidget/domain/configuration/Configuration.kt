@@ -45,9 +45,11 @@ sealed class ConfigurationItem<E>(
     ) {
         override fun get(context: Context) = throw UnsupportedOperationException("must include appWidgetId")
 
-        fun get(context: Context, appWidgetId: Int) = Format(getConfiguration(context).getInt(getKey(appWidgetId), defaultValue.width))
+        fun get(context: Context, appWidgetId: Int) =
+            Format(getConfiguration(context).getInt(getKey(appWidgetId), defaultValue.width))
 
-        fun set(context: Context, value: Format, appWidgetId: Int) = getConfiguration(context).edit().putInt(getKey(appWidgetId), value.width).apply()
+        fun set(context: Context, value: Format, appWidgetId: Int) =
+            getConfiguration(context).edit().putInt(getKey(appWidgetId), value.width).apply()
 
         private fun getKey(appWidgetId: Int) = "${key}_$appWidgetId"
     }

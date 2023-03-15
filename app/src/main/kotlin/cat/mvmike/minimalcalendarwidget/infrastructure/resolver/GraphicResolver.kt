@@ -4,9 +4,9 @@ package cat.mvmike.minimalcalendarwidget.infrastructure.resolver
 
 import android.content.Context
 import android.graphics.Color
-import android.graphics.Typeface
-import android.text.Spannable
+import android.graphics.Typeface.BOLD
 import android.text.SpannableString
+import android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
 import android.text.style.ForegroundColorSpan
 import android.text.style.RelativeSizeSpan
 import android.text.style.StyleSpan
@@ -18,7 +18,8 @@ object GraphicResolver {
 
     // ADD VISUAL COMPONENTS TO WIDGET
 
-    fun addToWidget(widgetRemoteView: RemoteViews, remoteView: RemoteViews) = widgetRemoteView.addView(R.id.calendar_days_layout, remoteView)
+    fun addToWidget(widgetRemoteView: RemoteViews, remoteView: RemoteViews) =
+        widgetRemoteView.addView(R.id.calendar_days_layout, remoteView)
 
     // MONTH YEAR HEADER
 
@@ -32,10 +33,11 @@ object GraphicResolver {
         textRelativeSize: Float
     ) {
         val text = "$month $year"
-        val monthAndYearSpSt = SpannableString(text)
-        monthAndYearSpSt.setSpan(RelativeSizeSpan(textRelativeSize), 0, monthAndYearSpSt.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-        monthAndYearSpSt.setSpan(RelativeSizeSpan(headerYearRelativeSize * textRelativeSize), month.length, text.length, 0)
-        monthAndYearSpSt.setSpan(ForegroundColorSpan(getColour(context, textColour)), 0, text.length, 0)
+        val monthAndYearSpSt = SpannableString(text).apply {
+            setSpan(RelativeSizeSpan(textRelativeSize), 0, this.length, SPAN_EXCLUSIVE_EXCLUSIVE)
+            setSpan(RelativeSizeSpan(headerYearRelativeSize * textRelativeSize), month.length, text.length, 0)
+            setSpan(ForegroundColorSpan(getColour(context, textColour)), 0, text.length, 0)
+        }
         widgetRemoteView.setTextViewText(R.id.month_and_year_header, monthAndYearSpSt)
     }
 
@@ -53,8 +55,9 @@ object GraphicResolver {
         dayHeaderBackgroundColour: Int?,
         textRelativeSize: Float
     ) {
-        val dayHeaderSpSt = SpannableString(text)
-        dayHeaderSpSt.setSpan(RelativeSizeSpan(textRelativeSize), 0, dayHeaderSpSt.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        val dayHeaderSpSt = SpannableString(text).apply {
+            setSpan(RelativeSizeSpan(textRelativeSize), 0, this.length, SPAN_EXCLUSIVE_EXCLUSIVE)
+        }
 
         val dayRv = getById(context, layoutId)
         dayRv.setTextViewText(viewId, dayHeaderSpSt)
@@ -84,15 +87,16 @@ object GraphicResolver {
         dayBackgroundColour: Int?,
         textRelativeSize: Float
     ) {
-        val daySpSt = SpannableString(text)
-        if (dayOfMonthInBold) {
-            daySpSt.setSpan(StyleSpan(Typeface.BOLD), 0, daySpSt.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-        } else {
-            daySpSt.setSpan(StyleSpan(Typeface.BOLD), daySpSt.length - 1, daySpSt.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        val daySpSt = SpannableString(text).apply {
+            if (dayOfMonthInBold) {
+                setSpan(StyleSpan(BOLD), 0, this.length, SPAN_EXCLUSIVE_EXCLUSIVE)
+            } else {
+                setSpan(StyleSpan(BOLD), this.length - 1, this.length, SPAN_EXCLUSIVE_EXCLUSIVE)
+            }
+            setSpan(ForegroundColorSpan(instancesColour), this.length - 1, this.length, SPAN_EXCLUSIVE_EXCLUSIVE)
+            setSpan(RelativeSizeSpan(textRelativeSize), 0, this.length, SPAN_EXCLUSIVE_EXCLUSIVE)
+            setSpan(RelativeSizeSpan(instancesRelativeSize), this.length - 1, this.length, SPAN_EXCLUSIVE_EXCLUSIVE)
         }
-        daySpSt.setSpan(ForegroundColorSpan(instancesColour), daySpSt.length - 1, daySpSt.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-        daySpSt.setSpan(RelativeSizeSpan(textRelativeSize), 0, daySpSt.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-        daySpSt.setSpan(RelativeSizeSpan(instancesRelativeSize), daySpSt.length - 1, daySpSt.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
 
         dayRemoteView.setTextViewText(viewId, daySpSt)
         dayRemoteView.setTextColor(viewId, getColour(context, textColour))

@@ -106,7 +106,8 @@ class ConfigurationActivity : AppCompatActivity() {
                 it.asCheckBoxPreference().isChecked = it.get(requireContext())
             }
 
-            ConfigurationItem.WidgetTransparency.asSeekBarPreference().value = ConfigurationItem.WidgetTransparency.get(requireContext()).percentage
+            ConfigurationItem.WidgetTransparency.asSeekBarPreference().value =
+                ConfigurationItem.WidgetTransparency.get(requireContext()).percentage
         }
 
         private fun enumConfigurationItems() = setOf(
