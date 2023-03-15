@@ -1,6 +1,21 @@
 root = true
 
-[*.{kt,kts}]
+[*]
+charset = utf-8
+end_of_line = lf
+indent_size = 4
+indent_style = space
+insert_final_newline = true
 max_line_length = 160
+tab_width = 4
+
+[*.{yml, yaml, md, json, tf, sh}]
+indent_size = 2
+
+[*.{kt,kts}]
+# https://www.jetbrains.com/help/idea/configuring-code-style.html#editorconfig
+ij_kotlin_name_count_to_use_star_import = 999
+ij_kotlin_name_count_to_use_star_import_for_members = 999
+# https://pinterest.github.io/ktlint/rules/configuration-ktlint/#disabled-rules
 ktlint_standard_trailing-comma-on-call-site = disabled
 ktlint_standard_trailing-comma-on-declaration-site = disabled
