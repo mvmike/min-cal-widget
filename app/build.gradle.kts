@@ -30,8 +30,8 @@ android {
         applicationId = namespace
         minSdk = minAndroidVersion
         targetSdk = androidVersion
-        versionCode = 60
-        versionName = "2.9.1"
+        versionCode = 61
+        versionName = "2.9.2"
 
         multiDexEnabled = true
     }
