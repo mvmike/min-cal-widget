@@ -65,12 +65,15 @@ internal class CalendarResolverTest : BaseTest() {
         mockkStatic(CalendarContract.Instances::class)
         every { CalendarContract.Instances.query(context.contentResolver, instanceQueryFields, begin, end) } returns cursor
         every { cursor.moveToNext() } throws RuntimeException()
+        justRun { cursor.close() }
 
         val result = CalendarResolver.getInstances(context, begin, end)
 
         assertThat(result).isEqualTo(emptySet<Instance>())
         verify { context.contentResolver }
         verify { CalendarResolver.getInstances(context, begin, end) }
+        verify { cursor.moveToNext() }
+        verify { cursor.close() }
     }
 
     @Test
@@ -90,6 +93,8 @@ internal class CalendarResolverTest : BaseTest() {
         assertThat(result).containsExactlyInAnyOrder(validInstanceCursors[1].toInstance())
         verify { context.contentResolver }
         verify { CalendarResolver.getInstances(context, begin, end) }
+        verify(exactly = 3) { cursor.moveToNext() }
+        verify { cursor.close() }
     }
 
     @Test
@@ -113,6 +118,8 @@ internal class CalendarResolverTest : BaseTest() {
         )
         verify { context.contentResolver }
         verify { CalendarResolver.getInstances(context, begin, end) }
+        verify(exactly = validInstanceCursors.size + 1) { cursor.moveToNext() }
+        verify { cursor.close() }
     }
 
     private data class InstanceCursor(
