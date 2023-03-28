@@ -11,7 +11,6 @@ import cat.mvmike.minimalcalendarwidget.domain.configuration.ConfigurationItem
 import cat.mvmike.minimalcalendarwidget.domain.configuration.EnumConfigurationItem
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Colour
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Format
-import cat.mvmike.minimalcalendarwidget.domain.configuration.item.SymbolSet
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.TransparencyRange
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.withTransparency
@@ -56,16 +55,16 @@ object DaysService {
 
             for (weekDay in 0 until DAYS_IN_WEEK) {
                 val currentDay = Day(initialLocalDate.toCurrentWeekAndWeekDay(week, weekDay))
+                val isToday = currentDay.isToday(systemLocalDate)
                 val dayCell = widgetTheme.getCellDay(
-                    isToday = currentDay.isToday(systemLocalDate),
+                    isToday = isToday,
                     inMonth = currentDay.isInMonth(systemLocalDate),
                     dayOfWeek = currentDay.getDayOfWeek()
                 )
                 val instancesSymbol = currentDay
                     .getNumberOfInstances(instanceSet, showDeclinedEvents)
-                    .getSymbol(instancesSymbolSet)
-                val dayInstancesColour = currentDay
-                    .getInstancesColor(context, instancesColour, widgetTheme, systemLocalDate)
+                    .let { instancesSymbolSet.get(it) }
+                val dayInstancesColour = getInstancesColor(context, instancesColour, widgetTheme, isToday)
                 val backgroundWithTransparency = dayCell.background
                     ?.let { GraphicResolver.getColourAsString(context, it) }
                     ?.withTransparency(
@@ -85,7 +84,7 @@ object DaysService {
                     viewId = dayCell.id,
                     text = " ${currentDay.getDayOfMonthString()} $instancesSymbol",
                     textColour = dayCell.textColour,
-                    dayOfMonthInBold = currentDay.isToday(systemLocalDate),
+                    dayOfMonthInBold = isToday,
                     instancesColour = dayInstancesColour,
                     instancesRelativeSize = instancesSymbolSet.relativeSize,
                     dayBackgroundColour = backgroundWithTransparency,
@@ -134,18 +133,19 @@ object DaysService {
         instanceSet: Set<Instance>,
         includeDeclinedEvents: Boolean
     ) = instanceSet
-        .filter { it.isInDay(this.dayLocalDate) }
+        .filter { it.isInDay(dayLocalDate) }
         .count { includeDeclinedEvents || !it.isDeclined }
 
     private fun LocalDate.toCurrentWeekAndWeekDay(week: Int, weekDay: Int) =
-        this.plus((week * DAYS_IN_WEEK + weekDay).toLong(), ChronoUnit.DAYS)
+        plus((week * DAYS_IN_WEEK + weekDay).toLong(), ChronoUnit.DAYS)
 
-    private fun Int.getSymbol(symbolSet: SymbolSet) = symbolSet.get(this)
-
-    private fun Day.getInstancesColor(
+    private fun getInstancesColor(
         context: Context,
         colour: Colour,
         widgetTheme: Theme,
-        systemLocalDate: LocalDate
-    ) = GraphicResolver.getColour(context, colour.getInstancesColour(isToday(systemLocalDate), widgetTheme))
+        isToday: Boolean
+    ) = GraphicResolver.getColour(
+        context = context,
+        id = colour.getInstancesColour(isToday, widgetTheme)
+    )
 }

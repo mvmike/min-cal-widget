@@ -58,7 +58,9 @@ internal class DaysHeaderServiceTest : BaseTest() {
             every { context.getString(resourceAndTranslation.first) } returns resourceAndTranslation.second
         }
 
-        justRun { GraphicResolver.addToDaysHeaderRow(context, daysHeaderRowRv, any(), any(), any(), any(), any(), any()) }
+        justRun {
+            GraphicResolver.addToDaysHeaderRow(context, daysHeaderRowRv, any(), any(), any(), any(), any(), any())
+        }
         justRun { GraphicResolver.addToWidget(widgetRv, daysHeaderRowRv) }
         justRun { ActionableView.RowHeader.addListener(context, widgetRv) }
 

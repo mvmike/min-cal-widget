@@ -34,7 +34,7 @@ object GraphicResolver {
     ) {
         val text = "$month $year"
         val monthAndYearSpSt = SpannableString(text).apply {
-            setSpan(RelativeSizeSpan(textRelativeSize), 0, this.length, SPAN_EXCLUSIVE_EXCLUSIVE)
+            setSpan(RelativeSizeSpan(textRelativeSize), 0, length, SPAN_EXCLUSIVE_EXCLUSIVE)
             setSpan(RelativeSizeSpan(headerYearRelativeSize * textRelativeSize), month.length, text.length, 0)
             setSpan(ForegroundColorSpan(getColour(context, textColour)), 0, text.length, 0)
         }
@@ -56,7 +56,7 @@ object GraphicResolver {
         textRelativeSize: Float
     ) {
         val dayHeaderSpSt = SpannableString(text).apply {
-            setSpan(RelativeSizeSpan(textRelativeSize), 0, this.length, SPAN_EXCLUSIVE_EXCLUSIVE)
+            setSpan(RelativeSizeSpan(textRelativeSize), 0, length, SPAN_EXCLUSIVE_EXCLUSIVE)
         }
 
         val dayRv = getById(context, layoutId)
@@ -89,13 +89,13 @@ object GraphicResolver {
     ) {
         val daySpSt = SpannableString(text).apply {
             if (dayOfMonthInBold) {
-                setSpan(StyleSpan(BOLD), 0, this.length, SPAN_EXCLUSIVE_EXCLUSIVE)
+                setSpan(StyleSpan(BOLD), 0, length, SPAN_EXCLUSIVE_EXCLUSIVE)
             } else {
-                setSpan(StyleSpan(BOLD), this.length - 1, this.length, SPAN_EXCLUSIVE_EXCLUSIVE)
+                setSpan(StyleSpan(BOLD), length - 1, length, SPAN_EXCLUSIVE_EXCLUSIVE)
             }
-            setSpan(ForegroundColorSpan(instancesColour), this.length - 1, this.length, SPAN_EXCLUSIVE_EXCLUSIVE)
-            setSpan(RelativeSizeSpan(textRelativeSize), 0, this.length, SPAN_EXCLUSIVE_EXCLUSIVE)
-            setSpan(RelativeSizeSpan(instancesRelativeSize), this.length - 1, this.length, SPAN_EXCLUSIVE_EXCLUSIVE)
+            setSpan(ForegroundColorSpan(instancesColour), length - 1, length, SPAN_EXCLUSIVE_EXCLUSIVE)
+            setSpan(RelativeSizeSpan(textRelativeSize), 0, length, SPAN_EXCLUSIVE_EXCLUSIVE)
+            setSpan(RelativeSizeSpan(instancesRelativeSize), length - 1, length, SPAN_EXCLUSIVE_EXCLUSIVE)
         }
 
         dayRemoteView.setTextViewText(viewId, daySpSt)

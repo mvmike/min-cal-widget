@@ -40,4 +40,4 @@ fun getInstances(context: Context, from: LocalDate, to: LocalDate): Set<Instance
 }
 
 private fun LocalDate.toStartOfDayInEpochMilli(zoneId: ZoneId) =
-    this.atStartOfDay(zoneId).toInstant().toEpochMilli()
+    atStartOfDay(zoneId).toInstant().toEpochMilli()

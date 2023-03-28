@@ -91,13 +91,21 @@ internal class DaysServiceTest : BaseTest() {
             theme.getCellDay(isToday = false, inMonth = false, dayOfWeek = DayOfWeek.SATURDAY),
             theme.getCellDay(isToday = false, inMonth = false, dayOfWeek = DayOfWeek.SUNDAY)
         ).forEach {
-            every { GraphicResolver.getColourAsString(context, it.background!!) } returns DAY_CELL_TRANSPARENT_BACKGROUND
+            every {
+                GraphicResolver.getColourAsString(context, it.background!!)
+            } returns DAY_CELL_TRANSPARENT_BACKGROUND
         }
-        every { GraphicResolver.parseColour(DAY_CELL_MODERATE_TRANSPARENT_BACKGROUND_IN_HEX) } returns expectedBackground
-        every { GraphicResolver.parseColour(DAY_CELL_LOW_TRANSPARENT_BACKGROUND_IN_HEX) } returns expectedBackground
+        every {
+            GraphicResolver.parseColour(DAY_CELL_MODERATE_TRANSPARENT_BACKGROUND_IN_HEX)
+        } returns expectedBackground
+        every {
+            GraphicResolver.parseColour(DAY_CELL_LOW_TRANSPARENT_BACKGROUND_IN_HEX)
+        } returns expectedBackground
 
         every { GraphicResolver.createDay(context, any()) } returns dayRv
-        justRun { GraphicResolver.addToDaysRow(context, rowRv, any(), any(), any(), any(), any(), any(), any(), any(), any()) }
+        justRun {
+            GraphicResolver.addToDaysRow(context, rowRv, any(), any(), any(), any(), any(), any(), any(), any(), any())
+        }
         justRun { ActionableView.CellDay.addListener(context, dayRv, any()) }
         justRun { GraphicResolver.addToWidget(widgetRv, rowRv) }
 

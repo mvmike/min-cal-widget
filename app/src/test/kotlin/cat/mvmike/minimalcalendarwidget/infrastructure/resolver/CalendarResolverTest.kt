@@ -51,7 +51,9 @@ internal class CalendarResolverTest : BaseTest() {
     @Test
     fun shouldReturnEmptySetWhenQueryCannotBeExecuted() {
         mockkStatic(CalendarContract.Instances::class)
-        every { CalendarContract.Instances.query(context.contentResolver, instanceQueryFields, begin, end) } throws RuntimeException()
+        every {
+            CalendarContract.Instances.query(context.contentResolver, instanceQueryFields, begin, end)
+        } throws RuntimeException()
 
         val result = CalendarResolver.getInstances(context, begin, end)
 
@@ -63,7 +65,9 @@ internal class CalendarResolverTest : BaseTest() {
     @Test
     fun shouldReturnEmptySetWhenMovingCursorThrowsException() {
         mockkStatic(CalendarContract.Instances::class)
-        every { CalendarContract.Instances.query(context.contentResolver, instanceQueryFields, begin, end) } returns cursor
+        every {
+            CalendarContract.Instances.query(context.contentResolver, instanceQueryFields, begin, end)
+        } returns cursor
         every { cursor.moveToNext() } throws RuntimeException()
         justRun { cursor.close() }
 
@@ -79,7 +83,9 @@ internal class CalendarResolverTest : BaseTest() {
     @Test
     fun shouldSkipInvalidInstance() {
         mockkStatic(CalendarContract.Instances::class)
-        every { CalendarContract.Instances.query(context.contentResolver, instanceQueryFields, begin, end) } returns cursor
+        every {
+            CalendarContract.Instances.query(context.contentResolver, instanceQueryFields, begin, end)
+        } returns cursor
         every { cursor.moveToNext() } returnsMany listOf(true, true, false)
         every { cursor.getInt(0) } returnsMany listOf(validInstanceCursors[0].eventId, validInstanceCursors[1].eventId)
         every { cursor.getLong(1) } throws RuntimeException("some weird error") andThen validInstanceCursors[1].start
@@ -100,7 +106,14 @@ internal class CalendarResolverTest : BaseTest() {
     @Test
     fun shouldFetchAllInstances() {
         mockkStatic(CalendarContract.Instances::class)
-        every { CalendarContract.Instances.query(context.contentResolver, instanceQueryFields, begin, end) } returns cursor
+        every {
+            CalendarContract.Instances.query(
+                context.contentResolver,
+                instanceQueryFields,
+                begin,
+                end
+            )
+        } returns cursor
         every { cursor.moveToNext() } returnsMany listOf(true, true, true, false)
         every { cursor.getInt(0) } returnsMany validInstanceCursors.map { it.eventId }
         every { cursor.getLong(1) } returnsMany validInstanceCursors.map { it.start }

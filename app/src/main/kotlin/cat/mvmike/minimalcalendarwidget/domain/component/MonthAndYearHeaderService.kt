@@ -36,7 +36,7 @@ object MonthAndYearHeaderService {
     }
 
     private fun Instant.toMonthDisplayValue(zoneId: ZoneId, context: Context) =
-        when (this.atZone(zoneId).month!!) {
+        when (atZone(zoneId).month!!) {
             Month.JANUARY -> R.string.january
             Month.FEBRUARY -> R.string.february
             Month.MARCH -> R.string.march

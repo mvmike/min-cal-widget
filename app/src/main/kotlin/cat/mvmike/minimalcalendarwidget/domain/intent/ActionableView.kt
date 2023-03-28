@@ -66,7 +66,7 @@ sealed class ActionableView(
         fun Intent.getExtraInstant(): Instant {
             val systemInstant = SystemResolver.getSystemInstant()
             val systemZoneId = SystemResolver.getSystemZoneId()
-            val extraInstant = ofEpochSecond(this.getLongExtra(CELL_DAY_INTENT_EXTRA_NAME, systemInstant.epochSecond))
+            val extraInstant = ofEpochSecond(getLongExtra(CELL_DAY_INTENT_EXTRA_NAME, systemInstant.epochSecond))
 
             val systemLocalDateTime = systemInstant.atZone(systemZoneId)
             return extraInstant.atZone(systemZoneId)
@@ -89,14 +89,12 @@ sealed class ActionableView(
         )
 }
 
-fun Intent.toActionableView(): ActionableView? {
-    return listOf(
-        ActionableView.ConfigurationIcon,
-        ActionableView.MonthAndYearHeader,
-        ActionableView.RowHeader
-    ).firstOrNull { it.action == this.action } ?: when {
-        this.action == null -> null
-        this.action!!.startsWith(ActionableView.CellDay.action) -> ActionableView.CellDay
-        else -> null
-    }
+fun Intent.toActionableView(): ActionableView? = listOf(
+    ActionableView.ConfigurationIcon,
+    ActionableView.MonthAndYearHeader,
+    ActionableView.RowHeader
+).firstOrNull { it.action == action } ?: when {
+    action == null -> null
+    action!!.startsWith(ActionableView.CellDay.action) -> ActionableView.CellDay
+    else -> null
 }

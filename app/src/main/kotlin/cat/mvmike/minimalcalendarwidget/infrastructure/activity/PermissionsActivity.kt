@@ -38,5 +38,5 @@ class PermissionsActivity : Activity() {
     private fun Int.isReadCalendarPermission() = this == READ_CALENDAR_PERM
 
     private fun IntArray.isPermissionGranted() =
-        this.size == 1 && this[0] == PackageManager.PERMISSION_GRANTED
+        size == 1 && this[0] == PackageManager.PERMISSION_GRANTED
 }

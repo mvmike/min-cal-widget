@@ -7,7 +7,7 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.database.Cursor
 import android.provider.CalendarContract
-import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.checkSelfPermission
 import cat.mvmike.minimalcalendarwidget.domain.Instance
 import java.time.Instant
 import java.time.ZoneId
@@ -36,18 +36,18 @@ object CalendarResolver {
     }
 
     fun isReadCalendarPermitted(context: Context) =
-        ContextCompat.checkSelfPermission(context, Manifest.permission.READ_CALENDAR) == PackageManager.PERMISSION_GRANTED
+        checkSelfPermission(context, Manifest.permission.READ_CALENDAR) == PackageManager.PERMISSION_GRANTED
 
     private fun queryInstances(context: Context, begin: Long, end: Long): Cursor =
         CalendarContract.Instances.query(context.contentResolver, instanceQueryFields, begin, end)
 
     private fun Cursor.toInstance(): Instance? = runCatching {
         Instance(
-            eventId = this.getInt(0),
-            start = Instant.ofEpochMilli(this.getLong(1)),
-            end = Instant.ofEpochMilli(this.getLong(2)),
-            zoneId = toZoneIdOrDefault(this.getString(3)),
-            isDeclined = this.getInt(4) == CalendarContract.Instances.STATUS_CANCELED
+            eventId = getInt(0),
+            start = Instant.ofEpochMilli(getLong(1)),
+            end = Instant.ofEpochMilli(getLong(2)),
+            zoneId = toZoneIdOrDefault(getString(3)),
+            isDeclined = getInt(4) == CalendarContract.Instances.STATUS_CANCELED
         )
     }.getOrNull()
 

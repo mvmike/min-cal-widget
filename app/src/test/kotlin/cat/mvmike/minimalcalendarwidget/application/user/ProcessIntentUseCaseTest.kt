@@ -74,7 +74,7 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
             "action.mincal.configuration_icon_click"
         ]
     )
-    fun shouldLaunchConfigurationActivityAndRedrawWidgetWithUpsertFormat_whenConfigurationIconIntentAndPermissionsGiven(action: String) {
+    fun shouldLaunchConfigurationActivityAndRedrawWidgetWithUpsertFormat(action: String) {
         mockIntent(action)
         mockIsReadCalendarPermitted(true)
         mockkObject(RedrawWidgetUseCase)
@@ -118,7 +118,7 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
 
     @ParameterizedTest
     @MethodSource("getMincalCalendarIntentActionAndExpectedExtraInstant")
-    fun shouldLaunchCalendarActivityOnTodayAndRedrawWidgetWithUpsertFormat_whenIntentAndPermissionsGiven(action: String) {
+    fun shouldLaunchCalendarActivityOnTodayAndRedrawWidgetWithUpsertFormat(action: String) {
         mockIntent(action)
         mockIsReadCalendarPermitted(true)
         mockGetSystemInstant()
@@ -187,6 +187,8 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
 
     private fun mockIntentWithLongExtra(action: String, systemInstant: Instant, extraInstant: Instant) {
         mockIntent(action)
-        every { intent.getLongExtra("startOfDayInEpochSeconds", systemInstant.epochSecond) } returns extraInstant.epochSecond
+        every {
+            intent.getLongExtra("startOfDayInEpochSeconds", systemInstant.epochSecond)
+        } returns extraInstant.epochSecond
     }
 }

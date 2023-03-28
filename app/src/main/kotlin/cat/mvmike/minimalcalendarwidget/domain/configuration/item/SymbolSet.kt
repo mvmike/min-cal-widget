@@ -55,7 +55,7 @@ enum class SymbolSet(
 }
 
 fun SymbolSet.getDisplayValue(context: Context) =
-    context.getString(this.displayString).replaceFirstChar { it.uppercase() }
+    context.getString(displayString).replaceFirstChar { it.uppercase() }
 
 fun getSymbolSetDisplayValues(context: Context) =
     SymbolSet.values()

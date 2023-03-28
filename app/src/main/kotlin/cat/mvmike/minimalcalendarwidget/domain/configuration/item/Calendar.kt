@@ -37,7 +37,7 @@ fun getAvailableCalendars() =
     Calendar.values()
 
 fun Calendar.getDisplayValue(context: Context) =
-    context.getString(this.displayString).replaceFirstChar { it.uppercase() }
+    context.getString(displayString).replaceFirstChar { it.uppercase() }
 
 fun getCalendarDisplayValues(context: Context) =
     getAvailableCalendars()

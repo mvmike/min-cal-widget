@@ -127,13 +127,13 @@ class ConfigurationActivity : AppCompatActivity() {
             preferenceManager.findPreference<Preference>(this) as Preference
 
         private fun <E> ConfigurationItem<E>.asListPreference() =
-            preferenceManager.findPreference<Preference>(this.key) as ListPreference
+            preferenceManager.findPreference<Preference>(key) as ListPreference
 
         private fun <E> ConfigurationItem<E>.asCheckBoxPreference() =
-            preferenceManager.findPreference<Preference>(this.key) as CheckBoxPreference
+            preferenceManager.findPreference<Preference>(key) as CheckBoxPreference
 
         private fun <E> ConfigurationItem<E>.asSeekBarPreference() =
-            preferenceManager.findPreference<Preference>(this.key) as SeekBarPreference
+            preferenceManager.findPreference<Preference>(key) as SeekBarPreference
 
         private fun String.openInBrowser() = try {
             requireContext().startActivity(

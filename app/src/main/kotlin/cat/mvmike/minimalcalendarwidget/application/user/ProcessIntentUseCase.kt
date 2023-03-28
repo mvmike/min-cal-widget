@@ -24,12 +24,12 @@ object ProcessIntentUseCase {
         ConfigurationIcon -> { { ConfigurationActivity.start(context) } }
         MonthAndYearHeader,
         RowHeader -> { { CalendarActivity.start(context, SystemResolver.getSystemInstant()) } }
-        CellDay -> { { CalendarActivity.start(context, getCalendarStartTime(context, intent)) } }
+        CellDay -> { { CalendarActivity.start(context, intent.getCalendarStartTime(context)) } }
         else -> null
     }?.let { context.executeAndRedrawOrAskForPermissions(it) }
 
-    private fun getCalendarStartTime(context: Context, intent: Intent) = when {
-        BooleanConfigurationItem.OpenCalendarOnClickedDay.get(context) -> intent.getExtraInstant()
+    private fun Intent.getCalendarStartTime(context: Context) = when {
+        BooleanConfigurationItem.OpenCalendarOnClickedDay.get(context) -> getExtraInstant()
         else -> SystemResolver.getSystemInstant()
     }
 

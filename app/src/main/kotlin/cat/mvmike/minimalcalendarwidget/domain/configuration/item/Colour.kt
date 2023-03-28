@@ -70,7 +70,7 @@ fun getAvailableColors() =
     Colour.values().filter { it.isAvailable() }
 
 fun Colour.getDisplayValue(context: Context) =
-    context.getString(this.displayString).replaceFirstChar { it.uppercase() }
+    context.getString(displayString).replaceFirstChar { it.uppercase() }
 
 fun getColourDisplayValues(context: Context) =
     getAvailableColors()

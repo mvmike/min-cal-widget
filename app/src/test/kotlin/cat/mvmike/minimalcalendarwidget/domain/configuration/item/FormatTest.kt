@@ -35,8 +35,10 @@ internal class FormatTest : BaseTest() {
         val result = getFormat(context, appWidgetManager, appWidgetId)!!
 
         val headerLabel = "someLongHeaderLabel"
-        assertThat(result.getMonthHeaderLabel(headerLabel)).isEqualTo(headerLabel.take(formatTestProperties.expectedMonthHeaderLabelLength))
-        assertThat(result.getDayHeaderLabel(headerLabel)).isEqualTo(headerLabel.take(formatTestProperties.expectedDayHeaderLabelLength))
+        assertThat(result.getMonthHeaderLabel(headerLabel))
+            .isEqualTo(headerLabel.take(formatTestProperties.expectedMonthHeaderLabelLength))
+        assertThat(result.getDayHeaderLabel(headerLabel))
+            .isEqualTo(headerLabel.take(formatTestProperties.expectedDayHeaderLabelLength))
         assertThat(result.headerTextRelativeSize).isEqualTo(formatTestProperties.expectedHeaderTextRelativeSize)
         assertThat(result.dayCellTextRelativeSize).isEqualTo(formatTestProperties.expectedDayCellTextRelativeSize)
         verify { context.resources.configuration }
@@ -104,12 +106,36 @@ internal class FormatTest : BaseTest() {
         FormatTestProperties(width = 239),
         FormatTestProperties(width = 221),
         FormatTestProperties(width = 220),
-        FormatTestProperties(width = 219, expectedHeaderTextRelativeSize = 0.9f, expectedDayCellTextRelativeSize = 0.9f),
-        FormatTestProperties(width = 201, expectedHeaderTextRelativeSize = 0.9f, expectedDayCellTextRelativeSize = 0.9f),
-        FormatTestProperties(width = 200, expectedHeaderTextRelativeSize = 0.9f, expectedDayCellTextRelativeSize = 0.9f),
-        FormatTestProperties(width = 199, expectedHeaderTextRelativeSize = 0.8f, expectedDayCellTextRelativeSize = 0.8f),
-        FormatTestProperties(width = 181, expectedHeaderTextRelativeSize = 0.8f, expectedDayCellTextRelativeSize = 0.8f),
-        FormatTestProperties(width = 180, expectedHeaderTextRelativeSize = 0.8f, expectedDayCellTextRelativeSize = 0.8f),
+        FormatTestProperties(
+            width = 219,
+            expectedHeaderTextRelativeSize = 0.9f,
+            expectedDayCellTextRelativeSize = 0.9f
+        ),
+        FormatTestProperties(
+            width = 201,
+            expectedHeaderTextRelativeSize = 0.9f,
+            expectedDayCellTextRelativeSize = 0.9f
+        ),
+        FormatTestProperties(
+            width = 200,
+            expectedHeaderTextRelativeSize = 0.9f,
+            expectedDayCellTextRelativeSize = 0.9f
+        ),
+        FormatTestProperties(
+            width = 199,
+            expectedHeaderTextRelativeSize = 0.8f,
+            expectedDayCellTextRelativeSize = 0.8f
+        ),
+        FormatTestProperties(
+            width = 181,
+            expectedHeaderTextRelativeSize = 0.8f,
+            expectedDayCellTextRelativeSize = 0.8f
+        ),
+        FormatTestProperties(
+            width = 180,
+            expectedHeaderTextRelativeSize = 0.8f,
+            expectedDayCellTextRelativeSize = 0.8f
+        ),
         FormatTestProperties(
             width = 179,
             expectedMonthHeaderLabelLength = 3,

@@ -38,7 +38,14 @@ object RedrawWidgetUseCase {
         appWidgetManager: AppWidgetManager,
         appWidgetIds: IntArray,
         upsertFormat: Boolean = false
-    ) = appWidgetIds.forEach { appWidgetId -> execute(context, appWidgetManager, appWidgetId, upsertFormat) }
+    ) = appWidgetIds.forEach { appWidgetId ->
+        execute(
+            context = context,
+            appWidgetManager = appWidgetManager,
+            appWidgetId = appWidgetId,
+            upsertFormat = upsertFormat
+        )
+    }
 
     fun execute(
         context: Context,

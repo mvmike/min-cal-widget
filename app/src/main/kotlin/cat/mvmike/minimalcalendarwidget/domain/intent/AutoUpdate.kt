@@ -41,5 +41,5 @@ object AutoUpdate {
         )
     )
 
-    private fun Context.getAlarmManager() = this.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+    private fun Context.getAlarmManager() = getSystemService(Context.ALARM_SERVICE) as AlarmManager
 }

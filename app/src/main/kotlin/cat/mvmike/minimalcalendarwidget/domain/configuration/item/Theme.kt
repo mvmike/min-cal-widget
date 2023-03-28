@@ -101,7 +101,7 @@ fun getThemeDisplayValues(context: Context) =
     }.toTypedArray()
 
 fun Theme.getDisplayValue(context: Context) =
-    context.getString(this.displayString).replaceFirstChar { it.uppercase() }
+    context.getString(displayString).replaceFirstChar { it.uppercase() }
 
 data class CellPack(
     val viewId: Int,
