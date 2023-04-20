@@ -43,6 +43,10 @@ android {
         targetCompatibility = javaVersion
     }
 
+    buildFeatures {
+        buildConfig = true
+    }
+
     kotlinOptions {
         jvmTarget = javaVersion.toString()
     }
