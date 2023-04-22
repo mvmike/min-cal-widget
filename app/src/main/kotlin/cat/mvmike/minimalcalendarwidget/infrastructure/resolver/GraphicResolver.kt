@@ -34,8 +34,8 @@ object GraphicResolver {
     ) {
         val text = "$month $year"
         val monthAndYearSpSt = SpannableString(text).apply {
-            setSpan(RelativeSizeSpan(textRelativeSize), 0, length, SPAN_EXCLUSIVE_EXCLUSIVE)
-            setSpan(RelativeSizeSpan(headerYearRelativeSize * textRelativeSize), month.length, text.length, 0)
+            setSpan(RelativeSizeSpan(textRelativeSize), 0, month.length, SPAN_EXCLUSIVE_EXCLUSIVE)
+            setSpan(RelativeSizeSpan(textRelativeSize * headerYearRelativeSize), month.length, text.length, 0)
             setSpan(ForegroundColorSpan(getColour(context, textColour)), 0, text.length, 0)
         }
         widgetRemoteView.setTextViewText(R.id.month_and_year_header, monthAndYearSpSt)
