@@ -13,17 +13,17 @@
         <TextView
             android:id="@+id/month_and_year_header"
             android:layout_width="wrap_content"
-            android:layout_height="26sp"
+            android:layout_height="match_parent"
             android:gravity="start|center_vertical"
             android:textSize="20sp" />
 
         <ImageView
             android:id="@+id/configuration_icon"
             android:layout_width="match_parent"
-            android:layout_height="24sp"
+            android:layout_height="match_parent"
             android:contentDescription="@string/configuration"
             android:gravity="end|center_vertical"
-            android:padding="5dip"
+            android:padding="5sp"
             android:scaleType="fitEnd"
             android:src="@drawable/ic_configuration" />
 
