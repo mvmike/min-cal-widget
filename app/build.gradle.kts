@@ -30,8 +30,8 @@ android {
         applicationId = namespace
         minSdk = minAndroidVersion
         targetSdk = androidVersion
-        versionCode = 62
-        versionName = "2.9.3"
+        versionCode = 63
+        versionName = "2.10.0"
 
         multiDexEnabled = true
     }
@@ -108,7 +108,10 @@ android {
                 else -> null
             }
             isMinifyEnabled = true
-            proguardFiles(getDefaultProguardFile("proguard-android.txt"), "${project.rootDir}/config/proguard/proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android.txt"),
+                "${project.rootDir}/config/proguard/proguard-rules.pro"
+            )
         }
     }
 

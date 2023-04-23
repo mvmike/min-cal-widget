@@ -1,0 +1,6 @@
+v2.10.0
+- configurable text size replacing automated format
+- new configuration icon
+- minor visual adjustments on header
+- fix wrong relative size between month and year
+- technical maintenance
