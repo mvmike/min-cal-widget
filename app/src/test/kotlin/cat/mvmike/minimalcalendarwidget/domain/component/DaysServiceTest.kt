@@ -8,8 +8,8 @@ import cat.mvmike.minimalcalendarwidget.domain.Day
 import cat.mvmike.minimalcalendarwidget.domain.Instance
 import cat.mvmike.minimalcalendarwidget.domain.component.DaysService.getNumberOfInstances
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Colour
-import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Format
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.SymbolSet
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.TextSize
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Transparency
 import cat.mvmike.minimalcalendarwidget.domain.intent.ActionableView
@@ -49,7 +49,7 @@ internal class DaysServiceTest : BaseTest() {
     private val dayRv = mockk<RemoteViews>()
 
     @ParameterizedTest
-    @MethodSource("getFormatAndFocusOnCurrentWeekWithExpectedOutput")
+    @MethodSource("getTextSizeAndFocusOnCurrentWeekWithExpectedOutput")
     fun draw_shouldReturnSafeDateSpanOfSystemTimeZoneInstances(testProperties: DrawDaysUseCaseTestProperties) {
         mockkObject(ActionableView.CellDay)
         mockGetSystemLocalDate()
@@ -109,7 +109,7 @@ internal class DaysServiceTest : BaseTest() {
         justRun { ActionableView.CellDay.addListener(context, dayRv, any()) }
         justRun { GraphicResolver.addToWidget(widgetRv, rowRv) }
 
-        DaysService.draw(context, widgetRv, testProperties.format)
+        DaysService.draw(context, widgetRv, testProperties.textSize)
 
         verify { SystemResolver.getSystemLocalDate() }
         verify { CalendarResolver.isReadCalendarPermitted(context) }
@@ -156,7 +156,7 @@ internal class DaysServiceTest : BaseTest() {
                     instancesColour = instancesColourId,
                     instancesRelativeSize = symbolSet.relativeSize,
                     dayBackgroundColour = cellDay.background?.let { expectedBackground },
-                    textRelativeSize = testProperties.format.dayCellTextRelativeSize
+                    textRelativeSize = testProperties.textSize.relativeValue
                 )
                 ActionableView.CellDay.addListener(context, dayRv, dayUseCaseTest.startOfDay(systemZoneOffset))
             }
@@ -389,13 +389,13 @@ internal class DaysServiceTest : BaseTest() {
         )
     }
 
-    private fun getFormatAndFocusOnCurrentWeekWithExpectedOutput() = Stream.of(
-        DrawDaysUseCaseTestProperties(Format(50), false, getDrawDaysUseCaseTestProperties()),
-        DrawDaysUseCaseTestProperties(Format(130), true, getDrawDaysUseCaseTestProperties()),
-        DrawDaysUseCaseTestProperties(Format(185), false, getDrawDaysUseCaseTestProperties()),
-        DrawDaysUseCaseTestProperties(Format(200), true, getDrawDaysUseCaseTestProperties()),
-        DrawDaysUseCaseTestProperties(Format(250), false, getDrawDaysUseCaseTestProperties()),
-        DrawDaysUseCaseTestProperties(Format(1000), true, getDrawDaysUseCaseTestProperties())
+    private fun getTextSizeAndFocusOnCurrentWeekWithExpectedOutput() = Stream.of(
+        DrawDaysUseCaseTestProperties(TextSize(10), false, getDrawDaysUseCaseTestProperties()),
+        DrawDaysUseCaseTestProperties(TextSize(20), true, getDrawDaysUseCaseTestProperties()),
+        DrawDaysUseCaseTestProperties(TextSize(30), false, getDrawDaysUseCaseTestProperties()),
+        DrawDaysUseCaseTestProperties(TextSize(35), true, getDrawDaysUseCaseTestProperties()),
+        DrawDaysUseCaseTestProperties(TextSize(40), false, getDrawDaysUseCaseTestProperties()),
+        DrawDaysUseCaseTestProperties(TextSize(100), true, getDrawDaysUseCaseTestProperties())
     )!!
 
     private fun getDrawDaysUseCaseTestProperties() = Stream.of(
@@ -568,7 +568,7 @@ internal class DaysServiceTest : BaseTest() {
     )!!
 
     internal data class DrawDaysUseCaseTestProperties(
-        val format: Format,
+        val textSize: TextSize,
         val focusOnCurrentWeek: Boolean,
         val expectedDayProperties: Stream<DrawDaysUseCaseTestDayProperties>
     )

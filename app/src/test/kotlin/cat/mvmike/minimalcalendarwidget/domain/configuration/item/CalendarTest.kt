@@ -13,7 +13,7 @@ import java.util.stream.Stream
 internal class CalendarTest : BaseTest() {
 
     @ParameterizedTest
-    @MethodSource("getSpreadInstantsAndFormatsWithExpectedTextAndColour")
+    @MethodSource("getSpreadCalendarsAndDatesWithExpectedText")
     fun getYear_shouldReturnExpectedString(
         calendar: Calendar,
         instant: Instant,
@@ -22,7 +22,7 @@ internal class CalendarTest : BaseTest() {
         assertThat(calendar.getYear(instant, zoneId)).isEqualTo(expectedYear)
     }
 
-    private fun getSpreadInstantsAndFormatsWithExpectedTextAndColour() = Stream.of(
+    private fun getSpreadCalendarsAndDatesWithExpectedText() = Stream.of(
         Arguments.of(Calendar.GREGORIAN, "2018-01-26".toInstant(), "2018"),
         Arguments.of(Calendar.HOLOCENE, "2018-01-26".toInstant(), "12018"),
         Arguments.of(Calendar.HOLOCENE, "2005-02-19".toInstant(), "12005"),

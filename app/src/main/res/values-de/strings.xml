@@ -18,6 +18,7 @@
     <string name="symbol_set">Zeichensatz</string>
     <string name="symbol_colour">Farbe des Symbols</string>
     <string name="transparency">Transparenz</string>
+    <string name="text_size">Textgröße</string>
 
     <string name="about">Über</string>
     <string name="source">Quellcode</string>

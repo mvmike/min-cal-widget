@@ -5,7 +5,7 @@ package cat.mvmike.minimalcalendarwidget.domain.component
 import android.widget.RemoteViews
 import cat.mvmike.minimalcalendarwidget.BaseTest
 import cat.mvmike.minimalcalendarwidget.R
-import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Format
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.TextSize
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Transparency
 import cat.mvmike.minimalcalendarwidget.domain.intent.ActionableView
@@ -37,11 +37,11 @@ internal class DaysHeaderServiceTest : BaseTest() {
     private val daysHeaderRowRv = mockk<RemoteViews>()
 
     @ParameterizedTest
-    @MethodSource("getStartWeekDayAndThemeAndFormatWithExpectedOutput")
-    fun draw_shouldAddViewBasedOnCurrentConfigAndFormat(
+    @MethodSource("getStartWeekDayAndThemeAndTextSizeWithExpectedOutput")
+    fun draw_shouldAddViewBasedOnCurrentConfigAndTextSize(
         startWeekDay: DayOfWeek,
         theme: Theme,
-        format: Format,
+        textSize: TextSize,
         expectedDayHeaders: List<DayHeaderTestProperties>
     ) {
         mockkObject(ActionableView.RowHeader)
@@ -64,7 +64,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
         justRun { GraphicResolver.addToWidget(widgetRv, daysHeaderRowRv) }
         justRun { ActionableView.RowHeader.addListener(context, widgetRv) }
 
-        DaysHeaderService.draw(context, widgetRv, format)
+        DaysHeaderService.draw(context, widgetRv, textSize)
 
         verifyWidgetTransparency()
         verifyFirstDayOfWeek()
@@ -84,7 +84,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
                     layoutId = it.getCellHeader(theme).layout,
                     viewId = it.getCellHeader(theme).id,
                     dayHeaderBackgroundColour = it.getCellHeader(theme).background,
-                    textRelativeSize = format.headerTextRelativeSize
+                    textRelativeSize = textSize.relativeValue
                 )
             }
         }
@@ -93,11 +93,11 @@ internal class DaysHeaderServiceTest : BaseTest() {
         confirmVerified(widgetRv, daysHeaderRowRv)
     }
 
-    private fun getStartWeekDayAndThemeAndFormatWithExpectedOutput() = Stream.of(
+    private fun getStartWeekDayAndThemeAndTextSizeWithExpectedOutput() = Stream.of(
         Arguments.of(
             MONDAY,
             Theme.DARK,
-            Format(220),
+            TextSize(40),
             listOf(
                 DayHeaderTestProperties(MONDAY, "MON"),
                 DayHeaderTestProperties(TUESDAY, "DOO"),
@@ -111,7 +111,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
         Arguments.of(
             TUESDAY,
             Theme.DARK,
-            Format(220),
+            TextSize(40),
             listOf(
                 DayHeaderTestProperties(TUESDAY, "DOO"),
                 DayHeaderTestProperties(WEDNESDAY, "WED"),
@@ -125,7 +125,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
         Arguments.of(
             WEDNESDAY,
             Theme.DARK,
-            Format(220),
+            TextSize(40),
             listOf(
                 DayHeaderTestProperties(WEDNESDAY, "WED"),
                 DayHeaderTestProperties(THURSDAY, "THU"),
@@ -139,7 +139,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
         Arguments.of(
             THURSDAY,
             Theme.DARK,
-            Format(220),
+            TextSize(40),
             listOf(
                 DayHeaderTestProperties(THURSDAY, "THU"),
                 DayHeaderTestProperties(FRIDAY, "FRI"),
@@ -153,7 +153,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
         Arguments.of(
             FRIDAY,
             Theme.DARK,
-            Format(220),
+            TextSize(40),
             listOf(
                 DayHeaderTestProperties(FRIDAY, "FRI"),
                 DayHeaderTestProperties(SATURDAY, "SAT"),
@@ -167,7 +167,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
         Arguments.of(
             SATURDAY,
             Theme.DARK,
-            Format(220),
+            TextSize(40),
             listOf(
                 DayHeaderTestProperties(SATURDAY, "SAT"),
                 DayHeaderTestProperties(SUNDAY, "SUN"),
@@ -181,7 +181,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
         Arguments.of(
             SUNDAY,
             Theme.DARK,
-            Format(220),
+            TextSize(40),
             listOf(
                 DayHeaderTestProperties(SUNDAY, "SUN"),
                 DayHeaderTestProperties(MONDAY, "MON"),
@@ -195,7 +195,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
         Arguments.of(
             MONDAY,
             Theme.DARK,
-            Format(150),
+            TextSize(15),
             listOf(
                 DayHeaderTestProperties(MONDAY, "M"),
                 DayHeaderTestProperties(TUESDAY, "D"),
@@ -209,7 +209,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
         Arguments.of(
             TUESDAY,
             Theme.DARK,
-            Format(150),
+            TextSize(15),
             listOf(
                 DayHeaderTestProperties(TUESDAY, "D"),
                 DayHeaderTestProperties(WEDNESDAY, "W"),
@@ -223,7 +223,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
         Arguments.of(
             WEDNESDAY,
             Theme.DARK,
-            Format(150),
+            TextSize(15),
             listOf(
                 DayHeaderTestProperties(WEDNESDAY, "W"),
                 DayHeaderTestProperties(THURSDAY, "T"),
@@ -237,7 +237,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
         Arguments.of(
             THURSDAY,
             Theme.DARK,
-            Format(150),
+            TextSize(15),
             listOf(
                 DayHeaderTestProperties(THURSDAY, "T"),
                 DayHeaderTestProperties(FRIDAY, "F"),
@@ -251,7 +251,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
         Arguments.of(
             FRIDAY,
             Theme.DARK,
-            Format(150),
+            TextSize(15),
             listOf(
                 DayHeaderTestProperties(FRIDAY, "F"),
                 DayHeaderTestProperties(SATURDAY, "S"),
@@ -265,7 +265,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
         Arguments.of(
             SATURDAY,
             Theme.DARK,
-            Format(150),
+            TextSize(15),
             listOf(
                 DayHeaderTestProperties(SATURDAY, "S"),
                 DayHeaderTestProperties(SUNDAY, "S"),
@@ -279,7 +279,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
         Arguments.of(
             SUNDAY,
             Theme.DARK,
-            Format(150),
+            TextSize(15),
             listOf(
                 DayHeaderTestProperties(SUNDAY, "S"),
                 DayHeaderTestProperties(MONDAY, "M"),
@@ -293,7 +293,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
         Arguments.of(
             MONDAY,
             Theme.LIGHT,
-            Format(220),
+            TextSize(40),
             listOf(
                 DayHeaderTestProperties(MONDAY, "MON"),
                 DayHeaderTestProperties(TUESDAY, "DOO"),
@@ -307,7 +307,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
         Arguments.of(
             TUESDAY,
             Theme.LIGHT,
-            Format(220),
+            TextSize(40),
             listOf(
                 DayHeaderTestProperties(TUESDAY, "DOO"),
                 DayHeaderTestProperties(WEDNESDAY, "WED"),
@@ -321,7 +321,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
         Arguments.of(
             WEDNESDAY,
             Theme.LIGHT,
-            Format(220),
+            TextSize(40),
             listOf(
                 DayHeaderTestProperties(WEDNESDAY, "WED"),
                 DayHeaderTestProperties(THURSDAY, "THU"),
@@ -335,7 +335,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
         Arguments.of(
             THURSDAY,
             Theme.LIGHT,
-            Format(220),
+            TextSize(40),
             listOf(
                 DayHeaderTestProperties(THURSDAY, "THU"),
                 DayHeaderTestProperties(FRIDAY, "FRI"),
@@ -349,7 +349,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
         Arguments.of(
             FRIDAY,
             Theme.LIGHT,
-            Format(220),
+            TextSize(40),
             listOf(
                 DayHeaderTestProperties(FRIDAY, "FRI"),
                 DayHeaderTestProperties(SATURDAY, "SAT"),
@@ -363,7 +363,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
         Arguments.of(
             SATURDAY,
             Theme.LIGHT,
-            Format(220),
+            TextSize(40),
             listOf(
                 DayHeaderTestProperties(SATURDAY, "SAT"),
                 DayHeaderTestProperties(SUNDAY, "SUN"),
@@ -377,7 +377,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
         Arguments.of(
             SUNDAY,
             Theme.LIGHT,
-            Format(220),
+            TextSize(40),
             listOf(
                 DayHeaderTestProperties(SUNDAY, "SUN"),
                 DayHeaderTestProperties(MONDAY, "MON"),
@@ -391,7 +391,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
         Arguments.of(
             MONDAY,
             Theme.LIGHT,
-            Format(150),
+            TextSize(15),
             listOf(
                 DayHeaderTestProperties(MONDAY, "M"),
                 DayHeaderTestProperties(TUESDAY, "D"),
@@ -405,7 +405,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
         Arguments.of(
             TUESDAY,
             Theme.LIGHT,
-            Format(150),
+            TextSize(15),
             listOf(
                 DayHeaderTestProperties(TUESDAY, "D"),
                 DayHeaderTestProperties(WEDNESDAY, "W"),
@@ -419,7 +419,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
         Arguments.of(
             WEDNESDAY,
             Theme.LIGHT,
-            Format(150),
+            TextSize(15),
             listOf(
                 DayHeaderTestProperties(WEDNESDAY, "W"),
                 DayHeaderTestProperties(THURSDAY, "T"),
@@ -433,7 +433,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
         Arguments.of(
             THURSDAY,
             Theme.LIGHT,
-            Format(150),
+            TextSize(15),
             listOf(
                 DayHeaderTestProperties(THURSDAY, "T"),
                 DayHeaderTestProperties(FRIDAY, "F"),
@@ -447,7 +447,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
         Arguments.of(
             FRIDAY,
             Theme.LIGHT,
-            Format(150),
+            TextSize(15),
             listOf(
                 DayHeaderTestProperties(FRIDAY, "F"),
                 DayHeaderTestProperties(SATURDAY, "S"),
@@ -461,7 +461,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
         Arguments.of(
             SATURDAY,
             Theme.LIGHT,
-            Format(150),
+            TextSize(15),
             listOf(
                 DayHeaderTestProperties(SATURDAY, "S"),
                 DayHeaderTestProperties(SUNDAY, "S"),
@@ -475,7 +475,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
         Arguments.of(
             SUNDAY,
             Theme.LIGHT,
-            Format(150),
+            TextSize(15),
             listOf(
                 DayHeaderTestProperties(SUNDAY, "S"),
                 DayHeaderTestProperties(MONDAY, "M"),

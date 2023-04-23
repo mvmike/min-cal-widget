@@ -5,12 +5,12 @@ package cat.mvmike.minimalcalendarwidget
 import android.content.Context
 import android.content.SharedPreferences
 import cat.mvmike.minimalcalendarwidget.domain.configuration.BooleanConfigurationItem
-import cat.mvmike.minimalcalendarwidget.domain.configuration.ConfigurationItem
 import cat.mvmike.minimalcalendarwidget.domain.configuration.EnumConfigurationItem
+import cat.mvmike.minimalcalendarwidget.domain.configuration.PercentageConfigurationItem
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Calendar
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Colour
-import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Format
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.SymbolSet
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.TextSize
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Transparency
 import cat.mvmike.minimalcalendarwidget.infrastructure.activity.CalendarActivity
@@ -122,21 +122,21 @@ open class BaseTest {
         verify { sharedPreferences.edit() }
     }
 
-    protected fun mockWidgetFormat(format: Format, appWidgetId: Int) {
+    protected fun mockWidgetTextSize(textSize: TextSize) {
         every {
             sharedPreferences.getInt(
-                "${ConfigurationItem.WidgetFormat.key}_$appWidgetId",
-                ConfigurationItem.WidgetFormat.defaultValue.width
+                PercentageConfigurationItem.WidgetTextSize.key,
+                PercentageConfigurationItem.WidgetTextSize.defaultValue.percentage
             )
-        } returns format.width
+        } returns textSize.percentage
     }
 
-    protected fun verifyWidgetFormat(appWidgetId: Int) {
+    protected fun verifyWidgetTextSize() {
         verifySharedPreferencesAccess()
         verify {
             sharedPreferences.getInt(
-                "${ConfigurationItem.WidgetFormat.key}_$appWidgetId",
-                ConfigurationItem.WidgetFormat.defaultValue.width
+                PercentageConfigurationItem.WidgetTextSize.key,
+                PercentageConfigurationItem.WidgetTextSize.defaultValue.percentage
             )
         }
     }
@@ -144,8 +144,8 @@ open class BaseTest {
     protected fun mockWidgetTransparency(transparency: Transparency) {
         every {
             sharedPreferences.getInt(
-                ConfigurationItem.WidgetTransparency.key,
-                ConfigurationItem.WidgetTransparency.defaultValue.percentage
+                PercentageConfigurationItem.WidgetTransparency.key,
+                PercentageConfigurationItem.WidgetTransparency.defaultValue.percentage
             )
         } returns transparency.percentage
     }
@@ -154,8 +154,8 @@ open class BaseTest {
         verifySharedPreferencesAccess()
         verify {
             sharedPreferences.getInt(
-                ConfigurationItem.WidgetTransparency.key,
-                ConfigurationItem.WidgetTransparency.defaultValue.percentage
+                PercentageConfigurationItem.WidgetTransparency.key,
+                PercentageConfigurationItem.WidgetTransparency.defaultValue.percentage
             )
         }
     }

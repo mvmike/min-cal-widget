@@ -23,6 +23,7 @@ import cat.mvmike.minimalcalendarwidget.domain.configuration.BooleanConfiguratio
 import cat.mvmike.minimalcalendarwidget.domain.configuration.ConfigurationItem
 import cat.mvmike.minimalcalendarwidget.domain.configuration.EnumConfigurationItem
 import cat.mvmike.minimalcalendarwidget.domain.configuration.PREFERENCE_KEY
+import cat.mvmike.minimalcalendarwidget.domain.configuration.PercentageConfigurationItem
 import cat.mvmike.minimalcalendarwidget.domain.configuration.SOURCE_KEY
 import cat.mvmike.minimalcalendarwidget.domain.configuration.SOURCE_URL
 import cat.mvmike.minimalcalendarwidget.domain.configuration.TRANSLATE_KEY
@@ -106,8 +107,9 @@ class ConfigurationActivity : AppCompatActivity() {
                 it.asCheckBoxPreference().isChecked = it.get(requireContext())
             }
 
-            ConfigurationItem.WidgetTransparency.asSeekBarPreference().value =
-                ConfigurationItem.WidgetTransparency.get(requireContext()).percentage
+            percentageConfigurationItems().forEach {
+                it.asSeekBarPreference().value = it.get(requireContext()).value
+            }
         }
 
         private fun enumConfigurationItems() = setOf(
@@ -121,6 +123,11 @@ class ConfigurationActivity : AppCompatActivity() {
         private fun booleanConfigurationItems() = setOf(
             BooleanConfigurationItem.ShowDeclinedEvents,
             BooleanConfigurationItem.FocusOnCurrentWeek
+        )
+
+        private fun percentageConfigurationItems() = setOf(
+            PercentageConfigurationItem.WidgetTransparency,
+            PercentageConfigurationItem.WidgetTextSize
         )
 
         private fun String.asPreference() =

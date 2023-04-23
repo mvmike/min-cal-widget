@@ -18,6 +18,7 @@
     <string name="symbol_set">Tipo símbolos</string>
     <string name="symbol_colour">Color símbolos</string>
     <string name="transparency">Transparencia</string>
+    <string name="text_size">Tamaño del texto</string>
 
     <string name="about">Acerca de</string>
     <string name="source">Código</string>

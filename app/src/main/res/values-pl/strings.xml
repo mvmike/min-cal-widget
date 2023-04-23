@@ -18,6 +18,7 @@
     <string name="symbol_set">Zestaw symboli</string>
     <string name="symbol_colour">Kolor symbolu</string>
     <string name="transparency">Przezroczystość</string>
+    <string name="text_size">Rozmiar czcionki</string>
 
     <string name="about">Dookoła</string>
     <string name="source">Źródło</string>

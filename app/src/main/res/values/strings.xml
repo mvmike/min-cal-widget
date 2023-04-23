@@ -19,6 +19,7 @@
     <string name="symbol_set">Symbol set</string>
     <string name="symbol_colour">Symbol colour</string>
     <string name="transparency">Transparency</string>
+    <string name="text_size">Text size</string>
 
     <string name="about">About</string>
     <string name="source">Source</string>

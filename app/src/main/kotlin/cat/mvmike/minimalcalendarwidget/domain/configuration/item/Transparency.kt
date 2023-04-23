@@ -2,6 +2,8 @@
 // See LICENSE for licensing information
 package cat.mvmike.minimalcalendarwidget.domain.configuration.item
 
+import cat.mvmike.minimalcalendarwidget.domain.MAX_PERCENTAGE
+import cat.mvmike.minimalcalendarwidget.domain.Percentage
 import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.GraphicResolver
 import java.util.Locale
 
@@ -9,17 +11,11 @@ import java.util.Locale
 private const val MIN_ALPHA = 0
 private const val MAX_ALPHA = 255
 
-private const val MIN_PERCENTAGE = 0
-private const val MAX_PERCENTAGE = 100
-
 private const val HEX_STRING_FORMAT = "%02X"
 
 data class Transparency(
     val percentage: Int
-) {
-    init {
-        require(percentage in MIN_PERCENTAGE..MAX_PERCENTAGE)
-    }
+) : Percentage(percentage) {
 
     internal fun getAlpha(
         transparencyRange: TransparencyRange

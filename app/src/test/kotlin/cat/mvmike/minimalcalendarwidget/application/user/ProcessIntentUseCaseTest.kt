@@ -74,20 +74,20 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
             "action.mincal.configuration_icon_click"
         ]
     )
-    fun shouldLaunchConfigurationActivityAndRedrawWidgetWithUpsertFormat(action: String) {
+    fun shouldLaunchConfigurationActivityAndRedrawWidget(action: String) {
         mockIntent(action)
         mockIsReadCalendarPermitted(true)
         mockkObject(RedrawWidgetUseCase)
 
         justRun { ConfigurationActivity.Companion.start(context) }
-        justRun { RedrawWidgetUseCase.execute(context, true) }
+        justRun { RedrawWidgetUseCase.execute(context) }
 
         ProcessIntentUseCase.execute(context, intent)
 
         verify { intent.action }
         verify { CalendarResolver.isReadCalendarPermitted(context) }
         verify { ConfigurationActivity.Companion.start(context) }
-        verify { RedrawWidgetUseCase.execute(context, true) }
+        verify { RedrawWidgetUseCase.execute(context) }
     }
 
     @ParameterizedTest
@@ -97,7 +97,7 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
             "action.mincal.row_header_click"
         ]
     )
-    fun shouldLaunchCalendarActivityAndRedrawWidgetWithUpsertFormat_whenIntentAndPermissionsGiven(action: String) {
+    fun shouldLaunchCalendarActivityAndRedrawWidget_whenIntentAndPermissionsGiven(action: String) {
         mockIntent(action)
         mockIsReadCalendarPermitted(true)
         mockGetSystemInstant()
@@ -105,7 +105,7 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
         mockkObject(RedrawWidgetUseCase)
 
         justRun { CalendarActivity.start(context, systemInstant) }
-        justRun { RedrawWidgetUseCase.execute(context, true) }
+        justRun { RedrawWidgetUseCase.execute(context) }
 
         ProcessIntentUseCase.execute(context, intent)
 
@@ -113,12 +113,12 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
         verify { CalendarResolver.isReadCalendarPermitted(context) }
         verify { SystemResolver.getSystemInstant() }
         verify { CalendarActivity.start(context, systemInstant) }
-        verify { RedrawWidgetUseCase.execute(context, true) }
+        verify { RedrawWidgetUseCase.execute(context) }
     }
 
     @ParameterizedTest
     @MethodSource("getMincalCalendarIntentActionAndExpectedExtraInstant")
-    fun shouldLaunchCalendarActivityOnTodayAndRedrawWidgetWithUpsertFormat(action: String) {
+    fun shouldLaunchCalendarActivityOnTodayAndRedrawWidget(action: String) {
         mockIntent(action)
         mockIsReadCalendarPermitted(true)
         mockGetSystemInstant()
@@ -127,7 +127,7 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
         mockkObject(RedrawWidgetUseCase)
 
         justRun { CalendarActivity.start(context, systemInstant) }
-        justRun { RedrawWidgetUseCase.execute(context, true) }
+        justRun { RedrawWidgetUseCase.execute(context) }
 
         ProcessIntentUseCase.execute(context, intent)
 
@@ -137,12 +137,12 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
         verifySharedPreferencesAccess()
         verifyOpenCalendarOnClickedDay()
         verify { CalendarActivity.start(context, systemInstant) }
-        verify { RedrawWidgetUseCase.execute(context, true) }
+        verify { RedrawWidgetUseCase.execute(context) }
     }
 
     @ParameterizedTest
     @MethodSource("getMincalCalendarIntentActionAndExpectedExtraInstant")
-    fun shouldLaunchCalendarActivityOnIntentExtraAndRedrawWidgetWithUpsertFormat_whenIntentAndPermissionsGiven(
+    fun shouldLaunchCalendarActivityOnIntentExtraAndRedrawWidget_whenIntentAndPermissionsGiven(
         action: String,
         extraInstantEpochSeconds: Long,
         startTimeInstantEpochSeconds: Long
@@ -158,7 +158,7 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
         mockkObject(RedrawWidgetUseCase)
 
         justRun { CalendarActivity.start(context, startTimeInstant) }
-        justRun { RedrawWidgetUseCase.execute(context, true) }
+        justRun { RedrawWidgetUseCase.execute(context) }
 
         ProcessIntentUseCase.execute(context, intent)
 
@@ -170,7 +170,7 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
         verifySharedPreferencesAccess()
         verifyOpenCalendarOnClickedDay()
         verify { CalendarActivity.start(context, startTimeInstant) }
-        verify { RedrawWidgetUseCase.execute(context, true) }
+        verify { RedrawWidgetUseCase.execute(context) }
     }
 
     private fun getMincalCalendarIntentActionAndExpectedExtraInstant() = Stream.of(

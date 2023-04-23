@@ -18,6 +18,7 @@
     <string name="symbol_set">符號集</string>
     <string name="symbol_colour">符號色彩</string>
     <string name="transparency">透明度</string>
+    <string name="text_size">字體大小</string>
 
     <string name="about">關於</string>
     <string name="source">原始碼</string>

@@ -14,8 +14,10 @@ internal class TransparencyTest : BaseTest() {
 
     @ParameterizedTest
     @ValueSource(ints = [Integer.MIN_VALUE, -1, 101, Integer.MAX_VALUE])
-    fun constructorShouldNotAllowIntsOutsideRange(transparency: Int) {
-        assertThrows<IllegalArgumentException> { Transparency(transparency) }
+    fun constructorShouldNotAllowIntsOutsideRange(percentage: Int) {
+        assertThrows<IllegalArgumentException> {
+            Transparency(percentage)
+        }
     }
 
     @ParameterizedTest

@@ -2,7 +2,7 @@
 
 Minimal calendar widget that's always on current date's month
 
-* 3x2 (resizable, adaptive format)
+* 3x2 (resizable)
 * Displays all visible events from your calendars with a symbol set (high number becomes generic)
 * Configuration accessible on widget's top right corner
 * Pressing on any other part of the widget opens calendar application
@@ -16,6 +16,7 @@ Minimal calendar widget that's always on current date's month
   - symbol set
   - symbol set colour
   - transparency
+  - text size
 
 ## Installation
 
@@ -32,7 +33,7 @@ Minimal calendar widget that's always on current date's month
   <img src="/fastlane/metadata/android/en-US/images/phoneScreenshots/2.png" width="32%" >
 </p>
 
-#### Appearance and format variations
+#### Appearance and configuration variations
 
 <p align="middle">
   <img src="/fastlane/metadata/android/en-US/images/phoneScreenshots/3.png" width="30%" >

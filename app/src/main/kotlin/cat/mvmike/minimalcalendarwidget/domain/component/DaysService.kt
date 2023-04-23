@@ -7,10 +7,10 @@ import android.widget.RemoteViews
 import cat.mvmike.minimalcalendarwidget.domain.Day
 import cat.mvmike.minimalcalendarwidget.domain.Instance
 import cat.mvmike.minimalcalendarwidget.domain.configuration.BooleanConfigurationItem
-import cat.mvmike.minimalcalendarwidget.domain.configuration.ConfigurationItem
 import cat.mvmike.minimalcalendarwidget.domain.configuration.EnumConfigurationItem
+import cat.mvmike.minimalcalendarwidget.domain.configuration.PercentageConfigurationItem
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Colour
-import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Format
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.TextSize
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.TransparencyRange
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.withTransparency
@@ -31,7 +31,7 @@ object DaysService {
 
     private const val INSTANCES_QUERY_DAYS_SPAN = 45L
 
-    fun draw(context: Context, widgetRemoteView: RemoteViews, format: Format) {
+    fun draw(context: Context, widgetRemoteView: RemoteViews, textSize: TextSize) {
         val systemLocalDate: LocalDate = SystemResolver.getSystemLocalDate()
         val firstDayOfWeek = EnumConfigurationItem.FirstDayOfWeek.get(context)
         val initialLocalDate = when (BooleanConfigurationItem.FocusOnCurrentWeek.get(context)) {
@@ -47,7 +47,7 @@ object DaysService {
         val widgetTheme = EnumConfigurationItem.WidgetTheme.get(context)
         val instancesSymbolSet = EnumConfigurationItem.InstancesSymbolSet.get(context)
         val instancesColour = EnumConfigurationItem.InstancesColour.get(context)
-        val transparency = ConfigurationItem.WidgetTransparency.get(context)
+        val transparency = PercentageConfigurationItem.WidgetTransparency.get(context)
         val showDeclinedEvents = BooleanConfigurationItem.ShowDeclinedEvents.get(context)
 
         for (week in 0 until NUM_WEEKS) {
@@ -88,7 +88,7 @@ object DaysService {
                     instancesColour = dayInstancesColour,
                     instancesRelativeSize = instancesSymbolSet.relativeSize,
                     dayBackgroundColour = backgroundWithTransparency,
-                    textRelativeSize = format.dayCellTextRelativeSize
+                    textRelativeSize = textSize.relativeValue
                 )
                 CellDay.addListener(
                     context = context,

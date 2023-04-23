@@ -3,10 +3,11 @@
 package cat.mvmike.minimalcalendarwidget.domain.configuration
 
 import android.content.Context
+import cat.mvmike.minimalcalendarwidget.domain.Percentage
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Calendar
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Colour
-import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Format
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.SymbolSet
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.TextSize
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Transparency
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.getAvailableCalendars
@@ -38,30 +39,6 @@ sealed class ConfigurationItem<E>(
     internal open val defaultValue: E
 ) {
     abstract fun get(context: Context): E
-
-    object WidgetFormat : ConfigurationItem<Format>(
-        key = "WIDGET_FORMAT",
-        defaultValue = Format(220)
-    ) {
-        override fun get(context: Context) = throw UnsupportedOperationException("must include appWidgetId")
-
-        fun get(context: Context, appWidgetId: Int) =
-            Format(getConfiguration(context).getInt(getKey(appWidgetId), defaultValue.width))
-
-        fun set(context: Context, value: Format, appWidgetId: Int) =
-            getConfiguration(context).edit().putInt(getKey(appWidgetId), value.width).apply()
-
-        private fun getKey(appWidgetId: Int) = "${key}_$appWidgetId"
-    }
-
-    object WidgetTransparency : ConfigurationItem<Transparency>(
-        key = "WIDGET_TRANSPARENCY",
-        defaultValue = Transparency(20)
-    ) {
-        override fun get(context: Context) = Transparency(
-            getConfiguration(context).getInt(key, defaultValue.percentage)
-        )
-    }
 }
 
 sealed class BooleanConfigurationItem(
@@ -165,6 +142,36 @@ sealed class EnumConfigurationItem<E : Enum<E>>(
         override fun getDisplayValues(context: Context) = getColourDisplayValues(context)
 
         override fun getCurrentDisplayValue(context: Context) = get(context).getDisplayValue(context)
+    }
+}
+
+sealed class PercentageConfigurationItem<E : Percentage>(
+    override val key: String,
+    override val defaultValue: E
+) : ConfigurationItem<Percentage>(
+    key = key,
+    defaultValue = defaultValue
+) {
+    override fun get(context: Context) = Percentage(
+        getConfiguration(context).getInt(key, defaultValue.value)
+    )
+
+    object WidgetTransparency : PercentageConfigurationItem<Transparency>(
+        key = "WIDGET_TRANSPARENCY",
+        defaultValue = Transparency(20)
+    ) {
+        override fun get(context: Context) = Transparency(
+            getConfiguration(context).getInt(key, defaultValue.percentage)
+        )
+    }
+
+    object WidgetTextSize : PercentageConfigurationItem<TextSize>(
+        key = "WIDGET_TEXT_SIZE",
+        defaultValue = TextSize(40)
+    ) {
+        override fun get(context: Context) = TextSize(
+            getConfiguration(context).getInt(key, defaultValue.percentage)
+        )
     }
 }
 

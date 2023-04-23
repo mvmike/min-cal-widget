@@ -18,6 +18,7 @@
     <string name="symbol_set">Набор символов</string>
     <string name="symbol_colour">Цвет символов</string>
     <string name="transparency">Прозрачность</string>
+    <string name="text_size">Размер текста</string>
 
     <string name="about">Относительно</string>
     <string name="source">Исходники</string>

@@ -4,8 +4,8 @@ package cat.mvmike.minimalcalendarwidget.domain.configuration
 
 import cat.mvmike.minimalcalendarwidget.BaseTest
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Colour
-import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Format
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.SymbolSet
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.TextSize
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Transparency
 import io.mockk.Called
@@ -19,34 +19,18 @@ import java.time.DayOfWeek
 
 internal class ConfigurationTest : BaseTest() {
 
-    private val appWidgetId = 39587345
-
     @ParameterizedTest
-    @ValueSource(ints = [-10, 1, 5, 100, 180, 351])
-    fun getWidgetFormat_shouldReturnSharedPreferencesValue(width: Int) {
-        val format = Format(width)
+    @ValueSource(ints = [0, 1, 5, 17, 50, 51, 72, 80, 99, 100])
+    fun getWidgetTextSize_shouldReturnSharedPreferencesValue(width: Int) {
+        val textSize = TextSize(width)
         mockSharedPreferences()
-        mockWidgetFormat(format, appWidgetId)
+        mockWidgetTextSize(textSize)
 
-        val result = ConfigurationItem.WidgetFormat.get(context, appWidgetId)
+        val result = PercentageConfigurationItem.WidgetTextSize.get(context)
 
-        assertThat(result).isEqualTo(format)
-        verifyWidgetFormat(appWidgetId)
+        assertThat(result).isEqualTo(textSize)
+        verifyWidgetTextSize()
         verify { editor wasNot Called }
-    }
-
-    @ParameterizedTest
-    @ValueSource(ints = [1, 5, 100, 180, 351])
-    fun setWidgetFormat_shouldSetSharedPreferencesValue(width: Int) {
-        val format = Format(width)
-        mockSharedPreferences()
-
-        ConfigurationItem.WidgetFormat.set(context, format, appWidgetId)
-
-        verifySharedPreferencesAccess()
-        verifySharedPreferencesEdit()
-        verify { editor.putInt("${ConfigurationItem.WidgetFormat.key}_$appWidgetId", format.width) }
-        verify { editor.apply() }
     }
 
     @ParameterizedTest
@@ -56,7 +40,7 @@ internal class ConfigurationTest : BaseTest() {
         mockSharedPreferences()
         mockWidgetTransparency(transparency)
 
-        val result = ConfigurationItem.WidgetTransparency.get(context)
+        val result = PercentageConfigurationItem.WidgetTransparency.get(context)
 
         assertThat(result).isEqualTo(transparency)
         verifyWidgetTransparency()
