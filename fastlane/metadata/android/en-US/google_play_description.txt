@@ -29,6 +29,7 @@
 · Russian
 · Spanish
 · Turkish
+· Vietnamese
 · Yue
 
 You can help out translating through our weblate project page
