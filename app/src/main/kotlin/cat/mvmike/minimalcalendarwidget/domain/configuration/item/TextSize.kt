@@ -7,7 +7,7 @@ import cat.mvmike.minimalcalendarwidget.domain.Percentage
 import java.math.RoundingMode
 
 private const val MIN_RELATIVE_VALUE = 0.5f
-private const val MAX_RELATIVE_VALUE = 2.0f
+private const val MAX_RELATIVE_VALUE = 1.8f
 
 data class TextSize(
     val percentage: Int
