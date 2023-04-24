@@ -13,13 +13,13 @@ data class TextSize(
     val percentage: Int
 ) : Percentage(percentage) {
 
-    val monthHeaderLabelLength: Int = when {
-        percentage < 30 -> 3
+    val monthHeaderLabelLength: Int = when (percentage) {
+        in 0..29 -> 3
         else -> Int.MAX_VALUE
     }
 
-    val dayHeaderLabelLength: Int = when {
-        percentage < 30 -> 1
+    val dayHeaderLabelLength: Int = when (percentage) {
+        in 0..29 -> 1
         else -> 3
     }
 
