@@ -109,7 +109,6 @@ object GraphicResolver {
             setSpan(RelativeSizeSpan(instancesRelativeSize * textRelativeSize), 0, length, SPAN_EXCLUSIVE_EXCLUSIVE)
         }
         instancesSymbolRemoteView.setTextViewText(viewId, instancesSymbolSpSt)
-        instancesSymbolRemoteView.setGravity(viewId, Gravity.CENTER)
         dayBackgroundColour?.let {
             setBackgroundColor(instancesSymbolRemoteView, viewId, it)
         }
