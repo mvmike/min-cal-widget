@@ -4,5 +4,5 @@
     android:layout_height="match_parent"
     android:layout_weight="1"
     android:fontFamily="sans-serif-light"
-    android:gravity="start|center_vertical"
+    android:gravity="center"
     android:textSize="12sp" />

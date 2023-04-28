@@ -10,6 +10,7 @@ import android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
 import android.text.style.ForegroundColorSpan
 import android.text.style.RelativeSizeSpan
 import android.text.style.StyleSpan
+import android.view.Gravity
 import android.widget.RemoteViews
 import androidx.core.content.ContextCompat
 import cat.mvmike.minimalcalendarwidget.R
@@ -72,38 +73,49 @@ object GraphicResolver {
 
     fun createDaysRow(context: Context) = getById(context, R.layout.row_week)
 
-    fun createDay(context: Context, dayLayout: Int) = getById(context, dayLayout)
+    fun createDayLayout(context: Context, dayLayout: Int) = getById(context, dayLayout)
 
     fun addToDaysRow(
         context: Context,
         weekRowRemoteView: RemoteViews,
-        dayRemoteView: RemoteViews,
+        dayOfMonthRemoteView: RemoteViews,
+        instancesSymbolRemoteView: RemoteViews,
         viewId: Int,
-        text: String,
-        textColour: Int,
+        dayOfMonth: String,
+        dayOfMonthColour: Int,
         dayOfMonthInBold: Boolean,
-        instancesColour: Int,
+        instancesSymbol: Char,
+        instancesSymbolColour: Int,
         instancesRelativeSize: Float,
         dayBackgroundColour: Int?,
         textRelativeSize: Float
     ) {
-        val daySpSt = SpannableString(text).apply {
+        val dayOfMonthSpSt = SpannableString(dayOfMonth).apply {
             if (dayOfMonthInBold) {
                 setSpan(StyleSpan(BOLD), 0, length, SPAN_EXCLUSIVE_EXCLUSIVE)
-            } else {
-                setSpan(StyleSpan(BOLD), length - 1, length, SPAN_EXCLUSIVE_EXCLUSIVE)
             }
-            setSpan(ForegroundColorSpan(instancesColour), length - 1, length, SPAN_EXCLUSIVE_EXCLUSIVE)
             setSpan(RelativeSizeSpan(textRelativeSize), 0, length, SPAN_EXCLUSIVE_EXCLUSIVE)
-            setSpan(RelativeSizeSpan(instancesRelativeSize), length - 1, length, SPAN_EXCLUSIVE_EXCLUSIVE)
+        }
+        dayOfMonthRemoteView.setTextViewText(viewId, dayOfMonthSpSt)
+        dayOfMonthRemoteView.setTextColor(viewId, getColour(context, dayOfMonthColour))
+        dayOfMonthRemoteView.setGravity(viewId, Gravity.END or Gravity.CENTER_VERTICAL)
+        dayBackgroundColour?.let {
+            setBackgroundColor(dayOfMonthRemoteView, viewId, it)
         }
 
-        dayRemoteView.setTextViewText(viewId, daySpSt)
-        dayRemoteView.setTextColor(viewId, getColour(context, textColour))
-        dayBackgroundColour?.let {
-            setBackgroundColor(dayRemoteView, viewId, it)
+        val instancesSymbolSpSt = SpannableString("$instancesSymbol").apply {
+            setSpan(StyleSpan(BOLD), 0, length, SPAN_EXCLUSIVE_EXCLUSIVE)
+            setSpan(ForegroundColorSpan(instancesSymbolColour), 0, length, SPAN_EXCLUSIVE_EXCLUSIVE)
+            setSpan(RelativeSizeSpan(instancesRelativeSize * textRelativeSize), 0, length, SPAN_EXCLUSIVE_EXCLUSIVE)
         }
-        weekRowRemoteView.addView(R.id.row_week, dayRemoteView)
+        instancesSymbolRemoteView.setTextViewText(viewId, instancesSymbolSpSt)
+        instancesSymbolRemoteView.setGravity(viewId, Gravity.CENTER)
+        dayBackgroundColour?.let {
+            setBackgroundColor(instancesSymbolRemoteView, viewId, it)
+        }
+
+        weekRowRemoteView.addView(R.id.row_week, dayOfMonthRemoteView)
+        weekRowRemoteView.addView(R.id.row_week, instancesSymbolRemoteView)
     }
 
     // COLOUR
@@ -123,4 +135,9 @@ object GraphicResolver {
     // INTERNAL UTILS
 
     private fun getById(context: Context, layoutId: Int) = RemoteViews(context.packageName, layoutId)
+
+    private fun RemoteViews.setGravity(
+        viewId: Int,
+        gravity: Int
+    ) = setInt(viewId, "setGravity", gravity)
 }

@@ -63,42 +63,42 @@ internal class DayTest : BaseTest() {
     private fun getLocalDatesWithExpectations(): Stream<DayTestProperties> = Stream.of(
         DayTestProperties(
             localDate = LocalDate.of(2018, 1, 1),
-            expectedDayOfMonthString = " 1",
+            expectedDayOfMonthString = "1",
             expectedDayOfWeek = DayOfWeek.MONDAY,
             expectedIsInMonth = false,
             expectedIsToday = false
         ),
         DayTestProperties(
             localDate = LocalDate.of(2017, 12, 2),
-            expectedDayOfMonthString = " 2",
+            expectedDayOfMonthString = "2",
             expectedDayOfWeek = DayOfWeek.SATURDAY,
             expectedIsInMonth = false,
             expectedIsToday = false
         ),
         DayTestProperties(
             localDate = LocalDate.of(2018, 12, 4),
-            expectedDayOfMonthString = " 4",
+            expectedDayOfMonthString = "4",
             expectedDayOfWeek = DayOfWeek.TUESDAY,
             expectedIsInMonth = true,
             expectedIsToday = true
         ),
         DayTestProperties(
             localDate = LocalDate.of(2012, 7, 5),
-            expectedDayOfMonthString = " 5",
+            expectedDayOfMonthString = "5",
             expectedDayOfWeek = DayOfWeek.THURSDAY,
             expectedIsInMonth = false,
             expectedIsToday = false
         ),
         DayTestProperties(
             localDate = LocalDate.of(2018, 5, 5),
-            expectedDayOfMonthString = " 5",
+            expectedDayOfMonthString = "5",
             expectedDayOfWeek = DayOfWeek.SATURDAY,
             expectedIsInMonth = false,
             expectedIsToday = false
         ),
         DayTestProperties(
             localDate = LocalDate.of(2020, 12, 9),
-            expectedDayOfMonthString = " 9",
+            expectedDayOfMonthString = "9",
             expectedDayOfWeek = DayOfWeek.WEDNESDAY,
             expectedIsInMonth = false,
             expectedIsToday = false

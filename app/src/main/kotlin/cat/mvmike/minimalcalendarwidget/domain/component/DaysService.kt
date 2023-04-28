@@ -51,7 +51,7 @@ object DaysService {
         val showDeclinedEvents = BooleanConfigurationItem.ShowDeclinedEvents.get(context)
 
         for (week in 0 until NUM_WEEKS) {
-            val weekRow: RemoteViews = GraphicResolver.createDaysRow(context)
+            val weekRowRemoteView: RemoteViews = GraphicResolver.createDaysRow(context)
 
             for (weekDay in 0 until DAYS_IN_WEEK) {
                 val currentDay = Day(initialLocalDate.toCurrentWeekAndWeekDay(week, weekDay))
@@ -76,30 +76,33 @@ object DaysService {
                         }
                     )
 
-                val dayRemoteView = GraphicResolver.createDay(context, dayCell.layout)
+                val dayOfMonthRemoteView = GraphicResolver.createDayLayout(context, dayCell.layout)
+                val instancesSymbolRemoteView = GraphicResolver.createDayLayout(context, dayCell.layout)
                 GraphicResolver.addToDaysRow(
                     context = context,
-                    weekRowRemoteView = weekRow,
-                    dayRemoteView = dayRemoteView,
+                    weekRowRemoteView = weekRowRemoteView,
+                    dayOfMonthRemoteView = dayOfMonthRemoteView,
+                    instancesSymbolRemoteView = instancesSymbolRemoteView,
                     viewId = dayCell.id,
-                    text = " ${currentDay.getDayOfMonthString()} $instancesSymbol",
-                    textColour = dayCell.textColour,
+                    dayOfMonth = currentDay.getDayOfMonthString(),
+                    dayOfMonthColour = dayCell.textColour,
                     dayOfMonthInBold = isToday,
-                    instancesColour = dayInstancesColour,
+                    instancesSymbol = instancesSymbol,
+                    instancesSymbolColour = dayInstancesColour,
                     instancesRelativeSize = instancesSymbolSet.relativeSize,
                     dayBackgroundColour = backgroundWithTransparency,
                     textRelativeSize = textSize.relativeValue
                 )
                 CellDay.addListener(
                     context = context,
-                    remoteViews = dayRemoteView,
+                    remoteViews = arrayOf(dayOfMonthRemoteView, instancesSymbolRemoteView),
                     startOfDay = currentDay.dayLocalDate.atStartOfDay(SystemResolver.getSystemZoneId()).toInstant()
                 )
             }
 
             GraphicResolver.addToWidget(
                 widgetRemoteView = widgetRemoteView,
-                remoteView = weekRow
+                remoteView = weekRowRemoteView
             )
         }
     }

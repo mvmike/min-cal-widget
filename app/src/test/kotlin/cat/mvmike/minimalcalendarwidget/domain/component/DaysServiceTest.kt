@@ -102,11 +102,25 @@ internal class DaysServiceTest : BaseTest() {
             GraphicResolver.parseColour(DAY_CELL_LOW_TRANSPARENT_BACKGROUND_IN_HEX)
         } returns expectedBackground
 
-        every { GraphicResolver.createDay(context, any()) } returns dayRv
+        every { GraphicResolver.createDayLayout(context, any()) } returns dayRv
         justRun {
-            GraphicResolver.addToDaysRow(context, rowRv, any(), any(), any(), any(), any(), any(), any(), any(), any())
+            GraphicResolver.addToDaysRow(
+                context = context,
+                weekRowRemoteView = rowRv,
+                dayOfMonthRemoteView = dayRv,
+                instancesSymbolRemoteView = dayRv,
+                viewId = any(),
+                dayOfMonth = any(),
+                dayOfMonthColour = any(),
+                dayOfMonthInBold = any(),
+                instancesSymbol = any(),
+                instancesSymbolColour = any(),
+                instancesRelativeSize = any(),
+                dayBackgroundColour = any(),
+                textRelativeSize = any()
+            )
         }
-        justRun { ActionableView.CellDay.addListener(context, dayRv, any()) }
+        justRun { ActionableView.CellDay.addListener(context, arrayOf(dayRv, dayRv), any()) }
         justRun { GraphicResolver.addToWidget(widgetRv, rowRv) }
 
         DaysService.draw(context, widgetRv, testProperties.textSize)
@@ -144,21 +158,28 @@ internal class DaysServiceTest : BaseTest() {
             }
 
             verify {
-                GraphicResolver.createDay(context, cellDay.layout)
+                GraphicResolver.createDayLayout(context, cellDay.layout)
+                GraphicResolver.createDayLayout(context, cellDay.layout)
                 GraphicResolver.addToDaysRow(
                     context = context,
                     weekRowRemoteView = rowRv,
-                    dayRemoteView = dayRv,
+                    dayOfMonthRemoteView = dayRv,
+                    instancesSymbolRemoteView = dayRv,
                     viewId = cellDay.id,
-                    text = dayUseCaseTest.text,
-                    textColour = cellDay.textColour,
+                    dayOfMonth = dayUseCaseTest.dayOfMonth,
+                    dayOfMonthColour = cellDay.textColour,
                     dayOfMonthInBold = dayUseCaseTest.isToday,
-                    instancesColour = instancesColourId,
+                    instancesSymbol = dayUseCaseTest.instancesSymbol,
+                    instancesSymbolColour = instancesColourId,
                     instancesRelativeSize = symbolSet.relativeSize,
                     dayBackgroundColour = cellDay.background?.let { expectedBackground },
                     textRelativeSize = testProperties.textSize.relativeValue
                 )
-                ActionableView.CellDay.addListener(context, dayRv, dayUseCaseTest.startOfDay(systemZoneOffset))
+                ActionableView.CellDay.addListener(
+                    context = context,
+                    remoteViews = arrayOf(dayRv, dayRv),
+                    startOfDay = dayUseCaseTest.startOfDay(systemZoneOffset)
+                )
             }
         }
         verify(exactly = 6) { GraphicResolver.addToWidget(widgetRv, rowRv) }
@@ -399,48 +420,48 @@ internal class DaysServiceTest : BaseTest() {
     )!!
 
     private fun getDrawDaysUseCaseTestProperties() = Stream.of(
-        DrawDaysUseCaseTestDayProperties("2018-11-26", " 26 ·", DayOfWeek.MONDAY),
-        DrawDaysUseCaseTestDayProperties("2018-11-27", " 27  ", DayOfWeek.TUESDAY),
-        DrawDaysUseCaseTestDayProperties("2018-11-28", " 28 ·", DayOfWeek.WEDNESDAY),
-        DrawDaysUseCaseTestDayProperties("2018-11-29", " 29 ·", DayOfWeek.THURSDAY),
-        DrawDaysUseCaseTestDayProperties("2018-11-30", " 30  ", DayOfWeek.FRIDAY),
-        DrawDaysUseCaseTestDayProperties("2018-12-01", "  1  ", DayOfWeek.SATURDAY, true),
-        DrawDaysUseCaseTestDayProperties("2018-12-02", "  2  ", DayOfWeek.SUNDAY, true),
-        DrawDaysUseCaseTestDayProperties("2018-12-03", "  3 ·", DayOfWeek.MONDAY, true),
-        DrawDaysUseCaseTestDayProperties("2018-12-04", "  4 ·", DayOfWeek.TUESDAY, true, isToday = true),
-        DrawDaysUseCaseTestDayProperties("2018-12-05", "  5  ", DayOfWeek.WEDNESDAY, true),
-        DrawDaysUseCaseTestDayProperties("2018-12-06", "  6 ∴", DayOfWeek.THURSDAY, true),
-        DrawDaysUseCaseTestDayProperties("2018-12-07", "  7 ·", DayOfWeek.FRIDAY, true),
-        DrawDaysUseCaseTestDayProperties("2018-12-08", "  8  ", DayOfWeek.SATURDAY, true),
-        DrawDaysUseCaseTestDayProperties("2018-12-09", "  9  ", DayOfWeek.SUNDAY, true),
-        DrawDaysUseCaseTestDayProperties("2018-12-10", " 10 ∷", DayOfWeek.MONDAY, true),
-        DrawDaysUseCaseTestDayProperties("2018-12-11", " 11 ·", DayOfWeek.TUESDAY, true),
-        DrawDaysUseCaseTestDayProperties("2018-12-12", " 12  ", DayOfWeek.WEDNESDAY, true),
-        DrawDaysUseCaseTestDayProperties("2018-12-13", " 13  ", DayOfWeek.THURSDAY, true),
-        DrawDaysUseCaseTestDayProperties("2018-12-14", " 14  ", DayOfWeek.FRIDAY, true),
-        DrawDaysUseCaseTestDayProperties("2018-12-15", " 15  ", DayOfWeek.SATURDAY, true),
-        DrawDaysUseCaseTestDayProperties("2018-12-16", " 16  ", DayOfWeek.SUNDAY, true),
-        DrawDaysUseCaseTestDayProperties("2018-12-17", " 17  ", DayOfWeek.MONDAY, true),
-        DrawDaysUseCaseTestDayProperties("2018-12-18", " 18  ", DayOfWeek.TUESDAY, true),
-        DrawDaysUseCaseTestDayProperties("2018-12-19", " 19  ", DayOfWeek.WEDNESDAY, true),
-        DrawDaysUseCaseTestDayProperties("2018-12-20", " 20  ", DayOfWeek.THURSDAY, true),
-        DrawDaysUseCaseTestDayProperties("2018-12-21", " 21  ", DayOfWeek.FRIDAY, true),
-        DrawDaysUseCaseTestDayProperties("2018-12-22", " 22  ", DayOfWeek.SATURDAY, true),
-        DrawDaysUseCaseTestDayProperties("2018-12-23", " 23  ", DayOfWeek.SUNDAY, true),
-        DrawDaysUseCaseTestDayProperties("2018-12-24", " 24  ", DayOfWeek.MONDAY, true),
-        DrawDaysUseCaseTestDayProperties("2018-12-25", " 25  ", DayOfWeek.TUESDAY, true),
-        DrawDaysUseCaseTestDayProperties("2018-12-26", " 26  ", DayOfWeek.WEDNESDAY, true),
-        DrawDaysUseCaseTestDayProperties("2018-12-27", " 27 ·", DayOfWeek.THURSDAY, true),
-        DrawDaysUseCaseTestDayProperties("2018-12-28", " 28  ", DayOfWeek.FRIDAY, true),
-        DrawDaysUseCaseTestDayProperties("2018-12-29", " 29  ", DayOfWeek.SATURDAY, true),
-        DrawDaysUseCaseTestDayProperties("2018-12-30", " 30 ◇", DayOfWeek.SUNDAY, true),
-        DrawDaysUseCaseTestDayProperties("2018-12-31", " 31  ", DayOfWeek.MONDAY, true),
-        DrawDaysUseCaseTestDayProperties("2019-01-01", "  1 ·", DayOfWeek.TUESDAY),
-        DrawDaysUseCaseTestDayProperties("2019-01-02", "  2 ·", DayOfWeek.WEDNESDAY),
-        DrawDaysUseCaseTestDayProperties("2019-01-03", "  3 ·", DayOfWeek.THURSDAY),
-        DrawDaysUseCaseTestDayProperties("2019-01-04", "  4 ·", DayOfWeek.FRIDAY),
-        DrawDaysUseCaseTestDayProperties("2019-01-05", "  5 ◈", DayOfWeek.SATURDAY),
-        DrawDaysUseCaseTestDayProperties("2019-01-06", "  6 ·", DayOfWeek.SUNDAY)
+        DrawDaysUseCaseTestDayProperties("2018-11-26", "26", '·', DayOfWeek.MONDAY),
+        DrawDaysUseCaseTestDayProperties("2018-11-27", "27", ' ', DayOfWeek.TUESDAY),
+        DrawDaysUseCaseTestDayProperties("2018-11-28", "28", '·', DayOfWeek.WEDNESDAY),
+        DrawDaysUseCaseTestDayProperties("2018-11-29", "29", '·', DayOfWeek.THURSDAY),
+        DrawDaysUseCaseTestDayProperties("2018-11-30", "30", ' ', DayOfWeek.FRIDAY),
+        DrawDaysUseCaseTestDayProperties("2018-12-01", "1", ' ', DayOfWeek.SATURDAY, true),
+        DrawDaysUseCaseTestDayProperties("2018-12-02", "2", ' ', DayOfWeek.SUNDAY, true),
+        DrawDaysUseCaseTestDayProperties("2018-12-03", "3", '·', DayOfWeek.MONDAY, true),
+        DrawDaysUseCaseTestDayProperties("2018-12-04", "4", '·', DayOfWeek.TUESDAY, true, isToday = true),
+        DrawDaysUseCaseTestDayProperties("2018-12-05", "5", ' ', DayOfWeek.WEDNESDAY, true),
+        DrawDaysUseCaseTestDayProperties("2018-12-06", "6", '∴', DayOfWeek.THURSDAY, true),
+        DrawDaysUseCaseTestDayProperties("2018-12-07", "7", '·', DayOfWeek.FRIDAY, true),
+        DrawDaysUseCaseTestDayProperties("2018-12-08", "8", ' ', DayOfWeek.SATURDAY, true),
+        DrawDaysUseCaseTestDayProperties("2018-12-09", "9", ' ', DayOfWeek.SUNDAY, true),
+        DrawDaysUseCaseTestDayProperties("2018-12-10", "10", '∷', DayOfWeek.MONDAY, true),
+        DrawDaysUseCaseTestDayProperties("2018-12-11", "11", '·', DayOfWeek.TUESDAY, true),
+        DrawDaysUseCaseTestDayProperties("2018-12-12", "12", ' ', DayOfWeek.WEDNESDAY, true),
+        DrawDaysUseCaseTestDayProperties("2018-12-13", "13", ' ', DayOfWeek.THURSDAY, true),
+        DrawDaysUseCaseTestDayProperties("2018-12-14", "14", ' ', DayOfWeek.FRIDAY, true),
+        DrawDaysUseCaseTestDayProperties("2018-12-15", "15", ' ', DayOfWeek.SATURDAY, true),
+        DrawDaysUseCaseTestDayProperties("2018-12-16", "16", ' ', DayOfWeek.SUNDAY, true),
+        DrawDaysUseCaseTestDayProperties("2018-12-17", "17", ' ', DayOfWeek.MONDAY, true),
+        DrawDaysUseCaseTestDayProperties("2018-12-18", "18", ' ', DayOfWeek.TUESDAY, true),
+        DrawDaysUseCaseTestDayProperties("2018-12-19", "19", ' ', DayOfWeek.WEDNESDAY, true),
+        DrawDaysUseCaseTestDayProperties("2018-12-20", "20", ' ', DayOfWeek.THURSDAY, true),
+        DrawDaysUseCaseTestDayProperties("2018-12-21", "21", ' ', DayOfWeek.FRIDAY, true),
+        DrawDaysUseCaseTestDayProperties("2018-12-22", "22", ' ', DayOfWeek.SATURDAY, true),
+        DrawDaysUseCaseTestDayProperties("2018-12-23", "23", ' ', DayOfWeek.SUNDAY, true),
+        DrawDaysUseCaseTestDayProperties("2018-12-24", "24", ' ', DayOfWeek.MONDAY, true),
+        DrawDaysUseCaseTestDayProperties("2018-12-25", "25", ' ', DayOfWeek.TUESDAY, true),
+        DrawDaysUseCaseTestDayProperties("2018-12-26", "26", ' ', DayOfWeek.WEDNESDAY, true),
+        DrawDaysUseCaseTestDayProperties("2018-12-27", "27", '·', DayOfWeek.THURSDAY, true),
+        DrawDaysUseCaseTestDayProperties("2018-12-28", "28", ' ', DayOfWeek.FRIDAY, true),
+        DrawDaysUseCaseTestDayProperties("2018-12-29", "29", ' ', DayOfWeek.SATURDAY, true),
+        DrawDaysUseCaseTestDayProperties("2018-12-30", "30", '◇', DayOfWeek.SUNDAY, true),
+        DrawDaysUseCaseTestDayProperties("2018-12-31", "31", ' ', DayOfWeek.MONDAY, true),
+        DrawDaysUseCaseTestDayProperties("2019-01-01", "1", '·', DayOfWeek.TUESDAY),
+        DrawDaysUseCaseTestDayProperties("2019-01-02", "2", '·', DayOfWeek.WEDNESDAY),
+        DrawDaysUseCaseTestDayProperties("2019-01-03", "3", '·', DayOfWeek.THURSDAY),
+        DrawDaysUseCaseTestDayProperties("2019-01-04", "4", '·', DayOfWeek.FRIDAY),
+        DrawDaysUseCaseTestDayProperties("2019-01-05", "5", '◈', DayOfWeek.SATURDAY),
+        DrawDaysUseCaseTestDayProperties("2019-01-06", "6", '·', DayOfWeek.SUNDAY)
     )
 
     private fun getSystemLocalDateAndFirstDayOfWeekWithExpectedCurrentWeekFocusedInitialLocalDate() = Stream.of(
@@ -575,7 +596,8 @@ internal class DaysServiceTest : BaseTest() {
 
     internal data class DrawDaysUseCaseTestDayProperties(
         private val day: String,
-        val text: String,
+        val dayOfMonth: String,
+        val instancesSymbol: Char,
         val dayOfWeek: DayOfWeek,
         val isInMonth: Boolean = false,
         val isToday: Boolean = false

@@ -12,7 +12,7 @@ data class Day(
 ) {
     fun getDayOfWeek(): DayOfWeek = dayLocalDate.dayOfWeek
 
-    fun getDayOfMonthString(): String = " ${dayLocalDate.dayOfMonth}".takeLast(2)
+    fun getDayOfMonthString(): String = "${dayLocalDate.dayOfMonth}"
 
     fun isInMonth(systemLocalDate: LocalDate) = dayLocalDate.year ==
         systemLocalDate.year && dayLocalDate.month == systemLocalDate.month
