@@ -99,9 +99,6 @@ object GraphicResolver {
         dayOfMonthRemoteView.setTextViewText(viewId, dayOfMonthSpSt)
         dayOfMonthRemoteView.setTextColor(viewId, getColour(context, dayOfMonthColour))
         dayOfMonthRemoteView.setGravity(viewId, Gravity.END or Gravity.CENTER_VERTICAL)
-        dayBackgroundColour?.let {
-            setBackgroundColor(dayOfMonthRemoteView, viewId, it)
-        }
 
         val instancesSymbolSpSt = SpannableString("$instancesSymbol").apply {
             setSpan(StyleSpan(BOLD), 0, length, SPAN_EXCLUSIVE_EXCLUSIVE)
@@ -109,7 +106,9 @@ object GraphicResolver {
             setSpan(RelativeSizeSpan(instancesRelativeSize * textRelativeSize), 0, length, SPAN_EXCLUSIVE_EXCLUSIVE)
         }
         instancesSymbolRemoteView.setTextViewText(viewId, instancesSymbolSpSt)
+
         dayBackgroundColour?.let {
+            setBackgroundColor(dayOfMonthRemoteView, viewId, it)
             setBackgroundColor(instancesSymbolRemoteView, viewId, it)
         }
 
