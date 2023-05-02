@@ -23,7 +23,7 @@
             android:layout_height="match_parent"
             android:contentDescription="@string/configuration"
             android:gravity="end|center_vertical"
-            android:padding="5sp"
+            android:padding="5dp"
             android:scaleType="fitEnd"
             android:src="@drawable/ic_configuration" />
 
