@@ -1,0 +1,5 @@
+v2.11.1
+- minor graphic improvements
+- remove unused resources
+- fix ANR on some samsung devices running android 12
+- technical maintenance
