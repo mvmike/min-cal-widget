@@ -20,9 +20,12 @@ import io.mockk.mockkConstructor
 import io.mockk.mockkObject
 import io.mockk.mockkStatic
 import io.mockk.verify
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
+import java.util.concurrent.TimeoutException
+import kotlin.system.measureTimeMillis
 
 internal class RedrawWidgetUseCaseTest : BaseTest() {
 
@@ -68,7 +71,7 @@ internal class RedrawWidgetUseCaseTest : BaseTest() {
 
     @ParameterizedTest
     @ValueSource(ints = [1, 5, 7, 14])
-    fun shouldRedrawWidget(appWidgetId: Int) {
+    fun shouldRedrawWidgetRegardlessOfBinderProxyTransactionTimeout(appWidgetId: Int) {
         mockkObject(
             ActionableView.ConfigurationIcon,
             ActionableView.MonthAndYearHeader,
@@ -95,10 +98,17 @@ internal class RedrawWidgetUseCaseTest : BaseTest() {
         justRun { DaysHeaderService.draw(context, any(), textSize) }
         justRun { DaysService.draw(context, any(), textSize) }
 
-        justRun { appWidgetManager.updateAppWidget(appWidgetId, any()) }
+        val binderProxyTransactionTimeoutInMillis = 1000L
+        every { appWidgetManager.updateAppWidget(appWidgetId, any()) } answers {
+            Thread.sleep(binderProxyTransactionTimeoutInMillis)
+            throw TimeoutException("android.os.BinderProxy.transactNative timeout")
+        }
 
-        RedrawWidgetUseCase.execute(context, appWidgetManager, appWidgetId)
+        val executionTime = measureTimeMillis {
+            RedrawWidgetUseCase.execute(context, appWidgetManager, appWidgetId)
+        }
 
+        assertThat(executionTime).isLessThan(binderProxyTransactionTimeoutInMillis)
         verifySharedPreferencesAccess()
         verifyWidgetTextSize()
         verify { context.packageName }

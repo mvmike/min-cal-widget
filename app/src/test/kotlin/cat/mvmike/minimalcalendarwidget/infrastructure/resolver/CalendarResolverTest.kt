@@ -53,7 +53,7 @@ internal class CalendarResolverTest : BaseTest() {
         mockkStatic(CalendarContract.Instances::class)
         every {
             CalendarContract.Instances.query(context.contentResolver, instanceQueryFields, begin, end)
-        } throws RuntimeException()
+        } throws RuntimeException("some exception when querying instances")
 
         val result = CalendarResolver.getInstances(context, begin, end)
 
@@ -68,7 +68,7 @@ internal class CalendarResolverTest : BaseTest() {
         every {
             CalendarContract.Instances.query(context.contentResolver, instanceQueryFields, begin, end)
         } returns cursor
-        every { cursor.moveToNext() } throws RuntimeException()
+        every { cursor.moveToNext() } throws RuntimeException("some exception whilst moving cursor")
         justRun { cursor.close() }
 
         val result = CalendarResolver.getInstances(context, begin, end)

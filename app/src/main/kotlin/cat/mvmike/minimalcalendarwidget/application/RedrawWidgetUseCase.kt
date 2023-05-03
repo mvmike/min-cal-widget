@@ -15,6 +15,12 @@ import cat.mvmike.minimalcalendarwidget.domain.component.MonthAndYearHeaderServi
 import cat.mvmike.minimalcalendarwidget.domain.configuration.PercentageConfigurationItem
 import cat.mvmike.minimalcalendarwidget.domain.intent.ActionableView.ConfigurationIcon
 import cat.mvmike.minimalcalendarwidget.domain.intent.ActionableView.MonthAndYearHeader
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+
+private val emptyCoroutineExceptionHandler = CoroutineExceptionHandler { _, _ -> }
 
 object RedrawWidgetUseCase {
 
@@ -74,6 +80,8 @@ object RedrawWidgetUseCase {
             textSize = textSize
         )
 
-        appWidgetManager.updateAppWidget(appWidgetId, widgetRemoteView)
+        CoroutineScope(Dispatchers.Default).launch(emptyCoroutineExceptionHandler) {
+            appWidgetManager.updateAppWidget(appWidgetId, widgetRemoteView)
+        }
     }
 }
