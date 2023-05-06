@@ -5,12 +5,13 @@ package cat.mvmike.minimalcalendarwidget.infrastructure.resolver
 import android.content.Context
 import android.graphics.Color
 import android.graphics.Typeface.BOLD
+import android.text.Layout
 import android.text.SpannableString
 import android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+import android.text.style.AlignmentSpan
 import android.text.style.ForegroundColorSpan
 import android.text.style.RelativeSizeSpan
 import android.text.style.StyleSpan
-import android.view.Gravity
 import android.widget.RemoteViews
 import androidx.core.content.ContextCompat
 import cat.mvmike.minimalcalendarwidget.R
@@ -95,15 +96,16 @@ object GraphicResolver {
                 setSpan(StyleSpan(BOLD), 0, length, SPAN_EXCLUSIVE_EXCLUSIVE)
             }
             setSpan(RelativeSizeSpan(textRelativeSize), 0, length, SPAN_EXCLUSIVE_EXCLUSIVE)
+            setSpan(AlignmentSpan.Standard(Layout.Alignment.ALIGN_OPPOSITE), 0, length, SPAN_EXCLUSIVE_EXCLUSIVE)
         }
         dayOfMonthRemoteView.setTextViewText(viewId, dayOfMonthSpSt)
         dayOfMonthRemoteView.setTextColor(viewId, getColour(context, dayOfMonthColour))
-        dayOfMonthRemoteView.setGravity(viewId, Gravity.END or Gravity.CENTER_VERTICAL)
 
         val instancesSymbolSpSt = SpannableString("$instancesSymbol").apply {
             setSpan(StyleSpan(BOLD), 0, length, SPAN_EXCLUSIVE_EXCLUSIVE)
             setSpan(ForegroundColorSpan(instancesSymbolColour), 0, length, SPAN_EXCLUSIVE_EXCLUSIVE)
             setSpan(RelativeSizeSpan(instancesRelativeSize * textRelativeSize), 0, length, SPAN_EXCLUSIVE_EXCLUSIVE)
+            setSpan(AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER), 0, length, SPAN_EXCLUSIVE_EXCLUSIVE)
         }
         instancesSymbolRemoteView.setTextViewText(viewId, instancesSymbolSpSt)
 
@@ -133,9 +135,4 @@ object GraphicResolver {
     // INTERNAL UTILS
 
     private fun getById(context: Context, layoutId: Int) = RemoteViews(context.packageName, layoutId)
-
-    private fun RemoteViews.setGravity(
-        viewId: Int,
-        gravity: Int
-    ) = setInt(viewId, "setGravity", gravity)
 }
