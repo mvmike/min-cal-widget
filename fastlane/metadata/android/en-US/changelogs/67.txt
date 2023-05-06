@@ -1,0 +1,3 @@
+v2.11.2
+- fixed bug that caused widget not being loaded on some devices
+- updated some yue translations
