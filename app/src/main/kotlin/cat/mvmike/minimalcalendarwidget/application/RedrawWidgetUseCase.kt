@@ -29,11 +29,14 @@ object RedrawWidgetUseCase {
     ) {
         val name = ComponentName(context, MonthWidget::class.java)
         val appWidgetManager = AppWidgetManager.getInstance(context)
-        execute(
-            context = context,
-            appWidgetManager = appWidgetManager,
-            appWidgetIds = appWidgetManager.getAppWidgetIds(name)
-        )
+        val appWidgetIds = runCatching { appWidgetManager.getAppWidgetIds(name) }.getOrNull()
+        appWidgetIds?.let {
+            execute(
+                context = context,
+                appWidgetManager = appWidgetManager,
+                appWidgetIds = appWidgetIds
+            )
+        }
     }
 
     fun execute(

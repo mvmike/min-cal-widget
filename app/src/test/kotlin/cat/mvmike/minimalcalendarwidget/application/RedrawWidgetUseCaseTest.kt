@@ -24,6 +24,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
+import java.lang.IllegalStateException
 import java.util.concurrent.TimeoutException
 import kotlin.system.measureTimeMillis
 
@@ -47,6 +48,24 @@ internal class RedrawWidgetUseCaseTest : BaseTest() {
         RedrawWidgetUseCase.execute(context)
 
         verify { RedrawWidgetUseCase.execute(context, appWidgetManager, appWidgetIds) }
+        verify { RedrawWidgetUseCase.execute(context) }
+        confirmVerified(RedrawWidgetUseCase)
+    }
+
+    @Test
+    fun shouldDoNothingWhenUserIsNotUnlockedAndCanNotRetrieveAppWidgetIds() {
+        mockkObject(RedrawWidgetUseCase)
+        mockkStatic(AppWidgetManager::class)
+
+        every { AppWidgetManager.getInstance(context) } returns appWidgetManager
+        every {
+            appWidgetManager.getAppWidgetIds(any())
+        } throws IllegalStateException("User 0 must be unlocked for widgets to be available")
+
+        every { RedrawWidgetUseCase.execute(context) } answers { callOriginal() }
+
+        RedrawWidgetUseCase.execute(context)
+
         verify { RedrawWidgetUseCase.execute(context) }
         confirmVerified(RedrawWidgetUseCase)
     }
