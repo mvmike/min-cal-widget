@@ -2,12 +2,11 @@
 // See LICENSE for licensing information
 package cat.mvmike.minimalcalendarwidget.domain.configuration.item
 
-import cat.mvmike.minimalcalendarwidget.domain.MAX_PERCENTAGE
+import cat.mvmike.minimalcalendarwidget.domain.PERCENTAGE_RANGE
 import cat.mvmike.minimalcalendarwidget.domain.Percentage
 import java.math.RoundingMode
 
-private const val MIN_RELATIVE_VALUE = 0.5f
-private const val MAX_RELATIVE_VALUE = 1.8f
+private val RELATIVE_VALUE_RANGE = 0.5f..1.8f
 
 data class TextSize(
     val percentage: Int
@@ -24,8 +23,8 @@ data class TextSize(
     }
 
     val relativeValue: Float = (
-        MIN_RELATIVE_VALUE +
-            ((MAX_RELATIVE_VALUE - MIN_RELATIVE_VALUE) / MAX_PERCENTAGE) * percentage
+        RELATIVE_VALUE_RANGE.start +
+            ((RELATIVE_VALUE_RANGE.endInclusive - RELATIVE_VALUE_RANGE.start) / PERCENTAGE_RANGE.last) * percentage
         ).rounded(3)
 }
 

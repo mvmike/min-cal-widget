@@ -2,15 +2,12 @@
 // See LICENSE for licensing information
 package cat.mvmike.minimalcalendarwidget.domain.configuration.item
 
-import cat.mvmike.minimalcalendarwidget.domain.MAX_PERCENTAGE
+import cat.mvmike.minimalcalendarwidget.domain.PERCENTAGE_RANGE
 import cat.mvmike.minimalcalendarwidget.domain.Percentage
 import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.GraphicResolver
 import java.util.Locale
 
-// ranges from 0 (fully transparent) to 255 (fully opaque)
-private const val MIN_ALPHA = 0
-private const val MAX_ALPHA = 255
-
+private val ALPHA_RANGE = 0..255 // fully transparent to fully opaque
 private const val HEX_STRING_FORMAT = "%02X"
 
 data class Transparency(
@@ -20,8 +17,8 @@ data class Transparency(
     internal fun getAlpha(
         transparencyRange: TransparencyRange
     ) = (transparencyRange.maxAlpha - transparencyRange.minAlpha).toFloat()
-        .div(MAX_PERCENTAGE)
-        .times(MAX_PERCENTAGE - percentage)
+        .div(PERCENTAGE_RANGE.last)
+        .times(PERCENTAGE_RANGE.last - percentage)
         .plus(transparencyRange.minAlpha)
         .toInt()
 
@@ -35,17 +32,23 @@ enum class TransparencyRange(
     val maxAlpha: Int
 ) {
     COMPLETE(
-        minAlpha = MIN_ALPHA,
-        maxAlpha = MAX_ALPHA
+        minAlpha = ALPHA_RANGE.first,
+        maxAlpha = ALPHA_RANGE.last
     ),
     MODERATE(
-        minAlpha = MIN_ALPHA,
+        minAlpha = ALPHA_RANGE.first,
         maxAlpha = 80
     ),
     LOW(
-        minAlpha = MIN_ALPHA,
+        minAlpha = ALPHA_RANGE.first,
         maxAlpha = 30
-    )
+    );
+
+    init {
+        require(minAlpha in ALPHA_RANGE)
+        require(maxAlpha in ALPHA_RANGE)
+        require(minAlpha <= maxAlpha)
+    }
 }
 
 internal fun String.withTransparency(
