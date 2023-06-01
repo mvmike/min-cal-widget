@@ -1,0 +1,3 @@
+v2.11.3
+- fixed app not responding issue on some Realme devices
+- technical maintenance
