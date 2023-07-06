@@ -4,9 +4,9 @@ package cat.mvmike.minimalcalendarwidget.domain.component
 
 import android.content.Context
 import android.widget.RemoteViews
-import cat.mvmike.minimalcalendarwidget.domain.configuration.EnumConfigurationItem
-import cat.mvmike.minimalcalendarwidget.domain.configuration.PercentageConfigurationItem
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.TextSize
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Transparency
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.TransparencyRange
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.withTransparency
 import cat.mvmike.minimalcalendarwidget.domain.getAbbreviatedDisplayValue
@@ -17,15 +17,18 @@ import java.util.Collections
 
 object DaysHeaderService {
 
-    fun draw(context: Context, widgetRemoteView: RemoteViews, textSize: TextSize) {
+    fun draw(
+        context: Context,
+        widgetRemoteView: RemoteViews,
+        firstDayOfWeek: DayOfWeek,
+        widgetTheme: Theme,
+        transparency: Transparency,
+        textSize: TextSize
+    ) {
         val daysHeaderRow: RemoteViews = GraphicResolver.createDaysHeaderRow(context)
 
-        val transparency = PercentageConfigurationItem.WidgetTransparency.get(context)
-        val firstDayOfWeek = EnumConfigurationItem.FirstDayOfWeek.get(context)
-        val theme = EnumConfigurationItem.WidgetTheme.get(context)
-
         getRotatedWeekDays(firstDayOfWeek).forEach { dayOfWeek ->
-            val cellHeader = theme.getCellHeader(dayOfWeek)
+            val cellHeader = widgetTheme.getCellHeader(dayOfWeek)
             val backgroundWithTransparency = cellHeader.background
                 ?.let { GraphicResolver.getColourAsString(context, it) }
                 ?.withTransparency(

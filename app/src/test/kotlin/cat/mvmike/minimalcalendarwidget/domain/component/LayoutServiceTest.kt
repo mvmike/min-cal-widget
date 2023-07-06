@@ -7,16 +7,15 @@ import cat.mvmike.minimalcalendarwidget.BaseTest
 import cat.mvmike.minimalcalendarwidget.R
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Transparency
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.TransparencyRange
 import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.GraphicResolver
 import io.mockk.confirmVerified
-import io.mockk.every
 import io.mockk.justRun
 import io.mockk.mockk
 import io.mockk.verify
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
-import java.util.Random
 import java.util.stream.Stream
 
 private const val DARK_THEME_MAIN_LAYOUT = 2131034143
@@ -29,59 +28,47 @@ internal class LayoutServiceTest : BaseTest() {
     @ParameterizedTest
     @MethodSource("getCombinationOfThemesAndTransparencyLevels")
     fun draw_shouldSetLayoutWithThemeBackgroundColourAndTransparency(
-        theme: Theme,
+        widgetTheme: Theme,
         transparency: Transparency,
-        mainLayout: Int,
-        expectedMainLayoutHexTransparency: String
+        mainLayout: Int
     ) {
-        mockSharedPreferences()
-        mockWidgetTheme(theme)
-        mockWidgetTransparency(transparency)
-        every { GraphicResolver.getColourAsString(context, mainLayout) } returns "expectedMainLayout"
-
-        val layoutWithTransparency = Random().nextInt()
-        val mainLayoutWithTransparency = "#${expectedMainLayoutHexTransparency}Layout"
-        every { GraphicResolver.parseColour(mainLayoutWithTransparency) } returns layoutWithTransparency
+        mockTransparency(mainLayout, transparency, TransparencyRange.COMPLETE)
 
         justRun {
             GraphicResolver.setBackgroundColor(
                 remoteViews = widgetRv,
                 viewId = R.id.widget_layout,
-                colour = layoutWithTransparency
+                colour = mainLayout
             )
         }
 
-        LayoutService.draw(context, widgetRv)
+        LayoutService.draw(context, widgetRv, widgetTheme, transparency)
 
+        verifyTransparency(mainLayout, transparency, TransparencyRange.COMPLETE)
         verify {
             GraphicResolver.setBackgroundColor(
                 remoteViews = widgetRv,
                 viewId = R.id.widget_layout,
-                colour = layoutWithTransparency
+                colour = mainLayout
             )
         }
-
-        verifyWidgetTheme()
-        verifyWidgetTransparency()
-        verify { GraphicResolver.getColourAsString(context, mainLayout) }
-        verify { GraphicResolver.parseColour(mainLayoutWithTransparency) }
         confirmVerified(widgetRv)
     }
 
     private fun getCombinationOfThemesAndTransparencyLevels() = Stream.of(
-        Arguments.of(Theme.DARK, Transparency(0), DARK_THEME_MAIN_LAYOUT, "FF"),
-        Arguments.of(Theme.DARK, Transparency(1), DARK_THEME_MAIN_LAYOUT, "FC"),
-        Arguments.of(Theme.DARK, Transparency(20), DARK_THEME_MAIN_LAYOUT, "CC"),
-        Arguments.of(Theme.DARK, Transparency(50), DARK_THEME_MAIN_LAYOUT, "7F"),
-        Arguments.of(Theme.DARK, Transparency(79), DARK_THEME_MAIN_LAYOUT, "35"),
-        Arguments.of(Theme.DARK, Transparency(90), DARK_THEME_MAIN_LAYOUT, "19"),
-        Arguments.of(Theme.DARK, Transparency(100), DARK_THEME_MAIN_LAYOUT, "00"),
-        Arguments.of(Theme.LIGHT, Transparency(0), LIGHT_THEME_MAIN_LAYOUT, "FF"),
-        Arguments.of(Theme.LIGHT, Transparency(5), LIGHT_THEME_MAIN_LAYOUT, "F2"),
-        Arguments.of(Theme.LIGHT, Transparency(70), LIGHT_THEME_MAIN_LAYOUT, "4C"),
-        Arguments.of(Theme.LIGHT, Transparency(72), LIGHT_THEME_MAIN_LAYOUT, "47"),
-        Arguments.of(Theme.LIGHT, Transparency(98), LIGHT_THEME_MAIN_LAYOUT, "05"),
-        Arguments.of(Theme.LIGHT, Transparency(99), LIGHT_THEME_MAIN_LAYOUT, "02"),
-        Arguments.of(Theme.LIGHT, Transparency(100), LIGHT_THEME_MAIN_LAYOUT, "00")
+        Arguments.of(Theme.DARK, Transparency(0), DARK_THEME_MAIN_LAYOUT),
+        Arguments.of(Theme.DARK, Transparency(1), DARK_THEME_MAIN_LAYOUT),
+        Arguments.of(Theme.DARK, Transparency(20), DARK_THEME_MAIN_LAYOUT),
+        Arguments.of(Theme.DARK, Transparency(50), DARK_THEME_MAIN_LAYOUT),
+        Arguments.of(Theme.DARK, Transparency(79), DARK_THEME_MAIN_LAYOUT),
+        Arguments.of(Theme.DARK, Transparency(90), DARK_THEME_MAIN_LAYOUT),
+        Arguments.of(Theme.DARK, Transparency(100), DARK_THEME_MAIN_LAYOUT),
+        Arguments.of(Theme.LIGHT, Transparency(0), LIGHT_THEME_MAIN_LAYOUT),
+        Arguments.of(Theme.LIGHT, Transparency(5), LIGHT_THEME_MAIN_LAYOUT),
+        Arguments.of(Theme.LIGHT, Transparency(70), LIGHT_THEME_MAIN_LAYOUT),
+        Arguments.of(Theme.LIGHT, Transparency(72), LIGHT_THEME_MAIN_LAYOUT),
+        Arguments.of(Theme.LIGHT, Transparency(98), LIGHT_THEME_MAIN_LAYOUT),
+        Arguments.of(Theme.LIGHT, Transparency(99), LIGHT_THEME_MAIN_LAYOUT),
+        Arguments.of(Theme.LIGHT, Transparency(100), LIGHT_THEME_MAIN_LAYOUT)
     )!!
 }

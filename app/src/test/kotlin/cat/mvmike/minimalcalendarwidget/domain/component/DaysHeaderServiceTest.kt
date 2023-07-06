@@ -8,6 +8,7 @@ import cat.mvmike.minimalcalendarwidget.R
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.TextSize
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Transparency
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.TransparencyRange
 import cat.mvmike.minimalcalendarwidget.domain.intent.ActionableView
 import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.GraphicResolver
 import io.mockk.confirmVerified
@@ -39,8 +40,9 @@ internal class DaysHeaderServiceTest : BaseTest() {
     @ParameterizedTest
     @MethodSource("getStartWeekDayAndThemeAndTextSizeWithExpectedOutput")
     fun draw_shouldAddViewBasedOnCurrentConfigAndTextSize(
-        startWeekDay: DayOfWeek,
-        theme: Theme,
+        firstDayOfWeek: DayOfWeek,
+        widgetTheme: Theme,
+        transparency: Transparency,
         textSize: TextSize,
         expectedDayHeaders: List<DayHeaderTestProperties>
     ) {
@@ -48,12 +50,8 @@ internal class DaysHeaderServiceTest : BaseTest() {
 
         every { GraphicResolver.createDaysHeaderRow(context) } returns daysHeaderRowRv
 
-        mockSharedPreferences()
-        mockWidgetTransparency(Transparency(20))
-        mockFirstDayOfWeek(startWeekDay)
-        mockWidgetTheme(theme)
         expectedDayHeaders.forEach {
-            mockGetDayHeaderCellBackground(it.getCellHeader(theme).background)
+            mockTransparency(it.getCellHeader(widgetTheme).background, transparency, TransparencyRange.MODERATE)
             val resourceAndTranslation = it.dayOfWeek.getExpectedResourceIdAndTranslation()
             every { context.getString(resourceAndTranslation.first) } returns resourceAndTranslation.second
         }
@@ -64,15 +62,12 @@ internal class DaysHeaderServiceTest : BaseTest() {
         justRun { GraphicResolver.addToWidget(widgetRv, daysHeaderRowRv) }
         justRun { ActionableView.RowHeader.addListener(context, widgetRv) }
 
-        DaysHeaderService.draw(context, widgetRv, textSize)
+        DaysHeaderService.draw(context, widgetRv, firstDayOfWeek, widgetTheme, transparency, textSize)
 
-        verifyWidgetTransparency()
-        verifyFirstDayOfWeek()
-        verifyWidgetTheme()
         verify(exactly = 1) { GraphicResolver.createDaysHeaderRow(context) }
         expectedDayHeaders.forEach {
             verify { context.getString(it.dayOfWeek.getExpectedResourceIdAndTranslation().first) }
-            verifyGetDayHeaderCellBackground(it.getCellHeader(theme).background)
+            verifyTransparency(it.getCellHeader(widgetTheme).background, transparency, TransparencyRange.MODERATE)
         }
         verifyOrder {
             expectedDayHeaders.forEach {
@@ -80,10 +75,10 @@ internal class DaysHeaderServiceTest : BaseTest() {
                     context = context,
                     daysHeaderRowRemoteView = daysHeaderRowRv,
                     text = it.expectedHeaderText,
-                    textColour = it.getCellHeader(theme).textColour,
-                    layoutId = it.getCellHeader(theme).layout,
-                    viewId = it.getCellHeader(theme).id,
-                    dayHeaderBackgroundColour = it.getCellHeader(theme).background,
+                    textColour = it.getCellHeader(widgetTheme).textColour,
+                    layoutId = it.getCellHeader(widgetTheme).layout,
+                    viewId = it.getCellHeader(widgetTheme).id,
+                    dayHeaderBackgroundColour = it.getCellHeader(widgetTheme).background,
                     textRelativeSize = textSize.relativeValue
                 )
             }
@@ -97,6 +92,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
         Arguments.of(
             MONDAY,
             Theme.DARK,
+            Transparency(10),
             TextSize(40),
             listOf(
                 DayHeaderTestProperties(MONDAY, "MON"),
@@ -111,6 +107,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
         Arguments.of(
             TUESDAY,
             Theme.DARK,
+            Transparency(20),
             TextSize(40),
             listOf(
                 DayHeaderTestProperties(TUESDAY, "DOO"),
@@ -125,6 +122,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
         Arguments.of(
             WEDNESDAY,
             Theme.DARK,
+            Transparency(20),
             TextSize(40),
             listOf(
                 DayHeaderTestProperties(WEDNESDAY, "WED"),
@@ -139,6 +137,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
         Arguments.of(
             THURSDAY,
             Theme.DARK,
+            Transparency(30),
             TextSize(40),
             listOf(
                 DayHeaderTestProperties(THURSDAY, "THU"),
@@ -153,6 +152,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
         Arguments.of(
             FRIDAY,
             Theme.DARK,
+            Transparency(90),
             TextSize(40),
             listOf(
                 DayHeaderTestProperties(FRIDAY, "FRI"),
@@ -167,6 +167,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
         Arguments.of(
             SATURDAY,
             Theme.DARK,
+            Transparency(15),
             TextSize(40),
             listOf(
                 DayHeaderTestProperties(SATURDAY, "SAT"),
@@ -181,6 +182,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
         Arguments.of(
             SUNDAY,
             Theme.DARK,
+            Transparency(20),
             TextSize(40),
             listOf(
                 DayHeaderTestProperties(SUNDAY, "SUN"),
@@ -195,6 +197,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
         Arguments.of(
             MONDAY,
             Theme.DARK,
+            Transparency(0),
             TextSize(15),
             listOf(
                 DayHeaderTestProperties(MONDAY, "M"),
@@ -209,6 +212,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
         Arguments.of(
             TUESDAY,
             Theme.DARK,
+            Transparency(55),
             TextSize(15),
             listOf(
                 DayHeaderTestProperties(TUESDAY, "D"),
@@ -223,6 +227,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
         Arguments.of(
             WEDNESDAY,
             Theme.DARK,
+            Transparency(15),
             TextSize(15),
             listOf(
                 DayHeaderTestProperties(WEDNESDAY, "W"),
@@ -237,6 +242,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
         Arguments.of(
             THURSDAY,
             Theme.DARK,
+            Transparency(20),
             TextSize(15),
             listOf(
                 DayHeaderTestProperties(THURSDAY, "T"),
@@ -251,6 +257,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
         Arguments.of(
             FRIDAY,
             Theme.DARK,
+            Transparency(20),
             TextSize(15),
             listOf(
                 DayHeaderTestProperties(FRIDAY, "F"),
@@ -265,6 +272,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
         Arguments.of(
             SATURDAY,
             Theme.DARK,
+            Transparency(20),
             TextSize(15),
             listOf(
                 DayHeaderTestProperties(SATURDAY, "S"),
@@ -279,6 +287,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
         Arguments.of(
             SUNDAY,
             Theme.DARK,
+            Transparency(20),
             TextSize(15),
             listOf(
                 DayHeaderTestProperties(SUNDAY, "S"),
@@ -293,6 +302,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
         Arguments.of(
             MONDAY,
             Theme.LIGHT,
+            Transparency(80),
             TextSize(40),
             listOf(
                 DayHeaderTestProperties(MONDAY, "MON"),
@@ -307,6 +317,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
         Arguments.of(
             TUESDAY,
             Theme.LIGHT,
+            Transparency(5),
             TextSize(40),
             listOf(
                 DayHeaderTestProperties(TUESDAY, "DOO"),
@@ -321,6 +332,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
         Arguments.of(
             WEDNESDAY,
             Theme.LIGHT,
+            Transparency(20),
             TextSize(40),
             listOf(
                 DayHeaderTestProperties(WEDNESDAY, "WED"),
@@ -335,6 +347,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
         Arguments.of(
             THURSDAY,
             Theme.LIGHT,
+            Transparency(20),
             TextSize(40),
             listOf(
                 DayHeaderTestProperties(THURSDAY, "THU"),
@@ -349,6 +362,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
         Arguments.of(
             FRIDAY,
             Theme.LIGHT,
+            Transparency(20),
             TextSize(40),
             listOf(
                 DayHeaderTestProperties(FRIDAY, "FRI"),
@@ -363,6 +377,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
         Arguments.of(
             SATURDAY,
             Theme.LIGHT,
+            Transparency(20),
             TextSize(40),
             listOf(
                 DayHeaderTestProperties(SATURDAY, "SAT"),
@@ -377,6 +392,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
         Arguments.of(
             SUNDAY,
             Theme.LIGHT,
+            Transparency(20),
             TextSize(40),
             listOf(
                 DayHeaderTestProperties(SUNDAY, "SUN"),
@@ -391,6 +407,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
         Arguments.of(
             MONDAY,
             Theme.LIGHT,
+            Transparency(20),
             TextSize(15),
             listOf(
                 DayHeaderTestProperties(MONDAY, "M"),
@@ -405,6 +422,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
         Arguments.of(
             TUESDAY,
             Theme.LIGHT,
+            Transparency(20),
             TextSize(15),
             listOf(
                 DayHeaderTestProperties(TUESDAY, "D"),
@@ -419,6 +437,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
         Arguments.of(
             WEDNESDAY,
             Theme.LIGHT,
+            Transparency(15),
             TextSize(15),
             listOf(
                 DayHeaderTestProperties(WEDNESDAY, "W"),
@@ -433,6 +452,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
         Arguments.of(
             THURSDAY,
             Theme.LIGHT,
+            Transparency(100),
             TextSize(15),
             listOf(
                 DayHeaderTestProperties(THURSDAY, "T"),
@@ -447,6 +467,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
         Arguments.of(
             FRIDAY,
             Theme.LIGHT,
+            Transparency(0),
             TextSize(15),
             listOf(
                 DayHeaderTestProperties(FRIDAY, "F"),
@@ -461,6 +482,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
         Arguments.of(
             SATURDAY,
             Theme.LIGHT,
+            Transparency(20),
             TextSize(15),
             listOf(
                 DayHeaderTestProperties(SATURDAY, "S"),
@@ -475,6 +497,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
         Arguments.of(
             SUNDAY,
             Theme.LIGHT,
+            Transparency(20),
             TextSize(15),
             listOf(
                 DayHeaderTestProperties(SUNDAY, "S"),
@@ -497,20 +520,6 @@ internal class DaysHeaderServiceTest : BaseTest() {
             FRIDAY -> Pair(R.string.friday_abb, "FRIDAY")
             SATURDAY -> Pair(R.string.saturday_abb, "SATURDAY")
             SUNDAY -> Pair(R.string.sunday_abb, "SUNDAY")
-        }
-
-    private fun mockGetDayHeaderCellBackground(dayHeaderCellBackground: Int?) =
-        dayHeaderCellBackground?.let {
-            val stringColour = "transparentBackground$dayHeaderCellBackground"
-            every { GraphicResolver.getColourAsString(context, dayHeaderCellBackground) } returns stringColour
-            every { GraphicResolver.parseColour("#40${stringColour.takeLast(6)}") } returns dayHeaderCellBackground
-        }
-
-    private fun verifyGetDayHeaderCellBackground(dayHeaderCellBackground: Int?) =
-        dayHeaderCellBackground?.let {
-            val stringColour = "transparentBackground$dayHeaderCellBackground"
-            verify { GraphicResolver.getColourAsString(context, dayHeaderCellBackground) }
-            verify { GraphicResolver.parseColour("#40${stringColour.takeLast(6)}") }
         }
 
     internal data class DayHeaderTestProperties(

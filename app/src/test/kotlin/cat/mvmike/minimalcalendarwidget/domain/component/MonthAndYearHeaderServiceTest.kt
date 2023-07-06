@@ -31,7 +31,7 @@ internal class MonthAndYearHeaderServiceTest : BaseTest() {
     fun draw_shouldAddMonthAndYearWithColourAndRelativeMonthAndYearSize(
         instant: Instant,
         textSize: TextSize,
-        theme: Theme,
+        widgetTheme: Theme,
         calendar: Calendar,
         expectedMonth: String,
         expectedYear: String
@@ -41,7 +41,6 @@ internal class MonthAndYearHeaderServiceTest : BaseTest() {
         mockGetSystemZoneId()
         mockSharedPreferences()
         mockWidgetCalendar(calendar)
-        mockWidgetTheme(theme)
         val month = instant.atZone(zoneId).month
         every { context.getString(month.getExpectedResourceId()) } returns month.getExpectedAbbreviatedString()
         justRun {
@@ -50,26 +49,25 @@ internal class MonthAndYearHeaderServiceTest : BaseTest() {
                 widgetRemoteView = widgetRv,
                 month = expectedMonth,
                 year = expectedYear,
-                textColour = theme.mainTextColour,
+                textColour = widgetTheme.mainTextColour,
                 headerYearRelativeSize = expectedHeaderRelativeYearSize,
                 textRelativeSize = textSize.relativeValue
             )
         }
 
-        MonthAndYearHeaderService.draw(context, widgetRv, textSize)
+        MonthAndYearHeaderService.draw(context, widgetRv, textSize, widgetTheme)
 
         verify { SystemResolver.getSystemInstant() }
         verify { SystemResolver.getSystemZoneId() }
         verify { context.getString(month.getExpectedResourceId()) }
         verifyWidgetCalendar()
-        verifyWidgetTheme()
         verify {
             createMonthAndYearHeader(
                 context = context,
                 widgetRemoteView = widgetRv,
                 month = expectedMonth,
                 year = expectedYear,
-                textColour = theme.mainTextColour,
+                textColour = widgetTheme.mainTextColour,
                 headerYearRelativeSize = expectedHeaderRelativeYearSize,
                 textRelativeSize = textSize.relativeValue
             )

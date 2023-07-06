@@ -13,6 +13,7 @@ import cat.mvmike.minimalcalendarwidget.domain.configuration.item.SymbolSet
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.TextSize
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Transparency
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.TransparencyRange
 import cat.mvmike.minimalcalendarwidget.infrastructure.activity.CalendarActivity
 import cat.mvmike.minimalcalendarwidget.infrastructure.activity.ConfigurationActivity
 import cat.mvmike.minimalcalendarwidget.infrastructure.activity.PermissionsActivity
@@ -84,6 +85,8 @@ open class BaseTest {
         )
     }
 
+    // SYSTEM
+
     protected fun mockGetRuntimeSDK(sdkVersion: Int) {
         every { SystemResolver.getRuntimeSDK() } returns sdkVersion
     }
@@ -103,6 +106,8 @@ open class BaseTest {
     protected fun mockIsReadCalendarPermitted(isPermitted: Boolean) {
         every { CalendarResolver.isReadCalendarPermitted(context) } returns isPermitted
     }
+
+    // PREFERENCES
 
     protected fun mockSharedPreferences() {
         every { context.getSharedPreferences(PREFERENCES_ID, Context.MODE_PRIVATE) } returns sharedPreferences
@@ -217,13 +222,13 @@ open class BaseTest {
         }
     }
 
-    protected fun mockWidgetTheme(theme: Theme) {
+    protected fun mockWidgetTheme(widgetTheme: Theme) {
         every {
             sharedPreferences.getString(
                 EnumConfigurationItem.WidgetTheme.key,
                 EnumConfigurationItem.WidgetTheme.defaultValue.name
             )
-        } returns theme.name
+        } returns widgetTheme.name
     }
 
     protected fun verifyWidgetTheme() {
@@ -311,6 +316,38 @@ open class BaseTest {
             )
         }
     }
+
+    // COLOUR TRANSPARENCY
+
+    protected fun mockTransparency(
+        resourceId: Int?,
+        transparency: Transparency,
+        transparencyRange: TransparencyRange
+    ) = resourceId?.let {
+        val transparentColourId = transparentColourId(resourceId)
+        val transparentColourString = getTransparentColourString(transparency, transparencyRange, transparentColourId)
+        every { GraphicResolver.getColourAsString(context, resourceId) } returns transparentColourId
+        every { GraphicResolver.parseColour(transparentColourString) } returns resourceId
+    }
+
+    protected fun verifyTransparency(
+        resourceId: Int?,
+        transparency: Transparency,
+        transparencyRange: TransparencyRange
+    ) = resourceId?.let {
+        val transparentColourId = transparentColourId(resourceId)
+        val transparentColourString = getTransparentColourString(transparency, transparencyRange, transparentColourId)
+        verify { GraphicResolver.getColourAsString(context, resourceId) }
+        verify { GraphicResolver.parseColour(transparentColourString) }
+    }
+
+    private fun transparentColourId(resourceId: Int) = "transparentResource$resourceId"
+
+    private fun getTransparentColourString(
+        transparency: Transparency,
+        transparencyRange: TransparencyRange,
+        transparentColourId: String
+    ) = "#${transparency.getAlphaInHex(transparencyRange)}${transparentColourId.takeLast(6)}"
 
     // UTILS
 

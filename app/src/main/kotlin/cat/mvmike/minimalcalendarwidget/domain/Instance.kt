@@ -25,8 +25,8 @@ data class Instance(
     }
 }
 
-fun getInstances(context: Context, from: LocalDate, to: LocalDate): Set<Instance> {
-    return when (CalendarResolver.isReadCalendarPermitted(context)) {
+fun getInstances(context: Context, from: LocalDate, to: LocalDate): Set<Instance> =
+    when (CalendarResolver.isReadCalendarPermitted(context)) {
         false -> HashSet()
         true -> {
             val systemZoneId = SystemResolver.getSystemZoneId()
@@ -37,7 +37,6 @@ fun getInstances(context: Context, from: LocalDate, to: LocalDate): Set<Instance
             )
         }
     }
-}
 
 private fun LocalDate.toStartOfDayInEpochMilli(zoneId: ZoneId) =
     atStartOfDay(zoneId).toInstant().toEpochMilli()

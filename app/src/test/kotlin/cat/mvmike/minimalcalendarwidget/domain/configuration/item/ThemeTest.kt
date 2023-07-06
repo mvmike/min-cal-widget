@@ -42,16 +42,16 @@ internal class ThemeTest : BaseTest() {
 
     @ParameterizedTest
     @MethodSource("getCombinationOfThemesAndDaysOfWeekWithExpectedCellHeader")
-    fun getCellHeader(theme: Theme, dayOfWeek: DayOfWeek, expectedResult: Cell) {
-        val result = theme.getCellHeader(dayOfWeek)
+    fun getCellHeader(widgetTheme: Theme, dayOfWeek: DayOfWeek, expectedResult: Cell) {
+        val result = widgetTheme.getCellHeader(dayOfWeek)
 
         assertThat(result).isEqualTo(expectedResult)
     }
 
     @ParameterizedTest
     @MethodSource("getCombinationOfThemesAndDayStatusesWithExpectedCellDay")
-    fun getCellDay(theme: Theme, isToday: Boolean, inMonth: Boolean, dayOfWeek: DayOfWeek, expectedResult: Cell) {
-        val result = theme.getCellDay(
+    fun getCellDay(widgetTheme: Theme, isToday: Boolean, inMonth: Boolean, dayOfWeek: DayOfWeek, expectedResult: Cell) {
+        val result = widgetTheme.getCellDay(
             isToday = isToday,
             inMonth = inMonth,
             dayOfWeek = dayOfWeek

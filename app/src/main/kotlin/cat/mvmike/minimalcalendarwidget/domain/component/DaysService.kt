@@ -8,10 +8,10 @@ import cat.mvmike.minimalcalendarwidget.domain.Day
 import cat.mvmike.minimalcalendarwidget.domain.Instance
 import cat.mvmike.minimalcalendarwidget.domain.configuration.BooleanConfigurationItem
 import cat.mvmike.minimalcalendarwidget.domain.configuration.EnumConfigurationItem
-import cat.mvmike.minimalcalendarwidget.domain.configuration.PercentageConfigurationItem
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Colour
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.TextSize
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Transparency
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.TransparencyRange
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.withTransparency
 import cat.mvmike.minimalcalendarwidget.domain.getInstances
@@ -31,9 +31,15 @@ object DaysService {
 
     private const val INSTANCES_QUERY_DAYS_SPAN = 45L
 
-    fun draw(context: Context, widgetRemoteView: RemoteViews, textSize: TextSize) {
+    fun draw(
+        context: Context,
+        widgetRemoteView: RemoteViews,
+        firstDayOfWeek: DayOfWeek,
+        widgetTheme: Theme,
+        transparency: Transparency,
+        textSize: TextSize
+    ) {
         val systemLocalDate: LocalDate = SystemResolver.getSystemLocalDate()
-        val firstDayOfWeek = EnumConfigurationItem.FirstDayOfWeek.get(context)
         val initialLocalDate = when (BooleanConfigurationItem.FocusOnCurrentWeek.get(context)) {
             true -> getFocusedOnCurrentWeekInitialLocalDate(systemLocalDate, firstDayOfWeek)
             else -> getNaturalMonthInitialLocalDate(systemLocalDate, firstDayOfWeek)
@@ -44,10 +50,8 @@ object DaysService {
             from = systemLocalDate.minusDays(INSTANCES_QUERY_DAYS_SPAN),
             to = systemLocalDate.plusDays(INSTANCES_QUERY_DAYS_SPAN)
         )
-        val widgetTheme = EnumConfigurationItem.WidgetTheme.get(context)
         val instancesSymbolSet = EnumConfigurationItem.InstancesSymbolSet.get(context)
         val instancesColour = EnumConfigurationItem.InstancesColour.get(context)
-        val transparency = PercentageConfigurationItem.WidgetTransparency.get(context)
         val showDeclinedEvents = BooleanConfigurationItem.ShowDeclinedEvents.get(context)
 
         for (week in 0 until NUM_WEEKS) {

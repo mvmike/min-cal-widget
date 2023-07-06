@@ -12,6 +12,7 @@ import cat.mvmike.minimalcalendarwidget.domain.component.DaysHeaderService
 import cat.mvmike.minimalcalendarwidget.domain.component.DaysService
 import cat.mvmike.minimalcalendarwidget.domain.component.LayoutService
 import cat.mvmike.minimalcalendarwidget.domain.component.MonthAndYearHeaderService
+import cat.mvmike.minimalcalendarwidget.domain.configuration.EnumConfigurationItem
 import cat.mvmike.minimalcalendarwidget.domain.configuration.PercentageConfigurationItem
 import cat.mvmike.minimalcalendarwidget.domain.intent.ActionableView.ConfigurationIcon
 import cat.mvmike.minimalcalendarwidget.domain.intent.ActionableView.MonthAndYearHeader
@@ -63,23 +64,36 @@ object RedrawWidgetUseCase {
         MonthAndYearHeader.addListener(context, widgetRemoteView)
 
         val textSize = PercentageConfigurationItem.WidgetTextSize.get(context)
+        val widgetTheme = EnumConfigurationItem.WidgetTheme.get(context)
+        val transparency = PercentageConfigurationItem.WidgetTransparency.get(context)
+        val firstDayOfWeek = EnumConfigurationItem.FirstDayOfWeek.get(context)
+
         LayoutService.draw(
             context = context,
-            widgetRemoteView = widgetRemoteView
+            widgetRemoteView = widgetRemoteView,
+            widgetTheme = widgetTheme,
+            transparency = transparency
         )
         MonthAndYearHeaderService.draw(
             context = context,
             widgetRemoteView = widgetRemoteView,
-            textSize = textSize
+            textSize = textSize,
+            widgetTheme = widgetTheme
         )
         DaysHeaderService.draw(
             context = context,
             widgetRemoteView = widgetRemoteView,
+            firstDayOfWeek = firstDayOfWeek,
+            widgetTheme = widgetTheme,
+            transparency = transparency,
             textSize = textSize
         )
         DaysService.draw(
             context = context,
             widgetRemoteView = widgetRemoteView,
+            firstDayOfWeek = firstDayOfWeek,
+            widgetTheme = widgetTheme,
+            transparency = transparency,
             textSize = textSize
         )
 

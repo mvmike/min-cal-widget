@@ -88,13 +88,13 @@ internal class ConfigurationTest : BaseTest() {
 
     @ParameterizedTest
     @EnumSource(value = Theme::class)
-    fun getCalendarTheme_shouldReturnSharedPreferencesValue(theme: Theme) {
+    fun getCalendarTheme_shouldReturnSharedPreferencesValue(widgetTheme: Theme) {
         mockSharedPreferences()
-        mockWidgetTheme(theme)
+        mockWidgetTheme(widgetTheme)
 
         val result = EnumConfigurationItem.WidgetTheme.get(context)
 
-        assertThat(result).isEqualTo(theme)
+        assertThat(result).isEqualTo(widgetTheme)
         verifyWidgetTheme()
         verify { editor wasNot Called }
     }

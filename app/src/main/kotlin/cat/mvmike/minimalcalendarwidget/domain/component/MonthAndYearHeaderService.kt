@@ -7,6 +7,7 @@ import android.widget.RemoteViews
 import cat.mvmike.minimalcalendarwidget.R
 import cat.mvmike.minimalcalendarwidget.domain.configuration.EnumConfigurationItem
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.TextSize
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
 import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.GraphicResolver
 import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.SystemResolver
 import java.time.Instant
@@ -17,7 +18,12 @@ object MonthAndYearHeaderService {
 
     private const val HEADER_RELATIVE_YEAR_SIZE = 0.6f
 
-    fun draw(context: Context, widgetRemoteView: RemoteViews, textSize: TextSize) {
+    fun draw(
+        context: Context,
+        widgetRemoteView: RemoteViews,
+        textSize: TextSize,
+        widgetTheme: Theme
+    ) {
         val systemInstant = SystemResolver.getSystemInstant()
         val systemZoneId = SystemResolver.getSystemZoneId()
         val displayMonth = systemInstant
@@ -25,7 +31,6 @@ object MonthAndYearHeaderService {
             .take(textSize.monthHeaderLabelLength)
         val displayYear = EnumConfigurationItem.WidgetCalendar.get(context)
             .getYear(systemInstant, systemZoneId)
-        val widgetTheme = EnumConfigurationItem.WidgetTheme.get(context)
 
         GraphicResolver.createMonthAndYearHeader(
             context = context,

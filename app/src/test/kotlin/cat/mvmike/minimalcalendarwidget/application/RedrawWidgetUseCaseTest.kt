@@ -10,6 +10,8 @@ import cat.mvmike.minimalcalendarwidget.domain.component.DaysService
 import cat.mvmike.minimalcalendarwidget.domain.component.LayoutService
 import cat.mvmike.minimalcalendarwidget.domain.component.MonthAndYearHeaderService
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.TextSize
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Transparency
 import cat.mvmike.minimalcalendarwidget.domain.intent.ActionableView
 import io.mockk.EqMatcher
 import io.mockk.confirmVerified
@@ -23,9 +25,10 @@ import io.mockk.verify
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.ValueSource
-import java.lang.IllegalStateException
+import org.junit.jupiter.params.provider.MethodSource
+import java.time.DayOfWeek
 import java.util.concurrent.TimeoutException
+import java.util.stream.Stream
 import kotlin.system.measureTimeMillis
 
 internal class RedrawWidgetUseCaseTest : BaseTest() {
@@ -89,8 +92,8 @@ internal class RedrawWidgetUseCaseTest : BaseTest() {
     }
 
     @ParameterizedTest
-    @ValueSource(ints = [1, 5, 7, 14])
-    fun shouldRedrawWidgetRegardlessOfBinderProxyTransactionTimeout(appWidgetId: Int) {
+    @MethodSource("getWidgetIdsWithDrawingConfigurations")
+    fun shouldRedrawWidgetRegardlessOfBinderProxyTransactionTimeout(testProperties: RedrawWidgetUseCaseTestProperties) {
         mockkObject(
             ActionableView.ConfigurationIcon,
             ActionableView.MonthAndYearHeader,
@@ -108,37 +111,106 @@ internal class RedrawWidgetUseCaseTest : BaseTest() {
         justRun { ActionableView.ConfigurationIcon.addListener(context, any()) }
         justRun { ActionableView.MonthAndYearHeader.addListener(context, any()) }
 
-        val textSize = TextSize(40)
         mockSharedPreferences()
-        mockWidgetTextSize(textSize)
+        mockWidgetTextSize(testProperties.textSize)
+        mockWidgetTheme(testProperties.widgetTheme)
+        mockWidgetTransparency(testProperties.transparency)
+        mockFirstDayOfWeek(testProperties.firstDayOfWeek)
 
-        justRun { LayoutService.draw(context, any()) }
-        justRun { MonthAndYearHeaderService.draw(context, any(), textSize) }
-        justRun { DaysHeaderService.draw(context, any(), textSize) }
-        justRun { DaysService.draw(context, any(), textSize) }
+        justRun {
+            LayoutService.draw(
+                context = context,
+                widgetRemoteView = any(),
+                widgetTheme = testProperties.widgetTheme,
+                transparency = testProperties.transparency
+            )
+        }
+        justRun {
+            MonthAndYearHeaderService.draw(
+                context = context,
+                widgetRemoteView = any(),
+                textSize = testProperties.textSize,
+                widgetTheme = testProperties.widgetTheme
+            )
+        }
+        justRun {
+            DaysHeaderService.draw(
+                context = context,
+                widgetRemoteView = any(),
+                firstDayOfWeek = testProperties.firstDayOfWeek,
+                widgetTheme = testProperties.widgetTheme,
+                transparency = testProperties.transparency,
+                textSize = testProperties.textSize
+            )
+        }
+        justRun {
+            DaysService.draw(
+                context = context,
+                widgetRemoteView = any(),
+                firstDayOfWeek = testProperties.firstDayOfWeek,
+                widgetTheme = testProperties.widgetTheme,
+                transparency = testProperties.transparency,
+                textSize = testProperties.textSize
+            )
+        }
 
         val binderProxyTransactionTimeoutInMillis = 1000L
-        every { appWidgetManager.updateAppWidget(appWidgetId, any()) } answers {
+        every { appWidgetManager.updateAppWidget(testProperties.appWidgetId, any()) } answers {
             Thread.sleep(binderProxyTransactionTimeoutInMillis)
             throw TimeoutException("android.os.BinderProxy.transactNative timeout")
         }
 
         val executionTime = measureTimeMillis {
-            RedrawWidgetUseCase.execute(context, appWidgetManager, appWidgetId)
+            RedrawWidgetUseCase.execute(context, appWidgetManager, testProperties.appWidgetId)
         }
 
         assertThat(executionTime).isLessThan(binderProxyTransactionTimeoutInMillis)
         verifySharedPreferencesAccess()
         verifyWidgetTextSize()
+        verifyWidgetTheme()
+        verifyWidgetTransparency()
+        verifyFirstDayOfWeek()
         verify { context.packageName }
         verify { ActionableView.ConfigurationIcon.addListener(context, any()) }
         verify { ActionableView.MonthAndYearHeader.addListener(context, any()) }
-        verify { LayoutService.draw(context, any()) }
-        verify { MonthAndYearHeaderService.draw(context, any(), textSize) }
-        verify { DaysHeaderService.draw(context, any(), textSize) }
-        verify { DaysService.draw(context, any(), textSize) }
+        verify {
+            LayoutService.draw(
+                context = context,
+                widgetRemoteView = any(),
+                widgetTheme = testProperties.widgetTheme,
+                transparency = testProperties.transparency
+            )
+        }
+        verify {
+            MonthAndYearHeaderService.draw(
+                context = context,
+                widgetRemoteView = any(),
+                textSize = testProperties.textSize,
+                widgetTheme = testProperties.widgetTheme
+            )
+        }
+        verify {
+            DaysHeaderService.draw(
+                context = context,
+                widgetRemoteView = any(),
+                firstDayOfWeek = testProperties.firstDayOfWeek,
+                widgetTheme = testProperties.widgetTheme,
+                transparency = testProperties.transparency,
+                textSize = testProperties.textSize
+            )
+        }
+        verify {
+            DaysService.draw(
+                context = context,
+                widgetRemoteView = any(),
+                firstDayOfWeek = testProperties.firstDayOfWeek,
+                widgetTheme = testProperties.widgetTheme,
+                transparency = testProperties.transparency,
+                textSize = testProperties.textSize
+            )
+        }
 
-        verify { appWidgetManager.updateAppWidget(appWidgetId, any()) }
+        verify { appWidgetManager.updateAppWidget(testProperties.appWidgetId, any()) }
 
         confirmVerified(
             appWidgetManager,
@@ -148,4 +220,19 @@ internal class RedrawWidgetUseCaseTest : BaseTest() {
             DaysService
         )
     }
+
+    private fun getWidgetIdsWithDrawingConfigurations() = Stream.of(
+        RedrawWidgetUseCaseTestProperties(1, TextSize(32), Theme.DARK, Transparency(20), DayOfWeek.MONDAY),
+        RedrawWidgetUseCaseTestProperties(5, TextSize(100), Theme.LIGHT, Transparency(5), DayOfWeek.SUNDAY),
+        RedrawWidgetUseCaseTestProperties(7, TextSize(0), Theme.DARK, Transparency(100), DayOfWeek.THURSDAY),
+        RedrawWidgetUseCaseTestProperties(14, TextSize(50), Theme.DARK, Transparency(32), DayOfWeek.MONDAY)
+    )
+
+    internal data class RedrawWidgetUseCaseTestProperties(
+        val appWidgetId: Int,
+        val textSize: TextSize,
+        val widgetTheme: Theme,
+        val transparency: Transparency,
+        val firstDayOfWeek: DayOfWeek
+    )
 }
