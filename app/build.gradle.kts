@@ -23,7 +23,7 @@ android {
 
     compileSdk = androidVersion
     // https://developer.android.com/studio/releases/build-tools
-    buildToolsVersion = "30.0.3"
+    buildToolsVersion = "34.0.0"
 
     defaultConfig {
 
