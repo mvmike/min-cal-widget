@@ -1,5 +1,7 @@
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
     android:initialLayout="@layout/widget"
+    android:configure="cat.mvmike.minimalcalendarwidget.infrastructure.activity.ConfigurationActivity"
+    android:widgetFeatures="reconfigurable|configuration_optional"
     android:minWidth="200dp"
     android:minHeight="100dp"
     android:minResizeWidth="90dp"
@@ -8,5 +10,3 @@
     android:resizeMode="vertical|horizontal"
     android:updatePeriodMillis="3600000"
     android:widgetCategory="keyguard|home_screen" />
-    <!--  MIN_SDK 31  android:targetCellWidth="3"-->
-    <!--  MIN_SDK 31  android:targetCellHeight="2"-->
