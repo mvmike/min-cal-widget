@@ -4,7 +4,7 @@ Minimal calendar widget that's always on current date's month
 
 * 3x2 (resizable)
 * Displays all visible events from your calendars with a symbol set (high number becomes generic)
-* Configuration accessible on widget's top right corner
+* Native widget configuration for API 28 (Android 9) and higher (config icon on widget's top right corner otherwise)
 * Pressing on any other part of the widget opens calendar application
 * Configurable:
   - start day of the week
