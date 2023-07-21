@@ -20,4 +20,10 @@ allprojects {
     }
 }
 
-defaultTasks("lintKotlin", "clean", "testRelease", "assembleRelease")
+defaultTasks(
+    //formatKotlin,
+    "lintKotlin",
+    "clean",
+    "testRelease",
+    "assembleRelease"
+)
