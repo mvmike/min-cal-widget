@@ -25,6 +25,9 @@
     <string name="translate">Išversti</string>
     <string name="version">Versija</string>
 
+    <string name="reset_settings">Atstatyti nustatymus</string>
+    <string name="close">Uždaryti</string>
+
     <!-- Months of year-->
     <string name="january">Sausis</string>
     <string name="february">Vasaris</string>

@@ -9,6 +9,7 @@ import android.content.SharedPreferences
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener
 import android.net.Uri
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.CheckBoxPreference
@@ -29,6 +30,7 @@ import cat.mvmike.minimalcalendarwidget.domain.configuration.SOURCE_URL
 import cat.mvmike.minimalcalendarwidget.domain.configuration.TRANSLATE_KEY
 import cat.mvmike.minimalcalendarwidget.domain.configuration.TRANSLATE_URL
 import cat.mvmike.minimalcalendarwidget.domain.configuration.VERSION_KEY
+import cat.mvmike.minimalcalendarwidget.domain.configuration.clearAllConfiguration
 
 class ConfigurationActivity : AppCompatActivity() {
 
@@ -41,12 +43,20 @@ class ConfigurationActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.configuration)
 
+        setContentView(R.layout.configuration)
         supportFragmentManager
             .beginTransaction()
             .replace(R.id.configuration_view, SettingsFragment())
             .commit()
+    }
+
+    fun onClickResetSettingsButton(view: View?) = view?.let {
+        clearAllConfiguration(applicationContext)
+    }
+
+    fun onClickCloseSettingsButton(view: View?) = view?.let {
+        finish()
     }
 
     class SettingsFragment : PreferenceFragmentCompat(), OnSharedPreferenceChangeListener {

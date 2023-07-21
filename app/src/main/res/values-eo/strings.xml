@@ -25,6 +25,9 @@
     <string name="translate">Traduki</string>
     <string name="version">Versio</string>
 
+    <string name="reset_settings">Restarigi agordojn</string>
+    <string name="close">Fermu</string>
+
     <!-- Months of year-->
     <string name="january">Januaro</string>
     <string name="february">Februaro</string>

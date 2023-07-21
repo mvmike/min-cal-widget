@@ -25,6 +25,9 @@
     <string name="translate">Tłumacz</string>
     <string name="version">Wersja</string>
 
+    <string name="reset_settings">Resetowanie ustawień</string>
+    <string name="close">Zamknąć</string>
+
     <!-- Months of year-->
     <string name="january">Styczeń</string>
     <string name="february">Luty</string>

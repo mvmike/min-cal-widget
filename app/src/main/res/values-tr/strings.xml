@@ -25,6 +25,9 @@
     <string name="translate">Çevir</string>
     <string name="version">Versiyon</string>
 
+    <string name="reset_settings">Ayarları Sıfırla</string>
+    <string name="close">Kapalı</string>
+
     <!-- Months of year-->
     <string name="january">Ocak</string>
     <string name="february">Şubat</string>

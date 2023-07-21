@@ -25,6 +25,9 @@
     <string name="translate">Dịch</string>
     <string name="version">Phiên bản</string>
 
+    <string name="reset_settings">Đặt lại cài đặt</string>
+    <string name="close">Đóng</string>
+
     <!-- Months of year-->
     <string name="january">Tháng 1</string>
     <string name="february">Tháng 2</string>

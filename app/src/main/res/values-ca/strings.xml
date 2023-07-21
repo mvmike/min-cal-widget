@@ -25,6 +25,9 @@
     <string name="translate">Tradueix</string>
     <string name="version">Versió</string>
 
+    <string name="reset_settings">Restableix la configuració</string>
+    <string name="close">Tancar</string>
+
     <!-- Months of year-->
     <string name="january">Gener</string>
     <string name="february">Febrer</string>

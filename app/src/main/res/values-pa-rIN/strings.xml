@@ -25,6 +25,9 @@
     <string name="translate">ਅਨੁਵਾਦ</string>
     <string name="version">ਵਰਜ਼ਨ</string>
 
+    <string name="reset_settings">ਸੈਟਿੰਗਾਂ ਰੀਸੈਟ ਕਰੋ</string>
+    <string name="close">ਬੰਦ ਕਰੋ</string>
+
     <!-- Months of year-->
     <string name="january">ਜਨਵਰੀ</string>
     <string name="february">ਫ਼ਰਵਰੀ</string>

@@ -25,6 +25,9 @@
     <string name="translate">Prevedi</string>
     <string name="version">Verzija</string>
 
+    <string name="reset_settings">Resetiraj postavke</string>
+    <string name="close">Zatvoriti</string>
+
     <!-- Months of year-->
     <string name="january">Siječanj</string>
     <string name="february">Veljača</string>

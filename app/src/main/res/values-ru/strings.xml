@@ -25,6 +25,9 @@
     <string name="translate">Перевести</string>
     <string name="version">Версия</string>
 
+    <string name="reset_settings">сбросить настройки</string>
+    <string name="close">Закрывать</string>
+
     <!-- Months of year-->
     <string name="january">Январь</string>
     <string name="february">Февраль</string>

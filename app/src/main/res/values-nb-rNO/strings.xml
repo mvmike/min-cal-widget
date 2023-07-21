@@ -25,6 +25,9 @@
     <string name="translate">Oversette</string>
     <string name="version">Versjon</string>
 
+    <string name="reset_settings">Tilbakestill innstillinger</string>
+    <string name="close">Lukk</string>
+
     <!-- Months of year-->
     <string name="january">Januar</string>
     <string name="february">Februar</string>

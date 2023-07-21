@@ -25,6 +25,9 @@
     <string name="translate">翻譯</string>
     <string name="version">版本</string>
 
+    <string name="reset_settings">重新設置</string>
+    <string name="close">關閉</string>
+
     <!-- Months of year-->
     <string name="january">一月</string>
     <string name="february">二月</string>
