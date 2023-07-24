@@ -21,7 +21,7 @@ allprojects {
 }
 
 defaultTasks(
-    //formatKotlin,
+    //"formatKotlin",
     "lintKotlin",
     "clean",
     "testRelease",
