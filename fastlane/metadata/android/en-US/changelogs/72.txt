@@ -1,0 +1,3 @@
+v2.12.2
+- fix time change intent filter
+- technical maintenance
