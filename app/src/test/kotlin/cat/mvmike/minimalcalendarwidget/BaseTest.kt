@@ -3,6 +3,7 @@
 package cat.mvmike.minimalcalendarwidget
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import cat.mvmike.minimalcalendarwidget.domain.configuration.BooleanConfigurationItem
 import cat.mvmike.minimalcalendarwidget.domain.configuration.EnumConfigurationItem
@@ -51,8 +52,11 @@ open class BaseTest {
     protected val systemInstant = systemLocalDate.atTime(16, 32, 14).toInstant(systemZoneOffset)!!
 
     protected val context = mockk<Context>()
+
     protected val editor = mockk<SharedPreferences.Editor>()
     private val sharedPreferences = mockk<SharedPreferences>()
+
+    protected val intent = mockk<Intent>()
 
     @BeforeEach
     fun beforeEach() {
@@ -81,7 +85,8 @@ open class BaseTest {
             PermissionsActivity.Companion,
             context,
             editor,
-            sharedPreferences
+            sharedPreferences,
+            intent
         )
     }
 
@@ -348,6 +353,20 @@ open class BaseTest {
         transparencyRange: TransparencyRange,
         transparentColourId: String
     ) = "#${transparency.getAlphaInHex(transparencyRange)}${transparentColourId.takeLast(6)}"
+
+    // INTENT
+
+    protected fun mockIntent(action: String) {
+        every { intent.action } returns action
+        every { intent.addFlags(any()) } returns intent
+    }
+
+    protected fun mockIntentWithLongExtra(action: String, systemInstant: Instant, extraInstant: Instant) {
+        mockIntent(action)
+        every {
+            intent.getLongExtra("startOfDayInEpochSeconds", systemInstant.epochSecond)
+        } returns extraInstant.epochSecond
+    }
 
     // UTILS
 

@@ -3,7 +3,6 @@
 package cat.mvmike.minimalcalendarwidget.application.user
 
 import android.appwidget.AppWidgetManager.ACTION_APPWIDGET_UPDATE
-import android.content.Intent
 import cat.mvmike.minimalcalendarwidget.BaseTest
 import cat.mvmike.minimalcalendarwidget.application.RedrawWidgetUseCase
 import cat.mvmike.minimalcalendarwidget.domain.intent.AutoUpdate.ACTION_AUTO_UPDATE
@@ -12,22 +11,17 @@ import cat.mvmike.minimalcalendarwidget.infrastructure.activity.ConfigurationAct
 import cat.mvmike.minimalcalendarwidget.infrastructure.activity.PermissionsActivity
 import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.CalendarResolver
 import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.SystemResolver
-import io.mockk.every
 import io.mockk.justRun
-import io.mockk.mockk
 import io.mockk.mockkObject
 import io.mockk.verify
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 import org.junit.jupiter.params.provider.ValueSource
-import java.time.Instant
 import java.time.Instant.ofEpochSecond
 import java.util.stream.Stream
 
 internal class ProcessIntentUseCaseTest : BaseTest() {
-
-    private val intent = mockk<Intent>()
 
     @ParameterizedTest
     @ValueSource(
@@ -179,16 +173,4 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
         Arguments.of("action.mincal.cell_day_click.1624398458", 1624398458, 1624455134),
         Arguments.of("action.mincal.cell_day_click.1434987405", 1434987405, 1434979934)
     )
-
-    private fun mockIntent(action: String) {
-        every { intent.action } returns action
-        every { intent.addFlags(any()) } returns intent
-    }
-
-    private fun mockIntentWithLongExtra(action: String, systemInstant: Instant, extraInstant: Instant) {
-        mockIntent(action)
-        every {
-            intent.getLongExtra("startOfDayInEpochSeconds", systemInstant.epochSecond)
-        } returns extraInstant.epochSecond
-    }
 }
