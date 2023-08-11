@@ -2,6 +2,10 @@ name: Bug report
 description: File a bug report
 labels: [ "bug" ]
 body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for taking the time to report a bug. :slightly_smiling_face:
   - type: checkboxes
     attributes:
       label: Is there an existing issue for this?
