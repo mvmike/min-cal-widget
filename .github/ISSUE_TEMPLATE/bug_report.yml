@@ -8,10 +8,15 @@ body:
         Thank you for taking the time to report a bug. :slightly_smiling_face:
   - type: checkboxes
     attributes:
-      label: Is there an existing issue for this?
-      description: Please search to see if an issue already exists for the bug you encountered (either open or closed)
+      label: Checklist
       options:
-        - label: I have searched the existing issues
+        - label: "I am able to reproduce the bug with the [latest version](https://github.com/mvmike/min-cal-widget/releases/latest)."
+          required: true
+        - label: "I made sure that there are *no existing issues* - [open](https://github.com/mvmike/min-cal-widget/issues) or [closed](https://github.com/mvmike/min-cal-widget/issues?q=is%3Aissue+is%3Aclosed) - which I could contribute my information to."
+          required: true
+        - label: "I will take the time to fill in all the required details. I understand that the bug report could be dismissed otherwise."
+          required: true
+        - label: "This issue contains only one bug."
           required: true
   - type: textarea
     attributes:
@@ -36,18 +41,34 @@ body:
       description: A clear and concise description of what you expected to happen.
     validations:
       required: true
-  - type: textarea
+  - type: input
+    id: app-version
     attributes:
-      label: Device Configuration
-      description: |
-        Describe your device configuration as precise as possible.
-      value: |
-        - MinCal version:
-        - Device:
-        - Android version:
-        - Launcher:
+      label: Affected app version
+      placeholder: "x.xx.xx - Can be seen in the settings, section 'About'"
     validations:
-      required: false
+      required: true
+  - type: input
+    id: device
+    attributes:
+      label: Device
+      placeholder: "Manufacturer and model"
+    validations:
+      required: true
+  - type: input
+    id: android-version
+    attributes:
+      label: Android version
+      placeholder: "Can be seen in phone settings - about"
+    validations:
+      required: true
+  - type: input
+    id: launcher
+    attributes:
+      label: Launcher
+      placeholder: "Launcher and its version"
+    validations:
+      required: true
   - type: textarea
     attributes:
       label: Additional context and screenshots
