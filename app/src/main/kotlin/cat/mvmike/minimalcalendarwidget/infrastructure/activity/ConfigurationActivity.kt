@@ -2,6 +2,7 @@
 // See LICENSE for licensing information
 package cat.mvmike.minimalcalendarwidget.infrastructure.activity
 
+import android.appwidget.AppWidgetManager
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
@@ -56,7 +57,15 @@ class ConfigurationActivity : AppCompatActivity() {
     }
 
     fun onClickCloseSettingsButton(view: View?) = view?.let {
-        finish()
+        intent?.getIntExtra(
+            AppWidgetManager.EXTRA_APPWIDGET_ID,
+            AppWidgetManager.INVALID_APPWIDGET_ID
+        )?.takeIf {
+            it != AppWidgetManager.INVALID_APPWIDGET_ID
+        }?.let {
+            setResult(RESULT_OK, Intent().putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, it))
+        }
+        finishAfterTransition()
     }
 
     class SettingsFragment : PreferenceFragmentCompat(), OnSharedPreferenceChangeListener {
