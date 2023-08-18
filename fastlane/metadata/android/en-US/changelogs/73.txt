@@ -1,0 +1,4 @@
+v2.12.3
+- added czech language
+- fix bug from old launchers in newest android versions
+- technical maintenance
