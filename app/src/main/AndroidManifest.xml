@@ -48,7 +48,12 @@
             android:excludeFromRecents="true"
             android:launchMode="singleInstance"
             android:noHistory="true"
-            android:theme="@style/Theme.AppCompat" />
+            android:theme="@style/Theme.AppCompat"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
+            </intent-filter>
+        </activity>
 
     </application>
 
