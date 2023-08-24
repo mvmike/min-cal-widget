@@ -51,17 +51,17 @@ sealed class BooleanConfigurationItem(
     override fun get(context: Context) =
         getConfiguration(context).getBoolean(key, defaultValue)
 
-    object ShowDeclinedEvents : BooleanConfigurationItem(
+    data object ShowDeclinedEvents : BooleanConfigurationItem(
         key = "SHOW_DECLINED_EVENTS",
         defaultValue = false
     )
 
-    object FocusOnCurrentWeek : BooleanConfigurationItem(
+    data object FocusOnCurrentWeek : BooleanConfigurationItem(
         key = "FOCUS_ON_CURRENT_WEEK",
         defaultValue = false
     )
 
-    object OpenCalendarOnClickedDay : BooleanConfigurationItem(
+    data object OpenCalendarOnClickedDay : BooleanConfigurationItem(
         key = "OPEN_CALENDAR_ON_CLICKED_DAY",
         defaultValue = false
     )
@@ -90,7 +90,7 @@ sealed class EnumConfigurationItem<E : Enum<E>>(
 
     abstract fun getCurrentDisplayValue(context: Context): String
 
-    object WidgetTheme : EnumConfigurationItem<Theme>(
+    data object WidgetTheme : EnumConfigurationItem<Theme>(
         key = "WIDGET_THEME",
         enumClass = Theme::class.java,
         defaultValue = Theme.DARK
@@ -100,7 +100,7 @@ sealed class EnumConfigurationItem<E : Enum<E>>(
         override fun getCurrentDisplayValue(context: Context) = get(context).getDisplayValue(context)
     }
 
-    object WidgetCalendar : EnumConfigurationItem<Calendar>(
+    data object WidgetCalendar : EnumConfigurationItem<Calendar>(
         key = "WIDGET_CALENDAR",
         enumClass = Calendar::class.java,
         defaultValue = getAvailableCalendars().first()
@@ -112,7 +112,7 @@ sealed class EnumConfigurationItem<E : Enum<E>>(
         override fun getCurrentDisplayValue(context: Context) = get(context).getDisplayValue(context)
     }
 
-    object FirstDayOfWeek : EnumConfigurationItem<DayOfWeek>(
+    data object FirstDayOfWeek : EnumConfigurationItem<DayOfWeek>(
         key = "FIRST_DAY_OF_WEEK",
         enumClass = DayOfWeek::class.java,
         defaultValue = DayOfWeek.MONDAY
@@ -122,7 +122,7 @@ sealed class EnumConfigurationItem<E : Enum<E>>(
         override fun getCurrentDisplayValue(context: Context) = get(context).getDisplayValue(context)
     }
 
-    object InstancesSymbolSet : EnumConfigurationItem<SymbolSet>(
+    data object InstancesSymbolSet : EnumConfigurationItem<SymbolSet>(
         key = "INSTANCES_SYMBOL_SET",
         enumClass = SymbolSet::class.java,
         defaultValue = SymbolSet.MINIMAL
@@ -132,7 +132,7 @@ sealed class EnumConfigurationItem<E : Enum<E>>(
         override fun getCurrentDisplayValue(context: Context) = get(context).getDisplayValue(context)
     }
 
-    object InstancesColour : EnumConfigurationItem<Colour>(
+    data object InstancesColour : EnumConfigurationItem<Colour>(
         key = "INSTANCES_COLOUR",
         enumClass = Colour::class.java,
         defaultValue = getAvailableColors().first()
@@ -156,7 +156,7 @@ sealed class PercentageConfigurationItem<E : Percentage>(
         getConfiguration(context).getInt(key, defaultValue.value)
     )
 
-    object WidgetTransparency : PercentageConfigurationItem<Transparency>(
+    data object WidgetTransparency : PercentageConfigurationItem<Transparency>(
         key = "WIDGET_TRANSPARENCY",
         defaultValue = Transparency(20)
     ) {
@@ -165,7 +165,7 @@ sealed class PercentageConfigurationItem<E : Percentage>(
         )
     }
 
-    object WidgetTextSize : PercentageConfigurationItem<TextSize>(
+    data object WidgetTextSize : PercentageConfigurationItem<TextSize>(
         key = "WIDGET_TEXT_SIZE",
         defaultValue = TextSize(40)
     ) {
