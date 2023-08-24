@@ -170,13 +170,13 @@ open class BaseTest {
         }
     }
 
-    protected fun mockShowDeclinedEvents(ShowDeclinedEvents: Boolean = false) {
+    protected fun mockShowDeclinedEvents(showDeclinedEvents: Boolean = false) {
         every {
             sharedPreferences.getBoolean(
                 BooleanConfigurationItem.ShowDeclinedEvents.key,
                 BooleanConfigurationItem.ShowDeclinedEvents.defaultValue
             )
-        } returns ShowDeclinedEvents
+        } returns showDeclinedEvents
     }
 
     protected fun verifyShowDeclinedEvents() {

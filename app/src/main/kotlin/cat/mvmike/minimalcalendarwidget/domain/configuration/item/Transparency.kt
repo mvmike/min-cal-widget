@@ -7,7 +7,7 @@ import cat.mvmike.minimalcalendarwidget.domain.Percentage
 import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.GraphicResolver
 import java.util.Locale
 
-private val ALPHA_RANGE = 0..255 // fully transparent to fully opaque
+private val alphaRange = 0..255 // fully transparent to fully opaque
 private const val HEX_STRING_FORMAT = "%02X"
 
 data class Transparency(
@@ -32,21 +32,21 @@ enum class TransparencyRange(
     val maxAlpha: Int
 ) {
     COMPLETE(
-        minAlpha = ALPHA_RANGE.first,
-        maxAlpha = ALPHA_RANGE.last
+        minAlpha = alphaRange.first,
+        maxAlpha = alphaRange.last
     ),
     MODERATE(
-        minAlpha = ALPHA_RANGE.first,
+        minAlpha = alphaRange.first,
         maxAlpha = 80
     ),
     LOW(
-        minAlpha = ALPHA_RANGE.first,
+        minAlpha = alphaRange.first,
         maxAlpha = 30
     );
 
     init {
-        require(minAlpha in ALPHA_RANGE)
-        require(maxAlpha in ALPHA_RANGE)
+        require(minAlpha in alphaRange)
+        require(maxAlpha in alphaRange)
         require(minAlpha <= maxAlpha)
     }
 }

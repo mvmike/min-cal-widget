@@ -6,7 +6,7 @@ import cat.mvmike.minimalcalendarwidget.domain.PERCENTAGE_RANGE
 import cat.mvmike.minimalcalendarwidget.domain.Percentage
 import java.math.RoundingMode
 
-private val RELATIVE_VALUE_RANGE = 0.5f..1.8f
+private val relativeValueRange = 0.5f..1.8f
 
 data class TextSize(
     val percentage: Int
@@ -23,8 +23,8 @@ data class TextSize(
     }
 
     val relativeValue: Float = (
-        RELATIVE_VALUE_RANGE.start +
-            ((RELATIVE_VALUE_RANGE.endInclusive - RELATIVE_VALUE_RANGE.start) / PERCENTAGE_RANGE.last) * percentage
+        relativeValueRange.start +
+            ((relativeValueRange.endInclusive - relativeValueRange.start) / PERCENTAGE_RANGE.last) * percentage
         ).rounded(3)
 }
 
