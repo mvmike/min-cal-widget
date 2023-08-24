@@ -52,11 +52,12 @@ class ConfigurationActivity : AppCompatActivity() {
             .commit()
     }
 
-    fun onClickResetSettingsButton(view: View?) = view?.let {
+    @Suppress("UNUSED_PARAMETER")
+    fun onClickResetSettingsButton(view: View) =
         clearAllConfiguration(applicationContext)
-    }
 
-    fun onClickCloseSettingsButton(view: View?) = view?.let {
+    @Suppress("UNUSED_PARAMETER")
+    fun onClickCloseSettingsButton(view: View) {
         intent?.getIntExtra(
             AppWidgetManager.EXTRA_APPWIDGET_ID,
             AppWidgetManager.INVALID_APPWIDGET_ID
