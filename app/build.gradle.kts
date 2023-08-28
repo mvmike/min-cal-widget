@@ -56,12 +56,7 @@ android {
             srcDirs("src/main/kotlin")
         }
         sourceSets["main"].res {
-            srcDirs(
-                "src/main/res/layouts/common",
-                "src/main/res/layouts/dark",
-                "src/main/res/layouts/light",
-                "src/main/res"
-            )
+            srcDirs("src/main/res")
         }
 
         sourceSets["test"].kotlin {
