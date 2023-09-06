@@ -16,7 +16,7 @@ android {
 
     // https://source.android.com/setup/start/build-numbers
     val minAndroidVersion = 26   // 8.0
-    val androidVersion = 33      // 13.0
+    val androidVersion = 34      // 14.0
 
     // https://adoptium.net/temurin/releases/
     val javaVersion = JavaVersion.VERSION_17
