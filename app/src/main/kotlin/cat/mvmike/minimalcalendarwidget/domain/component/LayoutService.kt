@@ -10,6 +10,7 @@ import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Transparency
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.TransparencyRange
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.withTransparency
 import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.GraphicResolver
+import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.GraphicResolver.setAsBackground
 
 object LayoutService {
 
@@ -22,13 +23,12 @@ object LayoutService {
         val backgroundColour = GraphicResolver.getColourAsString(context, widgetTheme.mainBackground)
         val transparencyRange = TransparencyRange.COMPLETE
 
-        GraphicResolver.setBackgroundColor(
+        backgroundColour.withTransparency(
+            transparency = transparency,
+            transparencyRange = transparencyRange
+        ).setAsBackground(
             remoteViews = widgetRemoteView,
-            viewId = R.id.widget_layout,
-            colour = backgroundColour.withTransparency(
-                transparency = transparency,
-                transparencyRange = transparencyRange
-            )
+            viewId = R.id.widget_layout
         )
     }
 }

@@ -64,9 +64,7 @@ object GraphicResolver {
         val dayRv = getById(context, layoutId)
         dayRv.setTextViewText(viewId, dayHeaderSpSt)
         dayRv.setTextColor(viewId, getColour(context, textColour))
-        dayHeaderBackgroundColour?.let {
-            setBackgroundColor(dayRv, viewId, it)
-        }
+        dayHeaderBackgroundColour?.setAsBackground(dayRv, viewId)
         daysHeaderRowRemoteView.addView(R.id.row_header, dayRv)
     }
 
@@ -80,7 +78,7 @@ object GraphicResolver {
         context: Context,
         weekRowRemoteView: RemoteViews,
         dayOfMonthRemoteView: RemoteViews,
-        instancesSymbolRemoteView: RemoteViews,
+        instancesSymbolRemoteView: RemoteViews?,
         viewId: Int,
         dayOfMonth: String,
         dayOfMonthColour: Int,
@@ -100,22 +98,20 @@ object GraphicResolver {
         }
         dayOfMonthRemoteView.setTextViewText(viewId, dayOfMonthSpSt)
         dayOfMonthRemoteView.setTextColor(viewId, getColour(context, dayOfMonthColour))
-
-        val instancesSymbolSpSt = SpannableString("$instancesSymbol").apply {
-            setSpan(StyleSpan(BOLD), 0, length, SPAN_EXCLUSIVE_EXCLUSIVE)
-            setSpan(ForegroundColorSpan(instancesSymbolColour), 0, length, SPAN_EXCLUSIVE_EXCLUSIVE)
-            setSpan(RelativeSizeSpan(instancesRelativeSize * textRelativeSize), 0, length, SPAN_EXCLUSIVE_EXCLUSIVE)
-            setSpan(AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER), 0, length, SPAN_EXCLUSIVE_EXCLUSIVE)
-        }
-        instancesSymbolRemoteView.setTextViewText(viewId, instancesSymbolSpSt)
-
-        dayBackgroundColour?.let {
-            setBackgroundColor(dayOfMonthRemoteView, viewId, it)
-            setBackgroundColor(instancesSymbolRemoteView, viewId, it)
-        }
-
+        dayBackgroundColour?.setAsBackground(dayOfMonthRemoteView, viewId)
         weekRowRemoteView.addView(R.id.row_week, dayOfMonthRemoteView)
-        weekRowRemoteView.addView(R.id.row_week, instancesSymbolRemoteView)
+
+        instancesSymbolRemoteView?.let {
+            val instancesSymbolSpSt = SpannableString("$instancesSymbol").apply {
+                setSpan(StyleSpan(BOLD), 0, length, SPAN_EXCLUSIVE_EXCLUSIVE)
+                setSpan(ForegroundColorSpan(instancesSymbolColour), 0, length, SPAN_EXCLUSIVE_EXCLUSIVE)
+                setSpan(RelativeSizeSpan(instancesRelativeSize * textRelativeSize), 0, length, SPAN_EXCLUSIVE_EXCLUSIVE)
+                setSpan(AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER), 0, length, SPAN_EXCLUSIVE_EXCLUSIVE)
+            }
+            it.setTextViewText(viewId, instancesSymbolSpSt)
+            dayBackgroundColour?.setAsBackground(it, viewId)
+            weekRowRemoteView.addView(R.id.row_week, it)
+        }
     }
 
     // COLOUR
@@ -126,11 +122,10 @@ object GraphicResolver {
 
     fun parseColour(colourString: String) = Color.parseColor(colourString)
 
-    fun setBackgroundColor(
+    fun Int.setAsBackground(
         remoteViews: RemoteViews,
-        viewId: Int,
-        colour: Int
-    ) = remoteViews.setInt(viewId, "setBackgroundColor", colour)
+        viewId: Int
+    ) = remoteViews.setInt(viewId, "setBackgroundColor", this)
 
     // INTERNAL UTILS
 

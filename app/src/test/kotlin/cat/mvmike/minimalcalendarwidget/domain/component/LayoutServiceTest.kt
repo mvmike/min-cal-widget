@@ -8,7 +8,7 @@ import cat.mvmike.minimalcalendarwidget.R
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Transparency
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.TransparencyRange
-import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.GraphicResolver
+import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.GraphicResolver.setAsBackground
 import io.mockk.confirmVerified
 import io.mockk.justRun
 import io.mockk.mockk
@@ -35,10 +35,9 @@ internal class LayoutServiceTest : BaseTest() {
         mockTransparency(mainLayout, transparency, TransparencyRange.COMPLETE)
 
         justRun {
-            GraphicResolver.setBackgroundColor(
+            mainLayout.setAsBackground(
                 remoteViews = widgetRv,
-                viewId = R.id.widget_layout,
-                colour = mainLayout
+                viewId = R.id.widget_layout
             )
         }
 
@@ -46,10 +45,9 @@ internal class LayoutServiceTest : BaseTest() {
 
         verifyTransparency(mainLayout, transparency, TransparencyRange.COMPLETE)
         verify {
-            GraphicResolver.setBackgroundColor(
+            mainLayout.setAsBackground(
                 remoteViews = widgetRv,
-                viewId = R.id.widget_layout,
-                colour = mainLayout
+                viewId = R.id.widget_layout
             )
         }
         confirmVerified(widgetRv)
