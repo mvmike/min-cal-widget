@@ -100,8 +100,10 @@ open class BaseTest {
         every { SystemResolver.getSystemInstant() } returns instant
     }
 
-    protected fun mockGetSystemLocalDate() {
-        every { SystemResolver.getSystemLocalDate() } returns systemLocalDate
+    protected fun mockGetSystemLocalDate(
+        localDate: LocalDate = systemLocalDate
+    ) {
+        every { SystemResolver.getSystemLocalDate() } returns localDate
     }
 
     protected fun mockGetSystemZoneId() {

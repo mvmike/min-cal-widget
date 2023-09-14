@@ -9,6 +9,7 @@ import cat.mvmike.minimalcalendarwidget.domain.Instance
 import cat.mvmike.minimalcalendarwidget.domain.configuration.BooleanConfigurationItem
 import cat.mvmike.minimalcalendarwidget.domain.configuration.EnumConfigurationItem
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Colour
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.SymbolSet
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.TextSize
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Transparency
@@ -81,7 +82,11 @@ object DaysService {
                     )
 
                 val dayOfMonthRemoteView = GraphicResolver.createDayLayout(context, dayCell.layout)
-                val instancesSymbolRemoteView = GraphicResolver.createDayLayout(context, dayCell.layout)
+                val instancesSymbolRemoteView = when {
+                    instancesSymbolSet == SymbolSet.NONE -> null
+                    instanceSet.isEmpty() -> null
+                    else -> GraphicResolver.createDayLayout(context, dayCell.layout)
+                }
                 GraphicResolver.addToDaysRow(
                     context = context,
                     weekRowRemoteView = weekRowRemoteView,

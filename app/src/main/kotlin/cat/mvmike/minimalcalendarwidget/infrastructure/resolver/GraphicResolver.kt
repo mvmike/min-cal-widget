@@ -5,10 +5,10 @@ package cat.mvmike.minimalcalendarwidget.infrastructure.resolver
 import android.content.Context
 import android.graphics.Color
 import android.graphics.Typeface.BOLD
-import android.text.Layout
+import android.text.Layout.Alignment
 import android.text.SpannableString
 import android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-import android.text.style.AlignmentSpan
+import android.text.style.AlignmentSpan.Standard
 import android.text.style.ForegroundColorSpan
 import android.text.style.RelativeSizeSpan
 import android.text.style.StyleSpan
@@ -94,7 +94,9 @@ object GraphicResolver {
                 setSpan(StyleSpan(BOLD), 0, length, SPAN_EXCLUSIVE_EXCLUSIVE)
             }
             setSpan(RelativeSizeSpan(textRelativeSize), 0, length, SPAN_EXCLUSIVE_EXCLUSIVE)
-            setSpan(AlignmentSpan.Standard(Layout.Alignment.ALIGN_OPPOSITE), 0, length, SPAN_EXCLUSIVE_EXCLUSIVE)
+            instancesSymbolRemoteView?.let {
+                setSpan(Standard(Alignment.ALIGN_OPPOSITE), 0, length, SPAN_EXCLUSIVE_EXCLUSIVE)
+            }
         }
         dayOfMonthRemoteView.setTextViewText(viewId, dayOfMonthSpSt)
         dayOfMonthRemoteView.setTextColor(viewId, getColour(context, dayOfMonthColour))
@@ -106,7 +108,6 @@ object GraphicResolver {
                 setSpan(StyleSpan(BOLD), 0, length, SPAN_EXCLUSIVE_EXCLUSIVE)
                 setSpan(ForegroundColorSpan(instancesSymbolColour), 0, length, SPAN_EXCLUSIVE_EXCLUSIVE)
                 setSpan(RelativeSizeSpan(instancesRelativeSize * textRelativeSize), 0, length, SPAN_EXCLUSIVE_EXCLUSIVE)
-                setSpan(AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER), 0, length, SPAN_EXCLUSIVE_EXCLUSIVE)
             }
             it.setTextViewText(viewId, instancesSymbolSpSt)
             dayBackgroundColour?.setAsBackground(it, viewId)

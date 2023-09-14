@@ -44,21 +44,28 @@ internal class DaysServiceTest : BaseTest() {
 
     private val widgetRv = mockk<RemoteViews>()
 
-    private val rowRv = mockk<RemoteViews>()
+    private val weekRv = mockk<RemoteViews>()
 
     private val dayRv = mockk<RemoteViews>()
 
     @ParameterizedTest
     @MethodSource("getDaysDrawInputVariablesAndExpectedOutput")
     fun draw_shouldReturnSafeDateSpanOfSystemTimeZoneInstances(testProperties: DrawDaysUseCaseTestProperties) {
+        val instancesSymbolRemoteView = when (testProperties.shouldIncludeInstancesSymbolRemoteView) {
+            true -> dayRv
+            false -> null
+        }
+
         mockkObject(ActionableView.CellDay)
-        mockGetSystemLocalDate()
+        mockGetSystemLocalDate(testProperties.systemLocalDate)
         mockIsReadCalendarPermitted(true)
 
         val initEpochMillis = testProperties.expectedFirstDay.atStartOfDayInMillis(zoneId)
         val endEpochMillis = testProperties.expectedFirstDay.plusDays(42).atStartOfDayInMillis(zoneId)
         mockGetSystemZoneId()
-        every { CalendarResolver.getInstances(context, initEpochMillis, endEpochMillis) } returns getSystemInstances()
+        every {
+            CalendarResolver.getInstances(context, initEpochMillis, endEpochMillis)
+        } returns testProperties.systemInstances
 
         mockSharedPreferences()
         mockFocusOnCurrentWeek(testProperties.focusOnCurrentWeek)
@@ -66,7 +73,7 @@ internal class DaysServiceTest : BaseTest() {
         mockInstancesColour(testProperties.instancesColour)
         mockShowDeclinedEvents(testProperties.showDeclinedEvents)
 
-        every { GraphicResolver.createDaysRow(context) } returns rowRv
+        every { GraphicResolver.createDaysRow(context) } returns weekRv
 
         listOf(
             testProperties.instancesColour.getInstancesColour(true, testProperties.widgetTheme),
@@ -86,9 +93,9 @@ internal class DaysServiceTest : BaseTest() {
         justRun {
             GraphicResolver.addToDaysRow(
                 context = context,
-                weekRowRemoteView = rowRv,
+                weekRowRemoteView = weekRv,
                 dayOfMonthRemoteView = dayRv,
-                instancesSymbolRemoteView = dayRv,
+                instancesSymbolRemoteView = instancesSymbolRemoteView,
                 viewId = any(),
                 dayOfMonth = any(),
                 dayOfMonthColour = any(),
@@ -100,8 +107,14 @@ internal class DaysServiceTest : BaseTest() {
                 textRelativeSize = any()
             )
         }
-        justRun { ActionableView.CellDay.addListener(context, arrayOf(dayRv, dayRv), any()) }
-        justRun { GraphicResolver.addToWidget(widgetRv, rowRv) }
+        justRun {
+            ActionableView.CellDay.addListener(
+                context,
+                arrayOf(dayRv, instancesSymbolRemoteView),
+                any()
+            )
+        }
+        justRun { GraphicResolver.addToWidget(widgetRv, weekRv) }
 
         DaysService.draw(
             context = context,
@@ -138,6 +151,7 @@ internal class DaysServiceTest : BaseTest() {
                     val transparencyRange = when (dayUseCaseTest.dayOfWeek) {
                         DayOfWeek.SATURDAY,
                         DayOfWeek.SUNDAY -> TransparencyRange.MODERATE
+
                         else -> TransparencyRange.LOW
                     }
                     GraphicResolver.parseColour(
@@ -151,9 +165,9 @@ internal class DaysServiceTest : BaseTest() {
                 GraphicResolver.createDayLayout(context, cellDay.layout)
                 GraphicResolver.addToDaysRow(
                     context = context,
-                    weekRowRemoteView = rowRv,
+                    weekRowRemoteView = weekRv,
                     dayOfMonthRemoteView = dayRv,
-                    instancesSymbolRemoteView = dayRv,
+                    instancesSymbolRemoteView = instancesSymbolRemoteView,
                     viewId = cellDay.id,
                     dayOfMonth = dayUseCaseTest.dayOfMonth,
                     dayOfMonthColour = cellDay.textColour,
@@ -166,13 +180,13 @@ internal class DaysServiceTest : BaseTest() {
                 )
                 ActionableView.CellDay.addListener(
                     context = context,
-                    remoteViews = arrayOf(dayRv, dayRv),
+                    remoteViews = arrayOf(dayRv, instancesSymbolRemoteView),
                     startOfDay = dayUseCaseTest.startOfDay(systemZoneOffset)
                 )
             }
         }
-        verify(exactly = 6) { GraphicResolver.addToWidget(widgetRv, rowRv) }
-        confirmVerified(widgetRv, rowRv)
+        verify(exactly = 6) { GraphicResolver.addToWidget(widgetRv, weekRv) }
+        confirmVerified(widgetRv, weekRv, dayRv)
     }
 
     @ParameterizedTest
@@ -343,14 +357,14 @@ internal class DaysServiceTest : BaseTest() {
             Instance(
                 eventId = random.nextInt(),
                 start = "2019-01-01T05:00:00Z".toInstant(systemZoneOffset),
-                end = "2019-12-02T11:20:00Z".toInstant(systemZoneOffset),
+                end = "2019-10-02T11:20:00Z".toInstant(systemZoneOffset),
                 zoneId = systemZoneOffset,
                 isDeclined = false
             ),
             Instance(
                 eventId = random.nextInt(),
                 start = "2019-01-02T05:00:00Z".toInstant(systemZoneOffset),
-                end = "2019-10-02T11:20:00Z".toInstant(systemZoneOffset),
+                end = "2019-08-02T11:20:00Z".toInstant(systemZoneOffset),
                 zoneId = systemZoneOffset,
                 isDeclined = true
             ),
@@ -401,6 +415,8 @@ internal class DaysServiceTest : BaseTest() {
 
     private fun getDaysDrawInputVariablesAndExpectedOutput() = Stream.of(
         DrawDaysUseCaseTestProperties(
+            systemLocalDate = systemLocalDate,
+            systemInstances = getSystemInstances(),
             firstDayOfWeek = DayOfWeek.MONDAY,
             widgetTheme = Theme.DARK,
             transparency = Transparency(32),
@@ -409,6 +425,7 @@ internal class DaysServiceTest : BaseTest() {
             instancesColour = Colour.CYAN,
             instancesSymbolSet = SymbolSet.MINIMAL,
             showDeclinedEvents = false,
+            shouldIncludeInstancesSymbolRemoteView = true,
             expectedFirstDay = of(2018, 11, 26),
             expectedDayProperties = Stream.of(
                 DrawDaysUseCaseTestDayProperties("2018-11-26", "26", '·', DayOfWeek.MONDAY),
@@ -456,6 +473,8 @@ internal class DaysServiceTest : BaseTest() {
             )
         ),
         DrawDaysUseCaseTestProperties(
+            systemLocalDate = systemLocalDate,
+            systemInstances = getSystemInstances(),
             firstDayOfWeek = DayOfWeek.SUNDAY,
             widgetTheme = Theme.LIGHT,
             transparency = Transparency(32),
@@ -464,6 +483,7 @@ internal class DaysServiceTest : BaseTest() {
             instancesColour = Colour.YELLOW,
             instancesSymbolSet = SymbolSet.BINARY,
             showDeclinedEvents = false,
+            shouldIncludeInstancesSymbolRemoteView = true,
             expectedFirstDay = of(2018, 11, 25),
             expectedDayProperties = Stream.of(
                 DrawDaysUseCaseTestDayProperties("2018-11-25", "25", ' ', DayOfWeek.SUNDAY),
@@ -511,6 +531,8 @@ internal class DaysServiceTest : BaseTest() {
             )
         ),
         DrawDaysUseCaseTestProperties(
+            systemLocalDate = systemLocalDate,
+            systemInstances = getSystemInstances(),
             firstDayOfWeek = DayOfWeek.THURSDAY,
             widgetTheme = Theme.DARK,
             transparency = Transparency(0),
@@ -519,6 +541,7 @@ internal class DaysServiceTest : BaseTest() {
             instancesColour = Colour.SYSTEM_ACCENT,
             instancesSymbolSet = SymbolSet.NONE,
             showDeclinedEvents = true,
+            shouldIncludeInstancesSymbolRemoteView = false,
             expectedFirstDay = of(2018, 11, 22),
             expectedDayProperties = Stream.of(
                 DrawDaysUseCaseTestDayProperties("2018-11-22", "22", ' ', DayOfWeek.THURSDAY),
@@ -563,6 +586,64 @@ internal class DaysServiceTest : BaseTest() {
                 DrawDaysUseCaseTestDayProperties("2018-12-31", "31", ' ', DayOfWeek.MONDAY, true),
                 DrawDaysUseCaseTestDayProperties("2019-01-01", "1", ' ', DayOfWeek.TUESDAY),
                 DrawDaysUseCaseTestDayProperties("2019-01-02", "2", ' ', DayOfWeek.WEDNESDAY)
+            )
+        ),
+        DrawDaysUseCaseTestProperties(
+            systemLocalDate = systemLocalDate.plusYears(1),
+            systemInstances = HashSet(),
+            firstDayOfWeek = DayOfWeek.MONDAY,
+            widgetTheme = Theme.DARK,
+            transparency = Transparency(0),
+            textSize = TextSize(60),
+            focusOnCurrentWeek = false,
+            instancesColour = Colour.SYSTEM_ACCENT,
+            instancesSymbolSet = SymbolSet.ROMAN,
+            showDeclinedEvents = true,
+            shouldIncludeInstancesSymbolRemoteView = false,
+            expectedFirstDay = of(2019, 11, 25),
+            expectedDayProperties = Stream.of(
+                DrawDaysUseCaseTestDayProperties("2019-11-25", "25", ' ', DayOfWeek.MONDAY),
+                DrawDaysUseCaseTestDayProperties("2019-11-26", "26", ' ', DayOfWeek.TUESDAY),
+                DrawDaysUseCaseTestDayProperties("2019-11-27", "27", ' ', DayOfWeek.WEDNESDAY),
+                DrawDaysUseCaseTestDayProperties("2019-11-28", "28", ' ', DayOfWeek.THURSDAY),
+                DrawDaysUseCaseTestDayProperties("2019-11-29", "29", ' ', DayOfWeek.FRIDAY),
+                DrawDaysUseCaseTestDayProperties("2019-11-30", "30", ' ', DayOfWeek.SATURDAY),
+                DrawDaysUseCaseTestDayProperties("2019-12-01", "1", ' ', DayOfWeek.SUNDAY, true),
+                DrawDaysUseCaseTestDayProperties("2019-12-02", "2", ' ', DayOfWeek.MONDAY, true),
+                DrawDaysUseCaseTestDayProperties("2019-12-03", "3", ' ', DayOfWeek.TUESDAY, true),
+                DrawDaysUseCaseTestDayProperties("2019-12-04", "4", ' ', DayOfWeek.WEDNESDAY, true, isToday = true),
+                DrawDaysUseCaseTestDayProperties("2019-12-05", "5", ' ', DayOfWeek.THURSDAY, true),
+                DrawDaysUseCaseTestDayProperties("2019-12-06", "6", ' ', DayOfWeek.FRIDAY, true),
+                DrawDaysUseCaseTestDayProperties("2019-12-07", "7", ' ', DayOfWeek.SATURDAY, true),
+                DrawDaysUseCaseTestDayProperties("2019-12-08", "8", ' ', DayOfWeek.SUNDAY, true),
+                DrawDaysUseCaseTestDayProperties("2019-12-09", "9", ' ', DayOfWeek.MONDAY, true),
+                DrawDaysUseCaseTestDayProperties("2019-12-10", "10", ' ', DayOfWeek.TUESDAY, true),
+                DrawDaysUseCaseTestDayProperties("2019-12-11", "11", ' ', DayOfWeek.WEDNESDAY, true),
+                DrawDaysUseCaseTestDayProperties("2019-12-12", "12", ' ', DayOfWeek.THURSDAY, true),
+                DrawDaysUseCaseTestDayProperties("2019-12-13", "13", ' ', DayOfWeek.FRIDAY, true),
+                DrawDaysUseCaseTestDayProperties("2019-12-14", "14", ' ', DayOfWeek.SATURDAY, true),
+                DrawDaysUseCaseTestDayProperties("2019-12-15", "15", ' ', DayOfWeek.SUNDAY, true),
+                DrawDaysUseCaseTestDayProperties("2019-12-16", "16", ' ', DayOfWeek.MONDAY, true),
+                DrawDaysUseCaseTestDayProperties("2019-12-17", "17", ' ', DayOfWeek.TUESDAY, true),
+                DrawDaysUseCaseTestDayProperties("2019-12-18", "18", ' ', DayOfWeek.WEDNESDAY, true),
+                DrawDaysUseCaseTestDayProperties("2019-12-19", "19", ' ', DayOfWeek.THURSDAY, true),
+                DrawDaysUseCaseTestDayProperties("2019-12-20", "20", ' ', DayOfWeek.FRIDAY, true),
+                DrawDaysUseCaseTestDayProperties("2019-12-21", "21", ' ', DayOfWeek.SATURDAY, true),
+                DrawDaysUseCaseTestDayProperties("2019-12-22", "22", ' ', DayOfWeek.SUNDAY, true),
+                DrawDaysUseCaseTestDayProperties("2019-12-23", "23", ' ', DayOfWeek.MONDAY, true),
+                DrawDaysUseCaseTestDayProperties("2019-12-24", "24", ' ', DayOfWeek.TUESDAY, true),
+                DrawDaysUseCaseTestDayProperties("2019-12-25", "25", ' ', DayOfWeek.WEDNESDAY, true),
+                DrawDaysUseCaseTestDayProperties("2019-12-26", "26", ' ', DayOfWeek.THURSDAY, true),
+                DrawDaysUseCaseTestDayProperties("2019-12-27", "27", ' ', DayOfWeek.FRIDAY, true),
+                DrawDaysUseCaseTestDayProperties("2019-12-28", "28", ' ', DayOfWeek.SATURDAY, true),
+                DrawDaysUseCaseTestDayProperties("2019-12-29", "29", ' ', DayOfWeek.SUNDAY, true),
+                DrawDaysUseCaseTestDayProperties("2019-12-30", "30", ' ', DayOfWeek.MONDAY, true),
+                DrawDaysUseCaseTestDayProperties("2019-12-31", "31", ' ', DayOfWeek.TUESDAY, true),
+                DrawDaysUseCaseTestDayProperties("2020-01-01", "1", ' ', DayOfWeek.WEDNESDAY),
+                DrawDaysUseCaseTestDayProperties("2020-01-02", "2", ' ', DayOfWeek.THURSDAY),
+                DrawDaysUseCaseTestDayProperties("2020-01-03", "3", ' ', DayOfWeek.FRIDAY),
+                DrawDaysUseCaseTestDayProperties("2020-01-04", "4", ' ', DayOfWeek.SATURDAY),
+                DrawDaysUseCaseTestDayProperties("2020-01-05", "5", ' ', DayOfWeek.SUNDAY)
             )
         )
     )
@@ -692,6 +773,8 @@ internal class DaysServiceTest : BaseTest() {
     )
 
     internal data class DrawDaysUseCaseTestProperties(
+        val systemLocalDate: LocalDate,
+        val systemInstances: Set<Instance>,
         val firstDayOfWeek: DayOfWeek,
         val widgetTheme: Theme,
         val transparency: Transparency,
@@ -700,6 +783,7 @@ internal class DaysServiceTest : BaseTest() {
         val instancesColour: Colour,
         val instancesSymbolSet: SymbolSet,
         val showDeclinedEvents: Boolean,
+        val shouldIncludeInstancesSymbolRemoteView: Boolean,
         val expectedFirstDay: LocalDate,
         val expectedDayProperties: Stream<DrawDaysUseCaseTestDayProperties>
     )
