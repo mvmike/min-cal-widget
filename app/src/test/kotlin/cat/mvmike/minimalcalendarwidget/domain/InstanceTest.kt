@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.MethodSource
 import java.time.LocalDate
+import java.time.ZoneId
 import java.time.ZoneOffset
 import java.util.Random
 import java.util.stream.Stream
@@ -54,8 +55,8 @@ internal class InstanceTest : BaseTest() {
         val initLocalDate = systemLocalDate.minusDays(7)
         val endLocalDate = systemLocalDate.plusDays(7)
 
-        val initEpochMillis = initLocalDate.atStartOfDay(zoneId).toInstant().toEpochMilli()
-        val endEpochMillis = endLocalDate.atStartOfDay(zoneId).toInstant().toEpochMilli()
+        val initEpochMillis = initLocalDate.atStartOfDayInMillis(zoneId)
+        val endEpochMillis = endLocalDate.atStartOfDayInMillis(zoneId)
         every { CalendarResolver.getInstances(context, initEpochMillis, endEpochMillis) } returns expectedInstances
 
         val instances = getInstances(context, initLocalDate, endLocalDate)
@@ -193,3 +194,6 @@ internal class InstanceTest : BaseTest() {
         fun id() = random.nextInt()
     }
 }
+
+fun LocalDate.atStartOfDayInMillis(zoneId: ZoneId) =
+    atStartOfDay(zoneId).toInstant().toEpochMilli()

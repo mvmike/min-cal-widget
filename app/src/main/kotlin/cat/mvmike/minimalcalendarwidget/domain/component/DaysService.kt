@@ -29,7 +29,7 @@ object DaysService {
 
     private const val DAYS_IN_WEEK = 7
 
-    private const val INSTANCES_QUERY_DAYS_SPAN = 45L
+    private const val NUMBER_OF_DAYS = (NUM_WEEKS * DAYS_IN_WEEK).toLong()
 
     fun draw(
         context: Context,
@@ -47,8 +47,8 @@ object DaysService {
 
         val instanceSet = getInstances(
             context = context,
-            from = systemLocalDate.minusDays(INSTANCES_QUERY_DAYS_SPAN),
-            to = systemLocalDate.plusDays(INSTANCES_QUERY_DAYS_SPAN)
+            from = initialLocalDate,
+            to = initialLocalDate.plusDays(NUMBER_OF_DAYS)
         )
         val instancesSymbolSet = EnumConfigurationItem.InstancesSymbolSet.get(context)
         val instancesColour = EnumConfigurationItem.InstancesColour.get(context)

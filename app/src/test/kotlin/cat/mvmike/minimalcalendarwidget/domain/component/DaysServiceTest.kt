@@ -6,6 +6,7 @@ import android.widget.RemoteViews
 import cat.mvmike.minimalcalendarwidget.BaseTest
 import cat.mvmike.minimalcalendarwidget.domain.Day
 import cat.mvmike.minimalcalendarwidget.domain.Instance
+import cat.mvmike.minimalcalendarwidget.domain.atStartOfDayInMillis
 import cat.mvmike.minimalcalendarwidget.domain.component.DaysService.getNumberOfInstances
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Colour
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.SymbolSet
@@ -54,10 +55,8 @@ internal class DaysServiceTest : BaseTest() {
         mockGetSystemLocalDate()
         mockIsReadCalendarPermitted(true)
 
-        val initLocalDate = systemLocalDate.minusDays(45)
-        val endLocalDate = systemLocalDate.plusDays(45)
-        val initEpochMillis = initLocalDate.atStartOfDay(zoneId).toInstant().toEpochMilli()
-        val endEpochMillis = endLocalDate.atStartOfDay(zoneId).toInstant().toEpochMilli()
+        val initEpochMillis = testProperties.expectedFirstDay.atStartOfDayInMillis(zoneId)
+        val endEpochMillis = testProperties.expectedFirstDay.plusDays(42).atStartOfDayInMillis(zoneId)
         mockGetSystemZoneId()
         every { CalendarResolver.getInstances(context, initEpochMillis, endEpochMillis) } returns getSystemInstances()
 
@@ -410,6 +409,7 @@ internal class DaysServiceTest : BaseTest() {
             instancesColour = Colour.CYAN,
             instancesSymbolSet = SymbolSet.MINIMAL,
             showDeclinedEvents = false,
+            expectedFirstDay = of(2018, 11, 26),
             expectedDayProperties = Stream.of(
                 DrawDaysUseCaseTestDayProperties("2018-11-26", "26", '·', DayOfWeek.MONDAY),
                 DrawDaysUseCaseTestDayProperties("2018-11-27", "27", ' ', DayOfWeek.TUESDAY),
@@ -464,6 +464,7 @@ internal class DaysServiceTest : BaseTest() {
             instancesColour = Colour.YELLOW,
             instancesSymbolSet = SymbolSet.BINARY,
             showDeclinedEvents = false,
+            expectedFirstDay = of(2018, 11, 25),
             expectedDayProperties = Stream.of(
                 DrawDaysUseCaseTestDayProperties("2018-11-25", "25", ' ', DayOfWeek.SUNDAY),
                 DrawDaysUseCaseTestDayProperties("2018-11-26", "26", '☱', DayOfWeek.MONDAY),
@@ -518,6 +519,7 @@ internal class DaysServiceTest : BaseTest() {
             instancesColour = Colour.SYSTEM_ACCENT,
             instancesSymbolSet = SymbolSet.NONE,
             showDeclinedEvents = true,
+            expectedFirstDay = of(2018, 11, 22),
             expectedDayProperties = Stream.of(
                 DrawDaysUseCaseTestDayProperties("2018-11-22", "22", ' ', DayOfWeek.THURSDAY),
                 DrawDaysUseCaseTestDayProperties("2018-11-23", "23", ' ', DayOfWeek.FRIDAY),
@@ -698,6 +700,7 @@ internal class DaysServiceTest : BaseTest() {
         val instancesColour: Colour,
         val instancesSymbolSet: SymbolSet,
         val showDeclinedEvents: Boolean,
+        val expectedFirstDay: LocalDate,
         val expectedDayProperties: Stream<DrawDaysUseCaseTestDayProperties>
     )
 

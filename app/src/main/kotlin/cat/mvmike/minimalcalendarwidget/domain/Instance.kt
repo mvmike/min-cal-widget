@@ -32,11 +32,11 @@ fun getInstances(context: Context, from: LocalDate, to: LocalDate): Set<Instance
             val systemZoneId = SystemResolver.getSystemZoneId()
             CalendarResolver.getInstances(
                 context = context,
-                begin = from.toStartOfDayInEpochMilli(systemZoneId),
-                end = to.toStartOfDayInEpochMilli(systemZoneId)
+                begin = from.atStartOfDayInMillis(systemZoneId),
+                end = to.atStartOfDayInMillis(systemZoneId)
             )
         }
     }
 
-private fun LocalDate.toStartOfDayInEpochMilli(zoneId: ZoneId) =
+private fun LocalDate.atStartOfDayInMillis(zoneId: ZoneId) =
     atStartOfDay(zoneId).toInstant().toEpochMilli()
