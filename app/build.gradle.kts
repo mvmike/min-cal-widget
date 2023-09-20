@@ -133,6 +133,7 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter-api:$junitJupiterVersion")
     testImplementation("org.junit.jupiter:junit-jupiter-engine:$junitJupiterVersion")
     testImplementation("org.junit.jupiter:junit-jupiter-params:$junitJupiterVersion")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
     // https://github.com/mockk/mockk/releases
     testImplementation("io.mockk:mockk:1.13.7")
