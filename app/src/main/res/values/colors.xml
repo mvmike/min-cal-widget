@@ -8,8 +8,8 @@
     <color name="background_this_month_dark">#FFFFFF</color>
     <color name="background_this_month_light">#000000</color>
 
-    <color name="background_today_dark">#009973</color>
-    <color name="background_today_light">#009973</color>
+    <color name="background_today_dark">#001B14</color>
+    <color name="background_today_light">#E6FFF9</color>
 
     <color name="background_saturday_dark">#215487</color>
     <color name="background_saturday_light">#B9C9FF</color>

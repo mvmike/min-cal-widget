@@ -38,8 +38,6 @@ import java.time.format.DateTimeFormatter
 import java.util.Random
 import java.util.stream.Stream
 
-private const val DAY_CELL_TRANSPARENT_BACKGROUND = "transparentBackground"
-
 internal class DaysServiceTest : BaseTest() {
 
     private val widgetRv = mockk<RemoteViews>()
@@ -84,7 +82,7 @@ internal class DaysServiceTest : BaseTest() {
         val expectedBackground = Random().nextInt()
         every {
             GraphicResolver.getColourAsString(context, any())
-        } returns DAY_CELL_TRANSPARENT_BACKGROUND
+        } returns "transparentBackground"
         every {
             GraphicResolver.parseColour(any())
         } returns expectedBackground
@@ -148,10 +146,10 @@ internal class DaysServiceTest : BaseTest() {
             cellDay.background?.let {
                 verify {
                     GraphicResolver.getColourAsString(context, it)
-                    val transparencyRange = when (dayUseCaseTest.dayOfWeek) {
-                        DayOfWeek.SATURDAY,
-                        DayOfWeek.SUNDAY -> TransparencyRange.MODERATE
-
+                    val transparencyRange = when {
+                        dayUseCaseTest.isToday -> TransparencyRange.HIGH
+                        dayUseCaseTest.dayOfWeek == DayOfWeek.SATURDAY -> TransparencyRange.MODERATE
+                        dayUseCaseTest.dayOfWeek == DayOfWeek.SUNDAY -> TransparencyRange.MODERATE
                         else -> TransparencyRange.LOW
                     }
                     GraphicResolver.parseColour(

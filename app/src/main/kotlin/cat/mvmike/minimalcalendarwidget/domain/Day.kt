@@ -10,15 +10,21 @@ import java.time.LocalDate
 data class Day(
     val dayLocalDate: LocalDate
 ) {
-    fun getDayOfWeek(): DayOfWeek = dayLocalDate.dayOfWeek
+    fun getDayOfWeek() = dayLocalDate.dayOfWeek!!
 
-    fun getDayOfMonthString(): String = "${dayLocalDate.dayOfMonth}"
+    fun getDayOfMonthString() = "${dayLocalDate.dayOfMonth}"
 
     fun isInMonth(systemLocalDate: LocalDate) = dayLocalDate.year ==
         systemLocalDate.year && dayLocalDate.month == systemLocalDate.month
 
     fun isToday(systemLocalDate: LocalDate) =
         isInMonth(systemLocalDate) && dayLocalDate.dayOfYear == systemLocalDate.dayOfYear
+
+    fun isWeekend() = when (getDayOfWeek()) {
+        DayOfWeek.SATURDAY,
+        DayOfWeek.SUNDAY -> true
+        else -> false
+    }
 }
 
 fun getDayOfWeekDisplayValues(context: Context) =

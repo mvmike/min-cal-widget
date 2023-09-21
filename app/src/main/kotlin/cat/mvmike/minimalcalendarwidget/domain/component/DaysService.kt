@@ -74,9 +74,9 @@ object DaysService {
                     ?.let { GraphicResolver.getColourAsString(context, it) }
                     ?.withTransparency(
                         transparency = transparency,
-                        transparencyRange = when (currentDay.getDayOfWeek()) {
-                            DayOfWeek.SATURDAY,
-                            DayOfWeek.SUNDAY -> TransparencyRange.MODERATE
+                        transparencyRange = when {
+                            isToday -> TransparencyRange.HIGH
+                            currentDay.isWeekend() -> TransparencyRange.MODERATE
                             else -> TransparencyRange.LOW
                         }
                     )
