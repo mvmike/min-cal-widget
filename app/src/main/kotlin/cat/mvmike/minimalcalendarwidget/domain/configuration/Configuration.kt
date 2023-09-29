@@ -43,7 +43,7 @@ sealed class ConfigurationItem<E>(
 
 sealed class BooleanConfigurationItem(
     override val key: String,
-    override val defaultValue: Boolean
+    override val defaultValue: Boolean = false
 ) : ConfigurationItem<Boolean>(
     key = key,
     defaultValue = defaultValue
@@ -52,18 +52,15 @@ sealed class BooleanConfigurationItem(
         getConfiguration(context).getBoolean(key, defaultValue)
 
     data object ShowDeclinedEvents : BooleanConfigurationItem(
-        key = "SHOW_DECLINED_EVENTS",
-        defaultValue = false
+        key = "SHOW_DECLINED_EVENTS"
     )
 
     data object FocusOnCurrentWeek : BooleanConfigurationItem(
-        key = "FOCUS_ON_CURRENT_WEEK",
-        defaultValue = false
+        key = "FOCUS_ON_CURRENT_WEEK"
     )
 
     data object OpenCalendarOnClickedDay : BooleanConfigurationItem(
-        key = "OPEN_CALENDAR_ON_CLICKED_DAY",
-        defaultValue = false
+        key = "OPEN_CALENDAR_ON_CLICKED_DAY"
     )
 }
 
