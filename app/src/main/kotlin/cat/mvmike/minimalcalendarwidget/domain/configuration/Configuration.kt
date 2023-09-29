@@ -10,7 +10,6 @@ import cat.mvmike.minimalcalendarwidget.domain.configuration.item.SymbolSet
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.TextSize
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Transparency
-import cat.mvmike.minimalcalendarwidget.domain.configuration.item.getAvailableCalendars
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.getAvailableColors
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.getCalendarDisplayValues
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.getColourDisplayValues
@@ -100,10 +99,8 @@ sealed class EnumConfigurationItem<E : Enum<E>>(
     data object WidgetCalendar : EnumConfigurationItem<Calendar>(
         key = "WIDGET_CALENDAR",
         enumClass = Calendar::class.java,
-        defaultValue = getAvailableCalendars().first()
+        defaultValue = Calendar.GREGORIAN
     ) {
-        override fun getEnumConstants() = getAvailableCalendars()
-
         override fun getDisplayValues(context: Context) = getCalendarDisplayValues(context)
 
         override fun getCurrentDisplayValue(context: Context) = get(context).getDisplayValue(context)

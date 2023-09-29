@@ -33,13 +33,10 @@ enum class Calendar(
         .format(instant)
 }
 
-fun getAvailableCalendars() =
-    Calendar.values()
-
 fun Calendar.getDisplayValue(context: Context) =
     context.getString(displayString).replaceFirstChar { it.uppercase() }
 
 fun getCalendarDisplayValues(context: Context) =
-    getAvailableCalendars()
+    Calendar.values()
         .map { it.getDisplayValue(context) }
         .toTypedArray()
