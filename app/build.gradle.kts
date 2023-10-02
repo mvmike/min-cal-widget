@@ -103,6 +103,7 @@ android {
                 else -> null
             }
             isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android.txt"),
                 "${project.rootDir}/config/proguard/proguard-rules.pro"
