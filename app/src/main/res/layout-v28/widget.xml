@@ -18,6 +18,15 @@
             android:gravity="start|center_vertical"
             android:textSize="20sp" />
 
+        <ImageView
+            android:id="@+id/configuration_icon"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:contentDescription="@string/configuration"
+            android:gravity="end|center_vertical"
+            android:padding="5dp"
+            android:scaleType="fitEnd" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -26,6 +35,6 @@
         android:layout_height="0dp"
         android:layout_margin="3dp"
         android:layout_weight="7"
-        android:orientation="vertical" />
+        android:orientation="vertical"/>
 
 </LinearLayout>
