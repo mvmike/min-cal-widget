@@ -72,9 +72,7 @@ android {
     }
 
     /*
-     * To sign release builds, create the file gradle.properties in
-     * ~/.gradle/ with this content:
-     *
+     * To sign release builds, create the file gradle.properties in ~/.gradle/ with this content:
      * signingStoreFile=key.store
      * signingStorePassword=xxx
      * signingKeyAlias=alias
@@ -85,8 +83,8 @@ android {
         && project.hasProperty("signingKeyAlias")
         && project.hasProperty("signingKeyPassword")
     signingConfigs {
-        create("release") {
-            if (isKeyStoreDefined) {
+        if (isKeyStoreDefined) {
+            create("release") {
                 println("Found sign properties in gradle.properties! Signing build...")
                 storeFile = file(properties["signingStoreFile"]!!)
                 storePassword = properties["signingStorePassword"]!! as String
