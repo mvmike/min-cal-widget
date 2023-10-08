@@ -1,69 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="february">Febbraio</string>
-    <string name="transparency">Trasparenza</string>
-    <string name="no_browser_application">Nessuna applicazione browser trovata</string>
-    <string name="show_declined_events">Mostra eventi declinati</string>
-    <string name="close">Chiudi</string>
-    <string name="tuesday_abb">Mar</string>
-    <string name="mint">Menta</string>
-    <string name="text_size">Dimensione testo</string>
-    <string name="saturday_abb">Sab</string>
-    <string name="no_calendar_application">Nessuna applicazione calendario trovata</string>
-    <string name="open_calendar_into_clicked_day">Apri calendario sul giorno selezionato</string>
-    <string name="november">Novembre</string>
-    <string name="friday">Venerdì</string>
-    <string name="tuesday">Martedì</string>
-    <string name="may">Maggio</string>
-    <string name="minimal">Minimale</string>
-    <string name="translate">Traduzione</string>
-    <string name="circles">Cerchi</string>
-    <string name="none">Nessuno</string>
-    <string name="white">Bianco</string>
-    <string name="theme">Tema</string>
-    <string name="monday_abb">Lun</string>
-    <string name="appearance">Aspetto</string>
-    <string name="wednesday">Mercoledì</string>
-    <string name="april">Aprile</string>
-    <string name="light">Chiaro</string>
-    <string name="monday">Lunedì</string>
-    <string name="version">Versione</string>
+
+    <!--ITALIAN-->
+
+    <!--Configuration-->
     <string name="configuration">Configurazione</string>
-    <string name="reset_settings">Ripristina impostazioni</string>
-    <string name="symbol_colour">Colore simboli</string>
+
+    <string name="behaviour">Comportamento</string>
+    <string name="start_week_day">Giorno di inizio</string>
+    <string name="calendar">Calendario</string>
+    <string name="show_declined_events">Mostra eventi declinati</string>
+    <string name="focus_on_current_week">Focus sulla settimana corrente</string>
+    <string name="open_calendar_into_clicked_day">Apri calendario sul giorno selezionato</string>
+
+    <string name="appearance">Aspetto</string>
+    <string name="theme">Tema</string>
     <string name="symbol_set">Tipologia simboli</string>
+    <string name="symbol_colour">Colore simboli</string>
+    <string name="transparency">Trasparenza</string>
+    <string name="text_size">Dimensione testo</string>
+
     <string name="about">Informazioni</string>
-    <string name="friday_abb">Ven</string>
+    <string name="source">Sorgente</string>
+    <string name="translate">Traduzione</string>
+    <string name="version">Versione</string>
+
+    <string name="reset_settings">Ripristina impostazioni</string>
+    <string name="close">Chiudi</string>
+
+    <!-- Months of year-->
+    <string name="january">Gennaio</string>
+    <string name="february">Febbraio</string>
+    <string name="march">Marzo</string>
+    <string name="april">Aprile</string>
+    <string name="may">Maggio</string>
+    <string name="june">Giugno</string>
+    <string name="july">Luglio</string>
+    <string name="august">Agosto</string>
+    <string name="september">Settembre</string>
+    <string name="october">Ottobre</string>
+    <string name="november">Novembre</string>
     <string name="december">Dicembre</string>
+
+    <!--Days of week-->
+    <string name="monday">Lunedì</string>
+    <string name="tuesday">Martedì</string>
+    <string name="wednesday">Mercoledì</string>
+    <string name="thursday">Giovedì</string>
+    <string name="friday">Venerdì</string>
+    <string name="saturday">Sabato</string>
+    <string name="sunday">Domenica</string>
+
+    <!--Days of week abbreviated-->
+    <string name="monday_abb">Lun</string>
+    <string name="tuesday_abb">Mar</string>
+    <string name="wednesday_abb">Mer</string>
+    <string name="thursday_abb">Gio</string>
+    <string name="friday_abb">Ven</string>
+    <string name="saturday_abb">Sab</string>
+    <string name="sunday_abb">Dom</string>
+
+    <!--Calendars-->
+    <string name="gregorian">Gregoriano</string>
+    <string name="holocene">Olocenico</string>
+
+    <!--Themes-->
+    <string name="dark">Scuro</string>
+    <string name="light">Chiaro</string>
+
+    <!--Symbol sets-->
+    <string name="minimal">Minimale</string>
+    <string name="vertical">Verticale</string>
+    <string name="circles">Cerchi</string>
+    <string name="numbers">Numeri</string>
+    <string name="roman">Romano</string>
+    <string name="binary">Binario</string>
+    <string name="none">Nessuno</string>
+
+    <!--Symbol colours-->
+    <string name="system_accent">Accento del sistema</string>
+    <string name="cyan">Ciano</string>
+    <string name="blue">Blu</string>
+    <string name="mint">Menta</string>
     <string name="green">Verde</string>
     <string name="yellow">Giallo</string>
-    <string name="wednesday_abb">Mer</string>
-    <string name="binary">Binario</string>
-    <string name="sunday">Domenica</string>
-    <string name="dark">Scuro</string>
-    <string name="cyan">Ciano</string>
-    <string name="thursday_abb">Gio</string>
     <string name="black">Nero</string>
-    <string name="roman">Romano</string>
-    <string name="march">Marzo</string>
-    <string name="vertical">Verticale</string>
-    <string name="sunday_abb">Dom</string>
-    <string name="june">Giugno</string>
-    <string name="holocene">Olocenico</string>
-    <string name="saturday">Sabato</string>
-    <string name="august">Agosto</string>
-    <string name="start_week_day">Giorno di inizio</string>
-    <string name="gregorian">Gregoriano</string>
-    <string name="source">Sorgente</string>
-    <string name="july">Luglio</string>
-    <string name="numbers">Numeri</string>
-    <string name="thursday">Giovedì</string>
-    <string name="focus_on_current_week">Focus sulla settimana corrente</string>
-    <string name="calendar">Calendario</string>
-    <string name="system_accent">Accento del sistema</string>
-    <string name="september">Settembre</string>
-    <string name="blue">Blu</string>
-    <string name="october">Ottobre</string>
-    <string name="behaviour">Comportamento</string>
-    <string name="january">Gennaio</string>
+    <string name="white">Bianco</string>
+
+    <!-- messages-->
+    <string name="no_calendar_application">Nessuna applicazione calendario trovata</string>
+    <string name="no_browser_application">Nessuna applicazione browser trovata</string>
+
 </resources>
