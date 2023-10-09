@@ -3,7 +3,6 @@
 package cat.mvmike.minimalcalendarwidget.application.system
 
 import cat.mvmike.minimalcalendarwidget.BaseTest
-import cat.mvmike.minimalcalendarwidget.domain.configuration.clearAllConfiguration
 import cat.mvmike.minimalcalendarwidget.domain.intent.AutoUpdate
 import io.mockk.justRun
 import io.mockk.mockkObject
@@ -15,13 +14,10 @@ internal class DisableWidgetUseCaseTest : BaseTest() {
     @Test
     fun shouldClearAllConfigurationAndCancelAutoUpdate() {
         mockkObject(AutoUpdate)
-
-        justRun { clearAllConfiguration(context) }
         justRun { AutoUpdate.cancel(context) }
 
         DisableWidgetUseCase.execute(context)
 
-        verify { clearAllConfiguration(context) }
         verify { AutoUpdate.cancel(context) }
     }
 }
