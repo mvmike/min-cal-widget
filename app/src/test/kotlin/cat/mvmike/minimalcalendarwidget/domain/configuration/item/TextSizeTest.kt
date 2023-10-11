@@ -57,7 +57,7 @@ internal class TextSizeTest : BaseTest() {
         TextSizeTestProperties(90, Int.MAX_VALUE, 3, 1.670f),
         TextSizeTestProperties(95, Int.MAX_VALUE, 3, 1.735f),
         TextSizeTestProperties(99, Int.MAX_VALUE, 3, 1.787f),
-        TextSizeTestProperties(100, Int.MAX_VALUE, 3, 1.800f),
+        TextSizeTestProperties(100, Int.MAX_VALUE, 3, 1.800f)
     )
 
     internal data class TextSizeTestProperties(

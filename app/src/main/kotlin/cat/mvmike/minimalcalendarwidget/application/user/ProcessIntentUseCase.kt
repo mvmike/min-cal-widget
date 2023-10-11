@@ -20,17 +20,36 @@ import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.SystemResolver
 
 object ProcessIntentUseCase {
 
-    fun execute(context: Context, intent: Intent) = when (intent.toActionableView()) {
-        ConfigurationIcon -> { { ConfigurationActivity.start(context) } }
+    fun execute(
+        context: Context,
+        intent: Intent
+    ) = when (intent.toActionableView()) {
+        ConfigurationIcon -> startConfigurationActivity(context)
         MonthAndYearHeader,
-        RowHeader -> { { CalendarActivity.start(context, SystemResolver.getSystemInstant()) } }
-        CellDay -> { { CalendarActivity.start(context, intent.getCalendarStartTime(context)) } }
+        RowHeader -> startCalendarActivity(context)
+        CellDay -> startCalendarActivity(context, intent)
         else -> null
     }?.let { context.executeAndRedrawOrAskForPermissions(it) }
 
-    private fun Intent.getCalendarStartTime(context: Context) = when {
-        BooleanConfigurationItem.OpenCalendarOnClickedDay.get(context) -> getExtraInstant()
-        else -> SystemResolver.getSystemInstant()
+    private fun startConfigurationActivity(context: Context): () -> Unit = {
+        ConfigurationActivity.start(context)
+    }
+
+    private fun startCalendarActivity(context: Context): () -> Unit = {
+        CalendarActivity.start(context, SystemResolver.getSystemInstant())
+    }
+
+    private fun startCalendarActivity(
+        context: Context,
+        intent: Intent
+    ): () -> Unit = {
+        CalendarActivity.start(
+            context,
+            when {
+                BooleanConfigurationItem.OpenCalendarOnClickedDay.get(context) -> intent.getExtraInstant()
+                else -> SystemResolver.getSystemInstant()
+            }
+        )
     }
 
     private fun Context.executeAndRedrawOrAskForPermissions(function: () -> Unit) =

@@ -27,7 +27,11 @@ class PermissionsActivity : Activity() {
         ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_CALENDAR), READ_CALENDAR_PERM)
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
         if (requestCode.isReadCalendarPermission() && grantResults.isPermissionGranted()) {
             setResult(RESULT_OK)
             RedrawWidgetUseCase.execute(this)

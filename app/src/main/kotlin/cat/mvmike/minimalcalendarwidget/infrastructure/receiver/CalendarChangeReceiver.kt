@@ -9,7 +9,10 @@ import cat.mvmike.minimalcalendarwidget.application.RedrawWidgetUseCase
 
 class CalendarChangeReceiver : BroadcastReceiver() {
 
-    override fun onReceive(context: Context, intent: Intent) = when (intent.action) {
+    override fun onReceive(
+        context: Context,
+        intent: Intent
+    ) = when (intent.action) {
         Intent.ACTION_TIME_CHANGED,
         Intent.ACTION_DATE_CHANGED,
         Intent.ACTION_TIMEZONE_CHANGED,

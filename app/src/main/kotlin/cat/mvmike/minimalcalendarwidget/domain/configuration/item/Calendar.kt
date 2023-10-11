@@ -22,11 +22,16 @@ enum class Calendar(
     HOLOCENE(
         displayString = R.string.holocene
     ) {
-        override fun getYear(instant: Instant, zoneId: ZoneId) =
-            "1${super.getYear(instant, zoneId)}"
+        override fun getYear(
+            instant: Instant,
+            zoneId: ZoneId
+        ) = "1${super.getYear(instant, zoneId)}"
     };
 
-    open fun getYear(instant: Instant, zoneId: ZoneId): String = DateTimeFormatter
+    open fun getYear(
+        instant: Instant,
+        zoneId: ZoneId
+    ): String = DateTimeFormatter
         .ofPattern(YEAR_FORMAT)
         .withLocale(Locale.ENGLISH)
         .withZone(zoneId)

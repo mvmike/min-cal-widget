@@ -148,8 +148,10 @@ object DaysService {
         .filter { it.isInDay(dayLocalDate) }
         .count { includeDeclinedEvents || !it.isDeclined }
 
-    private fun LocalDate.toCurrentWeekAndWeekDay(week: Int, weekDay: Int) =
-        plus((week * DAYS_IN_WEEK + weekDay).toLong(), ChronoUnit.DAYS)
+    private fun LocalDate.toCurrentWeekAndWeekDay(
+        week: Int,
+        weekDay: Int
+    ) = plus((week * DAYS_IN_WEEK + weekDay).toLong(), ChronoUnit.DAYS)
 
     private fun getInstancesColor(
         context: Context,

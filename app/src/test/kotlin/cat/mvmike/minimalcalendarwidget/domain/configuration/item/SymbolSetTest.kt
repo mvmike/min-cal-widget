@@ -20,7 +20,11 @@ internal class SymbolSetTest : BaseTest() {
 
     @ParameterizedTest
     @MethodSource("getSymbolSetAndExpectedCharacter")
-    fun get_shouldReturnExpectedCharacter(symbolSet: SymbolSet, numberOfInstances: Int, expectedCharacter: Char) {
+    fun get_shouldReturnExpectedCharacter(
+        symbolSet: SymbolSet,
+        numberOfInstances: Int,
+        expectedCharacter: Char
+    ) {
         assertThat(symbolSet.get(numberOfInstances)).isEqualTo(expectedCharacter)
     }
 

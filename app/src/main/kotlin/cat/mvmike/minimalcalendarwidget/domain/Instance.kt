@@ -25,7 +25,11 @@ data class Instance(
     }
 }
 
-fun getInstances(context: Context, from: LocalDate, to: LocalDate): Set<Instance> =
+fun getInstances(
+    context: Context,
+    from: LocalDate,
+    to: LocalDate
+): Set<Instance> =
     when (CalendarResolver.isReadCalendarPermitted(context)) {
         false -> HashSet()
         true -> {

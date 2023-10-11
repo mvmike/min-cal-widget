@@ -57,7 +57,10 @@ enum class Colour(
 
     open fun isAvailable() = true
 
-    fun getInstancesColour(isToday: Boolean, widgetTheme: Theme) = when (isToday) {
+    fun getInstancesColour(
+        isToday: Boolean,
+        widgetTheme: Theme
+    ) = when (isToday) {
         true -> R.color.instances_today
         else -> when (widgetTheme) {
             Theme.DARK -> darkThemeHexColour

@@ -71,7 +71,10 @@ class ConfigurationActivity : AppCompatActivity() {
 
     class SettingsFragment : PreferenceFragmentCompat(), OnSharedPreferenceChangeListener {
 
-        override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+        override fun onCreatePreferences(
+            savedInstanceState: Bundle?,
+            rootKey: String?
+        ) {
             preferenceManager.sharedPreferencesName = PREFERENCE_KEY
             setPreferencesFromResource(R.xml.preferences, rootKey)
 
@@ -82,7 +85,10 @@ class ConfigurationActivity : AppCompatActivity() {
             preferenceManager.sharedPreferences!!.registerOnSharedPreferenceChangeListener(this)
         }
 
-        override fun onSharedPreferenceChanged(p0: SharedPreferences?, p1: String?) {
+        override fun onSharedPreferenceChanged(
+            p0: SharedPreferences?,
+            p1: String?
+        ) {
             updateCurrentSelection()
             RedrawWidgetUseCase.execute(requireContext())
         }

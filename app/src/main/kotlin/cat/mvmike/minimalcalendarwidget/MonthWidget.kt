@@ -14,7 +14,9 @@ import cat.mvmike.minimalcalendarwidget.application.user.ProcessIntentUseCase
 
 class MonthWidget : AppWidgetProvider() {
 
-    override fun onEnabled(context: Context) {
+    override fun onEnabled(
+        context: Context
+    ) {
         super.onEnabled(context)
         EnableWidgetUseCase.execute(context)
     }

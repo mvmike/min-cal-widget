@@ -15,12 +15,15 @@ object AutoUpdate {
 
     private const val ALARM_ID = 859345
 
-    fun set(context: Context, intervalInMillis: Long) {
+    fun set(
+        context: Context,
+        intervalInMillis: Long
+    ) {
         val currentMillis = SystemResolver.getSystemInstant().toEpochMilli()
         val firstTriggerMillis = currentMillis + intervalInMillis
 
         context.getAlarmManager().setRepeating(
-            AlarmManager.RTC, // RTC does not wake the device up
+            AlarmManager.RTC,
             firstTriggerMillis,
             intervalInMillis,
             PendingIntent.getBroadcast(

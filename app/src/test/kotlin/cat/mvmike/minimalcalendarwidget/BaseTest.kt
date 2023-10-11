@@ -363,7 +363,11 @@ open class BaseTest {
         every { intent.addFlags(any()) } returns intent
     }
 
-    protected fun mockIntentWithLongExtra(action: String, systemInstant: Instant, extraInstant: Instant) {
+    protected fun mockIntentWithLongExtra(
+        action: String,
+        systemInstant: Instant,
+        extraInstant: Instant
+    ) {
         mockIntent(action)
         every {
             intent.getLongExtra("startOfDayInEpochSeconds", systemInstant.epochSecond)

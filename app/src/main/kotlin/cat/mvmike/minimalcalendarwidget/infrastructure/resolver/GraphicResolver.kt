@@ -20,8 +20,10 @@ object GraphicResolver {
 
     // ADD VISUAL COMPONENTS TO WIDGET
 
-    fun addToWidget(widgetRemoteView: RemoteViews, remoteView: RemoteViews) =
-        widgetRemoteView.addView(R.id.calendar_days_layout, remoteView)
+    fun addToWidget(
+        widgetRemoteView: RemoteViews,
+        remoteView: RemoteViews
+    ) = widgetRemoteView.addView(R.id.calendar_days_layout, remoteView)
 
     // MONTH YEAR HEADER
 
@@ -72,7 +74,10 @@ object GraphicResolver {
 
     fun createDaysRow(context: Context) = getById(context, R.layout.row_week)
 
-    fun createDayLayout(context: Context, dayLayout: Int) = getById(context, dayLayout)
+    fun createDayLayout(
+        context: Context,
+        dayLayout: Int
+    ) = getById(context, dayLayout)
 
     fun addToDaysRow(
         context: Context,
@@ -117,9 +122,15 @@ object GraphicResolver {
 
     // COLOUR
 
-    fun getColour(context: Context, id: Int) = ContextCompat.getColor(context, id)
+    fun getColour(
+        context: Context,
+        id: Int
+    ) = ContextCompat.getColor(context, id)
 
-    fun getColourAsString(context: Context, id: Int) = context.resources.getString(id)
+    fun getColourAsString(
+        context: Context,
+        id: Int
+    ) = context.resources.getString(id)
 
     fun parseColour(colourString: String) = Color.parseColor(colourString)
 
@@ -130,5 +141,8 @@ object GraphicResolver {
 
     // INTERNAL UTILS
 
-    private fun getById(context: Context, layoutId: Int) = RemoteViews(context.packageName, layoutId)
+    private fun getById(
+        context: Context,
+        layoutId: Int
+    ) = RemoteViews(context.packageName, layoutId)
 }

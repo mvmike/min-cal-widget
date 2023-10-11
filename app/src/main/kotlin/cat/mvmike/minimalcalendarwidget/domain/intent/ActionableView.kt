@@ -21,50 +21,55 @@ sealed class ActionableView(
 ) {
 
     data object ConfigurationIcon : ActionableView(
-        viewId = R.id.configuration_icon,
-        code = 90,
-        action = "$MINCAL_INTENT_ACTION.configuration_icon_click"
-    )
+            viewId = R.id.configuration_icon,
+            code = 90,
+            action = "$MINCAL_INTENT_ACTION.configuration_icon_click"
+        )
 
     data object MonthAndYearHeader : ActionableView(
-        viewId = R.id.month_and_year_header,
-        code = 91,
-        action = "$MINCAL_INTENT_ACTION.month_and_year_header_click"
-    )
+            viewId = R.id.month_and_year_header,
+            code = 91,
+            action = "$MINCAL_INTENT_ACTION.month_and_year_header_click"
+        )
 
     data object RowHeader : ActionableView(
-        viewId = R.id.row_header,
-        code = 92,
-        action = "$MINCAL_INTENT_ACTION.row_header_click"
-    )
+            viewId = R.id.row_header,
+            code = 92,
+            action = "$MINCAL_INTENT_ACTION.row_header_click"
+        )
 
     data object CellDay : ActionableView(
-        viewId = R.id.cell_day,
-        code = 93,
-        action = "$MINCAL_INTENT_ACTION.cell_day_click"
-    ) {
+            viewId = R.id.cell_day,
+            code = 93,
+            action = "$MINCAL_INTENT_ACTION.cell_day_click"
+        ) {
 
         private const val CELL_DAY_INTENT_EXTRA_NAME = "startOfDayInEpochSeconds"
 
-        override fun addListener(context: Context, remoteViews: RemoteViews) =
-            throw UnsupportedOperationException("must call overloaded addListener method")
+        override fun addListener(
+            context: Context,
+            remoteViews: RemoteViews
+        ) = throw UnsupportedOperationException("must call overloaded addListener method")
 
-        fun addListener(context: Context, remoteViews: Array<RemoteViews?>, startOfDay: Instant) =
-            remoteViews
-                .filterNotNull()
-                .forEach {
-                    it.setOnClickPendingIntent(
-                        viewId,
-                        PendingIntent.getBroadcast(
-                            context,
-                            code,
-                            Intent(context, MonthWidget::class.java)
-                                .apply { action = "${CellDay.action}.${startOfDay.epochSecond}" }
-                                .apply { putExtra(CELL_DAY_INTENT_EXTRA_NAME, startOfDay.epochSecond) },
-                            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-                        )
+        fun addListener(
+            context: Context,
+            remoteViews: Array<RemoteViews?>,
+            startOfDay: Instant
+        ) = remoteViews
+            .filterNotNull()
+            .forEach {
+                it.setOnClickPendingIntent(
+                    viewId,
+                    PendingIntent.getBroadcast(
+                        context,
+                        code,
+                        Intent(context, MonthWidget::class.java)
+                            .apply { action = "${CellDay.action}.${startOfDay.epochSecond}" }
+                            .apply { putExtra(CELL_DAY_INTENT_EXTRA_NAME, startOfDay.epochSecond) },
+                        PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
                     )
-                }
+                )
+            }
 
         fun Intent.getExtraInstant(): Instant {
             val systemInstant = SystemResolver.getSystemInstant()
@@ -80,16 +85,18 @@ sealed class ActionableView(
         }
     }
 
-    internal open fun addListener(context: Context, remoteViews: RemoteViews) =
-        remoteViews.setOnClickPendingIntent(
-            viewId,
-            PendingIntent.getBroadcast(
-                context,
-                code,
-                Intent(context, MonthWidget::class.java).setAction(action),
-                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-            )
+    internal open fun addListener(
+        context: Context,
+        remoteViews: RemoteViews
+    ) = remoteViews.setOnClickPendingIntent(
+        viewId,
+        PendingIntent.getBroadcast(
+            context,
+            code,
+            Intent(context, MonthWidget::class.java).setAction(action),
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
+    )
 }
 
 fun Intent.toActionableView(): ActionableView? = listOf(

@@ -13,7 +13,10 @@ import java.time.Instant
 
 object CalendarActivity {
 
-    fun start(context: Context, startTime: Instant) = try {
+    fun start(
+        context: Context,
+        startTime: Instant
+    ) = try {
         val builder = CalendarContract.CONTENT_URI.buildUpon().appendPath("time")
         ContentUris.appendId(builder, startTime.toEpochMilli())
 

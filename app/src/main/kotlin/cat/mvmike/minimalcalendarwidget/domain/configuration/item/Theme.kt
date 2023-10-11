@@ -88,7 +88,11 @@ enum class Theme(
 
     fun getCellHeader(dayOfWeek: DayOfWeek) = header.get(dayOfWeek)
 
-    fun getCellDay(isToday: Boolean, inMonth: Boolean, dayOfWeek: DayOfWeek) = when {
+    fun getCellDay(
+        isToday: Boolean,
+        inMonth: Boolean,
+        dayOfWeek: DayOfWeek
+    ) = when {
         isToday -> today
         inMonth -> thisMonth
         else -> day
