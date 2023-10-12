@@ -51,12 +51,12 @@
         <activity
             android:name=".infrastructure.activity.ConfigurationActivity"
             android:excludeFromRecents="true"
+            android:exported="false"
             android:launchMode="singleInstance"
             android:noHistory="true"
-            android:theme="@style/Theme.AppCompat"
-            android:exported="false">
+            android:theme="@style/Theme.AppCompat">
             <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
         </activity>
 

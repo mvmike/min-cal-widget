@@ -7,28 +7,28 @@
         app:iconSpaceReserved="false">
 
         <ListPreference
-            android:key="FIRST_DAY_OF_WEEK"
             android:icon="@drawable/ic_today"
+            android:key="FIRST_DAY_OF_WEEK"
             android:title="@string/start_week_day" />
 
         <ListPreference
-            android:key="WIDGET_CALENDAR"
             android:icon="@drawable/ic_calendar"
+            android:key="WIDGET_CALENDAR"
             android:title="@string/calendar" />
 
         <CheckBoxPreference
-            android:key="SHOW_DECLINED_EVENTS"
             android:icon="@drawable/ic_deleted_events"
+            android:key="SHOW_DECLINED_EVENTS"
             android:title="@string/show_declined_events" />
 
         <CheckBoxPreference
-            android:key="FOCUS_ON_CURRENT_WEEK"
             android:icon="@drawable/ic_view_day"
+            android:key="FOCUS_ON_CURRENT_WEEK"
             android:title="@string/focus_on_current_week" />
 
         <CheckBoxPreference
-            android:key="OPEN_CALENDAR_ON_CLICKED_DAY"
             android:icon="@drawable/ic_clicked_cell"
+            android:key="OPEN_CALENDAR_ON_CLICKED_DAY"
             android:title="@string/open_calendar_into_clicked_day" />
 
     </PreferenceCategory>
@@ -38,30 +38,30 @@
         app:iconSpaceReserved="false">
 
         <ListPreference
-            android:key="WIDGET_THEME"
             android:icon="@drawable/ic_invert_colors"
+            android:key="WIDGET_THEME"
             android:title="@string/theme" />
 
         <ListPreference
-            android:key="INSTANCES_SYMBOL_SET"
             android:icon="@drawable/ic_glyphs"
+            android:key="INSTANCES_SYMBOL_SET"
             android:title="@string/symbol_set" />
 
         <ListPreference
-            android:key="INSTANCES_COLOUR"
             android:icon="@drawable/ic_palette"
+            android:key="INSTANCES_COLOUR"
             android:title="@string/symbol_colour" />
 
         <SeekBarPreference
-            android:key="WIDGET_TRANSPARENCY"
             android:icon="@drawable/ic_gradient"
+            android:key="WIDGET_TRANSPARENCY"
             android:max="100"
             android:title="@string/transparency"
             app:showSeekBarValue="true" />
 
         <SeekBarPreference
-            android:key="WIDGET_TEXT_SIZE"
             android:icon="@drawable/ic_text_size"
+            android:key="WIDGET_TEXT_SIZE"
             android:max="100"
             android:title="@string/text_size"
             app:showSeekBarValue="true" />
@@ -73,18 +73,18 @@
         app:iconSpaceReserved="false">
 
         <Preference
-            android:key="SOURCE"
             android:icon="@drawable/ic_github"
+            android:key="SOURCE"
             android:title="@string/source" />
 
         <Preference
-            android:key="TRANSLATE"
             android:icon="@drawable/ic_translate"
+            android:key="TRANSLATE"
             android:title="@string/translate" />
 
         <Preference
-            android:key="VERSION"
             android:icon="@drawable/ic_info"
+            android:key="VERSION"
             android:title="@string/version" />
 
     </PreferenceCategory>
