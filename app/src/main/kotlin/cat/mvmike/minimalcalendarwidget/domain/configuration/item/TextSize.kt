@@ -28,5 +28,8 @@ data class TextSize(
     ).rounded(3)
 }
 
-private fun Float.rounded(decimalPlaces: Int) =
-    this.toBigDecimal().setScale(decimalPlaces, RoundingMode.HALF_EVEN).toFloat()
+private fun Float.rounded(
+    decimalPlaces: Int = 3
+) = toBigDecimal()
+    .setScale(decimalPlaces, RoundingMode.HALF_EVEN)
+    .toFloat()

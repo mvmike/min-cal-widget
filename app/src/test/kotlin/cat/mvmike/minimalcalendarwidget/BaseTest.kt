@@ -381,8 +381,8 @@ open class BaseTest {
     ) = LocalDateTime
         .parse(
             when {
-                this.endsWith("Z") -> this
-                else -> this.plus("T00:00:00Z")
+                endsWith("Z") -> this
+                else -> plus("T00:00:00Z")
             },
             DateTimeFormatter.ISO_ZONED_DATE_TIME
         )
