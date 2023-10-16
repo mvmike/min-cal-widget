@@ -28,7 +28,7 @@
     <string name="reset_settings">Redefinir as configurações</string>
     <string name="close">Fechar</string>
 
-    <!-- Months of year-->
+    <!--Months of year-->
     <string name="january">Janeiro</string>
     <string name="february">Fevereiro</string>
     <string name="march">Março</string>
@@ -87,7 +87,7 @@
     <string name="black">Preto</string>
     <string name="white">Branco</string>
 
-    <!-- messages-->
+    <!--messages-->
     <string name="no_calendar_application">Nenhum aplicativo de calendário encontrado</string>
     <string name="no_browser_application">Nenhum aplicativo de navegador encontrado</string>
 

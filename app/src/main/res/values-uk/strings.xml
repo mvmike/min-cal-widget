@@ -28,7 +28,7 @@
     <string name="reset_settings">Скинути налаштування</string>
     <string name="close">Зачинити</string>
 
-    <!-- Months of year-->
+    <!--Months of year-->
     <string name="january">Січень</string>
     <string name="february">Лютий</string>
     <string name="march">Березень</string>
@@ -87,7 +87,7 @@
     <string name="black">Чорний</string>
     <string name="white">Білий</string>
 
-    <!-- messages-->
+    <!--messages-->
     <string name="no_calendar_application">Не знайдено додатку календара</string>
     <string name="no_browser_application">Не знайдено додатку інтенернет</string>
 

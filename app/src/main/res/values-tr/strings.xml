@@ -28,7 +28,7 @@
     <string name="reset_settings">Ayarları Sıfırla</string>
     <string name="close">Kapalı</string>
 
-    <!-- Months of year-->
+    <!--Months of year-->
     <string name="january">Ocak</string>
     <string name="february">Şubat</string>
     <string name="march">Mart</string>
@@ -87,7 +87,7 @@
     <string name="black">Siyah</string>
     <string name="white">Beyaz</string>
 
-    <!-- messages-->
+    <!--messages-->
     <string name="no_calendar_application">Takvim uygulaması bulunamadı</string>
     <string name="no_browser_application">Tarayıcı uygulaması bulunamadı</string>
 

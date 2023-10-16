@@ -28,7 +28,7 @@
     <string name="reset_settings">ਸੈਟਿੰਗਾਂ ਰੀਸੈਟ ਕਰੋ</string>
     <string name="close">ਬੰਦ ਕਰੋ</string>
 
-    <!-- Months of year-->
+    <!--Months of year-->
     <string name="january">ਜਨਵਰੀ</string>
     <string name="february">ਫ਼ਰਵਰੀ</string>
     <string name="march">ਮਾਰਚ</string>
@@ -87,7 +87,7 @@
     <string name="black">ਕਾਲਾ</string>
     <string name="white">ਚਿੱਟਾ</string>
 
-    <!-- messages-->
+    <!--messages-->
     <string name="no_calendar_application">ਕੋਈ ਕੈਲੰਡਰ ਐਪਲੀਕੇਸ਼ਨ ਨਹੀਂ ਲੱਭੀ</string>
     <string name="no_browser_application">ਕੋਈ ਬਰਾਊਜ਼ਰ ਐਪਲੀਕੇਸ਼ਨ ਨਹੀਂ ਲੱਭੀ</string>
 

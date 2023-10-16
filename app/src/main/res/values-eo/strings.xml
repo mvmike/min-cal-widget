@@ -28,7 +28,7 @@
     <string name="reset_settings">Restarigi agordojn</string>
     <string name="close">Fermu</string>
 
-    <!-- Months of year-->
+    <!--Months of year-->
     <string name="january">Januaro</string>
     <string name="february">Februaro</string>
     <string name="march">Marto</string>
@@ -87,7 +87,7 @@
     <string name="black">Nigra</string>
     <string name="white">Blanka</string>
 
-    <!-- messages-->
+    <!--messages-->
     <string name="no_calendar_application">Neniu kalendara aplikaĵo trovita</string>
     <string name="no_browser_application">Neniu retumila aplikaĵo trovita</string>
 

@@ -1,9 +1,9 @@
-<!-- Copyright (c) 2016, Miquel Martí <miquelmarti111@gmail.com> - See LICENSE for licensing information -->
+<!--Copyright (c) 2016, Miquel Martí <miquelmarti111@gmail.com> - See LICENSE for licensing information-->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.READ_CALENDAR" />
-    <!-- https://developer.android.google.cn/about/versions/13/features#runtime-receivers -->
+    <!--https://developer.android.google.cn/about/versions/13/features#runtime-receivers-->
     <uses-permission
         android:name="${applicationId}.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
         tools:node="remove" />

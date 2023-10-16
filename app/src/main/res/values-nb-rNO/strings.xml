@@ -28,7 +28,7 @@
     <string name="reset_settings">Tilbakestill innstillinger</string>
     <string name="close">Lukk</string>
 
-    <!-- Months of year-->
+    <!--Months of year-->
     <string name="january">Januar</string>
     <string name="february">Februar</string>
     <string name="march">Mars</string>
@@ -87,7 +87,7 @@
     <string name="black">Svart</string>
     <string name="white">Hvit</string>
 
-    <!-- messages-->
+    <!--messages-->
     <string name="no_calendar_application">Finner ingen kalenderapplikasjon</string>
     <string name="no_browser_application">Finner ingen nettleserapplikasjon</string>
 

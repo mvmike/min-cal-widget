@@ -29,7 +29,7 @@
     <string name="reset_settings">Reset settings</string>
     <string name="close">Close</string>
 
-    <!-- Months of year-->
+    <!--Months of year-->
     <string name="january">January</string>
     <string name="february">February</string>
     <string name="march">March</string>
@@ -88,7 +88,7 @@
     <string name="black">Black</string>
     <string name="white">White</string>
 
-    <!-- messages-->
+    <!--messages-->
     <string name="no_calendar_application">No calendar application found</string>
     <string name="no_browser_application">No browser application found</string>
 

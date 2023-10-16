@@ -28,7 +28,7 @@
     <string name="reset_settings">Restableix la configuració</string>
     <string name="close">Tancar</string>
 
-    <!-- Months of year-->
+    <!--Months of year-->
     <string name="january">Gener</string>
     <string name="february">Febrer</string>
     <string name="march">Març</string>
@@ -87,7 +87,7 @@
     <string name="black">Negre</string>
     <string name="white">Blanc</string>
 
-    <!-- messages-->
+    <!--messages-->
     <string name="no_calendar_application">No s\'ha trobat aplicació de calendari</string>
     <string name="no_browser_application">No s\'ha trobat aplicació de navegador</string>
 

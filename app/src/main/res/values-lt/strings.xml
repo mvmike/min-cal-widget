@@ -28,7 +28,7 @@
     <string name="reset_settings">Atstatyti nustatymus</string>
     <string name="close">Uždaryti</string>
 
-    <!-- Months of year-->
+    <!--Months of year-->
     <string name="january">Sausis</string>
     <string name="february">Vasaris</string>
     <string name="march">Kovas</string>
@@ -87,7 +87,7 @@
     <string name="black">Juoda</string>
     <string name="white">Balta</string>
 
-    <!-- messages-->
+    <!--messages-->
     <string name="no_calendar_application">Kalendoriaus programa nerasta</string>
     <string name="no_browser_application">Naršyklės programa nerasta</string>
 

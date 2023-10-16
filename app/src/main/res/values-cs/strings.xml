@@ -28,7 +28,7 @@
     <string name="reset_settings">Resetovat nastavení</string>
     <string name="close">Zavřít</string>
 
-    <!-- Months of year-->
+    <!--Months of year-->
     <string name="january">Leden</string>
     <string name="february">Únor</string>
     <string name="march">Březen</string>
@@ -87,7 +87,7 @@
     <string name="black">Černá</string>
     <string name="white">Bílá</string>
 
-    <!-- messages-->
+    <!--messages-->
     <string name="no_calendar_application">Nenalezena kalendářní aplikace</string>
     <string name="no_browser_application">Nenalezen webový prohlížeč</string>
 

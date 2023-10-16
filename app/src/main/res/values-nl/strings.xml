@@ -28,7 +28,7 @@
     <string name="reset_settings">Reset instellingen</string>
     <string name="close">Dichtbij</string>
 
-    <!-- Months of year-->
+    <!--Months of year-->
     <string name="january">Januari</string>
     <string name="february">Februari</string>
     <string name="march">Maart</string>
@@ -87,7 +87,7 @@
     <string name="black">Zwart</string>
     <string name="white">Wit</string>
 
-    <!-- messages-->
+    <!--messages-->
     <string name="no_calendar_application">Geen agenda-applicatie gevonden</string>
     <string name="no_browser_application">Der blev ikke fundet nogen browserapplikation</string>
 

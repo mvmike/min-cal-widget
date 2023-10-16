@@ -28,7 +28,7 @@
     <string name="reset_settings">Resetiraj postavke</string>
     <string name="close">Zatvoriti</string>
 
-    <!-- Months of year-->
+    <!--Months of year-->
     <string name="january">Siječanj</string>
     <string name="february">Veljača</string>
     <string name="march">Ožujak</string>
@@ -87,7 +87,7 @@
     <string name="black">Crna</string>
     <string name="white">Bijela</string>
 
-    <!-- messages-->
+    <!--messages-->
     <string name="no_calendar_application">Nije pronađena nijedna aplikacija kalendara</string>
     <string name="no_browser_application">Nije pronađena nijedna aplikacija preglednika</string>
 

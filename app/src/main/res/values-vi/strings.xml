@@ -28,7 +28,7 @@
     <string name="reset_settings">Đặt lại cài đặt</string>
     <string name="close">Đóng</string>
 
-    <!-- Months of year-->
+    <!--Months of year-->
     <string name="january">Tháng 1</string>
     <string name="february">Tháng 2</string>
     <string name="march">Tháng 3</string>
@@ -87,7 +87,7 @@
     <string name="black">Đen</string>
     <string name="white">Trắng</string>
 
-    <!-- messages-->
+    <!--messages-->
     <string name="no_calendar_application">Không tìm thấy ứng dụng lịch nào</string>
     <string name="no_browser_application">Không tìm thấy ứng dụng trình duyệt nào</string>
 

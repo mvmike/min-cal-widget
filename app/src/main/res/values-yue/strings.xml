@@ -27,7 +27,7 @@
     <string name="reset_settings">重新设置</string>
     <string name="close">关闭</string>
 
-    <!-- Months of year-->
+    <!--Months of year-->
     <string name="january">一月</string>
     <string name="february">二月</string>
     <string name="march">三月</string>
@@ -85,7 +85,7 @@
     <string name="black">黑色</string>
     <string name="white">白色</string>
 
-    <!-- messages-->
+    <!--messages-->
     <string name="no_calendar_application">搵唔到日曆應用程式</string>
     <string name="no_browser_application">搵唔到網頁應用程式</string>
 

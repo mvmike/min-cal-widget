@@ -28,7 +28,7 @@
     <string name="reset_settings">ترتیبات کو دوبارہ ترتیب دیں</string>
     <string name="close">بند کریں</string>
 
-    <!-- Months of year-->
+    <!--Months of year-->
     <string name="january">جنوری</string>
     <string name="february">فروری</string>
     <string name="march">مارچ</string>
@@ -87,7 +87,7 @@
     <string name="black">کالا</string>
     <string name="white">چٹا</string>
 
-    <!-- messages-->
+    <!--messages-->
     <string name="no_calendar_application">کوئی کیلنڈر ایپلیکیشن نہیں لبھی</string>
     <string name="no_browser_application">کوئی براؤزر ایپلیکیشن نہیں لبھی</string>
 
