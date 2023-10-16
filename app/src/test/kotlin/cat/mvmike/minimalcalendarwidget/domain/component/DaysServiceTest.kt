@@ -17,7 +17,6 @@ import cat.mvmike.minimalcalendarwidget.domain.configuration.item.TransparencyRa
 import cat.mvmike.minimalcalendarwidget.domain.intent.ActionableView
 import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.CalendarResolver
 import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.GraphicResolver
-import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.SystemResolver
 import io.mockk.confirmVerified
 import io.mockk.every
 import io.mockk.justRun
@@ -123,9 +122,9 @@ internal class DaysServiceTest : BaseTest() {
             textSize = testProperties.textSize
         )
 
-        verify { SystemResolver.getSystemLocalDate() }
-        verify { CalendarResolver.isReadCalendarPermitted(context) }
-        verify { SystemResolver.getSystemZoneId() }
+        verifyGetSystemLocalDate()
+        verifyIsReadCalendarPermitted()
+        verifyGetSystemZoneId()
         verify { CalendarResolver.getInstances(context, initEpochMillis, endEpochMillis) }
 
         verifyShowDeclinedEvents()

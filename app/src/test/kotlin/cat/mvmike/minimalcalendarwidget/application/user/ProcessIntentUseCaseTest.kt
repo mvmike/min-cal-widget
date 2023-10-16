@@ -9,8 +9,6 @@ import cat.mvmike.minimalcalendarwidget.domain.intent.AutoUpdate.ACTION_AUTO_UPD
 import cat.mvmike.minimalcalendarwidget.infrastructure.activity.CalendarActivity
 import cat.mvmike.minimalcalendarwidget.infrastructure.activity.ConfigurationActivity
 import cat.mvmike.minimalcalendarwidget.infrastructure.activity.PermissionsActivity
-import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.CalendarResolver
-import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.SystemResolver
 import io.mockk.justRun
 import io.mockk.mockkObject
 import io.mockk.verify
@@ -35,7 +33,7 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
         mockIntent(action)
         ProcessIntentUseCase.execute(context, intent)
 
-        verify { intent.action }
+        verifyIntentAction()
     }
 
     @ParameterizedTest
@@ -57,8 +55,8 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
 
         ProcessIntentUseCase.execute(context, intent)
 
-        verify { intent.action }
-        verify { CalendarResolver.isReadCalendarPermitted(context) }
+        verifyIntentAction()
+        verifyIsReadCalendarPermitted()
         verify { PermissionsActivity.Companion.start(context) }
     }
 
@@ -78,8 +76,8 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
 
         ProcessIntentUseCase.execute(context, intent)
 
-        verify { intent.action }
-        verify { CalendarResolver.isReadCalendarPermitted(context) }
+        verifyIntentAction()
+        verifyIsReadCalendarPermitted()
         verify { ConfigurationActivity.Companion.start(context) }
         verify { RedrawWidgetUseCase.execute(context) }
     }
@@ -103,9 +101,9 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
 
         ProcessIntentUseCase.execute(context, intent)
 
-        verify { intent.action }
-        verify { CalendarResolver.isReadCalendarPermitted(context) }
-        verify { SystemResolver.getSystemInstant() }
+        verifyIntentAction()
+        verifyIsReadCalendarPermitted()
+        verifyGetSystemInstant()
         verify { CalendarActivity.start(context, systemInstant) }
         verify { RedrawWidgetUseCase.execute(context) }
     }
@@ -125,9 +123,9 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
 
         ProcessIntentUseCase.execute(context, intent)
 
-        verify { intent.action }
-        verify { CalendarResolver.isReadCalendarPermitted(context) }
-        verify { SystemResolver.getSystemInstant() }
+        verifyIntentAction()
+        verifyIsReadCalendarPermitted()
+        verifyGetSystemInstant()
         verifySharedPreferencesAccess()
         verifyOpenCalendarOnClickedDay()
         verify { CalendarActivity.start(context, systemInstant) }
@@ -156,11 +154,11 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
 
         ProcessIntentUseCase.execute(context, intent)
 
-        verify { intent.action }
+        verifyIntentAction()
         verify { intent.getLongExtra(any(), systemInstant.epochSecond) }
-        verify { CalendarResolver.isReadCalendarPermitted(context) }
-        verify { SystemResolver.getSystemInstant() }
-        verify { SystemResolver.getSystemZoneId() }
+        verifyIsReadCalendarPermitted()
+        verifyGetSystemInstant()
+        verifyGetSystemZoneId()
         verifySharedPreferencesAccess()
         verifyOpenCalendarOnClickedDay()
         verify { CalendarActivity.start(context, startTimeInstant) }

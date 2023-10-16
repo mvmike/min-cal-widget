@@ -32,7 +32,7 @@ internal class CalendarChangeReceiverTest : BaseTest() {
 
         calendarChangeReceiver.onReceive(context, intent)
 
-        verify { intent.action }
+        verifyIntentAction()
         verify { RedrawWidgetUseCase.execute(context) }
         confirmVerified(RedrawWidgetUseCase)
     }
@@ -53,7 +53,7 @@ internal class CalendarChangeReceiverTest : BaseTest() {
 
         calendarChangeReceiver.onReceive(context, intent)
 
-        verify { intent.action }
+        verifyIntentAction()
         confirmVerified(RedrawWidgetUseCase)
     }
 }

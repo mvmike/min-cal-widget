@@ -3,8 +3,6 @@
 package cat.mvmike.minimalcalendarwidget.domain.configuration.item
 
 import cat.mvmike.minimalcalendarwidget.BaseTest
-import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.SystemResolver
-import io.mockk.verify
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
@@ -76,6 +74,6 @@ internal class ColourTest : BaseTest() {
         val result = Colour.SYSTEM_ACCENT.isAvailable()
 
         assertThat(result).isEqualTo(expectedAvailability)
-        verify { SystemResolver.getRuntimeSDK() }
+        verifyGetRuntimeSDK()
     }
 }

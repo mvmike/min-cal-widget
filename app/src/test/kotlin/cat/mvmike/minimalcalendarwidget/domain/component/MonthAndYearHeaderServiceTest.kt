@@ -9,7 +9,6 @@ import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Calendar
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.TextSize
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
 import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.GraphicResolver.createMonthAndYearHeader
-import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.SystemResolver
 import io.mockk.confirmVerified
 import io.mockk.every
 import io.mockk.justRun
@@ -57,8 +56,8 @@ internal class MonthAndYearHeaderServiceTest : BaseTest() {
 
         MonthAndYearHeaderService.draw(context, widgetRv, textSize, widgetTheme)
 
-        verify { SystemResolver.getSystemInstant() }
-        verify { SystemResolver.getSystemZoneId() }
+        verifyGetSystemInstant()
+        verifyGetSystemZoneId()
         verify { context.getString(month.getExpectedResourceId()) }
         verifyWidgetCalendar()
         verify {

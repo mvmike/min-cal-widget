@@ -4,7 +4,6 @@ package cat.mvmike.minimalcalendarwidget.domain
 
 import cat.mvmike.minimalcalendarwidget.BaseTest
 import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.CalendarResolver
-import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.SystemResolver
 import io.mockk.every
 import io.mockk.verify
 import org.assertj.core.api.Assertions.assertThat
@@ -42,7 +41,7 @@ internal class InstanceTest : BaseTest() {
         val instances = getInstances(context, LocalDate.MIN, LocalDate.MAX)
 
         assertThat(instances).isEmpty()
-        verify { CalendarResolver.isReadCalendarPermitted(context) }
+        verifyIsReadCalendarPermitted()
     }
 
     @ParameterizedTest
@@ -62,8 +61,8 @@ internal class InstanceTest : BaseTest() {
         val instances = getInstances(context, initLocalDate, endLocalDate)
 
         assertThat(instances).isEqualTo(expectedInstances)
-        verify { SystemResolver.getSystemZoneId() }
-        verify { CalendarResolver.isReadCalendarPermitted(context) }
+        verifyGetSystemZoneId()
+        verifyIsReadCalendarPermitted()
         verify { CalendarResolver.getInstances(context, initEpochMillis, endEpochMillis) }
     }
 

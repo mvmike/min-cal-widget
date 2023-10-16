@@ -92,26 +92,44 @@ open class BaseTest {
 
     // SYSTEM
 
-    protected fun mockGetRuntimeSDK(sdkVersion: Int) {
-        every { SystemResolver.getRuntimeSDK() } returns sdkVersion
+    protected fun mockGetRuntimeSDK(sdkVersion: Int) = every {
+        SystemResolver.getRuntimeSDK()
+    } returns sdkVersion
+
+    protected fun verifyGetRuntimeSDK() = verify {
+        SystemResolver.getRuntimeSDK()
     }
 
-    protected fun mockGetSystemInstant(instant: Instant = systemInstant) {
-        every { SystemResolver.getSystemInstant() } returns instant
+    protected fun mockGetSystemInstant(instant: Instant = systemInstant) = every {
+        SystemResolver.getSystemInstant()
+    } returns instant
+
+    protected fun verifyGetSystemInstant() = verify {
+        SystemResolver.getSystemInstant()
     }
 
-    protected fun mockGetSystemLocalDate(
-        localDate: LocalDate = systemLocalDate
-    ) {
-        every { SystemResolver.getSystemLocalDate() } returns localDate
+    protected fun mockGetSystemLocalDate(localDate: LocalDate = systemLocalDate) = every {
+        SystemResolver.getSystemLocalDate()
+    } returns localDate
+
+    protected fun verifyGetSystemLocalDate() = verify {
+        SystemResolver.getSystemLocalDate()
     }
 
-    protected fun mockGetSystemZoneId() {
-        every { SystemResolver.getSystemZoneId() } returns zoneId
+    protected fun mockGetSystemZoneId() = every {
+        SystemResolver.getSystemZoneId()
+    } returns zoneId
+
+    protected fun verifyGetSystemZoneId() = verify {
+        SystemResolver.getSystemZoneId()
     }
 
-    protected fun mockIsReadCalendarPermitted(isPermitted: Boolean) {
-        every { CalendarResolver.isReadCalendarPermitted(context) } returns isPermitted
+    protected fun mockIsReadCalendarPermitted(isPermitted: Boolean) = every {
+        CalendarResolver.isReadCalendarPermitted(context)
+    } returns isPermitted
+
+    protected fun verifyIsReadCalendarPermitted() = verify {
+        CalendarResolver.isReadCalendarPermitted(context)
     }
 
     // PREFERENCES
@@ -126,22 +144,20 @@ open class BaseTest {
         justRun { editor.apply() }
     }
 
-    protected fun verifySharedPreferencesAccess() {
-        verify { context.getSharedPreferences(PREFERENCES_ID, Context.MODE_PRIVATE) }
+    protected fun verifySharedPreferencesAccess() = verify {
+        context.getSharedPreferences(PREFERENCES_ID, Context.MODE_PRIVATE)
     }
 
-    protected fun verifySharedPreferencesEdit() {
-        verify { sharedPreferences.edit() }
+    protected fun verifySharedPreferencesEdit() = verify {
+        sharedPreferences.edit()
     }
 
-    protected fun mockWidgetTextSize(textSize: TextSize) {
-        every {
-            sharedPreferences.getInt(
-                PercentageConfigurationItem.WidgetTextSize.key,
-                PercentageConfigurationItem.WidgetTextSize.defaultValue.percentage
-            )
-        } returns textSize.percentage
-    }
+    protected fun mockWidgetTextSize(textSize: TextSize) = every {
+        sharedPreferences.getInt(
+            PercentageConfigurationItem.WidgetTextSize.key,
+            PercentageConfigurationItem.WidgetTextSize.defaultValue.percentage
+        )
+    } returns textSize.percentage
 
     protected fun verifyWidgetTextSize() {
         verifySharedPreferencesAccess()
@@ -153,14 +169,12 @@ open class BaseTest {
         }
     }
 
-    protected fun mockWidgetTransparency(transparency: Transparency) {
-        every {
-            sharedPreferences.getInt(
-                PercentageConfigurationItem.WidgetTransparency.key,
-                PercentageConfigurationItem.WidgetTransparency.defaultValue.percentage
-            )
-        } returns transparency.percentage
-    }
+    protected fun mockWidgetTransparency(transparency: Transparency) = every {
+        sharedPreferences.getInt(
+            PercentageConfigurationItem.WidgetTransparency.key,
+            PercentageConfigurationItem.WidgetTransparency.defaultValue.percentage
+        )
+    } returns transparency.percentage
 
     protected fun verifyWidgetTransparency() {
         verifySharedPreferencesAccess()
@@ -172,14 +186,14 @@ open class BaseTest {
         }
     }
 
-    protected fun mockShowDeclinedEvents(showDeclinedEvents: Boolean = false) {
-        every {
-            sharedPreferences.getBoolean(
-                BooleanConfigurationItem.ShowDeclinedEvents.key,
-                BooleanConfigurationItem.ShowDeclinedEvents.defaultValue
-            )
-        } returns showDeclinedEvents
-    }
+    protected fun mockShowDeclinedEvents(
+        showDeclinedEvents: Boolean = false
+    ) = every {
+        sharedPreferences.getBoolean(
+            BooleanConfigurationItem.ShowDeclinedEvents.key,
+            BooleanConfigurationItem.ShowDeclinedEvents.defaultValue
+        )
+    } returns showDeclinedEvents
 
     protected fun verifyShowDeclinedEvents() {
         verifySharedPreferencesAccess()
@@ -191,14 +205,12 @@ open class BaseTest {
         }
     }
 
-    protected fun mockFocusOnCurrentWeek(enabled: Boolean) {
-        every {
-            sharedPreferences.getBoolean(
-                BooleanConfigurationItem.FocusOnCurrentWeek.key,
-                BooleanConfigurationItem.FocusOnCurrentWeek.defaultValue
-            )
-        } returns enabled
-    }
+    protected fun mockFocusOnCurrentWeek(enabled: Boolean) = every {
+        sharedPreferences.getBoolean(
+            BooleanConfigurationItem.FocusOnCurrentWeek.key,
+            BooleanConfigurationItem.FocusOnCurrentWeek.defaultValue
+        )
+    } returns enabled
 
     protected fun verifyFocusOnCurrentWeek() {
         verifySharedPreferencesAccess()
@@ -210,14 +222,12 @@ open class BaseTest {
         }
     }
 
-    protected fun mockOpenCalendarOnClickedDay(enabled: Boolean) {
-        every {
-            sharedPreferences.getBoolean(
-                BooleanConfigurationItem.OpenCalendarOnClickedDay.key,
-                BooleanConfigurationItem.OpenCalendarOnClickedDay.defaultValue
-            )
-        } returns enabled
-    }
+    protected fun mockOpenCalendarOnClickedDay(enabled: Boolean) = every {
+        sharedPreferences.getBoolean(
+            BooleanConfigurationItem.OpenCalendarOnClickedDay.key,
+            BooleanConfigurationItem.OpenCalendarOnClickedDay.defaultValue
+        )
+    } returns enabled
 
     protected fun verifyOpenCalendarOnClickedDay() {
         verifySharedPreferencesAccess()
@@ -229,14 +239,12 @@ open class BaseTest {
         }
     }
 
-    protected fun mockWidgetTheme(widgetTheme: Theme) {
-        every {
-            sharedPreferences.getString(
-                EnumConfigurationItem.WidgetTheme.key,
-                EnumConfigurationItem.WidgetTheme.defaultValue.name
-            )
-        } returns widgetTheme.name
-    }
+    protected fun mockWidgetTheme(widgetTheme: Theme) = every {
+        sharedPreferences.getString(
+            EnumConfigurationItem.WidgetTheme.key,
+            EnumConfigurationItem.WidgetTheme.defaultValue.name
+        )
+    } returns widgetTheme.name
 
     protected fun verifyWidgetTheme() {
         verifySharedPreferencesAccess()
@@ -248,14 +256,12 @@ open class BaseTest {
         }
     }
 
-    protected fun mockWidgetCalendar(calendar: Calendar) {
-        every {
-            sharedPreferences.getString(
-                EnumConfigurationItem.WidgetCalendar.key,
-                EnumConfigurationItem.WidgetCalendar.defaultValue.name
-            )
-        } returns calendar.name
-    }
+    protected fun mockWidgetCalendar(calendar: Calendar) = every {
+        sharedPreferences.getString(
+            EnumConfigurationItem.WidgetCalendar.key,
+            EnumConfigurationItem.WidgetCalendar.defaultValue.name
+        )
+    } returns calendar.name
 
     protected fun verifyWidgetCalendar() {
         verifySharedPreferencesAccess()
@@ -267,14 +273,12 @@ open class BaseTest {
         }
     }
 
-    protected fun mockFirstDayOfWeek(dayOfWeek: DayOfWeek) {
-        every {
-            sharedPreferences.getString(
-                EnumConfigurationItem.FirstDayOfWeek.key,
-                EnumConfigurationItem.FirstDayOfWeek.defaultValue.name
-            )
-        } returns dayOfWeek.name
-    }
+    protected fun mockFirstDayOfWeek(dayOfWeek: DayOfWeek) = every {
+        sharedPreferences.getString(
+            EnumConfigurationItem.FirstDayOfWeek.key,
+            EnumConfigurationItem.FirstDayOfWeek.defaultValue.name
+        )
+    } returns dayOfWeek.name
 
     protected fun verifyFirstDayOfWeek() {
         verifySharedPreferencesAccess()
@@ -286,14 +290,12 @@ open class BaseTest {
         }
     }
 
-    protected fun mockInstancesSymbolSet(symbolSet: SymbolSet) {
-        every {
-            sharedPreferences.getString(
-                EnumConfigurationItem.InstancesSymbolSet.key,
-                EnumConfigurationItem.InstancesSymbolSet.defaultValue.name
-            )
-        } returns symbolSet.name
-    }
+    protected fun mockInstancesSymbolSet(symbolSet: SymbolSet) = every {
+        sharedPreferences.getString(
+            EnumConfigurationItem.InstancesSymbolSet.key,
+            EnumConfigurationItem.InstancesSymbolSet.defaultValue.name
+        )
+    } returns symbolSet.name
 
     protected fun verifyInstancesSymbolSet() {
         verifySharedPreferencesAccess()
@@ -305,14 +307,12 @@ open class BaseTest {
         }
     }
 
-    protected fun mockInstancesColour(colour: Colour) {
-        every {
-            sharedPreferences.getString(
-                EnumConfigurationItem.InstancesColour.key,
-                EnumConfigurationItem.InstancesColour.defaultValue.name
-            )
-        } returns colour.name
-    }
+    protected fun mockInstancesColour(colour: Colour) = every {
+        sharedPreferences.getString(
+            EnumConfigurationItem.InstancesColour.key,
+            EnumConfigurationItem.InstancesColour.defaultValue.name
+        )
+    } returns colour.name
 
     protected fun verifyInstancesColour() {
         verifySharedPreferencesAccess()
@@ -361,6 +361,10 @@ open class BaseTest {
     protected fun mockIntent(action: String) {
         every { intent.action } returns action
         every { intent.addFlags(any()) } returns intent
+    }
+
+    protected fun verifyIntentAction() = verify {
+        intent.action
     }
 
     protected fun mockIntentWithLongExtra(
