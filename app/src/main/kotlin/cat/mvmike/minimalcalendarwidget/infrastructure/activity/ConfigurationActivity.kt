@@ -26,6 +26,7 @@ import cat.mvmike.minimalcalendarwidget.application.RedrawWidgetUseCase
 import cat.mvmike.minimalcalendarwidget.domain.configuration.BooleanConfigurationItem
 import cat.mvmike.minimalcalendarwidget.domain.configuration.ConfigurationItem
 import cat.mvmike.minimalcalendarwidget.domain.configuration.EnumConfigurationItem
+import cat.mvmike.minimalcalendarwidget.domain.configuration.LANGUAGE_KEY
 import cat.mvmike.minimalcalendarwidget.domain.configuration.PREFERENCE_KEY
 import cat.mvmike.minimalcalendarwidget.domain.configuration.PercentageConfigurationItem
 import cat.mvmike.minimalcalendarwidget.domain.configuration.SOURCE_KEY
@@ -35,7 +36,9 @@ import cat.mvmike.minimalcalendarwidget.domain.configuration.TRANSLATE_URL
 import cat.mvmike.minimalcalendarwidget.domain.configuration.VERSION_KEY
 import cat.mvmike.minimalcalendarwidget.domain.configuration.clearAllConfiguration
 import cat.mvmike.minimalcalendarwidget.domain.configuration.isFirstDayOfWeekLocalePreferenceEnabled
+import cat.mvmike.minimalcalendarwidget.domain.configuration.isPerAppLanguagePreferenceEnabled
 import cat.mvmike.minimalcalendarwidget.domain.getDisplayValue
+import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.SystemResolver
 import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.SystemResolver.getSystemFirstDayOfWeek
 
 class ConfigurationActivity : AppCompatActivity() {
@@ -87,6 +90,9 @@ class ConfigurationActivity : AppCompatActivity() {
             if (isFirstDayOfWeekLocalePreferenceEnabled()) {
                 fillRegionalPreferencesValues()
             }
+            if (isPerAppLanguagePreferenceEnabled()) {
+                fillAppLocaleSettings()
+            }
             updateCurrentSelection()
             fillAboutSection()
 
@@ -115,30 +121,49 @@ class ConfigurationActivity : AppCompatActivity() {
         }
 
         @SuppressLint("InlinedApi")
+        private fun fillAppLocaleSettings() =
+            LANGUAGE_KEY.asPreference()?.let {
+                it.summary = SystemResolver.getSystemLocale().displayLanguage
+                it.setOnPreferenceClickListener {
+                    startActivity(
+                        Intent(Settings.ACTION_APP_LOCALE_SETTINGS)
+                            .setData(Uri.fromParts("package", requireContext().packageName, null))
+                            .addFlags(
+                                Intent.FLAG_ACTIVITY_NO_HISTORY or
+                                    Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS
+                            )
+                    )
+                    true
+                }
+            }
+
+        @SuppressLint("InlinedApi")
         private fun fillRegionalPreferencesValues() =
-            EnumConfigurationItem.FirstDayOfWeek.key.asPreference().let {
-                it?.summary = getSystemFirstDayOfWeek().getDisplayValue(requireContext())
-                it?.setOnPreferenceClickListener {
+            EnumConfigurationItem.FirstDayOfWeek.key.asPreference()?.let {
+                it.summary = getSystemFirstDayOfWeek().getDisplayValue(requireContext())
+                it.setOnPreferenceClickListener {
                     startActivity(
                         Intent(Settings.ACTION_REGIONAL_PREFERENCES_SETTINGS)
-                            .addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS)
-                            .addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
+                            .addFlags(
+                                Intent.FLAG_ACTIVITY_NO_HISTORY or
+                                    Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS
+                            )
                     )
                     true
                 }
             }
 
         private fun fillAboutSection() {
-            SOURCE_KEY.asPreference().let {
-                it?.summary = SOURCE_URL
-                it?.setOnPreferenceClickListener {
+            SOURCE_KEY.asPreference()?.let {
+                it.summary = SOURCE_URL
+                it.setOnPreferenceClickListener {
                     SOURCE_URL.openInBrowser()
                     true
                 }
             }
-            TRANSLATE_KEY.asPreference().let {
-                it?.summary = TRANSLATE_URL
-                it?.setOnPreferenceClickListener {
+            TRANSLATE_KEY.asPreference()?.let {
+                it.summary = TRANSLATE_URL
+                it.setOnPreferenceClickListener {
                     TRANSLATE_URL.openInBrowser()
                     true
                 }

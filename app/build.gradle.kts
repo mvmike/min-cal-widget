@@ -64,6 +64,10 @@ android {
         }
     }
 
+    androidResources {
+        generateLocaleConfig = true
+    }
+
     tasks.withType<Test> {
         useJUnitPlatform()
         testLogging {

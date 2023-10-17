@@ -29,6 +29,8 @@ const val SOURCE_KEY = "SOURCE"
 
 const val TRANSLATE_KEY = "TRANSLATE"
 
+const val LANGUAGE_KEY = "LANGUAGE"
+
 const val VERSION_KEY = "VERSION"
 
 const val SOURCE_URL = "https://github.com/mvmike/min-cal-widget"
@@ -170,6 +172,9 @@ sealed class PercentageConfigurationItem<E : Percentage>(
         )
     }
 }
+
+fun isPerAppLanguagePreferenceEnabled() =
+    SystemResolver.getRuntimeSDK() >= Build.VERSION_CODES.TIRAMISU
 
 fun isFirstDayOfWeekLocalePreferenceEnabled() =
     SystemResolver.getRuntimeSDK() >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE

@@ -144,6 +144,28 @@ internal class ConfigurationTest : BaseTest() {
         "1,false",
         "5,false",
         "29,false",
+        "32,false",
+        "33,true",
+        "35,true",
+        "99,true"
+    )
+    fun isPerAppLanguagePreferenceEnabled_shouldDependOnSystemSDK(
+        sdkVersion: Int,
+        expectedAvailability: Boolean
+    ) {
+        mockGetRuntimeSDK(sdkVersion)
+
+        val result = isPerAppLanguagePreferenceEnabled()
+
+        assertThat(result).isEqualTo(expectedAvailability)
+        verifyGetRuntimeSDK()
+    }
+
+    @ParameterizedTest
+    @CsvSource(
+        "1,false",
+        "5,false",
+        "29,false",
         "33,false",
         "34,true",
         "35,true",

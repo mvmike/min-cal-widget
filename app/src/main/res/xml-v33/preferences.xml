@@ -6,7 +6,7 @@
         android:title="@string/behaviour"
         app:iconSpaceReserved="false">
 
-        <Preference
+        <ListPreference
             android:icon="@drawable/ic_today"
             android:key="FIRST_DAY_OF_WEEK"
             android:title="@string/start_week_day" />

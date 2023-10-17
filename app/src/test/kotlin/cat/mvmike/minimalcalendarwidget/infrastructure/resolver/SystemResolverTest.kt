@@ -2,13 +2,9 @@
 // See LICENSE for licensing information
 package cat.mvmike.minimalcalendarwidget.infrastructure.resolver
 
-import android.content.res.Configuration
-import android.content.res.Resources
-import android.os.LocaleList
 import androidx.core.text.util.LocalePreferences
 import cat.mvmike.minimalcalendarwidget.BaseTest
 import io.mockk.every
-import io.mockk.mockk
 import io.mockk.mockkStatic
 import io.mockk.verify
 import org.assertj.core.api.Assertions.assertThat
@@ -55,19 +51,13 @@ internal class SystemResolverTest : BaseTest() {
     ) {
         mockkStatic(LocalePreferences::class)
         every { LocalePreferences.getFirstDayOfWeek() } returns ""
-        mockkStatic(Resources::class)
-        val resources = mockk<Resources>()
-        every { Resources.getSystem() } returns resources
-        val configuration = mockk<Configuration>()
-        every { resources.configuration } returns configuration
-        val localeList = mockk<LocaleList>()
-        every { configuration.locales } returns localeList
-        every { localeList[0] } returns locale
+        every { SystemResolver.getSystemLocale() } returns locale
 
         val result = SystemResolver.getSystemFirstDayOfWeek()
 
         assertThat(result).isEqualTo(expectedDayOfWeek)
         verify { SystemResolver.getSystemFirstDayOfWeek() }
+        verify { SystemResolver.getSystemLocale() }
     }
 
     private fun getLocalDatesWithExpectations() = Stream.of(

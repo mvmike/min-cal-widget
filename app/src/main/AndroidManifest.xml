@@ -12,7 +12,8 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="false">
+        android:supportsRtl="false"
+        tools:targetApi="tiramisu">
 
         <receiver
             android:name=".MonthWidget"
@@ -51,12 +52,12 @@
 
         <activity
             android:name=".infrastructure.activity.ConfigurationActivity"
-            android:excludeFromRecents="true"
-            android:exported="false"
+            android:exported="true"
             android:launchMode="singleInstance"
-            android:noHistory="true"
             android:theme="@style/Theme.AppCompat">
             <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
         </activity>
