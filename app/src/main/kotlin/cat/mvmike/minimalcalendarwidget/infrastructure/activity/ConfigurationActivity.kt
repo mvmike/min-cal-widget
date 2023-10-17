@@ -103,7 +103,7 @@ class ConfigurationActivity : AppCompatActivity() {
 
         override fun onDestroyView() {
             super.onDestroyView()
-            preferenceManager.sharedPreferences!!.unregisterOnSharedPreferenceChangeListener(this)
+            preferenceManager.sharedPreferences?.unregisterOnSharedPreferenceChangeListener(this)
         }
 
         private fun fillEntriesAndValues() = enumConfigurationItems().forEach {
