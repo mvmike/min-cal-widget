@@ -13,6 +13,7 @@ import io.mockk.verify
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.CsvSource
 import org.junit.jupiter.params.provider.EnumSource
 import org.junit.jupiter.params.provider.ValueSource
 import java.time.DayOfWeek
@@ -136,6 +137,28 @@ internal class ConfigurationTest : BaseTest() {
         assertThat(result).isEqualTo(colour)
         verifyInstancesColour()
         verify { editor wasNot Called }
+    }
+
+    @ParameterizedTest
+    @CsvSource(
+        "1,false",
+        "5,false",
+        "29,false",
+        "33,false",
+        "34,true",
+        "35,true",
+        "99,true"
+    )
+    fun isFirstDayOfWeekLocalePreferenceEnabled_shouldDependOnSystemSDK(
+        sdkVersion: Int,
+        expectedAvailability: Boolean
+    ) {
+        mockGetRuntimeSDK(sdkVersion)
+
+        val result = isFirstDayOfWeekLocalePreferenceEnabled()
+
+        assertThat(result).isEqualTo(expectedAvailability)
+        verifyGetRuntimeSDK()
     }
 
     @Test

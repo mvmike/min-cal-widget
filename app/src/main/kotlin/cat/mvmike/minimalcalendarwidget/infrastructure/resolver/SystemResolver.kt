@@ -2,10 +2,14 @@
 // See LICENSE for licensing information
 package cat.mvmike.minimalcalendarwidget.infrastructure.resolver
 
+import android.content.res.Resources
 import android.os.Build
+import androidx.core.text.util.LocalePreferences
 import java.time.Clock
+import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.ZoneId
+import java.time.temporal.WeekFields
 
 object SystemResolver {
 
@@ -16,4 +20,20 @@ object SystemResolver {
     fun getSystemLocalDate() = LocalDate.now(Clock.systemDefaultZone())!!
 
     fun getSystemZoneId() = ZoneId.systemDefault()!!
+
+    fun getSystemFirstDayOfWeek() = when (LocalePreferences.getFirstDayOfWeek()) {
+        LocalePreferences.FirstDayOfWeek.MONDAY -> DayOfWeek.MONDAY
+        LocalePreferences.FirstDayOfWeek.TUESDAY -> DayOfWeek.TUESDAY
+        LocalePreferences.FirstDayOfWeek.WEDNESDAY -> DayOfWeek.WEDNESDAY
+        LocalePreferences.FirstDayOfWeek.THURSDAY -> DayOfWeek.THURSDAY
+        LocalePreferences.FirstDayOfWeek.FRIDAY -> DayOfWeek.FRIDAY
+        LocalePreferences.FirstDayOfWeek.SATURDAY -> DayOfWeek.SATURDAY
+        LocalePreferences.FirstDayOfWeek.SUNDAY -> DayOfWeek.SUNDAY
+        else -> getLocaleFirstDayOfWeek()
+    }
+
+    private fun getLocaleFirstDayOfWeek(): DayOfWeek {
+        val systemLocale = Resources.getSystem().configuration.locales[0]
+        return WeekFields.of(systemLocale).firstDayOfWeek
+    }
 }

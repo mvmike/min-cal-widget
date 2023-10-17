@@ -2,6 +2,7 @@
 // See LICENSE for licensing information
 package cat.mvmike.minimalcalendarwidget.infrastructure.activity
 
+import android.annotation.SuppressLint
 import android.appwidget.AppWidgetManager
 import android.content.ActivityNotFoundException
 import android.content.Context
@@ -10,6 +11,7 @@ import android.content.SharedPreferences
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener
 import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -32,6 +34,9 @@ import cat.mvmike.minimalcalendarwidget.domain.configuration.TRANSLATE_KEY
 import cat.mvmike.minimalcalendarwidget.domain.configuration.TRANSLATE_URL
 import cat.mvmike.minimalcalendarwidget.domain.configuration.VERSION_KEY
 import cat.mvmike.minimalcalendarwidget.domain.configuration.clearAllConfiguration
+import cat.mvmike.minimalcalendarwidget.domain.configuration.isFirstDayOfWeekLocalePreferenceEnabled
+import cat.mvmike.minimalcalendarwidget.domain.getDisplayValue
+import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.SystemResolver.getSystemFirstDayOfWeek
 
 class ConfigurationActivity : AppCompatActivity() {
 
@@ -79,6 +84,9 @@ class ConfigurationActivity : AppCompatActivity() {
             setPreferencesFromResource(R.xml.preferences, rootKey)
 
             fillEntriesAndValues()
+            if (isFirstDayOfWeekLocalePreferenceEnabled()) {
+                fillRegionalPreferencesValues()
+            }
             updateCurrentSelection()
             fillAboutSection()
 
@@ -99,42 +107,56 @@ class ConfigurationActivity : AppCompatActivity() {
         }
 
         private fun fillEntriesAndValues() = enumConfigurationItems().forEach {
-            it.asListPreference().apply {
+            it.asListPreference()?.apply {
                 entries = it.getDisplayValues(this@SettingsFragment.requireContext())
                 entryValues = it.getKeys()
                 value = it.getCurrentKey(this@SettingsFragment.requireContext())
             }
         }
 
+        @SuppressLint("InlinedApi")
+        private fun fillRegionalPreferencesValues() =
+            EnumConfigurationItem.FirstDayOfWeek.key.asPreference().let {
+                it?.summary = getSystemFirstDayOfWeek().getDisplayValue(requireContext())
+                it?.setOnPreferenceClickListener {
+                    startActivity(
+                        Intent(Settings.ACTION_REGIONAL_PREFERENCES_SETTINGS)
+                            .addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS)
+                            .addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
+                    )
+                    true
+                }
+            }
+
         private fun fillAboutSection() {
             SOURCE_KEY.asPreference().let {
-                it.summary = SOURCE_URL
-                it.setOnPreferenceClickListener {
+                it?.summary = SOURCE_URL
+                it?.setOnPreferenceClickListener {
                     SOURCE_URL.openInBrowser()
                     true
                 }
             }
             TRANSLATE_KEY.asPreference().let {
-                it.summary = TRANSLATE_URL
-                it.setOnPreferenceClickListener {
+                it?.summary = TRANSLATE_URL
+                it?.setOnPreferenceClickListener {
                     TRANSLATE_URL.openInBrowser()
                     true
                 }
             }
-            VERSION_KEY.asPreference().summary = BuildConfig.VERSION_NAME
+            VERSION_KEY.asPreference()?.summary = BuildConfig.VERSION_NAME
         }
 
         private fun updateCurrentSelection() {
             enumConfigurationItems().forEach {
-                it.asListPreference().summary = it.getCurrentDisplayValue(requireContext())
+                it.asListPreference()?.summary = it.getCurrentDisplayValue(requireContext())
             }
 
             booleanConfigurationItems().forEach {
-                it.asCheckBoxPreference().isChecked = it.get(requireContext())
+                it.asCheckBoxPreference()?.isChecked = it.get(requireContext())
             }
 
             percentageConfigurationItems().forEach {
-                it.asSeekBarPreference().value = it.get(requireContext()).value
+                it.asSeekBarPreference()?.value = it.get(requireContext()).value
             }
         }
 
@@ -157,16 +179,16 @@ class ConfigurationActivity : AppCompatActivity() {
         )
 
         private fun String.asPreference() =
-            preferenceManager.findPreference<Preference>(this) as Preference
+            preferenceManager.findPreference(this) as? Preference
 
         private fun <E> ConfigurationItem<E>.asListPreference() =
-            preferenceManager.findPreference<Preference>(key) as ListPreference
+            preferenceManager.findPreference<Preference>(key) as? ListPreference
 
         private fun <E> ConfigurationItem<E>.asCheckBoxPreference() =
-            preferenceManager.findPreference<Preference>(key) as CheckBoxPreference
+            preferenceManager.findPreference<Preference>(key) as? CheckBoxPreference
 
         private fun <E> ConfigurationItem<E>.asSeekBarPreference() =
-            preferenceManager.findPreference<Preference>(key) as SeekBarPreference
+            preferenceManager.findPreference<Preference>(key) as? SeekBarPreference
 
         private fun String.openInBrowser() = try {
             requireContext().startActivity(

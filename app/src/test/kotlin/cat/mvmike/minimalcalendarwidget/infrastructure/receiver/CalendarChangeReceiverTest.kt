@@ -9,6 +9,7 @@ import io.mockk.confirmVerified
 import io.mockk.every
 import io.mockk.mockkObject
 import io.mockk.verify
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
 
@@ -19,8 +20,9 @@ internal class CalendarChangeReceiverTest : BaseTest() {
     @ParameterizedTest
     @ValueSource(
         strings = [
-            "android.intent.action.TIME_SET",
             "android.intent.action.DATE_CHANGED",
+            "android.intent.action.LOCALE_CHANGED",
+            "android.intent.action.TIME_SET",
             "android.intent.action.TIMEZONE_CHANGED",
             "android.intent.action.PROVIDER_CHANGED"
         ]
@@ -34,6 +36,17 @@ internal class CalendarChangeReceiverTest : BaseTest() {
 
         verifyIntentAction()
         verify { RedrawWidgetUseCase.execute(context) }
+        confirmVerified(RedrawWidgetUseCase)
+    }
+
+    @Test
+    fun shouldDoNothingWhenReceivingNullIntentAction() {
+        mockIntent(null)
+        mockkObject(RedrawWidgetUseCase)
+
+        calendarChangeReceiver.onReceive(context, intent)
+
+        verifyIntentAction()
         confirmVerified(RedrawWidgetUseCase)
     }
 

@@ -115,7 +115,13 @@ internal class RedrawWidgetUseCaseTest : BaseTest() {
         mockWidgetTextSize(testProperties.textSize)
         mockWidgetTheme(testProperties.widgetTheme)
         mockWidgetTransparency(testProperties.transparency)
-        mockFirstDayOfWeek(testProperties.firstDayOfWeek)
+
+        mockGetRuntimeSDK(testProperties.runtimeSDK)
+        if (testProperties.shouldHaveFirstWeekLocalPreferenceEnabled) {
+            mockGetSystemFirstDayOfWeek(testProperties.firstDayOfWeek)
+        } else {
+            mockFirstDayOfWeek(testProperties.firstDayOfWeek)
+        }
 
         justRun {
             LayoutService.draw(
@@ -169,7 +175,11 @@ internal class RedrawWidgetUseCaseTest : BaseTest() {
         verifyWidgetTextSize()
         verifyWidgetTheme()
         verifyWidgetTransparency()
-        verifyFirstDayOfWeek()
+        verifyGetRuntimeSDK()
+        when (testProperties.shouldHaveFirstWeekLocalPreferenceEnabled) {
+            true -> verifyGetSystemFirstDayOfWeek()
+            else -> verifyFirstDayOfWeek()
+        }
         verify { context.packageName }
         verify { ActionableView.ConfigurationIcon.addListener(context, any()) }
         verify { ActionableView.MonthAndYearHeader.addListener(context, any()) }
@@ -222,10 +232,10 @@ internal class RedrawWidgetUseCaseTest : BaseTest() {
     }
 
     private fun getWidgetIdsWithDrawingConfigurations() = Stream.of(
-        RedrawWidgetUseCaseTestProperties(1, TextSize(32), Theme.DARK, Transparency(20), DayOfWeek.MONDAY),
-        RedrawWidgetUseCaseTestProperties(5, TextSize(100), Theme.LIGHT, Transparency(5), DayOfWeek.SUNDAY),
-        RedrawWidgetUseCaseTestProperties(7, TextSize(0), Theme.DARK, Transparency(100), DayOfWeek.THURSDAY),
-        RedrawWidgetUseCaseTestProperties(14, TextSize(50), Theme.DARK, Transparency(32), DayOfWeek.MONDAY)
+        RedrawWidgetUseCaseTestProperties(1, TextSize(32), Theme.DARK, Transparency(20), 33, DayOfWeek.MONDAY, false),
+        RedrawWidgetUseCaseTestProperties(5, TextSize(100), Theme.LIGHT, Transparency(5), 33, DayOfWeek.SUNDAY, false),
+        RedrawWidgetUseCaseTestProperties(7, TextSize(0), Theme.DARK, Transparency(100), 34, DayOfWeek.THURSDAY, true),
+        RedrawWidgetUseCaseTestProperties(14, TextSize(50), Theme.DARK, Transparency(32), 35, DayOfWeek.MONDAY, true)
     )
 
     internal data class RedrawWidgetUseCaseTestProperties(
@@ -233,6 +243,8 @@ internal class RedrawWidgetUseCaseTest : BaseTest() {
         val textSize: TextSize,
         val widgetTheme: Theme,
         val transparency: Transparency,
-        val firstDayOfWeek: DayOfWeek
+        val runtimeSDK: Int,
+        val firstDayOfWeek: DayOfWeek,
+        val shouldHaveFirstWeekLocalPreferenceEnabled: Boolean
     )
 }

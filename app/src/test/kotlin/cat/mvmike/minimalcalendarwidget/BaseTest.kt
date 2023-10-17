@@ -124,6 +124,14 @@ open class BaseTest {
         SystemResolver.getSystemZoneId()
     }
 
+    protected fun mockGetSystemFirstDayOfWeek(dayOfWeek: DayOfWeek) = every {
+        SystemResolver.getSystemFirstDayOfWeek()
+    } returns dayOfWeek
+
+    protected fun verifyGetSystemFirstDayOfWeek() = verify {
+        SystemResolver.getSystemFirstDayOfWeek()
+    }
+
     protected fun mockIsReadCalendarPermitted(isPermitted: Boolean) = every {
         CalendarResolver.isReadCalendarPermitted(context)
     } returns isPermitted
@@ -358,7 +366,7 @@ open class BaseTest {
 
     // INTENT
 
-    protected fun mockIntent(action: String) {
+    protected fun mockIntent(action: String?) {
         every { intent.action } returns action
         every { intent.addFlags(any()) } returns intent
     }

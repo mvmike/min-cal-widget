@@ -14,8 +14,10 @@ import cat.mvmike.minimalcalendarwidget.domain.component.LayoutService
 import cat.mvmike.minimalcalendarwidget.domain.component.MonthAndYearHeaderService
 import cat.mvmike.minimalcalendarwidget.domain.configuration.EnumConfigurationItem
 import cat.mvmike.minimalcalendarwidget.domain.configuration.PercentageConfigurationItem
+import cat.mvmike.minimalcalendarwidget.domain.configuration.isFirstDayOfWeekLocalePreferenceEnabled
 import cat.mvmike.minimalcalendarwidget.domain.intent.ActionableView.ConfigurationIcon
 import cat.mvmike.minimalcalendarwidget.domain.intent.ActionableView.MonthAndYearHeader
+import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.SystemResolver.getSystemFirstDayOfWeek
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -66,7 +68,10 @@ object RedrawWidgetUseCase {
         val textSize = PercentageConfigurationItem.WidgetTextSize.get(context)
         val widgetTheme = EnumConfigurationItem.WidgetTheme.get(context)
         val transparency = PercentageConfigurationItem.WidgetTransparency.get(context)
-        val firstDayOfWeek = EnumConfigurationItem.FirstDayOfWeek.get(context)
+        val firstDayOfWeek = when {
+            isFirstDayOfWeekLocalePreferenceEnabled() -> getSystemFirstDayOfWeek()
+            else -> EnumConfigurationItem.FirstDayOfWeek.get(context)
+        }
 
         LayoutService.draw(
             context = context,

@@ -3,6 +3,7 @@
 package cat.mvmike.minimalcalendarwidget.domain.configuration
 
 import android.content.Context
+import android.os.Build
 import cat.mvmike.minimalcalendarwidget.domain.Percentage
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Calendar
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Colour
@@ -18,6 +19,7 @@ import cat.mvmike.minimalcalendarwidget.domain.configuration.item.getSymbolSetDi
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.getThemeDisplayValues
 import cat.mvmike.minimalcalendarwidget.domain.getDayOfWeekDisplayValues
 import cat.mvmike.minimalcalendarwidget.domain.getDisplayValue
+import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.SystemResolver
 import java.lang.Enum.valueOf
 import java.time.DayOfWeek
 
@@ -168,6 +170,9 @@ sealed class PercentageConfigurationItem<E : Percentage>(
         )
     }
 }
+
+fun isFirstDayOfWeekLocalePreferenceEnabled() =
+    SystemResolver.getRuntimeSDK() >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE
 
 fun clearAllConfiguration(context: Context) = getConfiguration(context).edit().clear().apply()
 
