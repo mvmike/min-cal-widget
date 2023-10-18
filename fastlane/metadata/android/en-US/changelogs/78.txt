@@ -1,0 +1,6 @@
+v2.13.0
+- use system's first day of week on Android >= 14
+- use per app language locale preference on Android >= 13
+- settings screen to follow system theme
+- added italian language
+- technical maintenance
