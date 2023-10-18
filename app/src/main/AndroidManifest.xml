@@ -53,8 +53,7 @@
         <activity
             android:name=".infrastructure.activity.ConfigurationActivity"
             android:exported="true"
-            android:launchMode="singleInstance"
-            android:theme="@style/Theme.AppCompat">
+            android:launchMode="singleInstance">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

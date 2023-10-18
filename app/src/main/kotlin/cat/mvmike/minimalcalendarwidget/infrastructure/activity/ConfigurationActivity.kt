@@ -40,6 +40,7 @@ import cat.mvmike.minimalcalendarwidget.domain.configuration.isPerAppLanguagePre
 import cat.mvmike.minimalcalendarwidget.domain.getDisplayValue
 import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.SystemResolver
 import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.SystemResolver.getSystemFirstDayOfWeek
+import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.SystemResolver.isDarkThemeEnabled
 
 class ConfigurationActivity : AppCompatActivity() {
 
@@ -51,6 +52,13 @@ class ConfigurationActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(
+            when (applicationContext.isDarkThemeEnabled()) {
+                true -> androidx.appcompat.R.style.Theme_AppCompat
+                false -> androidx.appcompat.R.style.Theme_AppCompat_DayNight
+            }
+        )
+
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.configuration)

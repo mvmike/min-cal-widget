@@ -2,6 +2,9 @@
 // See LICENSE for licensing information
 package cat.mvmike.minimalcalendarwidget.infrastructure.resolver
 
+import android.content.Context
+import android.content.res.Configuration
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import android.content.res.Resources
 import android.os.Build
 import androidx.core.text.util.LocalePreferences
@@ -33,4 +36,8 @@ object SystemResolver {
         LocalePreferences.FirstDayOfWeek.SUNDAY -> DayOfWeek.SUNDAY
         else -> WeekFields.of(getSystemLocale()).firstDayOfWeek
     }
+
+    fun Context.isDarkThemeEnabled() =
+        resources.configuration.uiMode and
+            Configuration.UI_MODE_NIGHT_MASK == UI_MODE_NIGHT_YES
 }
