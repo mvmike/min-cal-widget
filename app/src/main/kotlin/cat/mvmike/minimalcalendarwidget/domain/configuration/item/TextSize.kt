@@ -25,11 +25,7 @@ data class TextSize(
     val relativeValue: Float = (
         relativeValueRange.start +
             ((relativeValueRange.endInclusive - relativeValueRange.start) / PERCENTAGE_RANGE.last) * percentage
-    ).rounded(3)
+    ).toBigDecimal()
+        .setScale(3, RoundingMode.HALF_EVEN)
+        .toFloat()
 }
-
-private fun Float.rounded(
-    decimalPlaces: Int = 3
-) = toBigDecimal()
-    .setScale(decimalPlaces, RoundingMode.HALF_EVEN)
-    .toFloat()
