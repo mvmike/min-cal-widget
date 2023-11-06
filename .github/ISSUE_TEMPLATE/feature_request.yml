@@ -1,0 +1,31 @@
+name: Feature request
+description: File a new feature request
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for helping to make mincal better by suggesting a feature. :slightly_smiling_face:
+  - type: checkboxes
+    attributes:
+      label: Checklist
+      options:
+        - label: "I made sure that there are *no existing issues* - [open](https://github.com/mvmike/min-cal-widget/issues) or [closed](https://github.com/mvmike/min-cal-widget/issues?q=is%3Aissue+is%3Aclosed) - which I could contribute my information to."
+          required: true
+        - label: "I have taken the time to fill in all the required details. I understand that the feature request could be dismissed otherwise."
+          required: true
+        - label: "This issue contains only one feature request."
+          required: true
+  - type: textarea
+    attributes:
+      label: Describe the feature
+      description: A clear and concise description of the feature you'd like to have implemented.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Additional context and screenshots
+      description: |
+        Add any other context like screenshots/drawings about the new feature here.
+    validations:
+      required: false
