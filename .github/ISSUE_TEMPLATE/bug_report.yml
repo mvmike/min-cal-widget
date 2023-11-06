@@ -14,7 +14,7 @@ body:
           required: true
         - label: "I made sure that there are *no existing issues* - [open](https://github.com/mvmike/min-cal-widget/issues) or [closed](https://github.com/mvmike/min-cal-widget/issues?q=is%3Aissue+is%3Aclosed) - which I could contribute my information to."
           required: true
-        - label: "I will take the time to fill in all the required details. I understand that the bug report could be dismissed otherwise."
+        - label: "I have taken the time to fill in all the required details. I understand that the bug report could be dismissed otherwise."
           required: true
         - label: "This issue contains only one bug."
           required: true
