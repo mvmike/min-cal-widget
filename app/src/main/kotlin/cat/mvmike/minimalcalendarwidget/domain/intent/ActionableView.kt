@@ -21,28 +21,28 @@ sealed class ActionableView(
 ) {
 
     data object ConfigurationIcon : ActionableView(
-            viewId = R.id.configuration_icon,
-            code = 90,
-            action = "$MINCAL_INTENT_ACTION.configuration_icon_click"
-        )
+        viewId = R.id.configuration_icon,
+        code = 90,
+        action = "$MINCAL_INTENT_ACTION.configuration_icon_click"
+    )
 
     data object MonthAndYearHeader : ActionableView(
-            viewId = R.id.month_and_year_header,
-            code = 91,
-            action = "$MINCAL_INTENT_ACTION.month_and_year_header_click"
-        )
+        viewId = R.id.month_and_year_header,
+        code = 91,
+        action = "$MINCAL_INTENT_ACTION.month_and_year_header_click"
+    )
 
     data object RowHeader : ActionableView(
-            viewId = R.id.row_header,
-            code = 92,
-            action = "$MINCAL_INTENT_ACTION.row_header_click"
-        )
+        viewId = R.id.row_header,
+        code = 92,
+        action = "$MINCAL_INTENT_ACTION.row_header_click"
+    )
 
     data object CellDay : ActionableView(
-            viewId = R.id.cell_day,
-            code = 93,
-            action = "$MINCAL_INTENT_ACTION.cell_day_click"
-        ) {
+        viewId = R.id.cell_day,
+        code = 93,
+        action = "$MINCAL_INTENT_ACTION.cell_day_click"
+    ) {
 
         private const val CELL_DAY_INTENT_EXTRA_NAME = "startOfDayInEpochSeconds"
 
