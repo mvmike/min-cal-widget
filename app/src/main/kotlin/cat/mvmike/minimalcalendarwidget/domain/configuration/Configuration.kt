@@ -55,16 +55,16 @@ sealed class BooleanConfigurationItem(
         getConfiguration(context).getBoolean(key, defaultValue)
 
     data object ShowDeclinedEvents : BooleanConfigurationItem(
-            key = "SHOW_DECLINED_EVENTS"
-        )
+        key = "SHOW_DECLINED_EVENTS"
+    )
 
     data object FocusOnCurrentWeek : BooleanConfigurationItem(
-            key = "FOCUS_ON_CURRENT_WEEK"
-        )
+        key = "FOCUS_ON_CURRENT_WEEK"
+    )
 
     data object OpenCalendarOnClickedDay : BooleanConfigurationItem(
-            key = "OPEN_CALENDAR_ON_CLICKED_DAY"
-        )
+        key = "OPEN_CALENDAR_ON_CLICKED_DAY"
+    )
 }
 
 sealed class EnumConfigurationItem<E : Enum<E>>(
@@ -91,50 +91,50 @@ sealed class EnumConfigurationItem<E : Enum<E>>(
     abstract fun getCurrentDisplayValue(context: Context): String
 
     data object WidgetTheme : EnumConfigurationItem<Theme>(
-            key = "WIDGET_THEME",
-            enumClass = Theme::class.java,
-            defaultValue = Theme.DARK
-        ) {
+        key = "WIDGET_THEME",
+        enumClass = Theme::class.java,
+        defaultValue = Theme.DARK
+    ) {
         override fun getDisplayValues(context: Context) = getThemeDisplayValues(context)
 
         override fun getCurrentDisplayValue(context: Context) = get(context).getDisplayValue(context)
     }
 
     data object WidgetCalendar : EnumConfigurationItem<Calendar>(
-            key = "WIDGET_CALENDAR",
-            enumClass = Calendar::class.java,
-            defaultValue = Calendar.GREGORIAN
-        ) {
+        key = "WIDGET_CALENDAR",
+        enumClass = Calendar::class.java,
+        defaultValue = Calendar.GREGORIAN
+    ) {
         override fun getDisplayValues(context: Context) = getCalendarDisplayValues(context)
 
         override fun getCurrentDisplayValue(context: Context) = get(context).getDisplayValue(context)
     }
 
     data object FirstDayOfWeek : EnumConfigurationItem<DayOfWeek>(
-            key = "FIRST_DAY_OF_WEEK",
-            enumClass = DayOfWeek::class.java,
-            defaultValue = DayOfWeek.MONDAY
-        ) {
+        key = "FIRST_DAY_OF_WEEK",
+        enumClass = DayOfWeek::class.java,
+        defaultValue = DayOfWeek.MONDAY
+    ) {
         override fun getDisplayValues(context: Context) = getDayOfWeekDisplayValues(context)
 
         override fun getCurrentDisplayValue(context: Context) = get(context).getDisplayValue(context)
     }
 
     data object InstancesSymbolSet : EnumConfigurationItem<SymbolSet>(
-            key = "INSTANCES_SYMBOL_SET",
-            enumClass = SymbolSet::class.java,
-            defaultValue = SymbolSet.MINIMAL
-        ) {
+        key = "INSTANCES_SYMBOL_SET",
+        enumClass = SymbolSet::class.java,
+        defaultValue = SymbolSet.MINIMAL
+    ) {
         override fun getDisplayValues(context: Context) = getSymbolSetDisplayValues(context)
 
         override fun getCurrentDisplayValue(context: Context) = get(context).getDisplayValue(context)
     }
 
     data object InstancesColour : EnumConfigurationItem<Colour>(
-            key = "INSTANCES_COLOUR",
-            enumClass = Colour::class.java,
-            defaultValue = getAvailableColors().first()
-        ) {
+        key = "INSTANCES_COLOUR",
+        enumClass = Colour::class.java,
+        defaultValue = getAvailableColors().first()
+    ) {
         override fun getEnumConstants() = getAvailableColors().toTypedArray()
 
         override fun getDisplayValues(context: Context) = getColourDisplayValues(context)
@@ -155,18 +155,18 @@ sealed class PercentageConfigurationItem<E : Percentage>(
     )
 
     data object WidgetTransparency : PercentageConfigurationItem<Transparency>(
-            key = "WIDGET_TRANSPARENCY",
-            defaultValue = Transparency(20)
-        ) {
+        key = "WIDGET_TRANSPARENCY",
+        defaultValue = Transparency(20)
+    ) {
         override fun get(context: Context) = Transparency(
             getConfiguration(context).getInt(key, defaultValue.percentage)
         )
     }
 
     data object WidgetTextSize : PercentageConfigurationItem<TextSize>(
-            key = "WIDGET_TEXT_SIZE",
-            defaultValue = TextSize(40)
-        ) {
+        key = "WIDGET_TEXT_SIZE",
+        defaultValue = TextSize(40)
+    ) {
         override fun get(context: Context) = TextSize(
             getConfiguration(context).getInt(key, defaultValue.percentage)
         )
