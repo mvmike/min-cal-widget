@@ -17,7 +17,6 @@ import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 import org.junit.jupiter.params.provider.ValueSource
 import java.time.Instant.ofEpochSecond
-import java.util.stream.Stream
 
 internal class ProcessIntentUseCaseTest : BaseTest() {
 
@@ -109,7 +108,7 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
     }
 
     @ParameterizedTest
-    @MethodSource("getMincalCalendarIntentActionAndExpectedExtraInstant")
+    @MethodSource("getMincalCalendarIntentActionAndExpectedExtraInstantAndStartTimeInstant")
     fun shouldLaunchCalendarActivityOnTodayAndRedrawWidget(action: String) {
         mockIntent(action)
         mockIsReadCalendarPermitted(true)
@@ -133,7 +132,7 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
     }
 
     @ParameterizedTest
-    @MethodSource("getMincalCalendarIntentActionAndExpectedExtraInstant")
+    @MethodSource("getMincalCalendarIntentActionAndExpectedExtraInstantAndStartTimeInstant")
     fun shouldLaunchCalendarActivityOnIntentExtraAndRedrawWidget_whenIntentAndPermissionsGiven(
         action: String,
         extraInstantEpochSeconds: Long,
@@ -165,7 +164,7 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
         verify { RedrawWidgetUseCase.execute(context) }
     }
 
-    private fun getMincalCalendarIntentActionAndExpectedExtraInstant() = Stream.of(
+    private fun getMincalCalendarIntentActionAndExpectedExtraInstantAndStartTimeInstant() = listOf(
         Arguments.of("action.mincal.cell_day_click.1675886154", 1675886154, 1675863134),
         Arguments.of("action.mincal.cell_day_click.1671249586", 1671249586, 1671283934),
         Arguments.of("action.mincal.cell_day_click.1624398458", 1624398458, 1624455134),
