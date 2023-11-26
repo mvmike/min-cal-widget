@@ -8,7 +8,6 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 import java.time.DayOfWeek
-import java.util.stream.Stream
 
 // MAIN
 
@@ -70,7 +69,7 @@ internal class ThemeTest : BaseTest() {
         assertThat(result).isEqualTo(expectedResult)
     }
 
-    private fun getCombinationOfThemesAndDaysOfWeekWithExpectedCellHeader(): Stream<Arguments> = Stream.of(
+    private fun getCombinationOfThemesAndDaysOfWeekWithExpectedCellHeader() = listOf(
         Arguments.of(
             Theme.DARK,
             DayOfWeek.MONDAY,
@@ -213,7 +212,7 @@ internal class ThemeTest : BaseTest() {
         )
     )
 
-    private fun getCombinationOfThemesAndDayStatusesWithExpectedCellDay(): Stream<Arguments> = Stream.of(
+    private fun getCombinationOfThemesAndDayStatusesWithExpectedCellDay() = listOf(
         Arguments.of(
             Theme.DARK,
             true,

@@ -8,7 +8,6 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.MethodSource
 import java.time.DayOfWeek
 import java.time.LocalDate
-import java.util.stream.Stream
 
 internal class DayTest : BaseTest() {
 
@@ -72,7 +71,7 @@ internal class DayTest : BaseTest() {
         assertThat(result).isEqualTo(dayProperties.expectedIsWeekend)
     }
 
-    private fun getLocalDatesWithExpectations(): Stream<DayTestProperties> = Stream.of(
+    private fun getLocalDatesWithExpectations() = listOf(
         DayTestProperties(
             localDate = LocalDate.of(2018, 1, 1),
             expectedDayOfMonthString = "1",

@@ -8,7 +8,6 @@ import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.MethodSource
 import org.junit.jupiter.params.provider.ValueSource
-import java.util.stream.Stream
 
 internal class TextSizeTest : BaseTest() {
 
@@ -30,7 +29,7 @@ internal class TextSizeTest : BaseTest() {
         assertThat(result.relativeValue).isEqualTo(textSizeProperties.relativeValue)
     }
 
-    private fun getTextSizeWithAlphaLimitsAndExpectedOutputs(): Stream<TextSizeTestProperties> = Stream.of(
+    private fun getTextSizeWithAlphaLimitsAndExpectedOutputs() = listOf(
         TextSizeTestProperties(0, 3, 1, 0.500f),
         TextSizeTestProperties(1, 3, 1, 0.513f),
         TextSizeTestProperties(5, 3, 1, 0.565f),

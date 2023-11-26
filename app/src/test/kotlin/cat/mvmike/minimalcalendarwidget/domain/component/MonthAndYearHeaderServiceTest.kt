@@ -19,7 +19,6 @@ import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 import java.time.Instant
 import java.time.Month
-import java.util.stream.Stream
 
 internal class MonthAndYearHeaderServiceTest : BaseTest() {
 
@@ -74,7 +73,7 @@ internal class MonthAndYearHeaderServiceTest : BaseTest() {
         confirmVerified(widgetRv)
     }
 
-    private fun getInstancesWithTextSizeAndThemeAndCalendarWithExpectedMonthAndYear() = Stream.of(
+    private fun getInstancesWithTextSizeAndThemeAndCalendarWithExpectedMonthAndYear() = listOf(
         Arguments.of("2018-01-26".toInstant(), TextSize(40), Theme.DARK, Calendar.GREGORIAN, "January", "2018"),
         Arguments.of("2018-01-26".toInstant(), TextSize(15), Theme.DARK, Calendar.GREGORIAN, "Jan", "2018"),
         Arguments.of("2005-02-19".toInstant(), TextSize(40), Theme.DARK, Calendar.HOLOCENE, "February", "12005"),
@@ -99,7 +98,7 @@ internal class MonthAndYearHeaderServiceTest : BaseTest() {
         Arguments.of("1000-11-12".toInstant(), TextSize(15), Theme.LIGHT, Calendar.GREGORIAN, "Nov", "1000"),
         Arguments.of("1994-12-13".toInstant(), TextSize(40), Theme.LIGHT, Calendar.GREGORIAN, "December", "1994"),
         Arguments.of("1994-12-13".toInstant(), TextSize(15), Theme.LIGHT, Calendar.GREGORIAN, "Dec", "1994")
-    )!!
+    )
 
     private fun Month.getExpectedResourceId() =
         when (this) {

@@ -35,7 +35,6 @@ import java.time.LocalDateTime
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import java.util.Random
-import java.util.stream.Stream
 
 internal class DaysServiceTest : BaseTest() {
 
@@ -50,7 +49,7 @@ internal class DaysServiceTest : BaseTest() {
     fun draw_shouldReturnSafeDateSpanOfSystemTimeZoneInstances(testProperties: DrawDaysUseCaseTestProperties) {
         val instancesSymbolRemoteView = when (testProperties.shouldIncludeInstancesSymbolRemoteView) {
             true -> dayRv
-            false -> null
+            else -> null
         }
 
         mockkObject(ActionableView.CellDay)
@@ -410,7 +409,7 @@ internal class DaysServiceTest : BaseTest() {
         )
     }
 
-    private fun getDaysDrawInputVariablesAndExpectedOutput() = Stream.of(
+    private fun getDaysDrawInputVariablesAndExpectedOutput() = listOf(
         DrawDaysUseCaseTestProperties(
             systemLocalDate = systemLocalDate,
             systemInstances = getSystemInstances(),
@@ -424,7 +423,7 @@ internal class DaysServiceTest : BaseTest() {
             showDeclinedEvents = false,
             shouldIncludeInstancesSymbolRemoteView = true,
             expectedFirstDay = of(2018, 11, 26),
-            expectedDayProperties = Stream.of(
+            expectedDayProperties = listOf(
                 DrawDaysUseCaseTestDayProperties("2018-11-26", "26", '·', DayOfWeek.MONDAY),
                 DrawDaysUseCaseTestDayProperties("2018-11-27", "27", ' ', DayOfWeek.TUESDAY),
                 DrawDaysUseCaseTestDayProperties("2018-11-28", "28", '·', DayOfWeek.WEDNESDAY),
@@ -482,7 +481,7 @@ internal class DaysServiceTest : BaseTest() {
             showDeclinedEvents = false,
             shouldIncludeInstancesSymbolRemoteView = true,
             expectedFirstDay = of(2018, 11, 25),
-            expectedDayProperties = Stream.of(
+            expectedDayProperties = listOf(
                 DrawDaysUseCaseTestDayProperties("2018-11-25", "25", ' ', DayOfWeek.SUNDAY),
                 DrawDaysUseCaseTestDayProperties("2018-11-26", "26", '☱', DayOfWeek.MONDAY),
                 DrawDaysUseCaseTestDayProperties("2018-11-27", "27", ' ', DayOfWeek.TUESDAY),
@@ -540,7 +539,7 @@ internal class DaysServiceTest : BaseTest() {
             showDeclinedEvents = true,
             shouldIncludeInstancesSymbolRemoteView = false,
             expectedFirstDay = of(2018, 11, 22),
-            expectedDayProperties = Stream.of(
+            expectedDayProperties = listOf(
                 DrawDaysUseCaseTestDayProperties("2018-11-22", "22", ' ', DayOfWeek.THURSDAY),
                 DrawDaysUseCaseTestDayProperties("2018-11-23", "23", ' ', DayOfWeek.FRIDAY),
                 DrawDaysUseCaseTestDayProperties("2018-11-24", "24", ' ', DayOfWeek.SATURDAY),
@@ -598,7 +597,7 @@ internal class DaysServiceTest : BaseTest() {
             showDeclinedEvents = true,
             shouldIncludeInstancesSymbolRemoteView = false,
             expectedFirstDay = of(2019, 11, 25),
-            expectedDayProperties = Stream.of(
+            expectedDayProperties = listOf(
                 DrawDaysUseCaseTestDayProperties("2019-11-25", "25", ' ', DayOfWeek.MONDAY),
                 DrawDaysUseCaseTestDayProperties("2019-11-26", "26", ' ', DayOfWeek.TUESDAY),
                 DrawDaysUseCaseTestDayProperties("2019-11-27", "27", ' ', DayOfWeek.WEDNESDAY),
@@ -645,7 +644,7 @@ internal class DaysServiceTest : BaseTest() {
         )
     )
 
-    private fun getSystemLocalDateAndFirstDayOfWeekWithExpectedCurrentWeekFocusedInitialLocalDate() = Stream.of(
+    private fun getSystemLocalDateAndFirstDayOfWeekWithExpectedCurrentWeekFocusedInitialLocalDate() = listOf(
         Arguments.of(of(2022, 2, 24), DayOfWeek.MONDAY, of(2022, 2, 14)),
         Arguments.of(of(2022, 2, 27), DayOfWeek.MONDAY, of(2022, 2, 14)),
         Arguments.of(of(2022, 2, 28), DayOfWeek.MONDAY, of(2022, 2, 21)),
@@ -659,7 +658,7 @@ internal class DaysServiceTest : BaseTest() {
         Arguments.of(of(2022, 2, 27), DayOfWeek.SUNDAY, of(2022, 2, 20))
     )
 
-    private fun getSystemLocalDateAndFirstDayOfWeekWithExpectedNaturalMonthInitialLocalDate() = Stream.of(
+    private fun getSystemLocalDateAndFirstDayOfWeekWithExpectedNaturalMonthInitialLocalDate() = listOf(
         Arguments.of(of(2018, 1, 26), DayOfWeek.MONDAY, of(2018, 1, 1)),
         Arguments.of(of(2018, 1, 26), DayOfWeek.TUESDAY, of(2017, 12, 26)),
         Arguments.of(of(2018, 1, 26), DayOfWeek.WEDNESDAY, of(2017, 12, 27)),
@@ -682,7 +681,7 @@ internal class DaysServiceTest : BaseTest() {
         Arguments.of(of(2021, 3, 13), DayOfWeek.MONDAY, of(2021, 3, 1))
     )
 
-    private fun getLocalDateAndIncludeDeclinedEventsWithExpectedNumberOfInstances() = Stream.of(
+    private fun getLocalDateAndIncludeDeclinedEventsWithExpectedNumberOfInstances() = listOf(
         Arguments.of(of(2018, 11, 26), false, 1),
         Arguments.of(of(2018, 11, 27), false, 0),
         Arguments.of(of(2018, 11, 28), false, 1),
@@ -782,7 +781,7 @@ internal class DaysServiceTest : BaseTest() {
         val showDeclinedEvents: Boolean,
         val shouldIncludeInstancesSymbolRemoteView: Boolean,
         val expectedFirstDay: LocalDate,
-        val expectedDayProperties: Stream<DrawDaysUseCaseTestDayProperties>
+        val expectedDayProperties: List<DrawDaysUseCaseTestDayProperties>
     )
 
     internal data class DrawDaysUseCaseTestDayProperties(

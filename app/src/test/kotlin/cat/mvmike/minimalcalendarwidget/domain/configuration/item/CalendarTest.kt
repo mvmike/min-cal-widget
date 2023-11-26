@@ -8,7 +8,6 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 import java.time.Instant
-import java.util.stream.Stream
 
 internal class CalendarTest : BaseTest() {
 
@@ -22,7 +21,7 @@ internal class CalendarTest : BaseTest() {
         assertThat(calendar.getYear(instant, zoneId)).isEqualTo(expectedYear)
     }
 
-    private fun getSpreadCalendarsAndDatesWithExpectedText() = Stream.of(
+    private fun getSpreadCalendarsAndDatesWithExpectedText() = listOf(
         Arguments.of(Calendar.GREGORIAN, "2018-01-26".toInstant(), "2018"),
         Arguments.of(Calendar.HOLOCENE, "2018-01-26".toInstant(), "12018"),
         Arguments.of(Calendar.HOLOCENE, "2005-02-19".toInstant(), "12005"),
@@ -47,5 +46,5 @@ internal class CalendarTest : BaseTest() {
         Arguments.of(Calendar.GREGORIAN, "1000-11-12".toInstant(), "1000"),
         Arguments.of(Calendar.GREGORIAN, "1994-12-13".toInstant(), "1994"),
         Arguments.of(Calendar.GREGORIAN, "1994-12-13".toInstant(), "1994")
-    )!!
+    )
 }

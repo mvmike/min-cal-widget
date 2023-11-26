@@ -16,7 +16,6 @@ import io.mockk.verify
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
-import java.util.stream.Stream
 
 private const val DARK_THEME_MAIN_LAYOUT = 2131034143
 private const val LIGHT_THEME_MAIN_LAYOUT = 2131034144
@@ -53,7 +52,7 @@ internal class LayoutServiceTest : BaseTest() {
         confirmVerified(widgetRv)
     }
 
-    private fun getCombinationOfThemesAndTransparencyLevels() = Stream.of(
+    private fun getCombinationOfThemesAndTransparencyLevels() = listOf(
         Arguments.of(Theme.DARK, Transparency(0), DARK_THEME_MAIN_LAYOUT),
         Arguments.of(Theme.DARK, Transparency(1), DARK_THEME_MAIN_LAYOUT),
         Arguments.of(Theme.DARK, Transparency(20), DARK_THEME_MAIN_LAYOUT),
@@ -68,5 +67,5 @@ internal class LayoutServiceTest : BaseTest() {
         Arguments.of(Theme.LIGHT, Transparency(98), LIGHT_THEME_MAIN_LAYOUT),
         Arguments.of(Theme.LIGHT, Transparency(99), LIGHT_THEME_MAIN_LAYOUT),
         Arguments.of(Theme.LIGHT, Transparency(100), LIGHT_THEME_MAIN_LAYOUT)
-    )!!
+    )
 }

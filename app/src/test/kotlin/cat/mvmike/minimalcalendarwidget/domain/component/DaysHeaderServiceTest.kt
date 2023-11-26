@@ -29,7 +29,6 @@ import java.time.DayOfWeek.SUNDAY
 import java.time.DayOfWeek.THURSDAY
 import java.time.DayOfWeek.TUESDAY
 import java.time.DayOfWeek.WEDNESDAY
-import java.util.stream.Stream
 
 internal class DaysHeaderServiceTest : BaseTest() {
 
@@ -88,7 +87,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
         confirmVerified(widgetRv, daysHeaderRowRv)
     }
 
-    private fun getStartWeekDayAndThemeAndTextSizeWithExpectedOutput() = Stream.of(
+    private fun getStartWeekDayAndThemeAndTextSizeWithExpectedOutput() = listOf(
         Arguments.of(
             MONDAY,
             Theme.DARK,
@@ -509,7 +508,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
                 DayHeaderTestProperties(SATURDAY, "S")
             )
         )
-    )!!
+    )
 
     private fun DayOfWeek.getExpectedResourceIdAndTranslation() =
         when (this) {

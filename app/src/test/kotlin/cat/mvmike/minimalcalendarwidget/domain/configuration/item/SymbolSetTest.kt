@@ -8,7 +8,6 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.EnumSource
 import org.junit.jupiter.params.provider.MethodSource
-import java.util.stream.Stream
 
 internal class SymbolSetTest : BaseTest() {
 
@@ -28,7 +27,7 @@ internal class SymbolSetTest : BaseTest() {
         assertThat(symbolSet.get(numberOfInstances)).isEqualTo(expectedCharacter)
     }
 
-    private fun getSymbolSetAndExpectedCharacter(): Stream<Arguments> = Stream.of(
+    private fun getSymbolSetAndExpectedCharacter() = listOf(
         Arguments.of(SymbolSet.MINIMAL, 1, '·'),
         Arguments.of(SymbolSet.MINIMAL, 6, '◈'),
         Arguments.of(SymbolSet.MINIMAL, 7, '◈'),

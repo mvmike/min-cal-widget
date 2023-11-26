@@ -28,7 +28,6 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.MethodSource
 import java.time.DayOfWeek
 import java.util.concurrent.TimeoutException
-import java.util.stream.Stream
 import kotlin.system.measureTimeMillis
 
 internal class RedrawWidgetUseCaseTest : BaseTest() {
@@ -231,7 +230,7 @@ internal class RedrawWidgetUseCaseTest : BaseTest() {
         )
     }
 
-    private fun getWidgetIdsWithDrawingConfigurations() = Stream.of(
+    private fun getWidgetIdsWithDrawingConfigurations() = listOf(
         RedrawWidgetUseCaseTestProperties(1, TextSize(32), Theme.DARK, Transparency(20), 33, DayOfWeek.MONDAY, false),
         RedrawWidgetUseCaseTestProperties(5, TextSize(100), Theme.LIGHT, Transparency(5), 33, DayOfWeek.SUNDAY, false),
         RedrawWidgetUseCaseTestProperties(7, TextSize(0), Theme.DARK, Transparency(100), 34, DayOfWeek.THURSDAY, true),

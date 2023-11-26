@@ -8,7 +8,6 @@ import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.MethodSource
 import org.junit.jupiter.params.provider.ValueSource
-import java.util.stream.Stream
 
 internal class TransparencyTest : BaseTest() {
 
@@ -38,7 +37,7 @@ internal class TransparencyTest : BaseTest() {
         assertThat(result).isEqualTo(transparencyProperties.expectedAlphaInHex)
     }
 
-    private fun getTransparencyWithAlphaLimitsAndExpectedOutputs(): Stream<TransparencyTestProperties> = Stream.of(
+    private fun getTransparencyWithAlphaLimitsAndExpectedOutputs() = listOf(
         TransparencyTestProperties(0, TransparencyRange.COMPLETE, 255, "FF"),
         TransparencyTestProperties(0, TransparencyRange.MODERATE, 80, "50"),
         TransparencyTestProperties(0, TransparencyRange.HIGH, 160, "A0"),

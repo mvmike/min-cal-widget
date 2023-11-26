@@ -14,7 +14,6 @@ import org.junit.jupiter.params.provider.CsvSource
 import org.junit.jupiter.params.provider.MethodSource
 import java.time.DayOfWeek
 import java.util.Locale
-import java.util.stream.Stream
 
 internal class SystemResolverTest : BaseTest() {
 
@@ -60,7 +59,7 @@ internal class SystemResolverTest : BaseTest() {
         verify { SystemResolver.getSystemLocale() }
     }
 
-    private fun getLocalDatesWithExpectations() = Stream.of(
+    private fun getLocalDatesWithExpectations() = listOf(
         of(Locale.ENGLISH, DayOfWeek.SUNDAY),
         of(Locale("en", "GB"), DayOfWeek.MONDAY),
         of(Locale("ru", "RU"), DayOfWeek.MONDAY),

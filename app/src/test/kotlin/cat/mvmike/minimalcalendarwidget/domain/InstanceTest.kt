@@ -14,7 +14,6 @@ import java.time.LocalDate
 import java.time.ZoneId
 import java.time.ZoneOffset
 import java.util.Random
-import java.util.stream.Stream
 
 internal class InstanceTest : BaseTest() {
 
@@ -67,7 +66,7 @@ internal class InstanceTest : BaseTest() {
     }
 
     // calendarProvider uses UTC when allDay, systemOffset otherwise
-    private fun getTimeSpansAndIfTheyAreAllDayAndShouldBeInDay(): Stream<InstantTestProperties> = Stream.of(
+    private fun getTimeSpansAndIfTheyAreAllDayAndShouldBeInDay() = listOf(
         // starting and ending before day
         InstantTestProperties(
             start = "2018-12-02T02:15:00Z",
@@ -148,7 +147,7 @@ internal class InstanceTest : BaseTest() {
         )
     )
 
-    private fun getSetsOfExpectedInstances(): Stream<Set<Instance>> = Stream.of(
+    private fun getSetsOfExpectedInstances() = listOf(
         emptySet(),
         setOf(
             Instance(
