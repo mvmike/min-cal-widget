@@ -31,7 +31,6 @@ fun getInstances(
     to: LocalDate
 ): Set<Instance> =
     when (CalendarResolver.isReadCalendarPermitted(context)) {
-        false -> HashSet()
         true -> {
             val systemZoneId = SystemResolver.getSystemZoneId()
             CalendarResolver.getInstances(
@@ -40,6 +39,7 @@ fun getInstances(
                 end = to.atStartOfDayInMillis(systemZoneId)
             )
         }
+        else -> HashSet()
     }
 
 private fun LocalDate.atStartOfDayInMillis(zoneId: ZoneId) =

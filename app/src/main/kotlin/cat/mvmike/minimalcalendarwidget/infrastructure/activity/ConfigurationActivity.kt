@@ -55,7 +55,7 @@ class ConfigurationActivity : AppCompatActivity() {
         setTheme(
             when (applicationContext.isDarkThemeEnabled()) {
                 true -> androidx.appcompat.R.style.Theme_AppCompat
-                false -> androidx.appcompat.R.style.Theme_AppCompat_DayNight
+                else -> androidx.appcompat.R.style.Theme_AppCompat_DayNight
             }
         )
 

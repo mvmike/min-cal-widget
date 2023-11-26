@@ -60,8 +60,8 @@ enum class Colour(
     fun getInstancesColour(
         isToday: Boolean,
         widgetTheme: Theme
-    ) = when (isToday) {
-        true -> R.color.instances_today
+    ) = when {
+        isToday -> R.color.instances_today
         else -> when (widgetTheme) {
             Theme.DARK -> darkThemeHexColour
             Theme.LIGHT -> lightThemeHexColour

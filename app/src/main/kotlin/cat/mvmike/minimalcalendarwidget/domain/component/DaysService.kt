@@ -123,7 +123,7 @@ object DaysService {
         val systemLocalDateWithFirstDayOfWeek = systemLocalDate.with(firstDayOfWeek)
         return when (systemLocalDateWithFirstDayOfWeek.isAfter(systemLocalDate)) {
             true -> systemLocalDateWithFirstDayOfWeek.minusWeeks(2)
-            false -> systemLocalDateWithFirstDayOfWeek.minusWeeks(1)
+            else -> systemLocalDateWithFirstDayOfWeek.minusWeeks(1)
         }
     }
 
