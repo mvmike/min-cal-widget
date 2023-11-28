@@ -1,0 +1,3 @@
+v2.14.0
+- better highlight for current day (day of month and instance symbol -if any- in red)
+- technical maintenance
