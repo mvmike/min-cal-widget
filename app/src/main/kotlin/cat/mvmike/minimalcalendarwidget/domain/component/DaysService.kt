@@ -95,12 +95,12 @@ object DaysService {
                     viewId = dayCell.id,
                     dayOfMonth = currentDay.getDayOfMonthString(),
                     dayOfMonthColour = dayCell.textColour,
+                    dayOfMonthRelativeSize = textSize.relativeValue,
                     dayOfMonthInBold = isToday,
                     instancesSymbol = instancesSymbol,
                     instancesSymbolColour = dayInstancesColour,
                     instancesRelativeSize = instancesSymbolSet.relativeSize,
-                    dayBackgroundColour = backgroundWithTransparency,
-                    textRelativeSize = textSize.relativeValue
+                    dayBackgroundColour = backgroundWithTransparency
                 )
                 CellDay.addListener(
                     context = context,

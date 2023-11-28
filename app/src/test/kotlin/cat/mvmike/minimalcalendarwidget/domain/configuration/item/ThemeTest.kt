@@ -11,8 +11,8 @@ import java.time.DayOfWeek
 
 // MAIN
 
-private const val DARK_THEME_MAIN_TEXT_COLOUR = 2131034228
-private const val LIGHT_THEME_MAIN_TEXT_COLOUR = 2131034229
+private const val DARK_THEME_MAIN_TEXT_COLOUR = 2131034227
+private const val LIGHT_THEME_MAIN_TEXT_COLOUR = 2131034228
 
 private const val CELL_HEADER_VIEW = 2131230790
 private const val CELL_HEADER_LAYOUT = 2131427357
@@ -22,8 +22,8 @@ private const val CELL_HEADER_LAYOUT = 2131427357
 private const val CELL_DAY_VIEW = 2131230789
 private const val CELL_DAY_LAYOUT = 2131427356
 
-private const val DARK_THEME_CELL_TEXT_COLOUR = 2131034230
-private const val LIGHT_THEME_CELL_TEXT_COLOUR = 2131034231
+private const val DARK_THEME_CELL_TEXT_COLOUR = 2131034229
+private const val LIGHT_THEME_CELL_TEXT_COLOUR = 2131034230
 
 private const val SATURDAY_IN_MONTH_DARK_THEME_CELL_BACKGROUND = 2131034149
 private const val SUNDAY_IN_MONTH_DARK_THEME_CELL_BACKGROUND = 2131034155
@@ -221,7 +221,7 @@ internal class ThemeTest : BaseTest() {
             Cell(
                 id = CELL_DAY_VIEW,
                 layout = CELL_DAY_LAYOUT,
-                textColour = DARK_THEME_MAIN_TEXT_COLOUR,
+                textColour = TEXT_COLOUR_TODAY_ID,
                 background = TODAY_DARK_THEME_CELL_BACKGROUND
             )
         ),
@@ -233,7 +233,7 @@ internal class ThemeTest : BaseTest() {
             Cell(
                 id = CELL_DAY_VIEW,
                 layout = CELL_DAY_LAYOUT,
-                textColour = DARK_THEME_MAIN_TEXT_COLOUR,
+                textColour = TEXT_COLOUR_TODAY_ID,
                 background = TODAY_DARK_THEME_CELL_BACKGROUND
             )
         ),
@@ -245,7 +245,7 @@ internal class ThemeTest : BaseTest() {
             Cell(
                 id = CELL_DAY_VIEW,
                 layout = CELL_DAY_LAYOUT,
-                textColour = DARK_THEME_MAIN_TEXT_COLOUR,
+                textColour = TEXT_COLOUR_TODAY_ID,
                 background = TODAY_DARK_THEME_CELL_BACKGROUND
             )
         ),
@@ -257,7 +257,7 @@ internal class ThemeTest : BaseTest() {
             Cell(
                 id = CELL_DAY_VIEW,
                 layout = CELL_DAY_LAYOUT,
-                textColour = DARK_THEME_MAIN_TEXT_COLOUR,
+                textColour = TEXT_COLOUR_TODAY_ID,
                 background = TODAY_DARK_THEME_CELL_BACKGROUND
             )
         ),
@@ -269,7 +269,7 @@ internal class ThemeTest : BaseTest() {
             Cell(
                 id = CELL_DAY_VIEW,
                 layout = CELL_DAY_LAYOUT,
-                textColour = DARK_THEME_MAIN_TEXT_COLOUR,
+                textColour = TEXT_COLOUR_TODAY_ID,
                 background = TODAY_DARK_THEME_CELL_BACKGROUND
             )
         ),
@@ -281,7 +281,7 @@ internal class ThemeTest : BaseTest() {
             Cell(
                 id = CELL_DAY_VIEW,
                 layout = CELL_DAY_LAYOUT,
-                textColour = DARK_THEME_MAIN_TEXT_COLOUR,
+                textColour = TEXT_COLOUR_TODAY_ID,
                 background = 2131034151
             )
         ),
@@ -293,7 +293,7 @@ internal class ThemeTest : BaseTest() {
             Cell(
                 id = CELL_DAY_VIEW,
                 layout = CELL_DAY_LAYOUT,
-                textColour = DARK_THEME_MAIN_TEXT_COLOUR,
+                textColour = TEXT_COLOUR_TODAY_ID,
                 background = 2131034157
             )
         ),
@@ -473,7 +473,7 @@ internal class ThemeTest : BaseTest() {
             Cell(
                 id = CELL_DAY_VIEW,
                 layout = CELL_DAY_LAYOUT,
-                textColour = LIGHT_THEME_MAIN_TEXT_COLOUR,
+                textColour = TEXT_COLOUR_TODAY_ID,
                 background = TODAY_LIGHT_THEME_CELL_BACKGROUND
             )
         ),
@@ -485,7 +485,7 @@ internal class ThemeTest : BaseTest() {
             Cell(
                 id = CELL_DAY_VIEW,
                 layout = CELL_DAY_LAYOUT,
-                textColour = LIGHT_THEME_MAIN_TEXT_COLOUR,
+                textColour = TEXT_COLOUR_TODAY_ID,
                 background = TODAY_LIGHT_THEME_CELL_BACKGROUND
             )
         ),
@@ -497,7 +497,7 @@ internal class ThemeTest : BaseTest() {
             Cell(
                 id = CELL_DAY_VIEW,
                 layout = CELL_DAY_LAYOUT,
-                textColour = LIGHT_THEME_MAIN_TEXT_COLOUR,
+                textColour = TEXT_COLOUR_TODAY_ID,
                 background = TODAY_LIGHT_THEME_CELL_BACKGROUND
             )
         ),
@@ -509,7 +509,7 @@ internal class ThemeTest : BaseTest() {
             Cell(
                 id = CELL_DAY_VIEW,
                 layout = CELL_DAY_LAYOUT,
-                textColour = LIGHT_THEME_MAIN_TEXT_COLOUR,
+                textColour = TEXT_COLOUR_TODAY_ID,
                 background = TODAY_LIGHT_THEME_CELL_BACKGROUND
             )
         ),
@@ -521,7 +521,7 @@ internal class ThemeTest : BaseTest() {
             Cell(
                 id = CELL_DAY_VIEW,
                 layout = CELL_DAY_LAYOUT,
-                textColour = LIGHT_THEME_MAIN_TEXT_COLOUR,
+                textColour = TEXT_COLOUR_TODAY_ID,
                 background = TODAY_LIGHT_THEME_CELL_BACKGROUND
             )
         ),
@@ -533,7 +533,7 @@ internal class ThemeTest : BaseTest() {
             Cell(
                 id = CELL_DAY_VIEW,
                 layout = CELL_DAY_LAYOUT,
-                textColour = LIGHT_THEME_MAIN_TEXT_COLOUR,
+                textColour = TEXT_COLOUR_TODAY_ID,
                 background = 2131034152
             )
         ),
@@ -545,7 +545,7 @@ internal class ThemeTest : BaseTest() {
             Cell(
                 id = CELL_DAY_VIEW,
                 layout = CELL_DAY_LAYOUT,
-                textColour = LIGHT_THEME_MAIN_TEXT_COLOUR,
+                textColour = TEXT_COLOUR_TODAY_ID,
                 background = 2131034158
             )
         ),

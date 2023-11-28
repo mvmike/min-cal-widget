@@ -61,7 +61,7 @@ enum class Colour(
         isToday: Boolean,
         widgetTheme: Theme
     ) = when {
-        isToday -> R.color.instances_today
+        isToday -> R.color.text_colour_today
         else -> when (widgetTheme) {
             Theme.DARK -> darkThemeHexColour
             Theme.LIGHT -> lightThemeHexColour

@@ -44,7 +44,7 @@ enum class Theme(
         today = CellPack(
             viewId = R.id.cell_day,
             layout = R.layout.cell_day,
-            textColour = R.color.text_colour_dark,
+            textColour = R.color.text_colour_today,
             weekdayBackground = R.color.background_today_dark,
             saturdayBackground = R.color.background_saturday_today_dark,
             sundayBackground = R.color.background_sunday_today_dark
@@ -79,7 +79,7 @@ enum class Theme(
         today = CellPack(
             viewId = R.id.cell_day,
             layout = R.layout.cell_day,
-            textColour = R.color.text_colour_light,
+            textColour = R.color.text_colour_today,
             weekdayBackground = R.color.background_today_light,
             saturdayBackground = R.color.background_saturday_today_light,
             sundayBackground = R.color.background_sunday_today_light

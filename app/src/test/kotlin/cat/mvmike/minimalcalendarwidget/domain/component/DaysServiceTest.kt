@@ -95,12 +95,12 @@ internal class DaysServiceTest : BaseTest() {
                 viewId = any(),
                 dayOfMonth = any(),
                 dayOfMonthColour = any(),
+                dayOfMonthRelativeSize = any(),
                 dayOfMonthInBold = any(),
                 instancesSymbol = any(),
                 instancesSymbolColour = any(),
                 instancesRelativeSize = any(),
-                dayBackgroundColour = any(),
-                textRelativeSize = any()
+                dayBackgroundColour = any()
             )
         }
         justRun {
@@ -167,12 +167,12 @@ internal class DaysServiceTest : BaseTest() {
                     viewId = cellDay.id,
                     dayOfMonth = dayUseCaseTest.dayOfMonth,
                     dayOfMonthColour = cellDay.textColour,
+                    dayOfMonthRelativeSize = testProperties.textSize.relativeValue,
                     dayOfMonthInBold = dayUseCaseTest.isToday,
                     instancesSymbol = dayUseCaseTest.instancesSymbol,
                     instancesSymbolColour = instancesColourId,
                     instancesRelativeSize = testProperties.instancesSymbolSet.relativeSize,
-                    dayBackgroundColour = cellDay.background?.let { expectedBackground },
-                    textRelativeSize = testProperties.textSize.relativeValue
+                    dayBackgroundColour = cellDay.background?.let { expectedBackground }
                 )
                 ActionableView.CellDay.addListener(
                     context = context,

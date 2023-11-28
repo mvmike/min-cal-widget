@@ -32,6 +32,8 @@
 
     <!--foreground-->
 
+    <color name="text_colour_today">#B41919</color>
+
     <color name="text_colour_dark">#FFFFFF</color>
     <color name="text_colour_light">#000000</color>
 
@@ -39,8 +41,6 @@
     <color name="text_colour_semi_light">#44000000</color>
 
     <!--instances-->
-
-    <color name="instances_today">#FF0000</color>
 
     <color name="instances_system_accent_dark" tools:targetApi="s">@android:color/system_accent1_600</color>
     <color name="instances_system_accent_light" tools:targetApi="s">@android:color/system_accent1_200</color>

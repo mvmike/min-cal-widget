@@ -87,18 +87,18 @@ object GraphicResolver {
         viewId: Int,
         dayOfMonth: String,
         dayOfMonthColour: Int,
+        dayOfMonthRelativeSize: Float,
         dayOfMonthInBold: Boolean,
         instancesSymbol: Char,
         instancesSymbolColour: Int,
         instancesRelativeSize: Float,
-        dayBackgroundColour: Int?,
-        textRelativeSize: Float
+        dayBackgroundColour: Int?
     ) {
         val dayOfMonthSpSt = SpannableString(dayOfMonth).apply {
             if (dayOfMonthInBold) {
                 setSpan(StyleSpan(BOLD), 0, length, SPAN_EXCLUSIVE_EXCLUSIVE)
             }
-            setSpan(RelativeSizeSpan(textRelativeSize), 0, length, SPAN_EXCLUSIVE_EXCLUSIVE)
+            setSpan(RelativeSizeSpan(dayOfMonthRelativeSize), 0, length, SPAN_EXCLUSIVE_EXCLUSIVE)
             instancesSymbolRemoteView?.let {
                 setSpan(Standard(Alignment.ALIGN_OPPOSITE), 0, length, SPAN_EXCLUSIVE_EXCLUSIVE)
             }
@@ -112,7 +112,12 @@ object GraphicResolver {
             val instancesSymbolSpSt = SpannableString("$instancesSymbol").apply {
                 setSpan(StyleSpan(BOLD), 0, length, SPAN_EXCLUSIVE_EXCLUSIVE)
                 setSpan(ForegroundColorSpan(instancesSymbolColour), 0, length, SPAN_EXCLUSIVE_EXCLUSIVE)
-                setSpan(RelativeSizeSpan(instancesRelativeSize * textRelativeSize), 0, length, SPAN_EXCLUSIVE_EXCLUSIVE)
+                setSpan(
+                    RelativeSizeSpan(instancesRelativeSize * dayOfMonthRelativeSize),
+                    0,
+                    length,
+                    SPAN_EXCLUSIVE_EXCLUSIVE
+                )
             }
             it.setTextViewText(viewId, instancesSymbolSpSt)
             dayBackgroundColour?.setAsBackground(it, viewId)
