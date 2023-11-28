@@ -3,12 +3,14 @@
 package cat.mvmike.minimalcalendarwidget.domain.component
 
 import android.content.Context
+import android.graphics.Typeface
+import android.text.Layout
 import android.widget.RemoteViews
 import cat.mvmike.minimalcalendarwidget.domain.Day
 import cat.mvmike.minimalcalendarwidget.domain.Instance
 import cat.mvmike.minimalcalendarwidget.domain.configuration.BooleanConfigurationItem
 import cat.mvmike.minimalcalendarwidget.domain.configuration.EnumConfigurationItem
-import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Colour
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.CellContent
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.SymbolSet
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.TextSize
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
@@ -69,7 +71,7 @@ object DaysService {
                 val instancesSymbol = currentDay
                     .getNumberOfInstances(instanceSet, showDeclinedEvents)
                     .let { instancesSymbolSet.get(it) }
-                val dayInstancesColour = getInstancesColor(context, instancesColour, widgetTheme, isToday)
+                val dayInstancesColour = instancesColour.getInstancesColour(isToday, widgetTheme)
                 val backgroundWithTransparency = dayCell.background
                     ?.let { GraphicResolver.getColourAsString(context, it) }
                     ?.withTransparency(
@@ -90,17 +92,28 @@ object DaysService {
                 GraphicResolver.addToDaysRow(
                     context = context,
                     weekRowRemoteView = weekRowRemoteView,
-                    dayOfMonthRemoteView = dayOfMonthRemoteView,
-                    instancesSymbolRemoteView = instancesSymbolRemoteView,
                     viewId = dayCell.id,
-                    dayOfMonth = currentDay.getDayOfMonthString(),
-                    dayOfMonthColour = dayCell.textColour,
-                    dayOfMonthRelativeSize = textSize.relativeValue,
-                    dayOfMonthInBold = isToday,
-                    instancesSymbol = instancesSymbol,
-                    instancesSymbolColour = dayInstancesColour,
-                    instancesRelativeSize = instancesSymbolSet.relativeSize,
-                    dayBackgroundColour = backgroundWithTransparency
+                    backgroundColour = backgroundWithTransparency,
+                    cells = listOf(
+                        dayOfMonthRemoteView to CellContent(
+                            text = currentDay.getDayOfMonthString(),
+                            colour = dayCell.textColour,
+                            relativeSize = textSize.relativeValue,
+                            style = when {
+                                isToday -> Typeface.BOLD
+                                else -> null
+                            },
+                            alignment = instancesSymbolRemoteView?.let {
+                                Layout.Alignment.ALIGN_OPPOSITE
+                            }
+                        ),
+                        instancesSymbolRemoteView to CellContent(
+                            text = instancesSymbol.toString(),
+                            colour = dayInstancesColour,
+                            relativeSize = instancesSymbolSet.relativeSize * textSize.relativeValue,
+                            style = Typeface.BOLD
+                        )
+                    )
                 )
                 CellDay.addListener(
                     context = context,
@@ -152,14 +165,4 @@ object DaysService {
         week: Int,
         weekDay: Int
     ) = plus((week * DAYS_IN_WEEK + weekDay).toLong(), ChronoUnit.DAYS)
-
-    private fun getInstancesColor(
-        context: Context,
-        colour: Colour,
-        widgetTheme: Theme,
-        isToday: Boolean
-    ) = GraphicResolver.getColour(
-        context = context,
-        id = colour.getInstancesColour(isToday, widgetTheme)
-    )
 }

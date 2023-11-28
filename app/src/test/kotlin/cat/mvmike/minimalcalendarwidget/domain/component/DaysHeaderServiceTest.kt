@@ -5,6 +5,7 @@ package cat.mvmike.minimalcalendarwidget.domain.component
 import android.widget.RemoteViews
 import cat.mvmike.minimalcalendarwidget.BaseTest
 import cat.mvmike.minimalcalendarwidget.R
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.CellContent
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.TextSize
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Transparency
@@ -56,7 +57,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
         }
 
         justRun {
-            GraphicResolver.addToDaysHeaderRow(context, daysHeaderRowRv, any(), any(), any(), any(), any(), any())
+            GraphicResolver.addToDaysHeaderRow(any(), context, daysHeaderRowRv, any(), any(), any())
         }
         justRun { GraphicResolver.addToWidget(widgetRv, daysHeaderRowRv) }
         justRun { ActionableView.RowHeader.addListener(context, widgetRv) }
@@ -71,14 +72,16 @@ internal class DaysHeaderServiceTest : BaseTest() {
         verifyOrder {
             expectedDayHeaders.forEach {
                 GraphicResolver.addToDaysHeaderRow(
+                    layoutId = it.getCellHeader(widgetTheme).layout,
                     context = context,
                     daysHeaderRowRemoteView = daysHeaderRowRv,
-                    text = it.expectedHeaderText,
-                    textColour = it.getCellHeader(widgetTheme).textColour,
-                    layoutId = it.getCellHeader(widgetTheme).layout,
                     viewId = it.getCellHeader(widgetTheme).id,
                     dayHeaderBackgroundColour = it.getCellHeader(widgetTheme).background,
-                    textRelativeSize = textSize.relativeValue
+                    cellContent = CellContent(
+                        text = it.expectedHeaderText,
+                        colour = it.getCellHeader(widgetTheme).textColour,
+                        relativeSize = textSize.relativeValue
+                    )
                 )
             }
         }

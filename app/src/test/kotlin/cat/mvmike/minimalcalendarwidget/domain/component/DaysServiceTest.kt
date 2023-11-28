@@ -2,12 +2,15 @@
 // See LICENSE for licensing information
 package cat.mvmike.minimalcalendarwidget.domain.component
 
+import android.graphics.Typeface
+import android.text.Layout
 import android.widget.RemoteViews
 import cat.mvmike.minimalcalendarwidget.BaseTest
 import cat.mvmike.minimalcalendarwidget.domain.Day
 import cat.mvmike.minimalcalendarwidget.domain.Instance
 import cat.mvmike.minimalcalendarwidget.domain.atStartOfDayInMillis
 import cat.mvmike.minimalcalendarwidget.domain.component.DaysService.getNumberOfInstances
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.CellContent
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Colour
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.SymbolSet
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.TextSize
@@ -71,12 +74,6 @@ internal class DaysServiceTest : BaseTest() {
 
         every { GraphicResolver.createDaysRow(context) } returns weekRv
 
-        listOf(
-            testProperties.instancesColour.getInstancesColour(true, testProperties.widgetTheme),
-            testProperties.instancesColour.getInstancesColour(false, testProperties.widgetTheme)
-        ).forEach {
-            every { GraphicResolver.getColour(context, it) } returns it
-        }
         val expectedBackground = Random().nextInt()
         every {
             GraphicResolver.getColourAsString(context, any())
@@ -90,17 +87,9 @@ internal class DaysServiceTest : BaseTest() {
             GraphicResolver.addToDaysRow(
                 context = context,
                 weekRowRemoteView = weekRv,
-                dayOfMonthRemoteView = dayRv,
-                instancesSymbolRemoteView = instancesSymbolRemoteView,
                 viewId = any(),
-                dayOfMonth = any(),
-                dayOfMonthColour = any(),
-                dayOfMonthRelativeSize = any(),
-                dayOfMonthInBold = any(),
-                instancesSymbol = any(),
-                instancesSymbolColour = any(),
-                instancesRelativeSize = any(),
-                dayBackgroundColour = any()
+                backgroundColour = any(),
+                cells = any()
             )
         }
         justRun {
@@ -134,11 +123,6 @@ internal class DaysServiceTest : BaseTest() {
         verify(exactly = 6) { GraphicResolver.createDaysRow(context) }
 
         testProperties.expectedDayProperties.forEach { dayUseCaseTest ->
-
-            val instancesColourId = testProperties.instancesColour
-                .getInstancesColour(dayUseCaseTest.isToday, testProperties.widgetTheme)
-            verify { GraphicResolver.getColour(context, instancesColourId) }
-
             val cellDay = testProperties.widgetTheme
                 .getCellDay(dayUseCaseTest.isToday, dayUseCaseTest.isInMonth, dayUseCaseTest.dayOfWeek)
             cellDay.background?.let {
@@ -162,17 +146,30 @@ internal class DaysServiceTest : BaseTest() {
                 GraphicResolver.addToDaysRow(
                     context = context,
                     weekRowRemoteView = weekRv,
-                    dayOfMonthRemoteView = dayRv,
-                    instancesSymbolRemoteView = instancesSymbolRemoteView,
                     viewId = cellDay.id,
-                    dayOfMonth = dayUseCaseTest.dayOfMonth,
-                    dayOfMonthColour = cellDay.textColour,
-                    dayOfMonthRelativeSize = testProperties.textSize.relativeValue,
-                    dayOfMonthInBold = dayUseCaseTest.isToday,
-                    instancesSymbol = dayUseCaseTest.instancesSymbol,
-                    instancesSymbolColour = instancesColourId,
-                    instancesRelativeSize = testProperties.instancesSymbolSet.relativeSize,
-                    dayBackgroundColour = cellDay.background?.let { expectedBackground }
+                    backgroundColour = cellDay.background?.let { expectedBackground },
+                    cells = listOf(
+                        dayRv to CellContent(
+                            text = dayUseCaseTest.dayOfMonth,
+                            colour = cellDay.textColour,
+                            relativeSize = testProperties.textSize.relativeValue,
+                            style = when {
+                                dayUseCaseTest.isToday -> Typeface.BOLD
+                                else -> null
+                            },
+                            alignment = instancesSymbolRemoteView?.let {
+                                Layout.Alignment.ALIGN_OPPOSITE
+                            }
+                        ),
+                        instancesSymbolRemoteView to CellContent(
+                            text = dayUseCaseTest.instancesSymbol.toString(),
+                            colour = testProperties.instancesColour
+                                .getInstancesColour(dayUseCaseTest.isToday, testProperties.widgetTheme),
+                            relativeSize = testProperties.textSize.relativeValue
+                                * testProperties.instancesSymbolSet.relativeSize,
+                            style = Typeface.BOLD
+                        )
+                    )
                 )
                 ActionableView.CellDay.addListener(
                     context = context,

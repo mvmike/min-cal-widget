@@ -106,30 +106,3 @@ fun getThemeDisplayValues(context: Context) =
 
 fun Theme.getDisplayValue(context: Context) =
     context.getString(displayString).replaceFirstChar { it.uppercase() }
-
-data class CellPack(
-    val viewId: Int,
-    val layout: Int,
-    val textColour: Int,
-    val weekdayBackground: Int? = null,
-    val saturdayBackground: Int? = null,
-    val sundayBackground: Int? = null
-) {
-    fun get(dayOfWeek: DayOfWeek) = Cell(
-        id = viewId,
-        layout = layout,
-        textColour = textColour,
-        background = when (dayOfWeek) {
-            DayOfWeek.SATURDAY -> saturdayBackground
-            DayOfWeek.SUNDAY -> sundayBackground
-            else -> weekdayBackground
-        }
-    )
-}
-
-data class Cell(
-    val id: Int,
-    val layout: Int,
-    val textColour: Int,
-    val background: Int? = null
-)

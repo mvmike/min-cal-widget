@@ -4,6 +4,7 @@ package cat.mvmike.minimalcalendarwidget.domain.component
 
 import android.content.Context
 import android.widget.RemoteViews
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.CellContent
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.TextSize
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Transparency
@@ -37,14 +38,16 @@ object DaysHeaderService {
                 )
 
             GraphicResolver.addToDaysHeaderRow(
+                layoutId = cellHeader.layout,
                 context = context,
                 daysHeaderRowRemoteView = daysHeaderRow,
-                text = dayOfWeek.getAbbreviatedDisplayValue(context).take(textSize.dayHeaderLabelLength),
-                textColour = cellHeader.textColour,
-                layoutId = cellHeader.layout,
                 viewId = cellHeader.id,
                 dayHeaderBackgroundColour = backgroundWithTransparency,
-                textRelativeSize = textSize.relativeValue
+                cellContent = CellContent(
+                    text = dayOfWeek.getAbbreviatedDisplayValue(context).take(textSize.dayHeaderLabelLength),
+                    colour = cellHeader.textColour,
+                    relativeSize = textSize.relativeValue
+                )
             )
         }
 
