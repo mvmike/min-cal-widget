@@ -57,6 +57,6 @@ fun SymbolSet.getDisplayValue(context: Context) =
     context.getString(displayString).replaceFirstChar { it.uppercase() }
 
 fun getSymbolSetDisplayValues(context: Context) =
-    SymbolSet.values()
+    SymbolSet.entries
         .map { it.getDisplayValue(context) }
         .toTypedArray()

@@ -2,7 +2,6 @@
 // See LICENSE for licensing information
 package cat.mvmike.minimalcalendarwidget.domain.component
 
-import android.graphics.Typeface
 import android.text.Layout
 import android.widget.RemoteViews
 import cat.mvmike.minimalcalendarwidget.BaseTest
@@ -10,7 +9,7 @@ import cat.mvmike.minimalcalendarwidget.domain.Day
 import cat.mvmike.minimalcalendarwidget.domain.Instance
 import cat.mvmike.minimalcalendarwidget.domain.atStartOfDayInMillis
 import cat.mvmike.minimalcalendarwidget.domain.component.DaysService.getNumberOfInstances
-import cat.mvmike.minimalcalendarwidget.domain.configuration.item.CellContent
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Cell
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Colour
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.SymbolSet
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.TextSize
@@ -31,6 +30,13 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 import java.time.DayOfWeek
+import java.time.DayOfWeek.FRIDAY
+import java.time.DayOfWeek.MONDAY
+import java.time.DayOfWeek.SATURDAY
+import java.time.DayOfWeek.SUNDAY
+import java.time.DayOfWeek.THURSDAY
+import java.time.DayOfWeek.TUESDAY
+import java.time.DayOfWeek.WEDNESDAY
 import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalDate.of
@@ -75,19 +81,14 @@ internal class DaysServiceTest : BaseTest() {
         every { GraphicResolver.createDaysRow(context) } returns weekRv
 
         val expectedBackground = Random().nextInt()
-        every {
-            GraphicResolver.getColourAsString(context, any())
-        } returns "transparentBackground"
-        every {
-            GraphicResolver.parseColour(any())
-        } returns expectedBackground
+        every { GraphicResolver.getColourAsString(context, any()) } returns "transparentBackground"
+        every { GraphicResolver.parseColour(any()) } returns expectedBackground
 
-        every { GraphicResolver.createDayLayout(context, any()) } returns dayRv
+        every { GraphicResolver.createDayLayout(context) } returns dayRv
         justRun {
             GraphicResolver.addToDaysRow(
                 context = context,
                 weekRowRemoteView = weekRv,
-                viewId = any(),
                 backgroundColour = any(),
                 cells = any()
             )
@@ -124,14 +125,13 @@ internal class DaysServiceTest : BaseTest() {
 
         testProperties.expectedDayProperties.forEach { dayUseCaseTest ->
             val cellDay = testProperties.widgetTheme
-                .getCellDay(dayUseCaseTest.isToday, dayUseCaseTest.isInMonth, dayUseCaseTest.dayOfWeek)
+                .getCellDay(dayUseCaseTest.isInMonth, dayUseCaseTest.dayOfWeek)
             cellDay.background?.let {
                 verify {
                     GraphicResolver.getColourAsString(context, it)
-                    val transparencyRange = when {
-                        dayUseCaseTest.isToday -> TransparencyRange.HIGH
-                        dayUseCaseTest.dayOfWeek == DayOfWeek.SATURDAY -> TransparencyRange.MODERATE
-                        dayUseCaseTest.dayOfWeek == DayOfWeek.SUNDAY -> TransparencyRange.MODERATE
+                    val transparencyRange = when (dayUseCaseTest.dayOfWeek) {
+                        SATURDAY -> TransparencyRange.MODERATE
+                        SUNDAY -> TransparencyRange.MODERATE
                         else -> TransparencyRange.LOW
                     }
                     GraphicResolver.parseColour(
@@ -141,33 +141,28 @@ internal class DaysServiceTest : BaseTest() {
             }
 
             verify {
-                GraphicResolver.createDayLayout(context, cellDay.layout)
-                GraphicResolver.createDayLayout(context, cellDay.layout)
+                GraphicResolver.createDayLayout(context)
+                GraphicResolver.createDayLayout(context)
                 GraphicResolver.addToDaysRow(
                     context = context,
                     weekRowRemoteView = weekRv,
-                    viewId = cellDay.id,
                     backgroundColour = cellDay.background?.let { expectedBackground },
                     cells = listOf(
-                        dayRv to CellContent(
+                        dayRv to Cell(
                             text = dayUseCaseTest.dayOfMonth,
                             colour = cellDay.textColour,
                             relativeSize = testProperties.textSize.relativeValue,
-                            style = when {
-                                dayUseCaseTest.isToday -> Typeface.BOLD
-                                else -> null
-                            },
-                            alignment = instancesSymbolRemoteView?.let {
-                                Layout.Alignment.ALIGN_OPPOSITE
-                            }
+                            bold = dayUseCaseTest.isToday,
+                            highlightDrawable = dayUseCaseTest.dayOfMonthHighlightDrawable,
+                            alignment = dayUseCaseTest.dayOfMonthAlignment
                         ),
-                        instancesSymbolRemoteView to CellContent(
+                        instancesSymbolRemoteView to Cell(
                             text = dayUseCaseTest.instancesSymbol.toString(),
                             colour = testProperties.instancesColour
                                 .getInstancesColour(dayUseCaseTest.isToday, testProperties.widgetTheme),
                             relativeSize = testProperties.textSize.relativeValue
                                 * testProperties.instancesSymbolSet.relativeSize,
-                            style = Typeface.BOLD
+                            bold = true
                         )
                     )
                 )
@@ -410,7 +405,7 @@ internal class DaysServiceTest : BaseTest() {
         DrawDaysUseCaseTestProperties(
             systemLocalDate = systemLocalDate,
             systemInstances = getSystemInstances(),
-            firstDayOfWeek = DayOfWeek.MONDAY,
+            firstDayOfWeek = MONDAY,
             widgetTheme = Theme.DARK,
             transparency = Transparency(32),
             textSize = TextSize(32),
@@ -421,54 +416,58 @@ internal class DaysServiceTest : BaseTest() {
             shouldIncludeInstancesSymbolRemoteView = true,
             expectedFirstDay = of(2018, 11, 26),
             expectedDayProperties = listOf(
-                DrawDaysUseCaseTestDayProperties("2018-11-26", "26", '·', DayOfWeek.MONDAY),
-                DrawDaysUseCaseTestDayProperties("2018-11-27", "27", ' ', DayOfWeek.TUESDAY),
-                DrawDaysUseCaseTestDayProperties("2018-11-28", "28", '·', DayOfWeek.WEDNESDAY),
-                DrawDaysUseCaseTestDayProperties("2018-11-29", "29", '·', DayOfWeek.THURSDAY),
-                DrawDaysUseCaseTestDayProperties("2018-11-30", "30", ' ', DayOfWeek.FRIDAY),
-                DrawDaysUseCaseTestDayProperties("2018-12-01", "1", ' ', DayOfWeek.SATURDAY, true),
-                DrawDaysUseCaseTestDayProperties("2018-12-02", "2", ' ', DayOfWeek.SUNDAY, true),
-                DrawDaysUseCaseTestDayProperties("2018-12-03", "3", '·', DayOfWeek.MONDAY, true),
-                DrawDaysUseCaseTestDayProperties("2018-12-04", "4", '·', DayOfWeek.TUESDAY, true, isToday = true),
-                DrawDaysUseCaseTestDayProperties("2018-12-05", "5", ' ', DayOfWeek.WEDNESDAY, true),
-                DrawDaysUseCaseTestDayProperties("2018-12-06", "6", '∴', DayOfWeek.THURSDAY, true),
-                DrawDaysUseCaseTestDayProperties("2018-12-07", "7", '·', DayOfWeek.FRIDAY, true),
-                DrawDaysUseCaseTestDayProperties("2018-12-08", "8", ' ', DayOfWeek.SATURDAY, true),
-                DrawDaysUseCaseTestDayProperties("2018-12-09", "9", ' ', DayOfWeek.SUNDAY, true),
-                DrawDaysUseCaseTestDayProperties("2018-12-10", "10", '∷', DayOfWeek.MONDAY, true),
-                DrawDaysUseCaseTestDayProperties("2018-12-11", "11", '·', DayOfWeek.TUESDAY, true),
-                DrawDaysUseCaseTestDayProperties("2018-12-12", "12", ' ', DayOfWeek.WEDNESDAY, true),
-                DrawDaysUseCaseTestDayProperties("2018-12-13", "13", ' ', DayOfWeek.THURSDAY, true),
-                DrawDaysUseCaseTestDayProperties("2018-12-14", "14", ' ', DayOfWeek.FRIDAY, true),
-                DrawDaysUseCaseTestDayProperties("2018-12-15", "15", ' ', DayOfWeek.SATURDAY, true),
-                DrawDaysUseCaseTestDayProperties("2018-12-16", "16", ' ', DayOfWeek.SUNDAY, true),
-                DrawDaysUseCaseTestDayProperties("2018-12-17", "17", ' ', DayOfWeek.MONDAY, true),
-                DrawDaysUseCaseTestDayProperties("2018-12-18", "18", ' ', DayOfWeek.TUESDAY, true),
-                DrawDaysUseCaseTestDayProperties("2018-12-19", "19", ' ', DayOfWeek.WEDNESDAY, true),
-                DrawDaysUseCaseTestDayProperties("2018-12-20", "20", ' ', DayOfWeek.THURSDAY, true),
-                DrawDaysUseCaseTestDayProperties("2018-12-21", "21", ' ', DayOfWeek.FRIDAY, true),
-                DrawDaysUseCaseTestDayProperties("2018-12-22", "22", ' ', DayOfWeek.SATURDAY, true),
-                DrawDaysUseCaseTestDayProperties("2018-12-23", "23", ' ', DayOfWeek.SUNDAY, true),
-                DrawDaysUseCaseTestDayProperties("2018-12-24", "24", ' ', DayOfWeek.MONDAY, true),
-                DrawDaysUseCaseTestDayProperties("2018-12-25", "25", ' ', DayOfWeek.TUESDAY, true),
-                DrawDaysUseCaseTestDayProperties("2018-12-26", "26", ' ', DayOfWeek.WEDNESDAY, true),
-                DrawDaysUseCaseTestDayProperties("2018-12-27", "27", '·', DayOfWeek.THURSDAY, true),
-                DrawDaysUseCaseTestDayProperties("2018-12-28", "28", ' ', DayOfWeek.FRIDAY, true),
-                DrawDaysUseCaseTestDayProperties("2018-12-29", "29", ' ', DayOfWeek.SATURDAY, true),
-                DrawDaysUseCaseTestDayProperties("2018-12-30", "30", '◇', DayOfWeek.SUNDAY, true),
-                DrawDaysUseCaseTestDayProperties("2018-12-31", "31", ' ', DayOfWeek.MONDAY, true),
-                DrawDaysUseCaseTestDayProperties("2019-01-01", "1", '·', DayOfWeek.TUESDAY),
-                DrawDaysUseCaseTestDayProperties("2019-01-02", "2", '·', DayOfWeek.WEDNESDAY),
-                DrawDaysUseCaseTestDayProperties("2019-01-03", "3", '·', DayOfWeek.THURSDAY),
-                DrawDaysUseCaseTestDayProperties("2019-01-04", "4", '·', DayOfWeek.FRIDAY),
-                DrawDaysUseCaseTestDayProperties("2019-01-05", "5", '◈', DayOfWeek.SATURDAY),
-                DrawDaysUseCaseTestDayProperties("2019-01-06", "6", '·', DayOfWeek.SUNDAY)
+                ExpectedDayProperties("2018-11-26", "26", '·', MONDAY),
+                ExpectedDayProperties("2018-11-27", "27", ' ', TUESDAY),
+                ExpectedDayProperties("2018-11-28", "28", '·', WEDNESDAY),
+                ExpectedDayProperties("2018-11-29", "29", '·', THURSDAY),
+                ExpectedDayProperties("2018-11-30", "30", ' ', FRIDAY),
+                ExpectedDayProperties("2018-12-01", "1", ' ', SATURDAY, true),
+                ExpectedDayProperties("2018-12-02", "2", ' ', SUNDAY, true),
+                ExpectedDayProperties("2018-12-03", "3", '·', MONDAY, true),
+                ExpectedDayProperties("2018-12-04", "4", '·', TUESDAY,
+                    isInMonth = true,
+                    isToday = true,
+                    dayOfMonthHighlightDrawable = 2131165277
+                ),
+                ExpectedDayProperties("2018-12-05", "5", ' ', WEDNESDAY, true),
+                ExpectedDayProperties("2018-12-06", "6", '∴', THURSDAY, true),
+                ExpectedDayProperties("2018-12-07", "7", '·', FRIDAY, true),
+                ExpectedDayProperties("2018-12-08", "8", ' ', SATURDAY, true),
+                ExpectedDayProperties("2018-12-09", "9", ' ', SUNDAY, true),
+                ExpectedDayProperties("2018-12-10", "10", '∷', MONDAY, true),
+                ExpectedDayProperties("2018-12-11", "11", '·', TUESDAY, true),
+                ExpectedDayProperties("2018-12-12", "12", ' ', WEDNESDAY, true),
+                ExpectedDayProperties("2018-12-13", "13", ' ', THURSDAY, true),
+                ExpectedDayProperties("2018-12-14", "14", ' ', FRIDAY, true),
+                ExpectedDayProperties("2018-12-15", "15", ' ', SATURDAY, true),
+                ExpectedDayProperties("2018-12-16", "16", ' ', SUNDAY, true),
+                ExpectedDayProperties("2018-12-17", "17", ' ', MONDAY, true),
+                ExpectedDayProperties("2018-12-18", "18", ' ', TUESDAY, true),
+                ExpectedDayProperties("2018-12-19", "19", ' ', WEDNESDAY, true),
+                ExpectedDayProperties("2018-12-20", "20", ' ', THURSDAY, true),
+                ExpectedDayProperties("2018-12-21", "21", ' ', FRIDAY, true),
+                ExpectedDayProperties("2018-12-22", "22", ' ', SATURDAY, true),
+                ExpectedDayProperties("2018-12-23", "23", ' ', SUNDAY, true),
+                ExpectedDayProperties("2018-12-24", "24", ' ', MONDAY, true),
+                ExpectedDayProperties("2018-12-25", "25", ' ', TUESDAY, true),
+                ExpectedDayProperties("2018-12-26", "26", ' ', WEDNESDAY, true),
+                ExpectedDayProperties("2018-12-27", "27", '·', THURSDAY, true),
+                ExpectedDayProperties("2018-12-28", "28", ' ', FRIDAY, true),
+                ExpectedDayProperties("2018-12-29", "29", ' ', SATURDAY, true),
+                ExpectedDayProperties("2018-12-30", "30", '◇', SUNDAY, true),
+                ExpectedDayProperties("2018-12-31", "31", ' ', MONDAY, true),
+                ExpectedDayProperties("2019-01-01", "1", '·', TUESDAY),
+                ExpectedDayProperties("2019-01-02", "2", '·', WEDNESDAY),
+                ExpectedDayProperties("2019-01-03", "3", '·', THURSDAY),
+                ExpectedDayProperties("2019-01-04", "4", '·', FRIDAY),
+                ExpectedDayProperties("2019-01-05", "5", '◈', SATURDAY),
+                ExpectedDayProperties("2019-01-06", "6", '·', SUNDAY)
             )
         ),
         DrawDaysUseCaseTestProperties(
             systemLocalDate = systemLocalDate,
             systemInstances = getSystemInstances(),
-            firstDayOfWeek = DayOfWeek.SUNDAY,
+            firstDayOfWeek = SUNDAY,
             widgetTheme = Theme.LIGHT,
             transparency = Transparency(32),
             textSize = TextSize(50),
@@ -479,54 +478,58 @@ internal class DaysServiceTest : BaseTest() {
             shouldIncludeInstancesSymbolRemoteView = true,
             expectedFirstDay = of(2018, 11, 25),
             expectedDayProperties = listOf(
-                DrawDaysUseCaseTestDayProperties("2018-11-25", "25", ' ', DayOfWeek.SUNDAY),
-                DrawDaysUseCaseTestDayProperties("2018-11-26", "26", '☱', DayOfWeek.MONDAY),
-                DrawDaysUseCaseTestDayProperties("2018-11-27", "27", ' ', DayOfWeek.TUESDAY),
-                DrawDaysUseCaseTestDayProperties("2018-11-28", "28", '☱', DayOfWeek.WEDNESDAY),
-                DrawDaysUseCaseTestDayProperties("2018-11-29", "29", '☱', DayOfWeek.THURSDAY),
-                DrawDaysUseCaseTestDayProperties("2018-11-30", "30", ' ', DayOfWeek.FRIDAY),
-                DrawDaysUseCaseTestDayProperties("2018-12-01", "1", ' ', DayOfWeek.SATURDAY, true),
-                DrawDaysUseCaseTestDayProperties("2018-12-02", "2", ' ', DayOfWeek.SUNDAY, true),
-                DrawDaysUseCaseTestDayProperties("2018-12-03", "3", '☱', DayOfWeek.MONDAY, true),
-                DrawDaysUseCaseTestDayProperties("2018-12-04", "4", '☱', DayOfWeek.TUESDAY, true, isToday = true),
-                DrawDaysUseCaseTestDayProperties("2018-12-05", "5", ' ', DayOfWeek.WEDNESDAY, true),
-                DrawDaysUseCaseTestDayProperties("2018-12-06", "6", '☳', DayOfWeek.THURSDAY, true),
-                DrawDaysUseCaseTestDayProperties("2018-12-07", "7", '☱', DayOfWeek.FRIDAY, true),
-                DrawDaysUseCaseTestDayProperties("2018-12-08", "8", ' ', DayOfWeek.SATURDAY, true),
-                DrawDaysUseCaseTestDayProperties("2018-12-09", "9", ' ', DayOfWeek.SUNDAY, true),
-                DrawDaysUseCaseTestDayProperties("2018-12-10", "10", '☴', DayOfWeek.MONDAY, true),
-                DrawDaysUseCaseTestDayProperties("2018-12-11", "11", '☱', DayOfWeek.TUESDAY, true),
-                DrawDaysUseCaseTestDayProperties("2018-12-12", "12", ' ', DayOfWeek.WEDNESDAY, true),
-                DrawDaysUseCaseTestDayProperties("2018-12-13", "13", ' ', DayOfWeek.THURSDAY, true),
-                DrawDaysUseCaseTestDayProperties("2018-12-14", "14", ' ', DayOfWeek.FRIDAY, true),
-                DrawDaysUseCaseTestDayProperties("2018-12-15", "15", ' ', DayOfWeek.SATURDAY, true),
-                DrawDaysUseCaseTestDayProperties("2018-12-16", "16", ' ', DayOfWeek.SUNDAY, true),
-                DrawDaysUseCaseTestDayProperties("2018-12-17", "17", ' ', DayOfWeek.MONDAY, true),
-                DrawDaysUseCaseTestDayProperties("2018-12-18", "18", ' ', DayOfWeek.TUESDAY, true),
-                DrawDaysUseCaseTestDayProperties("2018-12-19", "19", ' ', DayOfWeek.WEDNESDAY, true),
-                DrawDaysUseCaseTestDayProperties("2018-12-20", "20", ' ', DayOfWeek.THURSDAY, true),
-                DrawDaysUseCaseTestDayProperties("2018-12-21", "21", ' ', DayOfWeek.FRIDAY, true),
-                DrawDaysUseCaseTestDayProperties("2018-12-22", "22", ' ', DayOfWeek.SATURDAY, true),
-                DrawDaysUseCaseTestDayProperties("2018-12-23", "23", ' ', DayOfWeek.SUNDAY, true),
-                DrawDaysUseCaseTestDayProperties("2018-12-24", "24", ' ', DayOfWeek.MONDAY, true),
-                DrawDaysUseCaseTestDayProperties("2018-12-25", "25", ' ', DayOfWeek.TUESDAY, true),
-                DrawDaysUseCaseTestDayProperties("2018-12-26", "26", ' ', DayOfWeek.WEDNESDAY, true),
-                DrawDaysUseCaseTestDayProperties("2018-12-27", "27", '☱', DayOfWeek.THURSDAY, true),
-                DrawDaysUseCaseTestDayProperties("2018-12-28", "28", ' ', DayOfWeek.FRIDAY, true),
-                DrawDaysUseCaseTestDayProperties("2018-12-29", "29", ' ', DayOfWeek.SATURDAY, true),
-                DrawDaysUseCaseTestDayProperties("2018-12-30", "30", '☵', DayOfWeek.SUNDAY, true),
-                DrawDaysUseCaseTestDayProperties("2018-12-31", "31", ' ', DayOfWeek.MONDAY, true),
-                DrawDaysUseCaseTestDayProperties("2019-01-01", "1", '☱', DayOfWeek.TUESDAY),
-                DrawDaysUseCaseTestDayProperties("2019-01-02", "2", '☱', DayOfWeek.WEDNESDAY),
-                DrawDaysUseCaseTestDayProperties("2019-01-03", "3", '☱', DayOfWeek.THURSDAY),
-                DrawDaysUseCaseTestDayProperties("2019-01-04", "4", '☱', DayOfWeek.FRIDAY),
-                DrawDaysUseCaseTestDayProperties("2019-01-05", "5", '☷', DayOfWeek.SATURDAY)
+                ExpectedDayProperties("2018-11-25", "25", ' ', SUNDAY),
+                ExpectedDayProperties("2018-11-26", "26", '☱', MONDAY),
+                ExpectedDayProperties("2018-11-27", "27", ' ', TUESDAY),
+                ExpectedDayProperties("2018-11-28", "28", '☱', WEDNESDAY),
+                ExpectedDayProperties("2018-11-29", "29", '☱', THURSDAY),
+                ExpectedDayProperties("2018-11-30", "30", ' ', FRIDAY),
+                ExpectedDayProperties("2018-12-01", "1", ' ', SATURDAY, true),
+                ExpectedDayProperties("2018-12-02", "2", ' ', SUNDAY, true),
+                ExpectedDayProperties("2018-12-03", "3", '☱', MONDAY, true),
+                ExpectedDayProperties("2018-12-04", "4", '☱', TUESDAY,
+                    isInMonth = true,
+                    isToday = true,
+                    dayOfMonthHighlightDrawable = 2131165278
+                ),
+                ExpectedDayProperties("2018-12-05", "5", ' ', WEDNESDAY, true),
+                ExpectedDayProperties("2018-12-06", "6", '☳', THURSDAY, true),
+                ExpectedDayProperties("2018-12-07", "7", '☱', FRIDAY, true),
+                ExpectedDayProperties("2018-12-08", "8", ' ', SATURDAY, true),
+                ExpectedDayProperties("2018-12-09", "9", ' ', SUNDAY, true),
+                ExpectedDayProperties("2018-12-10", "10", '☴', MONDAY, true),
+                ExpectedDayProperties("2018-12-11", "11", '☱', TUESDAY, true),
+                ExpectedDayProperties("2018-12-12", "12", ' ', WEDNESDAY, true),
+                ExpectedDayProperties("2018-12-13", "13", ' ', THURSDAY, true),
+                ExpectedDayProperties("2018-12-14", "14", ' ', FRIDAY, true),
+                ExpectedDayProperties("2018-12-15", "15", ' ', SATURDAY, true),
+                ExpectedDayProperties("2018-12-16", "16", ' ', SUNDAY, true),
+                ExpectedDayProperties("2018-12-17", "17", ' ', MONDAY, true),
+                ExpectedDayProperties("2018-12-18", "18", ' ', TUESDAY, true),
+                ExpectedDayProperties("2018-12-19", "19", ' ', WEDNESDAY, true),
+                ExpectedDayProperties("2018-12-20", "20", ' ', THURSDAY, true),
+                ExpectedDayProperties("2018-12-21", "21", ' ', FRIDAY, true),
+                ExpectedDayProperties("2018-12-22", "22", ' ', SATURDAY, true),
+                ExpectedDayProperties("2018-12-23", "23", ' ', SUNDAY, true),
+                ExpectedDayProperties("2018-12-24", "24", ' ', MONDAY, true),
+                ExpectedDayProperties("2018-12-25", "25", ' ', TUESDAY, true),
+                ExpectedDayProperties("2018-12-26", "26", ' ', WEDNESDAY, true),
+                ExpectedDayProperties("2018-12-27", "27", '☱', THURSDAY, true),
+                ExpectedDayProperties("2018-12-28", "28", ' ', FRIDAY, true),
+                ExpectedDayProperties("2018-12-29", "29", ' ', SATURDAY, true),
+                ExpectedDayProperties("2018-12-30", "30", '☵', SUNDAY, true),
+                ExpectedDayProperties("2018-12-31", "31", ' ', MONDAY, true),
+                ExpectedDayProperties("2019-01-01", "1", '☱', TUESDAY),
+                ExpectedDayProperties("2019-01-02", "2", '☱', WEDNESDAY),
+                ExpectedDayProperties("2019-01-03", "3", '☱', THURSDAY),
+                ExpectedDayProperties("2019-01-04", "4", '☱', FRIDAY),
+                ExpectedDayProperties("2019-01-05", "5", '☷', SATURDAY)
             )
         ),
         DrawDaysUseCaseTestProperties(
             systemLocalDate = systemLocalDate,
             systemInstances = getSystemInstances(),
-            firstDayOfWeek = DayOfWeek.THURSDAY,
+            firstDayOfWeek = THURSDAY,
             widgetTheme = Theme.DARK,
             transparency = Transparency(0),
             textSize = TextSize(60),
@@ -537,54 +540,59 @@ internal class DaysServiceTest : BaseTest() {
             shouldIncludeInstancesSymbolRemoteView = false,
             expectedFirstDay = of(2018, 11, 22),
             expectedDayProperties = listOf(
-                DrawDaysUseCaseTestDayProperties("2018-11-22", "22", ' ', DayOfWeek.THURSDAY),
-                DrawDaysUseCaseTestDayProperties("2018-11-23", "23", ' ', DayOfWeek.FRIDAY),
-                DrawDaysUseCaseTestDayProperties("2018-11-24", "24", ' ', DayOfWeek.SATURDAY),
-                DrawDaysUseCaseTestDayProperties("2018-11-25", "25", ' ', DayOfWeek.SUNDAY),
-                DrawDaysUseCaseTestDayProperties("2018-11-26", "26", ' ', DayOfWeek.MONDAY),
-                DrawDaysUseCaseTestDayProperties("2018-11-27", "27", ' ', DayOfWeek.TUESDAY),
-                DrawDaysUseCaseTestDayProperties("2018-11-28", "28", ' ', DayOfWeek.WEDNESDAY),
-                DrawDaysUseCaseTestDayProperties("2018-11-29", "29", ' ', DayOfWeek.THURSDAY),
-                DrawDaysUseCaseTestDayProperties("2018-11-30", "30", ' ', DayOfWeek.FRIDAY),
-                DrawDaysUseCaseTestDayProperties("2018-12-01", "1", ' ', DayOfWeek.SATURDAY, true),
-                DrawDaysUseCaseTestDayProperties("2018-12-02", "2", ' ', DayOfWeek.SUNDAY, true),
-                DrawDaysUseCaseTestDayProperties("2018-12-03", "3", ' ', DayOfWeek.MONDAY, true),
-                DrawDaysUseCaseTestDayProperties("2018-12-04", "4", ' ', DayOfWeek.TUESDAY, true, isToday = true),
-                DrawDaysUseCaseTestDayProperties("2018-12-05", "5", ' ', DayOfWeek.WEDNESDAY, true),
-                DrawDaysUseCaseTestDayProperties("2018-12-06", "6", ' ', DayOfWeek.THURSDAY, true),
-                DrawDaysUseCaseTestDayProperties("2018-12-07", "7", ' ', DayOfWeek.FRIDAY, true),
-                DrawDaysUseCaseTestDayProperties("2018-12-08", "8", ' ', DayOfWeek.SATURDAY, true),
-                DrawDaysUseCaseTestDayProperties("2018-12-09", "9", ' ', DayOfWeek.SUNDAY, true),
-                DrawDaysUseCaseTestDayProperties("2018-12-10", "10", ' ', DayOfWeek.MONDAY, true),
-                DrawDaysUseCaseTestDayProperties("2018-12-11", "11", ' ', DayOfWeek.TUESDAY, true),
-                DrawDaysUseCaseTestDayProperties("2018-12-12", "12", ' ', DayOfWeek.WEDNESDAY, true),
-                DrawDaysUseCaseTestDayProperties("2018-12-13", "13", ' ', DayOfWeek.THURSDAY, true),
-                DrawDaysUseCaseTestDayProperties("2018-12-14", "14", ' ', DayOfWeek.FRIDAY, true),
-                DrawDaysUseCaseTestDayProperties("2018-12-15", "15", ' ', DayOfWeek.SATURDAY, true),
-                DrawDaysUseCaseTestDayProperties("2018-12-16", "16", ' ', DayOfWeek.SUNDAY, true),
-                DrawDaysUseCaseTestDayProperties("2018-12-17", "17", ' ', DayOfWeek.MONDAY, true),
-                DrawDaysUseCaseTestDayProperties("2018-12-18", "18", ' ', DayOfWeek.TUESDAY, true),
-                DrawDaysUseCaseTestDayProperties("2018-12-19", "19", ' ', DayOfWeek.WEDNESDAY, true),
-                DrawDaysUseCaseTestDayProperties("2018-12-20", "20", ' ', DayOfWeek.THURSDAY, true),
-                DrawDaysUseCaseTestDayProperties("2018-12-21", "21", ' ', DayOfWeek.FRIDAY, true),
-                DrawDaysUseCaseTestDayProperties("2018-12-22", "22", ' ', DayOfWeek.SATURDAY, true),
-                DrawDaysUseCaseTestDayProperties("2018-12-23", "23", ' ', DayOfWeek.SUNDAY, true),
-                DrawDaysUseCaseTestDayProperties("2018-12-24", "24", ' ', DayOfWeek.MONDAY, true),
-                DrawDaysUseCaseTestDayProperties("2018-12-25", "25", ' ', DayOfWeek.TUESDAY, true),
-                DrawDaysUseCaseTestDayProperties("2018-12-26", "26", ' ', DayOfWeek.WEDNESDAY, true),
-                DrawDaysUseCaseTestDayProperties("2018-12-27", "27", ' ', DayOfWeek.THURSDAY, true),
-                DrawDaysUseCaseTestDayProperties("2018-12-28", "28", ' ', DayOfWeek.FRIDAY, true),
-                DrawDaysUseCaseTestDayProperties("2018-12-29", "29", ' ', DayOfWeek.SATURDAY, true),
-                DrawDaysUseCaseTestDayProperties("2018-12-30", "30", ' ', DayOfWeek.SUNDAY, true),
-                DrawDaysUseCaseTestDayProperties("2018-12-31", "31", ' ', DayOfWeek.MONDAY, true),
-                DrawDaysUseCaseTestDayProperties("2019-01-01", "1", ' ', DayOfWeek.TUESDAY),
-                DrawDaysUseCaseTestDayProperties("2019-01-02", "2", ' ', DayOfWeek.WEDNESDAY)
+                ExpectedDayProperties("2018-11-22", "22", ' ', THURSDAY, dayOfMonthAlignment = null),
+                ExpectedDayProperties("2018-11-23", "23", ' ', FRIDAY, dayOfMonthAlignment = null),
+                ExpectedDayProperties("2018-11-24", "24", ' ', SATURDAY, dayOfMonthAlignment = null),
+                ExpectedDayProperties("2018-11-25", "25", ' ', SUNDAY, dayOfMonthAlignment = null),
+                ExpectedDayProperties("2018-11-26", "26", ' ', MONDAY, dayOfMonthAlignment = null),
+                ExpectedDayProperties("2018-11-27", "27", ' ', TUESDAY, dayOfMonthAlignment = null),
+                ExpectedDayProperties("2018-11-28", "28", ' ', WEDNESDAY, dayOfMonthAlignment = null),
+                ExpectedDayProperties("2018-11-29", "29", ' ', THURSDAY, dayOfMonthAlignment = null),
+                ExpectedDayProperties("2018-11-30", "30", ' ', FRIDAY, dayOfMonthAlignment = null),
+                ExpectedDayProperties("2018-12-01", "1", ' ', SATURDAY, true, dayOfMonthAlignment = null),
+                ExpectedDayProperties("2018-12-02", "2", ' ', SUNDAY, true, dayOfMonthAlignment = null),
+                ExpectedDayProperties("2018-12-03", "3", ' ', MONDAY, true, dayOfMonthAlignment = null),
+                ExpectedDayProperties("2018-12-04", "4", ' ', TUESDAY,
+                    isInMonth = true,
+                    isToday = true,
+                    dayOfMonthHighlightDrawable = 2131165273,
+                    dayOfMonthAlignment = null
+                ),
+                ExpectedDayProperties("2018-12-05", "5", ' ', WEDNESDAY, true, dayOfMonthAlignment = null),
+                ExpectedDayProperties("2018-12-06", "6", ' ', THURSDAY, true, dayOfMonthAlignment = null),
+                ExpectedDayProperties("2018-12-07", "7", ' ', FRIDAY, true, dayOfMonthAlignment = null),
+                ExpectedDayProperties("2018-12-08", "8", ' ', SATURDAY, true, dayOfMonthAlignment = null),
+                ExpectedDayProperties("2018-12-09", "9", ' ', SUNDAY, true, dayOfMonthAlignment = null),
+                ExpectedDayProperties("2018-12-10", "10", ' ', MONDAY, true, dayOfMonthAlignment = null),
+                ExpectedDayProperties("2018-12-11", "11", ' ', TUESDAY, true, dayOfMonthAlignment = null),
+                ExpectedDayProperties("2018-12-12", "12", ' ', WEDNESDAY, true, dayOfMonthAlignment = null),
+                ExpectedDayProperties("2018-12-13", "13", ' ', THURSDAY, true, dayOfMonthAlignment = null),
+                ExpectedDayProperties("2018-12-14", "14", ' ', FRIDAY, true, dayOfMonthAlignment = null),
+                ExpectedDayProperties("2018-12-15", "15", ' ', SATURDAY, true, dayOfMonthAlignment = null),
+                ExpectedDayProperties("2018-12-16", "16", ' ', SUNDAY, true, dayOfMonthAlignment = null),
+                ExpectedDayProperties("2018-12-17", "17", ' ', MONDAY, true, dayOfMonthAlignment = null),
+                ExpectedDayProperties("2018-12-18", "18", ' ', TUESDAY, true, dayOfMonthAlignment = null),
+                ExpectedDayProperties("2018-12-19", "19", ' ', WEDNESDAY, true, dayOfMonthAlignment = null),
+                ExpectedDayProperties("2018-12-20", "20", ' ', THURSDAY, true, dayOfMonthAlignment = null),
+                ExpectedDayProperties("2018-12-21", "21", ' ', FRIDAY, true, dayOfMonthAlignment = null),
+                ExpectedDayProperties("2018-12-22", "22", ' ', SATURDAY, true, dayOfMonthAlignment = null),
+                ExpectedDayProperties("2018-12-23", "23", ' ', SUNDAY, true, dayOfMonthAlignment = null),
+                ExpectedDayProperties("2018-12-24", "24", ' ', MONDAY, true, dayOfMonthAlignment = null),
+                ExpectedDayProperties("2018-12-25", "25", ' ', TUESDAY, true, dayOfMonthAlignment = null),
+                ExpectedDayProperties("2018-12-26", "26", ' ', WEDNESDAY, true, dayOfMonthAlignment = null),
+                ExpectedDayProperties("2018-12-27", "27", ' ', THURSDAY, true, dayOfMonthAlignment = null),
+                ExpectedDayProperties("2018-12-28", "28", ' ', FRIDAY, true, dayOfMonthAlignment = null),
+                ExpectedDayProperties("2018-12-29", "29", ' ', SATURDAY, true, dayOfMonthAlignment = null),
+                ExpectedDayProperties("2018-12-30", "30", ' ', SUNDAY, true, dayOfMonthAlignment = null),
+                ExpectedDayProperties("2018-12-31", "31", ' ', MONDAY, true, dayOfMonthAlignment = null),
+                ExpectedDayProperties("2019-01-01", "1", ' ', TUESDAY, dayOfMonthAlignment = null),
+                ExpectedDayProperties("2019-01-02", "2", ' ', WEDNESDAY, dayOfMonthAlignment = null)
             )
         ),
         DrawDaysUseCaseTestProperties(
             systemLocalDate = systemLocalDate.plusYears(1),
             systemInstances = HashSet(),
-            firstDayOfWeek = DayOfWeek.MONDAY,
+            firstDayOfWeek = MONDAY,
             widgetTheme = Theme.DARK,
             transparency = Transparency(0),
             textSize = TextSize(60),
@@ -595,87 +603,92 @@ internal class DaysServiceTest : BaseTest() {
             shouldIncludeInstancesSymbolRemoteView = false,
             expectedFirstDay = of(2019, 11, 25),
             expectedDayProperties = listOf(
-                DrawDaysUseCaseTestDayProperties("2019-11-25", "25", ' ', DayOfWeek.MONDAY),
-                DrawDaysUseCaseTestDayProperties("2019-11-26", "26", ' ', DayOfWeek.TUESDAY),
-                DrawDaysUseCaseTestDayProperties("2019-11-27", "27", ' ', DayOfWeek.WEDNESDAY),
-                DrawDaysUseCaseTestDayProperties("2019-11-28", "28", ' ', DayOfWeek.THURSDAY),
-                DrawDaysUseCaseTestDayProperties("2019-11-29", "29", ' ', DayOfWeek.FRIDAY),
-                DrawDaysUseCaseTestDayProperties("2019-11-30", "30", ' ', DayOfWeek.SATURDAY),
-                DrawDaysUseCaseTestDayProperties("2019-12-01", "1", ' ', DayOfWeek.SUNDAY, true),
-                DrawDaysUseCaseTestDayProperties("2019-12-02", "2", ' ', DayOfWeek.MONDAY, true),
-                DrawDaysUseCaseTestDayProperties("2019-12-03", "3", ' ', DayOfWeek.TUESDAY, true),
-                DrawDaysUseCaseTestDayProperties("2019-12-04", "4", ' ', DayOfWeek.WEDNESDAY, true, isToday = true),
-                DrawDaysUseCaseTestDayProperties("2019-12-05", "5", ' ', DayOfWeek.THURSDAY, true),
-                DrawDaysUseCaseTestDayProperties("2019-12-06", "6", ' ', DayOfWeek.FRIDAY, true),
-                DrawDaysUseCaseTestDayProperties("2019-12-07", "7", ' ', DayOfWeek.SATURDAY, true),
-                DrawDaysUseCaseTestDayProperties("2019-12-08", "8", ' ', DayOfWeek.SUNDAY, true),
-                DrawDaysUseCaseTestDayProperties("2019-12-09", "9", ' ', DayOfWeek.MONDAY, true),
-                DrawDaysUseCaseTestDayProperties("2019-12-10", "10", ' ', DayOfWeek.TUESDAY, true),
-                DrawDaysUseCaseTestDayProperties("2019-12-11", "11", ' ', DayOfWeek.WEDNESDAY, true),
-                DrawDaysUseCaseTestDayProperties("2019-12-12", "12", ' ', DayOfWeek.THURSDAY, true),
-                DrawDaysUseCaseTestDayProperties("2019-12-13", "13", ' ', DayOfWeek.FRIDAY, true),
-                DrawDaysUseCaseTestDayProperties("2019-12-14", "14", ' ', DayOfWeek.SATURDAY, true),
-                DrawDaysUseCaseTestDayProperties("2019-12-15", "15", ' ', DayOfWeek.SUNDAY, true),
-                DrawDaysUseCaseTestDayProperties("2019-12-16", "16", ' ', DayOfWeek.MONDAY, true),
-                DrawDaysUseCaseTestDayProperties("2019-12-17", "17", ' ', DayOfWeek.TUESDAY, true),
-                DrawDaysUseCaseTestDayProperties("2019-12-18", "18", ' ', DayOfWeek.WEDNESDAY, true),
-                DrawDaysUseCaseTestDayProperties("2019-12-19", "19", ' ', DayOfWeek.THURSDAY, true),
-                DrawDaysUseCaseTestDayProperties("2019-12-20", "20", ' ', DayOfWeek.FRIDAY, true),
-                DrawDaysUseCaseTestDayProperties("2019-12-21", "21", ' ', DayOfWeek.SATURDAY, true),
-                DrawDaysUseCaseTestDayProperties("2019-12-22", "22", ' ', DayOfWeek.SUNDAY, true),
-                DrawDaysUseCaseTestDayProperties("2019-12-23", "23", ' ', DayOfWeek.MONDAY, true),
-                DrawDaysUseCaseTestDayProperties("2019-12-24", "24", ' ', DayOfWeek.TUESDAY, true),
-                DrawDaysUseCaseTestDayProperties("2019-12-25", "25", ' ', DayOfWeek.WEDNESDAY, true),
-                DrawDaysUseCaseTestDayProperties("2019-12-26", "26", ' ', DayOfWeek.THURSDAY, true),
-                DrawDaysUseCaseTestDayProperties("2019-12-27", "27", ' ', DayOfWeek.FRIDAY, true),
-                DrawDaysUseCaseTestDayProperties("2019-12-28", "28", ' ', DayOfWeek.SATURDAY, true),
-                DrawDaysUseCaseTestDayProperties("2019-12-29", "29", ' ', DayOfWeek.SUNDAY, true),
-                DrawDaysUseCaseTestDayProperties("2019-12-30", "30", ' ', DayOfWeek.MONDAY, true),
-                DrawDaysUseCaseTestDayProperties("2019-12-31", "31", ' ', DayOfWeek.TUESDAY, true),
-                DrawDaysUseCaseTestDayProperties("2020-01-01", "1", ' ', DayOfWeek.WEDNESDAY),
-                DrawDaysUseCaseTestDayProperties("2020-01-02", "2", ' ', DayOfWeek.THURSDAY),
-                DrawDaysUseCaseTestDayProperties("2020-01-03", "3", ' ', DayOfWeek.FRIDAY),
-                DrawDaysUseCaseTestDayProperties("2020-01-04", "4", ' ', DayOfWeek.SATURDAY),
-                DrawDaysUseCaseTestDayProperties("2020-01-05", "5", ' ', DayOfWeek.SUNDAY)
+                ExpectedDayProperties("2019-11-25", "25", ' ', MONDAY, dayOfMonthAlignment = null),
+                ExpectedDayProperties("2019-11-26", "26", ' ', TUESDAY, dayOfMonthAlignment = null),
+                ExpectedDayProperties("2019-11-27", "27", ' ', WEDNESDAY, dayOfMonthAlignment = null),
+                ExpectedDayProperties("2019-11-28", "28", ' ', THURSDAY, dayOfMonthAlignment = null),
+                ExpectedDayProperties("2019-11-29", "29", ' ', FRIDAY, dayOfMonthAlignment = null),
+                ExpectedDayProperties("2019-11-30", "30", ' ', SATURDAY, dayOfMonthAlignment = null),
+                ExpectedDayProperties("2019-12-01", "1", ' ', SUNDAY, true, dayOfMonthAlignment = null),
+                ExpectedDayProperties("2019-12-02", "2", ' ', MONDAY, true, dayOfMonthAlignment = null),
+                ExpectedDayProperties("2019-12-03", "3", ' ', TUESDAY, true, dayOfMonthAlignment = null),
+                ExpectedDayProperties("2019-12-04", "4", ' ', WEDNESDAY,
+                    isInMonth = true,
+                    isToday = true,
+                    dayOfMonthHighlightDrawable = 2131165273,
+                    dayOfMonthAlignment = null
+                ),
+                ExpectedDayProperties("2019-12-05", "5", ' ', THURSDAY, true, dayOfMonthAlignment = null),
+                ExpectedDayProperties("2019-12-06", "6", ' ', FRIDAY, true, dayOfMonthAlignment = null),
+                ExpectedDayProperties("2019-12-07", "7", ' ', SATURDAY, true, dayOfMonthAlignment = null),
+                ExpectedDayProperties("2019-12-08", "8", ' ', SUNDAY, true, dayOfMonthAlignment = null),
+                ExpectedDayProperties("2019-12-09", "9", ' ', MONDAY, true, dayOfMonthAlignment = null),
+                ExpectedDayProperties("2019-12-10", "10", ' ', TUESDAY, true, dayOfMonthAlignment = null),
+                ExpectedDayProperties("2019-12-11", "11", ' ', WEDNESDAY, true, dayOfMonthAlignment = null),
+                ExpectedDayProperties("2019-12-12", "12", ' ', THURSDAY, true, dayOfMonthAlignment = null),
+                ExpectedDayProperties("2019-12-13", "13", ' ', FRIDAY, true, dayOfMonthAlignment = null),
+                ExpectedDayProperties("2019-12-14", "14", ' ', SATURDAY, true, dayOfMonthAlignment = null),
+                ExpectedDayProperties("2019-12-15", "15", ' ', SUNDAY, true, dayOfMonthAlignment = null),
+                ExpectedDayProperties("2019-12-16", "16", ' ', MONDAY, true, dayOfMonthAlignment = null),
+                ExpectedDayProperties("2019-12-17", "17", ' ', TUESDAY, true, dayOfMonthAlignment = null),
+                ExpectedDayProperties("2019-12-18", "18", ' ', WEDNESDAY, true, dayOfMonthAlignment = null),
+                ExpectedDayProperties("2019-12-19", "19", ' ', THURSDAY, true, dayOfMonthAlignment = null),
+                ExpectedDayProperties("2019-12-20", "20", ' ', FRIDAY, true, dayOfMonthAlignment = null),
+                ExpectedDayProperties("2019-12-21", "21", ' ', SATURDAY, true, dayOfMonthAlignment = null),
+                ExpectedDayProperties("2019-12-22", "22", ' ', SUNDAY, true, dayOfMonthAlignment = null),
+                ExpectedDayProperties("2019-12-23", "23", ' ', MONDAY, true, dayOfMonthAlignment = null),
+                ExpectedDayProperties("2019-12-24", "24", ' ', TUESDAY, true, dayOfMonthAlignment = null),
+                ExpectedDayProperties("2019-12-25", "25", ' ', WEDNESDAY, true, dayOfMonthAlignment = null),
+                ExpectedDayProperties("2019-12-26", "26", ' ', THURSDAY, true, dayOfMonthAlignment = null),
+                ExpectedDayProperties("2019-12-27", "27", ' ', FRIDAY, true, dayOfMonthAlignment = null),
+                ExpectedDayProperties("2019-12-28", "28", ' ', SATURDAY, true, dayOfMonthAlignment = null),
+                ExpectedDayProperties("2019-12-29", "29", ' ', SUNDAY, true, dayOfMonthAlignment = null),
+                ExpectedDayProperties("2019-12-30", "30", ' ', MONDAY, true, dayOfMonthAlignment = null),
+                ExpectedDayProperties("2019-12-31", "31", ' ', TUESDAY, true, dayOfMonthAlignment = null),
+                ExpectedDayProperties("2020-01-01", "1", ' ', WEDNESDAY, dayOfMonthAlignment = null),
+                ExpectedDayProperties("2020-01-02", "2", ' ', THURSDAY, dayOfMonthAlignment = null),
+                ExpectedDayProperties("2020-01-03", "3", ' ', FRIDAY, dayOfMonthAlignment = null),
+                ExpectedDayProperties("2020-01-04", "4", ' ', SATURDAY, dayOfMonthAlignment = null),
+                ExpectedDayProperties("2020-01-05", "5", ' ', SUNDAY, dayOfMonthAlignment = null)
             )
         )
     )
 
     private fun getSystemLocalDateAndFirstDayOfWeekWithExpectedCurrentWeekFocusedInitialLocalDate() = listOf(
-        Arguments.of(of(2022, 2, 24), DayOfWeek.MONDAY, of(2022, 2, 14)),
-        Arguments.of(of(2022, 2, 27), DayOfWeek.MONDAY, of(2022, 2, 14)),
-        Arguments.of(of(2022, 2, 28), DayOfWeek.MONDAY, of(2022, 2, 21)),
-        Arguments.of(of(2022, 2, 28), DayOfWeek.TUESDAY, of(2022, 2, 15)),
-        Arguments.of(of(2022, 3, 1), DayOfWeek.TUESDAY, of(2022, 2, 22)),
-        Arguments.of(of(2022, 1, 1), DayOfWeek.WEDNESDAY, of(2021, 12, 22)),
-        Arguments.of(of(2022, 1, 1), DayOfWeek.SATURDAY, of(2021, 12, 25)),
-        Arguments.of(of(2022, 2, 20), DayOfWeek.SUNDAY, of(2022, 2, 13)),
-        Arguments.of(of(2022, 2, 25), DayOfWeek.SUNDAY, of(2022, 2, 13)),
-        Arguments.of(of(2022, 2, 26), DayOfWeek.SUNDAY, of(2022, 2, 13)),
-        Arguments.of(of(2022, 2, 27), DayOfWeek.SUNDAY, of(2022, 2, 20))
+        Arguments.of(of(2022, 2, 24), MONDAY, of(2022, 2, 14)),
+        Arguments.of(of(2022, 2, 27), MONDAY, of(2022, 2, 14)),
+        Arguments.of(of(2022, 2, 28), MONDAY, of(2022, 2, 21)),
+        Arguments.of(of(2022, 2, 28), TUESDAY, of(2022, 2, 15)),
+        Arguments.of(of(2022, 3, 1), TUESDAY, of(2022, 2, 22)),
+        Arguments.of(of(2022, 1, 1), WEDNESDAY, of(2021, 12, 22)),
+        Arguments.of(of(2022, 1, 1), SATURDAY, of(2021, 12, 25)),
+        Arguments.of(of(2022, 2, 20), SUNDAY, of(2022, 2, 13)),
+        Arguments.of(of(2022, 2, 25), SUNDAY, of(2022, 2, 13)),
+        Arguments.of(of(2022, 2, 26), SUNDAY, of(2022, 2, 13)),
+        Arguments.of(of(2022, 2, 27), SUNDAY, of(2022, 2, 20))
     )
 
     private fun getSystemLocalDateAndFirstDayOfWeekWithExpectedNaturalMonthInitialLocalDate() = listOf(
-        Arguments.of(of(2018, 1, 26), DayOfWeek.MONDAY, of(2018, 1, 1)),
-        Arguments.of(of(2018, 1, 26), DayOfWeek.TUESDAY, of(2017, 12, 26)),
-        Arguments.of(of(2018, 1, 26), DayOfWeek.WEDNESDAY, of(2017, 12, 27)),
-        Arguments.of(of(2018, 1, 26), DayOfWeek.THURSDAY, of(2017, 12, 28)),
-        Arguments.of(of(2018, 1, 26), DayOfWeek.FRIDAY, of(2017, 12, 29)),
-        Arguments.of(of(2018, 1, 26), DayOfWeek.SATURDAY, of(2017, 12, 30)),
-        Arguments.of(of(2018, 1, 26), DayOfWeek.SUNDAY, of(2017, 12, 31)),
-        Arguments.of(of(2005, 2, 19), DayOfWeek.WEDNESDAY, of(2005, 1, 26)),
-        Arguments.of(of(2027, 3, 5), DayOfWeek.SUNDAY, of(2027, 2, 28)),
-        Arguments.of(of(2099, 4, 30), DayOfWeek.MONDAY, of(2099, 3, 30)),
-        Arguments.of(of(2000, 5, 1), DayOfWeek.SATURDAY, of(2000, 4, 29)),
-        Arguments.of(of(1998, 6, 2), DayOfWeek.WEDNESDAY, of(1998, 5, 27)),
-        Arguments.of(of(1992, 7, 7), DayOfWeek.TUESDAY, of(1992, 6, 30)),
-        Arguments.of(of(2018, 8, 1), DayOfWeek.FRIDAY, of(2018, 7, 27)),
-        Arguments.of(of(1987, 9, 12), DayOfWeek.FRIDAY, of(1987, 8, 28)),
-        Arguments.of(of(2017, 10, 1), DayOfWeek.THURSDAY, of(2017, 9, 28)),
-        Arguments.of(of(1000, 11, 12), DayOfWeek.SATURDAY, of(1000, 11, 1)),
-        Arguments.of(of(1994, 12, 13), DayOfWeek.THURSDAY, of(1994, 12, 1)),
-        Arguments.of(of(2021, 2, 13), DayOfWeek.MONDAY, of(2021, 2, 1)),
-        Arguments.of(of(2021, 3, 13), DayOfWeek.MONDAY, of(2021, 3, 1))
+        Arguments.of(of(2018, 1, 26), MONDAY, of(2018, 1, 1)),
+        Arguments.of(of(2018, 1, 26), TUESDAY, of(2017, 12, 26)),
+        Arguments.of(of(2018, 1, 26), WEDNESDAY, of(2017, 12, 27)),
+        Arguments.of(of(2018, 1, 26), THURSDAY, of(2017, 12, 28)),
+        Arguments.of(of(2018, 1, 26), FRIDAY, of(2017, 12, 29)),
+        Arguments.of(of(2018, 1, 26), SATURDAY, of(2017, 12, 30)),
+        Arguments.of(of(2018, 1, 26), SUNDAY, of(2017, 12, 31)),
+        Arguments.of(of(2005, 2, 19), WEDNESDAY, of(2005, 1, 26)),
+        Arguments.of(of(2027, 3, 5), SUNDAY, of(2027, 2, 28)),
+        Arguments.of(of(2099, 4, 30), MONDAY, of(2099, 3, 30)),
+        Arguments.of(of(2000, 5, 1), SATURDAY, of(2000, 4, 29)),
+        Arguments.of(of(1998, 6, 2), WEDNESDAY, of(1998, 5, 27)),
+        Arguments.of(of(1992, 7, 7), TUESDAY, of(1992, 6, 30)),
+        Arguments.of(of(2018, 8, 1), FRIDAY, of(2018, 7, 27)),
+        Arguments.of(of(1987, 9, 12), FRIDAY, of(1987, 8, 28)),
+        Arguments.of(of(2017, 10, 1), THURSDAY, of(2017, 9, 28)),
+        Arguments.of(of(1000, 11, 12), SATURDAY, of(1000, 11, 1)),
+        Arguments.of(of(1994, 12, 13), THURSDAY, of(1994, 12, 1)),
+        Arguments.of(of(2021, 2, 13), MONDAY, of(2021, 2, 1)),
+        Arguments.of(of(2021, 3, 13), MONDAY, of(2021, 3, 1))
     )
 
     private fun getLocalDateAndIncludeDeclinedEventsWithExpectedNumberOfInstances() = listOf(
@@ -778,16 +791,18 @@ internal class DaysServiceTest : BaseTest() {
         val showDeclinedEvents: Boolean,
         val shouldIncludeInstancesSymbolRemoteView: Boolean,
         val expectedFirstDay: LocalDate,
-        val expectedDayProperties: List<DrawDaysUseCaseTestDayProperties>
+        val expectedDayProperties: List<ExpectedDayProperties>
     )
 
-    internal data class DrawDaysUseCaseTestDayProperties(
+    internal data class ExpectedDayProperties(
         private val day: String,
         val dayOfMonth: String,
         val instancesSymbol: Char,
         val dayOfWeek: DayOfWeek,
         val isInMonth: Boolean = false,
-        val isToday: Boolean = false
+        val isToday: Boolean = false,
+        val dayOfMonthHighlightDrawable: Int? = null,
+        val dayOfMonthAlignment: Layout.Alignment? = Layout.Alignment.ALIGN_OPPOSITE
     ) {
         fun startOfDay(zoneOffset: ZoneOffset): Instant =
             LocalDateTime.parse("${day}T00:00:00Z", DateTimeFormatter.ISO_ZONED_DATE_TIME).toInstant(zoneOffset)

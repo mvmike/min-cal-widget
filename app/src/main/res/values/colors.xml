@@ -9,9 +9,6 @@
     <color name="background_this_month_dark">#FFFFFF</color>
     <color name="background_this_month_light">#000000</color>
 
-    <color name="background_today_dark">#001B14</color>
-    <color name="background_today_light">#E4FFF8</color>
-
     <color name="background_saturday_dark">#215487</color>
     <color name="background_saturday_light">#B9C9FF</color>
 
@@ -24,15 +21,9 @@
     <color name="background_sunday_this_month_dark">#FF9999</color>
     <color name="background_sunday_this_month_light">#FF4B4B</color>
 
-    <color name="background_saturday_today_dark">#004080</color>
-    <color name="background_saturday_today_light">#004080</color>
-
-    <color name="background_sunday_today_dark">#850000</color>
-    <color name="background_sunday_today_light">#850000</color>
-
     <!--foreground-->
 
-    <color name="text_colour_today">#B41919</color>
+    <color name="instances_today">#FF0000</color>
 
     <color name="text_colour_dark">#FFFFFF</color>
     <color name="text_colour_light">#000000</color>

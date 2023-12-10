@@ -61,7 +61,7 @@ enum class Colour(
         isToday: Boolean,
         widgetTheme: Theme
     ) = when {
-        isToday -> R.color.text_colour_today
+        isToday -> R.color.instances_today
         else -> when (widgetTheme) {
             Theme.DARK -> darkThemeHexColour
             Theme.LIGHT -> lightThemeHexColour
@@ -70,7 +70,7 @@ enum class Colour(
 }
 
 fun getAvailableColors() =
-    Colour.values().filter { it.isAvailable() }
+    Colour.entries.filter { it.isAvailable() }
 
 fun Colour.getDisplayValue(context: Context) =
     context.getString(displayString).replaceFirstChar { it.uppercase() }

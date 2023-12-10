@@ -42,6 +42,6 @@ fun Calendar.getDisplayValue(context: Context) =
     context.getString(displayString).replaceFirstChar { it.uppercase() }
 
 fun getCalendarDisplayValues(context: Context) =
-    Calendar.values()
+    Calendar.entries
         .map { it.getDisplayValue(context) }
         .toTypedArray()

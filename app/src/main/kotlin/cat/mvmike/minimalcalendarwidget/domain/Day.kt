@@ -29,7 +29,7 @@ data class Day(
 }
 
 fun getDayOfWeekDisplayValues(context: Context) =
-    DayOfWeek.values()
+    DayOfWeek.entries
         .map { it.getDisplayValue(context) }
         .toTypedArray()
 
@@ -57,4 +57,4 @@ fun DayOfWeek.getAbbreviatedDisplayValue(context: Context) =
             DayOfWeek.SATURDAY -> R.string.saturday_abb
             DayOfWeek.SUNDAY -> R.string.sunday_abb
         }
-    ).replaceFirstChar { it.uppercase() }
+    ).uppercase()

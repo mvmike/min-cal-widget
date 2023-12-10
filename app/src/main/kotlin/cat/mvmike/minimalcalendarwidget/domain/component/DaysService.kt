@@ -3,14 +3,13 @@
 package cat.mvmike.minimalcalendarwidget.domain.component
 
 import android.content.Context
-import android.graphics.Typeface
 import android.text.Layout
 import android.widget.RemoteViews
 import cat.mvmike.minimalcalendarwidget.domain.Day
 import cat.mvmike.minimalcalendarwidget.domain.Instance
 import cat.mvmike.minimalcalendarwidget.domain.configuration.BooleanConfigurationItem
 import cat.mvmike.minimalcalendarwidget.domain.configuration.EnumConfigurationItem
-import cat.mvmike.minimalcalendarwidget.domain.configuration.item.CellContent
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Cell
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.SymbolSet
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.TextSize
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
@@ -64,7 +63,6 @@ object DaysService {
                 val currentDay = Day(initialLocalDate.toCurrentWeekAndWeekDay(week, weekDay))
                 val isToday = currentDay.isToday(systemLocalDate)
                 val dayCell = widgetTheme.getCellDay(
-                    isToday = isToday,
                     inMonth = currentDay.isInMonth(systemLocalDate),
                     dayOfWeek = currentDay.getDayOfWeek()
                 )
@@ -77,41 +75,43 @@ object DaysService {
                     ?.withTransparency(
                         transparency = transparency,
                         transparencyRange = when {
-                            isToday -> TransparencyRange.HIGH
                             currentDay.isWeekend() -> TransparencyRange.MODERATE
                             else -> TransparencyRange.LOW
                         }
                     )
 
-                val dayOfMonthRemoteView = GraphicResolver.createDayLayout(context, dayCell.layout)
+                val dayOfMonthRemoteView = GraphicResolver.createDayLayout(context)
                 val instancesSymbolRemoteView = when {
                     instancesSymbolSet == SymbolSet.NONE -> null
                     instanceSet.isEmpty() -> null
-                    else -> GraphicResolver.createDayLayout(context, dayCell.layout)
+                    else -> GraphicResolver.createDayLayout(context)
                 }
                 GraphicResolver.addToDaysRow(
                     context = context,
                     weekRowRemoteView = weekRowRemoteView,
-                    viewId = dayCell.id,
                     backgroundColour = backgroundWithTransparency,
                     cells = listOf(
-                        dayOfMonthRemoteView to CellContent(
+                        dayOfMonthRemoteView to Cell(
                             text = currentDay.getDayOfMonthString(),
                             colour = dayCell.textColour,
                             relativeSize = textSize.relativeValue,
-                            style = when {
-                                isToday -> Typeface.BOLD
+                            bold = isToday,
+                            highlightDrawable = when {
+                                isToday -> widgetTheme.dayHighlightDrawable.get(
+                                    text = currentDay.getDayOfMonthString(),
+                                    isCentered = instancesSymbolRemoteView == null
+                                )
                                 else -> null
                             },
                             alignment = instancesSymbolRemoteView?.let {
                                 Layout.Alignment.ALIGN_OPPOSITE
                             }
                         ),
-                        instancesSymbolRemoteView to CellContent(
+                        instancesSymbolRemoteView to Cell(
                             text = instancesSymbol.toString(),
                             colour = dayInstancesColour,
                             relativeSize = instancesSymbolSet.relativeSize * textSize.relativeValue,
-                            style = Typeface.BOLD
+                            bold = true
                         )
                     )
                 )

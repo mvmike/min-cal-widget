@@ -4,7 +4,7 @@ package cat.mvmike.minimalcalendarwidget.domain.component
 
 import android.content.Context
 import android.widget.RemoteViews
-import cat.mvmike.minimalcalendarwidget.domain.configuration.item.CellContent
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Cell
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.TextSize
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Transparency
@@ -38,12 +38,10 @@ object DaysHeaderService {
                 )
 
             GraphicResolver.addToDaysHeaderRow(
-                layoutId = cellHeader.layout,
                 context = context,
                 daysHeaderRowRemoteView = daysHeaderRow,
-                viewId = cellHeader.id,
                 dayHeaderBackgroundColour = backgroundWithTransparency,
-                cellContent = CellContent(
+                cell = Cell(
                     text = dayOfWeek.getAbbreviatedDisplayValue(context).take(textSize.dayHeaderLabelLength),
                     colour = cellHeader.textColour,
                     relativeSize = textSize.relativeValue
@@ -59,7 +57,7 @@ object DaysHeaderService {
     }
 
     private fun getRotatedWeekDays(startDayOfWeek: DayOfWeek): List<DayOfWeek> {
-        val daysOfWeek = DayOfWeek.values().toMutableList()
+        val daysOfWeek = DayOfWeek.entries.toMutableList()
         Collections.rotate(daysOfWeek, -startDayOfWeek.ordinal)
         return daysOfWeek.toList()
     }

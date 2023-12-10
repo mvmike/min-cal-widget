@@ -35,10 +35,6 @@ enum class TransparencyRange(
         minAlpha = alphaRange.first,
         maxAlpha = alphaRange.last
     ),
-    HIGH(
-        minAlpha = alphaRange.first,
-        maxAlpha = 160
-    ),
     MODERATE(
         minAlpha = alphaRange.first,
         maxAlpha = 80

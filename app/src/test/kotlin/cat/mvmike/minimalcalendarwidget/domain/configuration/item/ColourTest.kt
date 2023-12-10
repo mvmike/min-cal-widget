@@ -8,25 +8,25 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 import org.junit.jupiter.params.provider.EnumSource
 
-internal const val TEXT_COLOUR_TODAY_ID = 2131034231
+internal const val TEXT_COLOUR_TODAY_ID = 2131034184
 
-internal const val CYAN_INSTANCES_COLOUR_ID = 2131034185
-private const val MINT_INSTANCES_COLOUR_ID = 2131034187
-private const val BLUE_INSTANCES_COLOUR_ID = 2131034184
-private const val GREEN_INSTANCES_COLOUR_ID = 2131034186
-private const val YELLOW_INSTANCES_COLOUR_ID = 2131034191
-private const val BLACK_INSTANCES_COLOUR_ID = 2131034183
-private const val WHITE_INSTANCES_COLOUR_ID = 2131034190
+internal const val CYAN_INSTANCES_COLOUR_ID = 2131034179
+private const val MINT_INSTANCES_COLOUR_ID = 2131034181
+private const val BLUE_INSTANCES_COLOUR_ID = 2131034178
+private const val GREEN_INSTANCES_COLOUR_ID = 2131034180
+private const val YELLOW_INSTANCES_COLOUR_ID = 2131034186
+private const val BLACK_INSTANCES_COLOUR_ID = 2131034177
+private const val WHITE_INSTANCES_COLOUR_ID = 2131034185
 
-private const val SYSTEM_ACCENT_DARK_THEME_INSTANCES_COLOUR_ID = 2131034189
-private const val SYSTEM_ACCENT_LIGHT_THEME_INSTANCES_COLOUR_ID = 2131034188
+private const val SYSTEM_ACCENT_DARK_THEME_INSTANCES_COLOUR_ID = 2131034183
+private const val SYSTEM_ACCENT_LIGHT_THEME_INSTANCES_COLOUR_ID = 2131034182
 
 internal class ColourTest : BaseTest() {
 
     @ParameterizedTest
     @EnumSource(value = Colour::class)
     fun getInstancesColour_shouldAlwaysReturnTheSameValueWhenIsToday(colour: Colour) {
-        Theme.values().forEach {
+        Theme.entries.forEach {
             val todayInstancesColour = colour.getInstancesColour(true, it)
             assertThat(todayInstancesColour).isEqualTo(TEXT_COLOUR_TODAY_ID)
         }
