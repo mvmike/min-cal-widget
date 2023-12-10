@@ -424,7 +424,11 @@ internal class DaysServiceTest : BaseTest() {
                 ExpectedDayProperties("2018-12-01", "1", ' ', SATURDAY, true),
                 ExpectedDayProperties("2018-12-02", "2", ' ', SUNDAY, true),
                 ExpectedDayProperties("2018-12-03", "3", '·', MONDAY, true),
-                ExpectedDayProperties("2018-12-04", "4", '·', TUESDAY,
+                ExpectedDayProperties(
+                    day = "2018-12-04",
+                    dayOfMonth = "4",
+                    instancesSymbol = '·',
+                    dayOfWeek = TUESDAY,
                     isInMonth = true,
                     isToday = true,
                     dayOfMonthHighlightDrawable = 2131165277
@@ -487,7 +491,11 @@ internal class DaysServiceTest : BaseTest() {
                 ExpectedDayProperties("2018-12-01", "1", ' ', SATURDAY, true),
                 ExpectedDayProperties("2018-12-02", "2", ' ', SUNDAY, true),
                 ExpectedDayProperties("2018-12-03", "3", '☱', MONDAY, true),
-                ExpectedDayProperties("2018-12-04", "4", '☱', TUESDAY,
+                ExpectedDayProperties(
+                    day = "2018-12-04",
+                    dayOfMonth = "4",
+                    instancesSymbol = '☱',
+                    dayOfWeek = TUESDAY,
                     isInMonth = true,
                     isToday = true,
                     dayOfMonthHighlightDrawable = 2131165278
@@ -552,7 +560,11 @@ internal class DaysServiceTest : BaseTest() {
                 ExpectedDayProperties("2018-12-01", "1", ' ', SATURDAY, true, dayOfMonthAlignment = null),
                 ExpectedDayProperties("2018-12-02", "2", ' ', SUNDAY, true, dayOfMonthAlignment = null),
                 ExpectedDayProperties("2018-12-03", "3", ' ', MONDAY, true, dayOfMonthAlignment = null),
-                ExpectedDayProperties("2018-12-04", "4", ' ', TUESDAY,
+                ExpectedDayProperties(
+                    day = "2018-12-04",
+                    dayOfMonth = "4",
+                    instancesSymbol = ' ',
+                    dayOfWeek = TUESDAY,
                     isInMonth = true,
                     isToday = true,
                     dayOfMonthHighlightDrawable = 2131165273,
@@ -612,7 +624,11 @@ internal class DaysServiceTest : BaseTest() {
                 ExpectedDayProperties("2019-12-01", "1", ' ', SUNDAY, true, dayOfMonthAlignment = null),
                 ExpectedDayProperties("2019-12-02", "2", ' ', MONDAY, true, dayOfMonthAlignment = null),
                 ExpectedDayProperties("2019-12-03", "3", ' ', TUESDAY, true, dayOfMonthAlignment = null),
-                ExpectedDayProperties("2019-12-04", "4", ' ', WEDNESDAY,
+                ExpectedDayProperties(
+                    day = "2019-12-04",
+                    dayOfMonth = "4",
+                    instancesSymbol = ' ',
+                    dayOfWeek = WEDNESDAY,
                     isInMonth = true,
                     isToday = true,
                     dayOfMonthHighlightDrawable = 2131165273,
