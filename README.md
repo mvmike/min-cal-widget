@@ -26,10 +26,10 @@ Minimal calendar widget that's always on current date's month
 
 ## Screenshots
 
-<p align="middle">
-  <img src="/fastlane/metadata/android/en-US/images/phoneScreenshots/1.png" width="30%" >
-  <img src="/fastlane/metadata/android/en-US/images/phoneScreenshots/2.png" width="30%" >
-  <img src="/fastlane/metadata/android/en-US/images/phoneScreenshots/3.png" width="30%" >
+<p style="text-align: center;">
+  <img src="/fastlane/metadata/android/en-US/images/phoneScreenshots/1.png" width="30%" alt="Widget examples">
+  <img src="/fastlane/metadata/android/en-US/images/phoneScreenshots/2.png" width="30%" alt="Settings in dark mode">
+  <img src="/fastlane/metadata/android/en-US/images/phoneScreenshots/3.png" width="30%" alt="More settings in light mode">
 </p>
 
 ## Supported languages
