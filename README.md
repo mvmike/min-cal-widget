@@ -1,4 +1,4 @@
-# MinCal Widget  <img align="left" src="https://raw.githubusercontent.com/mvmike/min-cal-widget/master/fastlane/metadata/android/en-US/images/icon.png" width="42"/>
+# MinCal Widget <img align="left" src="https://raw.githubusercontent.com/mvmike/min-cal-widget/master/fastlane/metadata/android/en-US/images/icon.png" width="42"/>
 
 Minimal calendar widget that's always on current date's month
 
@@ -27,9 +27,9 @@ Minimal calendar widget that's always on current date's month
 ## Screenshots
 
 <p style="text-align: center;">
-  <img src="/fastlane/metadata/android/en-US/images/phoneScreenshots/1.png" width="30%" alt="Widget examples">
-  <img src="/fastlane/metadata/android/en-US/images/phoneScreenshots/2.png" width="30%" alt="Settings in dark mode">
-  <img src="/fastlane/metadata/android/en-US/images/phoneScreenshots/3.png" width="30%" alt="More settings in light mode">
+  <img src="/fastlane/metadata/android/en-US/images/phoneScreenshots/1.png" width="30%">
+  <img src="/fastlane/metadata/android/en-US/images/phoneScreenshots/2.png" width="30%">
+  <img src="/fastlane/metadata/android/en-US/images/phoneScreenshots/3.png" width="30%">
 </p>
 
 ## Supported languages
