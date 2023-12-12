@@ -24,7 +24,6 @@ internal class ConfigurationTest : BaseTest() {
     @ValueSource(ints = [0, 1, 5, 17, 50, 51, 72, 80, 99, 100])
     fun getWidgetTextSize_shouldReturnSharedPreferencesValue(width: Int) {
         val textSize = TextSize(width)
-        mockSharedPreferences()
         mockWidgetTextSize(textSize)
 
         val result = PercentageConfigurationItem.WidgetTextSize.get(context)
@@ -38,7 +37,6 @@ internal class ConfigurationTest : BaseTest() {
     @ValueSource(ints = [0, 1, 5, 17, 50, 51, 72, 80, 99, 100])
     fun getWidgetTransparency_shouldReturnSharedPreferencesValue(percentage: Int) {
         val transparency = Transparency(percentage)
-        mockSharedPreferences()
         mockWidgetTransparency(transparency)
 
         val result = PercentageConfigurationItem.WidgetTransparency.get(context)
@@ -51,7 +49,6 @@ internal class ConfigurationTest : BaseTest() {
     @ParameterizedTest
     @ValueSource(booleans = [true, false])
     fun getShowDeclinedEvents_shouldReturnSharedPreferencesValue(showDeclinedEvents: Boolean) {
-        mockSharedPreferences()
         mockShowDeclinedEvents(showDeclinedEvents)
 
         val result = BooleanConfigurationItem.ShowDeclinedEvents.get(context)
@@ -64,7 +61,6 @@ internal class ConfigurationTest : BaseTest() {
     @ParameterizedTest
     @ValueSource(booleans = [true, false])
     fun getFocusOnCurrentWeek_shouldReturnSharedPreferencesValue(focusOnCurrentWeek: Boolean) {
-        mockSharedPreferences()
         mockFocusOnCurrentWeek(focusOnCurrentWeek)
 
         val result = BooleanConfigurationItem.FocusOnCurrentWeek.get(context)
@@ -77,7 +73,6 @@ internal class ConfigurationTest : BaseTest() {
     @ParameterizedTest
     @ValueSource(booleans = [true, false])
     fun getOpenCalendarOnClickedDay_shouldReturnSharedPreferencesValue(openCalendarOnClickedDay: Boolean) {
-        mockSharedPreferences()
         mockOpenCalendarOnClickedDay(openCalendarOnClickedDay)
 
         val result = BooleanConfigurationItem.OpenCalendarOnClickedDay.get(context)
@@ -90,7 +85,6 @@ internal class ConfigurationTest : BaseTest() {
     @ParameterizedTest
     @EnumSource(value = Theme::class)
     fun getCalendarTheme_shouldReturnSharedPreferencesValue(widgetTheme: Theme) {
-        mockSharedPreferences()
         mockWidgetTheme(widgetTheme)
 
         val result = EnumConfigurationItem.WidgetTheme.get(context)
@@ -103,7 +97,6 @@ internal class ConfigurationTest : BaseTest() {
     @ParameterizedTest
     @EnumSource(value = DayOfWeek::class)
     fun getFirstDayOfWeek_shouldReturnSharedPreferencesValue(dayOfWeek: DayOfWeek) {
-        mockSharedPreferences()
         mockFirstDayOfWeek(dayOfWeek)
 
         val result = EnumConfigurationItem.FirstDayOfWeek.get(context)
@@ -116,7 +109,6 @@ internal class ConfigurationTest : BaseTest() {
     @ParameterizedTest
     @EnumSource(value = SymbolSet::class)
     fun getInstancesSymbolSet_shouldReturnSharedPreferencesValue(symbolSet: SymbolSet) {
-        mockSharedPreferences()
         mockInstancesSymbolSet(symbolSet)
 
         val result = EnumConfigurationItem.InstancesSymbolSet.get(context)
@@ -129,7 +121,6 @@ internal class ConfigurationTest : BaseTest() {
     @ParameterizedTest
     @EnumSource(value = Colour::class)
     fun getInstancesColour_shouldReturnSharedPreferencesValue(colour: Colour) {
-        mockSharedPreferences()
         mockInstancesColour(colour)
 
         val result = EnumConfigurationItem.InstancesColour.get(context)

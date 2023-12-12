@@ -72,7 +72,6 @@ internal class DaysServiceTest : BaseTest() {
             CalendarResolver.getInstances(context, initEpochMillis, endEpochMillis)
         } returns testProperties.systemInstances
 
-        mockSharedPreferences()
         mockFocusOnCurrentWeek(testProperties.focusOnCurrentWeek)
         mockInstancesSymbolSet(testProperties.instancesSymbolSet)
         mockInstancesColour(testProperties.instancesColour)

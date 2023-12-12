@@ -37,7 +37,6 @@ internal class MonthAndYearHeaderServiceTest : BaseTest() {
         val expectedHeaderRelativeYearSize = 0.6f
         mockGetSystemInstant(instant)
         mockGetSystemZoneId()
-        mockSharedPreferences()
         mockWidgetCalendar(calendar)
         val month = instant.atZone(zoneId).month
         every { context.getString(month.getExpectedResourceId()) } returns month.getExpectedAbbreviatedString()

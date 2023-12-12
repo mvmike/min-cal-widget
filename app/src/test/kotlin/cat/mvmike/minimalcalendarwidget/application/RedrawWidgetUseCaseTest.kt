@@ -110,7 +110,6 @@ internal class RedrawWidgetUseCaseTest : BaseTest() {
         justRun { ActionableView.ConfigurationIcon.addListener(context, any()) }
         justRun { ActionableView.MonthAndYearHeader.addListener(context, any()) }
 
-        mockSharedPreferences()
         mockWidgetTextSize(testProperties.textSize)
         mockWidgetTheme(testProperties.widgetTheme)
         mockWidgetTransparency(testProperties.transparency)
@@ -170,7 +169,6 @@ internal class RedrawWidgetUseCaseTest : BaseTest() {
         }
 
         assertThat(executionTime).isLessThan(binderProxyTransactionTimeoutInMillis)
-        verifySharedPreferencesAccess()
         verifyWidgetTextSize()
         verifyWidgetTheme()
         verifyWidgetTransparency()

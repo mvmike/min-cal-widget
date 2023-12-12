@@ -70,7 +70,6 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
     fun shouldLaunchPermissionsActivity_whenNoPermissionsGivenAndNoneSymbolSet(action: String) {
         mockIntent(action)
         mockIsReadCalendarPermitted(false)
-        mockSharedPreferences()
         mockInstancesSymbolSet(SymbolSet.MINIMAL)
         justRun { PermissionsActivity.Companion.start(context) }
 
@@ -118,7 +117,6 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
     fun shouldLaunchCalendarActivityAndRedrawWidget_whenNoPermissionsGivenAndNoneSymbolSet(action: String) {
         mockIntent(action)
         mockIsReadCalendarPermitted(false)
-        mockSharedPreferences()
         mockInstancesSymbolSet(SymbolSet.NONE)
         mockGetSystemInstant()
         mockOpenCalendarOnClickedDay(false)
@@ -143,7 +141,6 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
         mockIntent(action)
         mockIsReadCalendarPermitted(true)
         mockGetSystemInstant()
-        mockSharedPreferences()
         mockOpenCalendarOnClickedDay(false)
         mockkObject(RedrawWidgetUseCase)
 
@@ -155,7 +152,6 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
         verifyIntentAction()
         verifyIsReadCalendarPermitted()
         verifyGetSystemInstant()
-        verifySharedPreferencesAccess()
         verifyOpenCalendarOnClickedDay()
         verify { CalendarActivity.start(context, systemInstant) }
         verify { RedrawWidgetUseCase.execute(context) }
@@ -174,7 +170,6 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
         mockIsReadCalendarPermitted(true)
         mockGetSystemInstant()
         mockGetSystemZoneId()
-        mockSharedPreferences()
         mockOpenCalendarOnClickedDay(true)
         mockkObject(RedrawWidgetUseCase)
 
@@ -188,7 +183,6 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
         verifyIsReadCalendarPermitted()
         verifyGetSystemInstant()
         verifyGetSystemZoneId()
-        verifySharedPreferencesAccess()
         verifyOpenCalendarOnClickedDay()
         verify { CalendarActivity.start(context, startTimeInstant) }
         verify { RedrawWidgetUseCase.execute(context) }
