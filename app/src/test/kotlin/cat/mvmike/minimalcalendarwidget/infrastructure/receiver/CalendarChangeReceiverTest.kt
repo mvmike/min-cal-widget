@@ -9,8 +9,8 @@ import io.mockk.confirmVerified
 import io.mockk.every
 import io.mockk.mockkObject
 import io.mockk.verify
-import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.NullSource
 import org.junit.jupiter.params.provider.ValueSource
 
 internal class CalendarChangeReceiverTest : BaseTest() {
@@ -39,18 +39,8 @@ internal class CalendarChangeReceiverTest : BaseTest() {
         confirmVerified(RedrawWidgetUseCase)
     }
 
-    @Test
-    fun shouldDoNothingWhenReceivingNullIntentAction() {
-        mockIntent(null)
-        mockkObject(RedrawWidgetUseCase)
-
-        calendarChangeReceiver.onReceive(context, intent)
-
-        verifyIntentAction()
-        confirmVerified(RedrawWidgetUseCase)
-    }
-
     @ParameterizedTest
+    @NullSource
     @ValueSource(
         strings = [
             "some random string",
@@ -60,7 +50,7 @@ internal class CalendarChangeReceiverTest : BaseTest() {
             ""
         ]
     )
-    fun shouldDoNothingWhenReceivingNonRegisteredIntentInAndroidManifest(intentAction: String) {
+    fun shouldDoNothingWhenReceivingNonRegisteredIntentInAndroidManifest(intentAction: String?) {
         mockIntent(intentAction)
         mockkObject(RedrawWidgetUseCase)
 
