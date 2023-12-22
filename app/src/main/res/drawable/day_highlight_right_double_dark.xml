@@ -9,7 +9,6 @@
     <group>
         <path
             android:fillColor="@color/text_colour_dark"
-            android:pathData="M8,20h16v1h-16z"/>
+            android:pathData="M6,20h18v1h-18z"/>
     </group>
-
 </vector>
