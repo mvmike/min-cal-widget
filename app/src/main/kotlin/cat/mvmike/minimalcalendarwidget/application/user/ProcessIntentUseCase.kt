@@ -13,6 +13,7 @@ import cat.mvmike.minimalcalendarwidget.domain.intent.ActionableView.CellDay.get
 import cat.mvmike.minimalcalendarwidget.domain.intent.ActionableView.ConfigurationIcon
 import cat.mvmike.minimalcalendarwidget.domain.intent.ActionableView.MonthAndYearHeader
 import cat.mvmike.minimalcalendarwidget.domain.intent.ActionableView.RowHeader
+import cat.mvmike.minimalcalendarwidget.domain.intent.AutoUpdate
 import cat.mvmike.minimalcalendarwidget.domain.intent.toActionableView
 import cat.mvmike.minimalcalendarwidget.infrastructure.activity.CalendarActivity
 import cat.mvmike.minimalcalendarwidget.infrastructure.activity.ConfigurationActivity
@@ -55,5 +56,7 @@ object ProcessIntentUseCase {
             RedrawWidgetUseCase.execute(this)
         }
         else -> PermissionsActivity.start(this)
+    }.also {
+        AutoUpdate.set(this)
     }
 }

@@ -6,6 +6,7 @@ import android.appwidget.AppWidgetManager.ACTION_APPWIDGET_UPDATE
 import cat.mvmike.minimalcalendarwidget.BaseTest
 import cat.mvmike.minimalcalendarwidget.application.RedrawWidgetUseCase
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.SymbolSet
+import cat.mvmike.minimalcalendarwidget.domain.intent.AutoUpdate
 import cat.mvmike.minimalcalendarwidget.domain.intent.AutoUpdate.ACTION_AUTO_UPDATE
 import cat.mvmike.minimalcalendarwidget.infrastructure.activity.CalendarActivity
 import cat.mvmike.minimalcalendarwidget.infrastructure.activity.ConfigurationActivity
@@ -71,7 +72,10 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
         mockIntent(action)
         mockIsReadCalendarPermitted(false)
         mockInstancesSymbolSet(SymbolSet.MINIMAL)
+        mockkObject(AutoUpdate)
+
         justRun { PermissionsActivity.Companion.start(context) }
+        justRun { AutoUpdate.set(context) }
 
         ProcessIntentUseCase.execute(context, intent)
 
@@ -79,6 +83,7 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
         verifyIsReadCalendarPermitted()
         verifyInstancesSymbolSet()
         verify { PermissionsActivity.Companion.start(context) }
+        verify { AutoUpdate.set(context) }
     }
 
     @ParameterizedTest
@@ -94,9 +99,11 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
         mockGetSystemInstant()
         mockOpenCalendarOnClickedDay(false)
         mockkObject(RedrawWidgetUseCase)
+        mockkObject(AutoUpdate)
 
         justRun { CalendarActivity.start(context, systemInstant) }
         justRun { RedrawWidgetUseCase.execute(context) }
+        justRun { AutoUpdate.set(context) }
 
         ProcessIntentUseCase.execute(context, intent)
 
@@ -105,6 +112,7 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
         verifyGetSystemInstant()
         verify { CalendarActivity.start(context, systemInstant) }
         verify { RedrawWidgetUseCase.execute(context) }
+        verify { AutoUpdate.set(context) }
     }
 
     @ParameterizedTest
@@ -121,9 +129,11 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
         mockGetSystemInstant()
         mockOpenCalendarOnClickedDay(false)
         mockkObject(RedrawWidgetUseCase)
+        mockkObject(AutoUpdate)
 
         justRun { CalendarActivity.start(context, systemInstant) }
         justRun { RedrawWidgetUseCase.execute(context) }
+        justRun { AutoUpdate.set(context) }
 
         ProcessIntentUseCase.execute(context, intent)
 
@@ -133,6 +143,7 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
         verifyGetSystemInstant()
         verify { CalendarActivity.start(context, systemInstant) }
         verify { RedrawWidgetUseCase.execute(context) }
+        verify { AutoUpdate.set(context) }
     }
 
     @ParameterizedTest
@@ -143,9 +154,11 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
         mockGetSystemInstant()
         mockOpenCalendarOnClickedDay(false)
         mockkObject(RedrawWidgetUseCase)
+        mockkObject(AutoUpdate)
 
         justRun { CalendarActivity.start(context, systemInstant) }
         justRun { RedrawWidgetUseCase.execute(context) }
+        justRun { AutoUpdate.set(context) }
 
         ProcessIntentUseCase.execute(context, intent)
 
@@ -155,6 +168,7 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
         verifyOpenCalendarOnClickedDay()
         verify { CalendarActivity.start(context, systemInstant) }
         verify { RedrawWidgetUseCase.execute(context) }
+        verify { AutoUpdate.set(context) }
     }
 
     @ParameterizedTest
@@ -172,9 +186,11 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
         mockGetSystemZoneId()
         mockOpenCalendarOnClickedDay(true)
         mockkObject(RedrawWidgetUseCase)
+        mockkObject(AutoUpdate)
 
         justRun { CalendarActivity.start(context, startTimeInstant) }
         justRun { RedrawWidgetUseCase.execute(context) }
+        justRun { AutoUpdate.set(context) }
 
         ProcessIntentUseCase.execute(context, intent)
 
@@ -186,6 +202,7 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
         verifyOpenCalendarOnClickedDay()
         verify { CalendarActivity.start(context, startTimeInstant) }
         verify { RedrawWidgetUseCase.execute(context) }
+        verify { AutoUpdate.set(context) }
     }
 
     private fun getMincalCalendarIntentActionAndExpectedExtraInstantAndStartTimeInstant() = listOf(
