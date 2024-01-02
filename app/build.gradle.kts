@@ -51,19 +51,6 @@ android {
         jvmTarget = javaVersion.toString()
     }
 
-    sourceSets {
-        sourceSets["main"].kotlin {
-            srcDirs("src/main/kotlin")
-        }
-        sourceSets["main"].res {
-            srcDirs("src/main/res")
-        }
-
-        sourceSets["test"].kotlin {
-            srcDirs("src/test/kotlin")
-        }
-    }
-
     androidResources {
         generateLocaleConfig = true
     }
