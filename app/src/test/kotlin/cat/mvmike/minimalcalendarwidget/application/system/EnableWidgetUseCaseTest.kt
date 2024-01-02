@@ -14,10 +14,10 @@ internal class EnableWidgetUseCaseTest : BaseTest() {
     @Test
     fun shouldSetAutoUpdate() {
         mockkObject(AutoUpdate)
-        justRun { AutoUpdate.set(context, INTERVAL_MILLIS) }
+        justRun { AutoUpdate.set(context) }
 
         EnableWidgetUseCase.execute(context)
 
-        verify { AutoUpdate.set(context, INTERVAL_MILLIS) }
+        verify { AutoUpdate.set(context) }
     }
 }

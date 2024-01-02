@@ -15,17 +15,16 @@ object AutoUpdate {
 
     private const val ALARM_ID = 859345
 
-    fun set(
-        context: Context,
-        intervalInMillis: Long
-    ) {
+    private const val INTERVAL_MILLIS = 600000L // 1000*60*10 === 10'
+
+    fun set(context: Context) {
         val currentMillis = SystemResolver.getSystemInstant().toEpochMilli()
-        val firstTriggerMillis = currentMillis + intervalInMillis
+        val firstTriggerMillis = currentMillis + INTERVAL_MILLIS
 
         context.getAlarmManager().setRepeating(
             AlarmManager.RTC,
             firstTriggerMillis,
-            intervalInMillis,
+            INTERVAL_MILLIS,
             PendingIntent.getBroadcast(
                 context,
                 ALARM_ID,
