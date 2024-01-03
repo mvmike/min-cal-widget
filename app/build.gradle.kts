@@ -129,7 +129,7 @@ dependencies {
     testImplementation("io.mockk:mockk:1.13.8")
 
     // https://github.com/assertj/assertj-core/tags
-    testImplementation("org.assertj:assertj-core:3.25.0")
+    testImplementation("org.assertj:assertj-core:3.25.1")
 
     // https://github.com/TNG/ArchUnit/releases
     testImplementation("com.tngtech.archunit:archunit-junit5:1.2.1")
