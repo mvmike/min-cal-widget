@@ -4,12 +4,7 @@ package cat.mvmike.minimalcalendarwidget.domain.configuration.item
 
 import android.content.Context
 import cat.mvmike.minimalcalendarwidget.R
-import java.time.Instant
-import java.time.ZoneId
-import java.time.format.DateTimeFormatter
-import java.util.Locale
-
-private const val YEAR_FORMAT = "yyyy"
+import java.time.LocalDate
 
 enum class Calendar(
     val displayString: Int
@@ -17,25 +12,17 @@ enum class Calendar(
 
     GREGORIAN(
         displayString = R.string.gregorian
-    ),
+    ) {
+        override fun getYear(localDate: LocalDate) = "${localDate.year}"
+    },
 
     HOLOCENE(
         displayString = R.string.holocene
     ) {
-        override fun getYear(
-            instant: Instant,
-            zoneId: ZoneId
-        ) = "1${super.getYear(instant, zoneId)}"
+        override fun getYear(localDate: LocalDate) = "1${localDate.year}"
     };
 
-    open fun getYear(
-        instant: Instant,
-        zoneId: ZoneId
-    ): String = DateTimeFormatter
-        .ofPattern(YEAR_FORMAT)
-        .withLocale(Locale.ENGLISH)
-        .withZone(zoneId)
-        .format(instant)
+    abstract fun getYear(localDate: LocalDate): String
 }
 
 fun Calendar.getDisplayValue(context: Context) =

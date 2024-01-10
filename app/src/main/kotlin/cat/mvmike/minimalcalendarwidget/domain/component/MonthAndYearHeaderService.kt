@@ -10,9 +10,8 @@ import cat.mvmike.minimalcalendarwidget.domain.configuration.item.TextSize
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
 import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.GraphicResolver
 import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.SystemResolver
-import java.time.Instant
+import java.time.LocalDate
 import java.time.Month
-import java.time.ZoneId
 
 object MonthAndYearHeaderService {
 
@@ -24,13 +23,12 @@ object MonthAndYearHeaderService {
         textSize: TextSize,
         widgetTheme: Theme
     ) {
-        val systemInstant = SystemResolver.getSystemInstant()
-        val systemZoneId = SystemResolver.getSystemZoneId()
-        val displayMonth = systemInstant
-            .toMonthDisplayValue(systemZoneId, context)
+        val systemLocalDate = SystemResolver.getSystemLocalDate()
+        val displayMonth = systemLocalDate
+            .toMonthDisplayValue(context)
             .take(textSize.monthHeaderLabelLength)
         val displayYear = EnumConfigurationItem.WidgetCalendar.get(context)
-            .getYear(systemInstant, systemZoneId)
+            .getYear(systemLocalDate)
 
         GraphicResolver.createMonthAndYearHeader(
             context = context,
@@ -43,10 +41,9 @@ object MonthAndYearHeaderService {
         )
     }
 
-    private fun Instant.toMonthDisplayValue(
-        zoneId: ZoneId,
+    private fun LocalDate.toMonthDisplayValue(
         context: Context
-    ) = when (atZone(zoneId).month!!) {
+    ) = when (month!!) {
         Month.JANUARY -> R.string.january
         Month.FEBRUARY -> R.string.february
         Month.MARCH -> R.string.march

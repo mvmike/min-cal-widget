@@ -14,7 +14,7 @@ import io.mockk.justRun
 import io.mockk.mockk
 import io.mockk.verify
 import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.Arguments
+import org.junit.jupiter.params.provider.Arguments.of
 import org.junit.jupiter.params.provider.MethodSource
 
 private const val DARK_THEME_MAIN_LAYOUT = 2131034143
@@ -53,19 +53,19 @@ internal class LayoutServiceTest : BaseTest() {
     }
 
     private fun getCombinationOfThemesAndTransparencyLevels() = listOf(
-        Arguments.of(Theme.DARK, Transparency(0), DARK_THEME_MAIN_LAYOUT),
-        Arguments.of(Theme.DARK, Transparency(1), DARK_THEME_MAIN_LAYOUT),
-        Arguments.of(Theme.DARK, Transparency(20), DARK_THEME_MAIN_LAYOUT),
-        Arguments.of(Theme.DARK, Transparency(50), DARK_THEME_MAIN_LAYOUT),
-        Arguments.of(Theme.DARK, Transparency(79), DARK_THEME_MAIN_LAYOUT),
-        Arguments.of(Theme.DARK, Transparency(90), DARK_THEME_MAIN_LAYOUT),
-        Arguments.of(Theme.DARK, Transparency(100), DARK_THEME_MAIN_LAYOUT),
-        Arguments.of(Theme.LIGHT, Transparency(0), LIGHT_THEME_MAIN_LAYOUT),
-        Arguments.of(Theme.LIGHT, Transparency(5), LIGHT_THEME_MAIN_LAYOUT),
-        Arguments.of(Theme.LIGHT, Transparency(70), LIGHT_THEME_MAIN_LAYOUT),
-        Arguments.of(Theme.LIGHT, Transparency(72), LIGHT_THEME_MAIN_LAYOUT),
-        Arguments.of(Theme.LIGHT, Transparency(98), LIGHT_THEME_MAIN_LAYOUT),
-        Arguments.of(Theme.LIGHT, Transparency(99), LIGHT_THEME_MAIN_LAYOUT),
-        Arguments.of(Theme.LIGHT, Transparency(100), LIGHT_THEME_MAIN_LAYOUT)
+        of(Theme.DARK, Transparency(0), DARK_THEME_MAIN_LAYOUT),
+        of(Theme.DARK, Transparency(1), DARK_THEME_MAIN_LAYOUT),
+        of(Theme.DARK, Transparency(20), DARK_THEME_MAIN_LAYOUT),
+        of(Theme.DARK, Transparency(50), DARK_THEME_MAIN_LAYOUT),
+        of(Theme.DARK, Transparency(79), DARK_THEME_MAIN_LAYOUT),
+        of(Theme.DARK, Transparency(90), DARK_THEME_MAIN_LAYOUT),
+        of(Theme.DARK, Transparency(100), DARK_THEME_MAIN_LAYOUT),
+        of(Theme.LIGHT, Transparency(0), LIGHT_THEME_MAIN_LAYOUT),
+        of(Theme.LIGHT, Transparency(5), LIGHT_THEME_MAIN_LAYOUT),
+        of(Theme.LIGHT, Transparency(70), LIGHT_THEME_MAIN_LAYOUT),
+        of(Theme.LIGHT, Transparency(72), LIGHT_THEME_MAIN_LAYOUT),
+        of(Theme.LIGHT, Transparency(98), LIGHT_THEME_MAIN_LAYOUT),
+        of(Theme.LIGHT, Transparency(99), LIGHT_THEME_MAIN_LAYOUT),
+        of(Theme.LIGHT, Transparency(100), LIGHT_THEME_MAIN_LAYOUT)
     )
 }

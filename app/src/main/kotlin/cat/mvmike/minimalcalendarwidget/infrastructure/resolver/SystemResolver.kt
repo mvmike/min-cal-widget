@@ -8,8 +8,8 @@ import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import android.content.res.Resources
 import android.os.Build
 import androidx.core.text.util.LocalePreferences
-import java.time.Clock
 import java.time.DayOfWeek
+import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
 import java.time.temporal.WeekFields
@@ -18,9 +18,9 @@ object SystemResolver {
 
     fun getRuntimeSDK() = Build.VERSION.SDK_INT
 
-    fun getSystemInstant() = Clock.systemUTC().instant()!!
+    fun getSystemInstant() = Instant.now()!!
 
-    fun getSystemLocalDate() = LocalDate.now(Clock.systemDefaultZone())!!
+    fun getSystemLocalDate() = LocalDate.now(getSystemZoneId())!!
 
     fun getSystemZoneId() = ZoneId.systemDefault()!!
 

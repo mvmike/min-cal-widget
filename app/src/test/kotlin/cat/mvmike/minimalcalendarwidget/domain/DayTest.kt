@@ -8,6 +8,7 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.MethodSource
 import java.time.DayOfWeek
 import java.time.LocalDate
+import java.time.LocalDate.parse
 
 internal class DayTest : BaseTest() {
 
@@ -73,7 +74,7 @@ internal class DayTest : BaseTest() {
 
     private fun getLocalDatesWithExpectations() = listOf(
         DayTestProperties(
-            localDate = LocalDate.of(2018, 1, 1),
+            localDate = parse("2018-01-01"),
             expectedDayOfMonthString = "1",
             expectedDayOfWeek = DayOfWeek.MONDAY,
             expectedIsInMonth = false,
@@ -81,7 +82,7 @@ internal class DayTest : BaseTest() {
             expectedIsWeekend = false
         ),
         DayTestProperties(
-            localDate = LocalDate.of(2017, 12, 2),
+            localDate = parse("2017-12-02"),
             expectedDayOfMonthString = "2",
             expectedDayOfWeek = DayOfWeek.SATURDAY,
             expectedIsInMonth = false,
@@ -89,7 +90,7 @@ internal class DayTest : BaseTest() {
             expectedIsWeekend = true
         ),
         DayTestProperties(
-            localDate = LocalDate.of(2018, 12, 4),
+            localDate = parse("2018-12-04"),
             expectedDayOfMonthString = "4",
             expectedDayOfWeek = DayOfWeek.TUESDAY,
             expectedIsInMonth = true,
@@ -97,7 +98,7 @@ internal class DayTest : BaseTest() {
             expectedIsWeekend = false
         ),
         DayTestProperties(
-            localDate = LocalDate.of(2012, 7, 5),
+            localDate = parse("2012-07-05"),
             expectedDayOfMonthString = "5",
             expectedDayOfWeek = DayOfWeek.THURSDAY,
             expectedIsInMonth = false,
@@ -105,7 +106,7 @@ internal class DayTest : BaseTest() {
             expectedIsWeekend = false
         ),
         DayTestProperties(
-            localDate = LocalDate.of(2018, 5, 5),
+            localDate = parse("2018-05-05"),
             expectedDayOfMonthString = "5",
             expectedDayOfWeek = DayOfWeek.SATURDAY,
             expectedIsInMonth = false,
@@ -113,7 +114,7 @@ internal class DayTest : BaseTest() {
             expectedIsWeekend = true
         ),
         DayTestProperties(
-            localDate = LocalDate.of(2020, 12, 9),
+            localDate = parse("2020-12-09"),
             expectedDayOfMonthString = "9",
             expectedDayOfWeek = DayOfWeek.WEDNESDAY,
             expectedIsInMonth = false,
@@ -121,7 +122,7 @@ internal class DayTest : BaseTest() {
             expectedIsWeekend = false
         ),
         DayTestProperties(
-            localDate = LocalDate.of(2021, 11, 11),
+            localDate = parse("2021-11-11"),
             expectedDayOfMonthString = "11",
             expectedDayOfWeek = DayOfWeek.THURSDAY,
             expectedIsInMonth = false,
@@ -129,7 +130,7 @@ internal class DayTest : BaseTest() {
             expectedIsWeekend = false
         ),
         DayTestProperties(
-            localDate = LocalDate.of(2030, 2, 12),
+            localDate = parse("2030-02-12"),
             expectedDayOfMonthString = "12",
             expectedDayOfWeek = DayOfWeek.TUESDAY,
             expectedIsInMonth = false,
@@ -137,7 +138,7 @@ internal class DayTest : BaseTest() {
             expectedIsWeekend = false
         ),
         DayTestProperties(
-            localDate = LocalDate.of(2015, 3, 15),
+            localDate = parse("2015-03-15"),
             expectedDayOfMonthString = "15",
             expectedDayOfWeek = DayOfWeek.SUNDAY,
             expectedIsInMonth = false,
@@ -145,7 +146,7 @@ internal class DayTest : BaseTest() {
             expectedIsWeekend = true
         ),
         DayTestProperties(
-            localDate = LocalDate.of(2016, 6, 21),
+            localDate = parse("2016-06-21"),
             expectedDayOfMonthString = "21",
             expectedDayOfWeek = DayOfWeek.TUESDAY,
             expectedIsInMonth = false,
@@ -153,7 +154,7 @@ internal class DayTest : BaseTest() {
             expectedIsWeekend = false
         ),
         DayTestProperties(
-            localDate = LocalDate.of(1994, 4, 23),
+            localDate = parse("1994-04-23"),
             expectedDayOfMonthString = "23",
             expectedDayOfWeek = DayOfWeek.SATURDAY,
             expectedIsInMonth = false,
@@ -161,7 +162,7 @@ internal class DayTest : BaseTest() {
             expectedIsWeekend = true
         ),
         DayTestProperties(
-            localDate = LocalDate.of(2000, 8, 27),
+            localDate = parse("2000-08-27"),
             expectedDayOfMonthString = "27",
             expectedDayOfWeek = DayOfWeek.SUNDAY,
             expectedIsInMonth = false,
@@ -169,7 +170,7 @@ internal class DayTest : BaseTest() {
             expectedIsWeekend = true
         ),
         DayTestProperties(
-            localDate = LocalDate.of(2018, 12, 28),
+            localDate = parse("2018-12-28"),
             expectedDayOfMonthString = "28",
             expectedDayOfWeek = DayOfWeek.FRIDAY,
             expectedIsInMonth = true,
@@ -177,7 +178,7 @@ internal class DayTest : BaseTest() {
             expectedIsWeekend = false
         ),
         DayTestProperties(
-            localDate = LocalDate.of(2019, 12, 31),
+            localDate = parse("2019-12-31"),
             expectedDayOfMonthString = "31",
             expectedDayOfWeek = DayOfWeek.TUESDAY,
             expectedIsInMonth = false,

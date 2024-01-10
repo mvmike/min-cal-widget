@@ -5,7 +5,7 @@ package cat.mvmike.minimalcalendarwidget.domain.configuration.item
 import cat.mvmike.minimalcalendarwidget.BaseTest
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.Arguments
+import org.junit.jupiter.params.provider.Arguments.of
 import org.junit.jupiter.params.provider.MethodSource
 import java.time.DayOfWeek
 
@@ -64,7 +64,7 @@ internal class ThemeTest : BaseTest() {
     }
 
     private fun getCombinationOfThemesAndDaysOfWeekWithExpectedCellHeader() = listOf(
-        Arguments.of(
+        of(
             Theme.DARK,
             DayOfWeek.MONDAY,
             CellTheme(
@@ -72,7 +72,7 @@ internal class ThemeTest : BaseTest() {
                 background = null
             )
         ),
-        Arguments.of(
+        of(
             Theme.DARK,
             DayOfWeek.TUESDAY,
             CellTheme(
@@ -80,7 +80,7 @@ internal class ThemeTest : BaseTest() {
                 background = null
             )
         ),
-        Arguments.of(
+        of(
             Theme.DARK,
             DayOfWeek.WEDNESDAY,
             CellTheme(
@@ -88,7 +88,7 @@ internal class ThemeTest : BaseTest() {
                 background = null
             )
         ),
-        Arguments.of(
+        of(
             Theme.DARK,
             DayOfWeek.THURSDAY,
             CellTheme(
@@ -96,7 +96,7 @@ internal class ThemeTest : BaseTest() {
                 background = null
             )
         ),
-        Arguments.of(
+        of(
             Theme.DARK,
             DayOfWeek.FRIDAY,
             CellTheme(
@@ -104,7 +104,7 @@ internal class ThemeTest : BaseTest() {
                 background = null
             )
         ),
-        Arguments.of(
+        of(
             Theme.DARK,
             DayOfWeek.SATURDAY,
             CellTheme(
@@ -112,7 +112,7 @@ internal class ThemeTest : BaseTest() {
                 background = SATURDAY_IN_MONTH_DARK_THEME_CELL_BACKGROUND
             )
         ),
-        Arguments.of(
+        of(
             Theme.DARK,
             DayOfWeek.SUNDAY,
             CellTheme(
@@ -120,7 +120,7 @@ internal class ThemeTest : BaseTest() {
                 background = SUNDAY_IN_MONTH_DARK_THEME_CELL_BACKGROUND
             )
         ),
-        Arguments.of(
+        of(
             Theme.LIGHT,
             DayOfWeek.MONDAY,
             CellTheme(
@@ -128,7 +128,7 @@ internal class ThemeTest : BaseTest() {
                 background = null
             )
         ),
-        Arguments.of(
+        of(
             Theme.LIGHT,
             DayOfWeek.TUESDAY,
             CellTheme(
@@ -136,7 +136,7 @@ internal class ThemeTest : BaseTest() {
                 background = null
             )
         ),
-        Arguments.of(
+        of(
             Theme.LIGHT,
             DayOfWeek.WEDNESDAY,
             CellTheme(
@@ -144,7 +144,7 @@ internal class ThemeTest : BaseTest() {
                 background = null
             )
         ),
-        Arguments.of(
+        of(
             Theme.LIGHT,
             DayOfWeek.THURSDAY,
             CellTheme(
@@ -152,7 +152,7 @@ internal class ThemeTest : BaseTest() {
                 background = null
             )
         ),
-        Arguments.of(
+        of(
             Theme.LIGHT,
             DayOfWeek.FRIDAY,
             CellTheme(
@@ -160,7 +160,7 @@ internal class ThemeTest : BaseTest() {
                 background = null
             )
         ),
-        Arguments.of(
+        of(
             Theme.LIGHT,
             DayOfWeek.SATURDAY,
             CellTheme(
@@ -168,7 +168,7 @@ internal class ThemeTest : BaseTest() {
                 background = SATURDAY_IN_MONTH_LIGHT_THEME_CELL_BACKGROUND
             )
         ),
-        Arguments.of(
+        of(
             Theme.LIGHT,
             DayOfWeek.SUNDAY,
             CellTheme(
@@ -179,7 +179,7 @@ internal class ThemeTest : BaseTest() {
     )
 
     private fun getCombinationOfThemesAndDayStatusesWithExpectedCellDay() = listOf(
-        Arguments.of(
+        of(
             Theme.DARK,
             true,
             DayOfWeek.MONDAY,
@@ -188,7 +188,7 @@ internal class ThemeTest : BaseTest() {
                 background = IN_MONTH_DARK_THEME_CELL_BACKGROUND
             )
         ),
-        Arguments.of(
+        of(
             Theme.DARK,
             true,
             DayOfWeek.TUESDAY,
@@ -197,7 +197,7 @@ internal class ThemeTest : BaseTest() {
                 background = IN_MONTH_DARK_THEME_CELL_BACKGROUND
             )
         ),
-        Arguments.of(
+        of(
             Theme.DARK,
             true,
             DayOfWeek.WEDNESDAY,
@@ -206,7 +206,7 @@ internal class ThemeTest : BaseTest() {
                 background = IN_MONTH_DARK_THEME_CELL_BACKGROUND
             )
         ),
-        Arguments.of(
+        of(
             Theme.DARK,
             true,
             DayOfWeek.THURSDAY,
@@ -215,7 +215,7 @@ internal class ThemeTest : BaseTest() {
                 background = IN_MONTH_DARK_THEME_CELL_BACKGROUND
             )
         ),
-        Arguments.of(
+        of(
             Theme.DARK,
             true,
             DayOfWeek.FRIDAY,
@@ -224,7 +224,7 @@ internal class ThemeTest : BaseTest() {
                 background = IN_MONTH_DARK_THEME_CELL_BACKGROUND
             )
         ),
-        Arguments.of(
+        of(
             Theme.DARK,
             true,
             DayOfWeek.SATURDAY,
@@ -233,7 +233,7 @@ internal class ThemeTest : BaseTest() {
                 background = SATURDAY_IN_MONTH_DARK_THEME_CELL_BACKGROUND
             )
         ),
-        Arguments.of(
+        of(
             Theme.DARK,
             true,
             DayOfWeek.SUNDAY,
@@ -242,7 +242,7 @@ internal class ThemeTest : BaseTest() {
                 background = SUNDAY_IN_MONTH_DARK_THEME_CELL_BACKGROUND
             )
         ),
-        Arguments.of(
+        of(
             Theme.DARK,
             false,
             DayOfWeek.MONDAY,
@@ -251,7 +251,7 @@ internal class ThemeTest : BaseTest() {
                 background = null
             )
         ),
-        Arguments.of(
+        of(
             Theme.DARK,
             false,
             DayOfWeek.TUESDAY,
@@ -260,7 +260,7 @@ internal class ThemeTest : BaseTest() {
                 background = null
             )
         ),
-        Arguments.of(
+        of(
             Theme.DARK,
             false,
             DayOfWeek.WEDNESDAY,
@@ -269,7 +269,7 @@ internal class ThemeTest : BaseTest() {
                 background = null
             )
         ),
-        Arguments.of(
+        of(
             Theme.DARK,
             false,
             DayOfWeek.THURSDAY,
@@ -278,7 +278,7 @@ internal class ThemeTest : BaseTest() {
                 background = null
             )
         ),
-        Arguments.of(
+        of(
             Theme.DARK,
             false,
             DayOfWeek.FRIDAY,
@@ -287,7 +287,7 @@ internal class ThemeTest : BaseTest() {
                 background = null
             )
         ),
-        Arguments.of(
+        of(
             Theme.DARK,
             false,
             DayOfWeek.SATURDAY,
@@ -296,7 +296,7 @@ internal class ThemeTest : BaseTest() {
                 background = SATURDAY_DARK_THEME_CELL_BACKGROUND
             )
         ),
-        Arguments.of(
+        of(
             Theme.DARK,
             false,
             DayOfWeek.SUNDAY,
@@ -305,7 +305,7 @@ internal class ThemeTest : BaseTest() {
                 background = SUNDAY_DARK_THEME_CELL_BACKGROUND
             )
         ),
-        Arguments.of(
+        of(
             Theme.LIGHT,
             true,
             DayOfWeek.MONDAY,
@@ -314,7 +314,7 @@ internal class ThemeTest : BaseTest() {
                 background = IN_MONTH_LIGHT_THEME_CELL_BACKGROUND
             )
         ),
-        Arguments.of(
+        of(
             Theme.LIGHT,
             true,
             DayOfWeek.TUESDAY,
@@ -323,7 +323,7 @@ internal class ThemeTest : BaseTest() {
                 background = IN_MONTH_LIGHT_THEME_CELL_BACKGROUND
             )
         ),
-        Arguments.of(
+        of(
             Theme.LIGHT,
             true,
             DayOfWeek.WEDNESDAY,
@@ -332,7 +332,7 @@ internal class ThemeTest : BaseTest() {
                 background = IN_MONTH_LIGHT_THEME_CELL_BACKGROUND
             )
         ),
-        Arguments.of(
+        of(
             Theme.LIGHT,
             true,
             DayOfWeek.THURSDAY,
@@ -341,7 +341,7 @@ internal class ThemeTest : BaseTest() {
                 background = IN_MONTH_LIGHT_THEME_CELL_BACKGROUND
             )
         ),
-        Arguments.of(
+        of(
             Theme.LIGHT,
             true,
             DayOfWeek.FRIDAY,
@@ -350,7 +350,7 @@ internal class ThemeTest : BaseTest() {
                 background = IN_MONTH_LIGHT_THEME_CELL_BACKGROUND
             )
         ),
-        Arguments.of(
+        of(
             Theme.LIGHT,
             true,
             DayOfWeek.SATURDAY,
@@ -359,7 +359,7 @@ internal class ThemeTest : BaseTest() {
                 background = SATURDAY_IN_MONTH_LIGHT_THEME_CELL_BACKGROUND
             )
         ),
-        Arguments.of(
+        of(
             Theme.LIGHT,
             true,
             DayOfWeek.SUNDAY,
@@ -368,7 +368,7 @@ internal class ThemeTest : BaseTest() {
                 background = SUNDAY_IN_MONTH_LIGHT_THEME_CELL_BACKGROUND
             )
         ),
-        Arguments.of(
+        of(
             Theme.LIGHT,
             false,
             DayOfWeek.MONDAY,
@@ -377,7 +377,7 @@ internal class ThemeTest : BaseTest() {
                 background = null
             )
         ),
-        Arguments.of(
+        of(
             Theme.LIGHT,
             false,
             DayOfWeek.TUESDAY,
@@ -386,7 +386,7 @@ internal class ThemeTest : BaseTest() {
                 background = null
             )
         ),
-        Arguments.of(
+        of(
             Theme.LIGHT,
             false,
             DayOfWeek.WEDNESDAY,
@@ -395,7 +395,7 @@ internal class ThemeTest : BaseTest() {
                 background = null
             )
         ),
-        Arguments.of(
+        of(
             Theme.LIGHT,
             false,
             DayOfWeek.THURSDAY,
@@ -404,7 +404,7 @@ internal class ThemeTest : BaseTest() {
                 background = null
             )
         ),
-        Arguments.of(
+        of(
             Theme.LIGHT,
             false,
             DayOfWeek.FRIDAY,
@@ -413,7 +413,7 @@ internal class ThemeTest : BaseTest() {
                 background = null
             )
         ),
-        Arguments.of(
+        of(
             Theme.LIGHT,
             false,
             DayOfWeek.SATURDAY,
@@ -422,7 +422,7 @@ internal class ThemeTest : BaseTest() {
                 background = SATURDAY_LIGHT_THEME_CELL_BACKGROUND
             )
         ),
-        Arguments.of(
+        of(
             Theme.LIGHT,
             false,
             DayOfWeek.SUNDAY,

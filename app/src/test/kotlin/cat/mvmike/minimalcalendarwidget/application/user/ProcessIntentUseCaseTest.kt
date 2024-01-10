@@ -16,7 +16,7 @@ import io.mockk.mockkObject
 import io.mockk.verify
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.Arguments
+import org.junit.jupiter.params.provider.Arguments.of
 import org.junit.jupiter.params.provider.MethodSource
 import org.junit.jupiter.params.provider.NullSource
 import org.junit.jupiter.params.provider.ValueSource
@@ -206,9 +206,9 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
     }
 
     private fun getMincalCalendarIntentActionAndExpectedExtraInstantAndStartTimeInstant() = listOf(
-        Arguments.of("$CELL_DAY_CLICK_ACTION.1675886154", 1675886154, 1675863134),
-        Arguments.of("$CELL_DAY_CLICK_ACTION.1671249586", 1671249586, 1671283934),
-        Arguments.of("$CELL_DAY_CLICK_ACTION.1624398458", 1624398458, 1624455134),
-        Arguments.of("$CELL_DAY_CLICK_ACTION.1434987405", 1434987405, 1434979934)
+        of("$CELL_DAY_CLICK_ACTION.1675886154", 1675886154, 1675863134),
+        of("$CELL_DAY_CLICK_ACTION.1671249586", 1671249586, 1671283934),
+        of("$CELL_DAY_CLICK_ACTION.1624398458", 1624398458, 1624455134),
+        of("$CELL_DAY_CLICK_ACTION.1434987405", 1434987405, 1434979934)
     )
 }

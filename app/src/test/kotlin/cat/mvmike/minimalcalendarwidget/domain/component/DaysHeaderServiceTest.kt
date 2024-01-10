@@ -20,7 +20,7 @@ import io.mockk.mockkObject
 import io.mockk.verify
 import io.mockk.verifyOrder
 import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.Arguments
+import org.junit.jupiter.params.provider.Arguments.of
 import org.junit.jupiter.params.provider.MethodSource
 import java.time.DayOfWeek
 import java.time.DayOfWeek.FRIDAY
@@ -89,7 +89,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
     }
 
     private fun getStartWeekDayAndThemeAndTextSizeWithExpectedOutput() = listOf(
-        Arguments.of(
+        of(
             MONDAY,
             Theme.DARK,
             Transparency(10),
@@ -104,7 +104,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
                 DayHeaderTestProperties(SUNDAY, "SUN")
             )
         ),
-        Arguments.of(
+        of(
             TUESDAY,
             Theme.DARK,
             Transparency(20),
@@ -119,7 +119,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
                 DayHeaderTestProperties(MONDAY, "MON")
             )
         ),
-        Arguments.of(
+        of(
             WEDNESDAY,
             Theme.DARK,
             Transparency(20),
@@ -134,7 +134,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
                 DayHeaderTestProperties(TUESDAY, "DOO")
             )
         ),
-        Arguments.of(
+        of(
             THURSDAY,
             Theme.DARK,
             Transparency(30),
@@ -149,7 +149,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
                 DayHeaderTestProperties(WEDNESDAY, "WED")
             )
         ),
-        Arguments.of(
+        of(
             FRIDAY,
             Theme.DARK,
             Transparency(90),
@@ -164,7 +164,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
                 DayHeaderTestProperties(THURSDAY, "THU")
             )
         ),
-        Arguments.of(
+        of(
             SATURDAY,
             Theme.DARK,
             Transparency(15),
@@ -179,7 +179,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
                 DayHeaderTestProperties(FRIDAY, "FRI")
             )
         ),
-        Arguments.of(
+        of(
             SUNDAY,
             Theme.DARK,
             Transparency(20),
@@ -194,7 +194,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
                 DayHeaderTestProperties(SATURDAY, "SAT")
             )
         ),
-        Arguments.of(
+        of(
             MONDAY,
             Theme.DARK,
             Transparency(0),
@@ -209,7 +209,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
                 DayHeaderTestProperties(SUNDAY, "S")
             )
         ),
-        Arguments.of(
+        of(
             TUESDAY,
             Theme.DARK,
             Transparency(55),
@@ -224,7 +224,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
                 DayHeaderTestProperties(MONDAY, "M")
             )
         ),
-        Arguments.of(
+        of(
             WEDNESDAY,
             Theme.DARK,
             Transparency(15),
@@ -239,7 +239,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
                 DayHeaderTestProperties(TUESDAY, "D")
             )
         ),
-        Arguments.of(
+        of(
             THURSDAY,
             Theme.DARK,
             Transparency(20),
@@ -254,7 +254,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
                 DayHeaderTestProperties(WEDNESDAY, "W")
             )
         ),
-        Arguments.of(
+        of(
             FRIDAY,
             Theme.DARK,
             Transparency(20),
@@ -269,7 +269,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
                 DayHeaderTestProperties(THURSDAY, "T")
             )
         ),
-        Arguments.of(
+        of(
             SATURDAY,
             Theme.DARK,
             Transparency(20),
@@ -284,7 +284,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
                 DayHeaderTestProperties(FRIDAY, "F")
             )
         ),
-        Arguments.of(
+        of(
             SUNDAY,
             Theme.DARK,
             Transparency(20),
@@ -299,7 +299,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
                 DayHeaderTestProperties(SATURDAY, "S")
             )
         ),
-        Arguments.of(
+        of(
             MONDAY,
             Theme.LIGHT,
             Transparency(80),
@@ -314,7 +314,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
                 DayHeaderTestProperties(SUNDAY, "SUN")
             )
         ),
-        Arguments.of(
+        of(
             TUESDAY,
             Theme.LIGHT,
             Transparency(5),
@@ -329,7 +329,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
                 DayHeaderTestProperties(MONDAY, "MON")
             )
         ),
-        Arguments.of(
+        of(
             WEDNESDAY,
             Theme.LIGHT,
             Transparency(20),
@@ -344,7 +344,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
                 DayHeaderTestProperties(TUESDAY, "DOO")
             )
         ),
-        Arguments.of(
+        of(
             THURSDAY,
             Theme.LIGHT,
             Transparency(20),
@@ -359,7 +359,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
                 DayHeaderTestProperties(WEDNESDAY, "WED")
             )
         ),
-        Arguments.of(
+        of(
             FRIDAY,
             Theme.LIGHT,
             Transparency(20),
@@ -374,7 +374,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
                 DayHeaderTestProperties(THURSDAY, "THU")
             )
         ),
-        Arguments.of(
+        of(
             SATURDAY,
             Theme.LIGHT,
             Transparency(20),
@@ -389,7 +389,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
                 DayHeaderTestProperties(FRIDAY, "FRI")
             )
         ),
-        Arguments.of(
+        of(
             SUNDAY,
             Theme.LIGHT,
             Transparency(20),
@@ -404,7 +404,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
                 DayHeaderTestProperties(SATURDAY, "SAT")
             )
         ),
-        Arguments.of(
+        of(
             MONDAY,
             Theme.LIGHT,
             Transparency(20),
@@ -419,7 +419,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
                 DayHeaderTestProperties(SUNDAY, "S")
             )
         ),
-        Arguments.of(
+        of(
             TUESDAY,
             Theme.LIGHT,
             Transparency(20),
@@ -434,7 +434,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
                 DayHeaderTestProperties(MONDAY, "M")
             )
         ),
-        Arguments.of(
+        of(
             WEDNESDAY,
             Theme.LIGHT,
             Transparency(15),
@@ -449,7 +449,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
                 DayHeaderTestProperties(TUESDAY, "D")
             )
         ),
-        Arguments.of(
+        of(
             THURSDAY,
             Theme.LIGHT,
             Transparency(100),
@@ -464,7 +464,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
                 DayHeaderTestProperties(WEDNESDAY, "W")
             )
         ),
-        Arguments.of(
+        of(
             FRIDAY,
             Theme.LIGHT,
             Transparency(0),
@@ -479,7 +479,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
                 DayHeaderTestProperties(THURSDAY, "T")
             )
         ),
-        Arguments.of(
+        of(
             SATURDAY,
             Theme.LIGHT,
             Transparency(20),
@@ -494,7 +494,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
                 DayHeaderTestProperties(FRIDAY, "F")
             )
         ),
-        Arguments.of(
+        of(
             SUNDAY,
             Theme.LIGHT,
             Transparency(20),

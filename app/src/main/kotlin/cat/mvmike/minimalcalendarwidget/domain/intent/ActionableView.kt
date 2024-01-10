@@ -76,6 +76,7 @@ sealed class ActionableView(
             val systemZoneId = SystemResolver.getSystemZoneId()
             val extraInstant = ofEpochSecond(getLongExtra(CELL_DAY_INTENT_EXTRA_NAME, systemInstant.epochSecond))
 
+            // we return the instant of the clicked day with current zonedTime
             val systemLocalDateTime = systemInstant.atZone(systemZoneId)
             return extraInstant.atZone(systemZoneId)
                 .withHour(systemLocalDateTime.hour)

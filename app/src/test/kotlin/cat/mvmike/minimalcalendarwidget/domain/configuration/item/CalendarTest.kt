@@ -5,9 +5,10 @@ package cat.mvmike.minimalcalendarwidget.domain.configuration.item
 import cat.mvmike.minimalcalendarwidget.BaseTest
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.Arguments
+import org.junit.jupiter.params.provider.Arguments.of
 import org.junit.jupiter.params.provider.MethodSource
-import java.time.Instant
+import java.time.LocalDate
+import java.time.LocalDate.parse
 
 internal class CalendarTest : BaseTest() {
 
@@ -15,36 +16,36 @@ internal class CalendarTest : BaseTest() {
     @MethodSource("getSpreadCalendarsAndDatesWithExpectedText")
     fun getYear_shouldReturnExpectedString(
         calendar: Calendar,
-        instant: Instant,
+        localDate: LocalDate,
         expectedYear: String
     ) {
-        assertThat(calendar.getYear(instant, zoneId)).isEqualTo(expectedYear)
+        assertThat(calendar.getYear(localDate)).isEqualTo(expectedYear)
     }
 
     private fun getSpreadCalendarsAndDatesWithExpectedText() = listOf(
-        Arguments.of(Calendar.GREGORIAN, "2018-01-26".toInstant(), "2018"),
-        Arguments.of(Calendar.HOLOCENE, "2018-01-26".toInstant(), "12018"),
-        Arguments.of(Calendar.HOLOCENE, "2005-02-19".toInstant(), "12005"),
-        Arguments.of(Calendar.GREGORIAN, "2005-02-19".toInstant(), "2005"),
-        Arguments.of(Calendar.GREGORIAN, "2027-03-05".toInstant(), "2027"),
-        Arguments.of(Calendar.HOLOCENE, "2027-03-05".toInstant(), "12027"),
-        Arguments.of(Calendar.HOLOCENE, "2099-04-30".toInstant(), "12099"),
-        Arguments.of(Calendar.GREGORIAN, "2099-04-30".toInstant(), "2099"),
-        Arguments.of(Calendar.GREGORIAN, "2000-05-01".toInstant(), "2000"),
-        Arguments.of(Calendar.HOLOCENE, "2000-05-01".toInstant(), "12000"),
-        Arguments.of(Calendar.GREGORIAN, "1998-06-02".toInstant(), "1998"),
-        Arguments.of(Calendar.HOLOCENE, "1998-06-02".toInstant(), "11998"),
-        Arguments.of(Calendar.HOLOCENE, "1992-07-07".toInstant(), "11992"),
-        Arguments.of(Calendar.GREGORIAN, "1992-07-07".toInstant(), "1992"),
-        Arguments.of(Calendar.GREGORIAN, "2018-08-01".toInstant(), "2018"),
-        Arguments.of(Calendar.HOLOCENE, "2018-08-01".toInstant(), "12018"),
-        Arguments.of(Calendar.HOLOCENE, "1987-09-12".toInstant(), "11987"),
-        Arguments.of(Calendar.GREGORIAN, "1987-09-12".toInstant(), "1987"),
-        Arguments.of(Calendar.GREGORIAN, "2017-10-01".toInstant(), "2017"),
-        Arguments.of(Calendar.HOLOCENE, "2017-10-01".toInstant(), "12017"),
-        Arguments.of(Calendar.HOLOCENE, "1000-11-12".toInstant(), "11000"),
-        Arguments.of(Calendar.GREGORIAN, "1000-11-12".toInstant(), "1000"),
-        Arguments.of(Calendar.GREGORIAN, "1994-12-13".toInstant(), "1994"),
-        Arguments.of(Calendar.GREGORIAN, "1994-12-13".toInstant(), "1994")
+        of(Calendar.GREGORIAN, parse("2018-01-26"), "2018"),
+        of(Calendar.HOLOCENE, parse("2018-01-26"), "12018"),
+        of(Calendar.HOLOCENE, parse("2005-02-19"), "12005"),
+        of(Calendar.GREGORIAN, parse("2005-02-19"), "2005"),
+        of(Calendar.GREGORIAN, parse("2027-03-05"), "2027"),
+        of(Calendar.HOLOCENE, parse("2027-03-05"), "12027"),
+        of(Calendar.HOLOCENE, parse("2099-04-30"), "12099"),
+        of(Calendar.GREGORIAN, parse("2099-04-30"), "2099"),
+        of(Calendar.GREGORIAN, parse("2000-05-01"), "2000"),
+        of(Calendar.HOLOCENE, parse("2000-05-01"), "12000"),
+        of(Calendar.GREGORIAN, parse("1998-06-02"), "1998"),
+        of(Calendar.HOLOCENE, parse("1998-06-02"), "11998"),
+        of(Calendar.HOLOCENE, parse("1992-07-07"), "11992"),
+        of(Calendar.GREGORIAN, parse("1992-07-07"), "1992"),
+        of(Calendar.GREGORIAN, parse("2018-08-01"), "2018"),
+        of(Calendar.HOLOCENE, parse("2018-08-01"), "12018"),
+        of(Calendar.HOLOCENE, parse("1987-09-12"), "11987"),
+        of(Calendar.GREGORIAN, parse("1987-09-12"), "1987"),
+        of(Calendar.GREGORIAN, parse("2017-10-01"), "2017"),
+        of(Calendar.HOLOCENE, parse("2017-10-01"), "12017"),
+        of(Calendar.HOLOCENE, parse("1000-11-12"), "11000"),
+        of(Calendar.GREGORIAN, parse("1000-11-12"), "1000"),
+        of(Calendar.GREGORIAN, parse("1994-12-13"), "1994"),
+        of(Calendar.GREGORIAN, parse("1994-12-13"), "1994")
     )
 }

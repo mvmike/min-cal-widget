@@ -22,6 +22,7 @@ import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.GraphicResolver
 import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.SystemResolver
 import java.time.DayOfWeek
 import java.time.LocalDate
+import java.time.ZoneId
 import java.time.temporal.ChronoField
 import java.time.temporal.ChronoUnit
 
@@ -41,7 +42,8 @@ object DaysService {
         transparency: Transparency,
         textSize: TextSize
     ) {
-        val systemLocalDate: LocalDate = SystemResolver.getSystemLocalDate()
+        val systemLocalDate = SystemResolver.getSystemLocalDate()
+        val systemZoneId = SystemResolver.getSystemZoneId()
         val initialLocalDate = when (BooleanConfigurationItem.FocusOnCurrentWeek.get(context)) {
             true -> getFocusedOnCurrentWeekInitialLocalDate(systemLocalDate, firstDayOfWeek)
             else -> getNaturalMonthInitialLocalDate(systemLocalDate, firstDayOfWeek)
@@ -66,8 +68,8 @@ object DaysService {
                     inMonth = currentDay.isInMonth(systemLocalDate),
                     dayOfWeek = currentDay.getDayOfWeek()
                 )
-                val instancesSymbol = currentDay
-                    .getNumberOfInstances(instanceSet, showDeclinedEvents)
+                val instancesSymbol = instanceSet
+                    .getNumberOfInstances(currentDay, systemZoneId, showDeclinedEvents)
                     .let { instancesSymbolSet.get(it) }
                 val dayInstancesColour = instancesColour.getInstancesColour(isToday, widgetTheme)
                 val backgroundWithTransparency = dayCell.background
@@ -118,7 +120,7 @@ object DaysService {
                 CellDay.addListener(
                     context = context,
                     remoteViews = arrayOf(dayOfMonthRemoteView, instancesSymbolRemoteView),
-                    startOfDay = currentDay.dayLocalDate.atStartOfDay(SystemResolver.getSystemZoneId()).toInstant()
+                    startOfDay = currentDay.dayLocalDate.atStartOfDay(systemZoneId).toInstant()
                 )
             }
 
@@ -154,11 +156,11 @@ object DaysService {
         }
     }
 
-    internal fun Day.getNumberOfInstances(
-        instanceSet: Set<Instance>,
+    internal fun Set<Instance>.getNumberOfInstances(
+        day: Day,
+        systemZoneId: ZoneId,
         includeDeclinedEvents: Boolean
-    ) = instanceSet
-        .filter { it.isInDay(dayLocalDate) }
+    ) = filter { it.isInDay(day.dayLocalDate, systemZoneId) }
         .count { includeDeclinedEvents || !it.isDeclined }
 
     private fun LocalDate.toCurrentWeekAndWeekDay(

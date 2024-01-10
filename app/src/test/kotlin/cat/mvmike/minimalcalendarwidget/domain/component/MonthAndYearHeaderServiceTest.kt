@@ -15,9 +15,10 @@ import io.mockk.justRun
 import io.mockk.mockk
 import io.mockk.verify
 import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.Arguments
+import org.junit.jupiter.params.provider.Arguments.of
 import org.junit.jupiter.params.provider.MethodSource
-import java.time.Instant
+import java.time.LocalDate
+import java.time.LocalDate.parse
 import java.time.Month
 
 internal class MonthAndYearHeaderServiceTest : BaseTest() {
@@ -27,7 +28,7 @@ internal class MonthAndYearHeaderServiceTest : BaseTest() {
     @ParameterizedTest
     @MethodSource("getInstancesWithTextSizeAndThemeAndCalendarWithExpectedMonthAndYear")
     fun draw_shouldAddMonthAndYearWithColourAndRelativeMonthAndYearSize(
-        instant: Instant,
+        localDate: LocalDate,
         textSize: TextSize,
         widgetTheme: Theme,
         calendar: Calendar,
@@ -35,11 +36,11 @@ internal class MonthAndYearHeaderServiceTest : BaseTest() {
         expectedYear: String
     ) {
         val expectedHeaderRelativeYearSize = 0.6f
-        mockGetSystemInstant(instant)
-        mockGetSystemZoneId()
+        mockGetSystemLocalDate(localDate)
         mockWidgetCalendar(calendar)
-        val month = instant.atZone(zoneId).month
-        every { context.getString(month.getExpectedResourceId()) } returns month.getExpectedAbbreviatedString()
+        every {
+            context.getString(localDate.month.getExpectedResourceId())
+        } returns localDate.month.getExpectedAbbreviatedString()
         justRun {
             createMonthAndYearHeader(
                 context = context,
@@ -54,9 +55,8 @@ internal class MonthAndYearHeaderServiceTest : BaseTest() {
 
         MonthAndYearHeaderService.draw(context, widgetRv, textSize, widgetTheme)
 
-        verifyGetSystemInstant()
-        verifyGetSystemZoneId()
-        verify { context.getString(month.getExpectedResourceId()) }
+        verifyGetSystemLocalDate()
+        verify { context.getString(localDate.month.getExpectedResourceId()) }
         verifyWidgetCalendar()
         verify {
             createMonthAndYearHeader(
@@ -73,30 +73,30 @@ internal class MonthAndYearHeaderServiceTest : BaseTest() {
     }
 
     private fun getInstancesWithTextSizeAndThemeAndCalendarWithExpectedMonthAndYear() = listOf(
-        Arguments.of("2018-01-26".toInstant(), TextSize(40), Theme.DARK, Calendar.GREGORIAN, "January", "2018"),
-        Arguments.of("2018-01-26".toInstant(), TextSize(15), Theme.DARK, Calendar.GREGORIAN, "Jan", "2018"),
-        Arguments.of("2005-02-19".toInstant(), TextSize(40), Theme.DARK, Calendar.HOLOCENE, "February", "12005"),
-        Arguments.of("2005-02-19".toInstant(), TextSize(15), Theme.DARK, Calendar.GREGORIAN, "Feb", "2005"),
-        Arguments.of("2027-03-05".toInstant(), TextSize(40), Theme.DARK, Calendar.GREGORIAN, "March", "2027"),
-        Arguments.of("2027-03-05".toInstant(), TextSize(15), Theme.DARK, Calendar.HOLOCENE, "Mar", "12027"),
-        Arguments.of("2099-04-30".toInstant(), TextSize(40), Theme.DARK, Calendar.HOLOCENE, "April", "12099"),
-        Arguments.of("2099-04-30".toInstant(), TextSize(15), Theme.DARK, Calendar.GREGORIAN, "Apr", "2099"),
-        Arguments.of("2000-05-01".toInstant(), TextSize(40), Theme.DARK, Calendar.GREGORIAN, "May", "2000"),
-        Arguments.of("2000-05-01".toInstant(), TextSize(15), Theme.DARK, Calendar.HOLOCENE, "May", "12000"),
-        Arguments.of("1998-06-02".toInstant(), TextSize(40), Theme.DARK, Calendar.GREGORIAN, "June", "1998"),
-        Arguments.of("1998-06-02".toInstant(), TextSize(15), Theme.DARK, Calendar.HOLOCENE, "Jun", "11998"),
-        Arguments.of("1992-07-07".toInstant(), TextSize(40), Theme.LIGHT, Calendar.GREGORIAN, "July", "1992"),
-        Arguments.of("1992-07-07".toInstant(), TextSize(15), Theme.LIGHT, Calendar.GREGORIAN, "Jul", "1992"),
-        Arguments.of("2018-08-01".toInstant(), TextSize(40), Theme.LIGHT, Calendar.GREGORIAN, "August", "2018"),
-        Arguments.of("2018-08-01".toInstant(), TextSize(15), Theme.LIGHT, Calendar.HOLOCENE, "Aug", "12018"),
-        Arguments.of("1987-09-12".toInstant(), TextSize(40), Theme.LIGHT, Calendar.HOLOCENE, "September", "11987"),
-        Arguments.of("1987-09-12".toInstant(), TextSize(15), Theme.LIGHT, Calendar.GREGORIAN, "Sep", "1987"),
-        Arguments.of("2017-10-01".toInstant(), TextSize(40), Theme.LIGHT, Calendar.GREGORIAN, "October", "2017"),
-        Arguments.of("2017-10-01".toInstant(), TextSize(15), Theme.LIGHT, Calendar.GREGORIAN, "Oct", "2017"),
-        Arguments.of("1000-11-12".toInstant(), TextSize(40), Theme.LIGHT, Calendar.HOLOCENE, "November", "11000"),
-        Arguments.of("1000-11-12".toInstant(), TextSize(15), Theme.LIGHT, Calendar.GREGORIAN, "Nov", "1000"),
-        Arguments.of("1994-12-13".toInstant(), TextSize(40), Theme.LIGHT, Calendar.GREGORIAN, "December", "1994"),
-        Arguments.of("1994-12-13".toInstant(), TextSize(15), Theme.LIGHT, Calendar.GREGORIAN, "Dec", "1994")
+        of(parse("2018-01-26"), TextSize(40), Theme.DARK, Calendar.GREGORIAN, "January", "2018"),
+        of(parse("2018-01-26"), TextSize(15), Theme.DARK, Calendar.GREGORIAN, "Jan", "2018"),
+        of(parse("2005-02-19"), TextSize(40), Theme.DARK, Calendar.HOLOCENE, "February", "12005"),
+        of(parse("2005-02-19"), TextSize(15), Theme.DARK, Calendar.GREGORIAN, "Feb", "2005"),
+        of(parse("2027-03-05"), TextSize(40), Theme.DARK, Calendar.GREGORIAN, "March", "2027"),
+        of(parse("2027-03-05"), TextSize(15), Theme.DARK, Calendar.HOLOCENE, "Mar", "12027"),
+        of(parse("2099-04-30"), TextSize(40), Theme.DARK, Calendar.HOLOCENE, "April", "12099"),
+        of(parse("2099-04-30"), TextSize(15), Theme.DARK, Calendar.GREGORIAN, "Apr", "2099"),
+        of(parse("2000-05-01"), TextSize(40), Theme.DARK, Calendar.GREGORIAN, "May", "2000"),
+        of(parse("2000-05-01"), TextSize(15), Theme.DARK, Calendar.HOLOCENE, "May", "12000"),
+        of(parse("1998-06-02"), TextSize(40), Theme.DARK, Calendar.GREGORIAN, "June", "1998"),
+        of(parse("1998-06-02"), TextSize(15), Theme.DARK, Calendar.HOLOCENE, "Jun", "11998"),
+        of(parse("1992-07-07"), TextSize(40), Theme.LIGHT, Calendar.GREGORIAN, "July", "1992"),
+        of(parse("1992-07-07"), TextSize(15), Theme.LIGHT, Calendar.GREGORIAN, "Jul", "1992"),
+        of(parse("2018-08-01"), TextSize(40), Theme.LIGHT, Calendar.GREGORIAN, "August", "2018"),
+        of(parse("2018-08-01"), TextSize(15), Theme.LIGHT, Calendar.HOLOCENE, "Aug", "12018"),
+        of(parse("1987-09-12"), TextSize(40), Theme.LIGHT, Calendar.HOLOCENE, "September", "11987"),
+        of(parse("1987-09-12"), TextSize(15), Theme.LIGHT, Calendar.GREGORIAN, "Sep", "1987"),
+        of(parse("2017-10-01"), TextSize(40), Theme.LIGHT, Calendar.GREGORIAN, "October", "2017"),
+        of(parse("2017-10-01"), TextSize(15), Theme.LIGHT, Calendar.GREGORIAN, "Oct", "2017"),
+        of(parse("1000-11-12"), TextSize(40), Theme.LIGHT, Calendar.HOLOCENE, "November", "11000"),
+        of(parse("1000-11-12"), TextSize(15), Theme.LIGHT, Calendar.GREGORIAN, "Nov", "1000"),
+        of(parse("1994-12-13"), TextSize(40), Theme.LIGHT, Calendar.GREGORIAN, "December", "1994"),
+        of(parse("1994-12-13"), TextSize(15), Theme.LIGHT, Calendar.GREGORIAN, "Dec", "1994")
     )
 
     private fun Month.getExpectedResourceId() =

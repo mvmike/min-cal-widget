@@ -35,10 +35,8 @@ import org.junit.jupiter.api.TestInstance
 import java.time.DayOfWeek
 import java.time.Instant
 import java.time.LocalDate
-import java.time.LocalDateTime
 import java.time.ZoneId
-import java.time.ZoneOffset
-import java.time.format.DateTimeFormatter
+import java.util.Random
 import java.util.TimeZone
 
 private const val PREFERENCES_ID: String = "mincal_prefs"
@@ -46,10 +44,13 @@ private const val PREFERENCES_ID: String = "mincal_prefs"
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 open class BaseTest {
 
-    protected val zoneId = ZoneId.of("Europe/Moscow")!!
-    protected val systemZoneOffset = zoneId.rules.getOffset(Instant.now())!!
-    protected val systemLocalDate = LocalDate.of(2018, 12, 4)!!
-    protected val systemInstant = systemLocalDate.atTime(16, 32, 14).toInstant(systemZoneOffset)!!
+    protected val systemZoneId = ZoneId.of("Europe/Moscow")!!
+    protected val systemLocalDate = LocalDate.parse("2018-12-04")!!
+    protected val systemInstant = systemLocalDate
+        .atTime(16, 32, 14)
+        .toInstant(systemZoneId.rules.getOffset(Instant.now()))!!
+
+    protected val random = Random()
 
     protected val context = mockk<Context>()
 
@@ -60,7 +61,7 @@ open class BaseTest {
 
     @BeforeEach
     fun beforeEach() {
-        TimeZone.setDefault(TimeZone.getTimeZone(zoneId))
+        TimeZone.setDefault(TimeZone.getTimeZone(systemZoneId))
         clearAllMocks()
         unmockkAll()
 
@@ -118,7 +119,7 @@ open class BaseTest {
 
     protected fun mockGetSystemZoneId() = every {
         SystemResolver.getSystemZoneId()
-    } returns zoneId
+    } returns systemZoneId
 
     protected fun verifyGetSystemZoneId() = verify {
         SystemResolver.getSystemZoneId()
@@ -413,18 +414,4 @@ open class BaseTest {
             intent.getLongExtra("startOfDayInEpochSeconds", systemInstant.epochSecond)
         } returns extraInstant.epochSecond
     }
-
-    // UTILS
-
-    protected fun String.toInstant(
-        zoneOffset: ZoneOffset = ZoneOffset.UTC
-    ) = LocalDateTime
-        .parse(
-            when {
-                endsWith("Z") -> this
-                else -> plus("T00:00:00Z")
-            },
-            DateTimeFormatter.ISO_ZONED_DATE_TIME
-        )
-        .toInstant(zoneOffset)!!
 }

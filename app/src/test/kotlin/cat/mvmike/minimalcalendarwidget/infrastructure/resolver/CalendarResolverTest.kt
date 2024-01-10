@@ -6,6 +6,8 @@ import android.database.Cursor
 import android.provider.CalendarContract
 import cat.mvmike.minimalcalendarwidget.BaseTest
 import cat.mvmike.minimalcalendarwidget.domain.Instance
+import cat.mvmike.minimalcalendarwidget.domain.Instance.AllDayInstance
+import cat.mvmike.minimalcalendarwidget.domain.Instance.TimedInstance
 import io.mockk.every
 import io.mockk.justRun
 import io.mockk.mockk
@@ -13,9 +15,8 @@ import io.mockk.mockkStatic
 import io.mockk.verify
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import java.time.Instant
-import java.time.ZoneId
-import java.time.ZoneOffset
+import java.time.LocalDate
+import java.time.ZonedDateTime
 
 internal class CalendarResolverTest : BaseTest() {
 
@@ -25,27 +26,9 @@ internal class CalendarResolverTest : BaseTest() {
     private val cursor = mockk<Cursor>()
 
     private val validInstanceCursors = listOf(
-        InstanceCursor(
-            eventId = 1,
-            start = 1657097518736,
-            end = 1659775918428,
-            zoneId = null,
-            status = 1
-        ),
-        InstanceCursor(
-            eventId = 2,
-            start = 1657097518737,
-            end = 1659775918429,
-            zoneId = "UTC",
-            status = 0
-        ),
-        InstanceCursor(
-            eventId = 3,
-            start = 1657097518738,
-            end = 1659775918430,
-            zoneId = "CET",
-            status = 2
-        )
+        InstanceCursor(1, 1657097518736, 1659775918428, null, 1, 0),
+        InstanceCursor(2, 1657065600000, 1657152000000, "UTC", 0, 1),
+        InstanceCursor(3, 1657097518738, 1659775918430, "CET", 2, 0)
     )
 
     @Test
@@ -92,11 +75,20 @@ internal class CalendarResolverTest : BaseTest() {
         every { cursor.getLong(2) } returns validInstanceCursors[1].end
         every { cursor.getString(3) } returns validInstanceCursors[1].zoneId
         every { cursor.getInt(4) } returns validInstanceCursors[1].status
+        every { cursor.getInt(5) } returns validInstanceCursors[1].allDay
         justRun { cursor.close() }
 
         val result = CalendarResolver.getInstances(context, begin, end)
 
-        assertThat(result).containsExactlyInAnyOrder(validInstanceCursors[1].toInstance())
+        assertThat(result).hasSize(1)
+        assertThat(result).contains(
+            AllDayInstance(
+                eventId = 2,
+                isDeclined = false,
+                start = LocalDate.parse("2022-07-06"),
+                end = LocalDate.parse("2022-07-06")
+            )
+        )
         verify { context.contentResolver }
         verify { CalendarResolver.getInstances(context, begin, end) }
         verify(exactly = 3) { cursor.moveToNext() }
@@ -120,14 +112,30 @@ internal class CalendarResolverTest : BaseTest() {
         every { cursor.getLong(2) } returnsMany validInstanceCursors.map { it.end }
         every { cursor.getString(3) } returnsMany validInstanceCursors.map { it.zoneId }
         every { cursor.getInt(4) } returnsMany validInstanceCursors.map { it.status }
+        every { cursor.getInt(5) } returnsMany validInstanceCursors.map { it.allDay }
         justRun { cursor.close() }
 
         val result = CalendarResolver.getInstances(context, begin, end)
 
         assertThat(result).containsExactlyInAnyOrder(
-            validInstanceCursors[0].toInstance(),
-            validInstanceCursors[1].toInstance(),
-            validInstanceCursors[2].toInstance()
+            TimedInstance(
+                eventId = 1,
+                isDeclined = false,
+                start = ZonedDateTime.parse("2022-07-06T11:51:58.736+03:00[Europe/Moscow]"),
+                end = ZonedDateTime.parse("2022-08-06T11:51:58.427+03:00[Europe/Moscow]")
+            ),
+            AllDayInstance(
+                eventId = 2,
+                isDeclined = false,
+                start = LocalDate.parse("2022-07-06"),
+                end = LocalDate.parse("2022-07-06")
+            ),
+            TimedInstance(
+                eventId = 3,
+                isDeclined = true,
+                start = ZonedDateTime.parse("2022-07-06T10:51:58.738+02:00[CET]"),
+                end = ZonedDateTime.parse("2022-08-06T10:51:58.429+02:00[CET]")
+            )
         )
         verify { context.contentResolver }
         verify { CalendarResolver.getInstances(context, begin, end) }
@@ -140,14 +148,7 @@ internal class CalendarResolverTest : BaseTest() {
         val start: Long,
         val end: Long,
         val zoneId: String?,
-        val status: Int
-    ) {
-        fun toInstance() = Instance(
-            eventId = eventId,
-            start = Instant.ofEpochMilli(start),
-            end = Instant.ofEpochMilli(end),
-            zoneId = zoneId?.let { ZoneId.of(it) } ?: ZoneOffset.systemDefault(),
-            isDeclined = status == 2
-        )
-    }
+        val status: Int,
+        val allDay: Int
+    )
 }

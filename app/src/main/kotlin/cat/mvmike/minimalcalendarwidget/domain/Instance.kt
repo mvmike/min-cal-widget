@@ -5,23 +5,51 @@ package cat.mvmike.minimalcalendarwidget.domain
 import android.content.Context
 import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.CalendarResolver
 import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.SystemResolver
-import java.time.Instant
 import java.time.LocalDate
-import java.time.LocalDateTime
 import java.time.ZoneId
+import java.time.ZonedDateTime
+import java.time.temporal.ChronoUnit
 
-data class Instance(
-    val eventId: Int,
-    val start: Instant,
-    val end: Instant,
-    val zoneId: ZoneId,
-    val isDeclined: Boolean
+sealed class Instance(
+    open val eventId: Int,
+    open val isDeclined: Boolean
 ) {
-    // take out 5 milliseconds to avoid erratic behaviour events that end at midnight
-    fun isInDay(day: LocalDate): Boolean {
-        val instanceStartLocalDate = LocalDateTime.ofInstant(start, zoneId).toLocalDate()
-        val instanceEndLocalDate = LocalDateTime.ofInstant(end.minusMillis(5), zoneId).toLocalDate()
-        return !instanceStartLocalDate.isAfter(day) && !instanceEndLocalDate.isBefore(day)
+    abstract fun isInDay(
+        day: LocalDate,
+        dayZoneId: ZoneId
+    ): Boolean
+
+    data class TimedInstance(
+        override val eventId: Int,
+        override val isDeclined: Boolean,
+        val start: ZonedDateTime,
+        val end: ZonedDateTime
+    ) : Instance(
+            eventId = eventId,
+            isDeclined = isDeclined
+        ) {
+        override fun isInDay(day: LocalDate, dayZoneId: ZoneId): Boolean {
+            val startOfDay = day.atStartOfDay(dayZoneId)
+            val endOfDay = startOfDay
+                .plus(1, ChronoUnit.DAYS)
+                .minus(1, ChronoUnit.MILLIS)
+
+            return !start.isAfter(endOfDay) && !end.isBefore(startOfDay)
+        }
+    }
+
+    data class AllDayInstance(
+        override val eventId: Int,
+        override val isDeclined: Boolean,
+        val start: LocalDate,
+        val end: LocalDate
+    ) : Instance(
+            eventId = eventId,
+            isDeclined = isDeclined
+        ) {
+        override fun isInDay(day: LocalDate, dayZoneId: ZoneId): Boolean {
+            return !start.isAfter(day) && !end.isBefore(day)
+        }
     }
 }
 

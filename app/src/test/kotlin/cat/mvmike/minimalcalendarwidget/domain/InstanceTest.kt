@@ -3,34 +3,30 @@
 package cat.mvmike.minimalcalendarwidget.domain
 
 import cat.mvmike.minimalcalendarwidget.BaseTest
+import cat.mvmike.minimalcalendarwidget.domain.Instance.AllDayInstance
+import cat.mvmike.minimalcalendarwidget.domain.Instance.TimedInstance
 import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.CalendarResolver
 import io.mockk.every
 import io.mockk.verify
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.Arguments.of
 import org.junit.jupiter.params.provider.MethodSource
 import java.time.LocalDate
-import java.time.ZoneId
-import java.time.ZoneOffset
-import java.util.Random
+import java.time.ZonedDateTime
 
 internal class InstanceTest : BaseTest() {
 
     @ParameterizedTest
-    @MethodSource("getTimeSpansAndIfTheyAreAllDayAndShouldBeInDay")
-    fun isInDay(instantProperties: InstantTestProperties) {
-        val instance = Instance(
-            eventId = instantProperties.id(),
-            start = instantProperties.start.toInstant(instantProperties.zoneOffset),
-            end = instantProperties.end.toInstant(instantProperties.zoneOffset),
-            zoneId = instantProperties.zoneOffset,
-            isDeclined = false
-        )
+    @MethodSource("getInstancesWithExpectedIsInDay")
+    fun isInDay(
+        instance: Instance,
+        expectedIsInDay: Boolean
+    ) {
+        val result = instance.isInDay(systemLocalDate, systemZoneId)
 
-        val result = instance.isInDay(systemLocalDate)
-
-        assertThat(result).isEqualTo(instantProperties.expectedIsInDay)
+        assertThat(result).isEqualTo(expectedIsInDay)
     }
 
     @Test
@@ -53,8 +49,8 @@ internal class InstanceTest : BaseTest() {
         val initLocalDate = systemLocalDate.minusDays(7)
         val endLocalDate = systemLocalDate.plusDays(7)
 
-        val initEpochMillis = initLocalDate.atStartOfDayInMillis(zoneId)
-        val endEpochMillis = endLocalDate.atStartOfDayInMillis(zoneId)
+        val initEpochMillis = initLocalDate.atStartOfDay(systemZoneId).toInstant().toEpochMilli()
+        val endEpochMillis = endLocalDate.atStartOfDay(systemZoneId).toInstant().toEpochMilli()
         every { CalendarResolver.getInstances(context, initEpochMillis, endEpochMillis) } returns expectedInstances
 
         val instances = getInstances(context, initLocalDate, endLocalDate)
@@ -66,132 +62,195 @@ internal class InstanceTest : BaseTest() {
     }
 
     // calendarProvider uses UTC when allDay, systemOffset otherwise
-    private fun getTimeSpansAndIfTheyAreAllDayAndShouldBeInDay() = listOf(
+    private fun getInstancesWithExpectedIsInDay() = listOf(
         // starting and ending before day
-        InstantTestProperties(
-            start = "2018-12-02T02:15:00Z",
-            end = "2018-12-03T23:15:00Z",
-            zoneOffset = systemZoneOffset,
-            expectedIsInDay = false
+        of(
+            TimedInstance(
+                eventId = random.nextInt(),
+                isDeclined = false,
+                start = ZonedDateTime.parse("2018-12-02T02:15:00+03:00"),
+                end = ZonedDateTime.parse("2018-12-03T23:15:00+03:00")
+            ),
+            false
         ),
-        InstantTestProperties(
-            start = "2018-12-02T00:00:00Z",
-            end = "2018-12-03T00:00:00Z",
-            zoneOffset = ZoneOffset.UTC,
-            expectedIsInDay = false
+        of(
+            TimedInstance(
+                eventId = random.nextInt(),
+                isDeclined = false,
+                start = ZonedDateTime.parse("2018-12-02T02:15:00-08:00"),
+                end = ZonedDateTime.parse("2018-12-03T11:30:00-08:00")
+            ),
+            false
+        ),
+        of(
+            AllDayInstance(
+                eventId = random.nextInt(),
+                isDeclined = false,
+                start = LocalDate.parse("2018-12-02"),
+                end = LocalDate.parse("2018-12-03")
+            ),
+            false
         ),
         // starting before and ending in day
-        InstantTestProperties(
-            start = "2018-12-01T00:00:00Z",
-            end = "2018-12-04T23:59:00Z",
-            zoneOffset = systemZoneOffset,
-            expectedIsInDay = true
+        of(
+            TimedInstance(
+                eventId = random.nextInt(),
+                isDeclined = false,
+                start = ZonedDateTime.parse("2018-12-01T00:00:00+03:00"),
+                end = ZonedDateTime.parse("2018-12-04T23:59:00+03:00")
+            ),
+            true
         ),
-        InstantTestProperties(
-            start = "2018-12-01T00:00:00Z",
-            end = "2018-12-05T00:00:00Z",
-            zoneOffset = ZoneOffset.UTC,
-            expectedIsInDay = true
+        of(
+            TimedInstance(
+                eventId = random.nextInt(),
+                isDeclined = false,
+                start = ZonedDateTime.parse("2018-12-02T02:15:00-08:00"),
+                end = ZonedDateTime.parse("2018-12-03T13:30:00-08:00")
+            ),
+            true
+        ),
+        of(
+            AllDayInstance(
+                eventId = random.nextInt(),
+                isDeclined = false,
+                start = LocalDate.parse("2018-12-01"),
+                end = LocalDate.parse("2018-12-05")
+            ),
+            true
         ),
         // starting before and ending after day
-        InstantTestProperties(
-            start = "2018-12-01T10:55:00Z",
-            end = "2018-12-07T23:00:00Z",
-            zoneOffset = systemZoneOffset,
-            expectedIsInDay = true
+        of(
+            TimedInstance(
+                eventId = random.nextInt(),
+                isDeclined = false,
+                start = ZonedDateTime.parse("2018-12-01T10:55:00+03:00"),
+                end = ZonedDateTime.parse("2018-12-07T23:00:00+03:00")
+            ),
+            true
         ),
-        InstantTestProperties(
-            start = "2018-12-01T00:00:00Z",
-            end = "2018-12-07T00:00:00Z",
-            zoneOffset = ZoneOffset.UTC,
-            expectedIsInDay = true
+        of(
+            AllDayInstance(
+                eventId = random.nextInt(),
+                isDeclined = false,
+                start = LocalDate.parse("2018-12-01"),
+                end = LocalDate.parse("2018-12-07")
+            ),
+            true
         ),
         // starting in and ending in day
-        InstantTestProperties(
-            start = "2018-12-04T23:00:00Z",
-            end = "2018-12-04T23:50:00Z",
-            zoneOffset = systemZoneOffset,
-            expectedIsInDay = true
+        of(
+            TimedInstance(
+                eventId = random.nextInt(),
+                isDeclined = false,
+                start = ZonedDateTime.parse("2018-12-04T23:00:00+03:00"),
+                end = ZonedDateTime.parse("2018-12-04T23:50:00+03:00")
+            ),
+            true
         ),
-        InstantTestProperties(
-            start = "2018-12-04T00:00:00Z",
-            end = "2018-12-05T00:00:00Z",
-            zoneOffset = ZoneOffset.UTC,
-            expectedIsInDay = true
+        of(
+            TimedInstance(
+                eventId = random.nextInt(),
+                isDeclined = false,
+                start = ZonedDateTime.parse("2018-12-03T13:30:00-08:00"),
+                end = ZonedDateTime.parse("2018-12-04T10:30:00-08:00")
+            ),
+            true
+        ),
+        of(
+            AllDayInstance(
+                eventId = random.nextInt(),
+                isDeclined = false,
+                start = LocalDate.parse("2018-12-04"),
+                end = LocalDate.parse("2018-12-05")
+            ),
+            true
         ),
         // starting in and ending after day
-        InstantTestProperties(
-            start = "2018-12-04T23:00:00Z",
-            end = "2018-12-05T01:00:00Z",
-            zoneOffset = systemZoneOffset,
-            expectedIsInDay = true
+        of(
+            TimedInstance(
+                eventId = random.nextInt(),
+                isDeclined = false,
+                start = ZonedDateTime.parse("2018-12-04T23:00:00+03:00"),
+                end = ZonedDateTime.parse("2018-12-05T01:00:00+03:00")
+            ),
+            true
         ),
-        InstantTestProperties(
-            start = "2018-12-04T00:00:00Z",
-            end = "2018-12-06T00:00:00Z",
-            zoneOffset = ZoneOffset.UTC,
-            expectedIsInDay = true
+        of(
+            TimedInstance(
+                eventId = random.nextInt(),
+                isDeclined = false,
+                start = ZonedDateTime.parse("2018-12-04T12:30:00-08:00"),
+                end = ZonedDateTime.parse("2018-12-04T16:30:00-08:00")
+            ),
+            true
+        ),
+        of(
+            AllDayInstance(
+                eventId = random.nextInt(),
+                isDeclined = false,
+                start = LocalDate.parse("2018-12-04"),
+                end = LocalDate.parse("2018-12-06")
+            ),
+            true
         ),
         // starting after and ending after day
-        InstantTestProperties(
-            start = "2018-12-05T00:00:00Z",
-            end = "2018-12-05T02:00:00Z",
-            zoneOffset = systemZoneOffset,
-            expectedIsInDay = false
+        of(
+            TimedInstance(
+                eventId = random.nextInt(),
+                isDeclined = false,
+                start = ZonedDateTime.parse("2018-12-05T00:00:00+03:00"),
+                end = ZonedDateTime.parse("2018-12-05T02:00:00+03:00")
+            ),
+            false
         ),
-        InstantTestProperties(
-            start = "2018-12-05T00:00:00Z",
-            end = "2018-12-06T00:00:00Z",
-            zoneOffset = ZoneOffset.UTC,
-            expectedIsInDay = false
+        of(
+            TimedInstance(
+                eventId = random.nextInt(),
+                isDeclined = false,
+                start = ZonedDateTime.parse("2018-12-04T13:30:00-08:00"),
+                end = ZonedDateTime.parse("2018-12-04T16:30:00-08:00")
+            ),
+            false
+        ),
+        of(
+            AllDayInstance(
+                eventId = random.nextInt(),
+                isDeclined = false,
+                start = LocalDate.parse("2018-12-05"),
+                end = LocalDate.parse("2018-12-06")
+            ),
+            false
         )
     )
 
     private fun getSetsOfExpectedInstances() = listOf(
         emptySet(),
         setOf(
-            Instance(
-                eventId = 1,
-                start = "2018-11-29T23:00:00Z".toInstant(systemZoneOffset),
-                end = "2018-12-01T23:50:00Z".toInstant(systemZoneOffset),
-                zoneId = systemZoneOffset,
-                isDeclined = false
+            TimedInstance(
+                eventId = random.nextInt(),
+                isDeclined = false,
+                start = ZonedDateTime.parse("2018-11-29T23:00:00+03:00"),
+                end = ZonedDateTime.parse("2018-12-01T23:50:00+03:00")
             ),
-            Instance(
-                eventId = 2,
-                start = "2018-12-01T00:00:00Z".toInstant(ZoneOffset.UTC),
-                end = "2018-12-02T00:00:00Z".toInstant(ZoneOffset.UTC),
-                zoneId = ZoneOffset.UTC,
-                isDeclined = false
+            AllDayInstance(
+                eventId = random.nextInt(),
+                isDeclined = false,
+                start = LocalDate.parse("2018-12-01"),
+                end = LocalDate.parse("2018-12-02")
             ),
-            Instance(
-                eventId = 3,
-                start = "2018-12-02T23:00:00Z".toInstant(systemZoneOffset),
-                end = "2018-12-09T01:00:00Z".toInstant(systemZoneOffset),
-                zoneId = systemZoneOffset,
-                isDeclined = false
+            TimedInstance(
+                eventId = random.nextInt(),
+                isDeclined = true,
+                start = ZonedDateTime.parse("2018-12-02T23:00:00+03:00"),
+                end = ZonedDateTime.parse("2018-12-09T01:00:00+03:00")
             ),
-            Instance(
-                eventId = 4,
-                start = "2018-12-02T00:00:00Z".toInstant(ZoneOffset.UTC),
-                end = "2018-12-06T00:00:00Z".toInstant(ZoneOffset.UTC),
-                zoneId = ZoneOffset.UTC,
-                isDeclined = false
+            AllDayInstance(
+                eventId = random.nextInt(),
+                isDeclined = false,
+                start = LocalDate.parse("2018-12-02"),
+                end = LocalDate.parse("2018-12-06")
             )
         )
     )
-
-    internal data class InstantTestProperties(
-        val start: String,
-        val end: String,
-        val zoneOffset: ZoneOffset,
-        val expectedIsInDay: Boolean
-    ) {
-        private val random = Random()
-
-        fun id() = random.nextInt()
-    }
 }
-
-fun LocalDate.atStartOfDayInMillis(zoneId: ZoneId) =
-    atStartOfDay(zoneId).toInstant().toEpochMilli()
