@@ -29,9 +29,14 @@ import io.mockk.mockk
 import io.mockk.mockkObject
 import io.mockk.unmockkAll
 import io.mockk.verify
+import org.assertj.core.api.Assertions.fail
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.TestInstance
+import java.io.File
+import java.io.FileInputStream
+import java.io.InputStreamReader
+import java.nio.charset.StandardCharsets
 import java.time.DayOfWeek
 import java.time.Instant
 import java.time.LocalDate
@@ -414,4 +419,19 @@ open class BaseTest {
             intent.getLongExtra("startOfDayInEpochSeconds", systemInstant.epochSecond)
         } returns extraInstant.epochSecond
     }
+
+    // UTILS
+
+    internal fun readTestResourceCsvFile(path: String) =
+        InputStreamReader(
+            FileInputStream(
+                File(
+                    this::class.java.getResource(path)?.toURI()
+                        ?: fail("could not load $path")
+                )
+            ),
+            StandardCharsets.UTF_8
+        ).readLines()
+            .drop(1) // header
+            .map { it.split(',', ignoreCase = false).toTypedArray() }
 }
