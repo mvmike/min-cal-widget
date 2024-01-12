@@ -28,7 +28,7 @@ object DaysHeaderService {
     ) {
         val daysHeaderRow: RemoteViews = GraphicResolver.createDaysHeaderRow(context)
 
-        getRotatedWeekDays(firstDayOfWeek).forEach { dayOfWeek ->
+        getRotatedDaysOfWeek(firstDayOfWeek).forEach { dayOfWeek ->
             val cellHeader = widgetTheme.getCellHeader(dayOfWeek)
             val backgroundWithTransparency = cellHeader.background
                 ?.let { GraphicResolver.getColourAsString(context, it) }
@@ -56,9 +56,9 @@ object DaysHeaderService {
         ActionableView.RowHeader.addListener(context, widgetRemoteView)
     }
 
-    private fun getRotatedWeekDays(startDayOfWeek: DayOfWeek): List<DayOfWeek> {
+    fun getRotatedDaysOfWeek(firstDayOfWeek: DayOfWeek): List<DayOfWeek> {
         val daysOfWeek = DayOfWeek.entries.toMutableList()
-        Collections.rotate(daysOfWeek, -startDayOfWeek.ordinal)
+        Collections.rotate(daysOfWeek, -firstDayOfWeek.ordinal)
         return daysOfWeek.toList()
     }
 }
