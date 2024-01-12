@@ -5,9 +5,12 @@ package cat.mvmike.minimalcalendarwidget.domain.component
 import android.widget.RemoteViews
 import cat.mvmike.minimalcalendarwidget.BaseTest
 import cat.mvmike.minimalcalendarwidget.R
+import cat.mvmike.minimalcalendarwidget.domain.component.DaysHeaderService.getRotatedDaysOfWeek
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Cell
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.TextSize
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme.DARK
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme.LIGHT
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Transparency
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.TransparencyRange
 import cat.mvmike.minimalcalendarwidget.domain.intent.ActionableView
@@ -19,6 +22,7 @@ import io.mockk.mockk
 import io.mockk.mockkObject
 import io.mockk.verify
 import io.mockk.verifyOrder
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments.of
 import org.junit.jupiter.params.provider.MethodSource
@@ -38,46 +42,42 @@ internal class DaysHeaderServiceTest : BaseTest() {
     private val daysHeaderRowRv = mockk<RemoteViews>()
 
     @ParameterizedTest
-    @MethodSource("getStartWeekDayAndThemeAndTextSizeWithExpectedOutput")
+    @MethodSource("getFirstDayOfWeekAndThemeAndThemeAndTextSizeWithExpectedOutput")
     fun draw_shouldAddViewBasedOnCurrentConfigAndTextSize(
         firstDayOfWeek: DayOfWeek,
         widgetTheme: Theme,
         transparency: Transparency,
         textSize: TextSize,
-        expectedDayHeaders: List<DayHeaderTestProperties>
+        expectedDayHeaders: List<String>
     ) {
         mockkObject(ActionableView.RowHeader)
-
         every { GraphicResolver.createDaysHeaderRow(context) } returns daysHeaderRowRv
-
-        expectedDayHeaders.forEach {
-            mockTransparency(it.getCellHeader(widgetTheme).background, transparency, TransparencyRange.MODERATE)
-            val resourceAndTranslation = it.dayOfWeek.getExpectedResourceIdAndTranslation()
+        val rotatedWeekDays = getRotatedDaysOfWeek(firstDayOfWeek)
+        rotatedWeekDays.forEach {
+            mockTransparency(widgetTheme.getCellHeader(it).background, transparency, TransparencyRange.MODERATE)
+            val resourceAndTranslation = it.getExpectedResourceIdAndTranslation()
             every { context.getString(resourceAndTranslation.first) } returns resourceAndTranslation.second
         }
-
-        justRun {
-            GraphicResolver.addToDaysHeaderRow(context, daysHeaderRowRv, any(), any())
-        }
+        justRun { GraphicResolver.addToDaysHeaderRow(context, daysHeaderRowRv, any(), any()) }
         justRun { GraphicResolver.addToWidget(widgetRv, daysHeaderRowRv) }
         justRun { ActionableView.RowHeader.addListener(context, widgetRv) }
 
         DaysHeaderService.draw(context, widgetRv, firstDayOfWeek, widgetTheme, transparency, textSize)
 
         verify(exactly = 1) { GraphicResolver.createDaysHeaderRow(context) }
-        expectedDayHeaders.forEach {
-            verify { context.getString(it.dayOfWeek.getExpectedResourceIdAndTranslation().first) }
-            verifyTransparency(it.getCellHeader(widgetTheme).background, transparency, TransparencyRange.MODERATE)
+        rotatedWeekDays.forEach {
+            verify { context.getString(it.getExpectedResourceIdAndTranslation().first) }
+            verifyTransparency(widgetTheme.getCellHeader(it).background, transparency, TransparencyRange.MODERATE)
         }
         verifyOrder {
-            expectedDayHeaders.forEach {
+            rotatedWeekDays.zip(expectedDayHeaders).forEach {
                 GraphicResolver.addToDaysHeaderRow(
                     context = context,
                     daysHeaderRowRemoteView = daysHeaderRowRv,
-                    dayHeaderBackgroundColour = it.getCellHeader(widgetTheme).background,
+                    dayHeaderBackgroundColour = widgetTheme.getCellHeader(it.first).background,
                     cell = Cell(
-                        text = it.expectedHeaderText,
-                        colour = it.getCellHeader(widgetTheme).textColour,
+                        text = it.second,
+                        colour = widgetTheme.getCellHeader(it.first).textColour,
                         relativeSize = textSize.relativeValue
                     )
                 )
@@ -88,444 +88,63 @@ internal class DaysHeaderServiceTest : BaseTest() {
         confirmVerified(widgetRv, daysHeaderRowRv)
     }
 
-    private fun getStartWeekDayAndThemeAndTextSizeWithExpectedOutput() = listOf(
-        of(
-            MONDAY,
-            Theme.DARK,
-            Transparency(10),
-            TextSize(40),
-            listOf(
-                DayHeaderTestProperties(MONDAY, "MON"),
-                DayHeaderTestProperties(TUESDAY, "DOO"),
-                DayHeaderTestProperties(WEDNESDAY, "WED"),
-                DayHeaderTestProperties(THURSDAY, "THU"),
-                DayHeaderTestProperties(FRIDAY, "FRI"),
-                DayHeaderTestProperties(SATURDAY, "SAT"),
-                DayHeaderTestProperties(SUNDAY, "SUN")
-            )
-        ),
-        of(
-            TUESDAY,
-            Theme.DARK,
-            Transparency(20),
-            TextSize(40),
-            listOf(
-                DayHeaderTestProperties(TUESDAY, "DOO"),
-                DayHeaderTestProperties(WEDNESDAY, "WED"),
-                DayHeaderTestProperties(THURSDAY, "THU"),
-                DayHeaderTestProperties(FRIDAY, "FRI"),
-                DayHeaderTestProperties(SATURDAY, "SAT"),
-                DayHeaderTestProperties(SUNDAY, "SUN"),
-                DayHeaderTestProperties(MONDAY, "MON")
-            )
-        ),
-        of(
-            WEDNESDAY,
-            Theme.DARK,
-            Transparency(20),
-            TextSize(40),
-            listOf(
-                DayHeaderTestProperties(WEDNESDAY, "WED"),
-                DayHeaderTestProperties(THURSDAY, "THU"),
-                DayHeaderTestProperties(FRIDAY, "FRI"),
-                DayHeaderTestProperties(SATURDAY, "SAT"),
-                DayHeaderTestProperties(SUNDAY, "SUN"),
-                DayHeaderTestProperties(MONDAY, "MON"),
-                DayHeaderTestProperties(TUESDAY, "DOO")
-            )
-        ),
-        of(
-            THURSDAY,
-            Theme.DARK,
-            Transparency(30),
-            TextSize(40),
-            listOf(
-                DayHeaderTestProperties(THURSDAY, "THU"),
-                DayHeaderTestProperties(FRIDAY, "FRI"),
-                DayHeaderTestProperties(SATURDAY, "SAT"),
-                DayHeaderTestProperties(SUNDAY, "SUN"),
-                DayHeaderTestProperties(MONDAY, "MON"),
-                DayHeaderTestProperties(TUESDAY, "DOO"),
-                DayHeaderTestProperties(WEDNESDAY, "WED")
-            )
-        ),
-        of(
-            FRIDAY,
-            Theme.DARK,
-            Transparency(90),
-            TextSize(40),
-            listOf(
-                DayHeaderTestProperties(FRIDAY, "FRI"),
-                DayHeaderTestProperties(SATURDAY, "SAT"),
-                DayHeaderTestProperties(SUNDAY, "SUN"),
-                DayHeaderTestProperties(MONDAY, "MON"),
-                DayHeaderTestProperties(TUESDAY, "DOO"),
-                DayHeaderTestProperties(WEDNESDAY, "WED"),
-                DayHeaderTestProperties(THURSDAY, "THU")
-            )
-        ),
-        of(
-            SATURDAY,
-            Theme.DARK,
-            Transparency(15),
-            TextSize(40),
-            listOf(
-                DayHeaderTestProperties(SATURDAY, "SAT"),
-                DayHeaderTestProperties(SUNDAY, "SUN"),
-                DayHeaderTestProperties(MONDAY, "MON"),
-                DayHeaderTestProperties(TUESDAY, "DOO"),
-                DayHeaderTestProperties(WEDNESDAY, "WED"),
-                DayHeaderTestProperties(THURSDAY, "THU"),
-                DayHeaderTestProperties(FRIDAY, "FRI")
-            )
-        ),
-        of(
-            SUNDAY,
-            Theme.DARK,
-            Transparency(20),
-            TextSize(40),
-            listOf(
-                DayHeaderTestProperties(SUNDAY, "SUN"),
-                DayHeaderTestProperties(MONDAY, "MON"),
-                DayHeaderTestProperties(TUESDAY, "DOO"),
-                DayHeaderTestProperties(WEDNESDAY, "WED"),
-                DayHeaderTestProperties(THURSDAY, "THU"),
-                DayHeaderTestProperties(FRIDAY, "FRI"),
-                DayHeaderTestProperties(SATURDAY, "SAT")
-            )
-        ),
-        of(
-            MONDAY,
-            Theme.DARK,
-            Transparency(0),
-            TextSize(15),
-            listOf(
-                DayHeaderTestProperties(MONDAY, "M"),
-                DayHeaderTestProperties(TUESDAY, "D"),
-                DayHeaderTestProperties(WEDNESDAY, "W"),
-                DayHeaderTestProperties(THURSDAY, "T"),
-                DayHeaderTestProperties(FRIDAY, "F"),
-                DayHeaderTestProperties(SATURDAY, "S"),
-                DayHeaderTestProperties(SUNDAY, "S")
-            )
-        ),
-        of(
-            TUESDAY,
-            Theme.DARK,
-            Transparency(55),
-            TextSize(15),
-            listOf(
-                DayHeaderTestProperties(TUESDAY, "D"),
-                DayHeaderTestProperties(WEDNESDAY, "W"),
-                DayHeaderTestProperties(THURSDAY, "T"),
-                DayHeaderTestProperties(FRIDAY, "F"),
-                DayHeaderTestProperties(SATURDAY, "S"),
-                DayHeaderTestProperties(SUNDAY, "S"),
-                DayHeaderTestProperties(MONDAY, "M")
-            )
-        ),
-        of(
-            WEDNESDAY,
-            Theme.DARK,
-            Transparency(15),
-            TextSize(15),
-            listOf(
-                DayHeaderTestProperties(WEDNESDAY, "W"),
-                DayHeaderTestProperties(THURSDAY, "T"),
-                DayHeaderTestProperties(FRIDAY, "F"),
-                DayHeaderTestProperties(SATURDAY, "S"),
-                DayHeaderTestProperties(SUNDAY, "S"),
-                DayHeaderTestProperties(MONDAY, "M"),
-                DayHeaderTestProperties(TUESDAY, "D")
-            )
-        ),
-        of(
-            THURSDAY,
-            Theme.DARK,
-            Transparency(20),
-            TextSize(15),
-            listOf(
-                DayHeaderTestProperties(THURSDAY, "T"),
-                DayHeaderTestProperties(FRIDAY, "F"),
-                DayHeaderTestProperties(SATURDAY, "S"),
-                DayHeaderTestProperties(SUNDAY, "S"),
-                DayHeaderTestProperties(MONDAY, "M"),
-                DayHeaderTestProperties(TUESDAY, "D"),
-                DayHeaderTestProperties(WEDNESDAY, "W")
-            )
-        ),
-        of(
-            FRIDAY,
-            Theme.DARK,
-            Transparency(20),
-            TextSize(15),
-            listOf(
-                DayHeaderTestProperties(FRIDAY, "F"),
-                DayHeaderTestProperties(SATURDAY, "S"),
-                DayHeaderTestProperties(SUNDAY, "S"),
-                DayHeaderTestProperties(MONDAY, "M"),
-                DayHeaderTestProperties(TUESDAY, "D"),
-                DayHeaderTestProperties(WEDNESDAY, "W"),
-                DayHeaderTestProperties(THURSDAY, "T")
-            )
-        ),
-        of(
-            SATURDAY,
-            Theme.DARK,
-            Transparency(20),
-            TextSize(15),
-            listOf(
-                DayHeaderTestProperties(SATURDAY, "S"),
-                DayHeaderTestProperties(SUNDAY, "S"),
-                DayHeaderTestProperties(MONDAY, "M"),
-                DayHeaderTestProperties(TUESDAY, "D"),
-                DayHeaderTestProperties(WEDNESDAY, "W"),
-                DayHeaderTestProperties(THURSDAY, "T"),
-                DayHeaderTestProperties(FRIDAY, "F")
-            )
-        ),
-        of(
-            SUNDAY,
-            Theme.DARK,
-            Transparency(20),
-            TextSize(15),
-            listOf(
-                DayHeaderTestProperties(SUNDAY, "S"),
-                DayHeaderTestProperties(MONDAY, "M"),
-                DayHeaderTestProperties(TUESDAY, "D"),
-                DayHeaderTestProperties(WEDNESDAY, "W"),
-                DayHeaderTestProperties(THURSDAY, "T"),
-                DayHeaderTestProperties(FRIDAY, "F"),
-                DayHeaderTestProperties(SATURDAY, "S")
-            )
-        ),
-        of(
-            MONDAY,
-            Theme.LIGHT,
-            Transparency(80),
-            TextSize(40),
-            listOf(
-                DayHeaderTestProperties(MONDAY, "MON"),
-                DayHeaderTestProperties(TUESDAY, "DOO"),
-                DayHeaderTestProperties(WEDNESDAY, "WED"),
-                DayHeaderTestProperties(THURSDAY, "THU"),
-                DayHeaderTestProperties(FRIDAY, "FRI"),
-                DayHeaderTestProperties(SATURDAY, "SAT"),
-                DayHeaderTestProperties(SUNDAY, "SUN")
-            )
-        ),
-        of(
-            TUESDAY,
-            Theme.LIGHT,
-            Transparency(5),
-            TextSize(40),
-            listOf(
-                DayHeaderTestProperties(TUESDAY, "DOO"),
-                DayHeaderTestProperties(WEDNESDAY, "WED"),
-                DayHeaderTestProperties(THURSDAY, "THU"),
-                DayHeaderTestProperties(FRIDAY, "FRI"),
-                DayHeaderTestProperties(SATURDAY, "SAT"),
-                DayHeaderTestProperties(SUNDAY, "SUN"),
-                DayHeaderTestProperties(MONDAY, "MON")
-            )
-        ),
-        of(
-            WEDNESDAY,
-            Theme.LIGHT,
-            Transparency(20),
-            TextSize(40),
-            listOf(
-                DayHeaderTestProperties(WEDNESDAY, "WED"),
-                DayHeaderTestProperties(THURSDAY, "THU"),
-                DayHeaderTestProperties(FRIDAY, "FRI"),
-                DayHeaderTestProperties(SATURDAY, "SAT"),
-                DayHeaderTestProperties(SUNDAY, "SUN"),
-                DayHeaderTestProperties(MONDAY, "MON"),
-                DayHeaderTestProperties(TUESDAY, "DOO")
-            )
-        ),
-        of(
-            THURSDAY,
-            Theme.LIGHT,
-            Transparency(20),
-            TextSize(40),
-            listOf(
-                DayHeaderTestProperties(THURSDAY, "THU"),
-                DayHeaderTestProperties(FRIDAY, "FRI"),
-                DayHeaderTestProperties(SATURDAY, "SAT"),
-                DayHeaderTestProperties(SUNDAY, "SUN"),
-                DayHeaderTestProperties(MONDAY, "MON"),
-                DayHeaderTestProperties(TUESDAY, "DOO"),
-                DayHeaderTestProperties(WEDNESDAY, "WED")
-            )
-        ),
-        of(
-            FRIDAY,
-            Theme.LIGHT,
-            Transparency(20),
-            TextSize(40),
-            listOf(
-                DayHeaderTestProperties(FRIDAY, "FRI"),
-                DayHeaderTestProperties(SATURDAY, "SAT"),
-                DayHeaderTestProperties(SUNDAY, "SUN"),
-                DayHeaderTestProperties(MONDAY, "MON"),
-                DayHeaderTestProperties(TUESDAY, "DOO"),
-                DayHeaderTestProperties(WEDNESDAY, "WED"),
-                DayHeaderTestProperties(THURSDAY, "THU")
-            )
-        ),
-        of(
-            SATURDAY,
-            Theme.LIGHT,
-            Transparency(20),
-            TextSize(40),
-            listOf(
-                DayHeaderTestProperties(SATURDAY, "SAT"),
-                DayHeaderTestProperties(SUNDAY, "SUN"),
-                DayHeaderTestProperties(MONDAY, "MON"),
-                DayHeaderTestProperties(TUESDAY, "DOO"),
-                DayHeaderTestProperties(WEDNESDAY, "WED"),
-                DayHeaderTestProperties(THURSDAY, "THU"),
-                DayHeaderTestProperties(FRIDAY, "FRI")
-            )
-        ),
-        of(
-            SUNDAY,
-            Theme.LIGHT,
-            Transparency(20),
-            TextSize(40),
-            listOf(
-                DayHeaderTestProperties(SUNDAY, "SUN"),
-                DayHeaderTestProperties(MONDAY, "MON"),
-                DayHeaderTestProperties(TUESDAY, "DOO"),
-                DayHeaderTestProperties(WEDNESDAY, "WED"),
-                DayHeaderTestProperties(THURSDAY, "THU"),
-                DayHeaderTestProperties(FRIDAY, "FRI"),
-                DayHeaderTestProperties(SATURDAY, "SAT")
-            )
-        ),
-        of(
-            MONDAY,
-            Theme.LIGHT,
-            Transparency(20),
-            TextSize(15),
-            listOf(
-                DayHeaderTestProperties(MONDAY, "M"),
-                DayHeaderTestProperties(TUESDAY, "D"),
-                DayHeaderTestProperties(WEDNESDAY, "W"),
-                DayHeaderTestProperties(THURSDAY, "T"),
-                DayHeaderTestProperties(FRIDAY, "F"),
-                DayHeaderTestProperties(SATURDAY, "S"),
-                DayHeaderTestProperties(SUNDAY, "S")
-            )
-        ),
-        of(
-            TUESDAY,
-            Theme.LIGHT,
-            Transparency(20),
-            TextSize(15),
-            listOf(
-                DayHeaderTestProperties(TUESDAY, "D"),
-                DayHeaderTestProperties(WEDNESDAY, "W"),
-                DayHeaderTestProperties(THURSDAY, "T"),
-                DayHeaderTestProperties(FRIDAY, "F"),
-                DayHeaderTestProperties(SATURDAY, "S"),
-                DayHeaderTestProperties(SUNDAY, "S"),
-                DayHeaderTestProperties(MONDAY, "M")
-            )
-        ),
-        of(
-            WEDNESDAY,
-            Theme.LIGHT,
-            Transparency(15),
-            TextSize(15),
-            listOf(
-                DayHeaderTestProperties(WEDNESDAY, "W"),
-                DayHeaderTestProperties(THURSDAY, "T"),
-                DayHeaderTestProperties(FRIDAY, "F"),
-                DayHeaderTestProperties(SATURDAY, "S"),
-                DayHeaderTestProperties(SUNDAY, "S"),
-                DayHeaderTestProperties(MONDAY, "M"),
-                DayHeaderTestProperties(TUESDAY, "D")
-            )
-        ),
-        of(
-            THURSDAY,
-            Theme.LIGHT,
-            Transparency(100),
-            TextSize(15),
-            listOf(
-                DayHeaderTestProperties(THURSDAY, "T"),
-                DayHeaderTestProperties(FRIDAY, "F"),
-                DayHeaderTestProperties(SATURDAY, "S"),
-                DayHeaderTestProperties(SUNDAY, "S"),
-                DayHeaderTestProperties(MONDAY, "M"),
-                DayHeaderTestProperties(TUESDAY, "D"),
-                DayHeaderTestProperties(WEDNESDAY, "W")
-            )
-        ),
-        of(
-            FRIDAY,
-            Theme.LIGHT,
-            Transparency(0),
-            TextSize(15),
-            listOf(
-                DayHeaderTestProperties(FRIDAY, "F"),
-                DayHeaderTestProperties(SATURDAY, "S"),
-                DayHeaderTestProperties(SUNDAY, "S"),
-                DayHeaderTestProperties(MONDAY, "M"),
-                DayHeaderTestProperties(TUESDAY, "D"),
-                DayHeaderTestProperties(WEDNESDAY, "W"),
-                DayHeaderTestProperties(THURSDAY, "T")
-            )
-        ),
-        of(
-            SATURDAY,
-            Theme.LIGHT,
-            Transparency(20),
-            TextSize(15),
-            listOf(
-                DayHeaderTestProperties(SATURDAY, "S"),
-                DayHeaderTestProperties(SUNDAY, "S"),
-                DayHeaderTestProperties(MONDAY, "M"),
-                DayHeaderTestProperties(TUESDAY, "D"),
-                DayHeaderTestProperties(WEDNESDAY, "W"),
-                DayHeaderTestProperties(THURSDAY, "T"),
-                DayHeaderTestProperties(FRIDAY, "F")
-            )
-        ),
-        of(
-            SUNDAY,
-            Theme.LIGHT,
-            Transparency(20),
-            TextSize(15),
-            listOf(
-                DayHeaderTestProperties(SUNDAY, "S"),
-                DayHeaderTestProperties(MONDAY, "M"),
-                DayHeaderTestProperties(TUESDAY, "D"),
-                DayHeaderTestProperties(WEDNESDAY, "W"),
-                DayHeaderTestProperties(THURSDAY, "T"),
-                DayHeaderTestProperties(FRIDAY, "F"),
-                DayHeaderTestProperties(SATURDAY, "S")
-            )
-        )
+    @ParameterizedTest
+    @MethodSource("getFirstDayOfWeekAndTExpectedRotatedDaysOfWeek")
+    fun getRotatedDaysOfWeek_shouldReturnDaysOfWeekBasedOnFirstDayOfWeek(
+        firstDayOfWeek: DayOfWeek,
+        expectedRotatedDayOfWeek: List<DayOfWeek>
+    ) {
+        assertThat(getRotatedDaysOfWeek(firstDayOfWeek)).isEqualTo(expectedRotatedDayOfWeek)
+    }
+
+    private fun getFirstDayOfWeekAndThemeAndThemeAndTextSizeWithExpectedOutput() = listOf(
+        of(MONDAY, DARK, Transparency(10), TextSize(40), listOf("MON", "DOO", "WED", "THU", "FRI", "SAT", "SUN")),
+        of(TUESDAY, DARK, Transparency(20), TextSize(40), listOf("DOO", "WED", "THU", "FRI", "SAT", "SUN", "MON")),
+        of(WEDNESDAY, DARK, Transparency(20), TextSize(40), listOf("WED", "THU", "FRI", "SAT", "SUN", "MON", "DOO")),
+        of(THURSDAY, DARK, Transparency(30), TextSize(40), listOf("THU", "FRI", "SAT", "SUN", "MON", "DOO", "WED")),
+        of(FRIDAY, DARK, Transparency(90), TextSize(40), listOf("FRI", "SAT", "SUN", "MON", "DOO", "WED", "THU")),
+        of(SATURDAY, DARK, Transparency(15), TextSize(40), listOf("SAT", "SUN", "MON", "DOO", "WED", "THU", "FRI")),
+        of(SUNDAY, DARK, Transparency(20), TextSize(40), listOf("SUN", "MON", "DOO", "WED", "THU", "FRI", "SAT")),
+        of(MONDAY, DARK, Transparency(0), TextSize(15), listOf("M", "D", "W", "T", "F", "S", "S")),
+        of(TUESDAY, DARK, Transparency(55), TextSize(15), listOf("D", "W", "T", "F", "S", "S", "M")),
+        of(WEDNESDAY, DARK, Transparency(15), TextSize(15), listOf("W", "T", "F", "S", "S", "M", "D")),
+        of(THURSDAY, DARK, Transparency(20), TextSize(15), listOf("T", "F", "S", "S", "M", "D", "W")),
+        of(FRIDAY, DARK, Transparency(20), TextSize(15), listOf("F", "S", "S", "M", "D", "W", "T")),
+        of(SATURDAY, DARK, Transparency(20), TextSize(15), listOf("S", "S", "M", "D", "W", "T", "F")),
+        of(SUNDAY, DARK, Transparency(20), TextSize(15), listOf("S", "M", "D", "W", "T", "F", "S")),
+        of(MONDAY, LIGHT, Transparency(80), TextSize(40), listOf("MON", "DOO", "WED", "THU", "FRI", "SAT", "SUN")),
+        of(TUESDAY, LIGHT, Transparency(5), TextSize(40), listOf("DOO", "WED", "THU", "FRI", "SAT", "SUN", "MON")),
+        of(WEDNESDAY, LIGHT, Transparency(20), TextSize(40), listOf("WED", "THU", "FRI", "SAT", "SUN", "MON", "DOO")),
+        of(THURSDAY, LIGHT, Transparency(20), TextSize(40), listOf("THU", "FRI", "SAT", "SUN", "MON", "DOO", "WED")),
+        of(FRIDAY, LIGHT, Transparency(20), TextSize(40), listOf("FRI", "SAT", "SUN", "MON", "DOO", "WED", "THU")),
+        of(SATURDAY, LIGHT, Transparency(20), TextSize(40), listOf("SAT", "SUN", "MON", "DOO", "WED", "THU", "FRI")),
+        of(SUNDAY, LIGHT, Transparency(20), TextSize(40), listOf("SUN", "MON", "DOO", "WED", "THU", "FRI", "SAT")),
+        of(MONDAY, LIGHT, Transparency(20), TextSize(15), listOf("M", "D", "W", "T", "F", "S", "S")),
+        of(TUESDAY, LIGHT, Transparency(20), TextSize(15), listOf("D", "W", "T", "F", "S", "S", "M")),
+        of(WEDNESDAY, LIGHT, Transparency(15), TextSize(15), listOf("W", "T", "F", "S", "S", "M", "D")),
+        of(THURSDAY, LIGHT, Transparency(100), TextSize(15), listOf("T", "F", "S", "S", "M", "D", "W")),
+        of(FRIDAY, LIGHT, Transparency(0), TextSize(15), listOf("F", "S", "S", "M", "D", "W", "T")),
+        of(SATURDAY, LIGHT, Transparency(20), TextSize(15), listOf("S", "S", "M", "D", "W", "T", "F")),
+        of(SUNDAY, LIGHT, Transparency(20), TextSize(15), listOf("S", "M", "D", "W", "T", "F", "S"))
     )
 
-    private fun DayOfWeek.getExpectedResourceIdAndTranslation() =
-        when (this) {
-            MONDAY -> Pair(R.string.monday_abb, "MONDAY")
-            TUESDAY -> Pair(R.string.tuesday_abb, "DOOMSDAY")
-            WEDNESDAY -> Pair(R.string.wednesday_abb, "WEDNESDAY")
-            THURSDAY -> Pair(R.string.thursday_abb, "THURSDAY")
-            FRIDAY -> Pair(R.string.friday_abb, "FRIDAY")
-            SATURDAY -> Pair(R.string.saturday_abb, "SATURDAY")
-            SUNDAY -> Pair(R.string.sunday_abb, "SUNDAY")
-        }
+    private fun getFirstDayOfWeekAndTExpectedRotatedDaysOfWeek() = listOf(
+        of(MONDAY, listOf(MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY)),
+        of(TUESDAY, listOf(TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY, MONDAY)),
+        of(WEDNESDAY, listOf(WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY, MONDAY, TUESDAY)),
+        of(THURSDAY, listOf(THURSDAY, FRIDAY, SATURDAY, SUNDAY, MONDAY, TUESDAY, WEDNESDAY)),
+        of(FRIDAY, listOf(FRIDAY, SATURDAY, SUNDAY, MONDAY, TUESDAY, WEDNESDAY, THURSDAY)),
+        of(SATURDAY, listOf(SATURDAY, SUNDAY, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY)),
+        of(SUNDAY, listOf(SUNDAY, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY))
+    )
 
-    internal data class DayHeaderTestProperties(
-        val dayOfWeek: DayOfWeek,
-        val expectedHeaderText: String
-    ) {
-        fun getCellHeader(theme: Theme) = theme.getCellHeader(dayOfWeek)
+    private fun DayOfWeek.getExpectedResourceIdAndTranslation() = when (this) {
+        MONDAY -> Pair(R.string.monday_abb, "MONDAY")
+        TUESDAY -> Pair(R.string.tuesday_abb, "DOOMSDAY")
+        WEDNESDAY -> Pair(R.string.wednesday_abb, "WEDNESDAY")
+        THURSDAY -> Pair(R.string.thursday_abb, "THURSDAY")
+        FRIDAY -> Pair(R.string.friday_abb, "FRIDAY")
+        SATURDAY -> Pair(R.string.saturday_abb, "SATURDAY")
+        SUNDAY -> Pair(R.string.sunday_abb, "SUNDAY")
     }
 }

@@ -28,7 +28,8 @@ internal class CalendarResolverTest : BaseTest() {
     private val validInstanceCursors = listOf(
         InstanceCursor(1, 1657097518736, 1659775918428, null, 1, 0),
         InstanceCursor(2, 1657065600000, 1657152000000, "UTC", 0, 1),
-        InstanceCursor(3, 1657097518738, 1659775918430, "CET", 2, 0)
+        InstanceCursor(3, 1657097518738, 1659775918430, "CET", 2, 0),
+        InstanceCursor(4, 1657097518738, 1659775918430, "America/Los_Angeles", 17, 0)
     )
 
     @Test
@@ -106,7 +107,7 @@ internal class CalendarResolverTest : BaseTest() {
                 end
             )
         } returns cursor
-        every { cursor.moveToNext() } returnsMany listOf(true, true, true, false)
+        every { cursor.moveToNext() } returnsMany validInstanceCursors.map { true }.plus(false)
         every { cursor.getInt(0) } returnsMany validInstanceCursors.map { it.eventId }
         every { cursor.getLong(1) } returnsMany validInstanceCursors.map { it.start }
         every { cursor.getLong(2) } returnsMany validInstanceCursors.map { it.end }
@@ -135,6 +136,12 @@ internal class CalendarResolverTest : BaseTest() {
                 isDeclined = true,
                 start = ZonedDateTime.parse("2022-07-06T10:51:58.738+02:00[CET]"),
                 end = ZonedDateTime.parse("2022-08-06T10:51:58.429+02:00[CET]")
+            ),
+            TimedInstance(
+                eventId = 4,
+                isDeclined = false,
+                start = ZonedDateTime.parse("2022-07-06T01:51:58.738-07:00[America/Los_Angeles]"),
+                end = ZonedDateTime.parse("2022-08-06T01:51:58.429-07:00[America/Los_Angeles]")
             )
         )
         verify { context.contentResolver }

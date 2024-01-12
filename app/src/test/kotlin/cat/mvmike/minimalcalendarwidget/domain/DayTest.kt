@@ -5,194 +5,118 @@ package cat.mvmike.minimalcalendarwidget.domain
 import cat.mvmike.minimalcalendarwidget.BaseTest
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.MethodSource
+import org.junit.jupiter.params.provider.CsvSource
 import java.time.DayOfWeek
 import java.time.LocalDate
-import java.time.LocalDate.parse
 
 internal class DayTest : BaseTest() {
 
     @ParameterizedTest
-    @MethodSource("getLocalDatesWithExpectations")
-    fun getDayOfWeek(dayProperties: DayTestProperties) {
-        val day = Day(
-            dayLocalDate = dayProperties.localDate
-        )
+    @CsvSource(
+        "2018-01-01,MONDAY",
+        "2017-12-02,SATURDAY",
+        "2018-12-04,TUESDAY",
+        "2012-07-05,THURSDAY",
+        "2018-05-05,SATURDAY",
+        "2020-12-09,WEDNESDAY",
+        "2021-11-11,THURSDAY",
+        "2030-02-12,TUESDAY",
+        "2015-03-15,SUNDAY",
+        "2016-06-21,TUESDAY",
+        "1994-04-23,SATURDAY",
+        "2000-08-27,SUNDAY",
+        "2018-12-28,FRIDAY",
+        "2019-12-31,TUESDAY"
+    )
+    fun getDayOfWeek(dayLocalDate: LocalDate, expectedDayOfWeek: DayOfWeek) {
+        val day = Day(dayLocalDate)
 
         val result = day.getDayOfWeek()
 
-        assertThat(result).isEqualTo(dayProperties.expectedDayOfWeek)
+        assertThat(result).isEqualTo(expectedDayOfWeek)
     }
 
     @ParameterizedTest
-    @MethodSource("getLocalDatesWithExpectations")
-    fun getDayOfMonthString(dayProperties: DayTestProperties) {
-        val day = Day(
-            dayLocalDate = dayProperties.localDate
-        )
+    @CsvSource(
+        "2018-01-01,1",
+        "2017-12-02,2",
+        "2018-12-04,4",
+        "2012-07-05,5",
+        "2018-05-05,5",
+        "2020-12-09,9",
+        "2021-11-11,11",
+        "2030-02-12,12",
+        "2015-03-15,15",
+        "2016-06-21,21",
+        "1994-04-23,23",
+        "2000-08-27,27",
+        "2018-12-28,28",
+        "2019-12-31,31"
+    )
+    fun getDayOfMonthString(dayLocalDate: LocalDate, expectedDayOfMonthString: String) {
+        val day = Day(dayLocalDate)
 
         val result = day.getDayOfMonthString()
 
-        assertThat(result).isEqualTo(dayProperties.expectedDayOfMonthString)
+        assertThat(result).isEqualTo(expectedDayOfMonthString)
     }
 
     @ParameterizedTest
-    @MethodSource("getLocalDatesWithExpectations")
-    fun isInMonth(dayProperties: DayTestProperties) {
-        val day = Day(
-            dayLocalDate = dayProperties.localDate
-        )
+    @CsvSource(
+        "2017-12-02,false",
+        "2018-11-30,false",
+        "2018-12-01,true",
+        "2018-12-04,true",
+        "2018-12-31,true",
+        "2019-01-01,false",
+        "2030-02-12,false"
+    )
+    fun isInMonth(dayLocalDate: LocalDate, expectedIsInMonth: Boolean) {
+        val day = Day(dayLocalDate)
 
         val result = day.isInMonth(systemLocalDate)
 
-        assertThat(result).isEqualTo(dayProperties.expectedIsInMonth)
+        assertThat(result).isEqualTo(expectedIsInMonth)
     }
 
     @ParameterizedTest
-    @MethodSource("getLocalDatesWithExpectations")
-    fun isToday(dayProperties: DayTestProperties) {
-        val day = Day(
-            dayLocalDate = dayProperties.localDate
-        )
+    @CsvSource(
+        "2018-01-01,false",
+        "2017-12-02,false",
+        "2018-12-04,true",
+        "2012-07-05,false",
+        "2018-05-05,false"
+    )
+    fun isToday(dayLocalDate: LocalDate, expectedIsToday: Boolean) {
+        val day = Day(dayLocalDate)
 
         val result = day.isToday(systemLocalDate)
 
-        assertThat(result).isEqualTo(dayProperties.expectedIsToday)
+        assertThat(result).isEqualTo(expectedIsToday)
     }
 
     @ParameterizedTest
-    @MethodSource("getLocalDatesWithExpectations")
-    fun isWeekend(dayProperties: DayTestProperties) {
-        val day = Day(
-            dayLocalDate = dayProperties.localDate
-        )
+    @CsvSource(
+        "2018-01-01,false",
+        "2017-12-02,true",
+        "2018-12-04,false",
+        "2012-07-05,false",
+        "2018-05-05,true",
+        "2020-12-09,false",
+        "2021-11-11,false",
+        "2030-02-12,false",
+        "2015-03-15,true",
+        "2016-06-21,false",
+        "1994-04-23,true",
+        "2000-08-27,true",
+        "2018-12-28,false",
+        "2019-12-31,false"
+    )
+    fun isWeekend(dayLocalDate: LocalDate, expectedIsWeekend: Boolean) {
+        val day = Day(dayLocalDate)
 
         val result = day.isWeekend()
 
-        assertThat(result).isEqualTo(dayProperties.expectedIsWeekend)
+        assertThat(result).isEqualTo(expectedIsWeekend)
     }
-
-    private fun getLocalDatesWithExpectations() = listOf(
-        DayTestProperties(
-            localDate = parse("2018-01-01"),
-            expectedDayOfMonthString = "1",
-            expectedDayOfWeek = DayOfWeek.MONDAY,
-            expectedIsInMonth = false,
-            expectedIsToday = false,
-            expectedIsWeekend = false
-        ),
-        DayTestProperties(
-            localDate = parse("2017-12-02"),
-            expectedDayOfMonthString = "2",
-            expectedDayOfWeek = DayOfWeek.SATURDAY,
-            expectedIsInMonth = false,
-            expectedIsToday = false,
-            expectedIsWeekend = true
-        ),
-        DayTestProperties(
-            localDate = parse("2018-12-04"),
-            expectedDayOfMonthString = "4",
-            expectedDayOfWeek = DayOfWeek.TUESDAY,
-            expectedIsInMonth = true,
-            expectedIsToday = true,
-            expectedIsWeekend = false
-        ),
-        DayTestProperties(
-            localDate = parse("2012-07-05"),
-            expectedDayOfMonthString = "5",
-            expectedDayOfWeek = DayOfWeek.THURSDAY,
-            expectedIsInMonth = false,
-            expectedIsToday = false,
-            expectedIsWeekend = false
-        ),
-        DayTestProperties(
-            localDate = parse("2018-05-05"),
-            expectedDayOfMonthString = "5",
-            expectedDayOfWeek = DayOfWeek.SATURDAY,
-            expectedIsInMonth = false,
-            expectedIsToday = false,
-            expectedIsWeekend = true
-        ),
-        DayTestProperties(
-            localDate = parse("2020-12-09"),
-            expectedDayOfMonthString = "9",
-            expectedDayOfWeek = DayOfWeek.WEDNESDAY,
-            expectedIsInMonth = false,
-            expectedIsToday = false,
-            expectedIsWeekend = false
-        ),
-        DayTestProperties(
-            localDate = parse("2021-11-11"),
-            expectedDayOfMonthString = "11",
-            expectedDayOfWeek = DayOfWeek.THURSDAY,
-            expectedIsInMonth = false,
-            expectedIsToday = false,
-            expectedIsWeekend = false
-        ),
-        DayTestProperties(
-            localDate = parse("2030-02-12"),
-            expectedDayOfMonthString = "12",
-            expectedDayOfWeek = DayOfWeek.TUESDAY,
-            expectedIsInMonth = false,
-            expectedIsToday = false,
-            expectedIsWeekend = false
-        ),
-        DayTestProperties(
-            localDate = parse("2015-03-15"),
-            expectedDayOfMonthString = "15",
-            expectedDayOfWeek = DayOfWeek.SUNDAY,
-            expectedIsInMonth = false,
-            expectedIsToday = false,
-            expectedIsWeekend = true
-        ),
-        DayTestProperties(
-            localDate = parse("2016-06-21"),
-            expectedDayOfMonthString = "21",
-            expectedDayOfWeek = DayOfWeek.TUESDAY,
-            expectedIsInMonth = false,
-            expectedIsToday = false,
-            expectedIsWeekend = false
-        ),
-        DayTestProperties(
-            localDate = parse("1994-04-23"),
-            expectedDayOfMonthString = "23",
-            expectedDayOfWeek = DayOfWeek.SATURDAY,
-            expectedIsInMonth = false,
-            expectedIsToday = false,
-            expectedIsWeekend = true
-        ),
-        DayTestProperties(
-            localDate = parse("2000-08-27"),
-            expectedDayOfMonthString = "27",
-            expectedDayOfWeek = DayOfWeek.SUNDAY,
-            expectedIsInMonth = false,
-            expectedIsToday = false,
-            expectedIsWeekend = true
-        ),
-        DayTestProperties(
-            localDate = parse("2018-12-28"),
-            expectedDayOfMonthString = "28",
-            expectedDayOfWeek = DayOfWeek.FRIDAY,
-            expectedIsInMonth = true,
-            expectedIsToday = false,
-            expectedIsWeekend = false
-        ),
-        DayTestProperties(
-            localDate = parse("2019-12-31"),
-            expectedDayOfMonthString = "31",
-            expectedDayOfWeek = DayOfWeek.TUESDAY,
-            expectedIsInMonth = false,
-            expectedIsToday = false,
-            expectedIsWeekend = false
-        )
-    )
-
-    internal data class DayTestProperties(
-        val localDate: LocalDate,
-        val expectedDayOfMonthString: String,
-        val expectedDayOfWeek: DayOfWeek,
-        val expectedIsInMonth: Boolean,
-        val expectedIsToday: Boolean,
-        val expectedIsWeekend: Boolean
-    )
 }

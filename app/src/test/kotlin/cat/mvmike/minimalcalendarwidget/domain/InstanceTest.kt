@@ -19,7 +19,16 @@ import java.time.ZonedDateTime
 internal class InstanceTest : BaseTest() {
 
     @ParameterizedTest
-    @MethodSource("getInstancesWithExpectedIsInDay")
+    @MethodSource(
+        value = [
+            "getInstancesStartingAndEndingBeforeSystemLocalDate",
+            "getInstancesStartingBeforeAndEndingInSystemLocalDate",
+            "getInstancesStartingBeforeAndEndingAfterSystemLocalDate",
+            "getInstancesStartingInAndEndingInSystemLocalDate",
+            "getInstancesStartingInAndEndingAfterSystemLocalDate",
+            "getInstancesStartingAfterAndEndingAfterSystemLocalDate"
+        ]
+    )
     fun isInDay(
         instance: Instance,
         expectedIsInDay: Boolean
@@ -61,168 +70,125 @@ internal class InstanceTest : BaseTest() {
         verify { CalendarResolver.getInstances(context, initEpochMillis, endEpochMillis) }
     }
 
-    // calendarProvider uses UTC when allDay, systemOffset otherwise
-    private fun getInstancesWithExpectedIsInDay() = listOf(
-        // starting and ending before day
-        of(
-            TimedInstance(
-                eventId = random.nextInt(),
-                isDeclined = false,
-                start = ZonedDateTime.parse("2018-12-02T02:15:00+03:00"),
-                end = ZonedDateTime.parse("2018-12-03T23:15:00+03:00")
-            ),
-            false
+    private fun getInstancesStartingAndEndingBeforeSystemLocalDate() = listOf(
+        TimedInstance(
+            eventId = random.nextInt(),
+            isDeclined = false,
+            start = ZonedDateTime.parse("2018-12-02T02:15:00+03:00"),
+            end = ZonedDateTime.parse("2018-12-03T23:15:00+03:00")
         ),
-        of(
-            TimedInstance(
-                eventId = random.nextInt(),
-                isDeclined = false,
-                start = ZonedDateTime.parse("2018-12-02T02:15:00-08:00"),
-                end = ZonedDateTime.parse("2018-12-03T11:30:00-08:00")
-            ),
-            false
+        TimedInstance(
+            eventId = random.nextInt(),
+            isDeclined = false,
+            start = ZonedDateTime.parse("2018-12-02T02:15:00-08:00"),
+            end = ZonedDateTime.parse("2018-12-03T11:30:00-08:00")
         ),
-        of(
-            AllDayInstance(
-                eventId = random.nextInt(),
-                isDeclined = false,
-                start = LocalDate.parse("2018-12-02"),
-                end = LocalDate.parse("2018-12-03")
-            ),
-            false
-        ),
-        // starting before and ending in day
-        of(
-            TimedInstance(
-                eventId = random.nextInt(),
-                isDeclined = false,
-                start = ZonedDateTime.parse("2018-12-01T00:00:00+03:00"),
-                end = ZonedDateTime.parse("2018-12-04T23:59:00+03:00")
-            ),
-            true
-        ),
-        of(
-            TimedInstance(
-                eventId = random.nextInt(),
-                isDeclined = false,
-                start = ZonedDateTime.parse("2018-12-02T02:15:00-08:00"),
-                end = ZonedDateTime.parse("2018-12-03T13:30:00-08:00")
-            ),
-            true
-        ),
-        of(
-            AllDayInstance(
-                eventId = random.nextInt(),
-                isDeclined = false,
-                start = LocalDate.parse("2018-12-01"),
-                end = LocalDate.parse("2018-12-05")
-            ),
-            true
-        ),
-        // starting before and ending after day
-        of(
-            TimedInstance(
-                eventId = random.nextInt(),
-                isDeclined = false,
-                start = ZonedDateTime.parse("2018-12-01T10:55:00+03:00"),
-                end = ZonedDateTime.parse("2018-12-07T23:00:00+03:00")
-            ),
-            true
-        ),
-        of(
-            AllDayInstance(
-                eventId = random.nextInt(),
-                isDeclined = false,
-                start = LocalDate.parse("2018-12-01"),
-                end = LocalDate.parse("2018-12-07")
-            ),
-            true
-        ),
-        // starting in and ending in day
-        of(
-            TimedInstance(
-                eventId = random.nextInt(),
-                isDeclined = false,
-                start = ZonedDateTime.parse("2018-12-04T23:00:00+03:00"),
-                end = ZonedDateTime.parse("2018-12-04T23:50:00+03:00")
-            ),
-            true
-        ),
-        of(
-            TimedInstance(
-                eventId = random.nextInt(),
-                isDeclined = false,
-                start = ZonedDateTime.parse("2018-12-03T13:30:00-08:00"),
-                end = ZonedDateTime.parse("2018-12-04T10:30:00-08:00")
-            ),
-            true
-        ),
-        of(
-            AllDayInstance(
-                eventId = random.nextInt(),
-                isDeclined = false,
-                start = LocalDate.parse("2018-12-04"),
-                end = LocalDate.parse("2018-12-05")
-            ),
-            true
-        ),
-        // starting in and ending after day
-        of(
-            TimedInstance(
-                eventId = random.nextInt(),
-                isDeclined = false,
-                start = ZonedDateTime.parse("2018-12-04T23:00:00+03:00"),
-                end = ZonedDateTime.parse("2018-12-05T01:00:00+03:00")
-            ),
-            true
-        ),
-        of(
-            TimedInstance(
-                eventId = random.nextInt(),
-                isDeclined = false,
-                start = ZonedDateTime.parse("2018-12-04T12:30:00-08:00"),
-                end = ZonedDateTime.parse("2018-12-04T16:30:00-08:00")
-            ),
-            true
-        ),
-        of(
-            AllDayInstance(
-                eventId = random.nextInt(),
-                isDeclined = false,
-                start = LocalDate.parse("2018-12-04"),
-                end = LocalDate.parse("2018-12-06")
-            ),
-            true
-        ),
-        // starting after and ending after day
-        of(
-            TimedInstance(
-                eventId = random.nextInt(),
-                isDeclined = false,
-                start = ZonedDateTime.parse("2018-12-05T00:00:00+03:00"),
-                end = ZonedDateTime.parse("2018-12-05T02:00:00+03:00")
-            ),
-            false
-        ),
-        of(
-            TimedInstance(
-                eventId = random.nextInt(),
-                isDeclined = false,
-                start = ZonedDateTime.parse("2018-12-04T13:30:00-08:00"),
-                end = ZonedDateTime.parse("2018-12-04T16:30:00-08:00")
-            ),
-            false
-        ),
-        of(
-            AllDayInstance(
-                eventId = random.nextInt(),
-                isDeclined = false,
-                start = LocalDate.parse("2018-12-05"),
-                end = LocalDate.parse("2018-12-06")
-            ),
-            false
+        AllDayInstance(
+            eventId = random.nextInt(),
+            isDeclined = false,
+            start = LocalDate.parse("2018-12-02"),
+            end = LocalDate.parse("2018-12-03")
         )
-    )
+    ).map { of(it, false) }
+
+    private fun getInstancesStartingBeforeAndEndingInSystemLocalDate() = listOf(
+        TimedInstance(
+            eventId = random.nextInt(),
+            isDeclined = false,
+            start = ZonedDateTime.parse("2018-12-01T00:00:00+03:00"),
+            end = ZonedDateTime.parse("2018-12-04T23:59:00+03:00")
+        ),
+        TimedInstance(
+            eventId = random.nextInt(),
+            isDeclined = false,
+            start = ZonedDateTime.parse("2018-12-02T02:15:00-08:00"),
+            end = ZonedDateTime.parse("2018-12-03T13:30:00-08:00")
+        ),
+        AllDayInstance(
+            eventId = random.nextInt(),
+            isDeclined = false,
+            start = LocalDate.parse("2018-12-01"),
+            end = LocalDate.parse("2018-12-05")
+        )
+    ).map { of(it, true) }
+
+    private fun getInstancesStartingBeforeAndEndingAfterSystemLocalDate() = listOf(
+        TimedInstance(
+            eventId = random.nextInt(),
+            isDeclined = false,
+            start = ZonedDateTime.parse("2018-12-01T10:55:00+03:00"),
+            end = ZonedDateTime.parse("2018-12-07T23:00:00+03:00")
+        ),
+        AllDayInstance(
+            eventId = random.nextInt(),
+            isDeclined = false,
+            start = LocalDate.parse("2018-12-01"),
+            end = LocalDate.parse("2018-12-07")
+        )
+    ).map { of(it, true) }
+
+    private fun getInstancesStartingInAndEndingInSystemLocalDate() = listOf(
+        TimedInstance(
+            eventId = random.nextInt(),
+            isDeclined = false,
+            start = ZonedDateTime.parse("2018-12-04T23:00:00+03:00"),
+            end = ZonedDateTime.parse("2018-12-04T23:50:00+03:00")
+        ),
+        TimedInstance(
+            eventId = random.nextInt(),
+            isDeclined = false,
+            start = ZonedDateTime.parse("2018-12-03T13:30:00-08:00"),
+            end = ZonedDateTime.parse("2018-12-04T10:30:00-08:00")
+        ),
+        AllDayInstance(
+            eventId = random.nextInt(),
+            isDeclined = false,
+            start = LocalDate.parse("2018-12-04"),
+            end = LocalDate.parse("2018-12-05")
+        )
+    ).map { of(it, true) }
+
+    private fun getInstancesStartingInAndEndingAfterSystemLocalDate() = listOf(
+        TimedInstance(
+            eventId = random.nextInt(),
+            isDeclined = false,
+            start = ZonedDateTime.parse("2018-12-04T23:00:00+03:00"),
+            end = ZonedDateTime.parse("2018-12-05T01:00:00+03:00")
+        ),
+        TimedInstance(
+            eventId = random.nextInt(),
+            isDeclined = false,
+            start = ZonedDateTime.parse("2018-12-04T12:30:00-08:00"),
+            end = ZonedDateTime.parse("2018-12-04T16:30:00-08:00")
+        ),
+        AllDayInstance(
+            eventId = random.nextInt(),
+            isDeclined = false,
+            start = LocalDate.parse("2018-12-04"),
+            end = LocalDate.parse("2018-12-06")
+        )
+    ).map { of(it, true) }
+
+    private fun getInstancesStartingAfterAndEndingAfterSystemLocalDate() = listOf(
+        TimedInstance(
+            eventId = random.nextInt(),
+            isDeclined = false,
+            start = ZonedDateTime.parse("2018-12-05T00:00:00+03:00"),
+            end = ZonedDateTime.parse("2018-12-05T02:00:00+03:00")
+        ),
+        TimedInstance(
+            eventId = random.nextInt(),
+            isDeclined = false,
+            start = ZonedDateTime.parse("2018-12-04T13:30:00-08:00"),
+            end = ZonedDateTime.parse("2018-12-04T16:30:00-08:00")
+        ),
+        AllDayInstance(
+            eventId = random.nextInt(),
+            isDeclined = false,
+            start = LocalDate.parse("2018-12-05"),
+            end = LocalDate.parse("2018-12-06")
+        )
+    ).map { of(it, false) }
 
     private fun getSetsOfExpectedInstances() = listOf(
         emptySet(),

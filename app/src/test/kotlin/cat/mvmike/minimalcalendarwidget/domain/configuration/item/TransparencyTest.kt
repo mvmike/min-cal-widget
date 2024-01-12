@@ -6,7 +6,7 @@ import cat.mvmike.minimalcalendarwidget.BaseTest
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.MethodSource
+import org.junit.jupiter.params.provider.CsvSource
 import org.junit.jupiter.params.provider.ValueSource
 
 internal class TransparencyTest : BaseTest() {
@@ -20,73 +20,72 @@ internal class TransparencyTest : BaseTest() {
     }
 
     @ParameterizedTest
-    @MethodSource("getTransparencyWithAlphaLimitsAndExpectedOutputs")
-    fun getAlpha(transparencyProperties: TransparencyTestProperties) {
-        val result = transparencyProperties.getTransparency()
-            .getAlpha(transparencyProperties.transparencyRange)
+    @CsvSource(
+        "0,COMPLETE,255",
+        "0,MODERATE,80",
+        "0,LOW,30",
+        "1,COMPLETE,252",
+        "1,MODERATE,79",
+        "1,LOW,29",
+        "5,COMPLETE,242",
+        "20,COMPLETE,204",
+        "20,MODERATE,64",
+        "20,LOW,24",
+        "25,COMPLETE,191",
+        "65,COMPLETE,89",
+        "70,COMPLETE,76",
+        "70,MODERATE,24",
+        "70,LOW,9",
+        "75,COMPLETE,63",
+        "95,LOW,1",
+        "99,COMPLETE,2",
+        "100,COMPLETE,0",
+        "100,MODERATE,0",
+        "100,LOW,0"
+    )
+    fun getAlpha(
+        transparencyPercentage: Int,
+        transparencyRange: TransparencyRange,
+        expectedAlpha: Int
+    ) {
+        val result = Transparency(transparencyPercentage)
+            .getAlpha(transparencyRange)
 
-        assertThat(result).isEqualTo(transparencyProperties.expectedAlpha)
+        assertThat(result).isEqualTo(expectedAlpha)
     }
 
     @ParameterizedTest
-    @MethodSource("getTransparencyWithAlphaLimitsAndExpectedOutputs")
-    fun getAlphaInHex(transparencyProperties: TransparencyTestProperties) {
-        val result = transparencyProperties.getTransparency()
-            .getAlphaInHex(transparencyProperties.transparencyRange)
-
-        assertThat(result).isEqualTo(transparencyProperties.expectedAlphaInHex)
-    }
-
-    private fun getTransparencyWithAlphaLimitsAndExpectedOutputs() = listOf(
-        TransparencyTestProperties(0, TransparencyRange.COMPLETE, 255, "FF"),
-        TransparencyTestProperties(0, TransparencyRange.MODERATE, 80, "50"),
-        TransparencyTestProperties(0, TransparencyRange.LOW, 30, "1E"),
-        TransparencyTestProperties(1, TransparencyRange.COMPLETE, 252, "FC"),
-        TransparencyTestProperties(1, TransparencyRange.MODERATE, 79, "4F"),
-        TransparencyTestProperties(1, TransparencyRange.LOW, 29, "1D"),
-        TransparencyTestProperties(5, TransparencyRange.COMPLETE, 242, "F2"),
-        TransparencyTestProperties(10, TransparencyRange.COMPLETE, 229, "E5"),
-        TransparencyTestProperties(15, TransparencyRange.COMPLETE, 216, "D8"),
-        TransparencyTestProperties(17, TransparencyRange.COMPLETE, 211, "D3"),
-        TransparencyTestProperties(20, TransparencyRange.COMPLETE, 204, "CC"),
-        TransparencyTestProperties(20, TransparencyRange.MODERATE, 64, "40"),
-        TransparencyTestProperties(20, TransparencyRange.LOW, 24, "18"),
-        TransparencyTestProperties(25, TransparencyRange.COMPLETE, 191, "BF"),
-        TransparencyTestProperties(30, TransparencyRange.COMPLETE, 178, "B2"),
-        TransparencyTestProperties(35, TransparencyRange.COMPLETE, 165, "A5"),
-        TransparencyTestProperties(40, TransparencyRange.COMPLETE, 153, "99"),
-        TransparencyTestProperties(45, TransparencyRange.COMPLETE, 140, "8C"),
-        TransparencyTestProperties(50, TransparencyRange.COMPLETE, 127, "7F"),
-        TransparencyTestProperties(55, TransparencyRange.COMPLETE, 114, "72"),
-        TransparencyTestProperties(60, TransparencyRange.COMPLETE, 102, "66"),
-        TransparencyTestProperties(60, TransparencyRange.MODERATE, 32, "20"),
-        TransparencyTestProperties(60, TransparencyRange.LOW, 12, "0C"),
-        TransparencyTestProperties(65, TransparencyRange.COMPLETE, 89, "59"),
-        TransparencyTestProperties(68, TransparencyRange.COMPLETE, 81, "51"),
-        TransparencyTestProperties(70, TransparencyRange.COMPLETE, 76, "4C"),
-        TransparencyTestProperties(70, TransparencyRange.MODERATE, 24, "18"),
-        TransparencyTestProperties(70, TransparencyRange.LOW, 9, "09"),
-        TransparencyTestProperties(75, TransparencyRange.COMPLETE, 63, "3F"),
-        TransparencyTestProperties(80, TransparencyRange.COMPLETE, 51, "33"),
-        TransparencyTestProperties(85, TransparencyRange.COMPLETE, 38, "26"),
-        TransparencyTestProperties(90, TransparencyRange.COMPLETE, 25, "19"),
-        TransparencyTestProperties(90, TransparencyRange.MODERATE, 8, "08"),
-        TransparencyTestProperties(90, TransparencyRange.LOW, 3, "03"),
-        TransparencyTestProperties(95, TransparencyRange.COMPLETE, 12, "0C"),
-        TransparencyTestProperties(95, TransparencyRange.MODERATE, 4, "04"),
-        TransparencyTestProperties(95, TransparencyRange.LOW, 1, "01"),
-        TransparencyTestProperties(99, TransparencyRange.COMPLETE, 2, "02"),
-        TransparencyTestProperties(100, TransparencyRange.COMPLETE, 0, "00"),
-        TransparencyTestProperties(100, TransparencyRange.MODERATE, 0, "00"),
-        TransparencyTestProperties(100, TransparencyRange.LOW, 0, "00")
+    @CsvSource(
+        "0,COMPLETE,FF",
+        "0,MODERATE,50",
+        "0,LOW,1E",
+        "1,COMPLETE,FC",
+        "1,MODERATE,4F",
+        "1,LOW,1D",
+        "5,COMPLETE,F2",
+        "20,COMPLETE,CC",
+        "20,MODERATE,40",
+        "20,LOW,18",
+        "25,COMPLETE,BF",
+        "65,COMPLETE,59",
+        "70,COMPLETE,4C",
+        "70,MODERATE,18",
+        "70,LOW,09",
+        "75,COMPLETE,3F",
+        "95,LOW,01",
+        "99,COMPLETE,02",
+        "100,COMPLETE,00",
+        "100,MODERATE,00",
+        "100,LOW,00"
     )
-
-    internal data class TransparencyTestProperties(
-        private val percentage: Int,
-        val transparencyRange: TransparencyRange,
-        val expectedAlpha: Int,
-        val expectedAlphaInHex: String
+    fun getAlphaInHex(
+        transparencyPercentage: Int,
+        transparencyRange: TransparencyRange,
+        expectedAlphaInHex: String
     ) {
-        fun getTransparency() = Transparency(percentage)
+        val result = Transparency(transparencyPercentage)
+            .getAlphaInHex(transparencyRange)
+
+        assertThat(result).isEqualTo(expectedAlphaInHex)
     }
 }

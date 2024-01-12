@@ -16,8 +16,7 @@ import io.mockk.mockkObject
 import io.mockk.verify
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.Arguments.of
-import org.junit.jupiter.params.provider.MethodSource
+import org.junit.jupiter.params.provider.CsvSource
 import org.junit.jupiter.params.provider.NullSource
 import org.junit.jupiter.params.provider.ValueSource
 import java.time.Instant.ofEpochSecond
@@ -147,7 +146,14 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
     }
 
     @ParameterizedTest
-    @MethodSource("getMincalCalendarIntentActionAndExpectedExtraInstantAndStartTimeInstant")
+    @ValueSource(
+        strings = [
+            "$CELL_DAY_CLICK_ACTION.1675786154",
+            "$CELL_DAY_CLICK_ACTION.1671349586",
+            "$CELL_DAY_CLICK_ACTION.1624298458",
+            "$CELL_DAY_CLICK_ACTION.1434887405"
+        ]
+    )
     fun shouldLaunchCalendarActivityOnTodayAndRedrawWidget(action: String) {
         mockIntent(action)
         mockIsReadCalendarPermitted(true)
@@ -172,7 +178,12 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
     }
 
     @ParameterizedTest
-    @MethodSource("getMincalCalendarIntentActionAndExpectedExtraInstantAndStartTimeInstant")
+    @CsvSource(
+        "$CELL_DAY_CLICK_ACTION.1675886154,1675886154,1675863134",
+        "$CELL_DAY_CLICK_ACTION.1671249586,1671249586,1671283934",
+        "$CELL_DAY_CLICK_ACTION.1624398458,1624398458,1624455134",
+        "$CELL_DAY_CLICK_ACTION.1434987405,1434987405,1434979934"
+    )
     fun shouldLaunchCalendarActivityOnIntentExtraAndRedrawWidget_whenIntentAndPermissionsGiven(
         action: String,
         extraInstantEpochSeconds: Long,
@@ -204,11 +215,4 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
         verify { RedrawWidgetUseCase.execute(context) }
         verify { AutoUpdate.set(context) }
     }
-
-    private fun getMincalCalendarIntentActionAndExpectedExtraInstantAndStartTimeInstant() = listOf(
-        of("$CELL_DAY_CLICK_ACTION.1675886154", 1675886154, 1675863134),
-        of("$CELL_DAY_CLICK_ACTION.1671249586", 1671249586, 1671283934),
-        of("$CELL_DAY_CLICK_ACTION.1624398458", 1624398458, 1624455134),
-        of("$CELL_DAY_CLICK_ACTION.1434987405", 1434987405, 1434979934)
-    )
 }

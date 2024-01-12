@@ -9,9 +9,7 @@ import io.mockk.mockkStatic
 import io.mockk.verify
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.Arguments.of
 import org.junit.jupiter.params.provider.CsvSource
-import org.junit.jupiter.params.provider.MethodSource
 import java.time.DayOfWeek
 import java.util.Locale
 
@@ -43,14 +41,27 @@ internal class SystemResolverTest : BaseTest() {
     }
 
     @ParameterizedTest
-    @MethodSource("getLocalDatesWithExpectations")
+    @CsvSource(
+        "ENGLISH,,SUNDAY",
+        "en,GB,MONDAY",
+        "ru,RU,MONDAY",
+        "en,US,SUNDAY",
+        "ca,ES,MONDAY",
+        "es,ES,MONDAY",
+        "fr,FR,MONDAY",
+        "iw,IL,SUNDAY",
+        "he,IL,SUNDAY",
+        "yue,CN,SUNDAY",
+        "tr,TR,MONDAY"
+    )
     fun getSystemFirstDayOfWeek_shouldReturnLocaleDefaultWhenNoPreferenceValue(
-        locale: Locale,
+        language: String,
+        country: String?,
         expectedDayOfWeek: DayOfWeek
     ) {
         mockkStatic(LocalePreferences::class)
         every { LocalePreferences.getFirstDayOfWeek() } returns ""
-        every { SystemResolver.getSystemLocale() } returns locale
+        every { SystemResolver.getSystemLocale() } returns Locale(language, country ?: "")
 
         val result = SystemResolver.getSystemFirstDayOfWeek()
 
@@ -58,18 +69,4 @@ internal class SystemResolverTest : BaseTest() {
         verify { SystemResolver.getSystemFirstDayOfWeek() }
         verify { SystemResolver.getSystemLocale() }
     }
-
-    private fun getLocalDatesWithExpectations() = listOf(
-        of(Locale.ENGLISH, DayOfWeek.SUNDAY),
-        of(Locale("en", "GB"), DayOfWeek.MONDAY),
-        of(Locale("ru", "RU"), DayOfWeek.MONDAY),
-        of(Locale("en", "US"), DayOfWeek.SUNDAY),
-        of(Locale("ca", "ES"), DayOfWeek.MONDAY),
-        of(Locale("es", "ES"), DayOfWeek.MONDAY),
-        of(Locale("fr", "FR"), DayOfWeek.MONDAY),
-        of(Locale("iw", "IL"), DayOfWeek.SUNDAY),
-        of(Locale("he", "IL"), DayOfWeek.SUNDAY),
-        of(Locale("yue", "CN"), DayOfWeek.SUNDAY),
-        of(Locale("tr", "TR"), DayOfWeek.MONDAY)
-    )
 }

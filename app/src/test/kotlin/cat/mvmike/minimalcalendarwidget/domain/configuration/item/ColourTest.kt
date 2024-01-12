@@ -26,10 +26,12 @@ internal class ColourTest : BaseTest() {
     @ParameterizedTest
     @EnumSource(value = Colour::class)
     fun getInstancesColour_shouldAlwaysReturnTheSameValueWhenIsToday(colour: Colour) {
-        Theme.entries.forEach {
-            val todayInstancesColour = colour.getInstancesColour(true, it)
-            assertThat(todayInstancesColour).isEqualTo(TEXT_COLOUR_TODAY_ID)
-        }
+        val todayInstancesColours = Theme.entries
+            .map { colour.getInstancesColour(true, it) }
+            .toSet()
+
+        assertThat(todayInstancesColours).hasSize(1)
+        assertThat(todayInstancesColours).contains(TEXT_COLOUR_TODAY_ID)
     }
 
     @ParameterizedTest

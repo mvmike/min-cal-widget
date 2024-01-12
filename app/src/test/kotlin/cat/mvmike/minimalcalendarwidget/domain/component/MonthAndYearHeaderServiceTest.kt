@@ -15,10 +15,8 @@ import io.mockk.justRun
 import io.mockk.mockk
 import io.mockk.verify
 import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.Arguments.of
-import org.junit.jupiter.params.provider.MethodSource
+import org.junit.jupiter.params.provider.CsvSource
 import java.time.LocalDate
-import java.time.LocalDate.parse
 import java.time.Month
 
 internal class MonthAndYearHeaderServiceTest : BaseTest() {
@@ -26,21 +24,47 @@ internal class MonthAndYearHeaderServiceTest : BaseTest() {
     private val widgetRv = mockk<RemoteViews>()
 
     @ParameterizedTest
-    @MethodSource("getInstancesWithTextSizeAndThemeAndCalendarWithExpectedMonthAndYear")
+    @CsvSource(
+        "2018-01-26,40,DARK,GREGORIAN,January,2018",
+        "2018-01-26,15,DARK,GREGORIAN,Jan,2018",
+        "2005-02-19,40,DARK,HOLOCENE,February,12005",
+        "2005-02-19,15,DARK,GREGORIAN,Feb,2005",
+        "2027-03-05,40,DARK,GREGORIAN,March,2027",
+        "2027-03-05,15,DARK,HOLOCENE,Mar,12027",
+        "2099-04-30,40,DARK,HOLOCENE,April,12099",
+        "2099-04-30,15,DARK,GREGORIAN,Apr,2099",
+        "2000-05-01,40,DARK,GREGORIAN,May,2000",
+        "2000-05-01,15,DARK,HOLOCENE,May,12000",
+        "1998-06-02,40,DARK,GREGORIAN,June,1998",
+        "1998-06-02,15,DARK,HOLOCENE,Jun,11998",
+        "1992-07-07,40,LIGHT,GREGORIAN,July,1992",
+        "1992-07-07,15,LIGHT,GREGORIAN,Jul,1992",
+        "2018-08-01,40,LIGHT,GREGORIAN,August,2018",
+        "2018-08-01,15,LIGHT,HOLOCENE,Aug,12018",
+        "1987-09-12,40,LIGHT,HOLOCENE,September,11987",
+        "1987-09-12,15,LIGHT,GREGORIAN,Sep,1987",
+        "2017-10-01,40,LIGHT,GREGORIAN,October,2017",
+        "2017-10-01,15,LIGHT,GREGORIAN,Oct,2017",
+        "1000-11-12,40,LIGHT,HOLOCENE,November,11000",
+        "1000-11-12,15,LIGHT,GREGORIAN,Nov,1000",
+        "1994-12-13,40,LIGHT,GREGORIAN,December,1994",
+        "1994-12-13,15,LIGHT,GREGORIAN,Dec,1994"
+    )
     fun draw_shouldAddMonthAndYearWithColourAndRelativeMonthAndYearSize(
         localDate: LocalDate,
-        textSize: TextSize,
+        textSizePercentage: Int,
         widgetTheme: Theme,
         calendar: Calendar,
         expectedMonth: String,
         expectedYear: String
     ) {
         val expectedHeaderRelativeYearSize = 0.6f
+        val textSize = TextSize(textSizePercentage)
         mockGetSystemLocalDate(localDate)
         mockWidgetCalendar(calendar)
         every {
-            context.getString(localDate.month.getExpectedResourceId())
-        } returns localDate.month.getExpectedAbbreviatedString()
+            context.getString(localDate.month.getExpectedResourceIdAndTranslation().first)
+        } returns localDate.month.getExpectedResourceIdAndTranslation().second
         justRun {
             createMonthAndYearHeader(
                 context = context,
@@ -56,7 +80,7 @@ internal class MonthAndYearHeaderServiceTest : BaseTest() {
         MonthAndYearHeaderService.draw(context, widgetRv, textSize, widgetTheme)
 
         verifyGetSystemLocalDate()
-        verify { context.getString(localDate.month.getExpectedResourceId()) }
+        verify { context.getString(localDate.month.getExpectedResourceIdAndTranslation().first) }
         verifyWidgetCalendar()
         verify {
             createMonthAndYearHeader(
@@ -72,62 +96,18 @@ internal class MonthAndYearHeaderServiceTest : BaseTest() {
         confirmVerified(widgetRv)
     }
 
-    private fun getInstancesWithTextSizeAndThemeAndCalendarWithExpectedMonthAndYear() = listOf(
-        of(parse("2018-01-26"), TextSize(40), Theme.DARK, Calendar.GREGORIAN, "January", "2018"),
-        of(parse("2018-01-26"), TextSize(15), Theme.DARK, Calendar.GREGORIAN, "Jan", "2018"),
-        of(parse("2005-02-19"), TextSize(40), Theme.DARK, Calendar.HOLOCENE, "February", "12005"),
-        of(parse("2005-02-19"), TextSize(15), Theme.DARK, Calendar.GREGORIAN, "Feb", "2005"),
-        of(parse("2027-03-05"), TextSize(40), Theme.DARK, Calendar.GREGORIAN, "March", "2027"),
-        of(parse("2027-03-05"), TextSize(15), Theme.DARK, Calendar.HOLOCENE, "Mar", "12027"),
-        of(parse("2099-04-30"), TextSize(40), Theme.DARK, Calendar.HOLOCENE, "April", "12099"),
-        of(parse("2099-04-30"), TextSize(15), Theme.DARK, Calendar.GREGORIAN, "Apr", "2099"),
-        of(parse("2000-05-01"), TextSize(40), Theme.DARK, Calendar.GREGORIAN, "May", "2000"),
-        of(parse("2000-05-01"), TextSize(15), Theme.DARK, Calendar.HOLOCENE, "May", "12000"),
-        of(parse("1998-06-02"), TextSize(40), Theme.DARK, Calendar.GREGORIAN, "June", "1998"),
-        of(parse("1998-06-02"), TextSize(15), Theme.DARK, Calendar.HOLOCENE, "Jun", "11998"),
-        of(parse("1992-07-07"), TextSize(40), Theme.LIGHT, Calendar.GREGORIAN, "July", "1992"),
-        of(parse("1992-07-07"), TextSize(15), Theme.LIGHT, Calendar.GREGORIAN, "Jul", "1992"),
-        of(parse("2018-08-01"), TextSize(40), Theme.LIGHT, Calendar.GREGORIAN, "August", "2018"),
-        of(parse("2018-08-01"), TextSize(15), Theme.LIGHT, Calendar.HOLOCENE, "Aug", "12018"),
-        of(parse("1987-09-12"), TextSize(40), Theme.LIGHT, Calendar.HOLOCENE, "September", "11987"),
-        of(parse("1987-09-12"), TextSize(15), Theme.LIGHT, Calendar.GREGORIAN, "Sep", "1987"),
-        of(parse("2017-10-01"), TextSize(40), Theme.LIGHT, Calendar.GREGORIAN, "October", "2017"),
-        of(parse("2017-10-01"), TextSize(15), Theme.LIGHT, Calendar.GREGORIAN, "Oct", "2017"),
-        of(parse("1000-11-12"), TextSize(40), Theme.LIGHT, Calendar.HOLOCENE, "November", "11000"),
-        of(parse("1000-11-12"), TextSize(15), Theme.LIGHT, Calendar.GREGORIAN, "Nov", "1000"),
-        of(parse("1994-12-13"), TextSize(40), Theme.LIGHT, Calendar.GREGORIAN, "December", "1994"),
-        of(parse("1994-12-13"), TextSize(15), Theme.LIGHT, Calendar.GREGORIAN, "Dec", "1994")
-    )
-
-    private fun Month.getExpectedResourceId() =
-        when (this) {
-            Month.JANUARY -> R.string.january
-            Month.FEBRUARY -> R.string.february
-            Month.MARCH -> R.string.march
-            Month.APRIL -> R.string.april
-            Month.MAY -> R.string.may
-            Month.JUNE -> R.string.june
-            Month.JULY -> R.string.july
-            Month.AUGUST -> R.string.august
-            Month.SEPTEMBER -> R.string.september
-            Month.OCTOBER -> R.string.october
-            Month.NOVEMBER -> R.string.november
-            Month.DECEMBER -> R.string.december
-        }
-
-    private fun Month.getExpectedAbbreviatedString() =
-        when (this) {
-            Month.JANUARY -> "January"
-            Month.FEBRUARY -> "February"
-            Month.MARCH -> "March"
-            Month.APRIL -> "April"
-            Month.MAY -> "May"
-            Month.JUNE -> "June"
-            Month.JULY -> "July"
-            Month.AUGUST -> "August"
-            Month.SEPTEMBER -> "September"
-            Month.OCTOBER -> "October"
-            Month.NOVEMBER -> "November"
-            Month.DECEMBER -> "December"
-        }
+    private fun Month.getExpectedResourceIdAndTranslation() = when (this) {
+        Month.JANUARY -> Pair(R.string.january, "January")
+        Month.FEBRUARY -> Pair(R.string.february, "February")
+        Month.MARCH -> Pair(R.string.march, "March")
+        Month.APRIL -> Pair(R.string.april, "April")
+        Month.MAY -> Pair(R.string.may, "May")
+        Month.JUNE -> Pair(R.string.june, "June")
+        Month.JULY -> Pair(R.string.july, "July")
+        Month.AUGUST -> Pair(R.string.august, "August")
+        Month.SEPTEMBER -> Pair(R.string.september, "September")
+        Month.OCTOBER -> Pair(R.string.october, "October")
+        Month.NOVEMBER -> Pair(R.string.november, "November")
+        Month.DECEMBER -> Pair(R.string.december, "December")
+    }
 }

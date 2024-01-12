@@ -5,8 +5,7 @@ package cat.mvmike.minimalcalendarwidget.domain.configuration.item
 import cat.mvmike.minimalcalendarwidget.BaseTest
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.Arguments.of
-import org.junit.jupiter.params.provider.MethodSource
+import org.junit.jupiter.params.provider.CsvSource
 import java.time.DayOfWeek
 
 // TEXT COLOUR
@@ -36,25 +35,81 @@ private const val SUNDAY_LIGHT_THEME_CELL_BACKGROUND = 2131034152
 internal class ThemeTest : BaseTest() {
 
     @ParameterizedTest
-    @MethodSource("getCombinationOfThemesAndDaysOfWeekWithExpectedCellHeader")
+    @CsvSource(
+        "DARK,MONDAY,$DARK_THEME_IN_MONTH_TEXT_COLOUR,",
+        "DARK,TUESDAY,$DARK_THEME_IN_MONTH_TEXT_COLOUR,",
+        "DARK,WEDNESDAY,$DARK_THEME_IN_MONTH_TEXT_COLOUR,",
+        "DARK,THURSDAY,$DARK_THEME_IN_MONTH_TEXT_COLOUR,",
+        "DARK,FRIDAY,$DARK_THEME_IN_MONTH_TEXT_COLOUR,",
+        "DARK,SATURDAY,$DARK_THEME_IN_MONTH_TEXT_COLOUR,$SATURDAY_IN_MONTH_DARK_THEME_CELL_BACKGROUND",
+        "DARK,SUNDAY,$DARK_THEME_IN_MONTH_TEXT_COLOUR,$SUNDAY_IN_MONTH_DARK_THEME_CELL_BACKGROUND",
+        "LIGHT,MONDAY,$LIGHT_THEME_IN_MONTH_TEXT_COLOUR,",
+        "LIGHT,TUESDAY,$LIGHT_THEME_IN_MONTH_TEXT_COLOUR,",
+        "LIGHT,WEDNESDAY,$LIGHT_THEME_IN_MONTH_TEXT_COLOUR,",
+        "LIGHT,THURSDAY,$LIGHT_THEME_IN_MONTH_TEXT_COLOUR,",
+        "LIGHT,FRIDAY,$LIGHT_THEME_IN_MONTH_TEXT_COLOUR,",
+        "LIGHT,SATURDAY,$LIGHT_THEME_IN_MONTH_TEXT_COLOUR,$SATURDAY_IN_MONTH_LIGHT_THEME_CELL_BACKGROUND",
+        "LIGHT,SUNDAY,$LIGHT_THEME_IN_MONTH_TEXT_COLOUR,$SUNDAY_IN_MONTH_LIGHT_THEME_CELL_BACKGROUND"
+    )
     fun getCellHeader(
         widgetTheme: Theme,
         dayOfWeek: DayOfWeek,
-        expectedResult: CellTheme
+        expectedCellThemeTextColour: Int,
+        expectedCellThemeBackground: Int?
     ) {
+        val expectedResult = CellTheme(
+            textColour = expectedCellThemeTextColour,
+            background = expectedCellThemeBackground
+        )
+
         val result = widgetTheme.getCellHeader(dayOfWeek)
 
         assertThat(result).isEqualTo(expectedResult)
     }
 
     @ParameterizedTest
-    @MethodSource("getCombinationOfThemesAndDayStatusesWithExpectedCellDay")
+    @CsvSource(
+        "DARK,true,MONDAY,$DARK_THEME_IN_MONTH_TEXT_COLOUR,$IN_MONTH_DARK_THEME_CELL_BACKGROUND",
+        "DARK,true,TUESDAY,$DARK_THEME_IN_MONTH_TEXT_COLOUR,$IN_MONTH_DARK_THEME_CELL_BACKGROUND",
+        "DARK,true,WEDNESDAY,$DARK_THEME_IN_MONTH_TEXT_COLOUR,$IN_MONTH_DARK_THEME_CELL_BACKGROUND",
+        "DARK,true,THURSDAY,$DARK_THEME_IN_MONTH_TEXT_COLOUR,$IN_MONTH_DARK_THEME_CELL_BACKGROUND",
+        "DARK,true,FRIDAY,$DARK_THEME_IN_MONTH_TEXT_COLOUR,$IN_MONTH_DARK_THEME_CELL_BACKGROUND",
+        "DARK,true,SATURDAY,$DARK_THEME_IN_MONTH_TEXT_COLOUR,$SATURDAY_IN_MONTH_DARK_THEME_CELL_BACKGROUND",
+        "DARK,true,SUNDAY,$DARK_THEME_IN_MONTH_TEXT_COLOUR,$SUNDAY_IN_MONTH_DARK_THEME_CELL_BACKGROUND",
+        "DARK,false,MONDAY,$DARK_THEME_TEXT_COLOUR,",
+        "DARK,false,TUESDAY,$DARK_THEME_TEXT_COLOUR,",
+        "DARK,false,WEDNESDAY,$DARK_THEME_TEXT_COLOUR,",
+        "DARK,false,THURSDAY,$DARK_THEME_TEXT_COLOUR,",
+        "DARK,false,FRIDAY,$DARK_THEME_TEXT_COLOUR,",
+        "DARK,false,SATURDAY,$DARK_THEME_TEXT_COLOUR,$SATURDAY_DARK_THEME_CELL_BACKGROUND",
+        "DARK,false,SUNDAY,$DARK_THEME_TEXT_COLOUR,$SUNDAY_DARK_THEME_CELL_BACKGROUND",
+        "LIGHT,true,MONDAY,$LIGHT_THEME_IN_MONTH_TEXT_COLOUR,$IN_MONTH_LIGHT_THEME_CELL_BACKGROUND",
+        "LIGHT,true,TUESDAY,$LIGHT_THEME_IN_MONTH_TEXT_COLOUR,$IN_MONTH_LIGHT_THEME_CELL_BACKGROUND",
+        "LIGHT,true,WEDNESDAY,$LIGHT_THEME_IN_MONTH_TEXT_COLOUR,$IN_MONTH_LIGHT_THEME_CELL_BACKGROUND",
+        "LIGHT,true,THURSDAY,$LIGHT_THEME_IN_MONTH_TEXT_COLOUR,$IN_MONTH_LIGHT_THEME_CELL_BACKGROUND",
+        "LIGHT,true,FRIDAY,$LIGHT_THEME_IN_MONTH_TEXT_COLOUR,$IN_MONTH_LIGHT_THEME_CELL_BACKGROUND",
+        "LIGHT,true,SATURDAY,$LIGHT_THEME_IN_MONTH_TEXT_COLOUR,$SATURDAY_IN_MONTH_LIGHT_THEME_CELL_BACKGROUND",
+        "LIGHT,true,SUNDAY,$LIGHT_THEME_IN_MONTH_TEXT_COLOUR,$SUNDAY_IN_MONTH_LIGHT_THEME_CELL_BACKGROUND",
+        "LIGHT,false,MONDAY,$LIGHT_THEME_TEXT_COLOUR,",
+        "LIGHT,false,TUESDAY,$LIGHT_THEME_TEXT_COLOUR,",
+        "LIGHT,false,WEDNESDAY,$LIGHT_THEME_TEXT_COLOUR,",
+        "LIGHT,false,THURSDAY,$LIGHT_THEME_TEXT_COLOUR,",
+        "LIGHT,false,FRIDAY,$LIGHT_THEME_TEXT_COLOUR,",
+        "LIGHT,false,SATURDAY,$LIGHT_THEME_TEXT_COLOUR,$SATURDAY_LIGHT_THEME_CELL_BACKGROUND",
+        "LIGHT,false,SUNDAY,$LIGHT_THEME_TEXT_COLOUR,$SUNDAY_LIGHT_THEME_CELL_BACKGROUND"
+    )
     fun getCellDay(
         widgetTheme: Theme,
         inMonth: Boolean,
         dayOfWeek: DayOfWeek,
-        expectedResult: CellTheme
+        expectedCellThemeTextColour: Int,
+        expectedCellThemeBackground: Int?
     ) {
+        val expectedResult = CellTheme(
+            textColour = expectedCellThemeTextColour,
+            background = expectedCellThemeBackground
+        )
+
         val result = widgetTheme.getCellDay(
             inMonth = inMonth,
             dayOfWeek = dayOfWeek
@@ -62,374 +117,4 @@ internal class ThemeTest : BaseTest() {
 
         assertThat(result).isEqualTo(expectedResult)
     }
-
-    private fun getCombinationOfThemesAndDaysOfWeekWithExpectedCellHeader() = listOf(
-        of(
-            Theme.DARK,
-            DayOfWeek.MONDAY,
-            CellTheme(
-                textColour = DARK_THEME_IN_MONTH_TEXT_COLOUR,
-                background = null
-            )
-        ),
-        of(
-            Theme.DARK,
-            DayOfWeek.TUESDAY,
-            CellTheme(
-                textColour = DARK_THEME_IN_MONTH_TEXT_COLOUR,
-                background = null
-            )
-        ),
-        of(
-            Theme.DARK,
-            DayOfWeek.WEDNESDAY,
-            CellTheme(
-                textColour = DARK_THEME_IN_MONTH_TEXT_COLOUR,
-                background = null
-            )
-        ),
-        of(
-            Theme.DARK,
-            DayOfWeek.THURSDAY,
-            CellTheme(
-                textColour = DARK_THEME_IN_MONTH_TEXT_COLOUR,
-                background = null
-            )
-        ),
-        of(
-            Theme.DARK,
-            DayOfWeek.FRIDAY,
-            CellTheme(
-                textColour = DARK_THEME_IN_MONTH_TEXT_COLOUR,
-                background = null
-            )
-        ),
-        of(
-            Theme.DARK,
-            DayOfWeek.SATURDAY,
-            CellTheme(
-                textColour = DARK_THEME_IN_MONTH_TEXT_COLOUR,
-                background = SATURDAY_IN_MONTH_DARK_THEME_CELL_BACKGROUND
-            )
-        ),
-        of(
-            Theme.DARK,
-            DayOfWeek.SUNDAY,
-            CellTheme(
-                textColour = DARK_THEME_IN_MONTH_TEXT_COLOUR,
-                background = SUNDAY_IN_MONTH_DARK_THEME_CELL_BACKGROUND
-            )
-        ),
-        of(
-            Theme.LIGHT,
-            DayOfWeek.MONDAY,
-            CellTheme(
-                textColour = LIGHT_THEME_IN_MONTH_TEXT_COLOUR,
-                background = null
-            )
-        ),
-        of(
-            Theme.LIGHT,
-            DayOfWeek.TUESDAY,
-            CellTheme(
-                textColour = LIGHT_THEME_IN_MONTH_TEXT_COLOUR,
-                background = null
-            )
-        ),
-        of(
-            Theme.LIGHT,
-            DayOfWeek.WEDNESDAY,
-            CellTheme(
-                textColour = LIGHT_THEME_IN_MONTH_TEXT_COLOUR,
-                background = null
-            )
-        ),
-        of(
-            Theme.LIGHT,
-            DayOfWeek.THURSDAY,
-            CellTheme(
-                textColour = LIGHT_THEME_IN_MONTH_TEXT_COLOUR,
-                background = null
-            )
-        ),
-        of(
-            Theme.LIGHT,
-            DayOfWeek.FRIDAY,
-            CellTheme(
-                textColour = LIGHT_THEME_IN_MONTH_TEXT_COLOUR,
-                background = null
-            )
-        ),
-        of(
-            Theme.LIGHT,
-            DayOfWeek.SATURDAY,
-            CellTheme(
-                textColour = LIGHT_THEME_IN_MONTH_TEXT_COLOUR,
-                background = SATURDAY_IN_MONTH_LIGHT_THEME_CELL_BACKGROUND
-            )
-        ),
-        of(
-            Theme.LIGHT,
-            DayOfWeek.SUNDAY,
-            CellTheme(
-                textColour = LIGHT_THEME_IN_MONTH_TEXT_COLOUR,
-                background = SUNDAY_IN_MONTH_LIGHT_THEME_CELL_BACKGROUND
-            )
-        )
-    )
-
-    private fun getCombinationOfThemesAndDayStatusesWithExpectedCellDay() = listOf(
-        of(
-            Theme.DARK,
-            true,
-            DayOfWeek.MONDAY,
-            CellTheme(
-                textColour = DARK_THEME_IN_MONTH_TEXT_COLOUR,
-                background = IN_MONTH_DARK_THEME_CELL_BACKGROUND
-            )
-        ),
-        of(
-            Theme.DARK,
-            true,
-            DayOfWeek.TUESDAY,
-            CellTheme(
-                textColour = DARK_THEME_IN_MONTH_TEXT_COLOUR,
-                background = IN_MONTH_DARK_THEME_CELL_BACKGROUND
-            )
-        ),
-        of(
-            Theme.DARK,
-            true,
-            DayOfWeek.WEDNESDAY,
-            CellTheme(
-                textColour = DARK_THEME_IN_MONTH_TEXT_COLOUR,
-                background = IN_MONTH_DARK_THEME_CELL_BACKGROUND
-            )
-        ),
-        of(
-            Theme.DARK,
-            true,
-            DayOfWeek.THURSDAY,
-            CellTheme(
-                textColour = DARK_THEME_IN_MONTH_TEXT_COLOUR,
-                background = IN_MONTH_DARK_THEME_CELL_BACKGROUND
-            )
-        ),
-        of(
-            Theme.DARK,
-            true,
-            DayOfWeek.FRIDAY,
-            CellTheme(
-                textColour = DARK_THEME_IN_MONTH_TEXT_COLOUR,
-                background = IN_MONTH_DARK_THEME_CELL_BACKGROUND
-            )
-        ),
-        of(
-            Theme.DARK,
-            true,
-            DayOfWeek.SATURDAY,
-            CellTheme(
-                textColour = DARK_THEME_IN_MONTH_TEXT_COLOUR,
-                background = SATURDAY_IN_MONTH_DARK_THEME_CELL_BACKGROUND
-            )
-        ),
-        of(
-            Theme.DARK,
-            true,
-            DayOfWeek.SUNDAY,
-            CellTheme(
-                textColour = DARK_THEME_IN_MONTH_TEXT_COLOUR,
-                background = SUNDAY_IN_MONTH_DARK_THEME_CELL_BACKGROUND
-            )
-        ),
-        of(
-            Theme.DARK,
-            false,
-            DayOfWeek.MONDAY,
-            CellTheme(
-                textColour = DARK_THEME_TEXT_COLOUR,
-                background = null
-            )
-        ),
-        of(
-            Theme.DARK,
-            false,
-            DayOfWeek.TUESDAY,
-            CellTheme(
-                textColour = DARK_THEME_TEXT_COLOUR,
-                background = null
-            )
-        ),
-        of(
-            Theme.DARK,
-            false,
-            DayOfWeek.WEDNESDAY,
-            CellTheme(
-                textColour = DARK_THEME_TEXT_COLOUR,
-                background = null
-            )
-        ),
-        of(
-            Theme.DARK,
-            false,
-            DayOfWeek.THURSDAY,
-            CellTheme(
-                textColour = DARK_THEME_TEXT_COLOUR,
-                background = null
-            )
-        ),
-        of(
-            Theme.DARK,
-            false,
-            DayOfWeek.FRIDAY,
-            CellTheme(
-                textColour = DARK_THEME_TEXT_COLOUR,
-                background = null
-            )
-        ),
-        of(
-            Theme.DARK,
-            false,
-            DayOfWeek.SATURDAY,
-            CellTheme(
-                textColour = DARK_THEME_TEXT_COLOUR,
-                background = SATURDAY_DARK_THEME_CELL_BACKGROUND
-            )
-        ),
-        of(
-            Theme.DARK,
-            false,
-            DayOfWeek.SUNDAY,
-            CellTheme(
-                textColour = DARK_THEME_TEXT_COLOUR,
-                background = SUNDAY_DARK_THEME_CELL_BACKGROUND
-            )
-        ),
-        of(
-            Theme.LIGHT,
-            true,
-            DayOfWeek.MONDAY,
-            CellTheme(
-                textColour = LIGHT_THEME_IN_MONTH_TEXT_COLOUR,
-                background = IN_MONTH_LIGHT_THEME_CELL_BACKGROUND
-            )
-        ),
-        of(
-            Theme.LIGHT,
-            true,
-            DayOfWeek.TUESDAY,
-            CellTheme(
-                textColour = LIGHT_THEME_IN_MONTH_TEXT_COLOUR,
-                background = IN_MONTH_LIGHT_THEME_CELL_BACKGROUND
-            )
-        ),
-        of(
-            Theme.LIGHT,
-            true,
-            DayOfWeek.WEDNESDAY,
-            CellTheme(
-                textColour = LIGHT_THEME_IN_MONTH_TEXT_COLOUR,
-                background = IN_MONTH_LIGHT_THEME_CELL_BACKGROUND
-            )
-        ),
-        of(
-            Theme.LIGHT,
-            true,
-            DayOfWeek.THURSDAY,
-            CellTheme(
-                textColour = LIGHT_THEME_IN_MONTH_TEXT_COLOUR,
-                background = IN_MONTH_LIGHT_THEME_CELL_BACKGROUND
-            )
-        ),
-        of(
-            Theme.LIGHT,
-            true,
-            DayOfWeek.FRIDAY,
-            CellTheme(
-                textColour = LIGHT_THEME_IN_MONTH_TEXT_COLOUR,
-                background = IN_MONTH_LIGHT_THEME_CELL_BACKGROUND
-            )
-        ),
-        of(
-            Theme.LIGHT,
-            true,
-            DayOfWeek.SATURDAY,
-            CellTheme(
-                textColour = LIGHT_THEME_IN_MONTH_TEXT_COLOUR,
-                background = SATURDAY_IN_MONTH_LIGHT_THEME_CELL_BACKGROUND
-            )
-        ),
-        of(
-            Theme.LIGHT,
-            true,
-            DayOfWeek.SUNDAY,
-            CellTheme(
-                textColour = LIGHT_THEME_IN_MONTH_TEXT_COLOUR,
-                background = SUNDAY_IN_MONTH_LIGHT_THEME_CELL_BACKGROUND
-            )
-        ),
-        of(
-            Theme.LIGHT,
-            false,
-            DayOfWeek.MONDAY,
-            CellTheme(
-                textColour = LIGHT_THEME_TEXT_COLOUR,
-                background = null
-            )
-        ),
-        of(
-            Theme.LIGHT,
-            false,
-            DayOfWeek.TUESDAY,
-            CellTheme(
-                textColour = LIGHT_THEME_TEXT_COLOUR,
-                background = null
-            )
-        ),
-        of(
-            Theme.LIGHT,
-            false,
-            DayOfWeek.WEDNESDAY,
-            CellTheme(
-                textColour = LIGHT_THEME_TEXT_COLOUR,
-                background = null
-            )
-        ),
-        of(
-            Theme.LIGHT,
-            false,
-            DayOfWeek.THURSDAY,
-            CellTheme(
-                textColour = LIGHT_THEME_TEXT_COLOUR,
-                background = null
-            )
-        ),
-        of(
-            Theme.LIGHT,
-            false,
-            DayOfWeek.FRIDAY,
-            CellTheme(
-                textColour = LIGHT_THEME_TEXT_COLOUR,
-                background = null
-            )
-        ),
-        of(
-            Theme.LIGHT,
-            false,
-            DayOfWeek.SATURDAY,
-            CellTheme(
-                textColour = LIGHT_THEME_TEXT_COLOUR,
-                background = SATURDAY_LIGHT_THEME_CELL_BACKGROUND
-            )
-        ),
-        of(
-            Theme.LIGHT,
-            false,
-            DayOfWeek.SUNDAY,
-            CellTheme(
-                textColour = LIGHT_THEME_TEXT_COLOUR,
-                background = SUNDAY_LIGHT_THEME_CELL_BACKGROUND
-            )
-        )
-    )
 }
