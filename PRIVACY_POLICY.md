@@ -4,7 +4,7 @@ This is the privacy policy for the Android app "MinCal Widget".
 
 ## Overview
 
-* It does not collect, store or share any personal data, neither from you or your device
+* It does not collect, store or share any personal data, neither from you nor your device
 * It contains no third party SDKs for adverts, analytics, or telemetry (in fact, there are no closed-source components)
 
 ## Data Stored on Your Device
