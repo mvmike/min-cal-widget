@@ -69,15 +69,6 @@
     <string name="dark">Темна</string>
     <string name="light">Світла</string>
 
-    <!--Symbol sets-->
-    <string name="minimal">Мінімальний</string>
-    <string name="vertical">Вертикальний</string>
-    <string name="circles">Округлі</string>
-    <string name="numbers">Цифровий</string>
-    <string name="roman">Римські</string>
-    <string name="binary">Бінарні</string>
-    <string name="none">Вимкн</string>
-
     <!--Symbol colours-->
     <string name="system_accent">Системний</string>
     <string name="cyan">Блакитний</string>

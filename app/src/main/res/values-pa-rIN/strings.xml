@@ -69,15 +69,6 @@
     <string name="dark">ਹਨੇਰ</string>
     <string name="light">ਰੋਸ਼ਨੀ</string>
 
-    <!--Symbol sets-->
-    <string name="minimal">ਨਿਊਨਤਮ</string>
-    <string name="vertical">ਲੰਬਕਾਰ</string>
-    <string name="circles">ਚੱਕਰ</string>
-    <string name="numbers">ਨੰਬਰ</string>
-    <string name="roman">ਰੋਮਨ</string>
-    <string name="binary">ਬਾਈਨਰੀ</string>
-    <string name="none">ਕੋਈ ਨਹੀਂ</string>
-
     <!--Symbol colours-->
     <string name="system_accent">ਸਿਸਟਮ ਦਾ ਰੰਗ</string>
     <string name="cyan">ਸਿਆਨ</string>

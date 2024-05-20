@@ -69,15 +69,6 @@
     <string name="dark">ہنیر</string>
     <string name="light">روشنی</string>
 
-    <!--Symbol sets-->
-    <string name="minimal">نیو تمام</string>
-    <string name="vertical">لمبکار</string>
-    <string name="circles">چکر</string>
-    <string name="numbers">نمبر</string>
-    <string name="roman">رومن</string>
-    <string name="binary">بائینری</string>
-    <string name="none">کوئی نہیں</string>
-
     <!--Symbol colours-->
     <string name="system_accent">سسٹم دا رنگ</string>
     <string name="cyan">سیان</string>

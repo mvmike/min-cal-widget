@@ -125,9 +125,9 @@ sealed class EnumConfigurationItem<E : Enum<E>>(
         enumClass = SymbolSet::class.java,
         defaultValue = SymbolSet.MINIMAL
     ) {
-        override fun getDisplayValues(context: Context) = getSymbolSetDisplayValues(context)
+        override fun getDisplayValues(context: Context) = getSymbolSetDisplayValues()
 
-        override fun getCurrentDisplayValue(context: Context) = get(context).getDisplayValue(context)
+        override fun getCurrentDisplayValue(context: Context) = get(context).getDisplayValue()
     }
 
     data object InstancesColour : EnumConfigurationItem<Colour>(

@@ -69,15 +69,6 @@
     <string name="dark">Malhela</string>
     <string name="light">Malpeza</string>
 
-    <!--Symbol sets-->
-    <string name="minimal">Minimuma</string>
-    <string name="vertical">Vertikala</string>
-    <string name="circles">Cirkloj</string>
-    <string name="numbers">Ciferoj</string>
-    <string name="roman">Romana</string>
-    <string name="binary">Dubaza</string>
-    <string name="none">Nenio</string>
-
     <!--Symbol colours-->
     <string name="system_accent">Sistema akcento</string>
     <string name="cyan">Cejanblua</string>

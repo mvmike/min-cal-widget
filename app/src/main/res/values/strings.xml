@@ -70,15 +70,6 @@
     <string name="dark">Dark</string>
     <string name="light">Light</string>
 
-    <!--Symbol sets-->
-    <string name="minimal">Minimal</string>
-    <string name="vertical">Vertical</string>
-    <string name="circles">Circles</string>
-    <string name="numbers">Numbers</string>
-    <string name="roman">Roman</string>
-    <string name="binary">Binary</string>
-    <string name="none">None</string>
-
     <!--Symbol colours-->
     <string name="system_accent">System accent</string>
     <string name="cyan">Cyan</string>

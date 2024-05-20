@@ -69,15 +69,6 @@
     <string name="dark">Fosc</string>
     <string name="light">Clar</string>
 
-    <!--Symbol sets-->
-    <string name="minimal">Mínim</string>
-    <string name="vertical">Vertical</string>
-    <string name="circles">Cercles</string>
-    <string name="numbers">Nombres</string>
-    <string name="roman">Romans</string>
-    <string name="binary">Binari</string>
-    <string name="none">Cap</string>
-
     <!--Symbol colours-->
     <string name="system_accent">Accent del Sistema</string>
     <string name="cyan">Cian</string>

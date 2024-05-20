@@ -69,15 +69,6 @@
     <string name="dark">Karanlık</string>
     <string name="light">Aydınlık</string>
 
-    <!--Symbol sets-->
-    <string name="minimal">En az</string>
-    <string name="vertical">Dikey</string>
-    <string name="circles">Daireler</string>
-    <string name="numbers">Sayılar</string>
-    <string name="roman">Roma</string>
-    <string name="binary">İkili</string>
-    <string name="none">Hiçbiri</string>
-
     <!--Symbol colours-->
     <string name="system_accent">Sistem varsayılanı</string>
     <string name="cyan">Camgöbeği</string>

@@ -69,15 +69,6 @@
     <string name="dark">Sombre</string>
     <string name="light">Clair</string>
 
-    <!--Symbol sets-->
-    <string name="minimal">Minimale</string>
-    <string name="vertical">Vertical</string>
-    <string name="circles">Cercles</string>
-    <string name="numbers">Nombres</string>
-    <string name="roman">Romain</string>
-    <string name="binary">Binaire</string>
-    <string name="none">Aucun</string>
-
     <!--Symbol colours-->
     <string name="system_accent">Accent système</string>
     <string name="cyan">Cyan</string>

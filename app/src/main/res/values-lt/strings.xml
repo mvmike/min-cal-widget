@@ -69,15 +69,6 @@
     <string name="dark">Tamsi</string>
     <string name="light">Šviesi</string>
 
-    <!--Symbol sets-->
-    <string name="minimal">Minimalistiniai</string>
-    <string name="vertical">Vertikalūs</string>
-    <string name="circles">Apskritimai</string>
-    <string name="numbers">Skaičiai</string>
-    <string name="roman">Romėniški</string>
-    <string name="binary">Dvejetainiai</string>
-    <string name="none">Jokie</string>
-
     <!--Symbol colours-->
     <string name="system_accent">Sisteminis akcentas</string>
     <string name="cyan">Žalsvai mėlyna</string>

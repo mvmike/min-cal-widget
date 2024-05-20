@@ -69,15 +69,6 @@
     <string name="dark">Темный</string>
     <string name="light">Световой</string>
 
-    <!--Symbol sets-->
-    <string name="minimal">Минимальный</string>
-    <string name="vertical">Вертикальный</string>
-    <string name="circles">Круги</string>
-    <string name="numbers">Цифры</string>
-    <string name="roman">Римские</string>
-    <string name="binary">Двоичный</string>
-    <string name="none">Пустой</string>
-
     <!--Symbol colours-->
     <string name="system_accent">Системный акцент</string>
     <string name="cyan">Голубой</string>

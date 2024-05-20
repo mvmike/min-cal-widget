@@ -69,15 +69,6 @@
     <string name="dark">Donker</string>
     <string name="light">Licht</string>
 
-    <!--Symbol sets-->
-    <string name="minimal">Minimaal</string>
-    <string name="vertical">Verticaal</string>
-    <string name="circles">Cirkels</string>
-    <string name="numbers">Getallen</string>
-    <string name="roman">Romeins</string>
-    <string name="binary">Binair</string>
-    <string name="none">Geen</string>
-
     <!--Symbol colours-->
     <string name="system_accent">System accent</string>
     <string name="cyan">Blauwgroen</string>

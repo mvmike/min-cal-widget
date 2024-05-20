@@ -69,15 +69,6 @@
     <string name="dark">深色</string>
     <string name="light">淺色</string>
 
-    <!--Symbol sets-->
-    <string name="minimal">精簡</string>
-    <string name="vertical">垂直</string>
-    <string name="circles">圓點</string>
-    <string name="numbers">數字</string>
-    <string name="roman">羅馬數字</string>
-    <string name="binary">二進位</string>
-    <string name="none">無</string>
-
     <!--Symbol colours-->
     <string name="system_accent">系統主色</string>
     <string name="cyan">粉藍</string>

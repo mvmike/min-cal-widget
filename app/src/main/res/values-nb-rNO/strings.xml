@@ -69,15 +69,6 @@
     <string name="dark">Mørk</string>
     <string name="light">Lys</string>
 
-    <!--Symbol sets-->
-    <string name="minimal">Minimal</string>
-    <string name="vertical">Vertikal</string>
-    <string name="circles">Sirkler</string>
-    <string name="numbers">Tall</string>
-    <string name="roman">Romersk</string>
-    <string name="binary">Binær</string>
-    <string name="none">Ingen</string>
-
     <!--Symbol colours-->
     <string name="system_accent">Systemaksent</string>
     <string name="cyan">Turkis</string>

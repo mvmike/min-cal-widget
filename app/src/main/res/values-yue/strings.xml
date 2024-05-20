@@ -69,15 +69,6 @@
     <string name="dark">黑眼睛</string>
     <string name="light">白頭浪</string>
 
-    <!--Symbol sets-->
-    <string name="minimal">從簡</string>
-    <string name="vertical">打直</string>
-    <string name="circles">圓圈</string>
-    <string name="numbers">數目字</string>
-    <string name="roman">羅馬數字</string>
-    <string name="binary">二進制</string>
-    <string name="none">無</string>
-
     <!--Symbol colours-->
     <string name="system_accent">系統配色</string>
     <string name="cyan">青色</string>

@@ -69,15 +69,6 @@
     <string name="dark">Tmavý</string>
     <string name="light">Světlý</string>
 
-    <!--Symbol sets-->
-    <string name="minimal">Minimalistický</string>
-    <string name="vertical">Vertikální</string>
-    <string name="circles">Kruhy</string>
-    <string name="numbers">Čísla</string>
-    <string name="roman">Římská</string>
-    <string name="binary">Binární</string>
-    <string name="none">Žádná</string>
-
     <!--Symbol colours-->
     <string name="system_accent">Barevný akcent</string>
     <string name="cyan">Tyrkysová</string>

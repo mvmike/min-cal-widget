@@ -69,15 +69,6 @@
     <string name="dark">Tamna</string>
     <string name="light">Svijetla</string>
 
-    <!--Symbol sets-->
-    <string name="minimal">Najmanji</string>
-    <string name="vertical">Okomiti</string>
-    <string name="circles">Krugovi</string>
-    <string name="numbers">Brojevi</string>
-    <string name="roman">Rimski</string>
-    <string name="binary">Binarni</string>
-    <string name="none">Bez</string>
-
     <!--Symbol colours-->
     <string name="system_accent">Boje sustava</string>
     <string name="cyan">Cijan</string>

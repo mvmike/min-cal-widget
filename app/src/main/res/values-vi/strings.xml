@@ -69,15 +69,6 @@
     <string name="dark">Đen</string>
     <string name="light">Sáng</string>
 
-    <!--Symbol sets-->
-    <string name="minimal">Tối thiểu</string>
-    <string name="vertical">Thẳng đứng</string>
-    <string name="circles">Hình tròn</string>
-    <string name="numbers">Số</string>
-    <string name="roman">Roman</string>
-    <string name="binary">Nhị phân</string>
-    <string name="none">Không có</string>
-
     <!--Symbol colours-->
     <string name="system_accent">dấu hệ thống</string>
     <string name="cyan">Lục lam</string>
