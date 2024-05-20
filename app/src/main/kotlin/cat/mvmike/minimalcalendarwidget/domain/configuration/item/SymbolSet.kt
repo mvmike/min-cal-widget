@@ -17,6 +17,9 @@ enum class SymbolSet(
     CIRCLES(
         values = charArrayOf('◔', '◑', '◕', '●', '๑')
     ),
+    BLOCKS(
+        values = charArrayOf('▁', '▂', '▃', '▄', '▅')
+    ),
     NUMBERS(
         relativeSize = 0.6f,
         values = charArrayOf('1', '2', '3', '4', '5', '6', '7', '8', '9', '+')

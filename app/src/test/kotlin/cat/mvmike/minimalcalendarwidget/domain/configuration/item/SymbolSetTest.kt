@@ -26,6 +26,9 @@ internal class SymbolSetTest : BaseTest() {
         "CIRCLES,1,◔",
         "CIRCLES,4,●",
         "CIRCLES,5,๑",
+        "BLOCKS,1,▁",
+        "BLOCKS,4,▄",
+        "BLOCKS,9,▅",
         "NUMBERS,5,5",
         "NUMBERS,9,9",
         "NUMBERS,10,+",
@@ -36,7 +39,10 @@ internal class SymbolSetTest : BaseTest() {
         "ROMAN,100,∾",
         "BINARY,1,☱",
         "BINARY,8,※",
-        "BINARY,9,※"
+        "BINARY,9,※",
+        "NONE,1,' '",
+        "NONE,3,' '",
+        "NONE,99,' '"
     )
     fun get_shouldReturnExpectedCharacter(
         symbolSet: SymbolSet,
