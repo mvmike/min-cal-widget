@@ -24,6 +24,8 @@ defaultTasks(
     //"formatKotlin",
     "lintKotlin",
     "clean",
-    "testRelease",
+    //"testRelease",
+    //"koverHtmlReportRelease",
+    "koverVerifyRelease",
     "assembleRelease"
 )

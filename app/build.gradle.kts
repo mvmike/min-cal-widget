@@ -8,6 +8,8 @@ plugins {
     id("kotlin-android")
     // https://github.com/jeremymailen/kotlinter-gradle/releases
     id("org.jmailen.kotlinter") version "4.3.0"
+    // https://github.com/Kotlin/kotlinx-kover/releases
+    id("org.jetbrains.kotlinx.kover") version "0.8.0"
 }
 
 android {
@@ -105,6 +107,32 @@ android {
             outputs.all {
                 val output = this as? com.android.build.gradle.internal.api.BaseVariantOutputImpl
                 output?.outputFileName = "min-cal-widget-v${defaultConfig.versionName}.apk"
+            }
+        }
+    }
+}
+
+kover {
+    reports {
+        filters {
+            excludes {
+                androidGeneratedClasses()
+                classes(
+                    "cat.mvmike.minimalcalendarwidget.domain.configuration.MultilinePreference",
+                    "cat.mvmike.minimalcalendarwidget.domain.configuration.MultilineListPreference",
+                    "cat.mvmike.minimalcalendarwidget.domain.configuration.MultilineCheckBoxPreference",
+                    "cat.mvmike.minimalcalendarwidget.domain.configuration.MultilineSeekBarPreference",
+                    "cat.mvmike.minimalcalendarwidget.infrastructure.resolver.GraphicResolver",
+                    "cat.mvmike.minimalcalendarwidget.infrastructure.resolver.SystemResolver"
+                )
+                packages("cat.mvmike.minimalcalendarwidget.infrastructure.activity.*")
+            }
+        }
+        verify {
+            rule {
+                bound {
+                    minValue = 85
+                }
             }
         }
     }
