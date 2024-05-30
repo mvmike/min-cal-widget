@@ -140,10 +140,13 @@ kover {
 
 dependencies {
 
-    // https://developer.android.com/jetpack/androidx/versions/
-    implementation("androidx.appcompat:appcompat:1.6.1")
+    // https://developer.android.com/jetpack/androidx/releases/appcompat
+    implementation("androidx.appcompat:appcompat:1.7.0")
+    // https://developer.android.com/jetpack/androidx/releases/core
     implementation("androidx.core:core-ktx:1.13.1")
+    // https://developer.android.com/jetpack/androidx/releases/multidex
     implementation("androidx.multidex:multidex:2.0.1")
+    // https://developer.android.com/jetpack/androidx/releases/preference
     implementation("androidx.preference:preference-ktx:1.2.1")
 
     // https://github.com/junit-team/junit5/releases
