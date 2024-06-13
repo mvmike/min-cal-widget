@@ -6,5 +6,6 @@
 .gradle/
 local.properties
 
+.kotlin/
 build/
 release/
