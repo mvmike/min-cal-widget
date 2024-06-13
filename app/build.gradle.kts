@@ -59,6 +59,7 @@ android {
 
     tasks.withType<Test> {
         useJUnitPlatform()
+        jvmArgs("-XX:+EnableDynamicAgentLoading")
         testLogging {
             events(SKIPPED, FAILED, STANDARD_ERROR, STANDARD_OUT)
         }
