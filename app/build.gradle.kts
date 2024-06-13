@@ -1,3 +1,4 @@
+import kotlinx.kover.gradle.plugin.dsl.tasks.KoverHtmlReport
 import org.gradle.api.tasks.testing.logging.TestLogEvent.FAILED
 import org.gradle.api.tasks.testing.logging.TestLogEvent.SKIPPED
 import org.gradle.api.tasks.testing.logging.TestLogEvent.STANDARD_ERROR
@@ -21,7 +22,7 @@ android {
     val androidVersion = 34      // 14.0
 
     // https://adoptium.net/temurin/releases/
-    val javaVersion = JavaVersion.VERSION_17
+    val javaVersion = JavaVersion.VERSION_21
 
     compileSdk = androidVersion
     // https://developer.android.com/studio/releases/build-tools

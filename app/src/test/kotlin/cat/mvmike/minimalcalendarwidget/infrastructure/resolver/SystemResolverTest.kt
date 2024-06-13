@@ -51,7 +51,7 @@ internal class SystemResolverTest : BaseTest() {
         "fr,FR,MONDAY",
         "iw,IL,SUNDAY",
         "he,IL,SUNDAY",
-        "yue,CN,SUNDAY",
+        "yue,CN,MONDAY",
         "tr,TR,MONDAY"
     )
     fun getSystemFirstDayOfWeek_shouldReturnLocaleDefaultWhenNoPreferenceValue(
