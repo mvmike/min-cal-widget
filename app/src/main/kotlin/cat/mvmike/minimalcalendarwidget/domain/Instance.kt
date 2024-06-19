@@ -11,6 +11,7 @@ import java.time.ZonedDateTime
 import java.time.temporal.ChronoUnit
 
 sealed class Instance(
+    open val id: Int,
     open val eventId: Int,
     open val isDeclined: Boolean
 ) {
@@ -20,11 +21,13 @@ sealed class Instance(
     ): Boolean
 
     data class TimedInstance(
+        override val id: Int,
         override val eventId: Int,
         override val isDeclined: Boolean,
         val start: ZonedDateTime,
         val end: ZonedDateTime
     ) : Instance(
+            id = id,
             eventId = eventId,
             isDeclined = isDeclined
         ) {
@@ -39,11 +42,13 @@ sealed class Instance(
     }
 
     data class AllDayInstance(
+        override val id: Int,
         override val eventId: Int,
         override val isDeclined: Boolean,
         val start: LocalDate,
         val end: LocalDate
     ) : Instance(
+            id = id,
             eventId = eventId,
             isDeclined = isDeclined
         ) {

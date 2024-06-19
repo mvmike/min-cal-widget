@@ -17,6 +17,7 @@ import java.time.ZoneId
 import java.time.ZonedDateTime
 
 internal val instanceQueryFields = arrayOf(
+    CalendarContract.Instances._ID,
     CalendarContract.Instances.EVENT_ID,
     CalendarContract.Instances.BEGIN,
     CalendarContract.Instances.END,
@@ -54,22 +55,25 @@ object CalendarResolver {
     ): Cursor = CalendarContract.Instances.query(context.contentResolver, instanceQueryFields, begin, end)
 
     private fun Cursor.toInstance(): Instance? = runCatching {
-        val eventId = getInt(0)
-        val start = Instant.ofEpochMilli(getLong(1))
+        val id = getInt(0)
+        val eventId = getInt(1)
+        val start = Instant.ofEpochMilli(getLong(2))
         // end of instances are exclusive (e.g. an hour event is from 10 to 11 and not from 10 to 10:59:59.999)
-        val end = Instant.ofEpochMilli(getLong(2) - 1)
-        val zoneId = toZoneIdOrDefault(getString(3))
-        val isDeclined = getInt(4) == CalendarContract.Instances.STATUS_CANCELED
-        val isAllDay = getInt(5) == 1
+        val end = Instant.ofEpochMilli(getLong(3) - 1)
+        val zoneId = toZoneIdOrDefault(getString(4))
+        val isDeclined = getInt(5) == CalendarContract.Instances.STATUS_CANCELED
+        val isAllDay = getInt(6) == 1
 
         when {
             isAllDay -> AllDayInstance(
+                id = id,
                 eventId = eventId,
                 isDeclined = isDeclined,
                 start = LocalDateTime.ofInstant(start, zoneId).toLocalDate(),
                 end = LocalDateTime.ofInstant(end, zoneId).toLocalDate()
             )
             else -> TimedInstance(
+                id = id,
                 eventId = eventId,
                 isDeclined = isDeclined,
                 start = ZonedDateTime.ofInstant(start, zoneId),

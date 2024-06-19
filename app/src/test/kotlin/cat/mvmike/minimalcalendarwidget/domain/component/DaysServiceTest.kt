@@ -299,6 +299,7 @@ internal class DaysServiceTest : BaseTest() {
     private fun getSystemInstances(): Set<Instance> = (
         readTestResourceCsvFile("/system_all_day_instances.csv").map {
             AllDayInstance(
+                id = random.nextInt(),
                 eventId = random.nextInt(),
                 isDeclined = it[0].toBoolean(),
                 start = LocalDate.parse(it[1]),
@@ -307,6 +308,7 @@ internal class DaysServiceTest : BaseTest() {
         } +
             readTestResourceCsvFile("/system_timed_instances.csv").map {
                 TimedInstance(
+                    id = random.nextInt(),
                     eventId = random.nextInt(),
                     isDeclined = it[0].toBoolean(),
                     start = ZonedDateTime.parse(it[1]),
