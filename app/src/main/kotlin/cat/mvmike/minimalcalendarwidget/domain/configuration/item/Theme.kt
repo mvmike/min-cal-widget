@@ -82,9 +82,7 @@ enum class Theme(
 }
 
 fun getThemeDisplayValues(context: Context) =
-    Theme.entries.map { theme ->
-        theme.getDisplayValue(context)
-    }.toTypedArray()
+    Theme.entries.map { it.getDisplayValue(context) }
 
 fun Theme.getDisplayValue(context: Context) =
     context.getString(displayString).replaceFirstChar { it.uppercase() }

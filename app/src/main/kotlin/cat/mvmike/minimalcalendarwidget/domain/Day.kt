@@ -29,9 +29,7 @@ data class Day(
 }
 
 fun getDayOfWeekDisplayValues(context: Context) =
-    DayOfWeek.entries
-        .map { it.getDisplayValue(context) }
-        .toTypedArray()
+    DayOfWeek.entries.map { it.getDisplayValue(context) }
 
 fun DayOfWeek.getDisplayValue(context: Context) =
     context.getString(

@@ -48,6 +48,4 @@ enum class SymbolSet(
 }
 
 fun getSymbolSetDisplayValues() =
-    SymbolSet.entries
-        .map { it.getDisplayValue() }
-        .toTypedArray()
+    SymbolSet.entries.map { it.getDisplayValue() }

@@ -86,7 +86,7 @@ sealed class EnumConfigurationItem<E : Enum<E>>(
 
     internal open fun getEnumConstants() = enumClass.enumConstants!!
 
-    abstract fun getDisplayValues(context: Context): Array<String>
+    abstract fun getDisplayValues(context: Context): List<String>
 
     abstract fun getCurrentDisplayValue(context: Context): String
 
@@ -115,7 +115,7 @@ sealed class EnumConfigurationItem<E : Enum<E>>(
         enumClass = DayOfWeek::class.java,
         defaultValue = DayOfWeek.MONDAY
     ) {
-        override fun getDisplayValues(context: Context) = getDayOfWeekDisplayValues(context)
+        override fun getDisplayValues(context: Context): List<String> = getDayOfWeekDisplayValues(context)
 
         override fun getCurrentDisplayValue(context: Context) = get(context).getDisplayValue(context)
     }

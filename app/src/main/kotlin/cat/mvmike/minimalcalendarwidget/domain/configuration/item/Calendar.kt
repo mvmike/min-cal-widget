@@ -25,10 +25,8 @@ enum class Calendar(
     abstract fun getYear(localDate: LocalDate): String
 }
 
+fun getCalendarDisplayValues(context: Context) =
+    Calendar.entries.map { it.getDisplayValue(context) }
+
 fun Calendar.getDisplayValue(context: Context) =
     context.getString(displayString).replaceFirstChar { it.uppercase() }
-
-fun getCalendarDisplayValues(context: Context) =
-    Calendar.entries
-        .map { it.getDisplayValue(context) }
-        .toTypedArray()

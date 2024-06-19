@@ -122,7 +122,7 @@ class ConfigurationActivity : AppCompatActivity() {
 
         private fun fillEntriesAndValues() = enumConfigurationItems().forEach {
             it.asListPreference()?.apply {
-                entries = it.getDisplayValues(this@SettingsFragment.requireContext())
+                entries = it.getDisplayValues(this@SettingsFragment.requireContext()).toTypedArray()
                 entryValues = it.getKeys()
                 value = it.getCurrentKey(this@SettingsFragment.requireContext())
             }

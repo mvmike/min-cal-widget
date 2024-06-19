@@ -72,10 +72,8 @@ enum class Colour(
 fun getAvailableColors() =
     Colour.entries.filter { it.isAvailable() }
 
+fun getColourDisplayValues(context: Context) =
+    getAvailableColors().map { it.getDisplayValue(context) }
+
 fun Colour.getDisplayValue(context: Context) =
     context.getString(displayString).replaceFirstChar { it.uppercase() }
-
-fun getColourDisplayValues(context: Context) =
-    getAvailableColors()
-        .map { it.getDisplayValue(context) }
-        .toTypedArray()
