@@ -1,34 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <!--ESPERANTO-->
 
     <!--Configuration-->
     <string name="configuration">Agordoj</string>
-
     <string name="behaviour">Konduto</string>
     <string name="start_week_day">Komenca tago</string>
     <string name="calendar">Kalendaro</string>
     <string name="show_declined_events">Montri malkreskintajn eventojn</string>
     <string name="focus_on_current_week">Koncentru la nunan semajnon</string>
     <string name="open_calendar_into_clicked_day">Malfermu kalendaron en klakita tago</string>
-
     <string name="appearance">Aspekto</string>
     <string name="theme">Etoso</string>
     <string name="symbol_set">Simbolaro</string>
     <string name="symbol_colour">Koloro de simboloj</string>
     <string name="transparency">Travidebleco</string>
     <string name="text_size">Teksta grandeco</string>
-
     <string name="about">Pri</string>
     <string name="source">Fonto</string>
     <string name="language">Lingvo</string>
     <string name="translate">Traduki</string>
     <string name="version">Versio</string>
-
     <string name="reset_settings">Restarigi agordojn</string>
     <string name="close">Fermu</string>
-
     <!--Months of year-->
     <string name="january">Januaro</string>
     <string name="february">Februaro</string>
@@ -42,7 +36,6 @@
     <string name="october">Oktobro</string>
     <string name="november">Novembro</string>
     <string name="december">Decembro</string>
-
     <!--Days of week-->
     <string name="monday">Lundo</string>
     <string name="tuesday">Mardo</string>
@@ -51,7 +44,6 @@
     <string name="friday">Vendredo</string>
     <string name="saturday">Sabato</string>
     <string name="sunday">Dimanĉo</string>
-
     <!--Days of week abbreviated-->
     <string name="monday_abb">Lun</string>
     <string name="tuesday_abb">Mar</string>
@@ -60,15 +52,12 @@
     <string name="friday_abb">Ven</string>
     <string name="saturday_abb">Sab</string>
     <string name="sunday_abb">Dim</string>
-
     <!--Calendars-->
     <string name="gregorian">Gregoriano</string>
     <string name="holocene">Holoceno</string>
-
     <!--Themes-->
     <string name="dark">Malhela</string>
     <string name="light">Malpeza</string>
-
     <!--Symbol colours-->
     <string name="system_accent">Sistema akcento</string>
     <string name="cyan">Cejanblua</string>
@@ -78,9 +67,8 @@
     <string name="yellow">Flava</string>
     <string name="black">Nigra</string>
     <string name="white">Blanka</string>
-
     <!--messages-->
     <string name="no_calendar_application">Neniu kalendara aplikaĵo trovita</string>
     <string name="no_browser_application">Neniu retumila aplikaĵo trovita</string>
-
+    <string name="app_name" translatable="false"></string>
 </resources>
