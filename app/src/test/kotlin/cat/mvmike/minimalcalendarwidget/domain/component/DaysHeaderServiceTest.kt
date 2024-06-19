@@ -5,8 +5,8 @@ package cat.mvmike.minimalcalendarwidget.domain.component
 import android.widget.RemoteViews
 import cat.mvmike.minimalcalendarwidget.BaseTest
 import cat.mvmike.minimalcalendarwidget.R
+import cat.mvmike.minimalcalendarwidget.domain.Cell
 import cat.mvmike.minimalcalendarwidget.domain.component.DaysHeaderService.getRotatedDaysOfWeek
-import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Cell
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.TextSize
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme.DARK

@@ -13,7 +13,7 @@ import android.text.style.StyleSpan
 import android.widget.RemoteViews
 import androidx.core.content.ContextCompat
 import cat.mvmike.minimalcalendarwidget.R
-import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Cell
+import cat.mvmike.minimalcalendarwidget.domain.Cell
 
 object GraphicResolver {
 

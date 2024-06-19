@@ -5,12 +5,12 @@ package cat.mvmike.minimalcalendarwidget.domain.component
 import android.text.Layout
 import android.widget.RemoteViews
 import cat.mvmike.minimalcalendarwidget.BaseTest
+import cat.mvmike.minimalcalendarwidget.domain.Cell
 import cat.mvmike.minimalcalendarwidget.domain.Day
 import cat.mvmike.minimalcalendarwidget.domain.Instance
 import cat.mvmike.minimalcalendarwidget.domain.Instance.AllDayInstance
 import cat.mvmike.minimalcalendarwidget.domain.Instance.TimedInstance
 import cat.mvmike.minimalcalendarwidget.domain.component.DaysService.getNumberOfInstances
-import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Cell
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Colour
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.SymbolSet
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.TextSize

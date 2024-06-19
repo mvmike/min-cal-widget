@@ -1,6 +1,6 @@
 // Copyright (c) 2016, Miquel Martí <miquelmarti111@gmail.com>
 // See LICENSE for licensing information
-package cat.mvmike.minimalcalendarwidget.domain.configuration.item
+package cat.mvmike.minimalcalendarwidget.domain
 
 import android.text.Layout
 import java.time.DayOfWeek
@@ -15,18 +15,18 @@ data class Cell(
     val highlightDrawable: Int? = null
 )
 
-data class CellTheme(
+data class CellStyle(
     val textColour: Int,
     val background: Int? = null
 )
 
-data class CellThemePack(
+data class CellStylePack(
     val textColour: Int,
     val weekdayBackground: Int? = null,
     val saturdayBackground: Int? = null,
     val sundayBackground: Int? = null
 ) {
-    fun get(dayOfWeek: DayOfWeek) = CellTheme(
+    fun get(dayOfWeek: DayOfWeek) = CellStyle(
         textColour = textColour,
         background = when (dayOfWeek) {
             DayOfWeek.SATURDAY -> saturdayBackground
@@ -36,7 +36,7 @@ data class CellThemePack(
     )
 }
 
-data class CellHighlightDrawableThemePack(
+data class CellHighlightDrawableStylePack(
     val rightSingle: Int,
     val rightDouble: Int,
     val centeredSingle: Int,

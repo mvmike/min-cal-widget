@@ -3,6 +3,7 @@
 package cat.mvmike.minimalcalendarwidget.domain.configuration.item
 
 import cat.mvmike.minimalcalendarwidget.BaseTest
+import cat.mvmike.minimalcalendarwidget.domain.CellStyle
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
@@ -57,7 +58,7 @@ internal class ThemeTest : BaseTest() {
         expectedCellThemeTextColour: Int,
         expectedCellThemeBackground: Int?
     ) {
-        val expectedResult = CellTheme(
+        val expectedResult = CellStyle(
             textColour = expectedCellThemeTextColour,
             background = expectedCellThemeBackground
         )
@@ -105,7 +106,7 @@ internal class ThemeTest : BaseTest() {
         expectedCellThemeTextColour: Int,
         expectedCellThemeBackground: Int?
     ) {
-        val expectedResult = CellTheme(
+        val expectedResult = CellStyle(
             textColour = expectedCellThemeTextColour,
             background = expectedCellThemeBackground
         )
