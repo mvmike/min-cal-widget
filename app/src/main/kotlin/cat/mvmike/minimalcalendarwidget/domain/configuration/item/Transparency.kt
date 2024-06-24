@@ -16,7 +16,8 @@ data class Transparency(
 
     internal fun getAlpha(
         transparencyRange: TransparencyRange
-    ) = (transparencyRange.maxAlpha - transparencyRange.minAlpha).toFloat()
+    ) = (transparencyRange.maxAlpha - transparencyRange.minAlpha)
+        .toFloat()
         .div(PERCENTAGE_RANGE.last)
         .times(PERCENTAGE_RANGE.last - percentage)
         .plus(transparencyRange.minAlpha)

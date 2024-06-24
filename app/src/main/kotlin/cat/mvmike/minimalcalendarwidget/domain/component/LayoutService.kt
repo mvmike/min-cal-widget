@@ -23,12 +23,13 @@ object LayoutService {
         val backgroundColour = GraphicResolver.getColourAsString(context, widgetTheme.mainBackground)
         val transparencyRange = TransparencyRange.COMPLETE
 
-        backgroundColour.withTransparency(
-            transparency = transparency,
-            transparencyRange = transparencyRange
-        ).setAsBackground(
-            remoteViews = widgetRemoteView,
-            viewId = R.id.widget_layout
-        )
+        backgroundColour
+            .withTransparency(
+                transparency = transparency,
+                transparencyRange = transparencyRange
+            ).setAsBackground(
+                remoteViews = widgetRemoteView,
+                viewId = R.id.widget_layout
+            )
     }
 }

@@ -31,8 +31,8 @@ data class Day(
 fun getDayOfWeekDisplayValues(context: Context) =
     DayOfWeek.entries.map { it.getDisplayValue(context) }
 
-fun DayOfWeek.getDisplayValue(context: Context) =
-    context.getString(
+fun DayOfWeek.getDisplayValue(context: Context) = context
+    .getString(
         when (this) {
             DayOfWeek.MONDAY -> R.string.monday
             DayOfWeek.TUESDAY -> R.string.tuesday
@@ -44,8 +44,8 @@ fun DayOfWeek.getDisplayValue(context: Context) =
         }
     ).replaceFirstChar { it.uppercase() }
 
-fun DayOfWeek.getAbbreviatedDisplayValue(context: Context) =
-    context.getString(
+fun DayOfWeek.getAbbreviatedDisplayValue(context: Context) = context
+    .getString(
         when (this) {
             DayOfWeek.MONDAY -> R.string.monday_abb
             DayOfWeek.TUESDAY -> R.string.tuesday_abb

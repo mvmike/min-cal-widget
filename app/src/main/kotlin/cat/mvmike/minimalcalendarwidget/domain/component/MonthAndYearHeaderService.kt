@@ -27,7 +27,8 @@ object MonthAndYearHeaderService {
         val displayMonth = systemLocalDate
             .toMonthDisplayValue(context)
             .take(textSize.monthHeaderLabelLength)
-        val displayYear = EnumConfigurationItem.WidgetCalendar.get(context)
+        val displayYear = EnumConfigurationItem.WidgetCalendar
+            .get(context)
             .getYear(systemLocalDate)
 
         GraphicResolver.createMonthAndYearHeader(

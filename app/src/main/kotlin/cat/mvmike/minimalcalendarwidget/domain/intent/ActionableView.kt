@@ -78,7 +78,8 @@ sealed class ActionableView(
 
             // we return the instant of the clicked day with current zonedTime
             val systemLocalDateTime = systemInstant.atZone(systemZoneId)
-            return extraInstant.atZone(systemZoneId)
+            return extraInstant
+                .atZone(systemZoneId)
                 .withHour(systemLocalDateTime.hour)
                 .withMinute(systemLocalDateTime.minute)
                 .withSecond(systemLocalDateTime.second)

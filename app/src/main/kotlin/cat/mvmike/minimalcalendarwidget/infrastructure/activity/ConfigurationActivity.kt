@@ -74,18 +74,21 @@ class ConfigurationActivity : AppCompatActivity() {
 
     @Suppress("UNUSED_PARAMETER")
     fun onClickCloseSettingsButton(view: View) {
-        intent?.getIntExtra(
-            AppWidgetManager.EXTRA_APPWIDGET_ID,
-            AppWidgetManager.INVALID_APPWIDGET_ID
-        )?.takeIf {
-            it != AppWidgetManager.INVALID_APPWIDGET_ID
-        }?.let {
-            setResult(RESULT_OK, Intent().putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, it))
-        }
+        intent
+            ?.getIntExtra(
+                AppWidgetManager.EXTRA_APPWIDGET_ID,
+                AppWidgetManager.INVALID_APPWIDGET_ID
+            )?.takeIf {
+                it != AppWidgetManager.INVALID_APPWIDGET_ID
+            }?.let {
+                setResult(RESULT_OK, Intent().putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, it))
+            }
         finishAfterTransition()
     }
 
-    class SettingsFragment : PreferenceFragmentCompat(), OnSharedPreferenceChangeListener {
+    class SettingsFragment :
+        PreferenceFragmentCompat(),
+        OnSharedPreferenceChangeListener {
 
         override fun onCreatePreferences(
             savedInstanceState: Bundle?,

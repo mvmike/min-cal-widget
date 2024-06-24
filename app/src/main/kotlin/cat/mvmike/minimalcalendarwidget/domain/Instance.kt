@@ -52,9 +52,8 @@ sealed class Instance(
             eventId = eventId,
             isDeclined = isDeclined
         ) {
-        override fun isInDay(day: LocalDate, dayZoneId: ZoneId): Boolean {
-            return !start.isAfter(day) && !end.isBefore(day)
-        }
+        override fun isInDay(day: LocalDate, dayZoneId: ZoneId): Boolean =
+            !start.isAfter(day) && !end.isBefore(day)
     }
 }
 
