@@ -1,28 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <!--VIETNAMESE-->
 
     <!--Configuration-->
     <string name="configuration">Cấu hình</string>
+
     <string name="behaviour">Hành vi</string>
     <string name="start_week_day">Ngày bắt đầu</string>
     <string name="calendar">Lịch</string>
     <string name="show_declined_events">Hiển thị các sự kiện bị từ chối</string>
     <string name="focus_on_current_week">Tập trung vào tuần hiện tại</string>
     <string name="open_calendar_into_clicked_day">Mở lịch vào ngày đã nhấp</string>
+
     <string name="appearance">Vẻ bề ngoài</string>
     <string name="theme">Chủ đề</string>
     <string name="symbol_set">Bộ biểu tượng</string>
     <string name="symbol_colour">Màu biểu tượng</string>
     <string name="transparency">Độ trong suốt</string>
     <string name="text_size">Cỡ chữ</string>
+
     <string name="about">Về</string>
     <string name="source">Nguồn</string>
     <string name="language">Ngôn ngữ</string>
     <string name="translate">Dịch</string>
     <string name="version">Phiên bản</string>
+
     <string name="reset_settings">Đặt lại thiết đặt</string>
     <string name="close">Đóng</string>
+
     <!--Months of year-->
     <string name="january">Tháng 1</string>
     <string name="february">Tháng 2</string>
@@ -36,6 +42,7 @@
     <string name="october">Tháng 10</string>
     <string name="november">Tháng 11</string>
     <string name="december">Tháng 12</string>
+
     <!--Days of week-->
     <string name="monday">Thứ 2</string>
     <string name="tuesday">Thứ 3</string>
@@ -44,6 +51,7 @@
     <string name="friday">Thứ 6</string>
     <string name="saturday">Thứ 7</string>
     <string name="sunday">Chủ Nhật</string>
+
     <!--Days of week abbreviated-->
     <string name="monday_abb">T2</string>
     <string name="tuesday_abb">T3</string>
@@ -52,12 +60,15 @@
     <string name="friday_abb">T6</string>
     <string name="saturday_abb">T7</string>
     <string name="sunday_abb">CN</string>
+
     <!--Calendars-->
     <string name="gregorian">Lịch Gregorian</string>
     <string name="holocene">Thế Holocene</string>
+
     <!--Themes-->
     <string name="dark">Đen</string>
     <string name="light">Sáng</string>
+
     <!--Symbol colours-->
     <string name="system_accent">dấu hệ thống</string>
     <string name="cyan">Lục lam</string>
@@ -67,7 +78,9 @@
     <string name="yellow">Vàng</string>
     <string name="black">Đen</string>
     <string name="white">Trắng</string>
+
     <!--messages-->
     <string name="no_calendar_application">Không tìm thấy ứng dụng lịch nào</string>
     <string name="no_browser_application">Không tìm thấy ứng dụng trình duyệt nào</string>
+
 </resources>
