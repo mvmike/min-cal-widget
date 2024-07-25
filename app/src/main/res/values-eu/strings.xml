@@ -1,34 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="symbol_set">Sinbolo-multzoa</string>
-    <string name="wednesday_abb">AZ.</string>
+
+    <!--BASQUE-->
+
+    <!--Configuration-->
+    <string name="configuration">Ezarpenak</string>
+
     <string name="behaviour">Portaera</string>
-    <string name="transparency">Gardentasuna</string>
+    <string name="start_week_day">Hasiera eguna</string>
+    <string name="calendar">Egutegia</string>
+    <string name="show_declined_events">Erakutsi bertan-behera utzitako gertaerak</string>
     <string name="focus_on_current_week">Zentratu aste honetan</string>
     <string name="open_calendar_into_clicked_day">Ireki egutegia klik egindako egunean</string>
+
+    <string name="appearance">Itxura</string>
+    <string name="theme">Gaia</string>
+    <string name="symbol_set">Sinbolo-multzoa</string>
     <string name="symbol_colour">Sinbolo kolorea</string>
+    <string name="transparency">Gardentasuna</string>
+    <string name="text_size">Testuaren tamaina</string>
+
+    <string name="about">Honi buruz</string>
+    <string name="source">Iturria</string>
+    <string name="language">Hizkuntza</string>
+    <string name="translate">Itzuli</string>
+    <string name="version">Bertsioa</string>
+
     <string name="reset_settings">Berrezarri ezarpenak</string>
     <string name="close">Itxi</string>
+
+    <!--Months of year-->
     <string name="january">Urtarrila</string>
     <string name="february">Otsaila</string>
     <string name="march">Martxoa</string>
+    <string name="april">Apirila</string>
     <string name="may">Maiatza</string>
+    <string name="june">Ekaina</string>
+    <string name="july">Uztaila</string>
+    <string name="august">Abuztua</string>
+    <string name="september">Iraila</string>
     <string name="october">Urria</string>
+    <string name="november">Azaroa</string>
     <string name="december">Abendua</string>
+
+    <!--Days of week-->
     <string name="monday">Astelehena</string>
     <string name="tuesday">Asteartea</string>
     <string name="wednesday">Asteazkena</string>
     <string name="thursday">Osteguna</string>
     <string name="friday">Ostirala</string>
     <string name="saturday">Larunbata</string>
+    <string name="sunday">Igandea</string>
+
+    <!--Days of week abbreviated-->
+    <string name="monday_abb">AL.</string>
+    <string name="tuesday_abb">AR.</string>
+    <string name="wednesday_abb">AZ.</string>
+    <string name="thursday_abb">OG.</string>
+    <string name="friday_abb">OR.</string>
+    <string name="saturday_abb">LR.</string>
+    <string name="sunday_abb">IG.</string>
+
+    <!--Calendars-->
+    <string name="gregorian">Gregoriano</string>
+    <string name="holocene">Holozeno</string>
+
+    <!--Themes-->
     <string name="dark">Iluna</string>
     <string name="light">Argia</string>
-    <string name="holocene">Holozeno</string>
-    <string name="gregorian">Gregoriano</string>
-    <string name="monday_abb">AL.</string>
-    <string name="thursday_abb">OG.</string>
-    <string name="start_week_day">Hasiera eguna</string>
-    <string name="sunday">Igandea</string>
+
+    <!--Symbol colours-->
+    <string name="system_accent">Sistemaren azentua</string>
     <string name="cyan">Zian</string>
     <string name="blue">Urdina</string>
     <string name="mint">Menda</string>
@@ -36,28 +78,9 @@
     <string name="yellow">Horia</string>
     <string name="black">Beltza</string>
     <string name="white">Zuria</string>
+
+    <!--messages-->
     <string name="no_calendar_application">Ez da egutegi-aplikaziorik aurkitu</string>
     <string name="no_browser_application">Ez da nabigatzailerik aurkitu</string>
-    <string name="system_accent">Sistemaren azentua</string>
-    <string name="tuesday_abb">AR.</string>
-    <string name="configuration">Ezarpenak</string>
-    <string name="calendar">Egutegia</string>
-    <string name="appearance">Itxura</string>
-    <string name="theme">Gaia</string>
-    <string name="source">Iturria</string>
-    <string name="translate">Itzuli</string>
-    <string name="text_size">Testuaren tamaina</string>
-    <string name="september">Iraila</string>
-    <string name="about">Honi buruz</string>
-    <string name="language">Hizkuntza</string>
-    <string name="version">Bertsioa</string>
-    <string name="april">Apirila</string>
-    <string name="june">Ekaina</string>
-    <string name="july">Uztaila</string>
-    <string name="august">Abuztua</string>
-    <string name="november">Azaroa</string>
-    <string name="show_declined_events">Erakutsi bertan-behera utzitako gertaerak</string>
-    <string name="friday_abb">OR.</string>
-    <string name="saturday_abb">LR.</string>
-    <string name="sunday_abb">IG.</string>
+
 </resources>
