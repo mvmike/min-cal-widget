@@ -1,0 +1,3 @@
+v2.17.2
+- added basque language
+- fix some vietnamese translations
