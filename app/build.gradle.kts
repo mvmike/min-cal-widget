@@ -182,5 +182,5 @@ dependencies {
     testImplementation("com.tngtech.archunit:archunit-junit5:1.3.0")
 
     // https://github.com/qos-ch/slf4j/tags
-    testImplementation("org.slf4j:slf4j-simple:2.0.13")
+    testImplementation("org.slf4j:slf4j-simple:2.0.14")
 }
