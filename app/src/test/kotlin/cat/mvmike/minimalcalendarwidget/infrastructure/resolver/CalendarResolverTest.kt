@@ -25,7 +25,7 @@ internal class CalendarResolverTest : BaseTest() {
 
     private val cursor = mockk<Cursor>()
 
-    private val validInstanceCursors = listOf(
+    private val instanceCursors = listOf(
         InstanceCursor(1, 10, 1657097518736, 1659775918428, null, 1, 0),
         InstanceCursor(2, 20, 1657065600000, 1657152000000, "UTC", 0, 1),
         InstanceCursor(3, 30, 1657097518738, 1659775918430, "CET", 2, 0),
@@ -71,13 +71,13 @@ internal class CalendarResolverTest : BaseTest() {
             CalendarContract.Instances.query(context.contentResolver, instanceQueryFields, begin, end)
         } returns cursor
         every { cursor.moveToNext() } returnsMany listOf(true, true, false)
-        every { cursor.getInt(0) } returnsMany listOf(validInstanceCursors[0].id, validInstanceCursors[1].id)
-        every { cursor.getInt(1) } returnsMany listOf(validInstanceCursors[0].eventId, validInstanceCursors[1].eventId)
-        every { cursor.getLong(2) } throws RuntimeException("some weird error") andThen validInstanceCursors[1].start
-        every { cursor.getLong(3) } returns validInstanceCursors[1].end
-        every { cursor.getString(4) } returns validInstanceCursors[1].zoneId
-        every { cursor.getInt(5) } returns validInstanceCursors[1].status
-        every { cursor.getInt(6) } returns validInstanceCursors[1].allDay
+        every { cursor.getInt(0) } returnsMany listOf(instanceCursors[0].id, instanceCursors[1].id)
+        every { cursor.getInt(1) } returnsMany listOf(instanceCursors[0].calendarId, instanceCursors[1].calendarId)
+        every { cursor.getLong(2) } throws RuntimeException("some weird error") andThen instanceCursors[1].start
+        every { cursor.getLong(3) } returns instanceCursors[1].end
+        every { cursor.getString(4) } returns instanceCursors[1].zoneId
+        every { cursor.getInt(5) } returns instanceCursors[1].status
+        every { cursor.getInt(6) } returns instanceCursors[1].allDay
         justRun { cursor.close() }
 
         val result = CalendarResolver.getInstances(context, begin, end)
@@ -86,7 +86,7 @@ internal class CalendarResolverTest : BaseTest() {
         assertThat(result).contains(
             AllDayInstance(
                 id = 2,
-                eventId = 20,
+                calendarId = 20,
                 isDeclined = false,
                 start = LocalDate.parse("2022-07-06"),
                 end = LocalDate.parse("2022-07-06")
@@ -109,14 +109,14 @@ internal class CalendarResolverTest : BaseTest() {
                 end
             )
         } returns cursor
-        every { cursor.moveToNext() } returnsMany validInstanceCursors.map { true }.plus(false)
-        every { cursor.getInt(0) } returnsMany validInstanceCursors.map { it.id }
-        every { cursor.getInt(1) } returnsMany validInstanceCursors.map { it.eventId }
-        every { cursor.getLong(2) } returnsMany validInstanceCursors.map { it.start }
-        every { cursor.getLong(3) } returnsMany validInstanceCursors.map { it.end }
-        every { cursor.getString(4) } returnsMany validInstanceCursors.map { it.zoneId }
-        every { cursor.getInt(5) } returnsMany validInstanceCursors.map { it.status }
-        every { cursor.getInt(6) } returnsMany validInstanceCursors.map { it.allDay }
+        every { cursor.moveToNext() } returnsMany instanceCursors.map { true }.plus(false)
+        every { cursor.getInt(0) } returnsMany instanceCursors.map { it.id }
+        every { cursor.getInt(1) } returnsMany instanceCursors.map { it.calendarId }
+        every { cursor.getLong(2) } returnsMany instanceCursors.map { it.start }
+        every { cursor.getLong(3) } returnsMany instanceCursors.map { it.end }
+        every { cursor.getString(4) } returnsMany instanceCursors.map { it.zoneId }
+        every { cursor.getInt(5) } returnsMany instanceCursors.map { it.status }
+        every { cursor.getInt(6) } returnsMany instanceCursors.map { it.allDay }
         justRun { cursor.close() }
 
         val result = CalendarResolver.getInstances(context, begin, end)
@@ -124,28 +124,28 @@ internal class CalendarResolverTest : BaseTest() {
         assertThat(result).containsExactlyInAnyOrder(
             TimedInstance(
                 id = 1,
-                eventId = 10,
+                calendarId = 10,
                 isDeclined = false,
                 start = ZonedDateTime.parse("2022-07-06T11:51:58.736+03:00[Europe/Moscow]"),
                 end = ZonedDateTime.parse("2022-08-06T11:51:58.427+03:00[Europe/Moscow]")
             ),
             AllDayInstance(
                 id = 2,
-                eventId = 20,
+                calendarId = 20,
                 isDeclined = false,
                 start = LocalDate.parse("2022-07-06"),
                 end = LocalDate.parse("2022-07-06")
             ),
             TimedInstance(
                 id = 3,
-                eventId = 30,
+                calendarId = 30,
                 isDeclined = true,
                 start = ZonedDateTime.parse("2022-07-06T10:51:58.738+02:00[CET]"),
                 end = ZonedDateTime.parse("2022-08-06T10:51:58.429+02:00[CET]")
             ),
             TimedInstance(
                 id = 4,
-                eventId = 40,
+                calendarId = 40,
                 isDeclined = false,
                 start = ZonedDateTime.parse("2022-07-06T01:51:58.738-07:00[America/Los_Angeles]"),
                 end = ZonedDateTime.parse("2022-08-06T01:51:58.429-07:00[America/Los_Angeles]")
@@ -153,13 +153,13 @@ internal class CalendarResolverTest : BaseTest() {
         )
         verify { context.contentResolver }
         verify { CalendarResolver.getInstances(context, begin, end) }
-        verify(exactly = validInstanceCursors.size + 1) { cursor.moveToNext() }
+        verify(exactly = instanceCursors.size + 1) { cursor.moveToNext() }
         verify { cursor.close() }
     }
 
     private data class InstanceCursor(
         val id: Int,
-        val eventId: Int,
+        val calendarId: Int,
         val start: Long,
         val end: Long,
         val zoneId: String?,

@@ -2,11 +2,12 @@
 // See LICENSE for licensing information
 package cat.mvmike.minimalcalendarwidget.infrastructure.resolver
 
-import android.Manifest
+import android.Manifest.permission.READ_CALENDAR
 import android.content.Context
-import android.content.pm.PackageManager
+import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.database.Cursor
-import android.provider.CalendarContract
+import android.provider.CalendarContract.Events
+import android.provider.CalendarContract.Instances
 import androidx.core.content.ContextCompat.checkSelfPermission
 import cat.mvmike.minimalcalendarwidget.domain.Instance
 import cat.mvmike.minimalcalendarwidget.domain.Instance.AllDayInstance
@@ -17,16 +18,19 @@ import java.time.ZoneId
 import java.time.ZonedDateTime
 
 internal val instanceQueryFields = arrayOf(
-    CalendarContract.Instances._ID,
-    CalendarContract.Instances.EVENT_ID,
-    CalendarContract.Instances.BEGIN,
-    CalendarContract.Instances.END,
-    CalendarContract.Instances.EVENT_TIMEZONE,
-    CalendarContract.Instances.SELF_ATTENDEE_STATUS,
-    CalendarContract.Events.ALL_DAY
+    Instances._ID,
+    Events.CALENDAR_ID,
+    Instances.BEGIN,
+    Instances.END,
+    Instances.EVENT_TIMEZONE,
+    Instances.SELF_ATTENDEE_STATUS,
+    Events.ALL_DAY
 )
 
 object CalendarResolver {
+
+    fun isReadCalendarPermitted(context: Context) =
+        checkSelfPermission(context, READ_CALENDAR) == PERMISSION_GRANTED
 
     fun getInstances(
         context: Context,
@@ -36,45 +40,36 @@ object CalendarResolver {
         val instances: MutableSet<Instance> = HashSet()
         var instanceCursor: Cursor? = null
         runCatching {
-            instanceCursor = queryInstances(context, begin, end)
+            instanceCursor = Instances.query(context.contentResolver, instanceQueryFields, begin, end)
             while (instanceCursor!!.moveToNext()) {
-                instanceCursor!!.toInstance()?.let { instances.add(it) }
+                instanceCursor.toInstance()?.let { instances.add(it) }
             }
         }
         instanceCursor?.close()
         return instances.toSet()
     }
 
-    fun isReadCalendarPermitted(context: Context) =
-        checkSelfPermission(context, Manifest.permission.READ_CALENDAR) == PackageManager.PERMISSION_GRANTED
-
-    private fun queryInstances(
-        context: Context,
-        begin: Long,
-        end: Long
-    ): Cursor = CalendarContract.Instances.query(context.contentResolver, instanceQueryFields, begin, end)
-
     private fun Cursor.toInstance(): Instance? = runCatching {
         val id = getInt(0)
-        val eventId = getInt(1)
+        val calendarId = getInt(1)
         val start = Instant.ofEpochMilli(getLong(2))
         // end of instances are exclusive (e.g. an hour event is from 10 to 11 and not from 10 to 10:59:59.999)
         val end = Instant.ofEpochMilli(getLong(3) - 1)
         val zoneId = toZoneIdOrDefault(getString(4))
-        val isDeclined = getInt(5) == CalendarContract.Instances.STATUS_CANCELED
+        val isDeclined = getInt(5) == Instances.STATUS_CANCELED
         val isAllDay = getInt(6) == 1
 
         when {
             isAllDay -> AllDayInstance(
                 id = id,
-                eventId = eventId,
+                calendarId = calendarId,
                 isDeclined = isDeclined,
                 start = LocalDateTime.ofInstant(start, zoneId).toLocalDate(),
                 end = LocalDateTime.ofInstant(end, zoneId).toLocalDate()
             )
             else -> TimedInstance(
                 id = id,
-                eventId = eventId,
+                calendarId = calendarId,
                 isDeclined = isDeclined,
                 start = ZonedDateTime.ofInstant(start, zoneId),
                 end = ZonedDateTime.ofInstant(end, zoneId)
