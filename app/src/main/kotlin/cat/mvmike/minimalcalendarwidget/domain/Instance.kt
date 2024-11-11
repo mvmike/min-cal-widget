@@ -61,18 +61,17 @@ fun getInstances(
     context: Context,
     from: LocalDate,
     to: LocalDate
-): Set<Instance> =
-    when (CalendarResolver.isReadCalendarPermitted(context)) {
-        true -> {
-            val systemZoneId = SystemResolver.getSystemZoneId()
-            CalendarResolver.getInstances(
-                context = context,
-                begin = from.atStartOfDayInMillis(systemZoneId),
-                end = to.atStartOfDayInMillis(systemZoneId)
-            )
-        }
-        else -> HashSet()
+): Set<Instance> = when (CalendarResolver.isReadCalendarPermitted(context)) {
+    true -> {
+        val systemZoneId = SystemResolver.getSystemZoneId()
+        CalendarResolver.getInstances(
+            context = context,
+            begin = from.atStartOfDayInMillis(systemZoneId),
+            end = to.atStartOfDayInMillis(systemZoneId)
+        )
     }
+    else -> HashSet()
+}
 
 private fun LocalDate.atStartOfDayInMillis(zoneId: ZoneId) =
     atStartOfDay(zoneId).toInstant().toEpochMilli()

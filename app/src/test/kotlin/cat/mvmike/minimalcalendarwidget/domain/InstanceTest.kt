@@ -39,7 +39,7 @@ internal class InstanceTest : BaseTest() {
     }
 
     @Test
-    fun getInstances_shouldReturnEmpty_whenCalendarIsNotPermitted() {
+    fun getInstances_shouldReturnEmpty_whenReadCalendarIsNotPermitted() {
         mockIsReadCalendarPermitted(false)
 
         val instances = getInstances(context, LocalDate.MIN, LocalDate.MAX)

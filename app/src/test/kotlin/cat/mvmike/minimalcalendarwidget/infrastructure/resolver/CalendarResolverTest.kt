@@ -4,8 +4,9 @@ package cat.mvmike.minimalcalendarwidget.infrastructure.resolver
 
 import android.database.Cursor
 import android.provider.CalendarContract
+import android.provider.CalendarContract.Calendars.CONTENT_URI
 import cat.mvmike.minimalcalendarwidget.BaseTest
-import cat.mvmike.minimalcalendarwidget.domain.Instance
+import cat.mvmike.minimalcalendarwidget.domain.Calendar
 import cat.mvmike.minimalcalendarwidget.domain.Instance.AllDayInstance
 import cat.mvmike.minimalcalendarwidget.domain.Instance.TimedInstance
 import io.mockk.every
@@ -32,8 +33,15 @@ internal class CalendarResolverTest : BaseTest() {
         InstanceCursor(4, 40, 1657097518738, 1659775918430, "America/Los_Angeles", 17, 0)
     )
 
+    private val calendarCursors = listOf(
+        CalendarCursor(1, "First Account", "Calendar 1", 1, 1),
+        CalendarCursor(2, "First Account", "Calendar 2", 0, 1),
+        CalendarCursor(3, "Second Account", "Calendar A", 1, 0),
+        CalendarCursor(4, "Third Acount", "Calendar $", 1, 1)
+    )
+
     @Test
-    fun shouldReturnEmptySetWhenQueryCannotBeExecuted() {
+    fun shouldReturnEmptySetWhenGetInstancesQueryCannotBeExecuted() {
         mockkStatic(CalendarContract.Instances::class)
         every {
             CalendarContract.Instances.query(context.contentResolver, instanceQueryFields, begin, end)
@@ -41,13 +49,36 @@ internal class CalendarResolverTest : BaseTest() {
 
         val result = CalendarResolver.getInstances(context, begin, end)
 
-        assertThat(result).isEqualTo(emptySet<Instance>())
+        assertThat(result).isEmpty()
         verify { context.contentResolver }
         verify { CalendarResolver.getInstances(context, begin, end) }
     }
 
     @Test
-    fun shouldReturnEmptySetWhenMovingCursorThrowsException() {
+    fun shouldReturnEmptySetWhenGetCalendarsQueryCannotBeExecuted() {
+        every { CalendarResolver.getCalendars(context) } answers { callOriginal() }
+        every {
+            context.contentResolver.query(CONTENT_URI, calendarQueryFields, null, null, "calendar_displayName DESC")
+        } throws RuntimeException("some exception when querying calendars")
+
+        val result = CalendarResolver.getCalendars(context)
+
+        assertThat(result).isEmpty()
+        verify { context.contentResolver }
+        verify {
+            context.contentResolver.query(
+                CONTENT_URI,
+                calendarQueryFields,
+                null,
+                null,
+                "calendar_displayName DESC"
+            )
+        }
+        verify { CalendarResolver.getCalendars(context) }
+    }
+
+    @Test
+    fun shouldReturnEmptySetWhenMovingInstancesCursorThrowsException() {
         mockkStatic(CalendarContract.Instances::class)
         every {
             CalendarContract.Instances.query(context.contentResolver, instanceQueryFields, begin, end)
@@ -57,9 +88,27 @@ internal class CalendarResolverTest : BaseTest() {
 
         val result = CalendarResolver.getInstances(context, begin, end)
 
-        assertThat(result).isEqualTo(emptySet<Instance>())
+        assertThat(result).isEmpty()
         verify { context.contentResolver }
         verify { CalendarResolver.getInstances(context, begin, end) }
+        verify { cursor.moveToNext() }
+        verify { cursor.close() }
+    }
+
+    @Test
+    fun shouldReturnEmptySetWhenMovingCalendarsCursorThrowsException() {
+        every { CalendarResolver.getCalendars(context) } answers { callOriginal() }
+        every {
+            context.contentResolver.query(CONTENT_URI, calendarQueryFields, null, null, "calendar_displayName DESC")
+        } returns cursor
+        every { cursor.moveToNext() } throws RuntimeException("some exception whilst moving cursor")
+        justRun { cursor.close() }
+
+        val result = CalendarResolver.getCalendars(context)
+
+        assertThat(result).isEmpty()
+        verify { context.contentResolver }
+        verify { CalendarResolver.getCalendars(context) }
         verify { cursor.moveToNext() }
         verify { cursor.close() }
     }
@@ -82,8 +131,7 @@ internal class CalendarResolverTest : BaseTest() {
 
         val result = CalendarResolver.getInstances(context, begin, end)
 
-        assertThat(result).hasSize(1)
-        assertThat(result).contains(
+        assertThat(result).containsExactlyInAnyOrder(
             AllDayInstance(
                 id = 2,
                 calendarId = 20,
@@ -99,15 +147,41 @@ internal class CalendarResolverTest : BaseTest() {
     }
 
     @Test
+    fun shouldSkipInvalidCalendar() {
+        every { CalendarResolver.getCalendars(context) } answers { callOriginal() }
+        every {
+            context.contentResolver.query(CONTENT_URI, calendarQueryFields, null, null, "calendar_displayName DESC")
+        } returns cursor
+        every { cursor.moveToNext() } returnsMany listOf(true, true, false)
+        every { cursor.getInt(0) } returnsMany listOf(calendarCursors[0].id, calendarCursors[1].id)
+        every { cursor.getString(1) } returnsMany listOf(calendarCursors[0].accountName, calendarCursors[1].accountName)
+        every { cursor.getString(2) } throws RuntimeException("some weird error") andThen calendarCursors[1].displayName
+        every { cursor.getInt(3) } returns calendarCursors[1].isPrimary
+        every { cursor.getInt(4) } returns calendarCursors[1].isVisible
+        justRun { cursor.close() }
+
+        val result = CalendarResolver.getCalendars(context)
+
+        assertThat(result).containsExactlyInAnyOrder(
+            Calendar(
+                id = 2,
+                accountName = "First Account",
+                displayName = "Calendar 2",
+                isPrimary = false,
+                isVisible = true
+            )
+        )
+        verify { context.contentResolver }
+        verify { CalendarResolver.getCalendars(context) }
+        verify(exactly = 3) { cursor.moveToNext() }
+        verify { cursor.close() }
+    }
+
+    @Test
     fun shouldFetchAllInstances() {
         mockkStatic(CalendarContract.Instances::class)
         every {
-            CalendarContract.Instances.query(
-                context.contentResolver,
-                instanceQueryFields,
-                begin,
-                end
-            )
+            CalendarContract.Instances.query(context.contentResolver, instanceQueryFields, begin, end)
         } returns cursor
         every { cursor.moveToNext() } returnsMany instanceCursors.map { true }.plus(false)
         every { cursor.getInt(0) } returnsMany instanceCursors.map { it.id }
@@ -157,6 +231,58 @@ internal class CalendarResolverTest : BaseTest() {
         verify { cursor.close() }
     }
 
+    @Test
+    fun shouldFetchAllCalendars() {
+        every { CalendarResolver.getCalendars(context) } answers { callOriginal() }
+        every {
+            context.contentResolver.query(CONTENT_URI, calendarQueryFields, null, null, "calendar_displayName DESC")
+        } returns cursor
+        every { cursor.moveToNext() } returnsMany calendarCursors.map { true }.plus(false)
+        every { cursor.getInt(0) } returnsMany calendarCursors.map { it.id }
+        every { cursor.getString(1) } returnsMany calendarCursors.map { it.accountName }
+        every { cursor.getString(2) } returnsMany calendarCursors.map { it.displayName }
+        every { cursor.getInt(3) } returnsMany calendarCursors.map { it.isPrimary }
+        every { cursor.getInt(4) } returnsMany calendarCursors.map { it.isVisible }
+        justRun { cursor.close() }
+
+        val result = CalendarResolver.getCalendars(context)
+
+        assertThat(result).containsExactly(
+            Calendar(
+                id = 1,
+                accountName = "First Account",
+                displayName = "Calendar 1",
+                isPrimary = true,
+                isVisible = true
+            ),
+            Calendar(
+                id = 2,
+                accountName = "First Account",
+                displayName = "Calendar 2",
+                isPrimary = false,
+                isVisible = true
+            ),
+            Calendar(
+                id = 3,
+                accountName = "Second Account",
+                displayName = "Calendar A",
+                isPrimary = true,
+                isVisible = false
+            ),
+            Calendar(
+                id = 4,
+                accountName = "Third Acount",
+                displayName = "Calendar $",
+                isPrimary = true,
+                isVisible = true
+            )
+        )
+        verify { context.contentResolver }
+        verify { CalendarResolver.getCalendars(context) }
+        verify(exactly = calendarCursors.size + 1) { cursor.moveToNext() }
+        verify { cursor.close() }
+    }
+
     private data class InstanceCursor(
         val id: Int,
         val calendarId: Int,
@@ -165,5 +291,13 @@ internal class CalendarResolverTest : BaseTest() {
         val zoneId: String?,
         val status: Int,
         val allDay: Int
+    )
+
+    private data class CalendarCursor(
+        val id: Int,
+        val accountName: String,
+        val displayName: String,
+        val isPrimary: Int,
+        val isVisible: Int
     )
 }
