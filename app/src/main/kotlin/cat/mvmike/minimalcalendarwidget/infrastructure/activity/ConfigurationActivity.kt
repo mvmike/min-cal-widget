@@ -54,8 +54,8 @@ class ConfigurationActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(
             when (applicationContext.isDarkThemeEnabled()) {
-                true -> R.style.Theme_AppCompat_NoEdgeToEdge
-                else -> R.style.Theme_AppCompat_DayNight_NoEdgeToEdge
+                true -> androidx.appcompat.R.style.Theme_AppCompat
+                else -> androidx.appcompat.R.style.Theme_AppCompat_DayNight
             }
         )
 
