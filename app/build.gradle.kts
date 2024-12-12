@@ -9,7 +9,7 @@ plugins {
     // https://github.com/jeremymailen/kotlinter-gradle/releases
     id("org.jmailen.kotlinter") version "5.0.0"
     // https://github.com/Kotlin/kotlinx-kover/releases
-    id("org.jetbrains.kotlinx.kover") version "0.8.3"
+    id("org.jetbrains.kotlinx.kover") version "0.9.0"
 }
 
 android {
