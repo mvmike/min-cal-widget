@@ -1,34 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <!--UKRAINIAN-->
 
     <!--Configuration-->
     <string name="configuration">Налаштування</string>
-
     <string name="behaviour">Функціонал</string>
     <string name="start_week_day">Початок тижня</string>
     <string name="calendar">Календар</string>
     <string name="show_declined_events">Показувати відхилені події</string>
     <string name="focus_on_current_week">Сфокусувати на поточному тижні</string>
     <string name="open_calendar_into_clicked_day">Відкривати календар на кліканий день</string>
-
     <string name="appearance">Вигляд</string>
     <string name="theme">Тема</string>
     <string name="symbol_set">Набір символів</string>
     <string name="symbol_colour">Колір символів</string>
     <string name="transparency">Прозорість</string>
     <string name="text_size">Розмір тексту</string>
-
     <string name="about">Про додаток</string>
     <string name="source">Джерело</string>
     <string name="language">Мова</string>
     <string name="translate">Переклад</string>
     <string name="version">Версія</string>
-
     <string name="reset_settings">Скинути налаштування</string>
     <string name="close">Зачинити</string>
-
     <!--Months of year-->
     <string name="january">Січень</string>
     <string name="february">Лютий</string>
@@ -42,7 +36,6 @@
     <string name="october">Жовтень</string>
     <string name="november">Листопад</string>
     <string name="december">Грудень</string>
-
     <!--Days of week-->
     <string name="monday">Понеділок</string>
     <string name="tuesday">Вівторок</string>
@@ -51,7 +44,6 @@
     <string name="friday">П\'ятниця</string>
     <string name="saturday">Субота</string>
     <string name="sunday">Неділя</string>
-
     <!--Days of week abbreviated-->
     <string name="monday_abb">Пн</string>
     <string name="tuesday_abb">Вт</string>
@@ -60,15 +52,12 @@
     <string name="friday_abb">Пт</string>
     <string name="saturday_abb">Сб</string>
     <string name="sunday_abb">Нд</string>
-
     <!--Calendars-->
     <string name="gregorian">Григоріанський</string>
     <string name="holocene">Голоценовий</string>
-
     <!--Themes-->
     <string name="dark">Темна</string>
     <string name="light">Світла</string>
-
     <!--Symbol colours-->
     <string name="system_accent">Системний</string>
     <string name="cyan">Блакитний</string>
@@ -78,9 +67,8 @@
     <string name="yellow">Жовтий</string>
     <string name="black">Чорний</string>
     <string name="white">Білий</string>
-
     <!--messages-->
     <string name="no_calendar_application">Не знайдено додатку календара</string>
     <string name="no_browser_application">Не знайдено додатку інтенернет</string>
-
+    <string name="app_name" translatable="false"></string>
 </resources>

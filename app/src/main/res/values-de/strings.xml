@@ -1,34 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <!--GERMAN-->
 
     <!--Configuration-->
     <string name="configuration">Konfiguration</string>
-
     <string name="behaviour">Verhalten</string>
     <string name="start_week_day">Start Tag</string>
     <string name="calendar">Kalender</string>
     <string name="show_declined_events">Abgelehnte Veranstaltungen anzeigen</string>
     <string name="focus_on_current_week">Aktueller Wochenfokus</string>
     <string name="open_calendar_into_clicked_day">Kalender am angeklickten Tag öffnen</string>
-
     <string name="appearance">Aussehen</string>
     <string name="theme">Thema</string>
     <string name="symbol_set">Zeichensatz</string>
     <string name="symbol_colour">Farbe des Symbols</string>
     <string name="transparency">Transparenz</string>
     <string name="text_size">Textgröße</string>
-
     <string name="about">Über</string>
     <string name="source">Quellcode</string>
     <string name="language">Sprache</string>
     <string name="translate">Übersetzen</string>
     <string name="version">Ausführung</string>
-
     <string name="reset_settings">Einstellungen zurücksetzen</string>
     <string name="close">Schließen</string>
-
     <!--Months of year-->
     <string name="january">Januar</string>
     <string name="february">Februar</string>
@@ -42,7 +36,6 @@
     <string name="october">Oktober</string>
     <string name="november">November</string>
     <string name="december">Dezember</string>
-
     <!--Days of week-->
     <string name="monday">Montag</string>
     <string name="tuesday">Dienstag</string>
@@ -51,7 +44,6 @@
     <string name="friday">Freitag</string>
     <string name="saturday">Samstag</string>
     <string name="sunday">Sonntag</string>
-
     <!--Days of week abbreviated-->
     <string name="monday_abb">Mo</string>
     <string name="tuesday_abb">Di</string>
@@ -60,15 +52,12 @@
     <string name="friday_abb">Fr</string>
     <string name="saturday_abb">Sa</string>
     <string name="sunday_abb">So</string>
-
     <!--Calendars-->
     <string name="gregorian">Gregorianisch</string>
     <string name="holocene">Holozän</string>
-
     <!--Themes-->
     <string name="dark">Dunkel</string>
     <string name="light">Licht</string>
-
     <!--Symbol colours-->
     <string name="system_accent">Systemakzent</string>
     <string name="cyan">Türkis</string>
@@ -78,9 +67,8 @@
     <string name="yellow">Gelb</string>
     <string name="black">Schwarz</string>
     <string name="white">Weiß</string>
-
     <!--messages-->
     <string name="no_calendar_application">Keine Kalenderanwendung gefunden</string>
     <string name="no_browser_application">Keine Browseranwendung gefunden</string>
-
+    <string name="app_name" translatable="false"></string>
 </resources>
