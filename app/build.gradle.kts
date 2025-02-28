@@ -24,8 +24,6 @@ android {
     val javaVersion = JavaVersion.VERSION_21
 
     compileSdk = androidVersion
-    // https://developer.android.com/studio/releases/build-tools
-    buildToolsVersion = "34.0.0"
 
     defaultConfig {
 
