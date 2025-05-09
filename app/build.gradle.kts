@@ -178,7 +178,7 @@ dependencies {
     testImplementation("org.assertj:assertj-core:3.27.3")
 
     // https://github.com/TNG/ArchUnit/releases
-    testImplementation("com.tngtech.archunit:archunit-junit5:1.4.0")
+    testImplementation("com.tngtech.archunit:archunit-junit5:1.4.1")
 
     // https://github.com/qos-ch/slf4j/tags
     testImplementation("org.slf4j:slf4j-simple:2.0.17")
