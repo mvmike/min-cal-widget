@@ -12,6 +12,7 @@
 <b>Supported languages</b>
 
 · English
+· Basque
 · Catalan
 · Chinese (Traditional)
 · Croatian

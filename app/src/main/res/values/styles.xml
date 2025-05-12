@@ -1,0 +1,11 @@
+<resources>
+
+    <style name="Theme.AppCompat_LightTheme" parent="@style/Theme.AppCompat.DayNight">
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+
+    <style name="Theme.AppCompat_DarkTheme" parent="@style/Theme.AppCompat">
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+
+</resources>

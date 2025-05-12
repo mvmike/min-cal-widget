@@ -94,6 +94,4 @@
 
     </PreferenceCategory>
 
-    <Preference android:widgetLayout="@layout/configuration_buttons" />
-
 </PreferenceScreen>

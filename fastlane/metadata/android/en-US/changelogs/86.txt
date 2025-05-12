@@ -1,0 +1,5 @@
+v2.18.0
+- support for android 15
+- fix status bar theme on preferences screen
+- fix some basque translations
+- technical maintenance

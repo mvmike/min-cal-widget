@@ -300,7 +300,7 @@ internal class DaysServiceTest : BaseTest() {
         readTestResourceCsvFile("/system_all_day_instances.csv").map {
             AllDayInstance(
                 id = random.nextInt(),
-                eventId = random.nextInt(),
+                calendarId = random.nextInt(),
                 isDeclined = it[0].toBoolean(),
                 start = LocalDate.parse(it[1]),
                 end = LocalDate.parse(it[2])
@@ -309,7 +309,7 @@ internal class DaysServiceTest : BaseTest() {
             readTestResourceCsvFile("/system_timed_instances.csv").map {
                 TimedInstance(
                     id = random.nextInt(),
-                    eventId = random.nextInt(),
+                    calendarId = random.nextInt(),
                     isDeclined = it[0].toBoolean(),
                     start = ZonedDateTime.parse(it[1]),
                     end = ZonedDateTime.parse(it[2])

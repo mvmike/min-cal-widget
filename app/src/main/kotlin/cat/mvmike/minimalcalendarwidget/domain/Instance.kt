@@ -12,7 +12,7 @@ import java.time.temporal.ChronoUnit
 
 sealed class Instance(
     open val id: Int,
-    open val eventId: Int,
+    open val calendarId: Int,
     open val isDeclined: Boolean
 ) {
     abstract fun isInDay(
@@ -22,13 +22,13 @@ sealed class Instance(
 
     data class TimedInstance(
         override val id: Int,
-        override val eventId: Int,
+        override val calendarId: Int,
         override val isDeclined: Boolean,
         val start: ZonedDateTime,
         val end: ZonedDateTime
     ) : Instance(
             id = id,
-            eventId = eventId,
+            calendarId = calendarId,
             isDeclined = isDeclined
         ) {
         override fun isInDay(day: LocalDate, dayZoneId: ZoneId): Boolean {
@@ -43,13 +43,13 @@ sealed class Instance(
 
     data class AllDayInstance(
         override val id: Int,
-        override val eventId: Int,
+        override val calendarId: Int,
         override val isDeclined: Boolean,
         val start: LocalDate,
         val end: LocalDate
     ) : Instance(
             id = id,
-            eventId = eventId,
+            calendarId = calendarId,
             isDeclined = isDeclined
         ) {
         override fun isInDay(day: LocalDate, dayZoneId: ZoneId): Boolean =
@@ -61,18 +61,17 @@ fun getInstances(
     context: Context,
     from: LocalDate,
     to: LocalDate
-): Set<Instance> =
-    when (CalendarResolver.isReadCalendarPermitted(context)) {
-        true -> {
-            val systemZoneId = SystemResolver.getSystemZoneId()
-            CalendarResolver.getInstances(
-                context = context,
-                begin = from.atStartOfDayInMillis(systemZoneId),
-                end = to.atStartOfDayInMillis(systemZoneId)
-            )
-        }
-        else -> HashSet()
+): Set<Instance> = when (CalendarResolver.isReadCalendarPermitted(context)) {
+    true -> {
+        val systemZoneId = SystemResolver.getSystemZoneId()
+        CalendarResolver.getInstances(
+            context = context,
+            begin = from.atStartOfDayInMillis(systemZoneId),
+            end = to.atStartOfDayInMillis(systemZoneId)
+        )
     }
+    else -> HashSet()
+}
 
 private fun LocalDate.atStartOfDayInMillis(zoneId: ZoneId) =
     atStartOfDay(zoneId).toInstant().toEpochMilli()

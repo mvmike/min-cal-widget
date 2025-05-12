@@ -13,14 +13,14 @@
     <string name="focus_on_current_week">Tập trung vào tuần hiện tại</string>
     <string name="open_calendar_into_clicked_day">Mở lịch vào ngày đã nhấp</string>
 
-    <string name="appearance">Vẻ bề ngoài</string>
+    <string name="appearance">Diện mạo</string>
     <string name="theme">Chủ đề</string>
-    <string name="symbol_set">Bộ biểu tượng</string>
-    <string name="symbol_colour">Màu biểu tượng</string>
+    <string name="symbol_set">Bộ ký hiệu</string>
+    <string name="symbol_colour">Màu ký hiệu</string>
     <string name="transparency">Độ trong suốt</string>
     <string name="text_size">Cỡ chữ</string>
 
-    <string name="about">Về</string>
+    <string name="about">Giới thiệu</string>
     <string name="source">Nguồn</string>
     <string name="language">Ngôn ngữ</string>
     <string name="translate">Dịch</string>

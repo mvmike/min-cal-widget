@@ -7,9 +7,9 @@ plugins {
     id("com.android.application")
     id("kotlin-android")
     // https://github.com/jeremymailen/kotlinter-gradle/releases
-    id("org.jmailen.kotlinter") version "4.4.1"
+    id("org.jmailen.kotlinter") version "5.0.2"
     // https://github.com/Kotlin/kotlinx-kover/releases
-    id("org.jetbrains.kotlinx.kover") version "0.8.2"
+    id("org.jetbrains.kotlinx.kover") version "0.9.1"
 }
 
 android {
@@ -18,22 +18,20 @@ android {
 
     // https://source.android.com/setup/start/build-numbers
     val minAndroidVersion = 26   // 8.0
-    val androidVersion = 34      // 14.0
+    val androidVersion = 35      // 15.0
 
     // https://adoptium.net/temurin/releases/
     val javaVersion = JavaVersion.VERSION_21
 
     compileSdk = androidVersion
-    // https://developer.android.com/studio/releases/build-tools
-    buildToolsVersion = "34.0.0"
 
     defaultConfig {
 
         applicationId = namespace + ".BETA"
         minSdk = minAndroidVersion
         targetSdk = androidVersion
-        versionCode = 84
-        versionName = "2.17.1" + "-BETA"
+        versionCode = 88
+        versionName = "2.18.2" + "-BETA"
 
         multiDexEnabled = true
     }
@@ -59,6 +57,7 @@ android {
 
     tasks.withType<Test> {
         useJUnitPlatform()
+        failFast = true
         jvmArgs("-XX:+EnableDynamicAgentLoading")
         testLogging {
             events(SKIPPED, FAILED, STANDARD_ERROR, STANDARD_OUT)
@@ -159,28 +158,28 @@ dependencies {
     // https://developer.android.com/jetpack/androidx/releases/appcompat
     implementation("androidx.appcompat:appcompat:1.7.0")
     // https://developer.android.com/jetpack/androidx/releases/core
-    implementation("androidx.core:core-ktx:1.13.1")
+    implementation("androidx.core:core-ktx:1.16.0")
     // https://developer.android.com/jetpack/androidx/releases/multidex
     implementation("androidx.multidex:multidex:2.0.1")
     // https://developer.android.com/jetpack/androidx/releases/preference
     implementation("androidx.preference:preference-ktx:1.2.1")
 
     // https://github.com/junit-team/junit5/releases
-    val junitJupiterVersion = "5.10.3"
+    val junitJupiterVersion = "5.12.2"
     testImplementation("org.junit.jupiter:junit-jupiter-api:$junitJupiterVersion")
     testImplementation("org.junit.jupiter:junit-jupiter-params:$junitJupiterVersion")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junitJupiterVersion")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
     // https://github.com/mockk/mockk/releases
-    testImplementation("io.mockk:mockk:1.13.12")
+    testImplementation("io.mockk:mockk:1.14.2")
 
     // https://github.com/assertj/assertj-core/tags
-    testImplementation("org.assertj:assertj-core:3.26.3")
+    testImplementation("org.assertj:assertj-core:3.27.3")
 
     // https://github.com/TNG/ArchUnit/releases
-    testImplementation("com.tngtech.archunit:archunit-junit5:1.3.0")
+    testImplementation("com.tngtech.archunit:archunit-junit5:1.4.1")
 
     // https://github.com/qos-ch/slf4j/tags
-    testImplementation("org.slf4j:slf4j-simple:2.0.13")
+    testImplementation("org.slf4j:slf4j-simple:2.0.17")
 }
