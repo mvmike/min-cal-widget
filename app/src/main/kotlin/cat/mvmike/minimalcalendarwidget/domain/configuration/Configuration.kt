@@ -25,18 +25,6 @@ import java.time.DayOfWeek
 
 const val PREFERENCE_KEY = "mincal_prefs"
 
-const val SOURCE_KEY = "SOURCE"
-
-const val TRANSLATE_KEY = "TRANSLATE"
-
-const val LANGUAGE_KEY = "LANGUAGE"
-
-const val VERSION_KEY = "VERSION"
-
-const val SOURCE_URL = "https://github.com/mvmike/min-cal-widget"
-
-const val TRANSLATE_URL = "https://hosted.weblate.org/engage/min-cal-widget"
-
 sealed class ConfigurationItem<E>(
     internal open val key: String,
     internal open val defaultValue: E
@@ -53,6 +41,17 @@ sealed class BooleanConfigurationItem(
     ) {
     override fun get(context: Context) =
         getConfiguration(context).getBoolean(key, defaultValue)
+
+    data class CalendarVisibilitySelection(
+        val calendarId: Int
+    ) : BooleanConfigurationItem(
+            key = "CALENDAR_VISIBILITY_SELECTION_$calendarId"
+        )
+
+    data object DefaultVisibleCalendars : BooleanConfigurationItem(
+        key = "DEFAULT_VISIBLE_CALENDARS",
+        defaultValue = true
+    )
 
     data object ShowDeclinedEvents : BooleanConfigurationItem(
         key = "SHOW_DECLINED_EVENTS"

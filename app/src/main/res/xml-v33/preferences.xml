@@ -31,6 +31,12 @@
             android:key="OPEN_CALENDAR_ON_CLICKED_DAY"
             android:title="@string/open_calendar_into_clicked_day" />
 
+        <cat.mvmike.minimalcalendarwidget.domain.configuration.MultilinePreference
+            android:icon="@drawable/ic_checklist"
+            android:key="SELECT_VISIBLE_CALENDARS"
+            android:title="Select visible calendars"
+            android:fragment="cat.mvmike.minimalcalendarwidget.infrastructure.fragment.CalendarSelectionSettingsFragment"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory

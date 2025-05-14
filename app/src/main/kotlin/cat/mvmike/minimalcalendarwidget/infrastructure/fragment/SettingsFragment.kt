@@ -4,6 +4,7 @@ package cat.mvmike.minimalcalendarwidget.infrastructure.fragment
 
 import android.annotation.SuppressLint
 import android.content.ActivityNotFoundException
+import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener
@@ -20,21 +21,31 @@ import cat.mvmike.minimalcalendarwidget.BuildConfig
 import cat.mvmike.minimalcalendarwidget.R
 import cat.mvmike.minimalcalendarwidget.application.RedrawWidgetUseCase
 import cat.mvmike.minimalcalendarwidget.domain.configuration.BooleanConfigurationItem
+import cat.mvmike.minimalcalendarwidget.domain.configuration.BooleanConfigurationItem.DefaultVisibleCalendars
 import cat.mvmike.minimalcalendarwidget.domain.configuration.ConfigurationItem
 import cat.mvmike.minimalcalendarwidget.domain.configuration.EnumConfigurationItem
-import cat.mvmike.minimalcalendarwidget.domain.configuration.LANGUAGE_KEY
 import cat.mvmike.minimalcalendarwidget.domain.configuration.PREFERENCE_KEY
 import cat.mvmike.minimalcalendarwidget.domain.configuration.PercentageConfigurationItem
-import cat.mvmike.minimalcalendarwidget.domain.configuration.SOURCE_KEY
-import cat.mvmike.minimalcalendarwidget.domain.configuration.SOURCE_URL
-import cat.mvmike.minimalcalendarwidget.domain.configuration.TRANSLATE_KEY
-import cat.mvmike.minimalcalendarwidget.domain.configuration.TRANSLATE_URL
-import cat.mvmike.minimalcalendarwidget.domain.configuration.VERSION_KEY
 import cat.mvmike.minimalcalendarwidget.domain.configuration.isFirstDayOfWeekLocalePreferenceEnabled
 import cat.mvmike.minimalcalendarwidget.domain.configuration.isPerAppLanguagePreferenceEnabled
 import cat.mvmike.minimalcalendarwidget.domain.getDisplayValue
+import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.CalendarResolver.isReadCalendarPermitted
 import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.SystemResolver
 import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.SystemResolver.getSystemFirstDayOfWeek
+
+private const val SOURCE_KEY = "SOURCE"
+
+private const val TRANSLATE_KEY = "TRANSLATE"
+
+private const val LANGUAGE_KEY = "LANGUAGE"
+
+private const val VERSION_KEY = "VERSION"
+
+private const val SOURCE_URL = "https://github.com/mvmike/min-cal-widget"
+
+private const val TRANSLATE_URL = "https://hosted.weblate.org/engage/min-cal-widget"
+
+private const val VISIBLE_CALENDAR_SELECTION_KEY = "SELECT_VISIBLE_CALENDARS"
 
 class SettingsFragment :
     PreferenceFragmentCompat(),
@@ -47,15 +58,16 @@ class SettingsFragment :
         preferenceManager.sharedPreferencesName = PREFERENCE_KEY
         setPreferencesFromResource(R.xml.preferences, rootKey)
 
-        fillEntriesAndValues()
+        val context = requireContext()
+        fillEntriesAndValues(context)
         if (isFirstDayOfWeekLocalePreferenceEnabled()) {
-            fillRegionalPreferencesValues()
+            fillRegionalPreferencesValues(context)
         }
         if (isPerAppLanguagePreferenceEnabled()) {
-            fillAppLocaleSettings()
+            fillAppLocaleSettings(context)
         }
-        updateCurrentSelection()
-        fillAboutSection()
+        updateCurrentSelection(context)
+        fillAboutSection(context)
 
         preferenceManager.sharedPreferences!!.registerOnSharedPreferenceChangeListener(this)
     }
@@ -64,8 +76,9 @@ class SettingsFragment :
         p0: SharedPreferences?,
         p1: String?
     ) {
-        updateCurrentSelection()
-        RedrawWidgetUseCase.execute(requireContext())
+        val context = requireContext()
+        updateCurrentSelection(context)
+        RedrawWidgetUseCase.execute(context)
     }
 
     override fun onDestroyView() {
@@ -73,22 +86,22 @@ class SettingsFragment :
         preferenceManager.sharedPreferences?.unregisterOnSharedPreferenceChangeListener(this)
     }
 
-    private fun fillEntriesAndValues() = enumConfigurationItems().forEach {
+    private fun fillEntriesAndValues(context: Context) = enumConfigurationItems().forEach {
         it.asListPreference()?.apply {
-            entries = it.getDisplayValues(this@SettingsFragment.requireContext()).toTypedArray()
+            entries = it.getDisplayValues(context).toTypedArray()
             entryValues = it.getKeys()
-            value = it.getCurrentKey(this@SettingsFragment.requireContext())
+            value = it.getCurrentKey(context)
         }
     }
 
     @SuppressLint("InlinedApi")
-    private fun fillAppLocaleSettings() =
+    private fun fillAppLocaleSettings(context: Context) =
         LANGUAGE_KEY.asPreference()?.let {
             it.summary = SystemResolver.getSystemLocale().displayLanguage
             it.setOnPreferenceClickListener {
                 startActivity(
                     Intent(Settings.ACTION_APP_LOCALE_SETTINGS)
-                        .setData(Uri.fromParts("package", requireContext().packageName, null))
+                        .setData(Uri.fromParts("package", context.packageName, null))
                         .addFlags(
                             Intent.FLAG_ACTIVITY_NO_HISTORY or
                                 Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS
@@ -99,9 +112,9 @@ class SettingsFragment :
         }
 
     @SuppressLint("InlinedApi")
-    private fun fillRegionalPreferencesValues() =
+    private fun fillRegionalPreferencesValues(context: Context) =
         EnumConfigurationItem.FirstDayOfWeek.key.asPreference()?.let {
-            it.summary = getSystemFirstDayOfWeek().getDisplayValue(requireContext())
+            it.summary = getSystemFirstDayOfWeek().getDisplayValue(context)
             it.setOnPreferenceClickListener {
                 startActivity(
                     Intent(Settings.ACTION_REGIONAL_PREFERENCES_SETTINGS)
@@ -114,35 +127,45 @@ class SettingsFragment :
             }
         }
 
-    private fun fillAboutSection() {
+    private fun fillAboutSection(context: Context) {
         SOURCE_KEY.asPreference()?.let {
             it.summary = SOURCE_URL
             it.setOnPreferenceClickListener {
-                SOURCE_URL.openInBrowser()
+                SOURCE_URL.openInBrowser(context)
                 true
             }
         }
         TRANSLATE_KEY.asPreference()?.let {
             it.summary = TRANSLATE_URL
             it.setOnPreferenceClickListener {
-                TRANSLATE_URL.openInBrowser()
+                TRANSLATE_URL.openInBrowser(context)
                 true
             }
         }
         VERSION_KEY.asPreference()?.summary = BuildConfig.VERSION_NAME
     }
 
-    private fun updateCurrentSelection() {
+    private fun updateCurrentSelection(context: Context) {
+        VISIBLE_CALENDAR_SELECTION_KEY.asPreference()?.let {
+            val isReadCalendarPermitted = isReadCalendarPermitted(requireContext())
+            val default = DefaultVisibleCalendars.get(requireContext())
+            it.summary = when {
+                !isReadCalendarPermitted -> null
+                default -> "Default visible calendars"
+                else -> "Custom selection"
+            }
+        }
+
         enumConfigurationItems().forEach {
-            it.asListPreference()?.summary = it.getCurrentDisplayValue(requireContext())
+            it.asListPreference()?.summary = it.getCurrentDisplayValue(context)
         }
 
         booleanConfigurationItems().forEach {
-            it.asCheckBoxPreference()?.isChecked = it.get(requireContext())
+            it.asCheckBoxPreference()?.isChecked = it.get(context)
         }
 
         percentageConfigurationItems().forEach {
-            it.asSeekBarPreference()?.value = it.get(requireContext()).value
+            it.asSeekBarPreference()?.value = it.get(context).value
         }
     }
 
@@ -176,13 +199,13 @@ class SettingsFragment :
     private fun <E> ConfigurationItem<E>.asSeekBarPreference() =
         preferenceManager.findPreference<Preference>(key) as? SeekBarPreference
 
-    private fun String.openInBrowser() = try {
-        requireContext().startActivity(
+    private fun String.openInBrowser(context: Context) = try {
+        context.startActivity(
             Intent(Intent.ACTION_VIEW)
                 .setData(Uri.parse(this))
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         )
     } catch (_: ActivityNotFoundException) {
-        Toast.makeText(requireContext(), R.string.no_browser_application, Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, R.string.no_browser_application, Toast.LENGTH_SHORT).show()
     }
 }

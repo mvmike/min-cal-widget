@@ -9,6 +9,7 @@ import cat.mvmike.minimalcalendarwidget.domain.Cell
 import cat.mvmike.minimalcalendarwidget.domain.Day
 import cat.mvmike.minimalcalendarwidget.domain.Instance
 import cat.mvmike.minimalcalendarwidget.domain.configuration.BooleanConfigurationItem
+import cat.mvmike.minimalcalendarwidget.domain.configuration.BooleanConfigurationItem.CalendarVisibilitySelection
 import cat.mvmike.minimalcalendarwidget.domain.configuration.EnumConfigurationItem
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.SymbolSet
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.TextSize
@@ -16,6 +17,7 @@ import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Transparency
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.TransparencyRange
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.withTransparency
+import cat.mvmike.minimalcalendarwidget.domain.getCalendars
 import cat.mvmike.minimalcalendarwidget.domain.getInstances
 import cat.mvmike.minimalcalendarwidget.domain.intent.ActionableView.CellDay
 import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.GraphicResolver
@@ -57,6 +59,13 @@ object DaysService {
         val instancesSymbolSet = EnumConfigurationItem.InstancesSymbolSet.get(context)
         val instancesColour = EnumConfigurationItem.InstancesColour.get(context)
         val showDeclinedEvents = BooleanConfigurationItem.ShowDeclinedEvents.get(context)
+        val defaultVisibleCalendars = BooleanConfigurationItem.DefaultVisibleCalendars.get(context)
+        val visibleCalendarIds = getCalendars(context).filter {
+            when {
+                defaultVisibleCalendars -> it.isVisible
+                else -> CalendarVisibilitySelection(it.id).get(context)
+            }
+        }.map { it.id }
 
         for (week in 0 until NUM_WEEKS) {
             val weekRowRemoteView: RemoteViews = GraphicResolver.createDaysRow(context)
@@ -69,7 +78,7 @@ object DaysService {
                     dayOfWeek = currentDay.getDayOfWeek()
                 )
                 val instancesSymbol = instanceSet
-                    .getNumberOfInstances(currentDay, systemZoneId, showDeclinedEvents)
+                    .getNumberOfInstances(currentDay, systemZoneId, showDeclinedEvents, visibleCalendarIds)
                     .let { instancesSymbolSet.get(it) }
                 val dayInstancesColour = instancesColour.getInstancesColour(isToday, widgetTheme)
                 val backgroundWithTransparency = dayCell.background
@@ -159,8 +168,10 @@ object DaysService {
     internal fun Set<Instance>.getNumberOfInstances(
         day: Day,
         systemZoneId: ZoneId,
-        includeDeclinedEvents: Boolean
+        includeDeclinedEvents: Boolean,
+        visibleCalendarIds: Collection<Int>
     ) = filter { it.isInDay(day.dayLocalDate, systemZoneId) }
+        .filter { it.calendarId in visibleCalendarIds }
         .count { includeDeclinedEvents || !it.isDeclined }
 
     private fun LocalDate.toCurrentWeekAndWeekDay(
