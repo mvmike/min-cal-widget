@@ -27,7 +27,7 @@ android {
 
     defaultConfig {
 
-        applicationId = namespace + ".BETA"
+        applicationId = "$namespace.BETA"
         minSdk = minAndroidVersion
         targetSdk = androidVersion
         versionCode = 88
