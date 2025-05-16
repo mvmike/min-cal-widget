@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="calendar">לוח שנה</string>
+    <string name="configuration">תצורה</string>
+    <string name="behaviour">התנהגות</string>
+    <string name="start_week_day">יום התחלה</string>
+    <string name="show_declined_events">הצג אירועים שנדחו</string>
+</resources>
