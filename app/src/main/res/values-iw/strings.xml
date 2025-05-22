@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--HEBREW-->
+
+    <!--Configuration-->
+    <string name="configuration">תצורה</string>
+
+    <string name="behaviour">התנהגות</string>
+    <string name="start_week_day">יום התחלה</string>
+    <string name="calendar">לוח שנה</string>
+    <string name="show_declined_events">הצג אירועים שנדחו</string>
+    <string name="focus_on_current_week">התמקדות בשבוע הנוכחי</string>
+    <string name="open_calendar_into_clicked_day">פתח את היומן לתוך היום שנלחץ עליו</string>
+
+    <string name="appearance">נראות</string>
+    <string name="theme">עיצוב</string>
+    <string name="symbol_set">סט סמלים</string>
+    <string name="symbol_colour">צבע הסמל</string>
+    <string name="transparency">שקיפות</string>
+    <string name="text_size">גודל טקסט</string>
+
+    <string name="about">אודות</string>
+    <string name="source">מקור</string>
+    <string name="language">שפה</string>
+    <string name="translate">תרגום</string>
+    <string name="version">גירסא</string>
+
+    <string name="reset_settings">איפוס הגדרות</string>
+    <string name="close">סגור</string>
+
+    <!--Months of year-->
+    <string name="january">ינואר</string>
+    <string name="february">פברואר</string>
+    <string name="march">מרץ</string>
+    <string name="april">אפריל</string>
+    <string name="may">מאי</string>
+    <string name="june">יוני</string>
+    <string name="july">יולי</string>
+    <string name="august">אוגוסט</string>
+    <string name="september">ספטמבר</string>
+    <string name="october">אוקטובר</string>
+    <string name="november">נובמבר</string>
+    <string name="december">דצמבר</string>
+
+    <!--Days of week-->
+    <string name="monday">יום שני</string>
+    <string name="tuesday">יום שלישי</string>
+    <string name="wednesday">יום רביעי</string>
+    <string name="thursday">יום חמישי</string>
+    <string name="friday">יום שישי</string>
+    <string name="saturday">שבת</string>
+    <string name="sunday">יום ראשון</string>
+
+    <!--Days of week abbreviated-->
+    <string name="monday_abb">שני</string>
+    <string name="tuesday_abb">שלישי</string>
+    <string name="wednesday_abb">רביעי</string>
+    <string name="thursday_abb">חמישי</string>
+    <string name="friday_abb">שישי</string>
+    <string name="saturday_abb">שבת</string>
+    <string name="sunday_abb">ראשון</string>
+
+    <!--Calendars-->
+    <string name="gregorian">גרגוריאני</string>
+    <string name="holocene">הולוקן</string>
+
+    <!--Themes-->
+    <string name="dark">חשוך</string>
+    <string name="light">מואר</string>
+
+    <!--Symbol colours-->
+    <string name="system_accent">מערכת</string>
+    <string name="cyan">ציאן</string>
+    <string name="blue">כחול</string>
+    <string name="mint">מינט</string>
+    <string name="green">ירוק</string>
+    <string name="yellow">צהוב</string>
+    <string name="black">שחור</string>
+    <string name="white">לבן</string>
+
+    <!--messages-->
+    <string name="no_calendar_application">לא נמצאה אפליקציית לוח שנה</string>
+    <string name="no_browser_application">לא נמצאה אפליקציית דפדפן</string>
+
+</resources>

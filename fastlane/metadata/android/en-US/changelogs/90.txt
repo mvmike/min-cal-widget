@@ -1,0 +1,2 @@
+v2.18.4
+- add missing hebrew translations

@@ -118,7 +118,7 @@ internal class RedrawWidgetUseCaseTest : BaseTest() {
         val packageName = "mincalWidget"
         every { context.packageName } returns packageName
         mockkConstructor(RemoteViews::class)
-        justRun { constructedWith<RemoteViews>(EqMatcher(packageName), EqMatcher(2131427392)).removeAllViews(any()) }
+        justRun { constructedWith<RemoteViews>(EqMatcher(packageName), EqMatcher(2131427393)).removeAllViews(any()) }
 
         justRun { ActionableView.ConfigurationIcon.addListener(context, any()) }
         justRun { ActionableView.MonthAndYearHeader.addListener(context, any()) }

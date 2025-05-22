@@ -30,8 +30,8 @@ android {
         applicationId = "$namespace.BETA"
         minSdk = minAndroidVersion
         targetSdk = androidVersion
-        versionCode = 88
-        versionName = "2.18.2" + "-BETA"
+        versionCode = 90
+        versionName = "2.18.4" + "-BETA"
 
         multiDexEnabled = true
     }
