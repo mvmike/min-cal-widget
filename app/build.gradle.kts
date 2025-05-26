@@ -7,7 +7,7 @@ plugins {
     id("com.android.application")
     id("kotlin-android")
     // https://github.com/jeremymailen/kotlinter-gradle/releases
-    id("org.jmailen.kotlinter") version "5.0.2"
+    id("org.jmailen.kotlinter") version "5.1.0"
     // https://github.com/Kotlin/kotlinx-kover/releases
     id("org.jetbrains.kotlinx.kover") version "0.9.1"
 }
@@ -30,8 +30,8 @@ android {
         applicationId = namespace
         minSdk = minAndroidVersion
         targetSdk = androidVersion
-        versionCode = 88
-        versionName = "2.18.2"
+        versionCode = 90
+        versionName = "2.18.4"
 
         multiDexEnabled = true
     }
