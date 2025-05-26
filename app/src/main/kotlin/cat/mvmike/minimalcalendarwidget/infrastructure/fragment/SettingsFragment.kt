@@ -12,6 +12,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
 import android.widget.Toast
+import androidx.core.net.toUri
 import androidx.preference.CheckBoxPreference
 import androidx.preference.ListPreference
 import androidx.preference.Preference
@@ -201,7 +202,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
     private fun String.openInBrowser(context: Context) = try {
         context.startActivity(
             Intent(Intent.ACTION_VIEW)
-                .setData(Uri.parse(this))
+                .setData(toUri())
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         )
     } catch (_: ActivityNotFoundException) {
