@@ -34,7 +34,7 @@
         <cat.mvmike.minimalcalendarwidget.domain.configuration.MultilinePreference
             android:icon="@drawable/ic_checklist"
             android:key="SELECT_VISIBLE_CALENDARS"
-            android:title="Select visible calendars"
+            android:title="@string/visible_calendar_selection"
             android:fragment="cat.mvmike.minimalcalendarwidget.infrastructure.fragment.CalendarSelectionSettingsFragment"/>
 
     </PreferenceCategory>

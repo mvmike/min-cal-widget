@@ -47,8 +47,7 @@ private const val TRANSLATE_URL = "https://hosted.weblate.org/engage/min-cal-wid
 
 private const val VISIBLE_CALENDAR_SELECTION_KEY = "SELECT_VISIBLE_CALENDARS"
 
-class SettingsFragment :
-    PreferenceFragmentCompat(),
+class SettingsFragment : PreferenceFragmentCompat(),
     OnSharedPreferenceChangeListener {
 
     override fun onCreatePreferences(
@@ -151,9 +150,9 @@ class SettingsFragment :
             val default = DefaultVisibleCalendars.get(requireContext())
             it.summary = when {
                 !isReadCalendarPermitted -> null
-                default -> "Default visible calendars"
-                else -> "Custom selection"
-            }
+                default -> R.string.visible_calendar_selection_default
+                else -> R.string.visible_calendar_selection_custom
+            }?.let { resource -> context.getString(resource) }
         }
 
         enumConfigurationItems().forEach {

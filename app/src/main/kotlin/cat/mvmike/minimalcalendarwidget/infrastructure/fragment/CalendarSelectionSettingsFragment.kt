@@ -22,8 +22,7 @@ import cat.mvmike.minimalcalendarwidget.infrastructure.activity.PermissionsActiv
 import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.CalendarResolver.isReadCalendarPermitted
 
 @Keep
-class CalendarSelectionSettingsFragment :
-    PreferenceFragmentCompat(),
+class CalendarSelectionSettingsFragment : PreferenceFragmentCompat(),
     OnSharedPreferenceChangeListener {
 
     override fun onCreatePreferences(
@@ -59,11 +58,9 @@ class CalendarSelectionSettingsFragment :
 
     private fun fillInstanceCalendarSelection(context: Context) {
         val defaultCalendarVisibility = getDefaultCalendarVisibility()
-        val calendars = getCalendars(context).associateBy { it.id.toString() }
-        val accountNames = calendars.values.map { it.accountName }.toSet()
-        val calendarVisibilityConfiguration = calendars
-            .map { it.value.id to CalendarVisibilitySelection(it.value.id) }
-            .toMap()
+        val calendars = getCalendars(context)
+        val accountNames = calendars.map { it.accountName }.toSet()
+        val calendarVisibilityConfiguration = calendars.associate { it.id to CalendarVisibilitySelection(it.id) }
 
         // always reset all calendar selection preferences since we could have changes in accounts/calendars
         preferenceScreen.children
@@ -76,7 +73,7 @@ class CalendarSelectionSettingsFragment :
             preferenceCategory.isIconSpaceReserved = false
             preferenceScreen.addPreference(preferenceCategory)
 
-            calendars.values
+            calendars
                 .filter { it.accountName == accountName }
                 .forEach { calendar ->
                     val checkBoxPreference = CheckBoxPreference(preferenceScreen.context)
@@ -97,14 +94,16 @@ class CalendarSelectionSettingsFragment :
 
     private fun updateInstanceCalendarSelection(context: Context) {
         val defaultCalendarVisibility = getDefaultCalendarVisibility()
-        val calendars = getCalendars(context).associateBy { it.id.toString() }
+        val calendars = getCalendars(context)
+        val calendarVisibilityConfiguration = calendars.associateBy { CalendarVisibilitySelection(it.id).key }
+
         preferenceScreen.forEach { account ->
             when (account) {
                 is PreferenceCategory -> {
                     account.forEach { calendar ->
                         val calendarCheckBoxPreference = (calendar as CheckBoxPreference)
                         if (defaultCalendarVisibility) {
-                            calendarCheckBoxPreference.isChecked = calendar.isVisible
+                            calendarCheckBoxPreference.isChecked = calendarVisibilityConfiguration[calendar.key]?.isVisible ?: true
                             calendarCheckBoxPreference.isEnabled = false
                         } else {
                             calendarCheckBoxPreference.isEnabled = true
