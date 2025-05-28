@@ -4,6 +4,7 @@ package cat.mvmike.minimalcalendarwidget.domain.configuration
 
 import android.content.Context
 import android.os.Build
+import androidx.core.content.edit
 import cat.mvmike.minimalcalendarwidget.domain.Percentage
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Calendar
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Colour
@@ -178,6 +179,6 @@ fun isPerAppLanguagePreferenceEnabled() =
 fun isFirstDayOfWeekLocalePreferenceEnabled() =
     SystemResolver.getRuntimeSDK() >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE
 
-fun clearAllConfiguration(context: Context) = getConfiguration(context).edit().clear().apply()
+fun clearAllConfiguration(context: Context) = getConfiguration(context).edit { clear() }
 
 private fun getConfiguration(context: Context) = context.getSharedPreferences(PREFERENCE_KEY, Context.MODE_PRIVATE)
