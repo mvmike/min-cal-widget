@@ -1,46 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="wednesday">Miercuri</string>
-    <string name="june">Iunie</string>
-    <string name="yellow">Galben</string>
-    <string name="source">Sursă</string>
-    <string name="october">Octombrie</string>
-    <string name="language">Limbă</string>
-    <string name="light">Luminoasă</string>
-    <string name="blue">Albastru</string>
-    <string name="may">Mai</string>
-    <string name="april">Aprilie</string>
-    <string name="saturday">Sâmbătă</string>
-    <string name="appearance">Aspect</string>
-    <string name="august">August</string>
-    <string name="close">Închide</string>
+
+    <!--ROMANIAN-->
+
+    <!--Configuration-->
     <string name="configuration">Configurare</string>
+
     <string name="behaviour">Comportament</string>
     <string name="start_week_day">Prima zi a săptămânii</string>
     <string name="calendar">Calendar</string>
     <string name="show_declined_events">Arată evenimente refuzate</string>
     <string name="focus_on_current_week">Concentrare pe săptămâna curentă</string>
     <string name="open_calendar_into_clicked_day">Deschide calendarul în ziua selectată</string>
+
+    <string name="appearance">Aspect</string>
     <string name="theme">Temă</string>
     <string name="symbol_set">Set de simboluri</string>
     <string name="symbol_colour">Culoare simboluri</string>
     <string name="transparency">Transparență</string>
     <string name="text_size">Dimensiunea textului</string>
+
     <string name="about">Despre</string>
+    <string name="source">Sursă</string>
+    <string name="language">Limbă</string>
     <string name="translate">Tradu</string>
     <string name="version">Versiune</string>
+
     <string name="reset_settings">Resetează setările</string>
+    <string name="close">Închide</string>
+
+    <!--Months of year-->
     <string name="january">Ianuarie</string>
     <string name="february">Februarie</string>
     <string name="march">Martie</string>
+    <string name="april">Aprilie</string>
+    <string name="may">Mai</string>
+    <string name="june">Iunie</string>
     <string name="july">Iulie</string>
+    <string name="august">August</string>
     <string name="september">Septembrie</string>
+    <string name="october">Octombrie</string>
     <string name="november">Noiembrie</string>
     <string name="december">Decembrie</string>
+
+    <!--Days of week-->
     <string name="monday">Luni</string>
     <string name="tuesday">Marți</string>
+    <string name="wednesday">Miercuri</string>
     <string name="thursday">Joi</string>
     <string name="friday">Vineri</string>
+    <string name="saturday">Sâmbătă</string>
+    <string name="sunday">Duminică</string>
+
+    <!--Days of week abbreviated-->
     <string name="monday_abb">Lun</string>
     <string name="tuesday_abb">Mar</string>
     <string name="wednesday_abb">Mie</string>
@@ -48,16 +60,27 @@
     <string name="friday_abb">Vin</string>
     <string name="saturday_abb">Sâm</string>
     <string name="sunday_abb">Dum</string>
+
+    <!--Calendars-->
     <string name="gregorian">Gregorian</string>
     <string name="holocene">Holocen</string>
+
+    <!--Themes-->
     <string name="dark">Întunecată</string>
+    <string name="light">Luminoasă</string>
+
+    <!--Symbol colours-->
     <string name="system_accent">Nuanță de sistem</string>
     <string name="cyan">Albastru</string>
+    <string name="blue">Albastru</string>
     <string name="mint">Mentă</string>
     <string name="green">Verde</string>
+    <string name="yellow">Galben</string>
     <string name="black">Negru</string>
     <string name="white">Alb</string>
+
+    <!--messages-->
     <string name="no_calendar_application">Nu a fost găsită nicio aplicație calendar</string>
     <string name="no_browser_application">Nu a fost găsită nicio aplicație browser</string>
-    <string name="sunday">Duminică</string>
+
 </resources>
