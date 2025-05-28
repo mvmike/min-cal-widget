@@ -46,9 +46,8 @@ class CalendarSelectionSettingsFragment : PreferenceFragmentCompat(),
         p0: SharedPreferences?,
         p1: String?
     ) {
-        val context = requireContext()
-        updateInstanceCalendarSelection(context)
-        RedrawWidgetUseCase.execute(context)
+        updateInstanceCalendarSelection()
+        RedrawWidgetUseCase.execute(requireContext())
     }
 
     override fun onDestroyView() {
@@ -92,23 +91,13 @@ class CalendarSelectionSettingsFragment : PreferenceFragmentCompat(),
         }
     }
 
-    private fun updateInstanceCalendarSelection(context: Context) {
+    private fun updateInstanceCalendarSelection() {
         val defaultCalendarVisibility = getDefaultCalendarVisibility()
-        val calendars = getCalendars(context)
-        val calendarVisibilityConfiguration = calendars.associateBy { CalendarVisibilitySelection(it.id).key }
-
         preferenceScreen.forEach { account ->
             when (account) {
-                is PreferenceCategory -> {
-                    account.forEach { calendar ->
-                        val calendarCheckBoxPreference = (calendar as CheckBoxPreference)
-                        if (defaultCalendarVisibility) {
-                            calendarCheckBoxPreference.isChecked = calendarVisibilityConfiguration[calendar.key]?.isVisible ?: true
-                            calendarCheckBoxPreference.isEnabled = false
-                        } else {
-                            calendarCheckBoxPreference.isEnabled = true
-                        }
-                    }
+                is PreferenceCategory -> account.forEach { calendar ->
+                    val calendarCheckBoxPreference = (calendar as CheckBoxPreference)
+                    calendarCheckBoxPreference.isEnabled = !defaultCalendarVisibility
                 }
                 else -> {}
             }
