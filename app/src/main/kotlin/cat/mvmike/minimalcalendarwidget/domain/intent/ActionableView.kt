@@ -64,7 +64,7 @@ sealed class ActionableView(
                         context,
                         code,
                         Intent(context, MonthWidget::class.java)
-                            .apply { action = "${CellDay.action}.${startOfDay.epochSecond}" }
+                            .apply { action = "$action.${startOfDay.epochSecond}" }
                             .apply { putExtra(CELL_DAY_INTENT_EXTRA_NAME, startOfDay.epochSecond) },
                         PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
                     )
