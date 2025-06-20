@@ -1,35 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <!--NORWEGIAN BOKMÅL-->
 
-    <!--Configuration-->
+    <!--configuration-->
     <string name="configuration">Oppsett</string>
-
+    <!--configuration - behaviour-->
     <string name="behaviour">Oppførsel</string>
     <string name="start_week_day">Startdag</string>
     <string name="calendar">Kalender</string>
     <string name="show_declined_events">Vise avviste hendelser</string>
     <string name="focus_on_current_week">Fokus på inneværende uke</string>
     <string name="open_calendar_into_clicked_day">Åpne kalender til klikket dag</string>
-
+    <!--configuration - appearance-->
     <string name="appearance">Utseende</string>
     <string name="theme">Drakt</string>
     <string name="symbol_set">Symbolsett</string>
     <string name="symbol_colour">Symbolfarge</string>
     <string name="transparency">Åpenhet</string>
     <string name="text_size">Tekststørrelse</string>
-
+    <!--configuration - about-->
     <string name="about">Om</string>
     <string name="source">Kildekode</string>
     <string name="language">Språk</string>
     <string name="translate">Oversette</string>
     <string name="version">Versjon</string>
-
+    <!--configuration - buttons-->
     <string name="reset_settings">Tilbakestill innstillinger</string>
     <string name="close">Lukk</string>
-
-    <!--Months of year-->
+    <!--configuration - values - months-->
     <string name="january">Januar</string>
     <string name="february">Februar</string>
     <string name="march">Mars</string>
@@ -42,8 +40,7 @@
     <string name="october">Oktober</string>
     <string name="november">November</string>
     <string name="december">Desember</string>
-
-    <!--Days of week-->
+    <!--configuration - values - days of the week-->
     <string name="monday">Mandag</string>
     <string name="tuesday">Tirsdag</string>
     <string name="wednesday">Onsdag</string>
@@ -51,8 +48,7 @@
     <string name="friday">Fredag</string>
     <string name="saturday">Lørdag</string>
     <string name="sunday">Søndag</string>
-
-    <!--Days of week abbreviated-->
+    <!--configuration - values - days of the week abbreviated-->
     <string name="monday_abb">Man</string>
     <string name="tuesday_abb">Tir</string>
     <string name="wednesday_abb">Ons</string>
@@ -60,16 +56,13 @@
     <string name="friday_abb">Fre</string>
     <string name="saturday_abb">Lør</string>
     <string name="sunday_abb">Søn</string>
-
-    <!--Calendars-->
+    <!--configuration - values - calendars-->
     <string name="gregorian">Gregoriansk</string>
     <string name="holocene">Holocen</string>
-
-    <!--Themes-->
+    <!--configuration - values - themes-->
     <string name="dark">Mørk</string>
     <string name="light">Lys</string>
-
-    <!--Symbol colours-->
+    <!--configuration - values - symbol colours-->
     <string name="system_accent">Systemaksent</string>
     <string name="cyan">Turkis</string>
     <string name="blue">Blå</string>
@@ -78,9 +71,7 @@
     <string name="yellow">Gul</string>
     <string name="black">Svart</string>
     <string name="white">Hvit</string>
-
-    <!--messages-->
+    <!--configuration - messages-->
     <string name="no_calendar_application">Finner ingen kalenderapplikasjon</string>
     <string name="no_browser_application">Finner ingen nettleserapplikasjon</string>
-
 </resources>

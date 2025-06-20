@@ -1,35 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <!--DUTCH-->
 
-    <!--Configuration-->
+    <!--configuration-->
     <string name="configuration">Instellingen</string>
-
+    <!--configuration - behaviour-->
     <string name="behaviour">Opførsel</string>
     <string name="start_week_day">Eerste dag</string>
     <string name="calendar">Kalender</string>
     <string name="show_declined_events">Vise afviste begivenheder</string>
     <string name="focus_on_current_week">Focus op huidige week</string>
     <string name="open_calendar_into_clicked_day">Åbn kalender til klikket dag</string>
-
+    <!--configuration - appearance-->
     <string name="appearance">Udseende</string>
     <string name="theme">Thema</string>
     <string name="symbol_set">Symboolset</string>
     <string name="symbol_colour">Symboolkleur</string>
     <string name="transparency">Transparantie</string>
     <string name="text_size">Lettergrootte</string>
-
+    <!--configuration - about-->
     <string name="about">Om</string>
     <string name="source">Broncode</string>
     <string name="language">Taal</string>
     <string name="translate">Vertalen</string>
     <string name="version">Version</string>
-
+    <!--configuration - buttons-->
     <string name="reset_settings">Reset instellingen</string>
     <string name="close">Dichtbij</string>
-
-    <!--Months of year-->
+    <!--configuration - values - months-->
     <string name="january">Januari</string>
     <string name="february">Februari</string>
     <string name="march">Maart</string>
@@ -42,8 +40,7 @@
     <string name="october">Oktober</string>
     <string name="november">November</string>
     <string name="december">December</string>
-
-    <!--Days of week-->
+    <!--configuration - values - days of the week-->
     <string name="monday">Maandag</string>
     <string name="tuesday">Dinsdag</string>
     <string name="wednesday">Woensdag</string>
@@ -51,8 +48,7 @@
     <string name="friday">Vrijdag</string>
     <string name="saturday">Zaterdag</string>
     <string name="sunday">Zondag</string>
-
-    <!--Days of week abbreviated-->
+    <!--configuration - values - days of the week abbreviated-->
     <string name="monday_abb">Ma</string>
     <string name="tuesday_abb">Di</string>
     <string name="wednesday_abb">Woe</string>
@@ -60,16 +56,13 @@
     <string name="friday_abb">Vrij</string>
     <string name="saturday_abb">Za</string>
     <string name="sunday_abb">Zo</string>
-
-    <!--Calendars-->
+    <!--configuration - values - calendars-->
     <string name="gregorian">Gregoriaans</string>
     <string name="holocene">Holoceen</string>
-
-    <!--Themes-->
+    <!--configuration - values - themes-->
     <string name="dark">Donker</string>
     <string name="light">Licht</string>
-
-    <!--Symbol colours-->
+    <!--configuration - values - symbol colours-->
     <string name="system_accent">System accent</string>
     <string name="cyan">Blauwgroen</string>
     <string name="blue">Blauw</string>
@@ -78,9 +71,7 @@
     <string name="yellow">Geel</string>
     <string name="black">Zwart</string>
     <string name="white">Wit</string>
-
-    <!--messages-->
+    <!--configuration - messages-->
     <string name="no_calendar_application">Geen agenda-applicatie gevonden</string>
     <string name="no_browser_application">Der blev ikke fundet nogen browserapplikation</string>
-
 </resources>

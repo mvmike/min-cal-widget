@@ -1,35 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <!--POLISH-->
 
-    <!--Configuration-->
+    <!--configuration-->
     <string name="configuration">Konfiguracja</string>
-
+    <!--configuration - behaviour-->
     <string name="behaviour">Zachowanie</string>
     <string name="start_week_day">Dzień startowy</string>
     <string name="calendar">Kalendarz</string>
     <string name="show_declined_events">Pokaż odrzucone wydarzenia</string>
     <string name="focus_on_current_week">Skoncentruj się na bieżącym tygodniu</string>
     <string name="open_calendar_into_clicked_day">Otwórz kalendarz na kliknięty dzień</string>
-
+    <!--configuration - appearance-->
     <string name="appearance">Wygląd</string>
     <string name="theme">Motyw</string>
     <string name="symbol_set">Zestaw symboli</string>
     <string name="symbol_colour">Kolor symbolu</string>
     <string name="transparency">Przezroczystość</string>
     <string name="text_size">Rozmiar czcionki</string>
-
+    <!--configuration - about-->
     <string name="about">Dookoła</string>
     <string name="source">Źródło</string>
     <string name="language">Język</string>
     <string name="translate">Tłumacz</string>
     <string name="version">Wersja</string>
-
+    <!--configuration - buttons-->
     <string name="reset_settings">Resetowanie ustawień</string>
     <string name="close">Zamknąć</string>
-
-    <!--Months of year-->
+    <!--configuration - values - months-->
     <string name="january">Styczeń</string>
     <string name="february">Luty</string>
     <string name="march">Marzec</string>
@@ -42,8 +40,7 @@
     <string name="october">Październik</string>
     <string name="november">Listopad</string>
     <string name="december">Grudzień</string>
-
-    <!--Days of week-->
+    <!--configuration - values - days of the week-->
     <string name="monday">Poniedziałek</string>
     <string name="tuesday">Wtorek</string>
     <string name="wednesday">Środa</string>
@@ -51,8 +48,7 @@
     <string name="friday">Piątek</string>
     <string name="saturday">Sobota</string>
     <string name="sunday">Niedziela</string>
-
-    <!--Days of week abbreviated-->
+    <!--configuration - values - days of the week abbreviated-->
     <string name="monday_abb">Pon</string>
     <string name="tuesday_abb">Wt</string>
     <string name="wednesday_abb">Śr</string>
@@ -60,16 +56,13 @@
     <string name="friday_abb">Pt</string>
     <string name="saturday_abb">Sob</string>
     <string name="sunday_abb">Ndz</string>
-
-    <!--Calendars-->
+    <!--configuration - values - calendars-->
     <string name="gregorian">Gregoriański</string>
     <string name="holocene">Holocen</string>
-
-    <!--Themes-->
+    <!--configuration - values - themes-->
     <string name="dark">Ciemny</string>
     <string name="light">Jasny</string>
-
-    <!--Symbol colours-->
+    <!--configuration - values - symbol colours-->
     <string name="system_accent">Akcent systemowy</string>
     <string name="cyan">Błękitny</string>
     <string name="blue">Niebieski</string>
@@ -78,9 +71,7 @@
     <string name="yellow">Żółty</string>
     <string name="black">Czarny</string>
     <string name="white">Biały</string>
-
-    <!--messages-->
+    <!--configuration - messages-->
     <string name="no_calendar_application">Nie znaleziono aplikacji kalendarza</string>
     <string name="no_browser_application">Nie znaleziono aplikacji przeglądarki</string>
-
 </resources>
