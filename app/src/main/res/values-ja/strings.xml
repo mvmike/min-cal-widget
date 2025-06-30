@@ -1,35 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <!--JAPANESE-->
 
-    <!--Configuration-->
+    <!--configuration-->
     <string name="configuration">設定</string>
-
+    <!--configuration - behaviour-->
     <string name="behaviour">全般</string>
     <string name="start_week_day">週の初め</string>
     <string name="calendar">カレンダー</string>
     <string name="show_declined_events">拒否されたイベントを表示する</string>
     <string name="focus_on_current_week">今週を中心に表示</string>
     <string name="open_calendar_into_clicked_day">クリックした日でカレンダーを開く</string>
-
+    <!--configuration - appearance-->
     <string name="appearance">外観</string>
     <string name="theme">テーマ</string>
     <string name="symbol_set">予定のシンボル</string>
     <string name="symbol_colour">シンボルの色</string>
     <string name="transparency">透明度</string>
     <string name="text_size">テキストサイズ</string>
-
+    <!--configuration - about-->
     <string name="about">このアプリについて</string>
     <string name="source">ソースコード</string>
     <string name="language">言語</string>
     <string name="translate">翻訳</string>
     <string name="version">バージョン</string>
-
+    <!--configuration - buttons-->
     <string name="reset_settings">設定をリセット</string>
     <string name="close">閉じる</string>
-
-    <!--Months of year-->
+    <!--configuration - values - months-->
     <string name="january">1月</string>
     <string name="february">2月</string>
     <string name="march">3月</string>
@@ -42,8 +40,7 @@
     <string name="october">10月</string>
     <string name="november">11月</string>
     <string name="december">12月</string>
-
-    <!--Days of week-->
+    <!--configuration - values - days of the week-->
     <string name="monday">月曜</string>
     <string name="tuesday">火曜</string>
     <string name="wednesday">水曜</string>
@@ -51,8 +48,7 @@
     <string name="friday">金曜</string>
     <string name="saturday">土曜</string>
     <string name="sunday">日曜</string>
-
-    <!--Days of week abbreviated-->
+    <!--configuration - values - days of the week abbreviated-->
     <string name="monday_abb">月</string>
     <string name="tuesday_abb">火</string>
     <string name="wednesday_abb">水</string>
@@ -60,16 +56,13 @@
     <string name="friday_abb">金</string>
     <string name="saturday_abb">土</string>
     <string name="sunday_abb">日</string>
-
-    <!--Calendars-->
+    <!--configuration - values - calendars-->
     <string name="gregorian">西暦</string>
     <string name="holocene">人類紀元</string>
-
-    <!--Themes-->
+    <!--configuration - values - themes-->
     <string name="dark">ダーク</string>
     <string name="light">ライト</string>
-
-    <!--Symbol colours-->
+    <!--configuration - values - symbol colours-->
     <string name="system_accent">システムのアクセントカラー</string>
     <string name="cyan">シアン</string>
     <string name="blue">青色</string>
@@ -78,9 +71,7 @@
     <string name="yellow">黄色</string>
     <string name="black">黒</string>
     <string name="white">白</string>
-
-    <!--messages-->
+    <!--configuration - messages-->
     <string name="no_calendar_application">カレンダーアプリが見つかりません</string>
     <string name="no_browser_application">Webブラウザが見つかりません</string>
-
 </resources>

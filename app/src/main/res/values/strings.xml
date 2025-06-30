@@ -1,39 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <!--ENGLISH-->
     <string name="app_name" translatable="false">MinCal Widget</string>
 
-    <!--Configuration-->
+    <!--configuration-->
     <string name="configuration">Configuration</string>
-
+    <!--configuration - behaviour-->
     <string name="behaviour">Behaviour</string>
     <string name="start_week_day">Start day</string>
     <string name="calendar">Calendar</string>
     <string name="show_declined_events">Show declined events</string>
     <string name="focus_on_current_week">Focus on current week</string>
     <string name="open_calendar_into_clicked_day">Open calendar into clicked day</string>
+    <!--configuration - visible calendar selection-->
     <string name="visible_calendar_selection">Select visible calendars</string>
     <string name="visible_calendar_selection_default">"Default visible calendars"</string>
     <string name="visible_calendar_selection_custom">"Custom selection"</string>
-
+    <!--configuration - appearance-->
     <string name="appearance">Appearance</string>
     <string name="theme">Theme</string>
     <string name="symbol_set">Symbol set</string>
     <string name="symbol_colour">Symbol colour</string>
     <string name="transparency">Transparency</string>
     <string name="text_size">Text size</string>
-
+    <!--configuration - about-->
     <string name="about">About</string>
     <string name="source">Source</string>
     <string name="language">Language</string>
     <string name="translate">Translate</string>
     <string name="version">Version</string>
-
+    <!--configuration - buttons-->
     <string name="reset_settings">Reset settings</string>
     <string name="close">Close</string>
-
-    <!--Months of year-->
+    <!--configuration - values - months-->
     <string name="january">January</string>
     <string name="february">February</string>
     <string name="march">March</string>
@@ -46,8 +45,7 @@
     <string name="october">October</string>
     <string name="november">November</string>
     <string name="december">December</string>
-
-    <!--Days of week-->
+    <!--configuration - values - days of the week-->
     <string name="monday">Monday</string>
     <string name="tuesday">Tuesday</string>
     <string name="wednesday">Wednesday</string>
@@ -55,8 +53,7 @@
     <string name="friday">Friday</string>
     <string name="saturday">Saturday</string>
     <string name="sunday">Sunday</string>
-
-    <!--Days of week abbreviated-->
+    <!--configuration - values - days of the week abbreviated-->
     <string name="monday_abb">Mon</string>
     <string name="tuesday_abb">Tue</string>
     <string name="wednesday_abb">Wed</string>
@@ -64,16 +61,13 @@
     <string name="friday_abb">Fri</string>
     <string name="saturday_abb">Sat</string>
     <string name="sunday_abb">Sun</string>
-
-    <!--Calendars-->
+    <!--configuration - values - calendars-->
     <string name="gregorian">Gregorian</string>
     <string name="holocene">Holocene</string>
-
-    <!--Themes-->
+    <!--configuration - values - themes-->
     <string name="dark">Dark</string>
     <string name="light">Light</string>
-
-    <!--Symbol colours-->
+    <!--configuration - values - symbol colours-->
     <string name="system_accent">System accent</string>
     <string name="cyan">Cyan</string>
     <string name="blue">Blue</string>
@@ -82,9 +76,7 @@
     <string name="yellow">Yellow</string>
     <string name="black">Black</string>
     <string name="white">White</string>
-
-    <!--messages-->
+    <!--configuration - messages-->
     <string name="no_calendar_application">No calendar application found</string>
     <string name="no_browser_application">No browser application found</string>
-
 </resources>

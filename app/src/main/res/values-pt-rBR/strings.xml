@@ -1,35 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <!--PORTUGUESE (BRAZIL)-->
 
-    <!--Configuration-->
+    <!--configuration-->
     <string name="configuration">Configuração</string>
-
+    <!--configuration - behaviour-->
     <string name="behaviour">Comportamento</string>
     <string name="start_week_day">Dia início</string>
     <string name="calendar">Calendário</string>
     <string name="show_declined_events">Mostrar eventos recusados</string>
     <string name="focus_on_current_week">Foco na semana atual</string>
     <string name="open_calendar_into_clicked_day">Abra o calendário no dia clicado</string>
-
+    <!--configuration - appearance-->
     <string name="appearance">Aparência</string>
     <string name="theme">Tema</string>
     <string name="symbol_set">Símbolos tipo</string>
     <string name="symbol_colour">Símbolos cor</string>
     <string name="transparency">Transparência</string>
     <string name="text_size">Tamanho do texto</string>
-
+    <!--configuration - about-->
     <string name="about">Acerca de</string>
     <string name="source">Código</string>
     <string name="language">Linguagem</string>
     <string name="translate">Traduzir</string>
     <string name="version">Versão</string>
-
+    <!--configuration - buttons-->
     <string name="reset_settings">Redefinir as configurações</string>
     <string name="close">Fechar</string>
-
-    <!--Months of year-->
+    <!--configuration - values - months-->
     <string name="january">Janeiro</string>
     <string name="february">Fevereiro</string>
     <string name="march">Março</string>
@@ -42,8 +40,7 @@
     <string name="october">Outubro</string>
     <string name="november">Novembro</string>
     <string name="december">Dezembro</string>
-
-    <!--Days of week-->
+    <!--configuration - values - days of the week-->
     <string name="monday">Segunda</string>
     <string name="tuesday">Terça</string>
     <string name="wednesday">Quarta</string>
@@ -51,8 +48,7 @@
     <string name="friday">Sexta</string>
     <string name="saturday">Sabado</string>
     <string name="sunday">Domingo</string>
-
-    <!--Days of week abbreviated-->
+    <!--configuration - values - days of the week abbreviated-->
     <string name="monday_abb">Seg</string>
     <string name="tuesday_abb">Ter</string>
     <string name="wednesday_abb">Qua</string>
@@ -60,16 +56,13 @@
     <string name="friday_abb">Sex</string>
     <string name="saturday_abb">Sab</string>
     <string name="sunday_abb">Dom</string>
-
-    <!--Calendars-->
+    <!--configuration - values - calendars-->
     <string name="gregorian">Gregoriano</string>
     <string name="holocene">Holoceno</string>
-
-    <!--Themes-->
+    <!--configuration - values - themes-->
     <string name="dark">Escuro</string>
     <string name="light">Claro</string>
-
-    <!--Symbol colours-->
+    <!--configuration - values - symbol colours-->
     <string name="system_accent">Acento do sistema</string>
     <string name="cyan">Ciano</string>
     <string name="blue">Azul</string>
@@ -78,9 +71,7 @@
     <string name="yellow">Amarelo</string>
     <string name="black">Preto</string>
     <string name="white">Branco</string>
-
-    <!--messages-->
+    <!--configuration - messages-->
     <string name="no_calendar_application">Nenhum aplicativo de calendário encontrado</string>
     <string name="no_browser_application">Nenhum aplicativo de navegador encontrado</string>
-
 </resources>

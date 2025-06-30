@@ -1,35 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <!--CZECH-->
 
-    <!--Configuration-->
+    <!--configuration-->
     <string name="configuration">Nastavení</string>
-
+    <!--configuration - behaviour-->
     <string name="behaviour">Chování</string>
     <string name="start_week_day">Počáteční den</string>
     <string name="calendar">Kalendář</string>
     <string name="show_declined_events">Ukázat zamítnuté události</string>
     <string name="focus_on_current_week">Zaměřit se na současný týden</string>
     <string name="open_calendar_into_clicked_day">Otevřít kalendář na rozkliknutý den</string>
-
+    <!--configuration - appearance-->
     <string name="appearance">Vzhled</string>
     <string name="theme">Téma</string>
     <string name="symbol_set">Sada symbolů</string>
     <string name="symbol_colour">Barva symbolů</string>
     <string name="transparency">Průhlednost</string>
     <string name="text_size">Velikost textu</string>
-
+    <!--configuration - about-->
     <string name="about">O aplikaci</string>
     <string name="source">Zdroj</string>
     <string name="language">Jazyk</string>
     <string name="translate">Přeložit</string>
     <string name="version">Verze</string>
-
+    <!--configuration - buttons-->
     <string name="reset_settings">Resetovat nastavení</string>
     <string name="close">Zavřít</string>
-
-    <!--Months of year-->
+    <!--configuration - values - months-->
     <string name="january">Leden</string>
     <string name="february">Únor</string>
     <string name="march">Březen</string>
@@ -42,8 +40,7 @@
     <string name="october">Říjen</string>
     <string name="november">Listopad</string>
     <string name="december">Prosinec</string>
-
-    <!--Days of week-->
+    <!--configuration - values - days of the week-->
     <string name="monday">Pondělí</string>
     <string name="tuesday">Úterý</string>
     <string name="wednesday">Středa</string>
@@ -51,8 +48,7 @@
     <string name="friday">Pátek</string>
     <string name="saturday">Sobota</string>
     <string name="sunday">Neděle</string>
-
-    <!--Days of week abbreviated-->
+    <!--configuration - values - days of the week abbreviated-->
     <string name="monday_abb">Po</string>
     <string name="tuesday_abb">Út</string>
     <string name="wednesday_abb">St</string>
@@ -60,16 +56,13 @@
     <string name="friday_abb">Pá</string>
     <string name="saturday_abb">So</string>
     <string name="sunday_abb">Ne</string>
-
-    <!--Calendars-->
+    <!--configuration - values - calendars-->
     <string name="gregorian">Gregoriánský</string>
     <string name="holocene">Holocénový</string>
-
-    <!--Themes-->
+    <!--configuration - values - themes-->
     <string name="dark">Tmavý</string>
     <string name="light">Světlý</string>
-
-    <!--Symbol colours-->
+    <!--configuration - values - symbol colours-->
     <string name="system_accent">Barevný akcent</string>
     <string name="cyan">Tyrkysová</string>
     <string name="blue">Modrá</string>
@@ -78,9 +71,7 @@
     <string name="yellow">Žlutá</string>
     <string name="black">Černá</string>
     <string name="white">Bílá</string>
-
-    <!--messages-->
+    <!--configuration - messages-->
     <string name="no_calendar_application">Nenalezena kalendářní aplikace</string>
     <string name="no_browser_application">Nenalezen webový prohlížeč</string>
-
 </resources>

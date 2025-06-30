@@ -1,35 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <!--PUNJABI (PAKISTAN)-->
 
-    <!--Configuration-->
+    <!--configuration-->
     <string name="configuration">سیٹنگاں</string>
-
+    <!--configuration - behaviour-->
     <string name="behaviour">وِوہار</string>
     <string name="start_week_day">پہلا دن</string>
     <string name="calendar">کیلنڈر</string>
     <string name="show_declined_events">رد کرن ویکھو</string>
     <string name="focus_on_current_week">موجودہ ہفتے تے دھیان دیو</string>
     <string name="open_calendar_into_clicked_day">کلک کردہ دن میں کیلنڈر کھولیں</string>
-
+    <!--configuration - appearance-->
     <string name="appearance">ویکھݨ</string>
     <string name="theme">تھیم</string>
     <string name="symbol_set">چِنھ</string>
     <string name="symbol_colour">چِنھ دا رنگ</string>
     <string name="transparency">پاردرشتہ</string>
     <string name="text_size">متن کا سائز</string>
-
+    <!--configuration - about-->
     <string name="about">بارے</string>
     <string name="source">سروت</string>
     <string name="language">زبان</string>
     <string name="translate">ترجمہ کریں۔</string>
     <string name="version">ورژن</string>
-
+    <!--configuration - buttons-->
     <string name="reset_settings">ترتیبات کو دوبارہ ترتیب دیں</string>
     <string name="close">بند کریں</string>
-
-    <!--Months of year-->
+    <!--configuration - values - months-->
     <string name="january">جنوری</string>
     <string name="february">فروری</string>
     <string name="march">مارچ</string>
@@ -42,8 +40,7 @@
     <string name="october">اکتوبر</string>
     <string name="november">نوَمبر</string>
     <string name="december">دسمبر</string>
-
-    <!--Days of week-->
+    <!--configuration - values - days of the week-->
     <string name="monday">سوموار</string>
     <string name="tuesday">منگلوار</string>
     <string name="wednesday">بدھوار</string>
@@ -51,8 +48,7 @@
     <string name="friday">جمعہ</string>
     <string name="saturday">ہفتہ</string>
     <string name="sunday">اتوار</string>
-
-    <!--Days of week abbreviated-->
+    <!--configuration - values - days of the week abbreviated-->
     <string name="monday_abb">سـ</string>
     <string name="tuesday_abb">مـ</string>
     <string name="wednesday_abb">بـ</string>
@@ -60,16 +56,13 @@
     <string name="friday_abb">جـ</string>
     <string name="saturday_abb">ہـ</string>
     <string name="sunday_abb">اتـ</string>
-
-    <!--Calendars-->
+    <!--configuration - values - calendars-->
     <string name="gregorian">گریگورین</string>
     <string name="holocene">ہولوسین</string>
-
-    <!--Themes-->
+    <!--configuration - values - themes-->
     <string name="dark">ہنیر</string>
     <string name="light">روشنی</string>
-
-    <!--Symbol colours-->
+    <!--configuration - values - symbol colours-->
     <string name="system_accent">سسٹم دا رنگ</string>
     <string name="cyan">سیان</string>
     <string name="blue">نیلا</string>
@@ -78,9 +71,7 @@
     <string name="yellow">پیلا</string>
     <string name="black">کالا</string>
     <string name="white">چٹا</string>
-
-    <!--messages-->
+    <!--configuration - messages-->
     <string name="no_calendar_application">کوئی کیلنڈر ایپلیکیشن نہیں لبھی</string>
     <string name="no_browser_application">کوئی براؤزر ایپلیکیشن نہیں لبھی</string>
-
 </resources>

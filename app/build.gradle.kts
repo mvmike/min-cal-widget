@@ -7,7 +7,7 @@ plugins {
     id("com.android.application")
     id("kotlin-android")
     // https://github.com/jeremymailen/kotlinter-gradle/releases
-    id("org.jmailen.kotlinter") version "5.1.0"
+    id("org.jmailen.kotlinter") version "5.1.1"
     // https://github.com/Kotlin/kotlinx-kover/releases
     id("org.jetbrains.kotlinx.kover") version "0.9.1"
 }
@@ -156,7 +156,7 @@ kover {
 dependencies {
 
     // https://developer.android.com/jetpack/androidx/releases/appcompat
-    implementation("androidx.appcompat:appcompat:1.7.0")
+    implementation("androidx.appcompat:appcompat:1.7.1")
     // https://developer.android.com/jetpack/androidx/releases/core
     implementation("androidx.core:core-ktx:1.16.0")
     // https://developer.android.com/jetpack/androidx/releases/multidex
@@ -165,7 +165,7 @@ dependencies {
     implementation("androidx.preference:preference-ktx:1.2.1")
 
     // https://github.com/junit-team/junit5/releases
-    val junitJupiterVersion = "5.13.0"
+    val junitJupiterVersion = "5.13.1"
     testImplementation("org.junit.jupiter:junit-jupiter-api:$junitJupiterVersion")
     testImplementation("org.junit.jupiter:junit-jupiter-params:$junitJupiterVersion")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junitJupiterVersion")
