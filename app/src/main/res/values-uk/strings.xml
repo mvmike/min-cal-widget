@@ -26,7 +26,7 @@
     <string name="version">Версія</string>
     <!--configuration - buttons-->
     <string name="reset_settings">Скинути налаштування</string>
-    <string name="close">Зачинити</string>
+    <string name="close">Закрити</string>
     <!--configuration - values - months-->
     <string name="january">Січень</string>
     <string name="february">Лютий</string>
@@ -72,6 +72,6 @@
     <string name="black">Чорний</string>
     <string name="white">Білий</string>
     <!--configuration - messages-->
-    <string name="no_calendar_application">Не знайдено додатку календара</string>
-    <string name="no_browser_application">Не знайдено додатку інтенернет</string>
+    <string name="no_calendar_application">Не знайдено жодного застосунку календаря</string>
+    <string name="no_browser_application">Не знайдено застосунок для перегляду веб-сторінок</string>
 </resources>
