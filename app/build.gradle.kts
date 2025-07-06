@@ -2,6 +2,7 @@ import org.gradle.api.tasks.testing.logging.TestLogEvent.FAILED
 import org.gradle.api.tasks.testing.logging.TestLogEvent.SKIPPED
 import org.gradle.api.tasks.testing.logging.TestLogEvent.STANDARD_ERROR
 import org.gradle.api.tasks.testing.logging.TestLogEvent.STANDARD_OUT
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     id("com.android.application")
@@ -13,7 +14,6 @@ plugins {
 }
 
 android {
-
     namespace = "cat.mvmike.minimalcalendarwidget"
 
     // https://source.android.com/setup/start/build-numbers
@@ -26,7 +26,6 @@ android {
     compileSdk = androidVersion
 
     defaultConfig {
-
         applicationId = namespace
         minSdk = minAndroidVersion
         targetSdk = androidVersion
@@ -47,11 +46,14 @@ android {
         buildConfig = true
     }
 
-    kotlinOptions {
-        jvmTarget = javaVersion.toString()
+    kotlin {
+        compilerOptions {
+            jvmTarget = JvmTarget.fromTarget(javaVersion.toString())
+        }
     }
 
     androidResources {
+        @Suppress("UnstableApiUsage")
         generateLocaleConfig = true
     }
 
@@ -154,7 +156,6 @@ kover {
 }
 
 dependencies {
-
     // https://developer.android.com/jetpack/androidx/releases/appcompat
     implementation("androidx.appcompat:appcompat:1.7.1")
     // https://developer.android.com/jetpack/androidx/releases/core
