@@ -13,7 +13,6 @@ plugins {
 }
 
 android {
-
     namespace = "cat.mvmike.minimalcalendarwidget"
 
     // https://source.android.com/setup/start/build-numbers
@@ -26,7 +25,6 @@ android {
     compileSdk = androidVersion
 
     defaultConfig {
-
         applicationId = namespace
         minSdk = minAndroidVersion
         targetSdk = androidVersion
@@ -154,7 +152,6 @@ kover {
 }
 
 dependencies {
-
     // https://developer.android.com/jetpack/androidx/releases/appcompat
     implementation("androidx.appcompat:appcompat:1.7.1")
     // https://developer.android.com/jetpack/androidx/releases/core
