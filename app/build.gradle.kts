@@ -8,7 +8,7 @@ plugins {
     id("com.android.application")
     id("kotlin-android")
     // https://github.com/jeremymailen/kotlinter-gradle/releases
-    id("org.jmailen.kotlinter") version "5.1.1"
+    id("org.jmailen.kotlinter") version "5.2.0"
     // https://github.com/Kotlin/kotlinx-kover/releases
     id("org.jetbrains.kotlinx.kover") version "0.9.1"
 }
@@ -166,7 +166,7 @@ dependencies {
     implementation("androidx.preference:preference-ktx:1.2.1")
 
     // https://github.com/junit-team/junit5/releases
-    val junitJupiterVersion = "5.13.3"
+    val junitJupiterVersion = "5.13.4"
     testImplementation("org.junit.jupiter:junit-jupiter-api:$junitJupiterVersion")
     testImplementation("org.junit.jupiter:junit-jupiter-params:$junitJupiterVersion")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junitJupiterVersion")
