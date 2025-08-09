@@ -296,8 +296,10 @@ internal class DaysServiceTest : BaseTest() {
         val systemInstances = getSystemInstances()
         val visibleCalendarIds = getSystemCalendars().filter { it.isVisible }.map { it.id }
 
-        val numberOfInstancesWithDeclinedEvents = systemInstances.getNumberOfInstances(day, systemZoneId, true, visibleCalendarIds)
-        val numberOfInstancesWithoutDeclinedEvents = systemInstances.getNumberOfInstances(day, systemZoneId, false, visibleCalendarIds)
+        val numberOfInstancesWithDeclinedEvents = systemInstances
+            .getNumberOfInstances(day, systemZoneId, true, visibleCalendarIds)
+        val numberOfInstancesWithoutDeclinedEvents = systemInstances
+            .getNumberOfInstances(day, systemZoneId, false, visibleCalendarIds)
 
         assertThat(numberOfInstancesWithDeclinedEvents).isEqualTo(expectedNumberOfInstancesWithDeclinedEvents)
         assertThat(numberOfInstancesWithoutDeclinedEvents).isEqualTo(expectedNumberOfInstancesWithoutDeclinedEvents)

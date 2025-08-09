@@ -60,12 +60,13 @@ object DaysService {
         val instancesColour = EnumConfigurationItem.InstancesColour.get(context)
         val showDeclinedEvents = BooleanConfigurationItem.ShowDeclinedEvents.get(context)
         val defaultVisibleCalendars = BooleanConfigurationItem.DefaultVisibleCalendars.get(context)
-        val visibleCalendarIds = getCalendars(context).filter {
-            when {
-                defaultVisibleCalendars -> it.isVisible
-                else -> CalendarVisibilitySelection(it.id).get(context)
-            }
-        }.map { it.id }
+        val visibleCalendarIds = getCalendars(context)
+            .filter {
+                when {
+                    defaultVisibleCalendars -> it.isVisible
+                    else -> CalendarVisibilitySelection(it.id).get(context)
+                }
+            }.map { it.id }
 
         for (week in 0 until NUM_WEEKS) {
             val weekRowRemoteView: RemoteViews = GraphicResolver.createDaysRow(context)

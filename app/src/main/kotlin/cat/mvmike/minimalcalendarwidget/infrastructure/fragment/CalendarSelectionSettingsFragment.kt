@@ -22,7 +22,8 @@ import cat.mvmike.minimalcalendarwidget.infrastructure.activity.PermissionsActiv
 import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.CalendarResolver.isReadCalendarPermitted
 
 @Keep
-class CalendarSelectionSettingsFragment : PreferenceFragmentCompat(),
+class CalendarSelectionSettingsFragment :
+    PreferenceFragmentCompat(),
     OnSharedPreferenceChangeListener {
 
     override fun onCreatePreferences(

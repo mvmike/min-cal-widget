@@ -48,7 +48,8 @@ private const val TRANSLATE_URL = "https://hosted.weblate.org/engage/min-cal-wid
 
 private const val VISIBLE_CALENDAR_SELECTION_KEY = "SELECT_VISIBLE_CALENDARS"
 
-class SettingsFragment : PreferenceFragmentCompat(),
+class SettingsFragment :
+    PreferenceFragmentCompat(),
     OnSharedPreferenceChangeListener {
 
     override fun onCreatePreferences(
