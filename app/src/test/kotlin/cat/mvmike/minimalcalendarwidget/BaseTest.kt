@@ -186,6 +186,26 @@ open class BaseTest {
         }
     }
 
+    protected fun mockDefaultVisibleCalendars(defaultVisibleCalendars: Boolean) {
+        mockSharedPreferences()
+        every {
+            sharedPreferences.getBoolean(
+                BooleanConfigurationItem.DefaultVisibleCalendars.key,
+                BooleanConfigurationItem.DefaultVisibleCalendars.defaultValue
+            )
+        } returns defaultVisibleCalendars
+    }
+
+    protected fun verifyDefaultVisibleCalendars() {
+        verifySharedPreferencesAccess()
+        verify {
+            sharedPreferences.getBoolean(
+                BooleanConfigurationItem.DefaultVisibleCalendars.key,
+                BooleanConfigurationItem.DefaultVisibleCalendars.defaultValue
+            )
+        }
+    }
+
     protected fun mockShowDeclinedEvents(showDeclinedEvents: Boolean) {
         mockSharedPreferences()
         every {

@@ -5,6 +5,7 @@ package cat.mvmike.minimalcalendarwidget.domain.component
 import android.text.Layout
 import android.widget.RemoteViews
 import cat.mvmike.minimalcalendarwidget.BaseTest
+import cat.mvmike.minimalcalendarwidget.domain.Calendar
 import cat.mvmike.minimalcalendarwidget.domain.Cell
 import cat.mvmike.minimalcalendarwidget.domain.Day
 import cat.mvmike.minimalcalendarwidget.domain.Instance
@@ -39,6 +40,7 @@ import java.time.Instant
 import java.time.Instant.ofEpochSecond
 import java.time.LocalDate
 import java.time.ZonedDateTime
+import kotlin.Int
 
 internal class DaysServiceTest : BaseTest() {
 
@@ -63,16 +65,19 @@ internal class DaysServiceTest : BaseTest() {
 
         every {
             CalendarResolver.getInstances(
-                context,
-                testProperties.expectedInstancesQueryInitEpochMillis,
-                testProperties.expectedInstancesQueryEndEpochMillis
+                context = context,
+                begin = testProperties.expectedInstancesQueryInitEpochMillis,
+                end = testProperties.expectedInstancesQueryEndEpochMillis
             )
         } returns testProperties.systemInstances
-
         mockFocusOnCurrentWeek(testProperties.focusOnCurrentWeek)
         mockInstancesSymbolSet(testProperties.instancesSymbolSet)
         mockInstancesColour(testProperties.instancesColour)
         mockShowDeclinedEvents(testProperties.showDeclinedEvents)
+        mockDefaultVisibleCalendars(testProperties.defaultVisibleCalendars)
+        every {
+            CalendarResolver.getCalendars(context)
+        } returns testProperties.systemCalendars
 
         every { GraphicResolver.createDaysRow(context) } returns weekRv
 
@@ -91,9 +96,9 @@ internal class DaysServiceTest : BaseTest() {
         }
         justRun {
             ActionableView.CellDay.addListener(
-                context,
-                arrayOf(dayRv, instancesSymbolRemoteView),
-                any()
+                context = context,
+                remoteViews = arrayOf(dayRv, instancesSymbolRemoteView),
+                startOfDay = any()
             )
         }
         justRun { GraphicResolver.addToWidget(widgetRv, weekRv) }
@@ -112,13 +117,14 @@ internal class DaysServiceTest : BaseTest() {
         verifyIsReadCalendarPermitted()
         verify {
             CalendarResolver.getInstances(
-                context,
-                testProperties.expectedInstancesQueryInitEpochMillis,
-                testProperties.expectedInstancesQueryEndEpochMillis
+                context = context,
+                begin = testProperties.expectedInstancesQueryInitEpochMillis,
+                end = testProperties.expectedInstancesQueryEndEpochMillis
             )
         }
 
         verifyShowDeclinedEvents()
+        verifyDefaultVisibleCalendars()
         verifyFocusOnCurrentWeek()
         verifyInstancesSymbolSet()
         verifyInstancesColour()
@@ -248,11 +254,11 @@ internal class DaysServiceTest : BaseTest() {
         "2018-12-03,1,1",
         "2018-12-04,1,1",
         "2018-12-05,0,0",
-        "2018-12-06,3,3",
+        "2018-12-06,2,2",
         "2018-12-07,1,1",
         "2018-12-08,0,0",
         "2018-12-09,0,0",
-        "2018-12-10,4,4",
+        "2018-12-10,3,3",
         "2018-12-11,1,1",
         "2018-12-12,0,0",
         "2018-12-13,0,0",
@@ -272,7 +278,7 @@ internal class DaysServiceTest : BaseTest() {
         "2018-12-27,1,1",
         "2018-12-28,0,0",
         "2018-12-29,0,0",
-        "2018-12-30,5,3",
+        "2018-12-30,3,2",
         "2018-12-31,0,0",
         "2019-01-01,1,1",
         "2019-01-02,2,2",
@@ -288,9 +294,10 @@ internal class DaysServiceTest : BaseTest() {
     ) {
         val day = Day(localDate)
         val systemInstances = getSystemInstances()
+        val visibleCalendarIds = getSystemCalendars().filter { it.isVisible }.map { it.id }
 
-        val numberOfInstancesWithDeclinedEvents = systemInstances.getNumberOfInstances(day, systemZoneId, true)
-        val numberOfInstancesWithoutDeclinedEvents = systemInstances.getNumberOfInstances(day, systemZoneId, false)
+        val numberOfInstancesWithDeclinedEvents = systemInstances.getNumberOfInstances(day, systemZoneId, true, visibleCalendarIds)
+        val numberOfInstancesWithoutDeclinedEvents = systemInstances.getNumberOfInstances(day, systemZoneId, false, visibleCalendarIds)
 
         assertThat(numberOfInstancesWithDeclinedEvents).isEqualTo(expectedNumberOfInstancesWithDeclinedEvents)
         assertThat(numberOfInstancesWithoutDeclinedEvents).isEqualTo(expectedNumberOfInstancesWithoutDeclinedEvents)
@@ -300,27 +307,39 @@ internal class DaysServiceTest : BaseTest() {
         readTestResourceCsvFile("/system_all_day_instances.csv").map {
             AllDayInstance(
                 id = random.nextInt(),
-                calendarId = random.nextInt(),
-                isDeclined = it[0].toBoolean(),
-                start = LocalDate.parse(it[1]),
-                end = LocalDate.parse(it[2])
+                calendarId = it[0].toInt(),
+                isDeclined = it[1].toBoolean(),
+                start = LocalDate.parse(it[2]),
+                end = LocalDate.parse(it[3])
             )
         } +
             readTestResourceCsvFile("/system_timed_instances.csv").map {
                 TimedInstance(
                     id = random.nextInt(),
-                    calendarId = random.nextInt(),
-                    isDeclined = it[0].toBoolean(),
-                    start = ZonedDateTime.parse(it[1]),
-                    end = ZonedDateTime.parse(it[2])
+                    calendarId = it[0].toInt(),
+                    isDeclined = it[1].toBoolean(),
+                    start = ZonedDateTime.parse(it[2]),
+                    end = ZonedDateTime.parse(it[3])
                 )
             }
     ).toSet()
+
+    private fun getSystemCalendars(): List<Calendar> =
+        readTestResourceCsvFile("/system_calendars.csv").map {
+            Calendar(
+                id = it[0].toInt(),
+                accountName = it[1],
+                displayName = it[2],
+                isPrimary = it[3].toBoolean(),
+                isVisible = it[4].toBoolean()
+            )
+        }
 
     private fun getDaysDrawInputVariablesAndExpectedOutput() = listOf(
         DrawDaysUseCaseTestProperties(
             systemLocalDate = systemLocalDate,
             systemInstances = getSystemInstances(),
+            systemCalendars = getSystemCalendars(),
             firstDayOfWeek = MONDAY,
             widgetTheme = Theme.DARK,
             transparency = Transparency(32),
@@ -329,6 +348,8 @@ internal class DaysServiceTest : BaseTest() {
             instancesColour = Colour.CYAN,
             instancesSymbolSet = SymbolSet.MINIMAL,
             showDeclinedEvents = false,
+            defaultVisibleCalendars = true,
+            visibleCalendarIds = emptySet(),
             shouldIncludeInstancesSymbolRemoteView = true,
             expectedFirstDay = LocalDate.parse("2018-11-26"),
             expectedInstancesQueryInitEpochMillis = 1543179600000,
@@ -340,6 +361,7 @@ internal class DaysServiceTest : BaseTest() {
         DrawDaysUseCaseTestProperties(
             systemLocalDate = systemLocalDate,
             systemInstances = getSystemInstances(),
+            systemCalendars = getSystemCalendars(),
             firstDayOfWeek = SUNDAY,
             widgetTheme = Theme.LIGHT,
             transparency = Transparency(32),
@@ -348,6 +370,8 @@ internal class DaysServiceTest : BaseTest() {
             instancesColour = Colour.YELLOW,
             instancesSymbolSet = SymbolSet.BINARY,
             showDeclinedEvents = false,
+            defaultVisibleCalendars = true,
+            visibleCalendarIds = emptySet(),
             shouldIncludeInstancesSymbolRemoteView = true,
             expectedFirstDay = LocalDate.parse("2018-11-25"),
             expectedInstancesQueryInitEpochMillis = 1543093200000,
@@ -359,6 +383,7 @@ internal class DaysServiceTest : BaseTest() {
         DrawDaysUseCaseTestProperties(
             systemLocalDate = systemLocalDate,
             systemInstances = getSystemInstances(),
+            systemCalendars = getSystemCalendars(),
             firstDayOfWeek = THURSDAY,
             widgetTheme = Theme.DARK,
             transparency = Transparency(0),
@@ -367,6 +392,8 @@ internal class DaysServiceTest : BaseTest() {
             instancesColour = Colour.SYSTEM_ACCENT,
             instancesSymbolSet = SymbolSet.NONE,
             showDeclinedEvents = true,
+            defaultVisibleCalendars = true,
+            visibleCalendarIds = emptySet(),
             shouldIncludeInstancesSymbolRemoteView = false,
             expectedFirstDay = LocalDate.parse("2018-11-22"),
             expectedInstancesQueryInitEpochMillis = 1542834000000,
@@ -378,6 +405,7 @@ internal class DaysServiceTest : BaseTest() {
         DrawDaysUseCaseTestProperties(
             systemLocalDate = systemLocalDate.plusYears(1),
             systemInstances = HashSet(),
+            systemCalendars = ArrayList(),
             firstDayOfWeek = MONDAY,
             widgetTheme = Theme.DARK,
             transparency = Transparency(0),
@@ -386,6 +414,8 @@ internal class DaysServiceTest : BaseTest() {
             instancesColour = Colour.SYSTEM_ACCENT,
             instancesSymbolSet = SymbolSet.ROMAN,
             showDeclinedEvents = true,
+            defaultVisibleCalendars = true,
+            visibleCalendarIds = emptySet(),
             shouldIncludeInstancesSymbolRemoteView = false,
             expectedFirstDay = LocalDate.parse("2019-11-25"),
             expectedInstancesQueryInitEpochMillis = 1574629200000,
@@ -399,6 +429,7 @@ internal class DaysServiceTest : BaseTest() {
     internal data class DrawDaysUseCaseTestProperties(
         val systemLocalDate: LocalDate,
         val systemInstances: Set<Instance>,
+        val systemCalendars: List<Calendar>,
         val firstDayOfWeek: DayOfWeek,
         val widgetTheme: Theme,
         val transparency: Transparency,
@@ -407,6 +438,8 @@ internal class DaysServiceTest : BaseTest() {
         val instancesColour: Colour,
         val instancesSymbolSet: SymbolSet,
         val showDeclinedEvents: Boolean,
+        val defaultVisibleCalendars: Boolean,
+        val visibleCalendarIds: Set<Int>,
         val shouldIncludeInstancesSymbolRemoteView: Boolean,
         val expectedFirstDay: LocalDate,
         val expectedInstancesQueryInitEpochMillis: Long,
