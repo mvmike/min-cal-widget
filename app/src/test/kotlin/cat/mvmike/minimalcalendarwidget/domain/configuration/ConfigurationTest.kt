@@ -26,6 +26,29 @@ internal class ConfigurationTest : BaseTest() {
     inner class BooleanConfigurationItems {
 
         @ParameterizedTest
+        @CsvSource(
+            "1,false",
+            "5,true",
+            "29,false",
+            "32,true",
+            "33,false",
+            "35,false",
+            "99,true"
+        )
+        fun getCalendarVisibilitySelection_shouldReturnSharedPreferencesValue(
+            calendarId: Int,
+            calendarVisibilitySelection: Boolean
+        ) {
+            mockCalendarVisibilitySelection(calendarId, calendarVisibilitySelection)
+
+            val result = BooleanConfigurationItem.CalendarVisibilitySelection(calendarId).get(context)
+
+            assertThat(result).isEqualTo(calendarVisibilitySelection)
+            verifyCalendarVisibilitySelection(calendarId)
+            verify { editor wasNot Called }
+        }
+
+        @ParameterizedTest
         @ValueSource(booleans = [true, false])
         fun getShowDeclinedEvents_shouldReturnSharedPreferencesValue(showDeclinedEvents: Boolean) {
             mockShowDeclinedEvents(showDeclinedEvents)
