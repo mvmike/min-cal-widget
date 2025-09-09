@@ -44,8 +44,6 @@ sealed class ActionableView(
         action = "$MINCAL_INTENT_ACTION.cell_day_click"
     ) {
 
-        private const val CELL_DAY_INTENT_EXTRA_NAME = "startOfDayInEpochSeconds"
-
         override fun addListener(
             context: Context,
             remoteViews: RemoteViews
@@ -64,8 +62,7 @@ sealed class ActionableView(
                         context,
                         code,
                         Intent(context, MonthWidget::class.java)
-                            .apply { action = "$action.${startOfDay.epochSecond}" }
-                            .apply { putExtra(CELL_DAY_INTENT_EXTRA_NAME, startOfDay.epochSecond) },
+                            .setAction("${getActionPrefix()}${startOfDay.epochSecond}"),
                         PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
                     )
                 )
@@ -74,7 +71,10 @@ sealed class ActionableView(
         fun Intent.getExtraInstant(): Instant {
             val systemInstant = SystemResolver.getSystemInstant()
             val systemZoneId = SystemResolver.getSystemZoneId()
-            val extraInstant = ofEpochSecond(getLongExtra(CELL_DAY_INTENT_EXTRA_NAME, systemInstant.epochSecond))
+            val extraInstant = ofEpochSecond(
+                action?.replace(getActionPrefix(), "")?.toLong()
+                    ?: systemInstant.epochSecond
+            )
 
             // we return the instant of the clicked day with current zonedTime
             val systemLocalDateTime = systemInstant.atZone(systemZoneId)
@@ -85,6 +85,8 @@ sealed class ActionableView(
                 .withSecond(systemLocalDateTime.second)
                 .toInstant()
         }
+
+        private fun getActionPrefix() = "$action."
     }
 
     internal open fun addListener(
