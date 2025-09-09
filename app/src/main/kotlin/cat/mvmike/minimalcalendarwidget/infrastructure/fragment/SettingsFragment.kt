@@ -86,16 +86,18 @@ class SettingsFragment :
     private fun fillAppLocaleSettings() =
         LANGUAGE_KEY.asPreference()?.let {
             it.summary = SystemResolver.getSystemLocale().displayLanguage
-            it.setOnPreferenceClickListener {
-                startActivity(
-                    Intent(Settings.ACTION_APP_LOCALE_SETTINGS)
-                        .setData(Uri.fromParts("package", requireContext().packageName, null))
-                        .addFlags(
-                            Intent.FLAG_ACTIVITY_NO_HISTORY or
-                                Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS
-                        )
-                )
-                true
+            runCatching {
+                it.setOnPreferenceClickListener {
+                    startActivity(
+                        Intent(Settings.ACTION_APP_LOCALE_SETTINGS)
+                            .setData(Uri.fromParts("package", requireContext().packageName, null))
+                            .addFlags(
+                                Intent.FLAG_ACTIVITY_NO_HISTORY or
+                                    Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS
+                            )
+                    )
+                    true
+                }
             }
         }
 
@@ -103,15 +105,17 @@ class SettingsFragment :
     private fun fillRegionalPreferencesValues() =
         EnumConfigurationItem.FirstDayOfWeek.key.asPreference()?.let {
             it.summary = getSystemFirstDayOfWeek().getDisplayValue(requireContext())
-            it.setOnPreferenceClickListener {
-                startActivity(
-                    Intent(Settings.ACTION_REGIONAL_PREFERENCES_SETTINGS)
-                        .addFlags(
-                            Intent.FLAG_ACTIVITY_NO_HISTORY or
-                                Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS
-                        )
-                )
-                true
+            runCatching {
+                it.setOnPreferenceClickListener {
+                    startActivity(
+                        Intent(Settings.ACTION_REGIONAL_PREFERENCES_SETTINGS)
+                            .addFlags(
+                                Intent.FLAG_ACTIVITY_NO_HISTORY or
+                                    Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS
+                            )
+                    )
+                    true
+                }
             }
         }
 
