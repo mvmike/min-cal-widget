@@ -185,7 +185,7 @@ class SettingsFragment :
         requireContext().startActivity(
             Intent(Intent.ACTION_VIEW)
                 .setData(toUri())
-                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
         )
     } catch (_: ActivityNotFoundException) {
         Toast.makeText(requireContext(), R.string.no_browser_application, Toast.LENGTH_SHORT).show()

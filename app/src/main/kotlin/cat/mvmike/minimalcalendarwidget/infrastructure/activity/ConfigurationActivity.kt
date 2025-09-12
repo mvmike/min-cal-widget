@@ -18,7 +18,7 @@ class ConfigurationActivity : AppCompatActivity() {
     companion object {
         fun start(context: Context) = context.startActivity(
             Intent(context, ConfigurationActivity::class.java)
-                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
         )
     }
 
