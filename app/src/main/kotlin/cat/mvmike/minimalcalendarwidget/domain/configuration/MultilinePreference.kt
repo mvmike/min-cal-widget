@@ -25,8 +25,8 @@ class MultilinePreference : Preference {
 
     override fun onBindViewHolder(holder: PreferenceViewHolder) {
         super.onBindViewHolder(holder)
-        (holder.findViewById(android.R.id.title) as TextView?)?.setSingleLine(false)
-        (holder.findViewById(android.R.id.summary) as TextView?)?.setSingleLine(false)
+        (holder.findViewById(android.R.id.title) as TextView?)?.isSingleLine = false
+        (holder.findViewById(android.R.id.summary) as TextView?)?.isSingleLine = false
     }
 }
 
@@ -44,8 +44,8 @@ class MultilineListPreference : ListPreference {
 
     override fun onBindViewHolder(holder: PreferenceViewHolder) {
         super.onBindViewHolder(holder)
-        (holder.findViewById(android.R.id.title) as TextView?)?.setSingleLine(false)
-        (holder.findViewById(android.R.id.summary) as TextView?)?.setSingleLine(false)
+        (holder.findViewById(android.R.id.title) as TextView?)?.isSingleLine = false
+        (holder.findViewById(android.R.id.summary) as TextView?)?.isSingleLine = false
     }
 }
 
@@ -63,8 +63,8 @@ class MultilineCheckBoxPreference : CheckBoxPreference {
 
     override fun onBindViewHolder(holder: PreferenceViewHolder) {
         super.onBindViewHolder(holder)
-        (holder.findViewById(android.R.id.title) as TextView?)?.setSingleLine(false)
-        (holder.findViewById(android.R.id.summary) as TextView?)?.setSingleLine(false)
+        (holder.findViewById(android.R.id.title) as TextView?)?.isSingleLine = false
+        (holder.findViewById(android.R.id.summary) as TextView?)?.isSingleLine = false
     }
 }
 
@@ -82,7 +82,7 @@ class MultilineSeekBarPreference : SeekBarPreference {
 
     override fun onBindViewHolder(holder: PreferenceViewHolder) {
         super.onBindViewHolder(holder)
-        (holder.findViewById(android.R.id.title) as TextView?)?.setSingleLine(false)
-        (holder.findViewById(android.R.id.summary) as TextView?)?.setSingleLine(false)
+        (holder.findViewById(android.R.id.title) as TextView?)?.isSingleLine = false
+        (holder.findViewById(android.R.id.summary) as TextView?)?.isSingleLine = false
     }
 }

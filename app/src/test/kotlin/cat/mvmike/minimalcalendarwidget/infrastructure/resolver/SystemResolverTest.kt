@@ -61,7 +61,7 @@ internal class SystemResolverTest : BaseTest() {
     ) {
         mockkStatic(LocalePreferences::class)
         every { LocalePreferences.getFirstDayOfWeek() } returns ""
-        every { SystemResolver.getSystemLocale() } returns Locale(language, country ?: "")
+        every { SystemResolver.getSystemLocale() } returns Locale.of(language, country ?: "")
 
         val result = SystemResolver.getSystemFirstDayOfWeek()
 

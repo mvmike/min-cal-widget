@@ -1,35 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <!--PUNJABI-->
 
-    <!--Configuration-->
+    <!--configuration-->
     <string name="configuration">ਸੈਟਿੰਗਾਂ</string>
-
+    <!--configuration - behaviour-->
     <string name="behaviour">ਵਿਵਹਾਰ</string>
     <string name="start_week_day">ਪਹਿਲਾ ਦਿਨ</string>
     <string name="calendar">ਕੈਲੰਡਰ</string>
     <string name="show_declined_events">ਰੱਦ ਕਰਨ ਵੇਖੋ</string>
     <string name="focus_on_current_week">ਮੌਜੂਦਾ ਹਫ਼ਤੇ ’ਤੇ ਧਿਆਨ ਦਿਓ</string>
     <string name="open_calendar_into_clicked_day">ਕਲਿਕ ਕੀਤੇ ਦਿਨ ਵਿੱਚ ਕੈਲੰਡਰ ਖੋਲ੍ਹੋ</string>
-
+    <!--configuration - appearance-->
     <string name="appearance">ਵੇਖਣ</string>
     <string name="theme">ਥੀਮ</string>
     <string name="symbol_set">ਚਿੰਨ੍ਹ</string>
     <string name="symbol_colour">ਚਿੰਨ੍ਹ ਦਾ ਰੰਗ</string>
     <string name="transparency">ਪਾਰਦਰਸ਼ਤਾ</string>
     <string name="text_size">ਟੈਕਸਟ ਦਾ ਆਕਾਰ</string>
-
+    <!--configuration - about-->
     <string name="about">ਬਾਰੇ</string>
     <string name="source">ਸਰੋਤ</string>
     <string name="language">ਭਾਸ਼ਾ</string>
     <string name="translate">ਅਨੁਵਾਦ</string>
     <string name="version">ਵਰਜ਼ਨ</string>
-
+    <!--configuration - buttons-->
     <string name="reset_settings">ਸੈਟਿੰਗਾਂ ਰੀਸੈਟ ਕਰੋ</string>
     <string name="close">ਬੰਦ ਕਰੋ</string>
-
-    <!--Months of year-->
+    <!--configuration - values - months-->
     <string name="january">ਜਨਵਰੀ</string>
     <string name="february">ਫ਼ਰਵਰੀ</string>
     <string name="march">ਮਾਰਚ</string>
@@ -42,8 +40,7 @@
     <string name="october">ਅਕਤੂਬਰ</string>
     <string name="november">ਨਵੰਬਰ</string>
     <string name="december">ਦਸੰਬਰ</string>
-
-    <!--Days of week-->
+    <!--configuration - values - days of the week-->
     <string name="monday">ਸੋਮਵਾਰ</string>
     <string name="tuesday">ਮੰਗਲਵਾਰ</string>
     <string name="wednesday">ਬੁੱਧਵਾਰ</string>
@@ -51,8 +48,7 @@
     <string name="friday">ਸ਼ੁੱਕਰਵਾਰ</string>
     <string name="saturday">ਸ਼ਨੀਵਾਰ</string>
     <string name="sunday">ਐਤਵਾਰ</string>
-
-    <!--Days of week abbreviated-->
+    <!--configuration - values - days of the week abbreviated-->
     <string name="monday_abb">ਸੋਮ</string>
     <string name="tuesday_abb">ਮੰਗਲ</string>
     <string name="wednesday_abb">ਬੁੱਧ</string>
@@ -60,16 +56,13 @@
     <string name="friday_abb">ਸ਼ੁਕਰ</string>
     <string name="saturday_abb">ਸ਼ਨੀ</string>
     <string name="sunday_abb">ਐਤ</string>
-
-    <!--Calendars-->
+    <!--configuration - values - calendars-->
     <string name="gregorian">ਗ੍ਰੈਗੋਰੀਅਨ</string>
     <string name="holocene">ਹੋਲੋਸੀਨ</string>
-
-    <!--Themes-->
+    <!--configuration - values - themes-->
     <string name="dark">ਹਨੇਰ</string>
     <string name="light">ਰੋਸ਼ਨੀ</string>
-
-    <!--Symbol colours-->
+    <!--configuration - values - symbol colours-->
     <string name="system_accent">ਸਿਸਟਮ ਦਾ ਰੰਗ</string>
     <string name="cyan">ਸਿਆਨ</string>
     <string name="blue">ਨੀਲਾ</string>
@@ -78,9 +71,7 @@
     <string name="yellow">ਪੀਲਾ</string>
     <string name="black">ਕਾਲਾ</string>
     <string name="white">ਚਿੱਟਾ</string>
-
-    <!--messages-->
+    <!--configuration - messages-->
     <string name="no_calendar_application">ਕੋਈ ਕੈਲੰਡਰ ਐਪਲੀਕੇਸ਼ਨ ਨਹੀਂ ਲੱਭੀ</string>
     <string name="no_browser_application">ਕੋਈ ਬਰਾਊਜ਼ਰ ਐਪਲੀਕੇਸ਼ਨ ਨਹੀਂ ਲੱਭੀ</string>
-
 </resources>

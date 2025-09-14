@@ -409,17 +409,6 @@ open class BaseTest {
         intent.action
     }
 
-    protected fun mockIntentWithLongExtra(
-        action: String,
-        systemInstant: Instant,
-        extraInstant: Instant
-    ) {
-        mockIntent(action)
-        every {
-            intent.getLongExtra("startOfDayInEpochSeconds", systemInstant.epochSecond)
-        } returns extraInstant.epochSecond
-    }
-
     // UTILS
 
     internal fun readTestResourceCsvFile(path: String) =

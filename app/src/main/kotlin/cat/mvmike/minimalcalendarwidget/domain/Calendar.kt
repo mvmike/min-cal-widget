@@ -16,10 +16,6 @@ data class Calendar(
 fun getCalendars(
     context: Context
 ): List<Calendar> = when (CalendarResolver.isReadCalendarPermitted(context)) {
-    true -> {
-        CalendarResolver.getCalendars(
-            context = context
-        )
-    }
+    true -> CalendarResolver.getCalendars(context = context)
     else -> emptyList()
 }

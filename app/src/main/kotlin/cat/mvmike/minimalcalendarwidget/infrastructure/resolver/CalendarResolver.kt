@@ -56,8 +56,8 @@ object CalendarResolver {
         var instanceCursor: Cursor? = null
         runCatching {
             instanceCursor = Instances.query(context.contentResolver, instanceQueryFields, begin, end)
-            while (instanceCursor!!.moveToNext()) {
-                instanceCursor.toInstance()?.let { instances.add(it) }
+            while (instanceCursor?.moveToNext() == true) {
+                instanceCursor?.toInstance()?.let { instances.add(it) }
             }
         }
         instanceCursor?.close()
@@ -72,8 +72,8 @@ object CalendarResolver {
         runCatching {
             calendarCursor = context.contentResolver
                 .query(Calendars.CONTENT_URI, calendarQueryFields, null, null, "$DEFAULT_SORT_ORDER $SORT_ORDER_DESC")
-            while (calendarCursor!!.moveToNext()) {
-                calendarCursor.toCalendar()?.let { calendars.add(it) }
+            while (calendarCursor?.moveToNext() == true) {
+                calendarCursor?.toCalendar()?.let { calendars.add(it) }
             }
         }
         calendarCursor?.close()

@@ -18,15 +18,15 @@ class ConfigurationActivity : AppCompatActivity() {
     companion object {
         fun start(context: Context) = context.startActivity(
             Intent(context, ConfigurationActivity::class.java)
-                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
         )
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(
             when (applicationContext.isDarkThemeEnabled()) {
-                true -> R.style.Theme_AppCompat_DarkTheme
-                else -> R.style.Theme_AppCompat_LightTheme
+                true -> androidx.appcompat.R.style.Theme_AppCompat
+                else -> androidx.appcompat.R.style.Theme_AppCompat_DayNight
             }
         )
 
@@ -39,11 +39,11 @@ class ConfigurationActivity : AppCompatActivity() {
             .commit()
     }
 
-    @Suppress("unused", "unused_parameter")
+    @Suppress("unused_parameter")
     fun onClickResetSettingsButton(view: View) =
         clearAllConfiguration(applicationContext)
 
-    @Suppress("unused", "unused_parameter")
+    @Suppress("unused_parameter")
     fun onClickCloseSettingsButton(view: View) {
         intent
             ?.getIntExtra(
