@@ -179,19 +179,17 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
 
     @ParameterizedTest
     @CsvSource(
-        "$CELL_DAY_CLICK_ACTION.1675886154,1675886154,1675863134",
-        "$CELL_DAY_CLICK_ACTION.1671249586,1671249586,1671283934",
-        "$CELL_DAY_CLICK_ACTION.1624398458,1624398458,1624455134",
-        "$CELL_DAY_CLICK_ACTION.1434987405,1434987405,1434979934"
+        "$CELL_DAY_CLICK_ACTION.1675886154,1675863134",
+        "$CELL_DAY_CLICK_ACTION.1671249586,1671283934",
+        "$CELL_DAY_CLICK_ACTION.1624398458,1624455134",
+        "$CELL_DAY_CLICK_ACTION.1434987405,1434979934"
     )
     fun shouldLaunchCalendarActivityOnIntentExtraAndRedrawWidget_whenIntentAndPermissionsGiven(
         action: String,
-        extraInstantEpochSeconds: Long,
         startTimeInstantEpochSeconds: Long
     ) {
-        val extraInstant = ofEpochSecond(extraInstantEpochSeconds)
+        mockIntent(action)
         val startTimeInstant = ofEpochSecond(startTimeInstantEpochSeconds)
-        mockIntentWithLongExtra(action, systemInstant, extraInstant)
         mockIsReadCalendarPermitted(true)
         mockGetSystemInstant()
         mockGetSystemZoneId()
@@ -206,7 +204,6 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
         ProcessIntentUseCase.execute(context, intent)
 
         verifyIntentAction()
-        verify { intent.getLongExtra(any(), systemInstant.epochSecond) }
         verifyIsReadCalendarPermitted()
         verifyGetSystemInstant()
         verifyGetSystemZoneId()

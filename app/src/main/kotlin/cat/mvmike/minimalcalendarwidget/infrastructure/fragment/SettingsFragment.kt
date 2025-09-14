@@ -99,16 +99,18 @@ class SettingsFragment :
     private fun fillAppLocaleSettings(context: Context) =
         LANGUAGE_KEY.asPreference()?.let {
             it.summary = SystemResolver.getSystemLocale().displayLanguage
-            it.setOnPreferenceClickListener {
-                startActivity(
-                    Intent(Settings.ACTION_APP_LOCALE_SETTINGS)
-                        .setData(Uri.fromParts("package", context.packageName, null))
-                        .addFlags(
-                            Intent.FLAG_ACTIVITY_NO_HISTORY or
-                                Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS
-                        )
-                )
-                true
+            runCatching {
+                it.setOnPreferenceClickListener {
+                    startActivity(
+                        Intent(Settings.ACTION_APP_LOCALE_SETTINGS)
+                            .setData(Uri.fromParts("package", context.packageName, null))
+                            .addFlags(
+                                Intent.FLAG_ACTIVITY_NO_HISTORY or
+                                    Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS
+                            )
+                    )
+                    true
+                }
             }
         }
 
@@ -116,15 +118,17 @@ class SettingsFragment :
     private fun fillRegionalPreferencesValues(context: Context) =
         EnumConfigurationItem.FirstDayOfWeek.key.asPreference()?.let {
             it.summary = getSystemFirstDayOfWeek().getDisplayValue(context)
-            it.setOnPreferenceClickListener {
-                startActivity(
-                    Intent(Settings.ACTION_REGIONAL_PREFERENCES_SETTINGS)
-                        .addFlags(
-                            Intent.FLAG_ACTIVITY_NO_HISTORY or
-                                Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS
-                        )
-                )
-                true
+            runCatching {
+                it.setOnPreferenceClickListener {
+                    startActivity(
+                        Intent(Settings.ACTION_REGIONAL_PREFERENCES_SETTINGS)
+                            .addFlags(
+                                Intent.FLAG_ACTIVITY_NO_HISTORY or
+                                    Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS
+                            )
+                    )
+                    true
+                }
             }
         }
 
@@ -204,7 +208,7 @@ class SettingsFragment :
         context.startActivity(
             Intent(Intent.ACTION_VIEW)
                 .setData(toUri())
-                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
         )
     } catch (_: ActivityNotFoundException) {
         Toast.makeText(context, R.string.no_browser_application, Toast.LENGTH_SHORT).show()

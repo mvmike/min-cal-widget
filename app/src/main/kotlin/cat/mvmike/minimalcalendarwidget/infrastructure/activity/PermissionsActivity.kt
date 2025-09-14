@@ -17,7 +17,7 @@ class PermissionsActivity : Activity() {
     companion object {
         fun start(context: Context) = context.startActivity(
             Intent(context, PermissionsActivity::class.java)
-                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
         )
     }
 
