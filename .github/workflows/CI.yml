@@ -23,6 +23,6 @@ jobs:
             **/*.gradle*
             **/gradle-wrapper.properties
       # https://github.com/gradle/actions
-      - uses: gradle/actions/wrapper-validation@v4
+      - uses: gradle/actions/wrapper-validation@v5
 
       - run: ./gradlew -Dorg.gradle.jvmargs=-Xmx4096m
