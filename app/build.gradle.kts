@@ -173,7 +173,7 @@ dependencies {
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
     // https://github.com/mockk/mockk/releases
-    testImplementation("io.mockk:mockk:1.14.5")
+    testImplementation("io.mockk:mockk:1.14.6")
 
     // https://github.com/assertj/assertj-core/tags
     testImplementation("org.assertj:assertj-core:3.27.6")
