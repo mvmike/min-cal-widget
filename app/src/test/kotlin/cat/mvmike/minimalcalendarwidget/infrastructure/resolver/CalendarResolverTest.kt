@@ -37,7 +37,7 @@ internal class CalendarResolverTest : BaseTest() {
         CalendarCursor(1, "First Account", "Calendar 1", 1, 1),
         CalendarCursor(2, "First Account", "Calendar 2", 0, 1),
         CalendarCursor(3, "Second Account", "Calendar A", 1, 0),
-        CalendarCursor(4, "Third Acount", "Calendar $", 1, 1)
+        CalendarCursor(4, "Third Account", "Calendar $", 1, 1)
     )
 
     @Test
@@ -271,7 +271,7 @@ internal class CalendarResolverTest : BaseTest() {
             ),
             Calendar(
                 id = 4,
-                accountName = "Third Acount",
+                accountName = "Third Account",
                 displayName = "Calendar $",
                 isPrimary = true,
                 isVisible = true
