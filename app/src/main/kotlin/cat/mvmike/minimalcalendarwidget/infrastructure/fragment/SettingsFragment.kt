@@ -86,8 +86,8 @@ class SettingsFragment :
     private fun fillAppLocaleSettings() =
         LANGUAGE_KEY.asPreference()?.let {
             it.summary = SystemResolver.getSystemLocale().displayLanguage
-            runCatching {
-                it.setOnPreferenceClickListener {
+            it.setOnPreferenceClickListener {
+                runCatching {
                     startActivity(
                         Intent(Settings.ACTION_APP_LOCALE_SETTINGS)
                             .setData(Uri.fromParts("package", requireContext().packageName, null))
@@ -96,8 +96,8 @@ class SettingsFragment :
                                     Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS
                             )
                     )
-                    true
                 }
+                true
             }
         }
 
@@ -105,8 +105,8 @@ class SettingsFragment :
     private fun fillRegionalPreferencesValues() =
         EnumConfigurationItem.FirstDayOfWeek.key.asPreference()?.let {
             it.summary = getSystemFirstDayOfWeek().getDisplayValue(requireContext())
-            runCatching {
-                it.setOnPreferenceClickListener {
+            it.setOnPreferenceClickListener {
+                runCatching {
                     startActivity(
                         Intent(Settings.ACTION_REGIONAL_PREFERENCES_SETTINGS)
                             .addFlags(
@@ -114,8 +114,8 @@ class SettingsFragment :
                                     Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS
                             )
                     )
-                    true
                 }
+                true
             }
         }
 
