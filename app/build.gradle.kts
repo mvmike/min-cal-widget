@@ -10,7 +10,7 @@ plugins {
     // https://github.com/jeremymailen/kotlinter-gradle/releases
     id("org.jmailen.kotlinter") version "5.2.0"
     // https://github.com/Kotlin/kotlinx-kover/releases
-    id("org.jetbrains.kotlinx.kover") version "0.9.1"
+    id("org.jetbrains.kotlinx.kover") version "0.9.3"
 }
 
 android {
@@ -166,17 +166,17 @@ dependencies {
     implementation("androidx.preference:preference-ktx:1.2.1")
 
     // https://github.com/junit-team/junit5/releases
-    val junitJupiterVersion = "5.13.4"
+    val junitJupiterVersion = "6.0.0"
     testImplementation("org.junit.jupiter:junit-jupiter-api:$junitJupiterVersion")
     testImplementation("org.junit.jupiter:junit-jupiter-params:$junitJupiterVersion")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junitJupiterVersion")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
     // https://github.com/mockk/mockk/releases
-    testImplementation("io.mockk:mockk:1.14.5")
+    testImplementation("io.mockk:mockk:1.14.6")
 
     // https://github.com/assertj/assertj-core/tags
-    testImplementation("org.assertj:assertj-core:3.27.4")
+    testImplementation("org.assertj:assertj-core:3.27.6")
 
     // https://github.com/TNG/ArchUnit/releases
     testImplementation("com.tngtech.archunit:archunit-junit5:1.4.1")

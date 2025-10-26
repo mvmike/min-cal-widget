@@ -25,7 +25,7 @@ object CalendarActivity {
                 .setData(builder.build())
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
         )
-    } catch (ignored: ActivityNotFoundException) {
+    } catch (_: ActivityNotFoundException) {
         Toast.makeText(context, R.string.no_calendar_application, Toast.LENGTH_SHORT).show()
     }
 }
