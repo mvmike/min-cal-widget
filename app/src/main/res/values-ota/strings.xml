@@ -1,25 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--TURKISH (OTTOMAN)-->
+
+    <!--configuration-->
     <string name="configuration">یاپیلاندیرمە</string>
+    <!--configuration - behaviour-->
     <string name="behaviour">داورانیش</string>
     <string name="start_week_day">باشلانگیچ گونی</string>
     <string name="calendar">تقویم</string>
     <string name="show_declined_events">ردەدیلەن ایتكنلكلری گوستر</string>
     <string name="focus_on_current_week">گچرلی هفتەیە اوداقلان</string>
     <string name="open_calendar_into_clicked_day">تقویمی طیقلانان گونە آچ</string>
+    <!--configuration - appearance-->
     <string name="appearance">دیش گورونوش</string>
     <string name="theme">تەما</string>
     <string name="symbol_set">سەمبول سەتی</string>
     <string name="symbol_colour">سەمبول رنگی</string>
     <string name="transparency">شفافلق</string>
     <string name="text_size">یازی بویودی</string>
+    <!--configuration - about-->
     <string name="about">حقندە</string>
     <string name="source">قایناق</string>
     <string name="language">دیل</string>
     <string name="translate">چویر</string>
     <string name="version">ورسییون</string>
+    <!--configuration - buttons-->
     <string name="reset_settings">عیارلری صفرلا</string>
     <string name="close">قاپالی</string>
+    <!--configuration - values - months-->
     <string name="january">اوجاق</string>
     <string name="february">شباط</string>
     <string name="march">مارت</string>
@@ -32,6 +40,7 @@
     <string name="october">اكیم</string>
     <string name="november">قاسم</string>
     <string name="december">آرالق</string>
+    <!--configuration - values - days of the week-->
     <string name="monday">پازارایرتەسی</string>
     <string name="tuesday">صالی</string>
     <string name="wednesday">چهارشنبە</string>
@@ -39,6 +48,7 @@
     <string name="friday">جمعە</string>
     <string name="saturday">جمعەایرتەسی</string>
     <string name="sunday">پازار</string>
+    <!--configuration - values - days of the week abbreviated-->
     <string name="monday_abb">پزت</string>
     <string name="tuesday_abb">صال</string>
     <string name="wednesday_abb">چهار</string>
@@ -46,10 +56,13 @@
     <string name="friday_abb">جم</string>
     <string name="saturday_abb">جمت</string>
     <string name="sunday_abb">پاز</string>
+    <!--configuration - values - calendars-->
     <string name="gregorian">گرەگوریەن</string>
     <string name="holocene">هولوسەن</string>
+    <!--configuration - values - themes-->
     <string name="dark">قارانلق</string>
     <string name="light">آیدینلق</string>
+    <!--configuration - values - symbol colours-->
     <string name="system_accent">سیستەم ورثەییلانی</string>
     <string name="cyan">جامگوبكی</string>
     <string name="blue">ماوی</string>
@@ -58,6 +71,7 @@
     <string name="yellow">صاری</string>
     <string name="black">سیاه</string>
     <string name="white">بیاض</string>
+    <!--configuration - messages-->
     <string name="no_calendar_application">تقویم اویغولامەسی بولونامەدی</string>
     <string name="no_browser_application">طاراییجی اویغولامەسی بولونامەدی</string>
 </resources>
