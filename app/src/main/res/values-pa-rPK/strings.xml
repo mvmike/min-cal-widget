@@ -5,28 +5,28 @@
     <!--configuration-->
     <string name="configuration">سیٹنگاں</string>
     <!--configuration - behaviour-->
-    <string name="behaviour">وِوہار</string>
+    <string name="behaviour">رویہ</string>
     <string name="start_week_day">پہلا دن</string>
     <string name="calendar">کیلنڈر</string>
     <string name="show_declined_events">رد کرن ویکھو</string>
     <string name="focus_on_current_week">موجودہ ہفتے تے دھیان دیو</string>
-    <string name="open_calendar_into_clicked_day">کلک کردہ دن میں کیلنڈر کھولیں</string>
+    <string name="open_calendar_into_clicked_day">کلک کیتے دن وچ کیلنڈر کھولھو</string>
     <!--configuration - appearance-->
     <string name="appearance">ویکھݨ</string>
     <string name="theme">تھیم</string>
-    <string name="symbol_set">چِنھ</string>
-    <string name="symbol_colour">چِنھ دا رنگ</string>
+    <string name="symbol_set">اشارے دا سیٹ</string>
+    <string name="symbol_colour">اشارے دا رنگ</string>
     <string name="transparency">پاردرشتہ</string>
     <string name="text_size">متن کا سائز</string>
     <!--configuration - about-->
     <string name="about">بارے</string>
     <string name="source">سروت</string>
     <string name="language">زبان</string>
-    <string name="translate">ترجمہ کریں۔</string>
+    <string name="translate">ترجمہ کرو</string>
     <string name="version">ورژن</string>
     <!--configuration - buttons-->
-    <string name="reset_settings">ترتیبات کو دوبارہ ترتیب دیں</string>
-    <string name="close">بند کریں</string>
+    <string name="reset_settings">سیٹنگاں ریسیٹ کرو</string>
+    <string name="close">بند کرو</string>
     <!--configuration - values - months-->
     <string name="january">جنوری</string>
     <string name="february">فروری</string>
@@ -38,7 +38,7 @@
     <string name="august">اگست</string>
     <string name="september">ستمبر</string>
     <string name="october">اکتوبر</string>
-    <string name="november">نوَمبر</string>
+    <string name="november">نومبر</string>
     <string name="december">دسمبر</string>
     <!--configuration - values - days of the week-->
     <string name="monday">سوموار</string>
