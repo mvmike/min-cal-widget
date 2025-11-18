@@ -20,7 +20,8 @@ ij_kotlin_allow_trailing_comma_on_call_site = false
 ij_kotlin_line_break_after_multiline_when_entry = false
 
 # https://pinterest.github.io/ktlint/latest/rules/configuration-ktlint/#disabled-rules
-ktlint_standard_no-empty-first-line-in-class-body = disabled
 ktlint_standard_function-signature = disabled
 ktlint_standard_multiline-expression-wrapping = disabled
+ktlint_standard_no-empty-first-line-in-class-body = disabled
 ktlint_standard_string-template-indent = disabled
+ktlint_standard_when-entry-bracing = disabled
