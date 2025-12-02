@@ -1,0 +1,6 @@
+#calendarId,accountName,displayName,isPrimary,isVisible
+1,torvalds@linux-foundation.org,torvalds@linux-foundation.org,true,true
+2,torvalds@linux-foundation.org,rant-reviews,false,true
+3,torvalds@linux-foundation.org,release-candidates,false,false
+4,torvalds@kruuna.helsinki.fi,torvalds@kruuna.helsinki.fi,true,true
+5,torvalds@woody.linux-foundation.org,torvalds@woody.linux-foundation.org,true,false
