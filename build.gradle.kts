@@ -4,7 +4,7 @@ buildscript {
         // https://developer.android.com/studio/releases/gradle-plugin
         classpath("com.android.tools.build:gradle:8.13.2")
         // https://kotlinlang.org/releases.html
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:2.2.21")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:2.3.0")
     }
 
     repositories {
