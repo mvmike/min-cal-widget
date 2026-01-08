@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <cat.mvmike.minimalcalendarwidget.domain.configuration.MultilineCheckBoxPreference
+        android:defaultValue="true"
+        android:iconSpaceReserved="false"
+        android:key="DEFAULT_VISIBLE_CALENDARS"
+        android:title="Show default visible calendars" />
+
+</PreferenceScreen>
