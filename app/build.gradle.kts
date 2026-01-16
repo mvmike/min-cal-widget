@@ -6,7 +6,6 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     id("com.android.application")
-    id("kotlin-android")
     // https://github.com/jeremymailen/kotlinter-gradle/releases
     id("org.jmailen.kotlinter") version "5.3.0"
     // https://github.com/Kotlin/kotlinx-kover/releases
@@ -113,18 +112,17 @@ android {
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(
-                getDefaultProguardFile("proguard-android.txt"),
+                getDefaultProguardFile("proguard-android-optimize.txt"),
                 "${project.rootDir}/config/proguard/proguard-rules.pro"
             )
         }
     }
 
-    applicationVariants.all {
-        if (buildType.name == "release") {
-            outputs.all {
-                val output = this as? com.android.build.gradle.internal.api.BaseVariantOutputImpl
-                output?.outputFileName = "min-cal-widget-v${defaultConfig.versionName}.apk"
-            }
+    androidComponents {
+        onVariants { variant ->
+            variant.takeIf { it.buildType == "release" }?.outputs
+                ?.mapNotNull { it as? com.android.build.api.variant.impl.VariantOutputImpl }
+                ?.forEach { it.outputFileName = "min-cal-widget-v${defaultConfig.versionName}.apk" }
         }
     }
 }
@@ -160,8 +158,6 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.7.1")
     // https://developer.android.com/jetpack/androidx/releases/core
     implementation("androidx.core:core-ktx:1.17.0")
-    // https://developer.android.com/jetpack/androidx/releases/multidex
-    implementation("androidx.multidex:multidex:2.0.1")
     // https://developer.android.com/jetpack/androidx/releases/preference
     implementation("androidx.preference:preference-ktx:1.2.1")
 
