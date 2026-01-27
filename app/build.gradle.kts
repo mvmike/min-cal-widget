@@ -6,9 +6,8 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     id("com.android.application")
-    id("kotlin-android")
     // https://github.com/jeremymailen/kotlinter-gradle/releases
-    id("org.jmailen.kotlinter") version "5.3.0"
+    id("org.jmailen.kotlinter") version "5.4.0"
     // https://github.com/Kotlin/kotlinx-kover/releases
     id("org.jetbrains.kotlinx.kover") version "0.9.4"
 }
@@ -113,18 +112,17 @@ android {
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(
-                getDefaultProguardFile("proguard-android.txt"),
+                getDefaultProguardFile("proguard-android-optimize.txt"),
                 "${project.rootDir}/config/proguard/proguard-rules.pro"
             )
         }
     }
 
-    applicationVariants.all {
-        if (buildType.name == "release") {
-            outputs.all {
-                val output = this as? com.android.build.gradle.internal.api.BaseVariantOutputImpl
-                output?.outputFileName = "min-cal-widget-v${defaultConfig.versionName}.apk"
-            }
+    androidComponents {
+        onVariants { variant ->
+            variant.takeIf { it.buildType == "release" }?.outputs
+                ?.mapNotNull { it as? com.android.build.api.variant.impl.VariantOutputImpl }
+                ?.forEach { it.outputFileName = "min-cal-widget-v${defaultConfig.versionName}.apk" }
         }
     }
 }
@@ -160,8 +158,6 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.7.1")
     // https://developer.android.com/jetpack/androidx/releases/core
     implementation("androidx.core:core-ktx:1.17.0")
-    // https://developer.android.com/jetpack/androidx/releases/multidex
-    implementation("androidx.multidex:multidex:2.0.1")
     // https://developer.android.com/jetpack/androidx/releases/preference
     implementation("androidx.preference:preference-ktx:1.2.1")
 
@@ -173,10 +169,10 @@ dependencies {
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
     // https://github.com/mockk/mockk/releases
-    testImplementation("io.mockk:mockk:1.14.7")
+    testImplementation("io.mockk:mockk:1.14.9")
 
     // https://github.com/assertj/assertj-core/tags
-    testImplementation("org.assertj:assertj-core:3.27.6")
+    testImplementation("org.assertj:assertj-core:3.27.7")
 
     // https://github.com/TNG/ArchUnit/releases
     testImplementation("com.tngtech.archunit:archunit-junit5:1.4.1")
