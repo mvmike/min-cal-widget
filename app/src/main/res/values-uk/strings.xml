@@ -11,6 +11,7 @@
     <string name="show_declined_events">Показувати відхилені події</string>
     <string name="focus_on_current_week">Сфокусувати на поточному тижні</string>
     <string name="open_calendar_into_clicked_day">Відкривати календар на кліканий день</string>
+    <string name="show_week_number">Показувати номер тижня</string>
     <!--configuration - appearance-->
     <string name="appearance">Вигляд</string>
     <string name="theme">Тема</string>

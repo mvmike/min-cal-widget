@@ -60,6 +60,18 @@ internal class ConfigurationTest : BaseTest() {
             verifyOpenCalendarOnClickedDay()
             verify { editor wasNot Called }
         }
+
+        @ParameterizedTest
+        @ValueSource(booleans = [true, false])
+        fun getShowWeekNumber_shouldReturnSharedPreferencesValue(showWeekNumber: Boolean) {
+            mockShowWeekNumber(showWeekNumber)
+
+            val result = BooleanConfigurationItem.ShowWeekNumber.get(context)
+
+            assertThat(result).isEqualTo(showWeekNumber)
+            verifyShowWeekNumber()
+            verify { editor wasNot Called }
+        }
     }
 
     @Nested

@@ -266,6 +266,26 @@ open class BaseTest {
         }
     }
 
+    protected fun mockShowWeekNumber(enabled: Boolean) {
+        mockSharedPreferences()
+        every {
+            sharedPreferences.getBoolean(
+                BooleanConfigurationItem.ShowWeekNumber.key,
+                BooleanConfigurationItem.ShowWeekNumber.defaultValue
+            )
+        } returns enabled
+    }
+
+    protected fun verifyShowWeekNumber() {
+        verifySharedPreferencesAccess()
+        verify {
+            sharedPreferences.getBoolean(
+                BooleanConfigurationItem.ShowWeekNumber.key,
+                BooleanConfigurationItem.ShowWeekNumber.defaultValue
+            )
+        }
+    }
+
     protected fun mockWidgetTheme(widgetTheme: Theme) {
         mockSharedPreferences()
         every {

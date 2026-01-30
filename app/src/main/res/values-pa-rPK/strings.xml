@@ -11,6 +11,7 @@
     <string name="show_declined_events">رد کرن ویکھو</string>
     <string name="focus_on_current_week">موجودہ ہفتے تے دھیان دیو</string>
     <string name="open_calendar_into_clicked_day">کلک کیتے دن وچ کیلنڈر کھولھو</string>
+    <string name="show_week_number">ہفتہ نمبر دکھاؤ</string>
     <!--configuration - appearance-->
     <string name="appearance">ویکھݨ</string>
     <string name="theme">تھیم</string>

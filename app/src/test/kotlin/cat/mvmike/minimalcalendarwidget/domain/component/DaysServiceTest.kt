@@ -39,6 +39,7 @@ import java.time.Instant
 import java.time.Instant.ofEpochSecond
 import java.time.LocalDate
 import java.time.ZonedDateTime
+import java.time.temporal.WeekFields
 
 internal class DaysServiceTest : BaseTest() {
 
@@ -73,6 +74,7 @@ internal class DaysServiceTest : BaseTest() {
         mockInstancesSymbolSet(testProperties.instancesSymbolSet)
         mockInstancesColour(testProperties.instancesColour)
         mockShowDeclinedEvents(testProperties.showDeclinedEvents)
+        mockShowWeekNumber(testProperties.showWeekNumber)
 
         every { GraphicResolver.createDaysRow(context) } returns weekRv
 
@@ -122,12 +124,37 @@ internal class DaysServiceTest : BaseTest() {
         verifyFocusOnCurrentWeek()
         verifyInstancesSymbolSet()
         verifyInstancesColour()
+        verifyShowWeekNumber()
 
         verify(exactly = 6) { GraphicResolver.createDaysRow(context) }
 
-        testProperties.expectedDayProperties.forEach { expectedDayProperties ->
-            val cellDay = testProperties.widgetTheme
-                .getCellDay(expectedDayProperties.isInMonth, expectedDayProperties.dayOfWeek)
+        if (testProperties.showWeekNumber) {
+            val weekFields = WeekFields.of(testProperties.firstDayOfWeek, 1)
+            for (week in 0..5) {
+                val weekNumber = testProperties.expectedFirstDay.plusDays((week * 7).toLong()).get(weekFields.weekOfWeekBasedYear())
+                val weekNumberCell = testProperties.widgetTheme.getCellWeekNumber()
+
+                verify {
+                    GraphicResolver.createDayLayout(context)
+                    GraphicResolver.addToDaysRow(
+                        context = context,
+                        weekRowRemoteView = weekRv,
+                        backgroundColour = weekNumberCell.background?.let { expectedBackground },
+                        cells = listOf(
+                            dayRv to Cell(
+                                text = "$weekNumber",
+                                colour = weekNumberCell.textColour,
+                                relativeSize = testProperties.textSize.relativeValue * 0.6f
+                            )
+                        )
+                    )
+                }
+            }
+        }
+
+        val expectedDayProperties = readTestResourceCsvFile(testProperties.expectedDayPropertiesResourcePath).map { DayProperties(it) }
+        expectedDayProperties.forEach { expectedDayProperties ->
+            val cellDay = testProperties.widgetTheme.getCellDay(expectedDayProperties.isInMonth, expectedDayProperties.dayOfWeek)
             cellDay.background?.let {
                 verify {
                     GraphicResolver.getColourAsString(context, it)
@@ -136,9 +163,7 @@ internal class DaysServiceTest : BaseTest() {
                         SUNDAY -> TransparencyRange.MODERATE
                         else -> TransparencyRange.LOW
                     }
-                    GraphicResolver.parseColour(
-                        "#${testProperties.transparency.getAlphaInHex(transparencyRange)}ground"
-                    )
+                    GraphicResolver.parseColour("#${testProperties.transparency.getAlphaInHex(transparencyRange)}ground")
                 }
             }
 
@@ -160,10 +185,8 @@ internal class DaysServiceTest : BaseTest() {
                         ),
                         instancesSymbolRemoteView to Cell(
                             text = expectedDayProperties.instancesSymbol.toString(),
-                            colour = testProperties.instancesColour
-                                .getInstancesColour(expectedDayProperties.isToday, testProperties.widgetTheme),
-                            relativeSize = testProperties.textSize.relativeValue
-                                * testProperties.instancesSymbolSet.relativeSize,
+                            colour = testProperties.instancesColour.getInstancesColour(expectedDayProperties.isToday, testProperties.widgetTheme),
+                            relativeSize = testProperties.textSize.relativeValue * testProperties.instancesSymbolSet.relativeSize,
                             bold = true
                         )
                     )
@@ -305,16 +328,15 @@ internal class DaysServiceTest : BaseTest() {
                 start = LocalDate.parse(it[1]),
                 end = LocalDate.parse(it[2])
             )
-        } +
-            readTestResourceCsvFile("/system_timed_instances.csv").map {
-                TimedInstance(
-                    id = random.nextInt(),
-                    calendarId = random.nextInt(),
-                    isDeclined = it[0].toBoolean(),
-                    start = ZonedDateTime.parse(it[1]),
-                    end = ZonedDateTime.parse(it[2])
-                )
-            }
+        } + readTestResourceCsvFile("/system_timed_instances.csv").map {
+            TimedInstance(
+                id = random.nextInt(),
+                calendarId = random.nextInt(),
+                isDeclined = it[0].toBoolean(),
+                start = ZonedDateTime.parse(it[1]),
+                end = ZonedDateTime.parse(it[2])
+            )
+        }
     ).toSet()
 
     private fun getDaysDrawInputVariablesAndExpectedOutput() = listOf(
@@ -330,12 +352,11 @@ internal class DaysServiceTest : BaseTest() {
             instancesSymbolSet = SymbolSet.MINIMAL,
             showDeclinedEvents = false,
             shouldIncludeInstancesSymbolRemoteView = true,
+            showWeekNumber = false,
             expectedFirstDay = LocalDate.parse("2018-11-26"),
             expectedInstancesQueryInitEpochMillis = 1543179600000,
             expectedInstancesQueryEndEpochMillis = 1546808400000,
-            expectedDayProperties = readTestResourceCsvFile(
-                "/test_case/component/day/day_properties_MONDAY_MINIMAL_system_instances.csv"
-            ).map { DayProperties(it) }
+            expectedDayPropertiesResourcePath = "/test_case/component/day/day_properties_MONDAY_MINIMAL_system_instances.csv"
         ),
         DrawDaysUseCaseTestProperties(
             systemLocalDate = systemLocalDate,
@@ -349,12 +370,11 @@ internal class DaysServiceTest : BaseTest() {
             instancesSymbolSet = SymbolSet.BINARY,
             showDeclinedEvents = false,
             shouldIncludeInstancesSymbolRemoteView = true,
+            showWeekNumber = false,
             expectedFirstDay = LocalDate.parse("2018-11-25"),
             expectedInstancesQueryInitEpochMillis = 1543093200000,
             expectedInstancesQueryEndEpochMillis = 1546722000000,
-            expectedDayProperties = readTestResourceCsvFile(
-                "/test_case/component/day/day_properties_SUNDAY_BINARY_system_instances.csv"
-            ).map { DayProperties(it) }
+            expectedDayPropertiesResourcePath = "/test_case/component/day/day_properties_SUNDAY_BINARY_system_instances.csv"
         ),
         DrawDaysUseCaseTestProperties(
             systemLocalDate = systemLocalDate,
@@ -368,12 +388,11 @@ internal class DaysServiceTest : BaseTest() {
             instancesSymbolSet = SymbolSet.NONE,
             showDeclinedEvents = true,
             shouldIncludeInstancesSymbolRemoteView = false,
+            showWeekNumber = true,
             expectedFirstDay = LocalDate.parse("2018-11-22"),
             expectedInstancesQueryInitEpochMillis = 1542834000000,
             expectedInstancesQueryEndEpochMillis = 1546462800000,
-            expectedDayProperties = readTestResourceCsvFile(
-                "/test_case/component/day/day_properties_THURSDAY_NONE_system_instances.csv"
-            ).map { DayProperties(it) }
+            expectedDayPropertiesResourcePath = "/test_case/component/day/day_properties_THURSDAY_NONE_system_instances.csv"
         ),
         DrawDaysUseCaseTestProperties(
             systemLocalDate = systemLocalDate.plusYears(1),
@@ -387,12 +406,11 @@ internal class DaysServiceTest : BaseTest() {
             instancesSymbolSet = SymbolSet.ROMAN,
             showDeclinedEvents = true,
             shouldIncludeInstancesSymbolRemoteView = false,
+            showWeekNumber = true,
             expectedFirstDay = LocalDate.parse("2019-11-25"),
             expectedInstancesQueryInitEpochMillis = 1574629200000,
             expectedInstancesQueryEndEpochMillis = 1578258000000,
-            expectedDayProperties = readTestResourceCsvFile(
-                "/test_case/component/day/day_properties_MONDAY_ROMAN_no_instances.csv"
-            ).map { DayProperties(it) }
+            expectedDayPropertiesResourcePath = "/test_case/component/day/day_properties_MONDAY_ROMAN_no_instances.csv"
         )
     )
 
@@ -408,10 +426,11 @@ internal class DaysServiceTest : BaseTest() {
         val instancesSymbolSet: SymbolSet,
         val showDeclinedEvents: Boolean,
         val shouldIncludeInstancesSymbolRemoteView: Boolean,
+        val showWeekNumber: Boolean,
         val expectedFirstDay: LocalDate,
         val expectedInstancesQueryInitEpochMillis: Long,
         val expectedInstancesQueryEndEpochMillis: Long,
-        val expectedDayProperties: List<DayProperties>
+        val expectedDayPropertiesResourcePath: String
     )
 
     internal data class DayProperties(

@@ -11,6 +11,7 @@
     <string name="show_declined_events">Ukázat zamítnuté události</string>
     <string name="focus_on_current_week">Zaměřit se na současný týden</string>
     <string name="open_calendar_into_clicked_day">Otevřít kalendář na rozkliknutý den</string>
+    <string name="show_week_number">Zobrazit číslo týdne</string>
     <!--configuration - appearance-->
     <string name="appearance">Vzhled</string>
     <string name="theme">Téma</string>

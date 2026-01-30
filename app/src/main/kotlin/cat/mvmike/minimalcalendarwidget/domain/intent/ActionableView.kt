@@ -39,7 +39,7 @@ sealed class ActionableView(
     )
 
     data object CellDay : ActionableView(
-        viewId = R.id.cell_day,
+        viewId = R.id.cell,
         code = 93,
         action = "$MINCAL_INTENT_ACTION.cell_day_click"
     ) {

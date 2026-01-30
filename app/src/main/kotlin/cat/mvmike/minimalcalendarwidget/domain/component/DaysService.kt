@@ -25,14 +25,15 @@ import java.time.LocalDate
 import java.time.ZoneId
 import java.time.temporal.ChronoField
 import java.time.temporal.ChronoUnit
+import java.time.temporal.WeekFields
 
 object DaysService {
 
     private const val NUM_WEEKS = 6
-
     private const val DAYS_IN_WEEK = 7
-
     private const val NUMBER_OF_DAYS = (NUM_WEEKS * DAYS_IN_WEEK).toLong()
+
+    private const val WEEK_NUMBER_RELATIVE_SIZE = 0.6f
 
     fun draw(
         context: Context,
@@ -57,9 +58,36 @@ object DaysService {
         val instancesSymbolSet = EnumConfigurationItem.InstancesSymbolSet.get(context)
         val instancesColour = EnumConfigurationItem.InstancesColour.get(context)
         val showDeclinedEvents = BooleanConfigurationItem.ShowDeclinedEvents.get(context)
+        val showWeekNumber = BooleanConfigurationItem.ShowWeekNumber.get(context)
+        val weekFields = WeekFields.of(firstDayOfWeek, 1)
 
         for (week in 0 until NUM_WEEKS) {
             val weekRowRemoteView: RemoteViews = GraphicResolver.createDaysRow(context)
+
+            if (showWeekNumber) {
+                val weekNumber = initialLocalDate.toCurrentWeekAndWeekDay(week, 0).get(weekFields.weekOfWeekBasedYear())
+                val weekNumberCell = widgetTheme.getCellWeekNumber()
+                val weekNumberBackgroundWithTransparency = weekNumberCell.background
+                    ?.let { GraphicResolver.getColourAsString(context, it) }
+                    ?.withTransparency(
+                        transparency = transparency,
+                        transparencyRange = TransparencyRange.MODERATE
+                    )
+
+                val weekNumberRemoteView = GraphicResolver.createDayLayout(context)
+                GraphicResolver.addToDaysRow(
+                    context = context,
+                    weekRowRemoteView = weekRowRemoteView,
+                    backgroundColour = weekNumberBackgroundWithTransparency,
+                    cells = listOf(
+                        weekNumberRemoteView to Cell(
+                            text = "$weekNumber",
+                            colour = weekNumberCell.textColour,
+                            relativeSize = textSize.relativeValue * WEEK_NUMBER_RELATIVE_SIZE
+                        )
+                    )
+                )
+            }
 
             for (weekDay in 0 until DAYS_IN_WEEK) {
                 val currentDay = Day(initialLocalDate.toCurrentWeekAndWeekDay(week, weekDay))

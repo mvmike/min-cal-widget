@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/cell_day"
+    android:id="@+id/cell"
     android:layout_width="0dp"
     android:layout_height="match_parent"
     android:layout_weight="1"

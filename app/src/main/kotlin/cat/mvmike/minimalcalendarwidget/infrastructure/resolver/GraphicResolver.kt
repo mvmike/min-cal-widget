@@ -61,9 +61,9 @@ object GraphicResolver {
         dayHeaderBackgroundColour: Int?,
         cell: Cell
     ) {
-        val dayHeaderRemoteView = getById(context, R.layout.cell_day)
-        cell.addToRemoteView(context, dayHeaderRemoteView, R.id.cell_day)
-        dayHeaderBackgroundColour?.setAsBackground(dayHeaderRemoteView, R.id.cell_day)
+        val dayHeaderRemoteView = getById(context, R.layout.cell)
+        cell.addToRemoteView(context, dayHeaderRemoteView, R.id.cell)
+        dayHeaderBackgroundColour?.setAsBackground(dayHeaderRemoteView, R.id.cell)
         daysHeaderRowRemoteView.addView(R.id.row_header, dayHeaderRemoteView)
     }
 
@@ -73,7 +73,7 @@ object GraphicResolver {
 
     fun createDayLayout(
         context: Context
-    ) = getById(context, R.layout.cell_day)
+    ) = getById(context, R.layout.cell)
 
     fun addToDaysRow(
         context: Context,
@@ -84,7 +84,7 @@ object GraphicResolver {
         val dayRowRemoteView = getById(context, R.layout.row_day)
         cells.forEach {
             it.first?.let { cellRemoteView ->
-                it.second.addToRemoteView(context, cellRemoteView, R.id.cell_day)
+                it.second.addToRemoteView(context, cellRemoteView, R.id.cell)
                 backgroundColour?.setAsBackground(dayRowRemoteView, R.id.row_day)
                 dayRowRemoteView.addView(R.id.row_day, cellRemoteView)
             }

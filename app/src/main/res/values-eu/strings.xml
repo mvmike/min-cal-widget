@@ -11,6 +11,7 @@
     <string name="show_declined_events">Erakutsi bertan-behera utzitako gertaerak</string>
     <string name="focus_on_current_week">Zentratu aste honetan</string>
     <string name="open_calendar_into_clicked_day">Ireki egutegia klik egindako egunean</string>
+    <string name="show_week_number">Erakutsi astearen zenbakia</string>
     <!--configuration - appearance-->
     <string name="appearance">Itxura</string>
     <string name="theme">Gaia</string>

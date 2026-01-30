@@ -48,9 +48,11 @@ internal class DaysHeaderServiceTest : BaseTest() {
         widgetTheme: Theme,
         transparency: Transparency,
         textSize: TextSize,
+        showWeekNumber: Boolean,
         expectedDayHeaders: List<String>
     ) {
         mockkObject(ActionableView.RowHeader)
+        mockShowWeekNumber(showWeekNumber)
         every { GraphicResolver.createDaysHeaderRow(context) } returns daysHeaderRowRv
         val rotatedWeekDays = getRotatedDaysOfWeek(firstDayOfWeek)
         rotatedWeekDays.forEach {
@@ -64,12 +66,25 @@ internal class DaysHeaderServiceTest : BaseTest() {
 
         DaysHeaderService.draw(context, widgetRv, firstDayOfWeek, widgetTheme, transparency, textSize)
 
+        verifyShowWeekNumber()
         verify(exactly = 1) { GraphicResolver.createDaysHeaderRow(context) }
         rotatedWeekDays.forEach {
             verify { context.getString(it.getExpectedResourceIdAndTranslation().first) }
             verifyTransparency(widgetTheme.getCellHeader(it).background, transparency, TransparencyRange.MODERATE)
         }
         verifyOrder {
+            if (showWeekNumber) {
+                GraphicResolver.addToDaysHeaderRow(
+                    context = context,
+                    daysHeaderRowRemoteView = daysHeaderRowRv,
+                    dayHeaderBackgroundColour = widgetTheme.getCellHeader(MONDAY).background,
+                    cell = Cell(
+                        text = null,
+                        colour = widgetTheme.getCellHeader(MONDAY).textColour,
+                        relativeSize = textSize.relativeValue
+                    )
+                )
+            }
             rotatedWeekDays.zip(expectedDayHeaders).forEach {
                 GraphicResolver.addToDaysHeaderRow(
                     context = context,
@@ -98,34 +113,34 @@ internal class DaysHeaderServiceTest : BaseTest() {
     }
 
     private fun getFirstDayOfWeekAndThemeAndThemeAndTextSizeWithExpectedOutput() = listOf(
-        of(MONDAY, DARK, Transparency(10), TextSize(40), listOf("MON", "DOO", "WED", "THU", "FRI", "SAT", "SUN")),
-        of(TUESDAY, DARK, Transparency(20), TextSize(40), listOf("DOO", "WED", "THU", "FRI", "SAT", "SUN", "MON")),
-        of(WEDNESDAY, DARK, Transparency(20), TextSize(40), listOf("WED", "THU", "FRI", "SAT", "SUN", "MON", "DOO")),
-        of(THURSDAY, DARK, Transparency(30), TextSize(40), listOf("THU", "FRI", "SAT", "SUN", "MON", "DOO", "WED")),
-        of(FRIDAY, DARK, Transparency(90), TextSize(40), listOf("FRI", "SAT", "SUN", "MON", "DOO", "WED", "THU")),
-        of(SATURDAY, DARK, Transparency(15), TextSize(40), listOf("SAT", "SUN", "MON", "DOO", "WED", "THU", "FRI")),
-        of(SUNDAY, DARK, Transparency(20), TextSize(40), listOf("SUN", "MON", "DOO", "WED", "THU", "FRI", "SAT")),
-        of(MONDAY, DARK, Transparency(0), TextSize(15), listOf("M", "D", "W", "T", "F", "S", "S")),
-        of(TUESDAY, DARK, Transparency(55), TextSize(15), listOf("D", "W", "T", "F", "S", "S", "M")),
-        of(WEDNESDAY, DARK, Transparency(15), TextSize(15), listOf("W", "T", "F", "S", "S", "M", "D")),
-        of(THURSDAY, DARK, Transparency(20), TextSize(15), listOf("T", "F", "S", "S", "M", "D", "W")),
-        of(FRIDAY, DARK, Transparency(20), TextSize(15), listOf("F", "S", "S", "M", "D", "W", "T")),
-        of(SATURDAY, DARK, Transparency(20), TextSize(15), listOf("S", "S", "M", "D", "W", "T", "F")),
-        of(SUNDAY, DARK, Transparency(20), TextSize(15), listOf("S", "M", "D", "W", "T", "F", "S")),
-        of(MONDAY, LIGHT, Transparency(80), TextSize(40), listOf("MON", "DOO", "WED", "THU", "FRI", "SAT", "SUN")),
-        of(TUESDAY, LIGHT, Transparency(5), TextSize(40), listOf("DOO", "WED", "THU", "FRI", "SAT", "SUN", "MON")),
-        of(WEDNESDAY, LIGHT, Transparency(20), TextSize(40), listOf("WED", "THU", "FRI", "SAT", "SUN", "MON", "DOO")),
-        of(THURSDAY, LIGHT, Transparency(20), TextSize(40), listOf("THU", "FRI", "SAT", "SUN", "MON", "DOO", "WED")),
-        of(FRIDAY, LIGHT, Transparency(20), TextSize(40), listOf("FRI", "SAT", "SUN", "MON", "DOO", "WED", "THU")),
-        of(SATURDAY, LIGHT, Transparency(20), TextSize(40), listOf("SAT", "SUN", "MON", "DOO", "WED", "THU", "FRI")),
-        of(SUNDAY, LIGHT, Transparency(20), TextSize(40), listOf("SUN", "MON", "DOO", "WED", "THU", "FRI", "SAT")),
-        of(MONDAY, LIGHT, Transparency(20), TextSize(15), listOf("M", "D", "W", "T", "F", "S", "S")),
-        of(TUESDAY, LIGHT, Transparency(20), TextSize(15), listOf("D", "W", "T", "F", "S", "S", "M")),
-        of(WEDNESDAY, LIGHT, Transparency(15), TextSize(15), listOf("W", "T", "F", "S", "S", "M", "D")),
-        of(THURSDAY, LIGHT, Transparency(100), TextSize(15), listOf("T", "F", "S", "S", "M", "D", "W")),
-        of(FRIDAY, LIGHT, Transparency(0), TextSize(15), listOf("F", "S", "S", "M", "D", "W", "T")),
-        of(SATURDAY, LIGHT, Transparency(20), TextSize(15), listOf("S", "S", "M", "D", "W", "T", "F")),
-        of(SUNDAY, LIGHT, Transparency(20), TextSize(15), listOf("S", "M", "D", "W", "T", "F", "S"))
+        of(MONDAY, DARK, Transparency(10), TextSize(40), false, listOf("MON", "DOO", "WED", "THU", "FRI", "SAT", "SUN")),
+        of(TUESDAY, DARK, Transparency(20), TextSize(40), true, listOf("DOO", "WED", "THU", "FRI", "SAT", "SUN", "MON")),
+        of(WEDNESDAY, DARK, Transparency(20), TextSize(40), false, listOf("WED", "THU", "FRI", "SAT", "SUN", "MON", "DOO")),
+        of(THURSDAY, DARK, Transparency(30), TextSize(40), true, listOf("THU", "FRI", "SAT", "SUN", "MON", "DOO", "WED")),
+        of(FRIDAY, DARK, Transparency(90), TextSize(40), false, listOf("FRI", "SAT", "SUN", "MON", "DOO", "WED", "THU")),
+        of(SATURDAY, DARK, Transparency(15), TextSize(40), true, listOf("SAT", "SUN", "MON", "DOO", "WED", "THU", "FRI")),
+        of(SUNDAY, DARK, Transparency(20), TextSize(40), false, listOf("SUN", "MON", "DOO", "WED", "THU", "FRI", "SAT")),
+        of(MONDAY, DARK, Transparency(0), TextSize(15), true, listOf("M", "D", "W", "T", "F", "S", "S")),
+        of(TUESDAY, DARK, Transparency(55), TextSize(15), false, listOf("D", "W", "T", "F", "S", "S", "M")),
+        of(WEDNESDAY, DARK, Transparency(15), TextSize(15), true, listOf("W", "T", "F", "S", "S", "M", "D")),
+        of(THURSDAY, DARK, Transparency(20), TextSize(15), false, listOf("T", "F", "S", "S", "M", "D", "W")),
+        of(FRIDAY, DARK, Transparency(20), TextSize(15), true, listOf("F", "S", "S", "M", "D", "W", "T")),
+        of(SATURDAY, DARK, Transparency(20), TextSize(15), false, listOf("S", "S", "M", "D", "W", "T", "F")),
+        of(SUNDAY, DARK, Transparency(20), TextSize(15), true, listOf("S", "M", "D", "W", "T", "F", "S")),
+        of(MONDAY, LIGHT, Transparency(80), TextSize(40), true, listOf("MON", "DOO", "WED", "THU", "FRI", "SAT", "SUN")),
+        of(TUESDAY, LIGHT, Transparency(5), TextSize(40), false, listOf("DOO", "WED", "THU", "FRI", "SAT", "SUN", "MON")),
+        of(WEDNESDAY, LIGHT, Transparency(20), TextSize(40), true, listOf("WED", "THU", "FRI", "SAT", "SUN", "MON", "DOO")),
+        of(THURSDAY, LIGHT, Transparency(20), TextSize(40), false, listOf("THU", "FRI", "SAT", "SUN", "MON", "DOO", "WED")),
+        of(FRIDAY, LIGHT, Transparency(20), TextSize(40), true, listOf("FRI", "SAT", "SUN", "MON", "DOO", "WED", "THU")),
+        of(SATURDAY, LIGHT, Transparency(20), TextSize(40), false, listOf("SAT", "SUN", "MON", "DOO", "WED", "THU", "FRI")),
+        of(SUNDAY, LIGHT, Transparency(20), TextSize(40), true, listOf("SUN", "MON", "DOO", "WED", "THU", "FRI", "SAT")),
+        of(MONDAY, LIGHT, Transparency(20), TextSize(15), false, listOf("M", "D", "W", "T", "F", "S", "S")),
+        of(TUESDAY, LIGHT, Transparency(20), TextSize(15), true, listOf("D", "W", "T", "F", "S", "S", "M")),
+        of(WEDNESDAY, LIGHT, Transparency(15), TextSize(15), false, listOf("W", "T", "F", "S", "S", "M", "D")),
+        of(THURSDAY, LIGHT, Transparency(100), TextSize(15), true, listOf("T", "F", "S", "S", "M", "D", "W")),
+        of(FRIDAY, LIGHT, Transparency(0), TextSize(15), false, listOf("F", "S", "S", "M", "D", "W", "T")),
+        of(SATURDAY, LIGHT, Transparency(20), TextSize(15), true, listOf("S", "S", "M", "D", "W", "T", "F")),
+        of(SUNDAY, LIGHT, Transparency(20), TextSize(15), false, listOf("S", "M", "D", "W", "T", "F", "S"))
     )
 
     private fun getFirstDayOfWeekAndTExpectedRotatedDaysOfWeek() = listOf(

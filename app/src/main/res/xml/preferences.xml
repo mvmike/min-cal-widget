@@ -31,6 +31,11 @@
             android:key="OPEN_CALENDAR_ON_CLICKED_DAY"
             android:title="@string/open_calendar_into_clicked_day" />
 
+        <cat.mvmike.minimalcalendarwidget.domain.configuration.MultilineCheckBoxPreference
+            android:icon="@drawable/ic_week_number"
+            android:key="SHOW_WEEK_NUMBER"
+            android:title="@string/show_week_number" />
+
     </PreferenceCategory>
 
     <PreferenceCategory

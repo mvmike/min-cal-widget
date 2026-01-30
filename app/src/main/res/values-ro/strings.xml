@@ -11,6 +11,7 @@
     <string name="show_declined_events">Arată evenimente refuzate</string>
     <string name="focus_on_current_week">Concentrare pe săptămâna curentă</string>
     <string name="open_calendar_into_clicked_day">Deschide calendarul în ziua selectată</string>
+    <string name="show_week_number">Arată numărul săptămânii</string>
     <!--configuration - appearance-->
     <string name="appearance">Aspect</string>
     <string name="theme">Temă</string>

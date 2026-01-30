@@ -66,6 +66,10 @@ sealed class BooleanConfigurationItem(
     data object OpenCalendarOnClickedDay : BooleanConfigurationItem(
         key = "OPEN_CALENDAR_ON_CLICKED_DAY"
     )
+
+    data object ShowWeekNumber : BooleanConfigurationItem(
+        key = "SHOW_WEEK_NUMBER"
+    )
 }
 
 sealed class EnumConfigurationItem<E : Enum<E>>(

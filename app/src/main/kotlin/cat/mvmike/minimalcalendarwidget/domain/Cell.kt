@@ -6,7 +6,7 @@ import android.text.Layout
 import java.time.DayOfWeek
 
 data class Cell(
-    val text: String,
+    val text: String?,
     val colour: Int,
     val relativeSize: Float,
     val background: Int? = null,

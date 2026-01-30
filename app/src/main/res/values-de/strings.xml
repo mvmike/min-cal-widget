@@ -11,6 +11,7 @@
     <string name="show_declined_events">Abgelehnte Veranstaltungen anzeigen</string>
     <string name="focus_on_current_week">Aktueller Wochenfokus</string>
     <string name="open_calendar_into_clicked_day">Kalender am angeklickten Tag öffnen</string>
+    <string name="show_week_number">Wochennummer anzeigen</string>
     <!--configuration - appearance-->
     <string name="appearance">Aussehen</string>
     <string name="theme">Thema</string>

@@ -118,4 +118,23 @@ internal class ThemeTest : BaseTest() {
 
         assertThat(result).isEqualTo(expectedResult)
     }
+
+    @ParameterizedTest
+    @CsvSource(
+        "DARK,$DARK_THEME_TEXT_COLOUR",
+        "LIGHT,$LIGHT_THEME_TEXT_COLOUR"
+    )
+    fun getCellWeekNumber(
+        widgetTheme: Theme,
+        expectedCellThemeTextColour: Int
+    ) {
+        val expectedResult = CellStyle(
+            textColour = expectedCellThemeTextColour,
+            background = null
+        )
+
+        val result = widgetTheme.getCellWeekNumber()
+
+        assertThat(result).isEqualTo(expectedResult)
+    }
 }

@@ -11,6 +11,7 @@
     <string name="show_declined_events">顯示已拒絕事件</string>
     <string name="focus_on_current_week">專注於目前一週</string>
     <string name="open_calendar_into_clicked_day">開啟行事曆時移至按下的日子</string>
+    <string name="show_week_number">顯示週數</string>
     <!--configuration - appearance-->
     <string name="appearance">外觀</string>
     <string name="theme">佈景主題</string>

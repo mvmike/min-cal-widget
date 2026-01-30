@@ -81,6 +81,8 @@ enum class Theme(
         inMonth -> thisMonth
         else -> outOfMonth
     }.get(dayOfWeek)
+
+    fun getCellWeekNumber() = outOfMonth.get(DayOfWeek.MONDAY)
 }
 
 fun getThemeDisplayValues(context: Context) =

@@ -161,7 +161,8 @@ class SettingsFragment :
 
     private fun booleanConfigurationItems() = setOf(
         BooleanConfigurationItem.ShowDeclinedEvents,
-        BooleanConfigurationItem.FocusOnCurrentWeek
+        BooleanConfigurationItem.FocusOnCurrentWeek,
+        BooleanConfigurationItem.ShowWeekNumber
     )
 
     private fun percentageConfigurationItems() = setOf(

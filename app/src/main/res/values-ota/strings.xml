@@ -11,6 +11,7 @@
     <string name="show_declined_events">ردەدیلەن ایتكنلكلری گوستر</string>
     <string name="focus_on_current_week">گچرلی هفتەیە اوداقلان</string>
     <string name="open_calendar_into_clicked_day">تقویمی طیقلانان گونە آچ</string>
+    <string name="show_week_number">هفتە نوماراسنی گوستر</string>
     <!--configuration - appearance-->
     <string name="appearance">دیش گورونوش</string>
     <string name="theme">تەما</string>

@@ -11,6 +11,7 @@
     <string name="show_declined_events">ਰੱਦ ਕਰਨ ਵੇਖੋ</string>
     <string name="focus_on_current_week">ਮੌਜੂਦਾ ਹਫ਼ਤੇ ’ਤੇ ਧਿਆਨ ਦਿਓ</string>
     <string name="open_calendar_into_clicked_day">ਕਲਿਕ ਕੀਤੇ ਦਿਨ ਵਿੱਚ ਕੈਲੰਡਰ ਖੋਲ੍ਹੋ</string>
+    <string name="show_week_number">ਹਫ਼ਤਾ ਨੰਬਰ ਦਿਖਾਓ</string>
     <!--configuration - appearance-->
     <string name="appearance">ਵੇਖਣ</string>
     <string name="theme">ਥੀਮ</string>

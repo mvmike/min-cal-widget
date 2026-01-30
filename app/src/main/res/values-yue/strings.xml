@@ -11,6 +11,7 @@
     <string name="show_declined_events">推咗嗰啲事幹都照顯示</string>
     <string name="focus_on_current_week">專心目前呢個禮拜</string>
     <string name="open_calendar_into_clicked_day">日曆揭返去撳開嗰日</string>
+    <string name="show_week_number">顯示週數</string>
     <!--configuration - appearance-->
     <string name="appearance">介面</string>
     <string name="theme">色系</string>

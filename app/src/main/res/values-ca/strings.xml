@@ -11,6 +11,7 @@
     <string name="show_declined_events">Mostra esdeveniments rebutjats</string>
     <string name="focus_on_current_week">Focus en la setmana actual</string>
     <string name="open_calendar_into_clicked_day">Obrir calendari en el dia clicat</string>
+    <string name="show_week_number">Mostra el número de la setmana</string>
     <!--configuration - appearance-->
     <string name="appearance">Aparença</string>
     <string name="theme">Tema</string>

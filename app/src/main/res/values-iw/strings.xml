@@ -11,6 +11,7 @@
     <string name="show_declined_events">הצג אירועים שנדחו</string>
     <string name="focus_on_current_week">התמקדות בשבוע הנוכחי</string>
     <string name="open_calendar_into_clicked_day">פתח את היומן לתוך היום שנלחץ עליו</string>
+    <string name="show_week_number">הצג מספר שבוע</string>
     <!--configuration - appearance-->
     <string name="appearance">נראות</string>
     <string name="theme">עיצוב</string>

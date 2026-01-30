@@ -11,6 +11,7 @@
     <string name="show_declined_events">Rodyti atmestus įvykius</string>
     <string name="focus_on_current_week">Susikoncentruokite į dabartinę savaitę</string>
     <string name="open_calendar_into_clicked_day">Atidarykite kalendorių spustelėjus dieną</string>
+    <string name="show_week_number">Rodyti savaitės numerį</string>
     <!--configuration - appearance-->
     <string name="appearance">Išvaizda</string>
     <string name="theme">Tema</string>
