@@ -115,13 +115,23 @@ android {
                 "${project.rootDir}/config/proguard/proguard-rules.pro"
             )
         }
+        create("beta") {
+            initWith(getByName("release"))
+            applicationIdSuffix = ".BETA"
+        }
     }
 
     androidComponents {
         onVariants { variant ->
-            variant.takeIf { it.buildType == "release" }?.outputs
-                ?.mapNotNull { it as? com.android.build.api.variant.impl.VariantOutputImpl }
-                ?.forEach { it.outputFileName = "min-cal-widget-v${defaultConfig.versionName}.apk" }
+            when (variant.buildType) {
+                "release" -> "min-cal-widget-v${defaultConfig.versionName}.apk"
+                "beta" -> "min-cal-widget-v${defaultConfig.versionName}-BETA.apk"
+                else -> null
+            }?.let { apkName ->
+                variant.outputs
+                    .mapNotNull { it as? com.android.build.api.variant.impl.VariantOutputImpl }
+                    .forEach { it.outputFileName = apkName }
+            }
         }
     }
 }
