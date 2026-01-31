@@ -3,7 +3,6 @@
 package cat.mvmike.minimalcalendarwidget.infrastructure.resolver
 
 import android.content.Context
-import android.graphics.Color
 import android.graphics.Typeface
 import android.text.SpannableString
 import android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
@@ -14,6 +13,7 @@ import android.widget.RemoteViews
 import androidx.core.content.ContextCompat
 import cat.mvmike.minimalcalendarwidget.R
 import cat.mvmike.minimalcalendarwidget.domain.Cell
+import androidx.core.graphics.toColorInt
 
 object GraphicResolver {
 
@@ -99,7 +99,7 @@ object GraphicResolver {
         id: Int
     ) = context.resources.getString(id)
 
-    fun parseColour(colourString: String) = Color.parseColor(colourString)
+    fun parseColour(colourString: String) = colourString.toColorInt()
 
     fun Int.setAsBackground(
         remoteViews: RemoteViews,
