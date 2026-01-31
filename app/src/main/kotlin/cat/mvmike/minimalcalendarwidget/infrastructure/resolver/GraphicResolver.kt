@@ -11,9 +11,9 @@ import android.text.style.RelativeSizeSpan
 import android.text.style.StyleSpan
 import android.widget.RemoteViews
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.toColorInt
 import cat.mvmike.minimalcalendarwidget.R
 import cat.mvmike.minimalcalendarwidget.domain.Cell
-import androidx.core.graphics.toColorInt
 
 object GraphicResolver {
 
