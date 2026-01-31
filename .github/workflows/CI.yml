@@ -24,5 +24,4 @@ jobs:
             **/gradle-wrapper.properties
       # https://github.com/gradle/actions
       - uses: gradle/actions/wrapper-validation@v5
-      # TODO go back to defaultTasks https://github.com/jeremymailen/kotlinter-gradle/issues/506
-      - run: ./gradlew clean build assembleRelease -Dorg.gradle.jvmargs=-Xmx4096m
+      - run: ./gradlew

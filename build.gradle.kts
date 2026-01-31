@@ -21,10 +21,8 @@ allprojects {
 }
 
 defaultTasks(
-    //"formatKotlin",
     "lintKotlin",
     "clean",
-    //"koverHtmlReportRelease",
-    "koverVerifyRelease",
+    "koverVerify",
     "assembleRelease"
 )
