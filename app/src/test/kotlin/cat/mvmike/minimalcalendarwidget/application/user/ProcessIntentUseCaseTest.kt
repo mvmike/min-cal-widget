@@ -48,12 +48,12 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
     @Test
     fun shouldLaunchConfigurationActivity() {
         mockIntent("action.mincal.configuration_icon_click")
-        justRun { ConfigurationActivity.Companion.start(context) }
+        justRun { ConfigurationActivity.start(context) }
 
         ProcessIntentUseCase.execute(context, intent)
 
         verifyIntentAction()
-        verify { ConfigurationActivity.Companion.start(context) }
+        verify { ConfigurationActivity.start(context) }
     }
 
     @ParameterizedTest
@@ -73,7 +73,7 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
         mockInstancesSymbolSet(SymbolSet.MINIMAL)
         mockkObject(AutoUpdate)
 
-        justRun { PermissionsActivity.Companion.start(context) }
+        justRun { PermissionsActivity.start(context) }
         justRun { AutoUpdate.set(context) }
 
         ProcessIntentUseCase.execute(context, intent)
@@ -81,7 +81,7 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
         verifyIntentAction()
         verifyIsReadCalendarPermitted()
         verifyInstancesSymbolSet()
-        verify { PermissionsActivity.Companion.start(context) }
+        verify { PermissionsActivity.start(context) }
         verify { AutoUpdate.set(context) }
     }
 
