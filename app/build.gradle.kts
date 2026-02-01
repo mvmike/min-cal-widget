@@ -12,15 +12,49 @@ plugins {
     id("org.jetbrains.kotlinx.kover") version "0.9.5"
 }
 
+dependencies {
+    // https://developer.android.com/jetpack/androidx/releases/appcompat
+    implementation("androidx.appcompat:appcompat:1.7.1")
+    // https://developer.android.com/jetpack/androidx/releases/core
+    implementation("androidx.core:core-ktx:1.17.0")
+    // https://developer.android.com/jetpack/androidx/releases/preference
+    implementation("androidx.preference:preference-ktx:1.2.1")
+
+    // https://github.com/junit-team/junit5/releases
+    val junitJupiterVersion = "6.0.2"
+    testImplementation("org.junit.jupiter:junit-jupiter-api:$junitJupiterVersion")
+    testImplementation("org.junit.jupiter:junit-jupiter-params:$junitJupiterVersion")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junitJupiterVersion")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+
+    // https://github.com/mockk/mockk/releases
+    testImplementation("io.mockk:mockk:1.14.9")
+
+    // https://github.com/assertj/assertj-core/tags
+    testImplementation("org.assertj:assertj-core:3.27.7")
+
+    // https://github.com/TNG/ArchUnit/releases
+    testImplementation("com.tngtech.archunit:archunit-junit5:1.4.1")
+
+    // https://github.com/qos-ch/slf4j/tags
+    testImplementation("org.slf4j:slf4j-simple:2.0.17")
+}
+
+// https://adoptium.net/temurin/releases/
+private val javaVersion = JavaVersion.VERSION_21
+
+kotlin {
+    compilerOptions {
+        jvmTarget = JvmTarget.fromTarget(javaVersion.toString())
+    }
+}
+
 android {
     namespace = "cat.mvmike.minimalcalendarwidget"
 
     // https://source.android.com/setup/start/build-numbers
     val minAndroidVersion = 26   // 8.0
     val androidVersion = 36      // 16.0
-
-    // https://adoptium.net/temurin/releases/
-    val javaVersion = JavaVersion.VERSION_21
 
     compileSdk = androidVersion
 
@@ -45,38 +79,9 @@ android {
         buildConfig = true
     }
 
-    kotlin {
-        compilerOptions {
-            jvmTarget = JvmTarget.fromTarget(javaVersion.toString())
-        }
-    }
-
     androidResources {
         @Suppress("UnstableApiUsage")
         generateLocaleConfig = true
-    }
-
-    tasks.withType<Test> {
-        useJUnitPlatform()
-        jvmArgs("-XX:+EnableDynamicAgentLoading")
-        testLogging {
-            events(SKIPPED, FAILED, STANDARD_ERROR, STANDARD_OUT)
-        }
-        afterSuite(
-            KotlinClosure2(
-                { desc: TestDescriptor, result: TestResult ->
-                    desc.parent
-                        ?.let { return@KotlinClosure2 } // only the outermost suite
-                        ?: println(
-                            "${result.resultType} (" +
-                                "${result.testCount} tests - " +
-                                "${result.successfulTestCount} successes, " +
-                                "${result.failedTestCount} failures, " +
-                                "${result.skippedTestCount} skipped)"
-                        )
-                }
-            )
-        )
     }
 
     /*
@@ -121,6 +126,7 @@ android {
         }
     }
 
+    @Suppress("WrongGradleMethod")
     androidComponents {
         onVariants { variant ->
             when (variant.buildType) {
@@ -134,6 +140,29 @@ android {
             }
         }
     }
+}
+
+tasks.withType<Test> {
+    useJUnitPlatform()
+    jvmArgs("-XX:+EnableDynamicAgentLoading")
+    testLogging {
+        events(SKIPPED, FAILED, STANDARD_ERROR, STANDARD_OUT)
+    }
+    afterSuite(
+        KotlinClosure2(
+            { desc: TestDescriptor, result: TestResult ->
+                desc.parent
+                    ?.let { return@KotlinClosure2 } // only the outermost suite
+                    ?: println(
+                        "${result.resultType} (" +
+                            "${result.testCount} tests - " +
+                            "${result.successfulTestCount} successes, " +
+                            "${result.failedTestCount} failures, " +
+                            "${result.skippedTestCount} skipped)"
+                    )
+            }
+        )
+    )
 }
 
 kover {
@@ -158,32 +187,4 @@ kover {
             }
         }
     }
-}
-
-dependencies {
-    // https://developer.android.com/jetpack/androidx/releases/appcompat
-    implementation("androidx.appcompat:appcompat:1.7.1")
-    // https://developer.android.com/jetpack/androidx/releases/core
-    implementation("androidx.core:core-ktx:1.17.0")
-    // https://developer.android.com/jetpack/androidx/releases/preference
-    implementation("androidx.preference:preference-ktx:1.2.1")
-
-    // https://github.com/junit-team/junit5/releases
-    val junitJupiterVersion = "6.0.2"
-    testImplementation("org.junit.jupiter:junit-jupiter-api:$junitJupiterVersion")
-    testImplementation("org.junit.jupiter:junit-jupiter-params:$junitJupiterVersion")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junitJupiterVersion")
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-
-    // https://github.com/mockk/mockk/releases
-    testImplementation("io.mockk:mockk:1.14.9")
-
-    // https://github.com/assertj/assertj-core/tags
-    testImplementation("org.assertj:assertj-core:3.27.7")
-
-    // https://github.com/TNG/ArchUnit/releases
-    testImplementation("com.tngtech.archunit:archunit-junit5:1.4.1")
-
-    // https://github.com/qos-ch/slf4j/tags
-    testImplementation("org.slf4j:slf4j-simple:2.0.17")
 }
