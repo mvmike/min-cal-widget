@@ -79,7 +79,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
                     daysHeaderRowRemoteView = daysHeaderRowRv,
                     dayHeaderBackgroundColour = widgetTheme.getCellHeader(MONDAY).background,
                     cell = Cell(
-                        text = null,
+                        text = " ",
                         colour = widgetTheme.getCellHeader(MONDAY).textColour,
                         relativeSize = textSize.relativeValue
                     )

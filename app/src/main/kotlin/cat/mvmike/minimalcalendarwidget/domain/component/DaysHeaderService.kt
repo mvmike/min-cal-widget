@@ -32,19 +32,12 @@ object DaysHeaderService {
 
         if (showWeekNumber) {
             val cellHeader = widgetTheme.getCellHeader(DayOfWeek.MONDAY)
-            val backgroundWithTransparency = cellHeader.background
-                ?.let { GraphicResolver.getColourAsString(context, it) }
-                ?.withTransparency(
-                    transparency = transparency,
-                    transparencyRange = TransparencyRange.MODERATE
-                )
-
             GraphicResolver.addToDaysHeaderRow(
                 context = context,
                 daysHeaderRowRemoteView = daysHeaderRow,
-                dayHeaderBackgroundColour = backgroundWithTransparency,
+                dayHeaderBackgroundColour = null,
                 cell = Cell(
-                    text = null,
+                    text = " ",
                     colour = cellHeader.textColour,
                     relativeSize = textSize.relativeValue
                 )
