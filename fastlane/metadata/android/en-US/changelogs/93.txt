@@ -1,0 +1,7 @@
+v2.19.0
+- Updated app icon
+- Add calendar visibility selection configuration
+- Add configuration to show week number
+- Fix misalignment between days of week and day cells
+- Added turkish (ottoman) translations
+- Technical maintenance
