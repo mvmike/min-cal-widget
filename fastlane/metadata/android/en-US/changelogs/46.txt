@@ -1,2 +1,2 @@
 v2.6.5
-- header text relative to widget size
+- Header text relative to widget size

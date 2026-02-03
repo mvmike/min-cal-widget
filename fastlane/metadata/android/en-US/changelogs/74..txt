@@ -1,4 +1,4 @@
 v2.12.4
-- headers to keep proportion on widget resize
-- fix widget configuration callback on some devices
-- technical maintenance
+- Headers to keep proportion on widget resize
+- Fix widget configuration callback on some devices
+- Technical maintenance

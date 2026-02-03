@@ -1,4 +1,4 @@
 v2.9.2
-- update instances query to fix some ANR in redmi devices
-- remove unused resources
-- technical maintenance
+- Update instances query to fix some ANR in redmi devices
+- Remove unused resources
+- Technical maintenance

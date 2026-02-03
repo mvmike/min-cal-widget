@@ -1,5 +1,5 @@
 v2.12.7
-- always access configuration on pressing widget's top right corner
-- added ukrainian language
-- fix some punjabi translations
-- technical maintenance
+- Always access configuration on pressing widget's top right corner
+- Added ukrainian language
+- Fix some punjabi translations
+- Technical maintenance

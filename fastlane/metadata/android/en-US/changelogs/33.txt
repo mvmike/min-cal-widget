@@ -1,3 +1,3 @@
 v2.3.1
-- minor symbol set relative size adjustment
-- fix alignment in config screen
+- Minor symbol set relative size adjustment
+- Fix alignment in config screen

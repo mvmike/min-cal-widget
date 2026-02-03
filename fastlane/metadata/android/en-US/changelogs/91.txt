@@ -1,6 +1,6 @@
 v2.18.5
-- added romanian translations
-- updated ukrainian translations
-- avoid crash on some honor devices with unimplemented regional preference values
-- minor status bar style update
-- technical maintenance
+- Added romanian translations
+- Updated ukrainian translations
+- Avoid crash on some honor devices with unimplemented regional preference values
+- Minor status bar style update
+- Technical maintenance

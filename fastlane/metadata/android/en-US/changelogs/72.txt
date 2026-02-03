@@ -1,3 +1,3 @@
 v2.12.2
-- fix time change intent filter
-- technical maintenance
+- Fix time change intent filter
+- Technical maintenance

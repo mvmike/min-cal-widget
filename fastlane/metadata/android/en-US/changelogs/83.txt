@@ -1,5 +1,5 @@
 v2.17.0
-- allow multiple lines in settings screen
-- show symbol set and not its name on preference screen
-- add blocks symbol set
-- technical maintenance
+- Allow multiple lines in settings screen
+- Show symbol set and not its name on preference screen
+- Add blocks symbol set
+- Technical maintenance

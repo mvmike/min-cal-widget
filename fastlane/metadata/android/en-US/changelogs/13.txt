@@ -1,2 +1,2 @@
 v1.0.1
-- fix event instance calculation zoneId
+- Fix event instance calculation zoneId

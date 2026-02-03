@@ -1,5 +1,5 @@
 v2.0.1
-- updated icon
-- banner for app catalogues
-- internationalization (Esperanto)
-- technical improvements
+- Updated icon
+- Banner for app catalogues
+- Internationalization (Esperanto)
+- Technical improvements

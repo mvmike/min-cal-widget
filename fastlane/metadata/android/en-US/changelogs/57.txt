@@ -1,4 +1,4 @@
 v2.8.0
-- open calendar when pressing month and year header
-- open calendar into clicked day (new config item, disabled by default)
-- technical maintenance
+- Open calendar when pressing month and year header
+- Open calendar into clicked day (new config item, disabled by default)
+- Technical maintenance

@@ -1,3 +1,3 @@
 v0.3.3
-- support for android Pie
-- technical improvements
+- Support for android Pie
+- Technical improvements

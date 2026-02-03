@@ -1,4 +1,4 @@
 v2.11.0
-- center alignment for days of month
-- adjusted percentage to show shorter label lengths
-- technical maintenance
+- Center alignment for days of month
+- Adjusted percentage to show shorter label lengths
+- Technical maintenance

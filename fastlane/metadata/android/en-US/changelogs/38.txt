@@ -1,5 +1,5 @@
 v2.5.0
-- add focus on current week configuration
-- add background for weekends out of current month
-- fixed some polish locales
-- technical improvements
+- Add focus on current week configuration
+- Add background for weekends out of current month
+- Fixed some polish locales
+- Technical improvements

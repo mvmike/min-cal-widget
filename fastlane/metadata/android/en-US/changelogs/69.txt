@@ -1,2 +1,2 @@
 v2.11.4
-- technical maintenance
+- Technical maintenance

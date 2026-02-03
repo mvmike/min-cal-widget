@@ -1,3 +1,3 @@
 v2.10.1
-- reduced text size max relative size
-- minor visual adjustments on header
+- Reduced text size max relative size
+- Minor visual adjustments on header

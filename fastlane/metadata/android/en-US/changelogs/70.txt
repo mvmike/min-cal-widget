@@ -1,6 +1,6 @@
 v2.12.0
-- decrease minAndroidVersion to API 24 (Android 7.0 - Nougat)
-- allow configuration native widget features for API 28 and higher
-- add reset settings and close buttons to configuration screen
-- add target cell width and height for API 31 and higher
-- technical maintenance
+- Decrease minAndroidVersion to API 24 (Android 7.0 - Nougat)
+- Allow configuration native widget features for API 28 and higher
+- Add reset settings and close buttons to configuration screen
+- Add target cell width and height for API 31 and higher
+- Technical maintenance

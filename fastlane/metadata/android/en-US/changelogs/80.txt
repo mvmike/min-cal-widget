@@ -1,4 +1,4 @@
 v2.15.0
-- new highlight method for current day (underlined and bold day of month and instance symbol -if any- in red)
-- updated some yue translations
-- technical maintenance
+- New highlight method for current day (underlined and bold day of month and instance symbol -if any- in red)
+- Updated some yue translations
+- Technical maintenance

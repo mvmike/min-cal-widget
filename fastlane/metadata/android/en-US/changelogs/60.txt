@@ -1,3 +1,3 @@
 v2.9.1
-- added portuguese language
-- updated chinese (traditional) and yue translations
+- Added portuguese language
+- Updated chinese (traditional) and yue translations

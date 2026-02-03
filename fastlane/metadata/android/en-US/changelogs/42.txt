@@ -1,2 +1,2 @@
 v2.6.1
-- fix lag on updating preferences
+- Fix lag on updating preferences

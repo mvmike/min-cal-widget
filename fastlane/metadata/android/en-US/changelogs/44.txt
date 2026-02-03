@@ -1,6 +1,6 @@
 v2.6.3
-- fix some samsung calendar events having invalid/null zoneIds
-- fix some invalid instance query scenarios
-- updated license to follow standard template
-- increased min version to 26 (Android 8.0)
-- technical maintenance
+- Fix some samsung calendar events having invalid/null zoneIds
+- Fix some invalid instance query scenarios
+- Updated license to follow standard template
+- Increased min version to 26 (Android 8.0)
+- Technical maintenance

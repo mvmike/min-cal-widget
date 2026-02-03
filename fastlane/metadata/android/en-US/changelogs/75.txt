@@ -1,5 +1,5 @@
 v2.12.5
-- better day alignment when no instance symbols visible in whole widget
-- improved system instance query range
-- removed unnecessary legacy permission
-- technical maintenance
+- Better day alignment when no instance symbols visible in whole widget
+- Improved system instance query range
+- Removed unnecessary legacy permission
+- Technical maintenance

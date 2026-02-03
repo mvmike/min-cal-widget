@@ -1,4 +1,4 @@
 v2.16.0
-- fix incorrect instance calculation on events in different timezones than system
-- fix widget automatic refresh after updating
-- technical maintenance
+- Fix incorrect instance calculation on events in different timezones than system
+- Fix widget automatic refresh after updating
+- Technical maintenance

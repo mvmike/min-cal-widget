@@ -1,2 +1,2 @@
 v2.8.1
-- use current system hour when opening calendar into clicked day
+- Use current system hour when opening calendar into clicked day

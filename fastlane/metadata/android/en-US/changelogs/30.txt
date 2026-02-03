@@ -1,2 +1,2 @@
 v2.1.2
-- technical improvements
+- Technical improvements

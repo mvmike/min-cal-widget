@@ -1,4 +1,4 @@
 v1.6.1
-- minor symbol tweaks
-- use fastlane
-- technical improvements
+- Minor symbol tweaks
+- Use fastlane
+- Technical improvements

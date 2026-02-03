@@ -1,2 +1,2 @@
 v2.6.11
-- different system accent color shade depending on widget theme
+- Different system accent color shade depending on widget theme

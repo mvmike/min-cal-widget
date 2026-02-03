@@ -1,2 +1,2 @@
 v2.4.0
-- add reduced format
+- Add reduced format

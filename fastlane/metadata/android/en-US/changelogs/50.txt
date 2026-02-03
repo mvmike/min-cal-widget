@@ -1,6 +1,6 @@
 v2.6.9
-- upgrade android target SDK to 33 (13)
-- fix misbehaving formats when multiple instances
-- fix app name not showing in non-english languages
-- updated screenshots
-- technical maintenance
+- Upgrade android target SDK to 33 (13)
+- Fix misbehaving formats when multiple instances
+- Fix app name not showing in non-english languages
+- Updated screenshots
+- Technical maintenance

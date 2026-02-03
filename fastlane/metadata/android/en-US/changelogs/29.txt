@@ -1,5 +1,5 @@
 v2.1.1
-- internationalization (Lithuanian)
-- removed alpha from instances colours
-- refine transparency across all resources
-- technical improvements
+- Internationalization (Lithuanian)
+- Removed alpha from instances colours
+- Refine transparency across all resources
+- Technical improvements

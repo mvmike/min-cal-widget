@@ -1,6 +1,6 @@
 v2.6.12
-- reduce refresh rate to 10'
-- refine system accent dark instances colour shade
-- added punjabi (both gurmukhi and shahmukhi) translations
-- updated croatian translations
-- technical maintenance
+- Reduce refresh rate to 10'
+- Refine system accent dark instances colour shade
+- Added punjabi (both gurmukhi and shahmukhi) translations
+- Updated croatian translations
+- Technical maintenance

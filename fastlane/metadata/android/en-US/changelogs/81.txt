@@ -1,4 +1,4 @@
 v2.15.1
-- do not request for calendar permissions on opening config or when NONE symbol set
-- minor highlight graphic adjustments
-- technical maintenance
+- Do not request for calendar permissions on opening config or when NONE symbol set
+- Minor highlight graphic adjustments
+- Technical maintenance

@@ -1,4 +1,4 @@
 v2.17.1
-- added japanese language
-- fix some vietnamese translations
-- technical maintenance
+- Added japanese language
+- Fix some vietnamese translations
+- Technical maintenance

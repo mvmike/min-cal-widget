@@ -1,4 +1,4 @@
 v2.18.3
-- add reset settings and close buttons to configuration screen
-- added hebrew language
-- technical maintenance
+- Add reset settings and close buttons to configuration screen
+- Added hebrew language
+- Technical maintenance

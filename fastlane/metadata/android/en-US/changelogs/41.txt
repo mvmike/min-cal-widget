@@ -1,4 +1,4 @@
 v2.6.0
-- configuration screen revamp
-- remove loading spinner
-- technical improvements
+- Configuration screen revamp
+- Remove loading spinner
+- Technical improvements
