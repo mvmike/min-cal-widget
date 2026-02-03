@@ -12,6 +12,10 @@
     <string name="focus_on_current_week">今週を中心に表示</string>
     <string name="open_calendar_into_clicked_day">クリックした日でカレンダーを開く</string>
     <string name="show_week_number">週番号を表示する</string>
+    <!--configuration - visible calendar selection-->
+    <string name="visible_calendar_selection">表示するカレンダーを選択</string>
+    <string name="visible_calendar_selection_default">"デフォルトの表示カレンダー"</string>
+    <string name="visible_calendar_selection_custom">"カスタム選択"</string>
     <!--configuration - appearance-->
     <string name="appearance">外観</string>
     <string name="theme">テーマ</string>

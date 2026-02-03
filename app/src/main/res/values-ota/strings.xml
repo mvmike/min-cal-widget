@@ -12,6 +12,10 @@
     <string name="focus_on_current_week">گچرلی هفتەیە اوداقلان</string>
     <string name="open_calendar_into_clicked_day">تقویمی طیقلانان گونە آچ</string>
     <string name="show_week_number">هفتە نوماراسنی گوستر</string>
+    <!--configuration - visible calendar selection-->
+    <string name="visible_calendar_selection">گورونور تقویملری سچیڭ</string>
+    <string name="visible_calendar_selection_default">"وارصاییلان گورونور تقویملر"</string>
+    <string name="visible_calendar_selection_custom">"اوزل سچیم"</string>
     <!--configuration - appearance-->
     <string name="appearance">دیش گورونوش</string>
     <string name="theme">تەما</string>

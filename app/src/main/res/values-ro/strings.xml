@@ -12,6 +12,10 @@
     <string name="focus_on_current_week">Concentrare pe săptămâna curentă</string>
     <string name="open_calendar_into_clicked_day">Deschide calendarul în ziua selectată</string>
     <string name="show_week_number">Arată numărul săptămânii</string>
+    <!--configuration - visible calendar selection-->
+    <string name="visible_calendar_selection">Selectați calendarele vizibile</string>
+    <string name="visible_calendar_selection_default">"Calendare vizibile implicite"</string>
+    <string name="visible_calendar_selection_custom">"Selecție personalizată"</string>
     <!--configuration - appearance-->
     <string name="appearance">Aspect</string>
     <string name="theme">Temă</string>

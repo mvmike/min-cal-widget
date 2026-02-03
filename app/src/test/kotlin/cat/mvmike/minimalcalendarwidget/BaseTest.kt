@@ -166,42 +166,42 @@ open class BaseTest {
         sharedPreferences.edit()
     }
 
-    protected fun mockWidgetTextSize(textSize: TextSize) {
+    protected fun mockCalendarVisibilitySelection(calendarId: Int, calendarVisibilitySelection: Boolean) {
         mockSharedPreferences()
         every {
-            sharedPreferences.getInt(
-                PercentageConfigurationItem.WidgetTextSize.key,
-                PercentageConfigurationItem.WidgetTextSize.defaultValue.percentage
+            sharedPreferences.getBoolean(
+                BooleanConfigurationItem.CalendarVisibilitySelection(calendarId).key,
+                BooleanConfigurationItem.CalendarVisibilitySelection(calendarId).defaultValue
             )
-        } returns textSize.percentage
+        } returns calendarVisibilitySelection
     }
 
-    protected fun verifyWidgetTextSize() {
+    protected fun verifyCalendarVisibilitySelection(calendarId: Int) {
         verifySharedPreferencesAccess()
         verify {
-            sharedPreferences.getInt(
-                PercentageConfigurationItem.WidgetTextSize.key,
-                PercentageConfigurationItem.WidgetTextSize.defaultValue.percentage
+            sharedPreferences.getBoolean(
+                BooleanConfigurationItem.CalendarVisibilitySelection(calendarId).key,
+                BooleanConfigurationItem.CalendarVisibilitySelection(calendarId).defaultValue
             )
         }
     }
 
-    protected fun mockWidgetTransparency(transparency: Transparency) {
+    protected fun mockDefaultVisibleCalendars(defaultVisibleCalendars: Boolean) {
         mockSharedPreferences()
         every {
-            sharedPreferences.getInt(
-                PercentageConfigurationItem.WidgetTransparency.key,
-                PercentageConfigurationItem.WidgetTransparency.defaultValue.percentage
+            sharedPreferences.getBoolean(
+                BooleanConfigurationItem.DefaultVisibleCalendars.key,
+                BooleanConfigurationItem.DefaultVisibleCalendars.defaultValue
             )
-        } returns transparency.percentage
+        } returns defaultVisibleCalendars
     }
 
-    protected fun verifyWidgetTransparency() {
+    protected fun verifyDefaultVisibleCalendars() {
         verifySharedPreferencesAccess()
         verify {
-            sharedPreferences.getInt(
-                PercentageConfigurationItem.WidgetTransparency.key,
-                PercentageConfigurationItem.WidgetTransparency.defaultValue.percentage
+            sharedPreferences.getBoolean(
+                BooleanConfigurationItem.DefaultVisibleCalendars.key,
+                BooleanConfigurationItem.DefaultVisibleCalendars.defaultValue
             )
         }
     }
@@ -382,6 +382,46 @@ open class BaseTest {
             sharedPreferences.getString(
                 EnumConfigurationItem.InstancesColour.key,
                 EnumConfigurationItem.InstancesColour.defaultValue.name
+            )
+        }
+    }
+
+    protected fun mockWidgetTransparency(transparency: Transparency) {
+        mockSharedPreferences()
+        every {
+            sharedPreferences.getInt(
+                PercentageConfigurationItem.WidgetTransparency.key,
+                PercentageConfigurationItem.WidgetTransparency.defaultValue.percentage
+            )
+        } returns transparency.percentage
+    }
+
+    protected fun verifyWidgetTransparency() {
+        verifySharedPreferencesAccess()
+        verify {
+            sharedPreferences.getInt(
+                PercentageConfigurationItem.WidgetTransparency.key,
+                PercentageConfigurationItem.WidgetTransparency.defaultValue.percentage
+            )
+        }
+    }
+
+    protected fun mockWidgetTextSize(textSize: TextSize) {
+        mockSharedPreferences()
+        every {
+            sharedPreferences.getInt(
+                PercentageConfigurationItem.WidgetTextSize.key,
+                PercentageConfigurationItem.WidgetTextSize.defaultValue.percentage
+            )
+        } returns textSize.percentage
+    }
+
+    protected fun verifyWidgetTextSize() {
+        verifySharedPreferencesAccess()
+        verify {
+            sharedPreferences.getInt(
+                PercentageConfigurationItem.WidgetTextSize.key,
+                PercentageConfigurationItem.WidgetTextSize.defaultValue.percentage
             )
         }
     }

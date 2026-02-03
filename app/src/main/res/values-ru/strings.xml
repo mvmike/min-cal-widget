@@ -12,6 +12,10 @@
     <string name="focus_on_current_week">Сосредоточиться на текущей неделе</string>
     <string name="open_calendar_into_clicked_day">Открыть календарь в выбранный день</string>
     <string name="show_week_number">Показать номер недели</string>
+    <!--configuration - visible calendar selection-->
+    <string name="visible_calendar_selection">Выберите видимые календари</string>
+    <string name="visible_calendar_selection_default">"Видимые календари по умолчанию"</string>
+    <string name="visible_calendar_selection_custom">"Пользовательский выбор"</string>
     <!--configuration - appearance-->
     <string name="appearance">Внешний вид</string>
     <string name="theme">Тема</string>

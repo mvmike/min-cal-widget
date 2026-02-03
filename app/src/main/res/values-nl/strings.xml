@@ -12,6 +12,10 @@
     <string name="focus_on_current_week">Focus op huidige week</string>
     <string name="open_calendar_into_clicked_day">Åbn kalender til klikket dag</string>
     <string name="show_week_number">Weeknummer weergeven</string>
+    <!--configuration - visible calendar selection-->
+    <string name="visible_calendar_selection">Selecteer zichtbare kalenders</string>
+    <string name="visible_calendar_selection_default">"Standaard zichtbare kalenders"</string>
+    <string name="visible_calendar_selection_custom">"Aangepaste selectie"</string>
     <!--configuration - appearance-->
     <string name="appearance">Udseende</string>
     <string name="theme">Thema</string>

@@ -12,6 +12,10 @@
     <string name="focus_on_current_week">Susikoncentruokite į dabartinę savaitę</string>
     <string name="open_calendar_into_clicked_day">Atidarykite kalendorių spustelėjus dieną</string>
     <string name="show_week_number">Rodyti savaitės numerį</string>
+    <!--configuration - visible calendar selection-->
+    <string name="visible_calendar_selection">Pasirinkite matomus kalendorius</string>
+    <string name="visible_calendar_selection_default">"Numatytieji matomi kalendoriai"</string>
+    <string name="visible_calendar_selection_custom">"Pasirinktinis pasirinkimas"</string>
     <!--configuration - appearance-->
     <string name="appearance">Išvaizda</string>
     <string name="theme">Tema</string>

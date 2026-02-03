@@ -12,6 +12,10 @@
     <string name="focus_on_current_week">Zentratu aste honetan</string>
     <string name="open_calendar_into_clicked_day">Ireki egutegia klik egindako egunean</string>
     <string name="show_week_number">Erakutsi astearen zenbakia</string>
+    <!--configuration - visible calendar selection-->
+    <string name="visible_calendar_selection">Hautatu ikusgai dauden egutegiak</string>
+    <string name="visible_calendar_selection_default">"Lehenetsitako ikusgai dauden egutegiak"</string>
+    <string name="visible_calendar_selection_custom">"Hautapen pertsonalizatua"</string>
     <!--configuration - appearance-->
     <string name="appearance">Itxura</string>
     <string name="theme">Gaia</string>

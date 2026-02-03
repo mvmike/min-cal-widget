@@ -12,6 +12,10 @@
     <string name="focus_on_current_week">Tập trung vào tuần hiện tại</string>
     <string name="open_calendar_into_clicked_day">Mở lịch vào ngày đã nhấp</string>
     <string name="show_week_number">Hiển thị số tuần</string>
+    <!--configuration - visible calendar selection-->
+    <string name="visible_calendar_selection">Chọn lịch hiển thị</string>
+    <string name="visible_calendar_selection_default">"Lịch hiển thị mặc định"</string>
+    <string name="visible_calendar_selection_custom">"Lựa chọn tùy chỉnh"</string>
     <!--configuration - appearance-->
     <string name="appearance">Diện mạo</string>
     <string name="theme">Chủ đề</string>

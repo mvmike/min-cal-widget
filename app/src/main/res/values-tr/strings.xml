@@ -12,6 +12,10 @@
     <string name="focus_on_current_week">Geçerli haftaya odaklan</string>
     <string name="open_calendar_into_clicked_day">Takvimi tıklanan güne aç</string>
     <string name="show_week_number">Hafta numarasını göster</string>
+    <!--configuration - visible calendar selection-->
+    <string name="visible_calendar_selection">Görünür takvimleri seçin</string>
+    <string name="visible_calendar_selection_default">"Varsayılan görünür takvimler"</string>
+    <string name="visible_calendar_selection_custom">"Özel seçim"</string>
     <!--configuration - appearance-->
     <string name="appearance">Dış Görünüş</string>
     <string name="theme">Tema</string>

@@ -12,6 +12,10 @@
     <string name="focus_on_current_week">Zaměřit se na současný týden</string>
     <string name="open_calendar_into_clicked_day">Otevřít kalendář na rozkliknutý den</string>
     <string name="show_week_number">Zobrazit číslo týdne</string>
+    <!--configuration - visible calendar selection-->
+    <string name="visible_calendar_selection">Vybrat viditelné kalendáře</string>
+    <string name="visible_calendar_selection_default">"Výchozí viditelné kalendáře"</string>
+    <string name="visible_calendar_selection_custom">"Vlastní výběr"</string>
     <!--configuration - appearance-->
     <string name="appearance">Vzhled</string>
     <string name="theme">Téma</string>

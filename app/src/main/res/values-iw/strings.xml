@@ -12,6 +12,10 @@
     <string name="focus_on_current_week">התמקדות בשבוע הנוכחי</string>
     <string name="open_calendar_into_clicked_day">פתח את היומן לתוך היום שנלחץ עליו</string>
     <string name="show_week_number">הצג מספר שבוע</string>
+    <!--configuration - visible calendar selection-->
+    <string name="visible_calendar_selection">בחר לוחות שנה גלויים</string>
+    <string name="visible_calendar_selection_default">"לוחות שנה גלויים כברירת מחדל"</string>
+    <string name="visible_calendar_selection_custom">"בחירה מותאמת אישית"</string>
     <!--configuration - appearance-->
     <string name="appearance">נראות</string>
     <string name="theme">עיצוב</string>

@@ -12,6 +12,10 @@
     <string name="focus_on_current_week">Foco na semana atual</string>
     <string name="open_calendar_into_clicked_day">Abra o calendário no dia clicado</string>
     <string name="show_week_number">Mostrar número da semana</string>
+    <!--configuration - visible calendar selection-->
+    <string name="visible_calendar_selection">Selecionar calendários visíveis</string>
+    <string name="visible_calendar_selection_default">"Calendários visíveis padrão"</string>
+    <string name="visible_calendar_selection_custom">"Seleção personalizada"</string>
     <!--configuration - appearance-->
     <string name="appearance">Aparência</string>
     <string name="theme">Tema</string>

@@ -1,4 +1,4 @@
-#dayOfMonth,instancesSymbol,dayOfWeek,startOfDayInEpochSecond,isInMonth,isToday,highlightDrawable,alignment
+dayOfMonth,instancesSymbol,dayOfWeek,startOfDayInEpochSecond,isInMonth,isToday,highlightDrawable,alignment
 25, ,MONDAY,1574629200,false,false,,
 26, ,TUESDAY,1574715600,false,false,,
 27, ,WEDNESDAY,1574802000,false,false,,

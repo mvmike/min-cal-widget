@@ -13,6 +13,10 @@
     <string name="focus_on_current_week">Focus on current week</string>
     <string name="open_calendar_into_clicked_day">Open calendar into clicked day</string>
     <string name="show_week_number">Show week number</string>
+    <!--configuration - visible calendar selection-->
+    <string name="visible_calendar_selection">Select visible calendars</string>
+    <string name="visible_calendar_selection_default">"Default visible calendars"</string>
+    <string name="visible_calendar_selection_custom">"Custom selection"</string>
     <!--configuration - appearance-->
     <string name="appearance">Appearance</string>
     <string name="theme">Theme</string>

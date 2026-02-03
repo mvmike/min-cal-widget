@@ -12,6 +12,10 @@
     <string name="focus_on_current_week">Usredotoči se na tekući tjedan</string>
     <string name="open_calendar_into_clicked_day">Otvorite kalendar u kliknuti dan</string>
     <string name="show_week_number">Prikaži broj tjedna</string>
+    <!--configuration - visible calendar selection-->
+    <string name="visible_calendar_selection">Odaberite vidljive kalendare</string>
+    <string name="visible_calendar_selection_default">"Zadani vidljivi kalendari"</string>
+    <string name="visible_calendar_selection_custom">"Prilagođeni odabir"</string>
     <!--configuration - appearance-->
     <string name="appearance">Izgled</string>
     <string name="theme">Tema</string>

@@ -36,6 +36,12 @@
             android:key="SHOW_WEEK_NUMBER"
             android:title="@string/show_week_number" />
 
+        <cat.mvmike.minimalcalendarwidget.domain.configuration.MultilinePreference
+            android:icon="@drawable/ic_checklist"
+            android:key="SELECT_VISIBLE_CALENDARS"
+            android:title="@string/visible_calendar_selection"
+            android:fragment="cat.mvmike.minimalcalendarwidget.infrastructure.fragment.CalendarSelectionSettingsFragment"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory

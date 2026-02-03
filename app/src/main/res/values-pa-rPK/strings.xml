@@ -12,6 +12,10 @@
     <string name="focus_on_current_week">موجودہ ہفتے تے دھیان دیو</string>
     <string name="open_calendar_into_clicked_day">کلک کیتے دن وچ کیلنڈر کھولھو</string>
     <string name="show_week_number">ہفتہ نمبر دکھاؤ</string>
+    <!--configuration - visible calendar selection-->
+    <string name="visible_calendar_selection">دکھائی دین والے کیلنڈر چݨو</string>
+    <string name="visible_calendar_selection_default">"ڈیفالٹ دکھائی دین والے کیلنڈر"</string>
+    <string name="visible_calendar_selection_custom">"کسٹم چون"</string>
     <!--configuration - appearance-->
     <string name="appearance">ویکھݨ</string>
     <string name="theme">تھیم</string>
