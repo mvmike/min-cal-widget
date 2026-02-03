@@ -33,7 +33,7 @@ sealed class ActionableView(
     )
 
     data object RowHeader : ActionableView(
-        viewId = R.id.row_header,
+        viewId = R.id.row,
         code = 92,
         action = "$MINCAL_INTENT_ACTION.row_header_click"
     )

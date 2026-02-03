@@ -51,47 +51,71 @@ object GraphicResolver {
         widgetRemoteView.setTextColor(R.id.month_and_year_header, getColour(context, textColour))
     }
 
-    // DAY HEADER
+    // DAYS HEADER
 
-    fun createDaysHeaderRow(context: Context) = getById(context, R.layout.row_header)
+    fun createDaysHeaderRow(context: Context) = getById(context, R.layout.row)
 
-    fun addToDaysHeaderRow(
+    fun addWeekNumberToDaysHeaderRow(
+        context: Context,
+        daysHeaderRowRemoteView: RemoteViews,
+        cell: Cell
+    ) {
+        val dayHeaderRowRemoteView = getById(context, R.layout.row_week_number)
+        val dayHeaderRemoteView = getById(context, R.layout.cell)
+        cell.addToRemoteView(context, dayHeaderRemoteView, R.id.cell)
+        dayHeaderRowRemoteView.addView(R.id.row_week_number, dayHeaderRemoteView)
+        daysHeaderRowRemoteView.addView(R.id.row, dayHeaderRowRemoteView)
+    }
+
+    fun addDayToDaysHeaderRow(
         context: Context,
         daysHeaderRowRemoteView: RemoteViews,
         dayHeaderBackgroundColour: Int?,
         cell: Cell
     ) {
-        val dayHeaderRowRemoteView = getById(context, R.layout.row_day)
+        val dayHeaderRowRemoteView = getById(context, R.layout.row)
         val dayHeaderRemoteView = getById(context, R.layout.cell)
         cell.addToRemoteView(context, dayHeaderRemoteView, R.id.cell)
-        dayHeaderBackgroundColour?.setAsBackground(dayHeaderRowRemoteView, R.id.row_day)
-        dayHeaderRowRemoteView.addView(R.id.row_day, dayHeaderRemoteView)
-        daysHeaderRowRemoteView.addView(R.id.row_header, dayHeaderRowRemoteView)
+        dayHeaderBackgroundColour?.setAsBackground(dayHeaderRowRemoteView, R.id.row)
+        dayHeaderRowRemoteView.addView(R.id.row, dayHeaderRemoteView)
+        daysHeaderRowRemoteView.addView(R.id.row, dayHeaderRowRemoteView)
     }
 
-    // DAY
+    // DAYs
 
-    fun createDaysRow(context: Context) = getById(context, R.layout.row_week)
+    fun createDaysRow(context: Context) = getById(context, R.layout.row)
 
     fun createDayLayout(
         context: Context
     ) = getById(context, R.layout.cell)
 
-    fun addToDaysRow(
+    fun addWeekNumberToDaysRow(
+        context: Context,
+        weekRowRemoteView: RemoteViews,
+        weekNumberRemoteView: RemoteViews,
+        cell: Cell
+    ) {
+        val dayRowRemoteView = getById(context, R.layout.row_week_number)
+        cell.addToRemoteView(context, weekNumberRemoteView, R.id.cell)
+        dayRowRemoteView.addView(R.id.row_week_number, weekNumberRemoteView)
+        weekRowRemoteView.addView(R.id.row, dayRowRemoteView)
+    }
+
+    fun addDayToDaysRow(
         context: Context,
         weekRowRemoteView: RemoteViews,
         backgroundColour: Int?,
         cells: List<Pair<RemoteViews?, Cell>>
     ) {
-        val dayRowRemoteView = getById(context, R.layout.row_day)
+        val dayRowRemoteView = getById(context, R.layout.row)
         cells.forEach {
             it.first?.let { cellRemoteView ->
                 it.second.addToRemoteView(context, cellRemoteView, R.id.cell)
-                backgroundColour?.setAsBackground(dayRowRemoteView, R.id.row_day)
-                dayRowRemoteView.addView(R.id.row_day, cellRemoteView)
+                backgroundColour?.setAsBackground(dayRowRemoteView, R.id.row)
+                dayRowRemoteView.addView(R.id.row, cellRemoteView)
             }
         }
-        weekRowRemoteView.addView(R.id.row_week, dayRowRemoteView)
+        weekRowRemoteView.addView(R.id.row, dayRowRemoteView)
     }
 
     // COLOUR

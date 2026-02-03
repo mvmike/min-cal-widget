@@ -60,7 +60,8 @@ internal class DaysHeaderServiceTest : BaseTest() {
             val resourceAndTranslation = it.getExpectedResourceIdAndTranslation()
             every { context.getString(resourceAndTranslation.first) } returns resourceAndTranslation.second
         }
-        justRun { GraphicResolver.addToDaysHeaderRow(context, daysHeaderRowRv, any(), any()) }
+        justRun { GraphicResolver.addWeekNumberToDaysHeaderRow(context, daysHeaderRowRv, any()) }
+        justRun { GraphicResolver.addDayToDaysHeaderRow(context, daysHeaderRowRv, any(), any()) }
         justRun { GraphicResolver.addToWidget(widgetRv, daysHeaderRowRv) }
         justRun { ActionableView.RowHeader.addListener(context, widgetRv) }
 
@@ -74,10 +75,9 @@ internal class DaysHeaderServiceTest : BaseTest() {
         }
         verifyOrder {
             if (showWeekNumber) {
-                GraphicResolver.addToDaysHeaderRow(
+                GraphicResolver.addWeekNumberToDaysHeaderRow(
                     context = context,
                     daysHeaderRowRemoteView = daysHeaderRowRv,
-                    dayHeaderBackgroundColour = widgetTheme.getCellHeader(MONDAY).background,
                     cell = Cell(
                         text = " ",
                         colour = widgetTheme.getCellHeader(MONDAY).textColour,
@@ -86,7 +86,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
                 )
             }
             rotatedWeekDays.zip(expectedDayHeaders).forEach {
-                GraphicResolver.addToDaysHeaderRow(
+                GraphicResolver.addDayToDaysHeaderRow(
                     context = context,
                     daysHeaderRowRemoteView = daysHeaderRowRv,
                     dayHeaderBackgroundColour = widgetTheme.getCellHeader(it.first).background,

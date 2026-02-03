@@ -84,7 +84,13 @@ internal class DaysServiceTest : BaseTest() {
 
         every { GraphicResolver.createDayLayout(context) } returns dayRv
         justRun {
-            GraphicResolver.addToDaysRow(
+            GraphicResolver.addWeekNumberToDaysRow(
+                context = context,
+                weekRowRemoteView = weekRv,
+                weekNumberRemoteView = dayRv,
+                cell = any()
+            )
+            GraphicResolver.addDayToDaysRow(
                 context = context,
                 weekRowRemoteView = weekRv,
                 backgroundColour = any(),
@@ -136,16 +142,14 @@ internal class DaysServiceTest : BaseTest() {
 
                 verify {
                     GraphicResolver.createDayLayout(context)
-                    GraphicResolver.addToDaysRow(
+                    GraphicResolver.addWeekNumberToDaysRow(
                         context = context,
                         weekRowRemoteView = weekRv,
-                        backgroundColour = weekNumberCell.background?.let { expectedBackground },
-                        cells = listOf(
-                            dayRv to Cell(
-                                text = "$weekNumber",
-                                colour = weekNumberCell.textColour,
-                                relativeSize = testProperties.textSize.relativeValue * 0.6f
-                            )
+                        weekNumberRemoteView = dayRv,
+                        cell = Cell(
+                            text = "$weekNumber",
+                            colour = weekNumberCell.textColour,
+                            relativeSize = testProperties.textSize.relativeValue * 0.6f
                         )
                     )
                 }
@@ -170,7 +174,7 @@ internal class DaysServiceTest : BaseTest() {
             verify {
                 GraphicResolver.createDayLayout(context)
                 GraphicResolver.createDayLayout(context)
-                GraphicResolver.addToDaysRow(
+                GraphicResolver.addDayToDaysRow(
                     context = context,
                     weekRowRemoteView = weekRv,
                     backgroundColour = cellDay.background?.let { expectedBackground },

@@ -67,24 +67,15 @@ object DaysService {
             if (showWeekNumber) {
                 val weekNumber = initialLocalDate.toCurrentWeekAndWeekDay(week, 0).get(weekFields.weekOfWeekBasedYear())
                 val weekNumberCell = widgetTheme.getCellWeekNumber()
-                val weekNumberBackgroundWithTransparency = weekNumberCell.background
-                    ?.let { GraphicResolver.getColourAsString(context, it) }
-                    ?.withTransparency(
-                        transparency = transparency,
-                        transparencyRange = TransparencyRange.MODERATE
-                    )
-
                 val weekNumberRemoteView = GraphicResolver.createDayLayout(context)
-                GraphicResolver.addToDaysRow(
+                GraphicResolver.addWeekNumberToDaysRow(
                     context = context,
                     weekRowRemoteView = weekRowRemoteView,
-                    backgroundColour = weekNumberBackgroundWithTransparency,
-                    cells = listOf(
-                        weekNumberRemoteView to Cell(
-                            text = "$weekNumber",
-                            colour = weekNumberCell.textColour,
-                            relativeSize = textSize.relativeValue * WEEK_NUMBER_RELATIVE_SIZE
-                        )
+                    weekNumberRemoteView = weekNumberRemoteView,
+                    cell = Cell(
+                        text = "$weekNumber",
+                        colour = weekNumberCell.textColour,
+                        relativeSize = textSize.relativeValue * WEEK_NUMBER_RELATIVE_SIZE
                     )
                 )
             }
@@ -116,7 +107,7 @@ object DaysService {
                     instanceSet.isEmpty() -> null
                     else -> GraphicResolver.createDayLayout(context)
                 }
-                GraphicResolver.addToDaysRow(
+                GraphicResolver.addDayToDaysRow(
                     context = context,
                     weekRowRemoteView = weekRowRemoteView,
                     backgroundColour = backgroundWithTransparency,
