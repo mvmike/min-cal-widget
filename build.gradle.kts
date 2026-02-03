@@ -24,6 +24,7 @@ defaultTasks(
     "lintKotlin",
     "clean",
     "koverVerify",
+    "koverLog",
     //"assembleBeta"
     "assembleRelease"
 )
