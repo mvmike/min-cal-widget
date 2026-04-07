@@ -75,4 +75,7 @@
     <!--configuration - messages-->
     <string name="no_calendar_application">找不到行事曆應用程式</string>
     <string name="no_browser_application">找不到瀏覽器應用程式</string>
+    <string name="visible_calendar_selection">擇取顯示的行事曆</string>
+    <string name="visible_calendar_selection_default">預設顯示的行事曆</string>
+    <string name="visible_calendar_selection_custom">自訂選擇</string>
 </resources>
