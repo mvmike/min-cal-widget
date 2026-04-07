@@ -12,6 +12,10 @@
     <string name="focus_on_current_week">專注於目前一週</string>
     <string name="open_calendar_into_clicked_day">開啟行事曆時移至按下的日子</string>
     <string name="show_week_number">顯示週數</string>
+    <!--configuration - visible calendar selection-->
+    <string name="visible_calendar_selection">擇取顯示的行事曆</string>
+    <string name="visible_calendar_selection_default">預設顯示的行事曆</string>
+    <string name="visible_calendar_selection_custom">自訂選擇</string>
     <!--configuration - appearance-->
     <string name="appearance">外觀</string>
     <string name="theme">佈景主題</string>
@@ -75,7 +79,4 @@
     <!--configuration - messages-->
     <string name="no_calendar_application">找不到行事曆應用程式</string>
     <string name="no_browser_application">找不到瀏覽器應用程式</string>
-    <string name="visible_calendar_selection">擇取顯示的行事曆</string>
-    <string name="visible_calendar_selection_default">預設顯示的行事曆</string>
-    <string name="visible_calendar_selection_custom">自訂選擇</string>
 </resources>
