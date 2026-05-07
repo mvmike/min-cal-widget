@@ -154,7 +154,7 @@ tasks.withType<Test> {
         override fun beforeTest(testDescriptor: TestDescriptor) {}
         override fun afterTest(testDescriptor: TestDescriptor, result: TestResult) {}
         override fun afterSuite(suite: TestDescriptor, result: TestResult) {
-            // only print classless Gradle Test Executor execution results
+            // only print outermost Gradle Test Executor results
             suite.className ?: suite.parent?.let {
                 println(
                     "${result.resultType} " +
