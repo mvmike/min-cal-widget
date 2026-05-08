@@ -170,19 +170,25 @@ kover {
             excludes {
                 androidGeneratedClasses()
                 classes(
+                    // AppWidgetProvider implementation
+                    "cat.mvmike.minimalcalendarwidget.MonthWidget",
+                    // androidx.preference class extensions to allow multiline title and summary
                     "cat.mvmike.minimalcalendarwidget.domain.configuration.MultilinePreference",
                     "cat.mvmike.minimalcalendarwidget.domain.configuration.MultilineListPreference",
                     "cat.mvmike.minimalcalendarwidget.domain.configuration.MultilineCheckBoxPreference",
                     "cat.mvmike.minimalcalendarwidget.domain.configuration.MultilineSeekBarPreference",
+                    // (AppCompat)Activity implementations
+                    "cat.mvmike.minimalcalendarwidget.infrastructure.activity.ConfigurationActivity",
+                    "cat.mvmike.minimalcalendarwidget.infrastructure.activity.PermissionActivity",
+                    // output adapters
                     "cat.mvmike.minimalcalendarwidget.infrastructure.resolver.GraphicResolver",
                     "cat.mvmike.minimalcalendarwidget.infrastructure.resolver.SystemResolver"
                 )
-                packages("cat.mvmike.minimalcalendarwidget.infrastructure.activity.*")
             }
         }
         verify {
             rule {
-                minBound(85)
+                minBound(92)
             }
         }
     }
