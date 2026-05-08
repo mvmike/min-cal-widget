@@ -72,7 +72,7 @@ sealed class ActionableView(
             val systemInstant = SystemResolver.getSystemInstant()
             val systemZoneId = SystemResolver.getSystemZoneId()
             val extraInstant = ofEpochSecond(
-                action?.replace(getActionPrefix(), "")?.toLong()
+                action?.removePrefix(getActionPrefix())?.toLong()
                     ?: systemInstant.epochSecond
             )
 
