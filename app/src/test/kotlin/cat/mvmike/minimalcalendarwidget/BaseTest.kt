@@ -2,6 +2,7 @@
 // See LICENSE for licensing information
 package cat.mvmike.minimalcalendarwidget
 
+import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -26,7 +27,9 @@ import io.mockk.confirmVerified
 import io.mockk.every
 import io.mockk.justRun
 import io.mockk.mockk
+import io.mockk.mockkConstructor
 import io.mockk.mockkObject
+import io.mockk.mockkStatic
 import io.mockk.unmockkAll
 import io.mockk.verify
 import org.assertj.core.api.Assertions.fail
@@ -63,6 +66,7 @@ open class BaseTest {
     private val sharedPreferences = mockk<SharedPreferences>()
 
     protected val intent = mockk<Intent>()
+    protected val pendingIntent = mockk<PendingIntent>()
 
     @BeforeEach
     fun beforeEach() {
@@ -78,6 +82,10 @@ open class BaseTest {
             ConfigurationActivity.Companion,
             PermissionsActivity.Companion
         )
+
+        mockkStatic(PendingIntent::class)
+        mockkConstructor(Intent::class)
+        every { anyConstructed<Intent>().setAction(any()) } returns mockk()
     }
 
     @AfterEach
