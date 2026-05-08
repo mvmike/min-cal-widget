@@ -27,16 +27,12 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter-params:$junitJupiterVersion")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junitJupiterVersion")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-
     // https://github.com/mockk/mockk/releases
     testImplementation("io.mockk:mockk:1.14.9")
-
     // https://github.com/assertj/assertj-core/tags
     testImplementation("org.assertj:assertj-core:3.27.7")
-
     // https://github.com/TNG/ArchUnit/releases
     testImplementation("com.tngtech.archunit:archunit-junit5:1.4.2")
-
     // https://github.com/qos-ch/slf4j/tags
     testImplementation("org.slf4j:slf4j-simple:2.0.17")
 }
