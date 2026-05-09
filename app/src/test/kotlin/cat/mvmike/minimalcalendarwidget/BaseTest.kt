@@ -85,7 +85,7 @@ open class BaseTest {
 
         mockkStatic(PendingIntent::class)
         mockkConstructor(Intent::class)
-        every { anyConstructed<Intent>().setAction(any()) } returns mockk()
+        every { anyConstructed<Intent>().setAction(any()) } returns intent
     }
 
     @AfterEach
