@@ -51,7 +51,7 @@ android {
 
     // https://source.android.com/setup/start/build-numbers
     val minAndroidVersion = 26   // 8.0
-    val androidVersion = 36      // 16.0
+    val androidVersion = 37      // 17.0
 
     compileSdk = androidVersion
 
