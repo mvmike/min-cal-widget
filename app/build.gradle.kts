@@ -34,7 +34,7 @@ dependencies {
     // https://github.com/TNG/ArchUnit/releases
     testImplementation("com.tngtech.archunit:archunit-junit5:1.4.2")
     // https://github.com/qos-ch/slf4j/tags
-    testImplementation("org.slf4j:slf4j-simple:2.0.17")
+    testImplementation("org.slf4j:slf4j-simple:2.0.18")
 }
 
 // https://adoptium.net/temurin/releases/
