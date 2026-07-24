@@ -93,10 +93,10 @@ android {
         if (isKeyStoreDefined) {
             create("release") {
                 println("Found sign properties in gradle.properties! Signing build...")
-                storeFile = file(properties["signingStoreFile"]!!)
-                storePassword = properties["signingStorePassword"]!! as String
-                keyAlias = properties["signingKeyAlias"]!! as String
-                keyPassword = properties["signingKeyPassword"]!! as String
+                storeFile = file(property("signingStoreFile")!!)
+                storePassword = property("signingStorePassword")!! as String
+                keyAlias = property("signingKeyAlias")!! as String
+                keyPassword = property("signingKeyPassword")!! as String
             }
         }
     }
