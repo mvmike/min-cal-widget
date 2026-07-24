@@ -129,7 +129,7 @@ android {
                 else -> null
             }?.let { apkName ->
                 variant.outputs
-                    .mapNotNull { it as? com.android.build.api.variant.impl.VariantOutputImpl }
+                    .filterIsInstance<com.android.build.api.variant.impl.VariantOutputImpl>()
                     .forEach { it.outputFileName = apkName }
             }
         }
