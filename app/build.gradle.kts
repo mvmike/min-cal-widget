@@ -12,7 +12,7 @@ plugins {
 
 dependencies {
     // https://developer.android.com/jetpack/androidx/releases/appcompat
-    implementation("androidx.appcompat:appcompat:1.7.1")
+    implementation("androidx.appcompat:appcompat:1.8.0")
     // https://developer.android.com/jetpack/androidx/releases/core
     implementation("androidx.core:core-ktx:1.19.0")
     // https://developer.android.com/jetpack/androidx/releases/preference
