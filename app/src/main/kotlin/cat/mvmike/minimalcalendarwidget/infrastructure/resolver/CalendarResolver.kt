@@ -53,14 +53,13 @@ object CalendarResolver {
         end: Long
     ): Set<Instance> {
         val instances: MutableSet<Instance> = HashSet()
-        var instanceCursor: Cursor? = null
         runCatching {
-            instanceCursor = Instances.query(context.contentResolver, instanceQueryFields, begin, end)
-            while (instanceCursor?.moveToNext() == true) {
-                instanceCursor.toInstance()?.let { instances.add(it) }
+            Instances.query(context.contentResolver, instanceQueryFields, begin, end)?.use { cursor ->
+                while (cursor.moveToNext()) {
+                    cursor.toInstance()?.let { instances.add(it) }
+                }
             }
         }
-        instanceCursor?.close()
         return instances.toSet()
     }
 
@@ -68,15 +67,15 @@ object CalendarResolver {
         context: Context
     ): List<Calendar> {
         val calendars: MutableList<Calendar> = mutableListOf()
-        var calendarCursor: Cursor? = null
         runCatching {
-            calendarCursor = context.contentResolver
+            context.contentResolver
                 .query(Calendars.CONTENT_URI, calendarQueryFields, null, null, "$DEFAULT_SORT_ORDER $SORT_ORDER_DESC")
-            while (calendarCursor?.moveToNext() == true) {
-                calendarCursor.toCalendar()?.let { calendars.add(it) }
-            }
+                ?.use { cursor ->
+                    while (cursor.moveToNext()) {
+                        cursor.toCalendar()?.let { calendars.add(it) }
+                    }
+                }
         }
-        calendarCursor?.close()
         return calendars.toList()
     }
 
