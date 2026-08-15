@@ -57,7 +57,7 @@ object MonthAndYearHeaderService {
         Month.OCTOBER -> R.string.october
         Month.NOVEMBER -> R.string.november
         Month.DECEMBER -> R.string.december
-    }.let { dayOfWeek ->
-        context.getString(dayOfWeek).replaceFirstChar { it.uppercase() }
+    }.let { month ->
+        context.getString(month).replaceFirstChar { it.uppercase() }
     }
 }
