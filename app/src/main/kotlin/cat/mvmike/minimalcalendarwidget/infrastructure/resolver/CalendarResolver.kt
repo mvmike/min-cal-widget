@@ -52,7 +52,7 @@ object CalendarResolver {
         begin: Long,
         end: Long
     ): Set<Instance> {
-        val instances: MutableSet<Instance> = HashSet()
+        val instances: MutableSet<Instance> = mutableSetOf()
         runCatching {
             Instances.query(context.contentResolver, instanceQueryFields, begin, end)?.use { cursor ->
                 while (cursor.moveToNext()) {

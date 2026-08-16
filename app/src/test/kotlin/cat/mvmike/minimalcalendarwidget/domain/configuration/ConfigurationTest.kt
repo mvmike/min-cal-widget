@@ -179,8 +179,8 @@ internal class ConfigurationTest : BaseTest() {
 
         @ParameterizedTest
         @ValueSource(ints = [0, 1, 5, 17, 50, 51, 72, 80, 99, 100])
-        fun getWidgetTextSize_shouldReturnSharedPreferencesValue(width: Int) {
-            val textSize = TextSize(width)
+        fun getWidgetTextSize_shouldReturnSharedPreferencesValue(percentage: Int) {
+            val textSize = TextSize(percentage)
             mockWidgetTextSize(textSize)
 
             val result = PercentageConfigurationItem.WidgetTextSize.get(context)

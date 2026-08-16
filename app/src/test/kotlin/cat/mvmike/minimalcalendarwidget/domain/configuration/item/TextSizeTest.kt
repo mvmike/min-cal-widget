@@ -49,7 +49,7 @@ internal class TextSizeTest : BaseTest() {
         "99,${Int.MAX_VALUE},3,1.787f",
         "100,${Int.MAX_VALUE},3,1.800"
     )
-    fun getAlphaInHex(
+    fun getTextSizeProperties(
         percentage: Int,
         expectedMonthHeaderLabelLength: Int,
         expectedDayHeaderLabelLength: Int,

@@ -70,7 +70,7 @@ fun getInstances(
             end = to.atStartOfDayInMillis(systemZoneId)
         )
     }
-    else -> HashSet()
+    else -> emptySet()
 }
 
 private fun LocalDate.atStartOfDayInMillis(zoneId: ZoneId) =

@@ -177,7 +177,7 @@ kover {
                     "cat.mvmike.minimalcalendarwidget.domain.configuration.MultilineSeekBarPreference",
                     // (AppCompat)Activity implementations
                     "cat.mvmike.minimalcalendarwidget.infrastructure.activity.ConfigurationActivity",
-                    "cat.mvmike.minimalcalendarwidget.infrastructure.activity.PermissionActivity",
+                    "cat.mvmike.minimalcalendarwidget.infrastructure.activity.PermissionsActivity",
                     // output adapters
                     "cat.mvmike.minimalcalendarwidget.infrastructure.resolver.GraphicResolver",
                     "cat.mvmike.minimalcalendarwidget.infrastructure.resolver.SystemResolver"

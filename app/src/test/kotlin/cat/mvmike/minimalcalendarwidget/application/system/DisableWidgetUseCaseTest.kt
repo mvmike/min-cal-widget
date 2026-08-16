@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test
 internal class DisableWidgetUseCaseTest : BaseTest() {
 
     @Test
-    fun shouldClearAllConfigurationAndCancelAutoUpdate() {
+    fun shouldCancelAutoUpdate() {
         mockkObject(AutoUpdate)
         justRun { AutoUpdate.cancel(context) }
 

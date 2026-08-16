@@ -12,7 +12,7 @@ import cat.mvmike.minimalcalendarwidget.domain.configuration.item.SymbolSet
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.TextSize
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Transparency
-import cat.mvmike.minimalcalendarwidget.domain.configuration.item.getAvailableColors
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.getAvailableColours
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.getCalendarDisplayValues
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.getColourDisplayValues
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.getDisplayValue
@@ -137,9 +137,9 @@ sealed class EnumConfigurationItem<E : Enum<E>>(
     data object InstancesColour : EnumConfigurationItem<Colour>(
         key = "INSTANCES_COLOUR",
         enumClass = Colour::class.java,
-        defaultValue = getAvailableColors().first()
+        defaultValue = getAvailableColours().first()
     ) {
-        override fun getEnumConstants() = getAvailableColors().toTypedArray()
+        override fun getEnumConstants() = getAvailableColours().toTypedArray()
 
         override fun getDisplayValues(context: Context) = getColourDisplayValues(context)
 

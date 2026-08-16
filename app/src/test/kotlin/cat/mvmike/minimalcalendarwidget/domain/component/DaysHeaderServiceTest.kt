@@ -42,7 +42,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
     private val daysHeaderRowRv = mockk<RemoteViews>()
 
     @ParameterizedTest
-    @MethodSource("getFirstDayOfWeekAndThemeAndThemeAndTextSizeWithExpectedOutput")
+    @MethodSource("getFirstDayOfWeekAndThemeAndTextSizeWithExpectedOutput")
     fun draw_shouldAddViewBasedOnCurrentConfigAndTextSize(
         firstDayOfWeek: DayOfWeek,
         widgetTheme: Theme,
@@ -104,7 +104,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
     }
 
     @ParameterizedTest
-    @MethodSource("getFirstDayOfWeekAndTExpectedRotatedDaysOfWeek")
+    @MethodSource("getFirstDayOfWeekAndExpectedRotatedDaysOfWeek")
     fun getRotatedDaysOfWeek_shouldReturnDaysOfWeekBasedOnFirstDayOfWeek(
         firstDayOfWeek: DayOfWeek,
         expectedRotatedDayOfWeek: List<DayOfWeek>
@@ -112,7 +112,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
         assertThat(getRotatedDaysOfWeek(firstDayOfWeek)).isEqualTo(expectedRotatedDayOfWeek)
     }
 
-    private fun getFirstDayOfWeekAndThemeAndThemeAndTextSizeWithExpectedOutput() = listOf(
+    private fun getFirstDayOfWeekAndThemeAndTextSizeWithExpectedOutput() = listOf(
         of(MONDAY, DARK, Transparency(10), TextSize(40), false, listOf("MON", "DOO", "WED", "THU", "FRI", "SAT", "SUN")),
         of(TUESDAY, DARK, Transparency(20), TextSize(40), true, listOf("DOO", "WED", "THU", "FRI", "SAT", "SUN", "MON")),
         of(WEDNESDAY, DARK, Transparency(20), TextSize(40), false, listOf("WED", "THU", "FRI", "SAT", "SUN", "MON", "DOO")),
@@ -143,7 +143,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
         of(SUNDAY, LIGHT, Transparency(20), TextSize(15), false, listOf("S", "M", "D", "W", "T", "F", "S"))
     )
 
-    private fun getFirstDayOfWeekAndTExpectedRotatedDaysOfWeek() = listOf(
+    private fun getFirstDayOfWeekAndExpectedRotatedDaysOfWeek() = listOf(
         of(MONDAY, listOf(MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY)),
         of(TUESDAY, listOf(TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY, MONDAY)),
         of(WEDNESDAY, listOf(WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY, MONDAY, TUESDAY)),

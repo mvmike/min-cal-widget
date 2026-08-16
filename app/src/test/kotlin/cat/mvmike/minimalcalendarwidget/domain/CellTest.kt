@@ -1,11 +1,8 @@
 // Copyright (c) 2016, Miquel Martí <miquelmarti111@gmail.com>
 // See LICENSE for licensing information
-package cat.mvmike.minimalcalendarwidget.domain.configuration.item
+package cat.mvmike.minimalcalendarwidget.domain
 
 import cat.mvmike.minimalcalendarwidget.BaseTest
-import cat.mvmike.minimalcalendarwidget.domain.CellHighlightDrawableStylePack
-import cat.mvmike.minimalcalendarwidget.domain.CellStyle
-import cat.mvmike.minimalcalendarwidget.domain.CellStylePack
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource

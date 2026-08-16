@@ -476,8 +476,8 @@ internal class DaysServiceTest : BaseTest() {
         ),
         DrawDaysUseCaseTestProperties(
             systemLocalDate = systemLocalDate.plusYears(1),
-            systemInstances = HashSet(),
-            systemCalendars = ArrayList(),
+            systemInstances = emptySet(),
+            systemCalendars = emptyList(),
             firstDayOfWeek = MONDAY,
             widgetTheme = Theme.DARK,
             transparency = Transparency(0),
