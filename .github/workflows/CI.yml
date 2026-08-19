@@ -23,5 +23,5 @@ jobs:
             **/*.gradle*
             **/gradle-wrapper.properties
       # https://github.com/gradle/actions
-      - uses: gradle/actions/wrapper-validation@v6.2.0
+      - uses: gradle/actions/wrapper-validation@v6.3.0
       - run: ./gradlew
