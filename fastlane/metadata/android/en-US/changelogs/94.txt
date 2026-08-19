@@ -1,0 +1,6 @@
+v2.20.0
+- Upgrade android target SDK to 37 (17)
+- Add RTL support
+- Safer intent parsing and instance querying
+- Updated chinese (traditional han) translations
+- Technical maintenance
