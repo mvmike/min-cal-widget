@@ -50,6 +50,18 @@ internal class ConfigurationTest : BaseTest() {
 
         @ParameterizedTest
         @ValueSource(booleans = [true, false])
+        fun getDefaultVisibleCalendars_shouldReturnSharedPreferencesValue(defaultVisibleCalendars: Boolean) {
+            mockDefaultVisibleCalendars(defaultVisibleCalendars)
+
+            val result = BooleanConfigurationItem.DefaultVisibleCalendars.get(context)
+
+            assertThat(result).isEqualTo(defaultVisibleCalendars)
+            verifyDefaultVisibleCalendars()
+            verify { editor wasNot Called }
+        }
+
+        @ParameterizedTest
+        @ValueSource(booleans = [true, false])
         fun getShowDeclinedEvents_shouldReturnSharedPreferencesValue(showDeclinedEvents: Boolean) {
             mockShowDeclinedEvents(showDeclinedEvents)
 

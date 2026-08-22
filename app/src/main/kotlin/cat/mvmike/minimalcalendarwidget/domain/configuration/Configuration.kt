@@ -150,13 +150,10 @@ sealed class EnumConfigurationItem<E : Enum<E>>(
 sealed class PercentageConfigurationItem<E : Percentage>(
     override val key: String,
     override val defaultValue: E
-) : ConfigurationItem<Percentage>(
+) : ConfigurationItem<E>(
         key = key,
         defaultValue = defaultValue
     ) {
-    override fun get(context: Context) = Percentage(
-        getConfiguration(context).getInt(key, defaultValue.value)
-    )
 
     data object WidgetTransparency : PercentageConfigurationItem<Transparency>(
         key = "WIDGET_TRANSPARENCY",

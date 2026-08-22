@@ -138,7 +138,6 @@ android {
 
 tasks.withType<Test> {
     useJUnitPlatform()
-    jvmArgs("-XX:+EnableDynamicAgentLoading")
     maxParallelForks = (Runtime.getRuntime().availableProcessors() / 2).coerceAtLeast(1)
     testLogging {
         events(SKIPPED, FAILED)

@@ -185,6 +185,7 @@ class SettingsFragment :
     private fun booleanConfigurationItems() = setOf(
         BooleanConfigurationItem.ShowDeclinedEvents,
         BooleanConfigurationItem.FocusOnCurrentWeek,
+        BooleanConfigurationItem.OpenCalendarOnClickedDay,
         BooleanConfigurationItem.ShowWeekNumber
     )
 

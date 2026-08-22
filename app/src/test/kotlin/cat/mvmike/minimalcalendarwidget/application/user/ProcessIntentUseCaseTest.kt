@@ -67,7 +67,7 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
             "$CELL_DAY_CLICK_ACTION.1434987405"
         ]
     )
-    fun shouldLaunchPermissionsActivity_whenNoPermissionsGivenAndNoneSymbolSet(action: String) {
+    fun shouldLaunchPermissionsActivity_whenNoPermissionsGiven(action: String) {
         mockIntent(action)
         mockIsReadCalendarPermitted(false)
         mockInstancesSymbolSet(SymbolSet.MINIMAL)

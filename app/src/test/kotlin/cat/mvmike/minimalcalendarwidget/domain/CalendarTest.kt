@@ -10,7 +10,6 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.MethodSource
-import java.time.LocalDate
 
 internal class CalendarTest : BaseTest() {
 
@@ -18,9 +17,9 @@ internal class CalendarTest : BaseTest() {
     fun getCalendars_shouldReturnEmpty_whenReadCalendarIsNotPermitted() {
         mockIsReadCalendarPermitted(false)
 
-        val instances = getInstances(context, LocalDate.MIN, LocalDate.MAX)
+        val calendars = getCalendars(context)
 
-        assertThat(instances).isEmpty()
+        assertThat(calendars).isEmpty()
         verifyIsReadCalendarPermitted()
     }
 
