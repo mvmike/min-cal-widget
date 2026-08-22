@@ -5,6 +5,6 @@
         android:defaultValue="true"
         android:iconSpaceReserved="false"
         android:key="DEFAULT_VISIBLE_CALENDARS"
-        android:title="Show default visible calendars" />
+        android:title="@string/visible_calendar_selection_default" />
 
 </PreferenceScreen>
