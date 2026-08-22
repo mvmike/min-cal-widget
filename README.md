@@ -12,6 +12,8 @@ Minimal calendar widget that's always on current date's month
   - show declined events
   - focus on current week
   - open calendar on clicked day
+  - show week number
+  - select visible calendars
   - theme
   - symbol set
   - symbol set colour
