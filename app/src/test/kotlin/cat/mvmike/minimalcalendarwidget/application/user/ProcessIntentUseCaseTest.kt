@@ -37,7 +37,7 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
             ""
         ]
     )
-    fun shouldDoNothing_whenNoActionableViewIntent(intentAction: String?) {
+    fun execute_shouldDoNothing_whenNoActionableViewIntent(intentAction: String?) {
         mockIntent(intentAction)
 
         ProcessIntentUseCase.execute(context, intent)
@@ -46,7 +46,7 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
     }
 
     @Test
-    fun shouldLaunchConfigurationActivity() {
+    fun execute_shouldLaunchConfigurationActivity() {
         mockIntent("action.mincal.configuration_icon_click")
         justRun { ConfigurationActivity.start(context) }
 
@@ -67,7 +67,7 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
             "$CELL_DAY_CLICK_ACTION.1434987405"
         ]
     )
-    fun shouldLaunchPermissionsActivity_whenNoPermissionsGiven(action: String) {
+    fun execute_shouldLaunchPermissionsActivity_whenNoPermissionsGiven(action: String) {
         mockIntent(action)
         mockIsReadCalendarPermitted(false)
         mockInstancesSymbolSet(SymbolSet.MINIMAL)
@@ -92,7 +92,7 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
             ROW_HEADER_CLICK_ACTION
         ]
     )
-    fun shouldLaunchCalendarActivityAndRedrawWidget_whenPermissionsGiven(action: String) {
+    fun execute_shouldLaunchCalendarActivityAndRedrawWidget_whenPermissionsGiven(action: String) {
         mockIntent(action)
         mockIsReadCalendarPermitted(true)
         mockGetSystemInstant()
@@ -121,7 +121,7 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
             ROW_HEADER_CLICK_ACTION
         ]
     )
-    fun shouldLaunchCalendarActivityAndRedrawWidget_whenNoPermissionsGivenAndNoneSymbolSet(action: String) {
+    fun execute_shouldLaunchCalendarActivityAndRedrawWidget_whenNoPermissionsGivenAndNoneSymbolSet(action: String) {
         mockIntent(action)
         mockIsReadCalendarPermitted(false)
         mockInstancesSymbolSet(SymbolSet.NONE)
@@ -154,7 +154,7 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
             "$CELL_DAY_CLICK_ACTION.1434887405"
         ]
     )
-    fun shouldLaunchCalendarActivityOnTodayAndRedrawWidget(action: String) {
+    fun execute_shouldLaunchCalendarActivityOnTodayAndRedrawWidget(action: String) {
         mockIntent(action)
         mockIsReadCalendarPermitted(true)
         mockGetSystemInstant()
@@ -184,7 +184,7 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
         "$CELL_DAY_CLICK_ACTION.1624398458,1624455134",
         "$CELL_DAY_CLICK_ACTION.1434987405,1434979934"
     )
-    fun shouldLaunchCalendarActivityOnIntentExtraAndRedrawWidget_whenIntentAndPermissionsGiven(
+    fun execute_shouldLaunchCalendarActivityOnIntentExtraAndRedrawWidget_whenIntentAndPermissionsGiven(
         action: String,
         startTimeInstantEpochSeconds: Long
     ) {

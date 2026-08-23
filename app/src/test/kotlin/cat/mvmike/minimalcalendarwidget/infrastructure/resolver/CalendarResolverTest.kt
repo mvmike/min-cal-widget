@@ -41,7 +41,7 @@ internal class CalendarResolverTest : BaseTest() {
     )
 
     @Test
-    fun shouldReturnEmptySetWhenGetInstancesQueryCannotBeExecuted() {
+    fun getInstances_shouldReturnEmptySetWhenQueryCannotBeExecuted() {
         mockkStatic(CalendarContract.Instances::class)
         every {
             CalendarContract.Instances.query(context.contentResolver, instanceQueryFields, begin, end)
@@ -55,7 +55,7 @@ internal class CalendarResolverTest : BaseTest() {
     }
 
     @Test
-    fun shouldReturnEmptySetWhenGetCalendarsQueryCannotBeExecuted() {
+    fun getCalendars_shouldReturnEmptySetWhenQueryCannotBeExecuted() {
         every { CalendarResolver.getCalendars(context) } answers { callOriginal() }
         every {
             context.contentResolver.query(CONTENT_URI, calendarQueryFields, null, null, "calendar_displayName DESC")
@@ -78,7 +78,7 @@ internal class CalendarResolverTest : BaseTest() {
     }
 
     @Test
-    fun shouldReturnEmptySetWhenMovingInstancesCursorThrowsException() {
+    fun getInstances_shouldReturnEmptySetWhenMovingCursorThrowsException() {
         mockkStatic(CalendarContract.Instances::class)
         every {
             CalendarContract.Instances.query(context.contentResolver, instanceQueryFields, begin, end)
@@ -96,7 +96,7 @@ internal class CalendarResolverTest : BaseTest() {
     }
 
     @Test
-    fun shouldReturnEmptySetWhenMovingCalendarsCursorThrowsException() {
+    fun getCalendars_shouldReturnEmptySetWhenMovingCursorThrowsException() {
         every { CalendarResolver.getCalendars(context) } answers { callOriginal() }
         every {
             context.contentResolver.query(CONTENT_URI, calendarQueryFields, null, null, "calendar_displayName DESC")
@@ -114,7 +114,7 @@ internal class CalendarResolverTest : BaseTest() {
     }
 
     @Test
-    fun shouldSkipInvalidInstance() {
+    fun getInstances_shouldSkipInvalidInstance() {
         mockkStatic(CalendarContract.Instances::class)
         every {
             CalendarContract.Instances.query(context.contentResolver, instanceQueryFields, begin, end)
@@ -147,7 +147,7 @@ internal class CalendarResolverTest : BaseTest() {
     }
 
     @Test
-    fun shouldSkipInvalidCalendar() {
+    fun getCalendars_shouldSkipInvalidCalendar() {
         every { CalendarResolver.getCalendars(context) } answers { callOriginal() }
         every {
             context.contentResolver.query(CONTENT_URI, calendarQueryFields, null, null, "calendar_displayName DESC")
@@ -178,7 +178,7 @@ internal class CalendarResolverTest : BaseTest() {
     }
 
     @Test
-    fun shouldFetchAllInstances() {
+    fun getInstances_shouldFetchAllInstances() {
         mockkStatic(CalendarContract.Instances::class)
         every {
             CalendarContract.Instances.query(context.contentResolver, instanceQueryFields, begin, end)
@@ -232,7 +232,7 @@ internal class CalendarResolverTest : BaseTest() {
     }
 
     @Test
-    fun shouldFetchAllCalendars() {
+    fun getCalendars_shouldFetchAllCalendars() {
         every { CalendarResolver.getCalendars(context) } answers { callOriginal() }
         every {
             context.contentResolver.query(CONTENT_URI, calendarQueryFields, null, null, "calendar_displayName DESC")

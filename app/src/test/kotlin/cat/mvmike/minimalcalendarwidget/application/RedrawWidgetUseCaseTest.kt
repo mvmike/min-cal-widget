@@ -37,7 +37,7 @@ internal class RedrawWidgetUseCaseTest : BaseTest() {
     private val appWidgetIds = intArrayOf(1, 2, 3)
 
     @Test
-    fun shouldFetchAllAppWidgetIdsAndRedrawWidgets() {
+    fun execute_shouldFetchAllAppWidgetIdsAndRedrawWidgets() {
         mockkObject(RedrawWidgetUseCase)
         mockkStatic(AppWidgetManager::class)
 
@@ -55,7 +55,7 @@ internal class RedrawWidgetUseCaseTest : BaseTest() {
     }
 
     @Test
-    fun shouldDoNothingWhenUserIsNotUnlockedAndCanNotRetrieveAppWidgetIds() {
+    fun execute_shouldDoNothingWhenUserIsNotUnlockedAndCanNotRetrieveAppWidgetIds() {
         mockkObject(RedrawWidgetUseCase)
         mockkStatic(AppWidgetManager::class)
 
@@ -73,7 +73,7 @@ internal class RedrawWidgetUseCaseTest : BaseTest() {
     }
 
     @Test
-    fun shouldRedrawAllWidgetIds() {
+    fun execute_shouldRedrawAllWidgetIds() {
         mockkObject(RedrawWidgetUseCase)
 
         appWidgetIds.forEach {
@@ -97,7 +97,7 @@ internal class RedrawWidgetUseCaseTest : BaseTest() {
         "7,0,DARK,100,34,THURSDAY,true",
         "14,50,DARK,32,35,MONDAY,true"
     )
-    fun shouldRedrawWidgetRegardlessOfBinderProxyTransactionTimeout(
+    fun execute_shouldRedrawWidgetRegardlessOfBinderProxyTransactionTimeout(
         appWidgetId: Int,
         textSizePercentage: Int,
         widgetTheme: Theme,

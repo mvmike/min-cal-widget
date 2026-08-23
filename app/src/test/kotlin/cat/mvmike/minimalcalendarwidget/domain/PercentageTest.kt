@@ -13,13 +13,13 @@ internal class PercentageTest {
     @ValueSource(
         ints = [0, 1, 8, 15, 26, 87, 99, 100]
     )
-    fun shouldCreatePercentageWhenValueIsInRange(percentage: Int) {
+    fun constructor_shouldCreatePercentageWhenValueIsInRange(percentage: Int) {
         assertThat(Percentage(percentage).value).isEqualTo(percentage)
     }
 
     @ParameterizedTest
     @ValueSource(ints = [Integer.MIN_VALUE, -1, 101, Integer.MAX_VALUE])
-    fun constructorShouldNotAllowIntsOutsideRange(percentage: Int) {
+    fun constructor_shouldNotAllowIntsOutsideRange(percentage: Int) {
         assertThrows<IllegalArgumentException> {
             Percentage(percentage)
         }

@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test
 internal class EnableWidgetUseCaseTest : BaseTest() {
 
     @Test
-    fun shouldSetAutoUpdate() {
+    fun execute_shouldSetAutoUpdate() {
         mockkObject(AutoUpdate)
         justRun { AutoUpdate.set(context) }
 

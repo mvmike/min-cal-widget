@@ -27,7 +27,7 @@ internal class CalendarChangeReceiverTest : BaseTest() {
             "android.intent.action.PROVIDER_CHANGED"
         ]
     )
-    fun shouldRedrawWidgetWhenReceivingRegisteredIntentInAndroidManifest(intentAction: String) {
+    fun onReceive_shouldRedrawWidgetWhenReceivingRegisteredIntentInAndroidManifest(intentAction: String) {
         mockIntent(intentAction)
         mockkObject(RedrawWidgetUseCase)
         every { RedrawWidgetUseCase.execute(context) } answers {}
@@ -50,7 +50,7 @@ internal class CalendarChangeReceiverTest : BaseTest() {
             ""
         ]
     )
-    fun shouldDoNothingWhenReceivingNonRegisteredIntentInAndroidManifest(intentAction: String?) {
+    fun onReceive_shouldDoNothingWhenReceivingNonRegisteredIntentInAndroidManifest(intentAction: String?) {
         mockIntent(intentAction)
         mockkObject(RedrawWidgetUseCase)
 
