@@ -44,7 +44,7 @@ object MonthAndYearHeaderService {
 
     private fun LocalDate.toMonthDisplayValue(
         context: Context
-    ) = when (month!!) {
+    ) = when (month) {
         Month.JANUARY -> R.string.january
         Month.FEBRUARY -> R.string.february
         Month.MARCH -> R.string.march

@@ -4,6 +4,7 @@ package cat.mvmike.minimalcalendarwidget
 
 import com.tngtech.archunit.junit.AnalyzeClasses
 import com.tngtech.archunit.junit.ArchTest
+import com.tngtech.archunit.lang.ArchRule
 import com.tngtech.archunit.lang.syntax.ArchRuleDefinition
 
 // https://www.archunit.org/userguide/html/000_Index.html
@@ -13,16 +14,16 @@ import com.tngtech.archunit.lang.syntax.ArchRuleDefinition
 internal class HexArchTest {
 
     @ArchTest
-    val domainShouldNotDependOnApplication = ArchRuleDefinition
+    val domainShouldNotDependOnApplication: ArchRule = ArchRuleDefinition
         .noClasses()
         .that()
         .resideInAnyPackage("cat.mvmike.minimalcalendarwidget.domain..")
         .should()
         .dependOnClassesThat()
-        .resideInAPackage("cat.mvmike.minimalcalendarwidget.application..")!!
+        .resideInAPackage("cat.mvmike.minimalcalendarwidget.application..")
 
     @ArchTest
-    val domainShouldNotDependOnActivityOrReceiverInfrastructure = ArchRuleDefinition
+    val domainShouldNotDependOnActivityOrReceiverInfrastructure: ArchRule = ArchRuleDefinition
         .noClasses()
         .that()
         .resideInAnyPackage("cat.mvmike.minimalcalendarwidget.domain..")
@@ -31,10 +32,10 @@ internal class HexArchTest {
         .resideInAnyPackage(
             "cat.mvmike.minimalcalendarwidget.infrastructure.activity..",
             "cat.mvmike.minimalcalendarwidget.infrastructure.receiver.."
-        )!!
+        )
 
     @ArchTest
-    val applicationShouldNotDependOnReceiverInfrastructure = ArchRuleDefinition
+    val applicationShouldNotDependOnReceiverInfrastructure: ArchRule = ArchRuleDefinition
         .noClasses()
         .that()
         .resideInAnyPackage("cat.mvmike.minimalcalendarwidget.application..")
@@ -42,5 +43,5 @@ internal class HexArchTest {
         .dependOnClassesThat()
         .resideInAnyPackage(
             "cat.mvmike.minimalcalendarwidget.infrastructure.receiver.."
-        )!!
+        )
 }

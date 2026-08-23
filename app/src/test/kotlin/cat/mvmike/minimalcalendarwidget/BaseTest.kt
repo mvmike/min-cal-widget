@@ -52,11 +52,11 @@ private const val PREFERENCES_ID: String = "mincal_prefs"
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 open class BaseTest {
 
-    protected val systemZoneId = ZoneId.of("Europe/Moscow")!!
-    protected val systemLocalDate = LocalDate.parse("2018-12-04")!!
-    protected val systemInstant = systemLocalDate
+    protected val systemZoneId: ZoneId = ZoneId.of("Europe/Moscow")
+    protected val systemLocalDate: LocalDate = LocalDate.parse("2018-12-04")
+    protected val systemInstant: Instant = systemLocalDate
         .atTime(16, 32, 14)
-        .toInstant(systemZoneId.rules.getOffset(Instant.now()))!!
+        .toInstant(systemZoneId.rules.getOffset(Instant.now()))
 
     protected val random = Random()
 

@@ -13,18 +13,19 @@ import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
 import java.time.temporal.WeekFields
+import java.util.Locale
 
 object SystemResolver {
 
     fun getRuntimeSDK() = Build.VERSION.SDK_INT
 
-    fun getSystemInstant() = Instant.now()!!
+    fun getSystemInstant(): Instant = Instant.now()
 
-    fun getSystemLocalDate() = LocalDate.now(getSystemZoneId())!!
+    fun getSystemLocalDate(): LocalDate = LocalDate.now(getSystemZoneId())
 
-    fun getSystemZoneId() = ZoneId.systemDefault()!!
+    fun getSystemZoneId(): ZoneId = ZoneId.systemDefault()
 
-    fun getSystemLocale() = Resources.getSystem().configuration.locales[0]!!
+    fun getSystemLocale(): Locale = Resources.getSystem().configuration.locales[0]
 
     fun getSystemFirstDayOfWeek(): DayOfWeek = when (LocalePreferences.getFirstDayOfWeek()) {
         LocalePreferences.FirstDayOfWeek.MONDAY -> DayOfWeek.MONDAY

@@ -10,7 +10,7 @@ import java.time.LocalDate
 data class Day(
     val dayLocalDate: LocalDate
 ) {
-    fun getDayOfWeek() = dayLocalDate.dayOfWeek!!
+    fun getDayOfWeek(): DayOfWeek = dayLocalDate.dayOfWeek
 
     fun getDayOfMonthString() = "${dayLocalDate.dayOfMonth}"
 
