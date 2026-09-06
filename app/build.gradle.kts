@@ -78,6 +78,13 @@ android {
         generateLocaleConfig = true
     }
 
+    dependenciesInfo {
+        // Disables dependency metadata when building APKs.
+        includeInApk = false
+        // Disables dependency metadata when building Android App Bundles.
+        includeInBundle = false
+    }
+
     /*
      * To sign release builds, create the file gradle.properties in ~/.gradle/ with this content:
      * signingStoreFile=key.store
