@@ -35,7 +35,7 @@ dependencies {
 }
 
 // https://adoptium.net/temurin/releases/
-private val javaVersion = JavaVersion.VERSION_21
+private val javaVersion = JavaVersion.VERSION_25
 
 kotlin {
     compilerOptions {
