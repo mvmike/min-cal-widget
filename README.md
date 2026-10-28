@@ -35,6 +35,7 @@ Minimal calendar widget that's always on current date
 ## Supported languages
 
 [<img src="https://hosted.weblate.org/widgets/min-cal-widget/-/multi-auto.svg" alt="Translation status">](https://hosted.weblate.org/engage/min-cal-widget)
+
 [<img src="https://hosted.weblate.org/widgets/min-cal-widget/-/287x66-auto.png" alt="Translation status">](https://hosted.weblate.org/engage/min-cal-widget)
 
 Everyone can help adding or updating translations under https://hosted.weblate.org/engage/min-cal-widget
