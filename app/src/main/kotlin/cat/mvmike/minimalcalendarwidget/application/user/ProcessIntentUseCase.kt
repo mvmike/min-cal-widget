@@ -15,6 +15,7 @@ import cat.mvmike.minimalcalendarwidget.domain.intent.ActionableView.Configurati
 import cat.mvmike.minimalcalendarwidget.domain.intent.ActionableView.MonthAndYearHeader
 import cat.mvmike.minimalcalendarwidget.domain.intent.ActionableView.RowHeader
 import cat.mvmike.minimalcalendarwidget.domain.intent.AutoUpdate
+import cat.mvmike.minimalcalendarwidget.domain.intent.AutoUpdate.ACTION_AUTO_UPDATE
 import cat.mvmike.minimalcalendarwidget.domain.intent.toActionableView
 import cat.mvmike.minimalcalendarwidget.infrastructure.activity.CalendarActivity
 import cat.mvmike.minimalcalendarwidget.infrastructure.activity.ConfigurationActivity
@@ -28,12 +29,15 @@ object ProcessIntentUseCase {
         context: Context,
         variant: Variant,
         intent: Intent
-    ) = when (intent.toActionableView()) {
-        ConfigurationIcon -> ConfigurationActivity.start(context)
-        MonthAndYearHeader,
-        RowHeader -> context.askForPermissionsIfNeededOrExecuteAndRedraw(variant) { startCalendarActivity(context) }
-        CellDay -> context.askForPermissionsIfNeededOrExecuteAndRedraw(variant) { startCalendarActivity(context, intent) }
-        else -> null
+    ) = when (intent.action) {
+        ACTION_AUTO_UPDATE -> RedrawWidgetUseCase.execute(context, variant)
+        else -> when (intent.toActionableView()) {
+            ConfigurationIcon -> ConfigurationActivity.start(context)
+            MonthAndYearHeader,
+            RowHeader -> context.askForPermissionsIfNeededOrExecuteAndRedraw(variant) { startCalendarActivity(context) }
+            CellDay -> context.askForPermissionsIfNeededOrExecuteAndRedraw(variant) { startCalendarActivity(context, intent) }
+            else -> null
+        }
     }
 
     private fun startCalendarActivity(context: Context) = CalendarActivity.start(

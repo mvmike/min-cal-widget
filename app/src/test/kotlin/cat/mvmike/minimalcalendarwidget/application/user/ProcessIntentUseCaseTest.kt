@@ -31,8 +31,6 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
     @CsvSource(
         "MONTH,",
         "WEEK,",
-        "MONTH,$ACTION_AUTO_UPDATE",
-        "WEEK,$ACTION_AUTO_UPDATE",
         "MONTH,$ACTION_APPWIDGET_UPDATE",
         "WEEK,$ACTION_APPWIDGET_UPDATE",
         "MONTH,some_random_intent_action",
@@ -49,6 +47,22 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
         ProcessIntentUseCase.execute(context, variant, intent)
 
         verifyIntentAction()
+    }
+
+    @ParameterizedTest
+    @EnumSource(value = Variant::class)
+    fun execute_shouldRedrawVariantWidgets_whenAutoUpdateIntent(variant: Variant) {
+        mockIntent(ACTION_AUTO_UPDATE)
+        mockkObject(RedrawWidgetUseCase)
+        mockkObject(AutoUpdate)
+
+        justRun { RedrawWidgetUseCase.execute(context, variant) }
+
+        ProcessIntentUseCase.execute(context, variant, intent)
+
+        verifyIntentAction()
+        verify { RedrawWidgetUseCase.execute(context, variant) }
+        confirmVerified(RedrawWidgetUseCase, AutoUpdate)
     }
 
     @ParameterizedTest

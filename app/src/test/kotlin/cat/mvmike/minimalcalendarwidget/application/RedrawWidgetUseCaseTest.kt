@@ -41,35 +41,51 @@ internal class RedrawWidgetUseCaseTest : BaseTest() {
     private val appWidgetIds = intArrayOf(1, 2, 3)
 
     @Test
-    fun execute_shouldFetchAllAppWidgetIdsAndRedrawWidgets() {
+    fun execute_shouldRedrawAllVariants() {
+        mockkObject(RedrawWidgetUseCase)
+
+        Variant.entries.forEach { variant ->
+            justRun { RedrawWidgetUseCase.execute(context, variant) }
+        }
+        every { RedrawWidgetUseCase.execute(context) } answers { callOriginal() }
+
+        RedrawWidgetUseCase.execute(context)
+
+        Variant.entries.forEach { variant ->
+            verify { RedrawWidgetUseCase.execute(context, variant) }
+        }
+        verify { RedrawWidgetUseCase.execute(context) }
+        confirmVerified(RedrawWidgetUseCase)
+    }
+
+    @ParameterizedTest
+    @EnumSource(value = Variant::class)
+    fun execute_shouldFetchVariantAppWidgetIdsAndRedrawWidgets(variant: Variant) {
         mockkObject(RedrawWidgetUseCase)
         mockkStatic(AppWidgetManager::class)
 
         every { AppWidgetManager.getInstance(context) } returns appWidgetManager
         every { appWidgetManager.getAppWidgetIds(any()) } returns appWidgetIds
 
-        Variant.entries.forEach { variant ->
-            justRun { RedrawWidgetUseCase.execute(context, appWidgetManager, appWidgetIds, variant) }
-        }
-        every { RedrawWidgetUseCase.execute(context) } answers { callOriginal() }
+        justRun { RedrawWidgetUseCase.execute(context, appWidgetManager, appWidgetIds, variant) }
+        every { RedrawWidgetUseCase.execute(context, variant) } answers { callOriginal() }
 
-        RedrawWidgetUseCase.execute(context)
+        RedrawWidgetUseCase.execute(context, variant)
 
         verify { AppWidgetManager.getInstance(context) }
-        verify(exactly = Variant.entries.size) { appWidgetManager.getAppWidgetIds(any()) }
-        Variant.entries.forEach { variant ->
-            verify { Widget.getReceiverClass(variant) }
-            verify { RedrawWidgetUseCase.execute(context, appWidgetManager, appWidgetIds, variant) }
-        }
-        verify { RedrawWidgetUseCase.execute(context) }
+        verify { appWidgetManager.getAppWidgetIds(any()) }
+        verify { Widget.getReceiverClass(variant) }
+        verify { RedrawWidgetUseCase.execute(context, appWidgetManager, appWidgetIds, variant) }
+        verify { RedrawWidgetUseCase.execute(context, variant) }
         confirmVerified(
             appWidgetManager,
             RedrawWidgetUseCase
         )
     }
 
-    @Test
-    fun execute_shouldDoNothingWhenUserIsNotUnlockedAndCanNotRetrieveAppWidgetIds() {
+    @ParameterizedTest
+    @EnumSource(value = Variant::class)
+    fun execute_shouldDoNothingWhenUserIsNotUnlockedAndCanNotRetrieveAppWidgetIds(variant: Variant) {
         mockkObject(RedrawWidgetUseCase)
         mockkStatic(AppWidgetManager::class)
 
@@ -78,16 +94,14 @@ internal class RedrawWidgetUseCaseTest : BaseTest() {
             appWidgetManager.getAppWidgetIds(any())
         } throws IllegalStateException("User 0 must be unlocked for widgets to be available")
 
-        every { RedrawWidgetUseCase.execute(context) } answers { callOriginal() }
+        every { RedrawWidgetUseCase.execute(context, variant) } answers { callOriginal() }
 
-        RedrawWidgetUseCase.execute(context)
+        RedrawWidgetUseCase.execute(context, variant)
 
         verify { AppWidgetManager.getInstance(context) }
-        verify(exactly = Variant.entries.size) { appWidgetManager.getAppWidgetIds(any()) }
-        Variant.entries.forEach { variant ->
-            verify { Widget.getReceiverClass(variant) }
-        }
-        verify { RedrawWidgetUseCase.execute(context) }
+        verify { appWidgetManager.getAppWidgetIds(any()) }
+        verify { Widget.getReceiverClass(variant) }
+        verify { RedrawWidgetUseCase.execute(context, variant) }
         confirmVerified(
             appWidgetManager,
             RedrawWidgetUseCase

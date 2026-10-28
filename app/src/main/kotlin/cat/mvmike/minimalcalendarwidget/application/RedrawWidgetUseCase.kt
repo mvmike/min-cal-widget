@@ -30,19 +30,27 @@ object RedrawWidgetUseCase {
 
     fun execute(
         context: Context
+    ) = Variant.entries.forEach { variant ->
+        execute(
+            context = context,
+            variant = variant
+        )
+    }
+
+    fun execute(
+        context: Context,
+        variant: Variant
     ) {
+        val name = ComponentName(context, Widget.getReceiverClass(variant))
         val appWidgetManager = AppWidgetManager.getInstance(context)
-        Variant.entries.forEach { variant ->
-            val name = ComponentName(context, Widget.getReceiverClass(variant))
-            val appWidgetIds = runCatching { appWidgetManager.getAppWidgetIds(name) }.getOrNull()
-            appWidgetIds?.let {
-                execute(
-                    context = context,
-                    appWidgetManager = appWidgetManager,
-                    appWidgetIds = appWidgetIds,
-                    variant = variant
-                )
-            }
+        val appWidgetIds = runCatching { appWidgetManager.getAppWidgetIds(name) }.getOrNull()
+        appWidgetIds?.let {
+            execute(
+                context = context,
+                appWidgetManager = appWidgetManager,
+                appWidgetIds = appWidgetIds,
+                variant = variant
+            )
         }
     }
 
