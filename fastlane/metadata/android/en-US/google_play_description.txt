@@ -1,4 +1,4 @@
-A Minimal Calendar Widget that's always on current date's month or week.
+A Minimal Calendar Widget that's always on current date
 
 <b>Features</b>
 

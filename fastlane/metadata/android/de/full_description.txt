@@ -1,4 +1,4 @@
-Ein minimales Kalender-Widget, das sich immer im Monat oder in der Woche des aktuellen Datums befindet.
+Ein minimales Kalender-Widget, das sich immer auf dem aktuellen Datum befindet
 
 <b>Funktionen</b>
 

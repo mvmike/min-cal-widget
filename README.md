@@ -1,6 +1,6 @@
 # MinCal Widget <img align="left" src="https://raw.githubusercontent.com/mvmike/min-cal-widget/master/fastlane/metadata/android/en-US/images/icon.png" width="42"/>
 
-Minimal calendar widget that's always on current date's month or week
+Minimal calendar widget that's always on current date
 
 * Two formats: Month and Week (resizable with initial respective values of 3x2 and 3x1)
 * Displays all visible events from your calendars with a symbol set (high number becomes generic)
