@@ -28,11 +28,8 @@ Minimal calendar widget that's always on current date
 
 ## Screenshots
 
-<p style="text-align: center;">
-  <img src="/fastlane/metadata/android/en-US/images/phoneScreenshots/1.png" width="30%" alt="Screenshot 1">
-  <img src="/fastlane/metadata/android/en-US/images/phoneScreenshots/2.png" width="30%" alt="Screenshot 2">
-  <img src="/fastlane/metadata/android/en-US/images/phoneScreenshots/3.png" width="30%" alt="Screenshot 3">
-</p>
+| ![](fastlane/metadata/android/en-US/images/phoneScreenshots/1.png) | ![](fastlane/metadata/android/en-US/images/phoneScreenshots/2.png) | ![](fastlane/metadata/android/en-US/images/phoneScreenshots/3.png) |
+|:------------------------------------------------------------------:|:------------------------------------------------------------------:|:------------------------------------------------------------------:|
 
 ## Supported languages
 
