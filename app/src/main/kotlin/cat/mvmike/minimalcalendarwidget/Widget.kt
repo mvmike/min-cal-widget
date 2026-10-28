@@ -23,10 +23,6 @@ sealed class Widget(
     internal val variant: Variant
 ) : AppWidgetProvider() {
 
-    init {
-        check(getReceiverClass(variant) == this::class.java)
-    }
-
     companion object {
         fun getReceiverClass(variant: Variant): Class<out Widget> = when (variant) {
             MONTH -> MonthWidget::class.java
