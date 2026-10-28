@@ -11,14 +11,34 @@ import cat.mvmike.minimalcalendarwidget.application.RedrawWidgetUseCase
 import cat.mvmike.minimalcalendarwidget.application.system.DisableWidgetUseCase
 import cat.mvmike.minimalcalendarwidget.application.system.EnableWidgetUseCase
 import cat.mvmike.minimalcalendarwidget.application.user.ProcessIntentUseCase
+import cat.mvmike.minimalcalendarwidget.domain.Variant
+import cat.mvmike.minimalcalendarwidget.domain.Variant.MONTH
+import cat.mvmike.minimalcalendarwidget.domain.Variant.WEEK
 
-class MonthWidget : AppWidgetProvider() {
+class MonthWidget : Widget(MONTH)
+
+class WeekWidget : Widget(WEEK)
+
+sealed class Widget(
+    internal val variant: Variant
+) : AppWidgetProvider() {
+
+    init {
+        check(getReceiverClass(variant) == this::class.java)
+    }
+
+    companion object {
+        fun getReceiverClass(variant: Variant): Class<out Widget> = when (variant) {
+            MONTH -> MonthWidget::class.java
+            WEEK -> WeekWidget::class.java
+        }
+    }
 
     override fun onEnabled(
         context: Context
     ) {
         super.onEnabled(context)
-        EnableWidgetUseCase.execute(context)
+        EnableWidgetUseCase.execute(context, variant)
     }
 
     override fun onAppWidgetOptionsChanged(
@@ -28,7 +48,7 @@ class MonthWidget : AppWidgetProvider() {
         newOptions: Bundle
     ) {
         super.onAppWidgetOptionsChanged(context, appWidgetManager, appWidgetId, newOptions)
-        RedrawWidgetUseCase.execute(context, appWidgetManager, appWidgetId)
+        RedrawWidgetUseCase.execute(context, appWidgetManager, appWidgetId, variant)
     }
 
     override fun onUpdate(
@@ -37,7 +57,7 @@ class MonthWidget : AppWidgetProvider() {
         appWidgetIds: IntArray
     ) {
         super.onUpdate(context, appWidgetManager, appWidgetIds)
-        RedrawWidgetUseCase.execute(context, appWidgetManager, appWidgetIds)
+        RedrawWidgetUseCase.execute(context, appWidgetManager, appWidgetIds, variant)
     }
 
     override fun onReceive(
@@ -45,13 +65,13 @@ class MonthWidget : AppWidgetProvider() {
         intent: Intent
     ) {
         super.onReceive(context, intent)
-        ProcessIntentUseCase.execute(context, intent)
+        ProcessIntentUseCase.execute(context, variant, intent)
     }
 
     override fun onDisabled(
         context: Context
     ) {
         super.onDisabled(context)
-        DisableWidgetUseCase.execute(context)
+        DisableWidgetUseCase.execute(context, variant)
     }
 }

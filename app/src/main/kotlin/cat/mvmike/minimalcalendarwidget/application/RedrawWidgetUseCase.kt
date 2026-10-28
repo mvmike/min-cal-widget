@@ -6,8 +6,9 @@ import android.appwidget.AppWidgetManager
 import android.content.ComponentName
 import android.content.Context
 import android.widget.RemoteViews
-import cat.mvmike.minimalcalendarwidget.MonthWidget
 import cat.mvmike.minimalcalendarwidget.R
+import cat.mvmike.minimalcalendarwidget.Widget
+import cat.mvmike.minimalcalendarwidget.domain.Variant
 import cat.mvmike.minimalcalendarwidget.domain.component.DaysHeaderService
 import cat.mvmike.minimalcalendarwidget.domain.component.DaysService
 import cat.mvmike.minimalcalendarwidget.domain.component.LayoutService
@@ -30,40 +31,52 @@ object RedrawWidgetUseCase {
     fun execute(
         context: Context
     ) {
-        val name = ComponentName(context, MonthWidget::class.java)
         val appWidgetManager = AppWidgetManager.getInstance(context)
-        val appWidgetIds = runCatching { appWidgetManager.getAppWidgetIds(name) }.getOrNull()
-        appWidgetIds?.let {
-            execute(
-                context = context,
-                appWidgetManager = appWidgetManager,
-                appWidgetIds = appWidgetIds
-            )
+        Variant.entries.forEach { variant ->
+            val name = ComponentName(context, Widget.getReceiverClass(variant))
+            val appWidgetIds = runCatching { appWidgetManager.getAppWidgetIds(name) }.getOrNull()
+            appWidgetIds?.let {
+                execute(
+                    context = context,
+                    appWidgetManager = appWidgetManager,
+                    appWidgetIds = appWidgetIds,
+                    variant = variant
+                )
+            }
         }
     }
 
     fun execute(
         context: Context,
         appWidgetManager: AppWidgetManager,
-        appWidgetIds: IntArray
+        appWidgetIds: IntArray,
+        variant: Variant
     ) = appWidgetIds.forEach { appWidgetId ->
         execute(
             context = context,
             appWidgetManager = appWidgetManager,
-            appWidgetId = appWidgetId
+            appWidgetId = appWidgetId,
+            variant = variant
         )
     }
 
     fun execute(
         context: Context,
         appWidgetManager: AppWidgetManager,
-        appWidgetId: Int
+        appWidgetId: Int,
+        variant: Variant
     ) = runCatching {
-        val widgetRemoteView = RemoteViews(context.packageName, R.layout.widget)
+        val widgetRemoteView = RemoteViews(
+            context.packageName,
+            when (variant) {
+                Variant.MONTH -> R.layout.widget_month
+                Variant.WEEK -> R.layout.widget_week
+            }
+        )
         widgetRemoteView.removeAllViews(R.id.calendar_days_layout)
 
-        ConfigurationIcon.addListener(context, widgetRemoteView)
-        MonthAndYearHeader.addListener(context, widgetRemoteView)
+        ConfigurationIcon.addListener(context, widgetRemoteView, variant)
+        MonthAndYearHeader.addListener(context, widgetRemoteView, variant)
 
         val textSize = PercentageConfigurationItem.WidgetTextSize.get(context)
         val widgetTheme = EnumConfigurationItem.WidgetTheme.get(context)
@@ -88,6 +101,7 @@ object RedrawWidgetUseCase {
         DaysHeaderService.draw(
             context = context,
             widgetRemoteView = widgetRemoteView,
+            variant = variant,
             firstDayOfWeek = firstDayOfWeek,
             widgetTheme = widgetTheme,
             transparency = transparency,
@@ -96,6 +110,7 @@ object RedrawWidgetUseCase {
         DaysService.draw(
             context = context,
             widgetRemoteView = widgetRemoteView,
+            variant = variant,
             firstDayOfWeek = firstDayOfWeek,
             widgetTheme = widgetTheme,
             transparency = transparency,

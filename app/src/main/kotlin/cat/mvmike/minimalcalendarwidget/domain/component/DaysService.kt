@@ -8,6 +8,9 @@ import android.widget.RemoteViews
 import cat.mvmike.minimalcalendarwidget.domain.Cell
 import cat.mvmike.minimalcalendarwidget.domain.Day
 import cat.mvmike.minimalcalendarwidget.domain.Instance
+import cat.mvmike.minimalcalendarwidget.domain.Variant
+import cat.mvmike.minimalcalendarwidget.domain.Variant.MONTH
+import cat.mvmike.minimalcalendarwidget.domain.Variant.WEEK
 import cat.mvmike.minimalcalendarwidget.domain.configuration.BooleanConfigurationItem
 import cat.mvmike.minimalcalendarwidget.domain.configuration.BooleanConfigurationItem.CalendarVisibilitySelection
 import cat.mvmike.minimalcalendarwidget.domain.configuration.EnumConfigurationItem
@@ -31,15 +34,13 @@ import java.time.temporal.WeekFields
 
 object DaysService {
 
-    private const val NUM_WEEKS = 6
     private const val DAYS_IN_WEEK = 7
-    private const val NUMBER_OF_DAYS = (NUM_WEEKS * DAYS_IN_WEEK).toLong()
-
     private const val WEEK_NUMBER_RELATIVE_SIZE = 0.6f
 
     fun draw(
         context: Context,
         widgetRemoteView: RemoteViews,
+        variant: Variant,
         firstDayOfWeek: DayOfWeek,
         widgetTheme: Theme,
         transparency: Transparency,
@@ -47,15 +48,20 @@ object DaysService {
     ) {
         val systemLocalDate = SystemResolver.getSystemLocalDate()
         val systemZoneId = SystemResolver.getSystemZoneId()
-        val initialLocalDate = when (BooleanConfigurationItem.FocusOnCurrentWeek.get(context)) {
-            true -> getFocusedOnCurrentWeekInitialLocalDate(systemLocalDate, firstDayOfWeek)
-            else -> getNaturalMonthInitialLocalDate(systemLocalDate, firstDayOfWeek)
+        val initialLocalDate = when (variant) {
+            WEEK -> getCurrentWeekInitialLocalDate(systemLocalDate, firstDayOfWeek)
+            MONTH -> when (BooleanConfigurationItem.FocusOnCurrentWeek.get(context)) {
+                true -> getFocusedOnCurrentWeekInitialLocalDate(systemLocalDate, firstDayOfWeek)
+                else -> getNaturalMonthInitialLocalDate(systemLocalDate, firstDayOfWeek)
+            }
         }
+
+        val numberOfDays = (variant.numWeeks * DAYS_IN_WEEK).toLong()
 
         val instanceSet = getInstances(
             context = context,
             from = initialLocalDate,
-            to = initialLocalDate.plusDays(NUMBER_OF_DAYS)
+            to = initialLocalDate.plusDays(numberOfDays)
         )
         val instancesSymbolSet = EnumConfigurationItem.InstancesSymbolSet.get(context)
         val instancesColour = EnumConfigurationItem.InstancesColour.get(context)
@@ -71,7 +77,7 @@ object DaysService {
                 }
             }.map { it.id }
 
-        for (week in 0 until NUM_WEEKS) {
+        for (week in 0 until variant.numWeeks) {
             val weekRowRemoteView: RemoteViews = GraphicResolver.createDaysRow(context)
 
             if (showWeekNumber) {
@@ -149,6 +155,7 @@ object DaysService {
                 CellDay.addListener(
                     context = context,
                     remoteViews = arrayOf(dayOfMonthRemoteView, instancesSymbolRemoteView),
+                    variant = variant,
                     startOfDay = currentDay.dayLocalDate.atStartOfDay(systemZoneId).toInstant()
                 )
             }
@@ -163,11 +170,16 @@ object DaysService {
     internal fun getFocusedOnCurrentWeekInitialLocalDate(
         systemLocalDate: LocalDate,
         firstDayOfWeek: DayOfWeek
+    ): LocalDate = getCurrentWeekInitialLocalDate(systemLocalDate, firstDayOfWeek).minusWeeks(1)
+
+    internal fun getCurrentWeekInitialLocalDate(
+        systemLocalDate: LocalDate,
+        firstDayOfWeek: DayOfWeek
     ): LocalDate {
         val systemLocalDateWithFirstDayOfWeek = systemLocalDate.with(firstDayOfWeek)
         return when (systemLocalDateWithFirstDayOfWeek.isAfter(systemLocalDate)) {
-            true -> systemLocalDateWithFirstDayOfWeek.minusWeeks(2)
-            else -> systemLocalDateWithFirstDayOfWeek.minusWeeks(1)
+            true -> systemLocalDateWithFirstDayOfWeek.minusWeeks(1)
+            else -> systemLocalDateWithFirstDayOfWeek
         }
     }
 

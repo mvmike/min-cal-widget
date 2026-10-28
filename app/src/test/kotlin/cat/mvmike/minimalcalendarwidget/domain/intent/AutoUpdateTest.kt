@@ -7,25 +7,30 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import cat.mvmike.minimalcalendarwidget.BaseTest
+import cat.mvmike.minimalcalendarwidget.Widget
+import cat.mvmike.minimalcalendarwidget.domain.Variant
+import io.mockk.confirmVerified
 import io.mockk.every
 import io.mockk.justRun
 import io.mockk.mockk
 import io.mockk.verify
-import org.junit.jupiter.api.Test
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.EnumSource
 
 internal class AutoUpdateTest : BaseTest() {
 
     private val alarmManager = mockk<AlarmManager>()
 
-    @Test
-    fun set_shouldSetRepeatingAlarm() {
+    @ParameterizedTest
+    @EnumSource(value = Variant::class)
+    fun set_shouldSetRepeatingAlarm(variant: Variant) {
         mockGetSystemInstant()
         every { context.getSystemService(Context.ALARM_SERVICE) } returns alarmManager
         every {
             PendingIntent.getBroadcast(
                 context,
                 859345,
-                any<Intent>(),
+                intent,
                 PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_IMMUTABLE
             )
         } returns pendingIntent
@@ -38,10 +43,12 @@ internal class AutoUpdateTest : BaseTest() {
             )
         }
 
-        AutoUpdate.set(context)
+        AutoUpdate.set(context, variant)
 
         verifyGetSystemInstant()
         verify { context.getSystemService(Context.ALARM_SERVICE) }
+        verify { Widget.getReceiverClass(variant) }
+        verify { anyConstructed<Intent>().setAction(AutoUpdate.ACTION_AUTO_UPDATE) }
         verify {
             PendingIntent.getBroadcast(
                 context,
@@ -58,24 +65,28 @@ internal class AutoUpdateTest : BaseTest() {
                 pendingIntent
             )
         }
+        confirmVerified(alarmManager)
     }
 
-    @Test
-    fun cancel_shouldCancelAlarm() {
+    @ParameterizedTest
+    @EnumSource(value = Variant::class)
+    fun cancel_shouldCancelAlarm(variant: Variant) {
         every { context.getSystemService(Context.ALARM_SERVICE) } returns alarmManager
         every {
             PendingIntent.getBroadcast(
                 context,
                 859345,
-                any<Intent>(),
+                intent,
                 PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_IMMUTABLE
             )
         } returns pendingIntent
         justRun { alarmManager.cancel(pendingIntent) }
 
-        AutoUpdate.cancel(context)
+        AutoUpdate.cancel(context, variant)
 
         verify { context.getSystemService(Context.ALARM_SERVICE) }
+        verify { Widget.getReceiverClass(variant) }
+        verify { anyConstructed<Intent>().setAction(AutoUpdate.ACTION_AUTO_UPDATE) }
         verify {
             PendingIntent.getBroadcast(
                 context,
@@ -85,5 +96,6 @@ internal class AutoUpdateTest : BaseTest() {
             )
         }
         verify { alarmManager.cancel(pendingIntent) }
+        confirmVerified(alarmManager)
     }
 }

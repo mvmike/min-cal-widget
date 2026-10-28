@@ -5,6 +5,7 @@ package cat.mvmike.minimalcalendarwidget.application.user
 import android.content.Context
 import android.content.Intent
 import cat.mvmike.minimalcalendarwidget.application.RedrawWidgetUseCase
+import cat.mvmike.minimalcalendarwidget.domain.Variant
 import cat.mvmike.minimalcalendarwidget.domain.configuration.BooleanConfigurationItem
 import cat.mvmike.minimalcalendarwidget.domain.configuration.EnumConfigurationItem.InstancesSymbolSet
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.SymbolSet
@@ -25,12 +26,13 @@ object ProcessIntentUseCase {
 
     fun execute(
         context: Context,
+        variant: Variant,
         intent: Intent
     ) = when (intent.toActionableView()) {
         ConfigurationIcon -> ConfigurationActivity.start(context)
         MonthAndYearHeader,
-        RowHeader -> context.askForPermissionsIfNeededOrExecuteAndRedraw { startCalendarActivity(context) }
-        CellDay -> context.askForPermissionsIfNeededOrExecuteAndRedraw { startCalendarActivity(context, intent) }
+        RowHeader -> context.askForPermissionsIfNeededOrExecuteAndRedraw(variant) { startCalendarActivity(context) }
+        CellDay -> context.askForPermissionsIfNeededOrExecuteAndRedraw(variant) { startCalendarActivity(context, intent) }
         else -> null
     }
 
@@ -50,13 +52,13 @@ object ProcessIntentUseCase {
         }
     )
 
-    private fun Context.askForPermissionsIfNeededOrExecuteAndRedraw(function: () -> Unit) = when {
+    private fun Context.askForPermissionsIfNeededOrExecuteAndRedraw(variant: Variant, function: () -> Unit) = when {
         isReadCalendarPermitted(this) || InstancesSymbolSet.get(this) == SymbolSet.NONE -> {
             function.invoke()
             RedrawWidgetUseCase.execute(this)
         }
         else -> PermissionsActivity.start(this)
     }.also {
-        AutoUpdate.set(this)
+        AutoUpdate.set(this, variant)
     }
 }

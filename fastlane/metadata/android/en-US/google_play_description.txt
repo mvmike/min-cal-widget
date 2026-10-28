@@ -1,17 +1,16 @@
-A Minimal Calendar Widget that's always on current date's month.
+A Minimal Calendar Widget that's always on current date's month or week.
 
 <b>Features</b>
 
 * Free and open source
 * Contains no ads or payments
-* Always on current date’s month
-* 3x2 (resizable)
+* Two formats: Month and Week (resizable with initial respective values of 3x2 and 3x1)
 * Displays all events from your calendars with a symbol set (high number becomes generic)
 * Native widget configuration access or press widget’s top right corner
 * Pressing on any other part of the widget opens calendar application
 * Highly configurable: start day of the week, theme, symbol set, symbol set colour, transparency, text size, show week number...
 
-You can help out translating through our weblate project page
+You can help out translating through our Weblate project page
 https://hosted.weblate.org/engage/min-cal-widget
 
 <b>Source</b>

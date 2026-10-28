@@ -80,7 +80,8 @@ open class BaseTest {
             SystemResolver,
             CalendarActivity,
             ConfigurationActivity.Companion,
-            PermissionsActivity.Companion
+            PermissionsActivity.Companion,
+            Widget.Companion
         )
 
         mockkStatic(PendingIntent::class)
@@ -97,6 +98,7 @@ open class BaseTest {
             CalendarActivity,
             ConfigurationActivity.Companion,
             PermissionsActivity.Companion,
+            Widget.Companion,
             context,
             editor,
             sharedPreferences,

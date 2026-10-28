@@ -5,6 +5,7 @@ package cat.mvmike.minimalcalendarwidget.domain.component
 import android.content.Context
 import android.widget.RemoteViews
 import cat.mvmike.minimalcalendarwidget.domain.Cell
+import cat.mvmike.minimalcalendarwidget.domain.Variant
 import cat.mvmike.minimalcalendarwidget.domain.configuration.BooleanConfigurationItem
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.TextSize
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
@@ -22,6 +23,7 @@ object DaysHeaderService {
     fun draw(
         context: Context,
         widgetRemoteView: RemoteViews,
+        variant: Variant,
         firstDayOfWeek: DayOfWeek,
         widgetTheme: Theme,
         transparency: Transparency,
@@ -68,7 +70,7 @@ object DaysHeaderService {
             widgetRemoteView = widgetRemoteView,
             remoteView = daysHeaderRow
         )
-        RowHeader.addListener(context, widgetRemoteView)
+        RowHeader.addListener(context, widgetRemoteView, variant)
     }
 
     fun getRotatedDaysOfWeek(firstDayOfWeek: DayOfWeek): List<DayOfWeek> {

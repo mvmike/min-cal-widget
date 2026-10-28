@@ -11,6 +11,7 @@ import cat.mvmike.minimalcalendarwidget.domain.Day
 import cat.mvmike.minimalcalendarwidget.domain.Instance
 import cat.mvmike.minimalcalendarwidget.domain.Instance.AllDayInstance
 import cat.mvmike.minimalcalendarwidget.domain.Instance.TimedInstance
+import cat.mvmike.minimalcalendarwidget.domain.Variant
 import cat.mvmike.minimalcalendarwidget.domain.component.DaysService.getNumberOfInstances
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Colour
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.SymbolSet
@@ -29,6 +30,7 @@ import io.mockk.mockkObject
 import io.mockk.verify
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.Arguments.of
 import org.junit.jupiter.params.provider.CsvSource
 import org.junit.jupiter.params.provider.MethodSource
 import java.time.DayOfWeek
@@ -43,6 +45,8 @@ import java.time.ZonedDateTime
 import java.time.temporal.WeekFields
 import kotlin.Int
 
+private const val MILLISECONDS_IN_A_WEEK = 604800000L // 1000*3600*24*7 === 1W
+
 internal class DaysServiceTest : BaseTest() {
 
     private val widgetRv = mockk<RemoteViews>()
@@ -53,7 +57,10 @@ internal class DaysServiceTest : BaseTest() {
 
     @ParameterizedTest
     @MethodSource("getDaysDrawInputVariablesAndExpectedOutput")
-    fun draw_shouldReturnSafeDateSpanOfSystemTimeZoneInstances(testProperties: DrawDaysUseCaseTestProperties) {
+    fun draw_shouldReturnSafeDateSpanOfSystemTimeZoneInstances(
+        variant: Variant,
+        testProperties: DrawDaysUseCaseTestProperties
+    ) {
         val instancesSymbolRemoteView = when (testProperties.shouldIncludeInstancesSymbolRemoteView) {
             true -> dayRv
             else -> null
@@ -71,7 +78,9 @@ internal class DaysServiceTest : BaseTest() {
                 end = testProperties.expectedInstancesQueryEndEpochMillis
             )
         } returns testProperties.systemInstances
-        mockFocusOnCurrentWeek(testProperties.focusOnCurrentWeek)
+        if (variant == Variant.MONTH) {
+            mockFocusOnCurrentWeek(testProperties.focusOnCurrentWeek)
+        }
         mockInstancesSymbolSet(testProperties.instancesSymbolSet)
         mockInstancesColour(testProperties.instancesColour)
         mockShowDeclinedEvents(testProperties.showDeclinedEvents)
@@ -107,6 +116,7 @@ internal class DaysServiceTest : BaseTest() {
             ActionableView.CellDay.addListener(
                 context = context,
                 remoteViews = arrayOf(dayRv, instancesSymbolRemoteView),
+                variant = variant,
                 startOfDay = any()
             )
         }
@@ -115,6 +125,7 @@ internal class DaysServiceTest : BaseTest() {
         DaysService.draw(
             context = context,
             widgetRemoteView = widgetRv,
+            variant = variant,
             firstDayOfWeek = testProperties.firstDayOfWeek,
             widgetTheme = testProperties.widgetTheme,
             transparency = testProperties.transparency,
@@ -137,16 +148,18 @@ internal class DaysServiceTest : BaseTest() {
         if (!testProperties.defaultVisibleCalendars) {
             testProperties.systemCalendars.forEach { verifyCalendarVisibilitySelection(it.id) }
         }
-        verifyFocusOnCurrentWeek()
+        if (variant == Variant.MONTH) {
+            verifyFocusOnCurrentWeek()
+        }
         verifyInstancesSymbolSet()
         verifyInstancesColour()
         verifyShowWeekNumber()
 
-        verify(exactly = 6) { GraphicResolver.createDaysRow(context) }
+        verify(exactly = variant.numWeeks) { GraphicResolver.createDaysRow(context) }
 
         if (testProperties.showWeekNumber) {
             val weekFields = WeekFields.of(testProperties.firstDayOfWeek, 1)
-            for (week in 0..5) {
+            for (week in 0 until variant.numWeeks) {
                 val weekNumber = testProperties.expectedFirstDay.plusDays((week * 7).toLong()).get(weekFields.weekOfWeekBasedYear())
                 val weekNumberCell = testProperties.widgetTheme.getCellWeekNumber()
 
@@ -166,7 +179,14 @@ internal class DaysServiceTest : BaseTest() {
             }
         }
 
-        val expectedDayProperties = readTestResourceCsvFile(testProperties.expectedDayPropertiesResourcePath).map { DayProperties(it) }
+        val expectedDayProperties = readTestResourceCsvFile(testProperties.expectedDayPropertiesResourcePath)
+            .map { DayProperties(it) }
+            .let {
+                when (variant) {
+                    Variant.MONTH -> it
+                    Variant.WEEK -> it.drop(7).take(7)
+                }
+            }
         expectedDayProperties.forEach { expectedDayProperties ->
             val cellDay = testProperties.widgetTheme.getCellDay(expectedDayProperties.isInMonth, expectedDayProperties.dayOfWeek)
             cellDay.background?.let {
@@ -209,11 +229,12 @@ internal class DaysServiceTest : BaseTest() {
                 ActionableView.CellDay.addListener(
                     context = context,
                     remoteViews = arrayOf(dayRv, instancesSymbolRemoteView),
+                    variant = variant,
                     startOfDay = expectedDayProperties.startOfDay
                 )
             }
         }
-        verify(exactly = 6) { GraphicResolver.addToWidget(widgetRv, weekRv) }
+        verify(exactly = variant.numWeeks) { GraphicResolver.addToWidget(widgetRv, weekRv) }
         confirmVerified(widgetRv, weekRv, dayRv)
     }
 
@@ -237,6 +258,30 @@ internal class DaysServiceTest : BaseTest() {
         expectedInitialLocalDate: LocalDate
     ) {
         val result = DaysService.getFocusedOnCurrentWeekInitialLocalDate(systemLocalDate, firstDayOfWeek)
+
+        assertThat(result).isEqualTo(expectedInitialLocalDate)
+    }
+
+    @ParameterizedTest
+    @CsvSource(
+        "2022-02-24,MONDAY,2022-02-21",
+        "2022-02-27,MONDAY,2022-02-21",
+        "2022-02-28,MONDAY,2022-02-28",
+        "2022-02-28,TUESDAY,2022-02-22",
+        "2022-03-01,TUESDAY,2022-03-01",
+        "2022-01-01,WEDNESDAY,2021-12-29",
+        "2022-01-01,SATURDAY,2022-01-01",
+        "2022-02-20,SUNDAY,2022-02-20",
+        "2022-02-25,SUNDAY,2022-02-20",
+        "2022-02-26,SUNDAY,2022-02-20",
+        "2022-02-27,SUNDAY,2022-02-27"
+    )
+    fun getCurrentWeekInitialLocalDate_shouldReturnWidgetInitialDate(
+        systemLocalDate: LocalDate,
+        firstDayOfWeek: DayOfWeek,
+        expectedInitialLocalDate: LocalDate
+    ) {
+        val result = DaysService.getCurrentWeekInitialLocalDate(systemLocalDate, firstDayOfWeek)
 
         assertThat(result).isEqualTo(expectedInitialLocalDate)
     }
@@ -368,134 +413,157 @@ internal class DaysServiceTest : BaseTest() {
             )
         }
 
-    private fun getDaysDrawInputVariablesAndExpectedOutput() = listOf(
-        DrawDaysUseCaseTestProperties(
-            systemLocalDate = systemLocalDate,
-            systemInstances = getSystemInstances(),
-            systemCalendars = getSystemCalendars(),
-            firstDayOfWeek = MONDAY,
-            widgetTheme = Theme.DARK,
-            transparency = Transparency(32),
-            textSize = TextSize(32),
-            focusOnCurrentWeek = false,
-            instancesColour = Colour.CYAN,
-            instancesSymbolSet = SymbolSet.MINIMAL,
-            showDeclinedEvents = false,
-            defaultVisibleCalendars = true,
-            visibleCalendarIds = setOf(1, 2, 3, 4, 5),
-            shouldIncludeInstancesSymbolRemoteView = true,
-            showWeekNumber = false,
-            expectedFirstDay = LocalDate.parse("2018-11-26"),
-            expectedInstancesQueryInitEpochMillis = 1543179600000,
-            expectedInstancesQueryEndEpochMillis = 1546808400000,
-            expectedDayPropertiesResourcePath = "/test_case/component/day/day_properties_MONDAY_MINIMAL_default_visible_calendars.csv"
-        ),
-        DrawDaysUseCaseTestProperties(
-            systemLocalDate = systemLocalDate,
-            systemInstances = getSystemInstances(),
-            systemCalendars = getSystemCalendars(),
-            firstDayOfWeek = MONDAY,
-            widgetTheme = Theme.DARK,
-            transparency = Transparency(32),
-            textSize = TextSize(32),
-            focusOnCurrentWeek = false,
-            instancesColour = Colour.CYAN,
-            instancesSymbolSet = SymbolSet.MINIMAL,
-            showDeclinedEvents = false,
-            defaultVisibleCalendars = false,
-            visibleCalendarIds = setOf(1, 2, 5),
-            shouldIncludeInstancesSymbolRemoteView = true,
-            showWeekNumber = false,
-            expectedFirstDay = LocalDate.parse("2018-11-26"),
-            expectedInstancesQueryInitEpochMillis = 1543179600000,
-            expectedInstancesQueryEndEpochMillis = 1546808400000,
-            expectedDayPropertiesResourcePath = "/test_case/component/day/day_properties_MONDAY_MINIMAL_custom_visible_calendars_1_2_5.csv"
-        ),
-        DrawDaysUseCaseTestProperties(
-            systemLocalDate = systemLocalDate,
-            systemInstances = getSystemInstances(),
-            systemCalendars = getSystemCalendars(),
-            firstDayOfWeek = SUNDAY,
-            widgetTheme = Theme.LIGHT,
-            transparency = Transparency(32),
-            textSize = TextSize(50),
-            focusOnCurrentWeek = false,
-            instancesColour = Colour.YELLOW,
-            instancesSymbolSet = SymbolSet.BINARY,
-            showDeclinedEvents = false,
-            defaultVisibleCalendars = true,
-            visibleCalendarIds = emptySet(),
-            shouldIncludeInstancesSymbolRemoteView = true,
-            showWeekNumber = false,
-            expectedFirstDay = LocalDate.parse("2018-11-25"),
-            expectedInstancesQueryInitEpochMillis = 1543093200000,
-            expectedInstancesQueryEndEpochMillis = 1546722000000,
-            expectedDayPropertiesResourcePath = "/test_case/component/day/day_properties_SUNDAY_BINARY_default_visible_calendars.csv"
-        ),
-        DrawDaysUseCaseTestProperties(
-            systemLocalDate = systemLocalDate,
-            systemInstances = getSystemInstances(),
-            systemCalendars = getSystemCalendars(),
-            firstDayOfWeek = SUNDAY,
-            widgetTheme = Theme.LIGHT,
-            transparency = Transparency(32),
-            textSize = TextSize(50),
-            focusOnCurrentWeek = false,
-            instancesColour = Colour.YELLOW,
-            instancesSymbolSet = SymbolSet.BINARY,
-            showDeclinedEvents = false,
-            defaultVisibleCalendars = false,
-            visibleCalendarIds = setOf(2, 4, 5),
-            shouldIncludeInstancesSymbolRemoteView = true,
-            showWeekNumber = false,
-            expectedFirstDay = LocalDate.parse("2018-11-25"),
-            expectedInstancesQueryInitEpochMillis = 1543093200000,
-            expectedInstancesQueryEndEpochMillis = 1546722000000,
-            expectedDayPropertiesResourcePath = "/test_case/component/day/day_properties_SUNDAY_BINARY_custom_visible_calendars_2_4_5.csv"
-        ),
-        DrawDaysUseCaseTestProperties(
-            systemLocalDate = systemLocalDate,
-            systemInstances = getSystemInstances(),
-            systemCalendars = getSystemCalendars(),
-            firstDayOfWeek = THURSDAY,
-            widgetTheme = Theme.DARK,
-            transparency = Transparency(0),
-            textSize = TextSize(60),
-            focusOnCurrentWeek = true,
-            instancesColour = Colour.SYSTEM_ACCENT,
-            instancesSymbolSet = SymbolSet.NONE,
-            showDeclinedEvents = true,
-            defaultVisibleCalendars = true,
-            visibleCalendarIds = emptySet(),
-            shouldIncludeInstancesSymbolRemoteView = false,
-            showWeekNumber = true,
-            expectedFirstDay = LocalDate.parse("2018-11-22"),
-            expectedInstancesQueryInitEpochMillis = 1542834000000,
-            expectedInstancesQueryEndEpochMillis = 1546462800000,
-            expectedDayPropertiesResourcePath = "/test_case/component/day/day_properties_THURSDAY_NONE_default_visible_calendars.csv"
-        ),
-        DrawDaysUseCaseTestProperties(
-            systemLocalDate = systemLocalDate.plusYears(1),
-            systemInstances = emptySet(),
-            systemCalendars = emptyList(),
-            firstDayOfWeek = MONDAY,
-            widgetTheme = Theme.DARK,
-            transparency = Transparency(0),
-            textSize = TextSize(60),
-            focusOnCurrentWeek = false,
-            instancesColour = Colour.SYSTEM_ACCENT,
-            instancesSymbolSet = SymbolSet.ROMAN,
-            showDeclinedEvents = true,
-            defaultVisibleCalendars = true,
-            visibleCalendarIds = emptySet(),
-            shouldIncludeInstancesSymbolRemoteView = false,
-            showWeekNumber = true,
-            expectedFirstDay = LocalDate.parse("2019-11-25"),
-            expectedInstancesQueryInitEpochMillis = 1574629200000,
-            expectedInstancesQueryEndEpochMillis = 1578258000000,
-            expectedDayPropertiesResourcePath = "/test_case/component/day/day_properties_MONDAY_ROMAN_no_instances.csv"
-        )
-    )
+    private fun getDaysDrawInputVariablesAndExpectedOutput() = Variant.entries.flatMap { variant ->
+        listOf(
+            DrawDaysUseCaseTestProperties(
+                systemLocalDate = systemLocalDate,
+                systemInstances = getSystemInstances(),
+                systemCalendars = getSystemCalendars(),
+                firstDayOfWeek = MONDAY,
+                widgetTheme = Theme.DARK,
+                transparency = Transparency(32),
+                textSize = TextSize(32),
+                focusOnCurrentWeek = false,
+                instancesColour = Colour.CYAN,
+                instancesSymbolSet = SymbolSet.MINIMAL,
+                showDeclinedEvents = false,
+                defaultVisibleCalendars = true,
+                visibleCalendarIds = setOf(1, 2, 3, 4, 5),
+                shouldIncludeInstancesSymbolRemoteView = true,
+                showWeekNumber = false,
+                expectedFirstDay = LocalDate.parse("2018-11-26"),
+                expectedInstancesQueryInitEpochMillis = 1543179600000,
+                expectedInstancesQueryEndEpochMillis = 1546808400000,
+                expectedDayPropertiesResourcePath = "/test_case/component/day/day_properties_MONDAY_MINIMAL_default_visible_calendars.csv"
+            ),
+            DrawDaysUseCaseTestProperties(
+                systemLocalDate = systemLocalDate,
+                systemInstances = getSystemInstances(),
+                systemCalendars = getSystemCalendars(),
+                firstDayOfWeek = MONDAY,
+                widgetTheme = Theme.DARK,
+                transparency = Transparency(32),
+                textSize = TextSize(32),
+                focusOnCurrentWeek = false,
+                instancesColour = Colour.CYAN,
+                instancesSymbolSet = SymbolSet.MINIMAL,
+                showDeclinedEvents = false,
+                defaultVisibleCalendars = false,
+                visibleCalendarIds = setOf(1, 2, 5),
+                shouldIncludeInstancesSymbolRemoteView = true,
+                showWeekNumber = false,
+                expectedFirstDay = LocalDate.parse("2018-11-26"),
+                expectedInstancesQueryInitEpochMillis = 1543179600000,
+                expectedInstancesQueryEndEpochMillis = 1546808400000,
+                expectedDayPropertiesResourcePath = "/test_case/component/day/day_properties_MONDAY_MINIMAL_custom_visible_calendars_1_2_5.csv"
+            ),
+            DrawDaysUseCaseTestProperties(
+                systemLocalDate = systemLocalDate,
+                systemInstances = getSystemInstances(),
+                systemCalendars = getSystemCalendars(),
+                firstDayOfWeek = SUNDAY,
+                widgetTheme = Theme.LIGHT,
+                transparency = Transparency(32),
+                textSize = TextSize(50),
+                focusOnCurrentWeek = false,
+                instancesColour = Colour.YELLOW,
+                instancesSymbolSet = SymbolSet.BINARY,
+                showDeclinedEvents = false,
+                defaultVisibleCalendars = true,
+                visibleCalendarIds = emptySet(),
+                shouldIncludeInstancesSymbolRemoteView = true,
+                showWeekNumber = false,
+                expectedFirstDay = LocalDate.parse("2018-11-25"),
+                expectedInstancesQueryInitEpochMillis = 1543093200000,
+                expectedInstancesQueryEndEpochMillis = 1546722000000,
+                expectedDayPropertiesResourcePath = "/test_case/component/day/day_properties_SUNDAY_BINARY_default_visible_calendars.csv"
+            ),
+            DrawDaysUseCaseTestProperties(
+                systemLocalDate = systemLocalDate,
+                systemInstances = getSystemInstances(),
+                systemCalendars = getSystemCalendars(),
+                firstDayOfWeek = SUNDAY,
+                widgetTheme = Theme.LIGHT,
+                transparency = Transparency(32),
+                textSize = TextSize(50),
+                focusOnCurrentWeek = false,
+                instancesColour = Colour.YELLOW,
+                instancesSymbolSet = SymbolSet.BINARY,
+                showDeclinedEvents = false,
+                defaultVisibleCalendars = false,
+                visibleCalendarIds = setOf(2, 4, 5),
+                shouldIncludeInstancesSymbolRemoteView = true,
+                showWeekNumber = false,
+                expectedFirstDay = LocalDate.parse("2018-11-25"),
+                expectedInstancesQueryInitEpochMillis = 1543093200000,
+                expectedInstancesQueryEndEpochMillis = 1546722000000,
+                expectedDayPropertiesResourcePath = "/test_case/component/day/day_properties_SUNDAY_BINARY_custom_visible_calendars_2_4_5.csv"
+            ),
+            DrawDaysUseCaseTestProperties(
+                systemLocalDate = systemLocalDate,
+                systemInstances = getSystemInstances(),
+                systemCalendars = getSystemCalendars(),
+                firstDayOfWeek = THURSDAY,
+                widgetTheme = Theme.DARK,
+                transparency = Transparency(0),
+                textSize = TextSize(60),
+                focusOnCurrentWeek = true,
+                instancesColour = Colour.SYSTEM_ACCENT,
+                instancesSymbolSet = SymbolSet.NONE,
+                showDeclinedEvents = true,
+                defaultVisibleCalendars = true,
+                visibleCalendarIds = emptySet(),
+                shouldIncludeInstancesSymbolRemoteView = false,
+                showWeekNumber = true,
+                expectedFirstDay = LocalDate.parse("2018-11-22"),
+                expectedInstancesQueryInitEpochMillis = 1542834000000,
+                expectedInstancesQueryEndEpochMillis = 1546462800000,
+                expectedDayPropertiesResourcePath = "/test_case/component/day/day_properties_THURSDAY_NONE_default_visible_calendars.csv"
+            ),
+            DrawDaysUseCaseTestProperties(
+                systemLocalDate = systemLocalDate.plusYears(1),
+                systemInstances = emptySet(),
+                systemCalendars = emptyList(),
+                firstDayOfWeek = MONDAY,
+                widgetTheme = Theme.DARK,
+                transparency = Transparency(0),
+                textSize = TextSize(60),
+                focusOnCurrentWeek = false,
+                instancesColour = Colour.SYSTEM_ACCENT,
+                instancesSymbolSet = SymbolSet.ROMAN,
+                showDeclinedEvents = true,
+                defaultVisibleCalendars = true,
+                visibleCalendarIds = emptySet(),
+                shouldIncludeInstancesSymbolRemoteView = false,
+                showWeekNumber = true,
+                expectedFirstDay = LocalDate.parse("2019-11-25"),
+                expectedInstancesQueryInitEpochMillis = 1574629200000,
+                expectedInstancesQueryEndEpochMillis = 1578258000000,
+                expectedDayPropertiesResourcePath = "/test_case/component/day/day_properties_MONDAY_ROMAN_no_instances.csv"
+            )
+        ).map {
+            val expectedFirstDay = when (variant) {
+                Variant.MONTH -> it.expectedFirstDay
+                Variant.WEEK -> it.expectedFirstDay.plusWeeks(1)
+            }
+            val expectedInstancesQueryInitEpochMillis = when (variant) {
+                Variant.MONTH -> it.expectedInstancesQueryInitEpochMillis
+                Variant.WEEK -> it.expectedInstancesQueryInitEpochMillis + MILLISECONDS_IN_A_WEEK
+            }
+            val expectedInstancesQueryEndEpochMillis = when (variant) {
+                Variant.MONTH -> it.expectedInstancesQueryEndEpochMillis
+                Variant.WEEK -> expectedInstancesQueryInitEpochMillis + MILLISECONDS_IN_A_WEEK
+            }
+            of(
+                variant,
+                it.copy(
+                    expectedFirstDay = expectedFirstDay,
+                    expectedInstancesQueryInitEpochMillis = expectedInstancesQueryInitEpochMillis,
+                    expectedInstancesQueryEndEpochMillis = expectedInstancesQueryEndEpochMillis
+                )
+            )
+        }
+    }
 
     internal data class DrawDaysUseCaseTestProperties(
         val systemLocalDate: LocalDate,

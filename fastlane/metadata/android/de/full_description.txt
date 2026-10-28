@@ -1,10 +1,9 @@
-Ein minimales Kalender-Widget, das sich immer im Monat des aktuellen Datums befindet.
+Ein minimales Kalender-Widget, das sich immer im Monat oder in der Woche des aktuellen Datums befindet.
 
 <b>Funktionen</b>
 
 * Enthält keine Werbung oder Zahlungen
-* Immer im Monat des aktuellen Datums
-* 3x2 (größenveränderbar)
+* Zwei Formate: Monat und Woche (größenveränderbar mit anfänglichen Werten von 3x2 bzw. 3x1)
 * Zeigt alle Ereignisse aus Ihren Kalendern mit einem Symbolsatz an (hohe Zahl wird generisch)
 * Zugriff auf die native Widget-Konfiguration oder drücken Sie auf die obere rechte Ecke des Widgets
 * Durch Drücken auf einen anderen Teil des Widgets wird die Kalenderanwendung geöffnet

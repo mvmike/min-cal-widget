@@ -174,8 +174,10 @@ kover {
             excludes {
                 androidGeneratedClasses()
                 classes(
-                    // AppWidgetProvider implementation
+                    // AppWidgetProvider implementations
+                    "cat.mvmike.minimalcalendarwidget.Widget",
                     "cat.mvmike.minimalcalendarwidget.MonthWidget",
+                    "cat.mvmike.minimalcalendarwidget.WeekWidget",
                     // androidx.preference class extensions to allow multiline title and summary
                     "cat.mvmike.minimalcalendarwidget.domain.configuration.MultilinePreference",
                     "cat.mvmike.minimalcalendarwidget.domain.configuration.MultilineListPreference",

@@ -5,6 +5,9 @@ package cat.mvmike.minimalcalendarwidget.application
 import android.appwidget.AppWidgetManager
 import android.widget.RemoteViews
 import cat.mvmike.minimalcalendarwidget.BaseTest
+import cat.mvmike.minimalcalendarwidget.R
+import cat.mvmike.minimalcalendarwidget.Widget
+import cat.mvmike.minimalcalendarwidget.domain.Variant
 import cat.mvmike.minimalcalendarwidget.domain.component.DaysHeaderService
 import cat.mvmike.minimalcalendarwidget.domain.component.DaysService
 import cat.mvmike.minimalcalendarwidget.domain.component.LayoutService
@@ -26,6 +29,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
+import org.junit.jupiter.params.provider.EnumSource
 import java.time.DayOfWeek
 import java.util.concurrent.TimeoutException
 import kotlin.system.measureTimeMillis
@@ -44,14 +48,24 @@ internal class RedrawWidgetUseCaseTest : BaseTest() {
         every { AppWidgetManager.getInstance(context) } returns appWidgetManager
         every { appWidgetManager.getAppWidgetIds(any()) } returns appWidgetIds
 
-        justRun { RedrawWidgetUseCase.execute(context, appWidgetManager, appWidgetIds) }
+        Variant.entries.forEach { variant ->
+            justRun { RedrawWidgetUseCase.execute(context, appWidgetManager, appWidgetIds, variant) }
+        }
         every { RedrawWidgetUseCase.execute(context) } answers { callOriginal() }
 
         RedrawWidgetUseCase.execute(context)
 
-        verify { RedrawWidgetUseCase.execute(context, appWidgetManager, appWidgetIds) }
+        verify { AppWidgetManager.getInstance(context) }
+        verify(exactly = Variant.entries.size) { appWidgetManager.getAppWidgetIds(any()) }
+        Variant.entries.forEach { variant ->
+            verify { Widget.getReceiverClass(variant) }
+            verify { RedrawWidgetUseCase.execute(context, appWidgetManager, appWidgetIds, variant) }
+        }
         verify { RedrawWidgetUseCase.execute(context) }
-        confirmVerified(RedrawWidgetUseCase)
+        confirmVerified(
+            appWidgetManager,
+            RedrawWidgetUseCase
+        )
     }
 
     @Test
@@ -68,34 +82,43 @@ internal class RedrawWidgetUseCaseTest : BaseTest() {
 
         RedrawWidgetUseCase.execute(context)
 
+        verify { AppWidgetManager.getInstance(context) }
+        verify(exactly = Variant.entries.size) { appWidgetManager.getAppWidgetIds(any()) }
+        Variant.entries.forEach { variant ->
+            verify { Widget.getReceiverClass(variant) }
+        }
         verify { RedrawWidgetUseCase.execute(context) }
-        confirmVerified(RedrawWidgetUseCase)
+        confirmVerified(
+            appWidgetManager,
+            RedrawWidgetUseCase
+        )
     }
 
-    @Test
-    fun execute_shouldRedrawAllWidgetIds() {
+    @ParameterizedTest
+    @EnumSource(value = Variant::class)
+    fun execute_shouldRedrawAllWidgetIds(variant: Variant) {
         mockkObject(RedrawWidgetUseCase)
 
         appWidgetIds.forEach {
-            justRun { RedrawWidgetUseCase.execute(context, appWidgetManager, it) }
+            justRun { RedrawWidgetUseCase.execute(context, appWidgetManager, it, variant) }
         }
-        every { RedrawWidgetUseCase.execute(context, appWidgetManager, appWidgetIds) } answers { callOriginal() }
+        every { RedrawWidgetUseCase.execute(context, appWidgetManager, appWidgetIds, variant) } answers { callOriginal() }
 
-        RedrawWidgetUseCase.execute(context, appWidgetManager, appWidgetIds)
+        RedrawWidgetUseCase.execute(context, appWidgetManager, appWidgetIds, variant)
 
         appWidgetIds.forEach {
-            verify { RedrawWidgetUseCase.execute(context, appWidgetManager, it) }
+            verify { RedrawWidgetUseCase.execute(context, appWidgetManager, it, variant) }
         }
-        verify { RedrawWidgetUseCase.execute(context, appWidgetManager, appWidgetIds) }
+        verify { RedrawWidgetUseCase.execute(context, appWidgetManager, appWidgetIds, variant) }
         confirmVerified(RedrawWidgetUseCase)
     }
 
     @ParameterizedTest
     @CsvSource(
-        "1,32,DARK,20,33,MONDAY,false",
-        "5,100,LIGHT,5,33,SUNDAY,false",
-        "7,0,DARK,100,34,THURSDAY,true",
-        "14,50,DARK,32,35,MONDAY,true"
+        "1,32,DARK,20,33,MONDAY,false,MONTH",
+        "5,100,LIGHT,5,33,SUNDAY,false,WEEK",
+        "7,0,DARK,100,34,THURSDAY,true,MONTH",
+        "14,50,DARK,32,35,MONDAY,true,WEEK"
     )
     fun execute_shouldRedrawWidgetRegardlessOfBinderProxyTransactionTimeout(
         appWidgetId: Int,
@@ -104,7 +127,8 @@ internal class RedrawWidgetUseCaseTest : BaseTest() {
         transparencyPercentage: Int,
         runtimeSDK: Int,
         firstDayOfWeek: DayOfWeek,
-        shouldHaveFirstWeekLocalPreferenceEnabled: Boolean
+        shouldHaveFirstWeekLocalPreferenceEnabled: Boolean,
+        variant: Variant
     ) {
         mockkObject(
             ActionableView.ConfigurationIcon,
@@ -116,12 +140,16 @@ internal class RedrawWidgetUseCaseTest : BaseTest() {
         )
 
         val packageName = "mincalWidget"
+        val layoutId = when (variant) {
+            Variant.MONTH -> R.layout.widget_month
+            Variant.WEEK -> R.layout.widget_week
+        }
         every { context.packageName } returns packageName
         mockkConstructor(RemoteViews::class)
-        justRun { constructedWith<RemoteViews>(EqMatcher(packageName), EqMatcher(2131427392)).removeAllViews(any()) }
+        justRun { constructedWith<RemoteViews>(EqMatcher(packageName), EqMatcher(layoutId)).removeAllViews(any()) }
 
-        justRun { ActionableView.ConfigurationIcon.addListener(context, any()) }
-        justRun { ActionableView.MonthAndYearHeader.addListener(context, any()) }
+        justRun { ActionableView.ConfigurationIcon.addListener(context, any(), variant) }
+        justRun { ActionableView.MonthAndYearHeader.addListener(context, any(), variant) }
 
         val textSize = TextSize(textSizePercentage)
         val transparency = Transparency(transparencyPercentage)
@@ -138,8 +166,8 @@ internal class RedrawWidgetUseCaseTest : BaseTest() {
 
         justRun { LayoutService.draw(context, any(), widgetTheme, transparency) }
         justRun { MonthAndYearHeaderService.draw(context, any(), textSize, widgetTheme) }
-        justRun { DaysHeaderService.draw(context, any(), firstDayOfWeek, widgetTheme, transparency, textSize) }
-        justRun { DaysService.draw(context, any(), firstDayOfWeek, widgetTheme, transparency, textSize) }
+        justRun { DaysHeaderService.draw(context, any(), variant, firstDayOfWeek, widgetTheme, transparency, textSize) }
+        justRun { DaysService.draw(context, any(), variant, firstDayOfWeek, widgetTheme, transparency, textSize) }
 
         val binderProxyTransactionTimeoutInMillis = 1000L
         every { appWidgetManager.updateAppWidget(appWidgetId, any()) } answers {
@@ -148,7 +176,7 @@ internal class RedrawWidgetUseCaseTest : BaseTest() {
         }
 
         val executionTime = measureTimeMillis {
-            RedrawWidgetUseCase.execute(context, appWidgetManager, appWidgetId)
+            RedrawWidgetUseCase.execute(context, appWidgetManager, appWidgetId, variant)
         }
 
         assertThat(executionTime).isLessThan(binderProxyTransactionTimeoutInMillis)
@@ -161,13 +189,13 @@ internal class RedrawWidgetUseCaseTest : BaseTest() {
             else -> verifyFirstDayOfWeek()
         }
         verify { context.packageName }
-        verify { ActionableView.ConfigurationIcon.addListener(context, any()) }
-        verify { ActionableView.MonthAndYearHeader.addListener(context, any()) }
+        verify { ActionableView.ConfigurationIcon.addListener(context, any(), variant) }
+        verify { ActionableView.MonthAndYearHeader.addListener(context, any(), variant) }
 
         verify { LayoutService.draw(context, any(), widgetTheme, transparency) }
         verify { MonthAndYearHeaderService.draw(context, any(), textSize, widgetTheme) }
-        verify { DaysHeaderService.draw(context, any(), firstDayOfWeek, widgetTheme, transparency, textSize) }
-        verify { DaysService.draw(context, any(), firstDayOfWeek, widgetTheme, transparency, textSize) }
+        verify { DaysHeaderService.draw(context, any(), variant, firstDayOfWeek, widgetTheme, transparency, textSize) }
+        verify { DaysService.draw(context, any(), variant, firstDayOfWeek, widgetTheme, transparency, textSize) }
 
         verify { appWidgetManager.updateAppWidget(appWidgetId, any()) }
 

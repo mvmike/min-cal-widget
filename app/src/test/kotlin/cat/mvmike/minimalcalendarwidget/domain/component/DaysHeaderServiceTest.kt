@@ -6,6 +6,7 @@ import android.widget.RemoteViews
 import cat.mvmike.minimalcalendarwidget.BaseTest
 import cat.mvmike.minimalcalendarwidget.R
 import cat.mvmike.minimalcalendarwidget.domain.Cell
+import cat.mvmike.minimalcalendarwidget.domain.Variant
 import cat.mvmike.minimalcalendarwidget.domain.component.DaysHeaderService.getRotatedDaysOfWeek
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.TextSize
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
@@ -44,6 +45,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
     @ParameterizedTest
     @MethodSource("getFirstDayOfWeekAndThemeAndTextSizeWithExpectedOutput")
     fun draw_shouldAddViewBasedOnCurrentConfigAndTextSize(
+        variant: Variant,
         firstDayOfWeek: DayOfWeek,
         widgetTheme: Theme,
         transparency: Transparency,
@@ -63,9 +65,9 @@ internal class DaysHeaderServiceTest : BaseTest() {
         justRun { GraphicResolver.addWeekNumberToDaysHeaderRow(context, daysHeaderRowRv, any()) }
         justRun { GraphicResolver.addDayToDaysHeaderRow(context, daysHeaderRowRv, any(), any()) }
         justRun { GraphicResolver.addToWidget(widgetRv, daysHeaderRowRv) }
-        justRun { ActionableView.RowHeader.addListener(context, widgetRv) }
+        justRun { ActionableView.RowHeader.addListener(context, widgetRv, variant) }
 
-        DaysHeaderService.draw(context, widgetRv, firstDayOfWeek, widgetTheme, transparency, textSize)
+        DaysHeaderService.draw(context, widgetRv, variant, firstDayOfWeek, widgetTheme, transparency, textSize)
 
         verifyShowWeekNumber()
         verify(exactly = 1) { GraphicResolver.createDaysHeaderRow(context) }
@@ -99,7 +101,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
             }
         }
         verify(exactly = 1) { GraphicResolver.addToWidget(widgetRv, daysHeaderRowRv) }
-        verify(exactly = 1) { ActionableView.RowHeader.addListener(context, widgetRv) }
+        verify(exactly = 1) { ActionableView.RowHeader.addListener(context, widgetRv, variant) }
         confirmVerified(widgetRv, daysHeaderRowRv)
     }
 
@@ -112,36 +114,38 @@ internal class DaysHeaderServiceTest : BaseTest() {
         assertThat(getRotatedDaysOfWeek(firstDayOfWeek)).isEqualTo(expectedRotatedDayOfWeek)
     }
 
-    private fun getFirstDayOfWeekAndThemeAndTextSizeWithExpectedOutput() = listOf(
-        of(MONDAY, DARK, Transparency(10), TextSize(40), false, listOf("MON", "DOO", "WED", "THU", "FRI", "SAT", "SUN")),
-        of(TUESDAY, DARK, Transparency(20), TextSize(40), true, listOf("DOO", "WED", "THU", "FRI", "SAT", "SUN", "MON")),
-        of(WEDNESDAY, DARK, Transparency(20), TextSize(40), false, listOf("WED", "THU", "FRI", "SAT", "SUN", "MON", "DOO")),
-        of(THURSDAY, DARK, Transparency(30), TextSize(40), true, listOf("THU", "FRI", "SAT", "SUN", "MON", "DOO", "WED")),
-        of(FRIDAY, DARK, Transparency(90), TextSize(40), false, listOf("FRI", "SAT", "SUN", "MON", "DOO", "WED", "THU")),
-        of(SATURDAY, DARK, Transparency(15), TextSize(40), true, listOf("SAT", "SUN", "MON", "DOO", "WED", "THU", "FRI")),
-        of(SUNDAY, DARK, Transparency(20), TextSize(40), false, listOf("SUN", "MON", "DOO", "WED", "THU", "FRI", "SAT")),
-        of(MONDAY, DARK, Transparency(0), TextSize(15), true, listOf("M", "D", "W", "T", "F", "S", "S")),
-        of(TUESDAY, DARK, Transparency(55), TextSize(15), false, listOf("D", "W", "T", "F", "S", "S", "M")),
-        of(WEDNESDAY, DARK, Transparency(15), TextSize(15), true, listOf("W", "T", "F", "S", "S", "M", "D")),
-        of(THURSDAY, DARK, Transparency(20), TextSize(15), false, listOf("T", "F", "S", "S", "M", "D", "W")),
-        of(FRIDAY, DARK, Transparency(20), TextSize(15), true, listOf("F", "S", "S", "M", "D", "W", "T")),
-        of(SATURDAY, DARK, Transparency(20), TextSize(15), false, listOf("S", "S", "M", "D", "W", "T", "F")),
-        of(SUNDAY, DARK, Transparency(20), TextSize(15), true, listOf("S", "M", "D", "W", "T", "F", "S")),
-        of(MONDAY, LIGHT, Transparency(80), TextSize(40), true, listOf("MON", "DOO", "WED", "THU", "FRI", "SAT", "SUN")),
-        of(TUESDAY, LIGHT, Transparency(5), TextSize(40), false, listOf("DOO", "WED", "THU", "FRI", "SAT", "SUN", "MON")),
-        of(WEDNESDAY, LIGHT, Transparency(20), TextSize(40), true, listOf("WED", "THU", "FRI", "SAT", "SUN", "MON", "DOO")),
-        of(THURSDAY, LIGHT, Transparency(20), TextSize(40), false, listOf("THU", "FRI", "SAT", "SUN", "MON", "DOO", "WED")),
-        of(FRIDAY, LIGHT, Transparency(20), TextSize(40), true, listOf("FRI", "SAT", "SUN", "MON", "DOO", "WED", "THU")),
-        of(SATURDAY, LIGHT, Transparency(20), TextSize(40), false, listOf("SAT", "SUN", "MON", "DOO", "WED", "THU", "FRI")),
-        of(SUNDAY, LIGHT, Transparency(20), TextSize(40), true, listOf("SUN", "MON", "DOO", "WED", "THU", "FRI", "SAT")),
-        of(MONDAY, LIGHT, Transparency(20), TextSize(15), false, listOf("M", "D", "W", "T", "F", "S", "S")),
-        of(TUESDAY, LIGHT, Transparency(20), TextSize(15), true, listOf("D", "W", "T", "F", "S", "S", "M")),
-        of(WEDNESDAY, LIGHT, Transparency(15), TextSize(15), false, listOf("W", "T", "F", "S", "S", "M", "D")),
-        of(THURSDAY, LIGHT, Transparency(100), TextSize(15), true, listOf("T", "F", "S", "S", "M", "D", "W")),
-        of(FRIDAY, LIGHT, Transparency(0), TextSize(15), false, listOf("F", "S", "S", "M", "D", "W", "T")),
-        of(SATURDAY, LIGHT, Transparency(20), TextSize(15), true, listOf("S", "S", "M", "D", "W", "T", "F")),
-        of(SUNDAY, LIGHT, Transparency(20), TextSize(15), false, listOf("S", "M", "D", "W", "T", "F", "S"))
-    )
+    private fun getFirstDayOfWeekAndThemeAndTextSizeWithExpectedOutput() = Variant.entries.flatMap { variant ->
+        listOf(
+            of(variant, MONDAY, DARK, Transparency(10), TextSize(40), false, listOf("MON", "DOO", "WED", "THU", "FRI", "SAT", "SUN")),
+            of(variant, TUESDAY, DARK, Transparency(20), TextSize(40), true, listOf("DOO", "WED", "THU", "FRI", "SAT", "SUN", "MON")),
+            of(variant, WEDNESDAY, DARK, Transparency(20), TextSize(40), false, listOf("WED", "THU", "FRI", "SAT", "SUN", "MON", "DOO")),
+            of(variant, THURSDAY, DARK, Transparency(30), TextSize(40), true, listOf("THU", "FRI", "SAT", "SUN", "MON", "DOO", "WED")),
+            of(variant, FRIDAY, DARK, Transparency(90), TextSize(40), false, listOf("FRI", "SAT", "SUN", "MON", "DOO", "WED", "THU")),
+            of(variant, SATURDAY, DARK, Transparency(15), TextSize(40), true, listOf("SAT", "SUN", "MON", "DOO", "WED", "THU", "FRI")),
+            of(variant, SUNDAY, DARK, Transparency(20), TextSize(40), false, listOf("SUN", "MON", "DOO", "WED", "THU", "FRI", "SAT")),
+            of(variant, MONDAY, DARK, Transparency(0), TextSize(15), true, listOf("M", "D", "W", "T", "F", "S", "S")),
+            of(variant, TUESDAY, DARK, Transparency(55), TextSize(15), false, listOf("D", "W", "T", "F", "S", "S", "M")),
+            of(variant, WEDNESDAY, DARK, Transparency(15), TextSize(15), true, listOf("W", "T", "F", "S", "S", "M", "D")),
+            of(variant, THURSDAY, DARK, Transparency(20), TextSize(15), false, listOf("T", "F", "S", "S", "M", "D", "W")),
+            of(variant, FRIDAY, DARK, Transparency(20), TextSize(15), true, listOf("F", "S", "S", "M", "D", "W", "T")),
+            of(variant, SATURDAY, DARK, Transparency(20), TextSize(15), false, listOf("S", "S", "M", "D", "W", "T", "F")),
+            of(variant, SUNDAY, DARK, Transparency(20), TextSize(15), true, listOf("S", "M", "D", "W", "T", "F", "S")),
+            of(variant, MONDAY, LIGHT, Transparency(80), TextSize(40), true, listOf("MON", "DOO", "WED", "THU", "FRI", "SAT", "SUN")),
+            of(variant, TUESDAY, LIGHT, Transparency(5), TextSize(40), false, listOf("DOO", "WED", "THU", "FRI", "SAT", "SUN", "MON")),
+            of(variant, WEDNESDAY, LIGHT, Transparency(20), TextSize(40), true, listOf("WED", "THU", "FRI", "SAT", "SUN", "MON", "DOO")),
+            of(variant, THURSDAY, LIGHT, Transparency(20), TextSize(40), false, listOf("THU", "FRI", "SAT", "SUN", "MON", "DOO", "WED")),
+            of(variant, FRIDAY, LIGHT, Transparency(20), TextSize(40), true, listOf("FRI", "SAT", "SUN", "MON", "DOO", "WED", "THU")),
+            of(variant, SATURDAY, LIGHT, Transparency(20), TextSize(40), false, listOf("SAT", "SUN", "MON", "DOO", "WED", "THU", "FRI")),
+            of(variant, SUNDAY, LIGHT, Transparency(20), TextSize(40), true, listOf("SUN", "MON", "DOO", "WED", "THU", "FRI", "SAT")),
+            of(variant, MONDAY, LIGHT, Transparency(20), TextSize(15), false, listOf("M", "D", "W", "T", "F", "S", "S")),
+            of(variant, TUESDAY, LIGHT, Transparency(20), TextSize(15), true, listOf("D", "W", "T", "F", "S", "S", "M")),
+            of(variant, WEDNESDAY, LIGHT, Transparency(15), TextSize(15), false, listOf("W", "T", "F", "S", "S", "M", "D")),
+            of(variant, THURSDAY, LIGHT, Transparency(100), TextSize(15), true, listOf("T", "F", "S", "S", "M", "D", "W")),
+            of(variant, FRIDAY, LIGHT, Transparency(0), TextSize(15), false, listOf("F", "S", "S", "M", "D", "W", "T")),
+            of(variant, SATURDAY, LIGHT, Transparency(20), TextSize(15), true, listOf("S", "S", "M", "D", "W", "T", "F")),
+            of(variant, SUNDAY, LIGHT, Transparency(20), TextSize(15), false, listOf("S", "M", "D", "W", "T", "F", "S"))
+        )
+    }
 
     private fun getFirstDayOfWeekAndExpectedRotatedDaysOfWeek() = listOf(
         of(MONDAY, listOf(MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY)),

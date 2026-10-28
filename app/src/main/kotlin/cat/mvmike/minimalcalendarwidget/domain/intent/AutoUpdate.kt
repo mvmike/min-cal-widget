@@ -6,7 +6,8 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import cat.mvmike.minimalcalendarwidget.MonthWidget
+import cat.mvmike.minimalcalendarwidget.Widget
+import cat.mvmike.minimalcalendarwidget.domain.Variant
 import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.SystemResolver
 
 object AutoUpdate {
@@ -17,7 +18,7 @@ object AutoUpdate {
 
     private const val INTERVAL_MILLIS = 600000L // 1000*60*10 === 10'
 
-    fun set(context: Context) {
+    fun set(context: Context, variant: Variant) {
         val currentMillis = SystemResolver.getSystemInstant().toEpochMilli()
         val firstTriggerMillis = currentMillis + INTERVAL_MILLIS
 
@@ -28,17 +29,17 @@ object AutoUpdate {
             PendingIntent.getBroadcast(
                 context,
                 ALARM_ID,
-                Intent(context, MonthWidget::class.java).setAction(ACTION_AUTO_UPDATE),
+                Intent(context, Widget.getReceiverClass(variant)).setAction(ACTION_AUTO_UPDATE),
                 PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_IMMUTABLE
             )
         )
     }
 
-    fun cancel(context: Context) = context.getAlarmManager().cancel(
+    fun cancel(context: Context, variant: Variant) = context.getAlarmManager().cancel(
         PendingIntent.getBroadcast(
             context,
             ALARM_ID,
-            Intent(context, MonthWidget::class.java).setAction(ACTION_AUTO_UPDATE),
+            Intent(context, Widget.getReceiverClass(variant)).setAction(ACTION_AUTO_UPDATE),
             PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
     )

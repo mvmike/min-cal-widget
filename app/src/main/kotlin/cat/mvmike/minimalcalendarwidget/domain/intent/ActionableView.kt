@@ -6,8 +6,9 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.widget.RemoteViews
-import cat.mvmike.minimalcalendarwidget.MonthWidget
 import cat.mvmike.minimalcalendarwidget.R
+import cat.mvmike.minimalcalendarwidget.Widget
+import cat.mvmike.minimalcalendarwidget.domain.Variant
 import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.SystemResolver
 import java.time.Instant
 import java.time.Instant.ofEpochSecond
@@ -46,12 +47,14 @@ sealed class ActionableView(
 
         override fun addListener(
             context: Context,
-            remoteViews: RemoteViews
+            remoteViews: RemoteViews,
+            variant: Variant
         ) = throw UnsupportedOperationException("must call overloaded addListener method")
 
         fun addListener(
             context: Context,
             remoteViews: Array<RemoteViews?>,
+            variant: Variant,
             startOfDay: Instant
         ) = remoteViews
             .filterNotNull()
@@ -61,7 +64,7 @@ sealed class ActionableView(
                     PendingIntent.getBroadcast(
                         context,
                         code,
-                        Intent(context, MonthWidget::class.java)
+                        Intent(context, Widget.getReceiverClass(variant))
                             .setAction("${getActionPrefix()}${startOfDay.epochSecond}"),
                         PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
                     )
@@ -91,13 +94,14 @@ sealed class ActionableView(
 
     internal open fun addListener(
         context: Context,
-        remoteViews: RemoteViews
+        remoteViews: RemoteViews,
+        variant: Variant
     ) = remoteViews.setOnClickPendingIntent(
         viewId,
         PendingIntent.getBroadcast(
             context,
             code,
-            Intent(context, MonthWidget::class.java).setAction(action),
+            Intent(context, Widget.getReceiverClass(variant)).setAction(action),
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
     )

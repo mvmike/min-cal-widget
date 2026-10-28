@@ -5,20 +5,20 @@ package cat.mvmike.minimalcalendarwidget.application.user
 import android.appwidget.AppWidgetManager.ACTION_APPWIDGET_UPDATE
 import cat.mvmike.minimalcalendarwidget.BaseTest
 import cat.mvmike.minimalcalendarwidget.application.RedrawWidgetUseCase
+import cat.mvmike.minimalcalendarwidget.domain.Variant
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.SymbolSet
 import cat.mvmike.minimalcalendarwidget.domain.intent.AutoUpdate
 import cat.mvmike.minimalcalendarwidget.domain.intent.AutoUpdate.ACTION_AUTO_UPDATE
 import cat.mvmike.minimalcalendarwidget.infrastructure.activity.CalendarActivity
 import cat.mvmike.minimalcalendarwidget.infrastructure.activity.ConfigurationActivity
 import cat.mvmike.minimalcalendarwidget.infrastructure.activity.PermissionsActivity
+import io.mockk.confirmVerified
 import io.mockk.justRun
 import io.mockk.mockkObject
 import io.mockk.verify
-import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
-import org.junit.jupiter.params.provider.NullSource
-import org.junit.jupiter.params.provider.ValueSource
+import org.junit.jupiter.params.provider.EnumSource
 import java.time.Instant.ofEpochSecond
 
 private const val MONTH_AND_YEAR_HEADER_CLICK_ACTION = "action.mincal.month_and_year_header_click"
@@ -28,71 +28,83 @@ private const val CELL_DAY_CLICK_ACTION = "action.mincal.cell_day_click"
 internal class ProcessIntentUseCaseTest : BaseTest() {
 
     @ParameterizedTest
-    @NullSource
-    @ValueSource(
-        strings = [
-            ACTION_AUTO_UPDATE,
-            ACTION_APPWIDGET_UPDATE,
-            "some_random_intent_action",
-            ""
-        ]
+    @CsvSource(
+        "MONTH,",
+        "WEEK,",
+        "MONTH,$ACTION_AUTO_UPDATE",
+        "WEEK,$ACTION_AUTO_UPDATE",
+        "MONTH,$ACTION_APPWIDGET_UPDATE",
+        "WEEK,$ACTION_APPWIDGET_UPDATE",
+        "MONTH,some_random_intent_action",
+        "WEEK,some_random_intent_action",
+        "MONTH,''",
+        "WEEK,''"
     )
-    fun execute_shouldDoNothing_whenNoActionableViewIntent(intentAction: String?) {
+    fun execute_shouldDoNothing_whenNoActionableViewIntent(
+        variant: Variant,
+        intentAction: String?
+    ) {
         mockIntent(intentAction)
 
-        ProcessIntentUseCase.execute(context, intent)
+        ProcessIntentUseCase.execute(context, variant, intent)
 
         verifyIntentAction()
     }
 
-    @Test
-    fun execute_shouldLaunchConfigurationActivity() {
+    @ParameterizedTest
+    @EnumSource(value = Variant::class)
+    fun execute_shouldLaunchConfigurationActivity(variant: Variant) {
         mockIntent("action.mincal.configuration_icon_click")
         justRun { ConfigurationActivity.start(context) }
 
-        ProcessIntentUseCase.execute(context, intent)
+        ProcessIntentUseCase.execute(context, variant, intent)
 
         verifyIntentAction()
         verify { ConfigurationActivity.start(context) }
     }
 
     @ParameterizedTest
-    @ValueSource(
-        strings = [
-            MONTH_AND_YEAR_HEADER_CLICK_ACTION,
-            ROW_HEADER_CLICK_ACTION,
-            "$CELL_DAY_CLICK_ACTION.1675886154",
-            "$CELL_DAY_CLICK_ACTION.1671249586",
-            "$CELL_DAY_CLICK_ACTION.1624398458",
-            "$CELL_DAY_CLICK_ACTION.1434987405"
-        ]
+    @CsvSource(
+        "MONTH,$MONTH_AND_YEAR_HEADER_CLICK_ACTION",
+        "WEEK,$ROW_HEADER_CLICK_ACTION",
+        "MONTH,$CELL_DAY_CLICK_ACTION.1675886154",
+        "WEEK,$CELL_DAY_CLICK_ACTION.1671249586",
+        "MONTH,$CELL_DAY_CLICK_ACTION.1624398458",
+        "WEEK,$CELL_DAY_CLICK_ACTION.1434987405"
     )
-    fun execute_shouldLaunchPermissionsActivity_whenNoPermissionsGiven(action: String) {
+    fun execute_shouldLaunchPermissionsActivity_whenNoPermissionsGiven(
+        variant: Variant,
+        action: String
+    ) {
         mockIntent(action)
         mockIsReadCalendarPermitted(false)
         mockInstancesSymbolSet(SymbolSet.MINIMAL)
         mockkObject(AutoUpdate)
 
         justRun { PermissionsActivity.start(context) }
-        justRun { AutoUpdate.set(context) }
+        justRun { AutoUpdate.set(context, variant) }
 
-        ProcessIntentUseCase.execute(context, intent)
+        ProcessIntentUseCase.execute(context, variant, intent)
 
         verifyIntentAction()
         verifyIsReadCalendarPermitted()
         verifyInstancesSymbolSet()
         verify { PermissionsActivity.start(context) }
-        verify { AutoUpdate.set(context) }
+        verify { AutoUpdate.set(context, variant) }
+        confirmVerified(AutoUpdate)
     }
 
     @ParameterizedTest
-    @ValueSource(
-        strings = [
-            MONTH_AND_YEAR_HEADER_CLICK_ACTION,
-            ROW_HEADER_CLICK_ACTION
-        ]
+    @CsvSource(
+        "MONTH,$MONTH_AND_YEAR_HEADER_CLICK_ACTION",
+        "WEEK,$MONTH_AND_YEAR_HEADER_CLICK_ACTION",
+        "MONTH,$ROW_HEADER_CLICK_ACTION",
+        "WEEK,$ROW_HEADER_CLICK_ACTION"
     )
-    fun execute_shouldLaunchCalendarActivityAndRedrawWidget_whenPermissionsGiven(action: String) {
+    fun execute_shouldLaunchCalendarActivityAndRedrawWidget_whenPermissionsGiven(
+        variant: Variant,
+        action: String
+    ) {
         mockIntent(action)
         mockIsReadCalendarPermitted(true)
         mockGetSystemInstant()
@@ -102,26 +114,30 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
 
         justRun { CalendarActivity.start(context, systemInstant) }
         justRun { RedrawWidgetUseCase.execute(context) }
-        justRun { AutoUpdate.set(context) }
+        justRun { AutoUpdate.set(context, variant) }
 
-        ProcessIntentUseCase.execute(context, intent)
+        ProcessIntentUseCase.execute(context, variant, intent)
 
         verifyIntentAction()
         verifyIsReadCalendarPermitted()
         verifyGetSystemInstant()
         verify { CalendarActivity.start(context, systemInstant) }
         verify { RedrawWidgetUseCase.execute(context) }
-        verify { AutoUpdate.set(context) }
+        verify { AutoUpdate.set(context, variant) }
+        confirmVerified(RedrawWidgetUseCase, AutoUpdate)
     }
 
     @ParameterizedTest
-    @ValueSource(
-        strings = [
-            MONTH_AND_YEAR_HEADER_CLICK_ACTION,
-            ROW_HEADER_CLICK_ACTION
-        ]
+    @CsvSource(
+        "MONTH,$MONTH_AND_YEAR_HEADER_CLICK_ACTION",
+        "WEEK,$MONTH_AND_YEAR_HEADER_CLICK_ACTION",
+        "MONTH,$ROW_HEADER_CLICK_ACTION",
+        "WEEK,$ROW_HEADER_CLICK_ACTION"
     )
-    fun execute_shouldLaunchCalendarActivityAndRedrawWidget_whenNoPermissionsGivenAndNoneSymbolSet(action: String) {
+    fun execute_shouldLaunchCalendarActivityAndRedrawWidget_whenNoPermissionsGivenAndNoneSymbolSet(
+        variant: Variant,
+        action: String
+    ) {
         mockIntent(action)
         mockIsReadCalendarPermitted(false)
         mockInstancesSymbolSet(SymbolSet.NONE)
@@ -132,9 +148,9 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
 
         justRun { CalendarActivity.start(context, systemInstant) }
         justRun { RedrawWidgetUseCase.execute(context) }
-        justRun { AutoUpdate.set(context) }
+        justRun { AutoUpdate.set(context, variant) }
 
-        ProcessIntentUseCase.execute(context, intent)
+        ProcessIntentUseCase.execute(context, variant, intent)
 
         verifyIntentAction()
         verifyIsReadCalendarPermitted()
@@ -142,19 +158,21 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
         verifyGetSystemInstant()
         verify { CalendarActivity.start(context, systemInstant) }
         verify { RedrawWidgetUseCase.execute(context) }
-        verify { AutoUpdate.set(context) }
+        verify { AutoUpdate.set(context, variant) }
+        confirmVerified(RedrawWidgetUseCase, AutoUpdate)
     }
 
     @ParameterizedTest
-    @ValueSource(
-        strings = [
-            "$CELL_DAY_CLICK_ACTION.1675786154",
-            "$CELL_DAY_CLICK_ACTION.1671349586",
-            "$CELL_DAY_CLICK_ACTION.1624298458",
-            "$CELL_DAY_CLICK_ACTION.1434887405"
-        ]
+    @CsvSource(
+        "MONTH,$CELL_DAY_CLICK_ACTION.1675786154",
+        "WEEK,$CELL_DAY_CLICK_ACTION.1671349586",
+        "MONTH,$CELL_DAY_CLICK_ACTION.1624298458",
+        "WEEK,$CELL_DAY_CLICK_ACTION.1434887405"
     )
-    fun execute_shouldLaunchCalendarActivityOnTodayAndRedrawWidget(action: String) {
+    fun execute_shouldLaunchCalendarActivityOnTodayAndRedrawWidget(
+        variant: Variant,
+        action: String
+    ) {
         mockIntent(action)
         mockIsReadCalendarPermitted(true)
         mockGetSystemInstant()
@@ -164,9 +182,9 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
 
         justRun { CalendarActivity.start(context, systemInstant) }
         justRun { RedrawWidgetUseCase.execute(context) }
-        justRun { AutoUpdate.set(context) }
+        justRun { AutoUpdate.set(context, variant) }
 
-        ProcessIntentUseCase.execute(context, intent)
+        ProcessIntentUseCase.execute(context, variant, intent)
 
         verifyIntentAction()
         verifyIsReadCalendarPermitted()
@@ -174,17 +192,19 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
         verifyOpenCalendarOnClickedDay()
         verify { CalendarActivity.start(context, systemInstant) }
         verify { RedrawWidgetUseCase.execute(context) }
-        verify { AutoUpdate.set(context) }
+        verify { AutoUpdate.set(context, variant) }
+        confirmVerified(RedrawWidgetUseCase, AutoUpdate)
     }
 
     @ParameterizedTest
     @CsvSource(
-        "$CELL_DAY_CLICK_ACTION.1675886154,1675863134",
-        "$CELL_DAY_CLICK_ACTION.1671249586,1671283934",
-        "$CELL_DAY_CLICK_ACTION.1624398458,1624455134",
-        "$CELL_DAY_CLICK_ACTION.1434987405,1434979934"
+        "MONTH,$CELL_DAY_CLICK_ACTION.1675886154,1675863134",
+        "WEEK,$CELL_DAY_CLICK_ACTION.1671249586,1671283934",
+        "MONTH,$CELL_DAY_CLICK_ACTION.1624398458,1624455134",
+        "WEEK,$CELL_DAY_CLICK_ACTION.1434987405,1434979934"
     )
     fun execute_shouldLaunchCalendarActivityOnIntentExtraAndRedrawWidget_whenIntentAndPermissionsGiven(
+        variant: Variant,
         action: String,
         startTimeInstantEpochSeconds: Long
     ) {
@@ -199,9 +219,9 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
 
         justRun { CalendarActivity.start(context, startTimeInstant) }
         justRun { RedrawWidgetUseCase.execute(context) }
-        justRun { AutoUpdate.set(context) }
+        justRun { AutoUpdate.set(context, variant) }
 
-        ProcessIntentUseCase.execute(context, intent)
+        ProcessIntentUseCase.execute(context, variant, intent)
 
         verifyIntentAction()
         verifyIsReadCalendarPermitted()
@@ -210,6 +230,7 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
         verifyOpenCalendarOnClickedDay()
         verify { CalendarActivity.start(context, startTimeInstant) }
         verify { RedrawWidgetUseCase.execute(context) }
-        verify { AutoUpdate.set(context) }
+        verify { AutoUpdate.set(context, variant) }
+        confirmVerified(RedrawWidgetUseCase, AutoUpdate)
     }
 }

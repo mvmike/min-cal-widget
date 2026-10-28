@@ -3,21 +3,26 @@
 package cat.mvmike.minimalcalendarwidget.application.system
 
 import cat.mvmike.minimalcalendarwidget.BaseTest
+import cat.mvmike.minimalcalendarwidget.domain.Variant
 import cat.mvmike.minimalcalendarwidget.domain.intent.AutoUpdate
+import io.mockk.confirmVerified
 import io.mockk.justRun
 import io.mockk.mockkObject
 import io.mockk.verify
-import org.junit.jupiter.api.Test
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.EnumSource
 
 internal class EnableWidgetUseCaseTest : BaseTest() {
 
-    @Test
-    fun execute_shouldSetAutoUpdate() {
+    @ParameterizedTest
+    @EnumSource(value = Variant::class)
+    fun execute_shouldSetAutoUpdate(variant: Variant) {
         mockkObject(AutoUpdate)
-        justRun { AutoUpdate.set(context) }
+        justRun { AutoUpdate.set(context, variant) }
 
-        EnableWidgetUseCase.execute(context)
+        EnableWidgetUseCase.execute(context, variant)
 
-        verify { AutoUpdate.set(context) }
+        verify { AutoUpdate.set(context, variant) }
+        confirmVerified(AutoUpdate)
     }
 }

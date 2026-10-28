@@ -9,7 +9,7 @@ import com.tngtech.archunit.lang.syntax.ArchRuleDefinition
 
 // https://www.archunit.org/userguide/html/000_Index.html
 @AnalyzeClasses(
-    packagesOf = [MonthWidget::class]
+    packagesOf = [Widget::class]
 )
 internal class HexArchTest {
 

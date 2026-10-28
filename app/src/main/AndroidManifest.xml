@@ -23,7 +23,19 @@
             </intent-filter>
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/month_widget" />
+                android:resource="@xml/widget_month" />
+        </receiver>
+
+        <receiver
+            android:name=".WeekWidget"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="cat.mvmike.minimalcalendarwidget.AUTO_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_week" />
         </receiver>
 
         <receiver
