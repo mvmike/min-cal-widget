@@ -1,4 +1,4 @@
-# MinCal Widget <img align="left" src="https://raw.githubusercontent.com/mvmike/min-cal-widget/master/fastlane/metadata/android/en-US/images/icon.png" width="42"/>
+# MinCal Widget <img align="left" src="fastlane/metadata/android/en-US/images/icon.png" alt="MinCal Widget" width="42">
 
 Minimal calendar widget that's always on current date
 
@@ -24,18 +24,18 @@ Minimal calendar widget that's always on current date
 
 [<img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png" alt="Get it on Google Play" height="80">](https://play.google.com/store/apps/details?id=cat.mvmike.minimalcalendarwidget)
 [<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" alt="Get it on F-Droid" height="80">](https://f-droid.org/en/packages/cat.mvmike.minimalcalendarwidget)
-[<img src="/.github/badge.png" alt="Get it on GitHub" height="80">](https://github.com/mvmike/min-cal-widget/releases)
+[<img src=".github/badge.png" alt="Get it on GitHub" height="80">](https://github.com/mvmike/min-cal-widget/releases)
 
 ## Screenshots
 
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/1.png" width="32%" alt="Screenshot 1" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/2.png" width="32%" alt="Screenshot 2" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/3.png" width="32%" alt="Screenshot 3" />
+[<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/1.png" width="32%" alt="Screenshot 1">](fastlane/metadata/android/en-US/images/phoneScreenshots/1.png)
+[<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/2.png" width="32%" alt="Screenshot 2">](fastlane/metadata/android/en-US/images/phoneScreenshots/2.png)
+[<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/3.png" width="32%" alt="Screenshot 3">](fastlane/metadata/android/en-US/images/phoneScreenshots/3.png)
 
 ## Supported languages
 
-[<img align="right" src="https://hosted.weblate.org/widgets/min-cal-widget/-/287x66-auto.png">](https://hosted.weblate.org/engage/min-cal-widget)
-[<img src="https://hosted.weblate.org/widgets/min-cal-widget/-/multi-auto.svg">](https://hosted.weblate.org/engage/min-cal-widget)
+[<img src="https://hosted.weblate.org/widgets/min-cal-widget/-/multi-auto.svg" alt="Translation status">](https://hosted.weblate.org/engage/min-cal-widget)
+[<img src="https://hosted.weblate.org/widgets/min-cal-widget/-/287x66-auto.png" alt="Translation status">](https://hosted.weblate.org/engage/min-cal-widget)
 
 Everyone can help adding or updating translations under https://hosted.weblate.org/engage/min-cal-widget
 
