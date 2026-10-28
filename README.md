@@ -29,9 +29,9 @@ Minimal calendar widget that's always on current date's month or week
 ## Screenshots
 
 <p style="text-align: center;">
-  <img src="/fastlane/metadata/android/en-US/images/phoneScreenshots/1.png" width="30%">
-  <img src="/fastlane/metadata/android/en-US/images/phoneScreenshots/2.png" width="30%">
-  <img src="/fastlane/metadata/android/en-US/images/phoneScreenshots/3.png" width="30%">
+  <img src="/fastlane/metadata/android/en-US/images/phoneScreenshots/1.png" width="30%" alt="Screenshot 1">
+  <img src="/fastlane/metadata/android/en-US/images/phoneScreenshots/2.png" width="30%" alt="Screenshot 2">
+  <img src="/fastlane/metadata/android/en-US/images/phoneScreenshots/3.png" width="30%" alt="Screenshot 3">
 </p>
 
 ## Supported languages
