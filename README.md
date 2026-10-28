@@ -28,12 +28,13 @@ Minimal calendar widget that's always on current date
 
 ## Screenshots
 
-| ![](fastlane/metadata/android/en-US/images/phoneScreenshots/1.png) | ![](fastlane/metadata/android/en-US/images/phoneScreenshots/2.png) | ![](fastlane/metadata/android/en-US/images/phoneScreenshots/3.png) |
-|:------------------------------------------------------------------:|:------------------------------------------------------------------:|:------------------------------------------------------------------:|
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/1.png" width="32%" alt="Screenshot 1" />
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/2.png" width="32%" alt="Screenshot 2" />
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/3.png" width="32%" alt="Screenshot 3" />
 
 ## Supported languages
 
-[<img align="right" src="https://hosted.weblate.org/widgets/min-cal-widget/-/287x66-white.png">](https://hosted.weblate.org/engage/min-cal-widget)
+[<img align="right" src="https://hosted.weblate.org/widgets/min-cal-widget/-/287x66-auto.png">](https://hosted.weblate.org/engage/min-cal-widget)
 [<img src="https://hosted.weblate.org/widgets/min-cal-widget/-/multi-auto.svg">](https://hosted.weblate.org/engage/min-cal-widget)
 
 Everyone can help adding or updating translations under https://hosted.weblate.org/engage/min-cal-widget
