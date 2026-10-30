@@ -6,11 +6,11 @@ Minimal calendar widget that's always on current date
 * Displays all visible events from your calendars with a symbol set (high number becomes generic)
 * Native widget configuration access or press widget's top right corner
 * Pressing on any other part of the widget opens calendar application
-* Configurable:
+* Configurable per widget:
   - start day of the week
   - calendar (Gregorian or Holocene)
   - show declined events
-  - focus on current week
+  - focus on current week (Month only)
   - open calendar on clicked day
   - show week number
   - select visible calendars

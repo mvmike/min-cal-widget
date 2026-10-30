@@ -65,9 +65,9 @@ internal class DaysHeaderServiceTest : BaseTest() {
         justRun { GraphicResolver.addWeekNumberToDaysHeaderRow(context, daysHeaderRowRv, any()) }
         justRun { GraphicResolver.addDayToDaysHeaderRow(context, daysHeaderRowRv, any(), any()) }
         justRun { GraphicResolver.addToWidget(widgetRv, daysHeaderRowRv) }
-        justRun { ActionableView.RowHeader.addListener(context, widgetRv, variant) }
+        justRun { ActionableView.RowHeader.addListener(context, widgetRv, appWidgetId, variant) }
 
-        DaysHeaderService.draw(context, widgetRv, variant, firstDayOfWeek, widgetTheme, transparency, textSize)
+        DaysHeaderService.draw(context, widgetRv, appWidgetId, variant, firstDayOfWeek, widgetTheme, transparency, textSize)
 
         verifyShowWeekNumber()
         verify(exactly = 1) { GraphicResolver.createDaysHeaderRow(context) }
@@ -101,7 +101,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
             }
         }
         verify(exactly = 1) { GraphicResolver.addToWidget(widgetRv, daysHeaderRowRv) }
-        verify(exactly = 1) { ActionableView.RowHeader.addListener(context, widgetRv, variant) }
+        verify(exactly = 1) { ActionableView.RowHeader.addListener(context, widgetRv, appWidgetId, variant) }
         confirmVerified(widgetRv, daysHeaderRowRv)
     }
 

@@ -116,6 +116,7 @@ internal class DaysServiceTest : BaseTest() {
             ActionableView.CellDay.addListener(
                 context = context,
                 remoteViews = arrayOf(dayRv, instancesSymbolRemoteView),
+                appWidgetId = appWidgetId,
                 variant = variant,
                 startOfDay = any()
             )
@@ -125,6 +126,7 @@ internal class DaysServiceTest : BaseTest() {
         DaysService.draw(
             context = context,
             widgetRemoteView = widgetRv,
+            appWidgetId = appWidgetId,
             variant = variant,
             firstDayOfWeek = testProperties.firstDayOfWeek,
             widgetTheme = testProperties.widgetTheme,
@@ -229,6 +231,7 @@ internal class DaysServiceTest : BaseTest() {
                 ActionableView.CellDay.addListener(
                     context = context,
                     remoteViews = arrayOf(dayRv, instancesSymbolRemoteView),
+                    appWidgetId = appWidgetId,
                     variant = variant,
                     startOfDay = expectedDayProperties.startOfDay
                 )

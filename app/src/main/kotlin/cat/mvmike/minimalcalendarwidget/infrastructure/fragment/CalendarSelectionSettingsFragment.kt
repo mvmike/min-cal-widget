@@ -2,6 +2,7 @@
 // See LICENSE for licensing information
 package cat.mvmike.minimalcalendarwidget.infrastructure.fragment
 
+import android.appwidget.AppWidgetManager.EXTRA_APPWIDGET_ID
 import android.content.Context
 import android.content.SharedPreferences
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener
@@ -16,7 +17,7 @@ import cat.mvmike.minimalcalendarwidget.R
 import cat.mvmike.minimalcalendarwidget.application.RedrawWidgetUseCase
 import cat.mvmike.minimalcalendarwidget.domain.configuration.BooleanConfigurationItem.CalendarVisibilitySelection
 import cat.mvmike.minimalcalendarwidget.domain.configuration.BooleanConfigurationItem.DefaultVisibleCalendars
-import cat.mvmike.minimalcalendarwidget.domain.configuration.PREFERENCE_KEY
+import cat.mvmike.minimalcalendarwidget.domain.configuration.getConfigurationName
 import cat.mvmike.minimalcalendarwidget.domain.getCalendars
 import cat.mvmike.minimalcalendarwidget.infrastructure.activity.PermissionsActivity
 import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.CalendarResolver.isReadCalendarPermitted
@@ -25,6 +26,9 @@ import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.CalendarResolver
 class CalendarSelectionSettingsFragment :
     PreferenceFragmentCompat(),
     OnSharedPreferenceChangeListener {
+
+    private val appWidgetId
+        get() = requireArguments().getInt(EXTRA_APPWIDGET_ID)
 
     override fun onCreatePreferences(
         savedInstanceState: Bundle?,
@@ -37,7 +41,7 @@ class CalendarSelectionSettingsFragment :
             return
         }
 
-        preferenceManager.sharedPreferencesName = PREFERENCE_KEY
+        preferenceManager.sharedPreferencesName = getConfigurationName(appWidgetId)
         setPreferencesFromResource(R.xml.preferences_calendars, rootKey)
         fillInstanceCalendarSelection(context)
         preferenceManager.sharedPreferences!!.registerOnSharedPreferenceChangeListener(this)
@@ -84,7 +88,7 @@ class CalendarSelectionSettingsFragment :
                         checkBoxPreference.isEnabled = false
                     } else {
                         checkBoxPreference.isChecked = calendarVisibilityConfiguration[calendar.id]
-                            ?.get(context) ?: calendar.isVisible
+                            ?.get(context, appWidgetId) ?: calendar.isVisible
                         checkBoxPreference.isEnabled = true
                     }
                     preferenceCategory.addPreference(checkBoxPreference)

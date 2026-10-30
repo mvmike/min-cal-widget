@@ -16,6 +16,7 @@ import cat.mvmike.minimalcalendarwidget.domain.intent.ActionableView.MonthAndYea
 import cat.mvmike.minimalcalendarwidget.domain.intent.ActionableView.RowHeader
 import cat.mvmike.minimalcalendarwidget.domain.intent.AutoUpdate
 import cat.mvmike.minimalcalendarwidget.domain.intent.AutoUpdate.ACTION_AUTO_UPDATE
+import cat.mvmike.minimalcalendarwidget.domain.intent.getAppWidgetId
 import cat.mvmike.minimalcalendarwidget.domain.intent.toActionableView
 import cat.mvmike.minimalcalendarwidget.infrastructure.activity.CalendarActivity
 import cat.mvmike.minimalcalendarwidget.infrastructure.activity.ConfigurationActivity
@@ -32,10 +33,10 @@ object ProcessIntentUseCase {
     ) = when (intent.action) {
         ACTION_AUTO_UPDATE -> RedrawWidgetUseCase.execute(context, variant)
         else -> when (intent.toActionableView()) {
-            ConfigurationIcon -> ConfigurationActivity.start(context)
+            ConfigurationIcon -> ConfigurationActivity.start(context, intent.getAppWidgetId())
             MonthAndYearHeader,
-            RowHeader -> context.askForPermissionsIfNeededOrExecuteAndRedraw(variant) { startCalendarActivity(context) }
-            CellDay -> context.askForPermissionsIfNeededOrExecuteAndRedraw(variant) { startCalendarActivity(context, intent) }
+            RowHeader -> context.askForPermissionsIfNeededOrExecuteAndRedraw(intent.getAppWidgetId(), variant) { startCalendarActivity(context) }
+            CellDay -> context.askForPermissionsIfNeededOrExecuteAndRedraw(intent.getAppWidgetId(), variant) { startCalendarActivity(context, intent) }
             else -> null
         }
     }
@@ -51,13 +52,13 @@ object ProcessIntentUseCase {
     ) = CalendarActivity.start(
         context = context,
         startTime = when {
-            BooleanConfigurationItem.OpenCalendarOnClickedDay.get(context) -> intent.getExtraInstant()
+            BooleanConfigurationItem.OpenCalendarOnClickedDay.get(context, intent.getAppWidgetId()) -> intent.getExtraInstant()
             else -> SystemResolver.getSystemInstant()
         }
     )
 
-    private fun Context.askForPermissionsIfNeededOrExecuteAndRedraw(variant: Variant, function: () -> Unit) = when {
-        isReadCalendarPermitted(this) || InstancesSymbolSet.get(this) == SymbolSet.NONE -> {
+    private fun Context.askForPermissionsIfNeededOrExecuteAndRedraw(appWidgetId: Int, variant: Variant, function: () -> Unit) = when {
+        isReadCalendarPermitted(this) || InstancesSymbolSet.get(this, appWidgetId) == SymbolSet.NONE -> {
             function.invoke()
             RedrawWidgetUseCase.execute(this)
         }

@@ -3,6 +3,7 @@
 package cat.mvmike.minimalcalendarwidget.domain.configuration
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.os.Build
 import androidx.core.content.edit
 import cat.mvmike.minimalcalendarwidget.domain.Percentage
@@ -30,7 +31,7 @@ sealed class ConfigurationItem<E>(
     internal open val key: String,
     internal open val defaultValue: E
 ) {
-    abstract fun get(context: Context): E
+    abstract fun get(context: Context, appWidgetId: Int): E
 }
 
 sealed class BooleanConfigurationItem(
@@ -40,8 +41,8 @@ sealed class BooleanConfigurationItem(
         key = key,
         defaultValue = defaultValue
     ) {
-    override fun get(context: Context) =
-        getConfiguration(context).getBoolean(key, defaultValue)
+    override fun get(context: Context, appWidgetId: Int) =
+        getConfiguration(context, appWidgetId).getBoolean(key, defaultValue)
 
     data class CalendarVisibilitySelection(
         val calendarId: Int
@@ -79,20 +80,20 @@ sealed class EnumConfigurationItem<E : Enum<E>>(
         key = key,
         defaultValue = defaultValue
     ) {
-    override fun get(context: Context): E = valueOf(
+    override fun get(context: Context, appWidgetId: Int): E = valueOf(
         enumClass,
-        getConfiguration(context).getString(key, defaultValue.name)!!
+        getConfiguration(context, appWidgetId).getString(key, defaultValue.name)!!
     )
 
     fun getKeys() = getEnumConstants().map { it.name }.toTypedArray()
 
-    fun getCurrentKey(context: Context) = get(context).name
+    fun getCurrentKey(context: Context, appWidgetId: Int) = get(context, appWidgetId).name
 
     internal open fun getEnumConstants() = enumClass.enumConstants!!
 
     abstract fun getDisplayValues(context: Context): List<String>
 
-    abstract fun getCurrentDisplayValue(context: Context): String
+    abstract fun getCurrentDisplayValue(context: Context, appWidgetId: Int): String
 
     data object WidgetTheme : EnumConfigurationItem<Theme>(
         key = "WIDGET_THEME",
@@ -101,7 +102,7 @@ sealed class EnumConfigurationItem<E : Enum<E>>(
     ) {
         override fun getDisplayValues(context: Context) = getThemeDisplayValues(context)
 
-        override fun getCurrentDisplayValue(context: Context) = get(context).getDisplayValue(context)
+        override fun getCurrentDisplayValue(context: Context, appWidgetId: Int) = get(context, appWidgetId).getDisplayValue(context)
     }
 
     data object WidgetCalendar : EnumConfigurationItem<Calendar>(
@@ -111,7 +112,7 @@ sealed class EnumConfigurationItem<E : Enum<E>>(
     ) {
         override fun getDisplayValues(context: Context) = getCalendarDisplayValues(context)
 
-        override fun getCurrentDisplayValue(context: Context) = get(context).getDisplayValue(context)
+        override fun getCurrentDisplayValue(context: Context, appWidgetId: Int) = get(context, appWidgetId).getDisplayValue(context)
     }
 
     data object FirstDayOfWeek : EnumConfigurationItem<DayOfWeek>(
@@ -121,7 +122,7 @@ sealed class EnumConfigurationItem<E : Enum<E>>(
     ) {
         override fun getDisplayValues(context: Context): List<String> = getDayOfWeekDisplayValues(context)
 
-        override fun getCurrentDisplayValue(context: Context) = get(context).getDisplayValue(context)
+        override fun getCurrentDisplayValue(context: Context, appWidgetId: Int) = get(context, appWidgetId).getDisplayValue(context)
     }
 
     data object InstancesSymbolSet : EnumConfigurationItem<SymbolSet>(
@@ -131,7 +132,7 @@ sealed class EnumConfigurationItem<E : Enum<E>>(
     ) {
         override fun getDisplayValues(context: Context) = getSymbolSetDisplayValues()
 
-        override fun getCurrentDisplayValue(context: Context) = get(context).getDisplayValue()
+        override fun getCurrentDisplayValue(context: Context, appWidgetId: Int) = get(context, appWidgetId).getDisplayValue()
     }
 
     data object InstancesColour : EnumConfigurationItem<Colour>(
@@ -143,7 +144,7 @@ sealed class EnumConfigurationItem<E : Enum<E>>(
 
         override fun getDisplayValues(context: Context) = getColourDisplayValues(context)
 
-        override fun getCurrentDisplayValue(context: Context) = get(context).getDisplayValue(context)
+        override fun getCurrentDisplayValue(context: Context, appWidgetId: Int) = get(context, appWidgetId).getDisplayValue(context)
     }
 }
 
@@ -159,8 +160,8 @@ sealed class PercentageConfigurationItem<E : Percentage>(
         key = "WIDGET_TRANSPARENCY",
         defaultValue = Transparency(20)
     ) {
-        override fun get(context: Context) = Transparency(
-            getConfiguration(context).getInt(key, defaultValue.percentage)
+        override fun get(context: Context, appWidgetId: Int) = Transparency(
+            getConfiguration(context, appWidgetId).getInt(key, defaultValue.percentage)
         )
     }
 
@@ -168,8 +169,8 @@ sealed class PercentageConfigurationItem<E : Percentage>(
         key = "WIDGET_TEXT_SIZE",
         defaultValue = TextSize(40)
     ) {
-        override fun get(context: Context) = TextSize(
-            getConfiguration(context).getInt(key, defaultValue.percentage)
+        override fun get(context: Context, appWidgetId: Int) = TextSize(
+            getConfiguration(context, appWidgetId).getInt(key, defaultValue.percentage)
         )
     }
 }
@@ -180,6 +181,44 @@ fun isPerAppLanguagePreferenceEnabled() =
 fun isFirstDayOfWeekLocalePreferenceEnabled() =
     SystemResolver.getRuntimeSDK() >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE
 
-fun clearAllConfiguration(context: Context) = getConfiguration(context).edit { clear() }
+fun getConfigurationName(appWidgetId: Int) = "${PREFERENCE_KEY}_$appWidgetId"
 
-private fun getConfiguration(context: Context) = context.getSharedPreferences(PREFERENCE_KEY, Context.MODE_PRIVATE)
+fun clearAllConfiguration(context: Context, appWidgetId: Int) = getConfiguration(context, appWidgetId).edit { clear() }
+
+fun deleteConfiguration(context: Context, appWidgetId: Int) =
+    context.deleteSharedPreferences(getConfigurationName(appWidgetId))
+
+fun moveConfiguration(context: Context, fromAppWidgetIds: IntArray, toAppWidgetIds: IntArray) {
+    val configurations = fromAppWidgetIds.map { getConfiguration(context, it).all }
+    fromAppWidgetIds.forEach { deleteConfiguration(context, it) }
+    toAppWidgetIds.zip(configurations).forEach { (appWidgetId, configuration) ->
+        getConfiguration(context, appWidgetId).putAll(configuration)
+    }
+}
+
+fun hasLegacyConfiguration(context: Context) = getLegacyConfiguration(context).all.isNotEmpty()
+
+fun migrateLegacyConfiguration(context: Context, appWidgetIds: List<Int>) {
+    if (appWidgetIds.isEmpty()) {
+        return
+    }
+    val legacyConfiguration = getLegacyConfiguration(context)
+    val configuration = legacyConfiguration.all
+    appWidgetIds.forEach { getConfiguration(context, it).putAll(configuration) }
+    legacyConfiguration.edit(commit = true) { clear() }
+}
+
+private fun SharedPreferences.putAll(configuration: Map<String, *>) = edit(commit = true) {
+    configuration.forEach { (key, value) ->
+        when (value) {
+            is Boolean -> putBoolean(key, value)
+            is Int -> putInt(key, value)
+            is String -> putString(key, value)
+        }
+    }
+}
+
+private fun getConfiguration(context: Context, appWidgetId: Int) =
+    context.getSharedPreferences(getConfigurationName(appWidgetId), Context.MODE_PRIVATE)
+
+private fun getLegacyConfiguration(context: Context) = context.getSharedPreferences(PREFERENCE_KEY, Context.MODE_PRIVATE)

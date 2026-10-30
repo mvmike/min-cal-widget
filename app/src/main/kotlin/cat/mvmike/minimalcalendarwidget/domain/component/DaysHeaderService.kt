@@ -23,6 +23,7 @@ object DaysHeaderService {
     fun draw(
         context: Context,
         widgetRemoteView: RemoteViews,
+        appWidgetId: Int,
         variant: Variant,
         firstDayOfWeek: DayOfWeek,
         widgetTheme: Theme,
@@ -30,7 +31,7 @@ object DaysHeaderService {
         textSize: TextSize
     ) {
         val daysHeaderRow: RemoteViews = GraphicResolver.createDaysHeaderRow(context)
-        val showWeekNumber = BooleanConfigurationItem.ShowWeekNumber.get(context)
+        val showWeekNumber = BooleanConfigurationItem.ShowWeekNumber.get(context, appWidgetId)
 
         if (showWeekNumber) {
             val cellHeader = widgetTheme.getCellHeader(DayOfWeek.MONDAY)
@@ -70,7 +71,7 @@ object DaysHeaderService {
             widgetRemoteView = widgetRemoteView,
             remoteView = daysHeaderRow
         )
-        RowHeader.addListener(context, widgetRemoteView, variant)
+        RowHeader.addListener(context, widgetRemoteView, appWidgetId, variant)
     }
 
     fun getRotatedDaysOfWeek(firstDayOfWeek: DayOfWeek): List<DayOfWeek> {

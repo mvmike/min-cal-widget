@@ -3,6 +3,8 @@
 package cat.mvmike.minimalcalendarwidget.domain.intent
 
 import android.app.PendingIntent
+import android.appwidget.AppWidgetManager.EXTRA_APPWIDGET_ID
+import android.appwidget.AppWidgetManager.INVALID_APPWIDGET_ID
 import android.content.Context
 import android.content.Intent
 import android.widget.RemoteViews
@@ -17,43 +19,40 @@ private const val MINCAL_INTENT_ACTION = "action.mincal"
 
 sealed class ActionableView(
     internal open val viewId: Int,
-    internal open val code: Int,
     open val action: String
 ) {
 
     data object ConfigurationIcon : ActionableView(
         viewId = R.id.configuration_icon,
-        code = 90,
         action = "$MINCAL_INTENT_ACTION.configuration_icon_click"
     )
 
     data object MonthAndYearHeader : ActionableView(
         viewId = R.id.month_and_year_header,
-        code = 91,
         action = "$MINCAL_INTENT_ACTION.month_and_year_header_click"
     )
 
     data object RowHeader : ActionableView(
         viewId = R.id.row,
-        code = 92,
         action = "$MINCAL_INTENT_ACTION.row_header_click"
     )
 
     data object CellDay : ActionableView(
         viewId = R.id.cell,
-        code = 93,
         action = "$MINCAL_INTENT_ACTION.cell_day_click"
     ) {
 
         override fun addListener(
             context: Context,
             remoteViews: RemoteViews,
+            appWidgetId: Int,
             variant: Variant
         ) = throw UnsupportedOperationException("must call overloaded addListener method")
 
         fun addListener(
             context: Context,
             remoteViews: Array<RemoteViews?>,
+            appWidgetId: Int,
             variant: Variant,
             startOfDay: Instant
         ) = remoteViews
@@ -63,9 +62,10 @@ sealed class ActionableView(
                     viewId,
                     PendingIntent.getBroadcast(
                         context,
-                        code,
+                        appWidgetId,
                         Intent(context, Widget.getReceiverClass(variant))
-                            .setAction("${getActionPrefix()}${startOfDay.epochSecond}"),
+                            .setAction("${getActionPrefix()}${startOfDay.epochSecond}")
+                            .putExtra(EXTRA_APPWIDGET_ID, appWidgetId),
                         PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
                     )
                 )
@@ -95,13 +95,16 @@ sealed class ActionableView(
     internal open fun addListener(
         context: Context,
         remoteViews: RemoteViews,
+        appWidgetId: Int,
         variant: Variant
     ) = remoteViews.setOnClickPendingIntent(
         viewId,
         PendingIntent.getBroadcast(
             context,
-            code,
-            Intent(context, Widget.getReceiverClass(variant)).setAction(action),
+            appWidgetId,
+            Intent(context, Widget.getReceiverClass(variant))
+                .setAction(action)
+                .putExtra(EXTRA_APPWIDGET_ID, appWidgetId),
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
     )
@@ -116,3 +119,5 @@ fun Intent.toActionableView(): ActionableView? = listOf(
     action!!.startsWith(ActionableView.CellDay.action) -> ActionableView.CellDay
     else -> null
 }
+
+fun Intent.getAppWidgetId() = getIntExtra(EXTRA_APPWIDGET_ID, INVALID_APPWIDGET_ID)

@@ -8,8 +8,10 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import cat.mvmike.minimalcalendarwidget.application.RedrawWidgetUseCase
+import cat.mvmike.minimalcalendarwidget.application.system.DeleteWidgetUseCase
 import cat.mvmike.minimalcalendarwidget.application.system.DisableWidgetUseCase
 import cat.mvmike.minimalcalendarwidget.application.system.EnableWidgetUseCase
+import cat.mvmike.minimalcalendarwidget.application.system.RestoreWidgetUseCase
 import cat.mvmike.minimalcalendarwidget.application.user.ProcessIntentUseCase
 import cat.mvmike.minimalcalendarwidget.domain.Variant
 import cat.mvmike.minimalcalendarwidget.domain.Variant.MONTH
@@ -62,6 +64,23 @@ sealed class Widget(
     ) {
         super.onReceive(context, intent)
         ProcessIntentUseCase.execute(context, variant, intent)
+    }
+
+    override fun onDeleted(
+        context: Context,
+        appWidgetIds: IntArray
+    ) {
+        super.onDeleted(context, appWidgetIds)
+        DeleteWidgetUseCase.execute(context, appWidgetIds)
+    }
+
+    override fun onRestored(
+        context: Context,
+        oldWidgetIds: IntArray,
+        newWidgetIds: IntArray
+    ) {
+        super.onRestored(context, oldWidgetIds, newWidgetIds)
+        RestoreWidgetUseCase.execute(context, oldWidgetIds, newWidgetIds)
     }
 
     override fun onDisabled(

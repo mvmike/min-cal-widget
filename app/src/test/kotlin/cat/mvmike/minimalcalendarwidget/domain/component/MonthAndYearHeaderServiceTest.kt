@@ -77,7 +77,7 @@ internal class MonthAndYearHeaderServiceTest : BaseTest() {
             )
         }
 
-        MonthAndYearHeaderService.draw(context, widgetRv, textSize, widgetTheme)
+        MonthAndYearHeaderService.draw(context, widgetRv, appWidgetId, textSize, widgetTheme)
 
         verifyGetSystemLocalDate()
         verify { context.getString(localDate.month.getExpectedResourceIdAndTranslation().first) }

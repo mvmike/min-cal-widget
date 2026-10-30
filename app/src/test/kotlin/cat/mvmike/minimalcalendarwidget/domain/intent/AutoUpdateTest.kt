@@ -48,7 +48,7 @@ internal class AutoUpdateTest : BaseTest() {
         verifyGetSystemInstant()
         verify { context.getSystemService(Context.ALARM_SERVICE) }
         verify { Widget.getReceiverClass(variant) }
-        verify { anyConstructed<Intent>().setAction(AutoUpdate.ACTION_AUTO_UPDATE) }
+        verify { anyConstructed<Intent>().action = AutoUpdate.ACTION_AUTO_UPDATE }
         verify {
             PendingIntent.getBroadcast(
                 context,
@@ -86,7 +86,7 @@ internal class AutoUpdateTest : BaseTest() {
 
         verify { context.getSystemService(Context.ALARM_SERVICE) }
         verify { Widget.getReceiverClass(variant) }
-        verify { anyConstructed<Intent>().setAction(AutoUpdate.ACTION_AUTO_UPDATE) }
+        verify { anyConstructed<Intent>().action = AutoUpdate.ACTION_AUTO_UPDATE }
         verify {
             PendingIntent.getBroadcast(
                 context,

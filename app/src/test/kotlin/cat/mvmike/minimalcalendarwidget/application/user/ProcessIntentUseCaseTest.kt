@@ -69,12 +69,14 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
     @EnumSource(value = Variant::class)
     fun execute_shouldLaunchConfigurationActivity(variant: Variant) {
         mockIntent("action.mincal.configuration_icon_click")
-        justRun { ConfigurationActivity.start(context) }
+        mockIntentAppWidgetId()
+        justRun { ConfigurationActivity.start(context, appWidgetId) }
 
         ProcessIntentUseCase.execute(context, variant, intent)
 
         verifyIntentAction()
-        verify { ConfigurationActivity.start(context) }
+        verifyIntentAppWidgetId()
+        verify { ConfigurationActivity.start(context, appWidgetId) }
     }
 
     @ParameterizedTest
@@ -91,6 +93,7 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
         action: String
     ) {
         mockIntent(action)
+        mockIntentAppWidgetId()
         mockIsReadCalendarPermitted(false)
         mockInstancesSymbolSet(SymbolSet.MINIMAL)
         mockkObject(AutoUpdate)
@@ -101,6 +104,7 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
         ProcessIntentUseCase.execute(context, variant, intent)
 
         verifyIntentAction()
+        verifyIntentAppWidgetId()
         verifyIsReadCalendarPermitted()
         verifyInstancesSymbolSet()
         verify { PermissionsActivity.start(context) }
@@ -120,6 +124,7 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
         action: String
     ) {
         mockIntent(action)
+        mockIntentAppWidgetId()
         mockIsReadCalendarPermitted(true)
         mockGetSystemInstant()
         mockOpenCalendarOnClickedDay(false)
@@ -133,6 +138,7 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
         ProcessIntentUseCase.execute(context, variant, intent)
 
         verifyIntentAction()
+        verifyIntentAppWidgetId()
         verifyIsReadCalendarPermitted()
         verifyGetSystemInstant()
         verify { CalendarActivity.start(context, systemInstant) }
@@ -153,6 +159,7 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
         action: String
     ) {
         mockIntent(action)
+        mockIntentAppWidgetId()
         mockIsReadCalendarPermitted(false)
         mockInstancesSymbolSet(SymbolSet.NONE)
         mockGetSystemInstant()
@@ -167,6 +174,7 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
         ProcessIntentUseCase.execute(context, variant, intent)
 
         verifyIntentAction()
+        verifyIntentAppWidgetId()
         verifyIsReadCalendarPermitted()
         verifyInstancesSymbolSet()
         verifyGetSystemInstant()
@@ -188,6 +196,7 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
         action: String
     ) {
         mockIntent(action)
+        mockIntentAppWidgetId()
         mockIsReadCalendarPermitted(true)
         mockGetSystemInstant()
         mockOpenCalendarOnClickedDay(false)
@@ -201,6 +210,7 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
         ProcessIntentUseCase.execute(context, variant, intent)
 
         verifyIntentAction()
+        verifyIntentAppWidgetId(times = 2)
         verifyIsReadCalendarPermitted()
         verifyGetSystemInstant()
         verifyOpenCalendarOnClickedDay()
@@ -223,6 +233,7 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
         startTimeInstantEpochSeconds: Long
     ) {
         mockIntent(action)
+        mockIntentAppWidgetId()
         val startTimeInstant = ofEpochSecond(startTimeInstantEpochSeconds)
         mockIsReadCalendarPermitted(true)
         mockGetSystemInstant()
@@ -238,6 +249,7 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
         ProcessIntentUseCase.execute(context, variant, intent)
 
         verifyIntentAction()
+        verifyIntentAppWidgetId(times = 2)
         verifyIsReadCalendarPermitted()
         verifyGetSystemInstant()
         verifyGetSystemZoneId()

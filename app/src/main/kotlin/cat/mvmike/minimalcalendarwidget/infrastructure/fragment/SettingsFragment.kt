@@ -3,6 +3,8 @@
 package cat.mvmike.minimalcalendarwidget.infrastructure.fragment
 
 import android.annotation.SuppressLint
+import android.appwidget.AppWidgetManager
+import android.appwidget.AppWidgetManager.EXTRA_APPWIDGET_ID
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
@@ -20,13 +22,15 @@ import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SeekBarPreference
 import cat.mvmike.minimalcalendarwidget.BuildConfig
 import cat.mvmike.minimalcalendarwidget.R
+import cat.mvmike.minimalcalendarwidget.Widget
 import cat.mvmike.minimalcalendarwidget.application.RedrawWidgetUseCase
+import cat.mvmike.minimalcalendarwidget.domain.Variant
 import cat.mvmike.minimalcalendarwidget.domain.configuration.BooleanConfigurationItem
 import cat.mvmike.minimalcalendarwidget.domain.configuration.BooleanConfigurationItem.DefaultVisibleCalendars
 import cat.mvmike.minimalcalendarwidget.domain.configuration.ConfigurationItem
 import cat.mvmike.minimalcalendarwidget.domain.configuration.EnumConfigurationItem
-import cat.mvmike.minimalcalendarwidget.domain.configuration.PREFERENCE_KEY
 import cat.mvmike.minimalcalendarwidget.domain.configuration.PercentageConfigurationItem
+import cat.mvmike.minimalcalendarwidget.domain.configuration.getConfigurationName
 import cat.mvmike.minimalcalendarwidget.domain.configuration.isFirstDayOfWeekLocalePreferenceEnabled
 import cat.mvmike.minimalcalendarwidget.domain.configuration.isPerAppLanguagePreferenceEnabled
 import cat.mvmike.minimalcalendarwidget.domain.getDisplayValue
@@ -52,11 +56,14 @@ class SettingsFragment :
     PreferenceFragmentCompat(),
     OnSharedPreferenceChangeListener {
 
+    private val appWidgetId
+        get() = requireArguments().getInt(EXTRA_APPWIDGET_ID)
+
     override fun onCreatePreferences(
         savedInstanceState: Bundle?,
         rootKey: String?
     ) {
-        preferenceManager.sharedPreferencesName = PREFERENCE_KEY
+        preferenceManager.sharedPreferencesName = getConfigurationName(appWidgetId)
         setPreferencesFromResource(R.xml.preferences, rootKey)
 
         val context = requireContext()
@@ -67,6 +74,8 @@ class SettingsFragment :
         if (isPerAppLanguagePreferenceEnabled()) {
             fillAppLocaleSettings(context)
         }
+        fillVisibleCalendarSelection()
+        fillVariantPreferences(context)
         updateCurrentSelection(context)
         fillAboutSection(context)
 
@@ -91,7 +100,7 @@ class SettingsFragment :
         it.asListPreference()?.apply {
             entries = it.getDisplayValues(context).toTypedArray()
             entryValues = it.getKeys()
-            value = it.getCurrentKey(context)
+            value = it.getCurrentKey(context, appWidgetId)
         }
     }
 
@@ -132,6 +141,16 @@ class SettingsFragment :
             }
         }
 
+    private fun fillVisibleCalendarSelection() =
+        VISIBLE_CALENDAR_SELECTION_KEY.asPreference()?.extras?.putInt(EXTRA_APPWIDGET_ID, appWidgetId)
+
+    private fun fillVariantPreferences(context: Context) {
+        val provider = AppWidgetManager.getInstance(context).getAppWidgetInfo(appWidgetId)?.provider
+        BooleanConfigurationItem.FocusOnCurrentWeek.key.asPreference()?.let {
+            it.isVisible = provider?.className != Widget.getReceiverClass(Variant.WEEK).name
+        }
+    }
+
     private fun fillAboutSection(context: Context) {
         SOURCE_KEY.asPreference()?.let {
             it.summary = SOURCE_URL
@@ -153,7 +172,7 @@ class SettingsFragment :
     private fun updateCurrentSelection(context: Context) {
         VISIBLE_CALENDAR_SELECTION_KEY.asPreference()?.let {
             val isReadCalendarPermitted = isReadCalendarPermitted(requireContext())
-            val default = DefaultVisibleCalendars.get(requireContext())
+            val default = DefaultVisibleCalendars.get(requireContext(), appWidgetId)
             it.summary = when {
                 !isReadCalendarPermitted -> null
                 default -> R.string.visible_calendar_selection_default
@@ -162,15 +181,15 @@ class SettingsFragment :
         }
 
         enumConfigurationItems().forEach {
-            it.asListPreference()?.summary = it.getCurrentDisplayValue(context)
+            it.asListPreference()?.summary = it.getCurrentDisplayValue(context, appWidgetId)
         }
 
         booleanConfigurationItems().forEach {
-            it.asCheckBoxPreference()?.isChecked = it.get(context)
+            it.asCheckBoxPreference()?.isChecked = it.get(context, appWidgetId)
         }
 
         percentageConfigurationItems().forEach {
-            it.asSeekBarPreference()?.value = it.get(context).value
+            it.asSeekBarPreference()?.value = it.get(context, appWidgetId).value
         }
     }
 

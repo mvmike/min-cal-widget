@@ -7,6 +7,7 @@ import android.widget.RemoteViews
 import cat.mvmike.minimalcalendarwidget.BaseTest
 import cat.mvmike.minimalcalendarwidget.R
 import cat.mvmike.minimalcalendarwidget.Widget
+import cat.mvmike.minimalcalendarwidget.application.system.MigrateConfigurationUseCase
 import cat.mvmike.minimalcalendarwidget.domain.Variant
 import cat.mvmike.minimalcalendarwidget.domain.component.DaysHeaderService
 import cat.mvmike.minimalcalendarwidget.domain.component.DaysService
@@ -145,6 +146,7 @@ internal class RedrawWidgetUseCaseTest : BaseTest() {
         variant: Variant
     ) {
         mockkObject(
+            MigrateConfigurationUseCase,
             ActionableView.ConfigurationIcon,
             ActionableView.MonthAndYearHeader,
             LayoutService,
@@ -162,26 +164,27 @@ internal class RedrawWidgetUseCaseTest : BaseTest() {
         mockkConstructor(RemoteViews::class)
         justRun { constructedWith<RemoteViews>(EqMatcher(packageName), EqMatcher(layoutId)).removeAllViews(any()) }
 
-        justRun { ActionableView.ConfigurationIcon.addListener(context, any(), variant) }
-        justRun { ActionableView.MonthAndYearHeader.addListener(context, any(), variant) }
+        justRun { MigrateConfigurationUseCase.execute(context, appWidgetManager) }
+        justRun { ActionableView.ConfigurationIcon.addListener(context, any(), appWidgetId, variant) }
+        justRun { ActionableView.MonthAndYearHeader.addListener(context, any(), appWidgetId, variant) }
 
         val textSize = TextSize(textSizePercentage)
         val transparency = Transparency(transparencyPercentage)
-        mockWidgetTextSize(textSize)
-        mockWidgetTheme(widgetTheme)
-        mockWidgetTransparency(transparency)
+        mockWidgetTextSize(textSize, appWidgetId)
+        mockWidgetTheme(widgetTheme, appWidgetId)
+        mockWidgetTransparency(transparency, appWidgetId)
 
         mockGetRuntimeSDK(runtimeSDK)
         if (shouldHaveFirstWeekLocalPreferenceEnabled) {
             mockGetSystemFirstDayOfWeek(firstDayOfWeek)
         } else {
-            mockFirstDayOfWeek(firstDayOfWeek)
+            mockFirstDayOfWeek(firstDayOfWeek, appWidgetId)
         }
 
         justRun { LayoutService.draw(context, any(), widgetTheme, transparency) }
-        justRun { MonthAndYearHeaderService.draw(context, any(), textSize, widgetTheme) }
-        justRun { DaysHeaderService.draw(context, any(), variant, firstDayOfWeek, widgetTheme, transparency, textSize) }
-        justRun { DaysService.draw(context, any(), variant, firstDayOfWeek, widgetTheme, transparency, textSize) }
+        justRun { MonthAndYearHeaderService.draw(context, any(), appWidgetId, textSize, widgetTheme) }
+        justRun { DaysHeaderService.draw(context, any(), appWidgetId, variant, firstDayOfWeek, widgetTheme, transparency, textSize) }
+        justRun { DaysService.draw(context, any(), appWidgetId, variant, firstDayOfWeek, widgetTheme, transparency, textSize) }
 
         val binderProxyTransactionTimeoutInMillis = 1000L
         every { appWidgetManager.updateAppWidget(appWidgetId, any()) } answers {
@@ -194,26 +197,28 @@ internal class RedrawWidgetUseCaseTest : BaseTest() {
         }
 
         assertThat(executionTime).isLessThan(binderProxyTransactionTimeoutInMillis)
-        verifyWidgetTextSize()
-        verifyWidgetTheme()
-        verifyWidgetTransparency()
+        verify { MigrateConfigurationUseCase.execute(context, appWidgetManager) }
+        verifyWidgetTextSize(appWidgetId)
+        verifyWidgetTheme(appWidgetId)
+        verifyWidgetTransparency(appWidgetId)
         verifyGetRuntimeSDK()
         when (shouldHaveFirstWeekLocalPreferenceEnabled) {
             true -> verifyGetSystemFirstDayOfWeek()
-            else -> verifyFirstDayOfWeek()
+            else -> verifyFirstDayOfWeek(appWidgetId)
         }
         verify { context.packageName }
-        verify { ActionableView.ConfigurationIcon.addListener(context, any(), variant) }
-        verify { ActionableView.MonthAndYearHeader.addListener(context, any(), variant) }
+        verify { ActionableView.ConfigurationIcon.addListener(context, any(), appWidgetId, variant) }
+        verify { ActionableView.MonthAndYearHeader.addListener(context, any(), appWidgetId, variant) }
 
         verify { LayoutService.draw(context, any(), widgetTheme, transparency) }
-        verify { MonthAndYearHeaderService.draw(context, any(), textSize, widgetTheme) }
-        verify { DaysHeaderService.draw(context, any(), variant, firstDayOfWeek, widgetTheme, transparency, textSize) }
-        verify { DaysService.draw(context, any(), variant, firstDayOfWeek, widgetTheme, transparency, textSize) }
+        verify { MonthAndYearHeaderService.draw(context, any(), appWidgetId, textSize, widgetTheme) }
+        verify { DaysHeaderService.draw(context, any(), appWidgetId, variant, firstDayOfWeek, widgetTheme, transparency, textSize) }
+        verify { DaysService.draw(context, any(), appWidgetId, variant, firstDayOfWeek, widgetTheme, transparency, textSize) }
 
         verify { appWidgetManager.updateAppWidget(appWidgetId, any()) }
 
         confirmVerified(
+            MigrateConfigurationUseCase,
             appWidgetManager,
             LayoutService,
             MonthAndYearHeaderService,

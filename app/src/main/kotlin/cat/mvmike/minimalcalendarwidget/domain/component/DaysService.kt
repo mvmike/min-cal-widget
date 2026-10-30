@@ -40,6 +40,7 @@ object DaysService {
     fun draw(
         context: Context,
         widgetRemoteView: RemoteViews,
+        appWidgetId: Int,
         variant: Variant,
         firstDayOfWeek: DayOfWeek,
         widgetTheme: Theme,
@@ -50,7 +51,7 @@ object DaysService {
         val systemZoneId = SystemResolver.getSystemZoneId()
         val initialLocalDate = when (variant) {
             WEEK -> getCurrentWeekInitialLocalDate(systemLocalDate, firstDayOfWeek)
-            MONTH -> when (BooleanConfigurationItem.FocusOnCurrentWeek.get(context)) {
+            MONTH -> when (BooleanConfigurationItem.FocusOnCurrentWeek.get(context, appWidgetId)) {
                 true -> getFocusedOnCurrentWeekInitialLocalDate(systemLocalDate, firstDayOfWeek)
                 else -> getNaturalMonthInitialLocalDate(systemLocalDate, firstDayOfWeek)
             }
@@ -63,17 +64,17 @@ object DaysService {
             from = initialLocalDate,
             to = initialLocalDate.plusDays(numberOfDays)
         )
-        val instancesSymbolSet = EnumConfigurationItem.InstancesSymbolSet.get(context)
-        val instancesColour = EnumConfigurationItem.InstancesColour.get(context)
-        val showDeclinedEvents = BooleanConfigurationItem.ShowDeclinedEvents.get(context)
-        val showWeekNumber = BooleanConfigurationItem.ShowWeekNumber.get(context)
+        val instancesSymbolSet = EnumConfigurationItem.InstancesSymbolSet.get(context, appWidgetId)
+        val instancesColour = EnumConfigurationItem.InstancesColour.get(context, appWidgetId)
+        val showDeclinedEvents = BooleanConfigurationItem.ShowDeclinedEvents.get(context, appWidgetId)
+        val showWeekNumber = BooleanConfigurationItem.ShowWeekNumber.get(context, appWidgetId)
         val weekFields = WeekFields.of(firstDayOfWeek, 1)
-        val defaultVisibleCalendars = BooleanConfigurationItem.DefaultVisibleCalendars.get(context)
+        val defaultVisibleCalendars = BooleanConfigurationItem.DefaultVisibleCalendars.get(context, appWidgetId)
         val visibleCalendarIds = getCalendars(context)
             .filter {
                 when {
                     defaultVisibleCalendars -> it.isVisible
-                    else -> CalendarVisibilitySelection(it.id).get(context)
+                    else -> CalendarVisibilitySelection(it.id).get(context, appWidgetId)
                 }
             }.map { it.id }
 
@@ -155,6 +156,7 @@ object DaysService {
                 CellDay.addListener(
                     context = context,
                     remoteViews = arrayOf(dayOfMonthRemoteView, instancesSymbolRemoteView),
+                    appWidgetId = appWidgetId,
                     variant = variant,
                     startOfDay = currentDay.dayLocalDate.atStartOfDay(systemZoneId).toInstant()
                 )

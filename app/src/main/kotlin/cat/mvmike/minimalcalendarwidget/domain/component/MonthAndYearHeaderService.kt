@@ -20,6 +20,7 @@ object MonthAndYearHeaderService {
     fun draw(
         context: Context,
         widgetRemoteView: RemoteViews,
+        appWidgetId: Int,
         textSize: TextSize,
         widgetTheme: Theme
     ) {
@@ -28,7 +29,7 @@ object MonthAndYearHeaderService {
             .toMonthDisplayValue(context)
             .take(textSize.monthHeaderLabelLength)
         val displayYear = EnumConfigurationItem.WidgetCalendar
-            .get(context)
+            .get(context, appWidgetId)
             .getYear(systemLocalDate)
 
         GraphicResolver.createMonthAndYearHeader(

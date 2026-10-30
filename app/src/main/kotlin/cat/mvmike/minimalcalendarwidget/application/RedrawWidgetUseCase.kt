@@ -8,6 +8,7 @@ import android.content.Context
 import android.widget.RemoteViews
 import cat.mvmike.minimalcalendarwidget.R
 import cat.mvmike.minimalcalendarwidget.Widget
+import cat.mvmike.minimalcalendarwidget.application.system.MigrateConfigurationUseCase
 import cat.mvmike.minimalcalendarwidget.domain.Variant
 import cat.mvmike.minimalcalendarwidget.domain.component.DaysHeaderService
 import cat.mvmike.minimalcalendarwidget.domain.component.DaysService
@@ -74,6 +75,8 @@ object RedrawWidgetUseCase {
         appWidgetId: Int,
         variant: Variant
     ) = runCatching {
+        MigrateConfigurationUseCase.execute(context, appWidgetManager)
+
         val widgetRemoteView = RemoteViews(
             context.packageName,
             when (variant) {
@@ -83,15 +86,15 @@ object RedrawWidgetUseCase {
         )
         widgetRemoteView.removeAllViews(R.id.calendar_days_layout)
 
-        ConfigurationIcon.addListener(context, widgetRemoteView, variant)
-        MonthAndYearHeader.addListener(context, widgetRemoteView, variant)
+        ConfigurationIcon.addListener(context, widgetRemoteView, appWidgetId, variant)
+        MonthAndYearHeader.addListener(context, widgetRemoteView, appWidgetId, variant)
 
-        val textSize = PercentageConfigurationItem.WidgetTextSize.get(context)
-        val widgetTheme = EnumConfigurationItem.WidgetTheme.get(context)
-        val transparency = PercentageConfigurationItem.WidgetTransparency.get(context)
+        val textSize = PercentageConfigurationItem.WidgetTextSize.get(context, appWidgetId)
+        val widgetTheme = EnumConfigurationItem.WidgetTheme.get(context, appWidgetId)
+        val transparency = PercentageConfigurationItem.WidgetTransparency.get(context, appWidgetId)
         val firstDayOfWeek = when {
             isFirstDayOfWeekLocalePreferenceEnabled() -> getSystemFirstDayOfWeek()
-            else -> EnumConfigurationItem.FirstDayOfWeek.get(context)
+            else -> EnumConfigurationItem.FirstDayOfWeek.get(context, appWidgetId)
         }
 
         LayoutService.draw(
@@ -103,12 +106,14 @@ object RedrawWidgetUseCase {
         MonthAndYearHeaderService.draw(
             context = context,
             widgetRemoteView = widgetRemoteView,
+            appWidgetId = appWidgetId,
             textSize = textSize,
             widgetTheme = widgetTheme
         )
         DaysHeaderService.draw(
             context = context,
             widgetRemoteView = widgetRemoteView,
+            appWidgetId = appWidgetId,
             variant = variant,
             firstDayOfWeek = firstDayOfWeek,
             widgetTheme = widgetTheme,
@@ -118,6 +123,7 @@ object RedrawWidgetUseCase {
         DaysService.draw(
             context = context,
             widgetRemoteView = widgetRemoteView,
+            appWidgetId = appWidgetId,
             variant = variant,
             firstDayOfWeek = firstDayOfWeek,
             widgetTheme = widgetTheme,

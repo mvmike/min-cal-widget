@@ -21,6 +21,7 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments.of
 import org.junit.jupiter.params.provider.EnumSource
 import org.junit.jupiter.params.provider.MethodSource
+import org.junit.jupiter.params.provider.ValueSource
 
 internal class ActionableViewTest : BaseTest() {
 
@@ -32,24 +33,26 @@ internal class ActionableViewTest : BaseTest() {
     ) {
         val remoteViews = mockk<RemoteViews>()
 
+        mockIntentPutAppWidgetId()
         every {
             PendingIntent.getBroadcast(
                 context,
-                actionableView.code,
+                appWidgetId,
                 intent,
                 PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
             )
         } returns pendingIntent
         justRun { remoteViews.setOnClickPendingIntent(actionableView.viewId, pendingIntent) }
 
-        actionableView.addListener(context, remoteViews, variant)
+        actionableView.addListener(context, remoteViews, appWidgetId, variant)
 
         verify { Widget.getReceiverClass(variant) }
-        verify { anyConstructed<Intent>().setAction(actionableView.action) }
+        verify { anyConstructed<Intent>().action = actionableView.action }
+        verifyIntentPutAppWidgetId()
         verify {
             PendingIntent.getBroadcast(
                 context,
-                actionableView.code,
+                appWidgetId,
                 intent,
                 PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
             )
@@ -62,7 +65,7 @@ internal class ActionableViewTest : BaseTest() {
     @EnumSource(value = Variant::class)
     fun addListener_shouldThrowExceptionWhenCalledOnCellDay(variant: Variant) {
         assertThrows<UnsupportedOperationException> {
-            ActionableView.CellDay.addListener(context, mockk(), variant)
+            ActionableView.CellDay.addListener(context, mockk(), appWidgetId, variant)
         }
     }
 
@@ -73,10 +76,11 @@ internal class ActionableViewTest : BaseTest() {
         val remoteViews2 = mockk<RemoteViews>()
         val remoteViews = arrayOf(remoteViews1, null, remoteViews2)
 
+        mockIntentPutAppWidgetId()
         every {
             PendingIntent.getBroadcast(
                 context,
-                ActionableView.CellDay.code,
+                appWidgetId,
                 intent,
                 PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
             )
@@ -84,14 +88,15 @@ internal class ActionableViewTest : BaseTest() {
         justRun { remoteViews1.setOnClickPendingIntent(ActionableView.CellDay.viewId, pendingIntent) }
         justRun { remoteViews2.setOnClickPendingIntent(ActionableView.CellDay.viewId, pendingIntent) }
 
-        ActionableView.CellDay.addListener(context, remoteViews, variant, systemInstant)
+        ActionableView.CellDay.addListener(context, remoteViews, appWidgetId, variant, systemInstant)
 
         verify(exactly = 2) { Widget.getReceiverClass(variant) }
-        verify(exactly = 2) { anyConstructed<Intent>().setAction("${ActionableView.CellDay.action}.${systemInstant.epochSecond}") }
+        verify(exactly = 2) { anyConstructed<Intent>().action = "${ActionableView.CellDay.action}.${systemInstant.epochSecond}" }
+        verifyIntentPutAppWidgetId(times = 2)
         verify(exactly = 2) {
             PendingIntent.getBroadcast(
                 context,
-                ActionableView.CellDay.code,
+                appWidgetId,
                 intent,
                 PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
             )
@@ -164,6 +169,16 @@ internal class ActionableViewTest : BaseTest() {
         assertThat(intent.toActionableView()).isNull()
 
         verify(exactly = 4) { intent.action }
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = [0, 1, 2611])
+    fun getAppWidgetId_shouldReturnIntentExtraAppWidgetId(expectedAppWidgetId: Int) {
+        mockIntentAppWidgetId(expectedAppWidgetId)
+
+        assertThat(intent.getAppWidgetId()).isEqualTo(expectedAppWidgetId)
+
+        verifyIntentAppWidgetId()
     }
 
     private fun getActionableViewWithVariants() = Variant.entries.flatMap { variant ->
