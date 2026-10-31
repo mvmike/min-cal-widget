@@ -1,0 +1,5 @@
+v2.21.0
+- New widget week variation
+- Settings per widget instance
+- Fix auto-update
+- Technical maintenance
