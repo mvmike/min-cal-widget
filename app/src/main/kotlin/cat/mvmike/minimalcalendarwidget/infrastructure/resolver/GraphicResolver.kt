@@ -108,11 +108,11 @@ object GraphicResolver {
         cells: List<Pair<RemoteViews?, Cell>>
     ) {
         val dayRowRemoteView = getById(context, R.layout.row)
-        cells.forEach {
-            it.first?.let { cellRemoteView ->
-                it.second.addToRemoteView(context, cellRemoteView, R.id.cell)
-                backgroundColour?.setAsBackground(dayRowRemoteView, R.id.row)
-                dayRowRemoteView.addView(R.id.row, cellRemoteView)
+        backgroundColour?.setAsBackground(dayRowRemoteView, R.id.row)
+        cells.forEach { (cellRemoteView, cell) ->
+            cellRemoteView?.let {
+                cell.addToRemoteView(context, it, R.id.cell)
+                dayRowRemoteView.addView(R.id.row, it)
             }
         }
         weekRowRemoteView.addView(R.id.row, dayRowRemoteView)
@@ -158,10 +158,10 @@ object GraphicResolver {
             setExclusiveSpan(RelativeSizeSpan(relativeSize))
             alignment?.let { setExclusiveSpan(AlignmentSpan.Standard(it)) }
             if (bold) setExclusiveSpan(StyleSpan(Typeface.BOLD))
-            highlightDrawable?.setAsBackgroundResource(remoteView, viewId)
         }
         remoteView.setTextViewText(viewId, spannableString)
         remoteView.setTextColor(viewId, getColour(context, colour))
+        highlightDrawable?.setAsBackgroundResource(remoteView, viewId)
     }
 
     private fun SpannableString.setExclusiveSpan(
