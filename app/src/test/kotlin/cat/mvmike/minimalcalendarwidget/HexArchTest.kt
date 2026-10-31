@@ -7,6 +7,16 @@ import com.tngtech.archunit.junit.ArchTest
 import com.tngtech.archunit.lang.ArchRule
 import com.tngtech.archunit.lang.syntax.ArchRuleDefinition
 
+private const val ROOT_PACKAGE = "cat.mvmike.minimalcalendarwidget"
+
+private const val DOMAIN = "$ROOT_PACKAGE.domain.."
+private const val APPLICATION = "$ROOT_PACKAGE.application.."
+private const val INFRASTRUCTURE_ACTIVITY = "$ROOT_PACKAGE.infrastructure.activity.."
+private const val INFRASTRUCTURE_FRAGMENT = "$ROOT_PACKAGE.infrastructure.fragment.."
+private const val INFRASTRUCTURE_PREFERENCE = "$ROOT_PACKAGE.infrastructure.preference.."
+private const val INFRASTRUCTURE_RECEIVER = "$ROOT_PACKAGE.infrastructure.receiver.."
+private const val INFRASTRUCTURE_RESOLVER = "$ROOT_PACKAGE.infrastructure.resolver.."
+
 // https://www.archunit.org/userguide/html/000_Index.html
 @AnalyzeClasses(
     packagesOf = [Widget::class]
@@ -17,31 +27,87 @@ internal class HexArchTest {
     val domainShouldNotDependOnApplication: ArchRule = ArchRuleDefinition
         .noClasses()
         .that()
-        .resideInAnyPackage("cat.mvmike.minimalcalendarwidget.domain..")
+        .resideInAPackage(DOMAIN)
         .should()
         .dependOnClassesThat()
-        .resideInAPackage("cat.mvmike.minimalcalendarwidget.application..")
+        .resideInAPackage(APPLICATION)
 
     @ArchTest
-    val domainShouldNotDependOnActivityOrReceiverInfrastructure: ArchRule = ArchRuleDefinition
+    val domainShouldNotDependOnUiInfrastructure: ArchRule = ArchRuleDefinition
         .noClasses()
         .that()
-        .resideInAnyPackage("cat.mvmike.minimalcalendarwidget.domain..")
+        .resideInAPackage(DOMAIN)
         .should()
         .dependOnClassesThat()
         .resideInAnyPackage(
-            "cat.mvmike.minimalcalendarwidget.infrastructure.activity..",
-            "cat.mvmike.minimalcalendarwidget.infrastructure.receiver.."
+            INFRASTRUCTURE_ACTIVITY,
+            INFRASTRUCTURE_FRAGMENT,
+            INFRASTRUCTURE_PREFERENCE,
+            INFRASTRUCTURE_RECEIVER
         )
 
     @ArchTest
-    val applicationShouldNotDependOnReceiverInfrastructure: ArchRule = ArchRuleDefinition
+    val domainShouldNotDependOnAndroidUiFrameworks: ArchRule = ArchRuleDefinition
         .noClasses()
         .that()
-        .resideInAnyPackage("cat.mvmike.minimalcalendarwidget.application..")
+        .resideInAPackage(DOMAIN)
         .should()
         .dependOnClassesThat()
         .resideInAnyPackage(
-            "cat.mvmike.minimalcalendarwidget.infrastructure.receiver.."
+            "androidx.appcompat..",
+            "androidx.fragment..",
+            "androidx.preference.."
+        )
+
+    @ArchTest
+    val applicationShouldOnlyDependOnActivityUiInfrastructure: ArchRule = ArchRuleDefinition
+        .noClasses()
+        .that()
+        .resideInAPackage(APPLICATION)
+        .should()
+        .dependOnClassesThat()
+        .resideInAnyPackage(
+            INFRASTRUCTURE_FRAGMENT,
+            INFRASTRUCTURE_PREFERENCE,
+            INFRASTRUCTURE_RECEIVER
+        )
+
+    @ArchTest
+    val resolverInfrastructureShouldNotDependOnApplication: ArchRule = ArchRuleDefinition
+        .noClasses()
+        .that()
+        .resideInAPackage(INFRASTRUCTURE_RESOLVER)
+        .should()
+        .dependOnClassesThat()
+        .resideInAPackage(APPLICATION)
+
+    @ArchTest
+    val resolverInfrastructureShouldNotDependOnUiInfrastructure: ArchRule = ArchRuleDefinition
+        .noClasses()
+        .that()
+        .resideInAPackage(INFRASTRUCTURE_RESOLVER)
+        .should()
+        .dependOnClassesThat()
+        .resideInAnyPackage(
+            INFRASTRUCTURE_ACTIVITY,
+            INFRASTRUCTURE_FRAGMENT,
+            INFRASTRUCTURE_PREFERENCE,
+            INFRASTRUCTURE_RECEIVER
+        )
+
+    @ArchTest
+    val preferenceInfrastructureShouldOnlyDependOnFrameworks: ArchRule = ArchRuleDefinition
+        .classes()
+        .that()
+        .resideInAPackage(INFRASTRUCTURE_PREFERENCE)
+        .should()
+        .onlyDependOnClassesThat()
+        .resideInAnyPackage(
+            INFRASTRUCTURE_PREFERENCE,
+            "android..",
+            "androidx..",
+            "java..",
+            "kotlin..",
+            "org.jetbrains.annotations.."
         )
 }

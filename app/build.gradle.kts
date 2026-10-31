@@ -178,11 +178,8 @@ kover {
                     "cat.mvmike.minimalcalendarwidget.Widget",
                     "cat.mvmike.minimalcalendarwidget.MonthWidget",
                     "cat.mvmike.minimalcalendarwidget.WeekWidget",
-                    // androidx.preference class extensions to allow multiline title and summary
-                    "cat.mvmike.minimalcalendarwidget.domain.configuration.MultilinePreference",
-                    "cat.mvmike.minimalcalendarwidget.domain.configuration.MultilineListPreference",
-                    "cat.mvmike.minimalcalendarwidget.domain.configuration.MultilineCheckBoxPreference",
-                    "cat.mvmike.minimalcalendarwidget.domain.configuration.MultilineSeekBarPreference",
+                    // androidx.preference class extensions
+                    "cat.mvmike.minimalcalendarwidget.infrastructure.preference.*",
                     // (AppCompat)Activity implementations
                     "cat.mvmike.minimalcalendarwidget.infrastructure.activity.ConfigurationActivity",
                     "cat.mvmike.minimalcalendarwidget.infrastructure.activity.PermissionsActivity",

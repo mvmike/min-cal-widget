@@ -6,37 +6,37 @@
         android:title="@string/behaviour"
         app:iconSpaceReserved="false">
 
-        <cat.mvmike.minimalcalendarwidget.domain.configuration.MultilineListPreference
+        <cat.mvmike.minimalcalendarwidget.infrastructure.preference.MultilineListPreference
             android:icon="@drawable/ic_today"
             android:key="FIRST_DAY_OF_WEEK"
             android:title="@string/start_week_day" />
 
-        <cat.mvmike.minimalcalendarwidget.domain.configuration.MultilineListPreference
+        <cat.mvmike.minimalcalendarwidget.infrastructure.preference.MultilineListPreference
             android:icon="@drawable/ic_calendar"
             android:key="WIDGET_CALENDAR"
             android:title="@string/calendar" />
 
-        <cat.mvmike.minimalcalendarwidget.domain.configuration.MultilineCheckBoxPreference
+        <cat.mvmike.minimalcalendarwidget.infrastructure.preference.MultilineCheckBoxPreference
             android:icon="@drawable/ic_deleted_events"
             android:key="SHOW_DECLINED_EVENTS"
             android:title="@string/show_declined_events" />
 
-        <cat.mvmike.minimalcalendarwidget.domain.configuration.MultilineCheckBoxPreference
+        <cat.mvmike.minimalcalendarwidget.infrastructure.preference.MultilineCheckBoxPreference
             android:icon="@drawable/ic_view_day"
             android:key="FOCUS_ON_CURRENT_WEEK"
             android:title="@string/focus_on_current_week" />
 
-        <cat.mvmike.minimalcalendarwidget.domain.configuration.MultilineCheckBoxPreference
+        <cat.mvmike.minimalcalendarwidget.infrastructure.preference.MultilineCheckBoxPreference
             android:icon="@drawable/ic_clicked_cell"
             android:key="OPEN_CALENDAR_ON_CLICKED_DAY"
             android:title="@string/open_calendar_into_clicked_day" />
 
-        <cat.mvmike.minimalcalendarwidget.domain.configuration.MultilineCheckBoxPreference
+        <cat.mvmike.minimalcalendarwidget.infrastructure.preference.MultilineCheckBoxPreference
             android:icon="@drawable/ic_week_number"
             android:key="SHOW_WEEK_NUMBER"
             android:title="@string/show_week_number" />
 
-        <cat.mvmike.minimalcalendarwidget.domain.configuration.MultilinePreference
+        <cat.mvmike.minimalcalendarwidget.infrastructure.preference.MultilinePreference
             android:icon="@drawable/ic_checklist"
             android:key="SELECT_VISIBLE_CALENDARS"
             android:title="@string/visible_calendar_selection"
@@ -48,34 +48,34 @@
         android:title="@string/appearance"
         app:iconSpaceReserved="false">
 
-        <cat.mvmike.minimalcalendarwidget.domain.configuration.MultilinePreference
+        <cat.mvmike.minimalcalendarwidget.infrastructure.preference.MultilinePreference
             android:icon="@drawable/ic_language"
             android:key="LANGUAGE"
             android:title="@string/language" />
 
-        <cat.mvmike.minimalcalendarwidget.domain.configuration.MultilineListPreference
+        <cat.mvmike.minimalcalendarwidget.infrastructure.preference.MultilineListPreference
             android:icon="@drawable/ic_invert_colors"
             android:key="WIDGET_THEME"
             android:title="@string/theme" />
 
-        <cat.mvmike.minimalcalendarwidget.domain.configuration.MultilineListPreference
+        <cat.mvmike.minimalcalendarwidget.infrastructure.preference.MultilineListPreference
             android:icon="@drawable/ic_glyphs"
             android:key="INSTANCES_SYMBOL_SET"
             android:title="@string/symbol_set" />
 
-        <cat.mvmike.minimalcalendarwidget.domain.configuration.MultilineListPreference
+        <cat.mvmike.minimalcalendarwidget.infrastructure.preference.MultilineListPreference
             android:icon="@drawable/ic_palette"
             android:key="INSTANCES_COLOUR"
             android:title="@string/symbol_colour" />
 
-        <cat.mvmike.minimalcalendarwidget.domain.configuration.MultilineSeekBarPreference
+        <cat.mvmike.minimalcalendarwidget.infrastructure.preference.MultilineSeekBarPreference
             android:icon="@drawable/ic_gradient"
             android:key="WIDGET_TRANSPARENCY"
             android:max="100"
             android:title="@string/transparency"
             app:showSeekBarValue="true" />
 
-        <cat.mvmike.minimalcalendarwidget.domain.configuration.MultilineSeekBarPreference
+        <cat.mvmike.minimalcalendarwidget.infrastructure.preference.MultilineSeekBarPreference
             android:icon="@drawable/ic_text_size"
             android:key="WIDGET_TEXT_SIZE"
             android:max="100"
@@ -88,17 +88,17 @@
         android:title="@string/about"
         app:iconSpaceReserved="false">
 
-        <cat.mvmike.minimalcalendarwidget.domain.configuration.MultilinePreference
+        <cat.mvmike.minimalcalendarwidget.infrastructure.preference.MultilinePreference
             android:icon="@drawable/ic_github"
             android:key="SOURCE"
             android:title="@string/source" />
 
-        <cat.mvmike.minimalcalendarwidget.domain.configuration.MultilinePreference
+        <cat.mvmike.minimalcalendarwidget.infrastructure.preference.MultilinePreference
             android:icon="@drawable/ic_translate"
             android:key="TRANSLATE"
             android:title="@string/translate" />
 
-        <cat.mvmike.minimalcalendarwidget.domain.configuration.MultilinePreference
+        <cat.mvmike.minimalcalendarwidget.infrastructure.preference.MultilinePreference
             android:icon="@drawable/ic_info"
             android:key="VERSION"
             android:title="@string/version" />
