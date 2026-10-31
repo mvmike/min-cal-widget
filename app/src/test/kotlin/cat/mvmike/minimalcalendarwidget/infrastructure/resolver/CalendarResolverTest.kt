@@ -6,6 +6,8 @@ import android.database.Cursor
 import android.provider.CalendarContract
 import android.provider.CalendarContract.Attendees.ATTENDEE_STATUS_ACCEPTED
 import android.provider.CalendarContract.Attendees.ATTENDEE_STATUS_DECLINED
+import android.provider.CalendarContract.Attendees.ATTENDEE_STATUS_NONE
+import android.provider.CalendarContract.Attendees.ATTENDEE_STATUS_TENTATIVE
 import android.provider.CalendarContract.Calendars.CONTENT_URI
 import cat.mvmike.minimalcalendarwidget.BaseTest
 import cat.mvmike.minimalcalendarwidget.domain.Calendar
@@ -29,10 +31,10 @@ internal class CalendarResolverTest : BaseTest() {
     private val cursor = mockk<Cursor>()
 
     private val instanceCursors = listOf(
-        InstanceCursor(1, 10, 1657097518736, 1659775918428, null, 1, 0),
-        InstanceCursor(2, 20, 1657065600000, 1657152000000, "UTC", 0, 1),
+        InstanceCursor(1, 10, 1657097518736, 1659775918428, null, ATTENDEE_STATUS_ACCEPTED, 0),
+        InstanceCursor(2, 20, 1657065600000, 1657152000000, "UTC", ATTENDEE_STATUS_NONE, 1),
         InstanceCursor(3, 30, 1657097518738, 1659775918430, "CET", ATTENDEE_STATUS_DECLINED, 0),
-        InstanceCursor(4, 40, 1657097518738, 1659775918430, "America/Los_Angeles", 17, 0),
+        InstanceCursor(4, 40, 1657097518738, 1659775918430, "America/Los_Angeles", ATTENDEE_STATUS_TENTATIVE, 0),
         InstanceCursor(5, 50, 1657097518736, 1659775918428, "Mars/Olympus_Mons", ATTENDEE_STATUS_ACCEPTED, 0)
     )
 
