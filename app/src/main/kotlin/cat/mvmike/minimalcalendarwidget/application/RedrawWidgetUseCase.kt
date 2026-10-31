@@ -23,9 +23,11 @@ import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.SystemResolver.g
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 
 private val emptyCoroutineExceptionHandler = CoroutineExceptionHandler { _, _ -> }
+private val redrawScope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
 
 object RedrawWidgetUseCase {
 
@@ -131,7 +133,7 @@ object RedrawWidgetUseCase {
             textSize = textSize
         )
 
-        CoroutineScope(Dispatchers.Default).launch(emptyCoroutineExceptionHandler) {
+        redrawScope.launch(emptyCoroutineExceptionHandler) {
             appWidgetManager.updateAppWidget(appWidgetId, widgetRemoteView)
         }
     }
