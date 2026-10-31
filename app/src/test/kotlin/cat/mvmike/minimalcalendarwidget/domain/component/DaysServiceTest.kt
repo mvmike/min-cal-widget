@@ -373,7 +373,7 @@ internal class DaysServiceTest : BaseTest() {
     ) {
         val day = Day(localDate)
         val systemInstances = getSystemInstances()
-        val visibleCalendarIds = getSystemCalendars().filter { it.isVisible }.map { it.id }
+        val visibleCalendarIds = getSystemCalendars().filter { it.isVisible }.map { it.id }.toSet()
 
         val numberOfInstancesWithDeclinedEvents = systemInstances
             .getNumberOfInstances(day, systemZoneId, true, visibleCalendarIds)

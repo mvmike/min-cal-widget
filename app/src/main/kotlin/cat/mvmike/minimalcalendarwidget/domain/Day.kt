@@ -15,11 +15,10 @@ data class Day(
     fun getDayOfMonthString() = "${dayLocalDate.dayOfMonth}"
 
     fun isInMonth(systemLocalDate: LocalDate) =
-        dayLocalDate.year == systemLocalDate.year &&
-            dayLocalDate.month == systemLocalDate.month
+        dayLocalDate.year == systemLocalDate.year
+            && dayLocalDate.month == systemLocalDate.month
 
-    fun isToday(systemLocalDate: LocalDate) =
-        isInMonth(systemLocalDate) && dayLocalDate.dayOfYear == systemLocalDate.dayOfYear
+    fun isToday(systemLocalDate: LocalDate) = dayLocalDate == systemLocalDate
 
     fun isWeekend() = when (getDayOfWeek()) {
         DayOfWeek.SATURDAY,

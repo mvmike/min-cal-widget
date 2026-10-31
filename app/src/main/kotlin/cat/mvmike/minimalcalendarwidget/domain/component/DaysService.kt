@@ -77,6 +77,7 @@ object DaysService {
                     else -> CalendarVisibilitySelection(it.id).get(context, appWidgetId)
                 }
             }.map { it.id }
+            .toSet()
 
         for (week in 0 until variant.numWeeks) {
             val weekRowRemoteView: RemoteViews = GraphicResolver.createDaysRow(context)
@@ -203,10 +204,12 @@ object DaysService {
         day: Day,
         systemZoneId: ZoneId,
         includeDeclinedEvents: Boolean,
-        visibleCalendarIds: Collection<Int>
-    ) = filter { it.isInDay(day.dayLocalDate, systemZoneId) }
-        .filter { it.calendarId in visibleCalendarIds }
-        .count { includeDeclinedEvents || !it.isDeclined }
+        visibleCalendarIds: Set<Int>
+    ) = count {
+        it.calendarId in visibleCalendarIds
+            && (includeDeclinedEvents || !it.isDeclined)
+            && it.isInDay(day.dayLocalDate, systemZoneId)
+    }
 
     private fun LocalDate.toCurrentWeekAndWeekDay(
         week: Int,
