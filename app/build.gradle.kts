@@ -58,8 +58,6 @@ android {
         targetSdk = androidVersion
         versionCode = 94
         versionName = "2.20.0"
-
-        multiDexEnabled = true
     }
 
     compileOptions {
