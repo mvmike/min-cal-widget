@@ -7,7 +7,10 @@ import cat.mvmike.minimalcalendarwidget.R
 import cat.mvmike.minimalcalendarwidget.domain.CellStyle
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme.DARK
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme.LIGHT
+import io.mockk.every
+import io.mockk.verify
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments.of
 import org.junit.jupiter.params.provider.MethodSource
@@ -77,6 +80,37 @@ internal class ThemeTest : BaseTest() {
 
         assertThat(result).isEqualTo(expectedResult)
     }
+
+    @ParameterizedTest
+    @MethodSource("getThemeWithExpectedStringResource")
+    fun getDisplayValue_shouldReturnCapitalisedTranslation(
+        widgetTheme: Theme,
+        stringResourceId: Int
+    ) {
+        every { context.getString(stringResourceId) } returns "some theme"
+
+        val result = widgetTheme.getDisplayValue(context)
+
+        assertThat(result).isEqualTo("Some theme")
+        verify { context.getString(stringResourceId) }
+    }
+
+    @Test
+    fun getThemeDisplayValues_shouldReturnCapitalisedTranslationOfEveryTheme() {
+        every { context.getString(R.string.dark) } returns "dark"
+        every { context.getString(R.string.light) } returns "light"
+
+        val result = getThemeDisplayValues(context)
+
+        assertThat(result).containsExactly("Dark", "Light")
+        verify { context.getString(R.string.dark) }
+        verify { context.getString(R.string.light) }
+    }
+
+    private fun getThemeWithExpectedStringResource() = listOf(
+        of(DARK, R.string.dark),
+        of(LIGHT, R.string.light)
+    )
 
     private fun getThemeAndDayOfWeekWithExpectedCellHeader() = listOf(
         of(DARK, MONDAY, R.color.text_colour_dark, null),

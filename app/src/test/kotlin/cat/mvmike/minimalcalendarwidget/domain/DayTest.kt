@@ -3,10 +3,23 @@
 package cat.mvmike.minimalcalendarwidget.domain
 
 import cat.mvmike.minimalcalendarwidget.BaseTest
+import cat.mvmike.minimalcalendarwidget.R
+import io.mockk.every
+import io.mockk.verify
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.Arguments.of
 import org.junit.jupiter.params.provider.CsvSource
+import org.junit.jupiter.params.provider.MethodSource
 import java.time.DayOfWeek
+import java.time.DayOfWeek.FRIDAY
+import java.time.DayOfWeek.MONDAY
+import java.time.DayOfWeek.SATURDAY
+import java.time.DayOfWeek.SUNDAY
+import java.time.DayOfWeek.THURSDAY
+import java.time.DayOfWeek.TUESDAY
+import java.time.DayOfWeek.WEDNESDAY
 import java.time.LocalDate
 
 internal class DayTest : BaseTest() {
@@ -119,4 +132,56 @@ internal class DayTest : BaseTest() {
 
         assertThat(result).isEqualTo(expectedIsWeekend)
     }
+
+    @ParameterizedTest
+    @MethodSource("getDaysOfWeekWithExpectedStringResources")
+    fun getDisplayValues_shouldReturnCapitalisedTranslationAndUpperCasedAbbreviation(
+        dayOfWeek: DayOfWeek,
+        stringResourceId: Int,
+        abbreviatedStringResourceId: Int
+    ) {
+        every { context.getString(stringResourceId) } returns "some day"
+        every { context.getString(abbreviatedStringResourceId) } returns "sdy"
+
+        val displayValue = dayOfWeek.getDisplayValue(context)
+        val abbreviatedDisplayValue = dayOfWeek.getAbbreviatedDisplayValue(context)
+
+        assertThat(displayValue).isEqualTo("Some day")
+        assertThat(abbreviatedDisplayValue).isEqualTo("SDY")
+        verify { context.getString(stringResourceId) }
+        verify { context.getString(abbreviatedStringResourceId) }
+    }
+
+    @Test
+    fun getDayOfWeekDisplayValues_shouldReturnCapitalisedTranslationOfEveryDayOfWeekStartingOnMonday() {
+        val translations = mapOf(
+            R.string.monday to "monday",
+            R.string.tuesday to "tuesday",
+            R.string.wednesday to "wednesday",
+            R.string.thursday to "thursday",
+            R.string.friday to "friday",
+            R.string.saturday to "saturday",
+            R.string.sunday to "sunday"
+        )
+        translations.forEach { (stringResourceId, translation) ->
+            every { context.getString(stringResourceId) } returns translation
+        }
+
+        val result = getDayOfWeekDisplayValues(context)
+
+        assertThat(result).containsExactly("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
+        translations.keys.forEach { stringResourceId ->
+            verify { context.getString(stringResourceId) }
+        }
+    }
+
+    private fun getDaysOfWeekWithExpectedStringResources() = listOf(
+        of(MONDAY, R.string.monday, R.string.monday_abb),
+        of(TUESDAY, R.string.tuesday, R.string.tuesday_abb),
+        of(WEDNESDAY, R.string.wednesday, R.string.wednesday_abb),
+        of(THURSDAY, R.string.thursday, R.string.thursday_abb),
+        of(FRIDAY, R.string.friday, R.string.friday_abb),
+        of(SATURDAY, R.string.saturday, R.string.saturday_abb),
+        of(SUNDAY, R.string.sunday, R.string.sunday_abb)
+    )
 }

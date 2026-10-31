@@ -4,6 +4,7 @@ package cat.mvmike.minimalcalendarwidget.infrastructure.resolver
 
 import android.database.Cursor
 import android.provider.CalendarContract
+import android.provider.CalendarContract.Attendees.ATTENDEE_STATUS_ACCEPTED
 import android.provider.CalendarContract.Attendees.ATTENDEE_STATUS_DECLINED
 import android.provider.CalendarContract.Calendars.CONTENT_URI
 import cat.mvmike.minimalcalendarwidget.BaseTest
@@ -31,7 +32,8 @@ internal class CalendarResolverTest : BaseTest() {
         InstanceCursor(1, 10, 1657097518736, 1659775918428, null, 1, 0),
         InstanceCursor(2, 20, 1657065600000, 1657152000000, "UTC", 0, 1),
         InstanceCursor(3, 30, 1657097518738, 1659775918430, "CET", ATTENDEE_STATUS_DECLINED, 0),
-        InstanceCursor(4, 40, 1657097518738, 1659775918430, "America/Los_Angeles", 17, 0)
+        InstanceCursor(4, 40, 1657097518738, 1659775918430, "America/Los_Angeles", 17, 0),
+        InstanceCursor(5, 50, 1657097518736, 1659775918428, "Mars/Olympus_Mons", ATTENDEE_STATUS_ACCEPTED, 0)
     )
 
     private val calendarCursors = listOf(
@@ -224,6 +226,13 @@ internal class CalendarResolverTest : BaseTest() {
                 isDeclined = false,
                 start = ZonedDateTime.parse("2022-07-06T01:51:58.738-07:00[America/Los_Angeles]"),
                 end = ZonedDateTime.parse("2022-08-06T01:51:58.429-07:00[America/Los_Angeles]")
+            ),
+            TimedInstance(
+                id = 5,
+                calendarId = 50,
+                isDeclined = false,
+                start = ZonedDateTime.parse("2022-07-06T11:51:58.736+03:00[Europe/Moscow]"),
+                end = ZonedDateTime.parse("2022-08-06T11:51:58.427+03:00[Europe/Moscow]")
             )
         )
         verify { context.contentResolver }

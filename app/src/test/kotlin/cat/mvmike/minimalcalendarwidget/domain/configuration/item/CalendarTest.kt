@@ -3,9 +3,15 @@
 package cat.mvmike.minimalcalendarwidget.domain.configuration.item
 
 import cat.mvmike.minimalcalendarwidget.BaseTest
+import cat.mvmike.minimalcalendarwidget.R
+import io.mockk.every
+import io.mockk.verify
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.Arguments.of
 import org.junit.jupiter.params.provider.CsvSource
+import org.junit.jupiter.params.provider.MethodSource
 import java.time.LocalDate
 
 internal class CalendarTest : BaseTest() {
@@ -44,4 +50,35 @@ internal class CalendarTest : BaseTest() {
     ) {
         assertThat(calendar.getYear(localDate)).isEqualTo(expectedYear)
     }
+
+    @ParameterizedTest
+    @MethodSource("getCalendarsWithExpectedStringResource")
+    fun getDisplayValue_shouldReturnCapitalisedTranslation(
+        calendar: Calendar,
+        stringResourceId: Int
+    ) {
+        every { context.getString(stringResourceId) } returns "some calendar"
+
+        val result = calendar.getDisplayValue(context)
+
+        assertThat(result).isEqualTo("Some calendar")
+        verify { context.getString(stringResourceId) }
+    }
+
+    @Test
+    fun getCalendarDisplayValues_shouldReturnCapitalisedTranslationOfEveryCalendar() {
+        every { context.getString(R.string.gregorian) } returns "gregorian"
+        every { context.getString(R.string.holocene) } returns "holocene"
+
+        val result = getCalendarDisplayValues(context)
+
+        assertThat(result).containsExactly("Gregorian", "Holocene")
+        verify { context.getString(R.string.gregorian) }
+        verify { context.getString(R.string.holocene) }
+    }
+
+    private fun getCalendarsWithExpectedStringResource() = listOf(
+        of(Calendar.GREGORIAN, R.string.gregorian),
+        of(Calendar.HOLOCENE, R.string.holocene)
+    )
 }

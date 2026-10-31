@@ -17,6 +17,7 @@ import cat.mvmike.minimalcalendarwidget.domain.configuration.item.TextSize
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Transparency
 import cat.mvmike.minimalcalendarwidget.domain.intent.ActionableView
+import io.mockk.Called
 import io.mockk.EqMatcher
 import io.mockk.confirmVerified
 import io.mockk.every
@@ -228,5 +229,55 @@ internal class RedrawWidgetUseCaseTest : BaseTest() {
             DaysHeaderService,
             DaysService
         )
+    }
+
+    @ParameterizedTest
+    @EnumSource(value = Variant::class)
+    fun execute_shouldNotUpdateAppWidgetWhenDrawingFails(variant: Variant) {
+        mockkObject(
+            MigrateConfigurationUseCase,
+            ActionableView.ConfigurationIcon,
+            ActionableView.MonthAndYearHeader,
+            LayoutService
+        )
+
+        val packageName = "mincalWidget"
+        val layoutId = when (variant) {
+            Variant.MONTH -> R.layout.widget_month
+            Variant.WEEK -> R.layout.widget_week
+        }
+        every { context.packageName } returns packageName
+        mockkConstructor(RemoteViews::class)
+        justRun { constructedWith<RemoteViews>(EqMatcher(packageName), EqMatcher(layoutId)).removeAllViews(any()) }
+
+        justRun { MigrateConfigurationUseCase.execute(context, appWidgetManager) }
+        justRun { ActionableView.ConfigurationIcon.addListener(context, any(), appWidgetId, variant) }
+        justRun { ActionableView.MonthAndYearHeader.addListener(context, any(), appWidgetId, variant) }
+
+        val textSize = TextSize(40)
+        val widgetTheme = Theme.DARK
+        val transparency = Transparency(20)
+        mockWidgetTextSize(textSize)
+        mockWidgetTheme(widgetTheme)
+        mockWidgetTransparency(transparency)
+        mockGetRuntimeSDK(33)
+        mockFirstDayOfWeek(DayOfWeek.MONDAY)
+
+        every { LayoutService.draw(context, any(), widgetTheme, transparency) } throws RuntimeException("some exception whilst drawing")
+
+        RedrawWidgetUseCase.execute(context, appWidgetManager, appWidgetId, variant)
+
+        verify { MigrateConfigurationUseCase.execute(context, appWidgetManager) }
+        verify { context.packageName }
+        verify { ActionableView.ConfigurationIcon.addListener(context, any(), appWidgetId, variant) }
+        verify { ActionableView.MonthAndYearHeader.addListener(context, any(), appWidgetId, variant) }
+        verifyWidgetTextSize()
+        verifyWidgetTheme()
+        verifyWidgetTransparency()
+        verifyGetRuntimeSDK()
+        verifyFirstDayOfWeek()
+        verify { LayoutService.draw(context, any(), widgetTheme, transparency) }
+        verify { appWidgetManager wasNot Called }
+        confirmVerified(MigrateConfigurationUseCase, LayoutService)
     }
 }

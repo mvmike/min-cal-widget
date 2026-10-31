@@ -5,12 +5,14 @@ package cat.mvmike.minimalcalendarwidget.domain.configuration
 import android.content.Context
 import android.content.SharedPreferences
 import cat.mvmike.minimalcalendarwidget.BaseTest
+import cat.mvmike.minimalcalendarwidget.R
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Calendar
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Colour
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.SymbolSet
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.TextSize
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Transparency
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.getSymbolSetDisplayValues
 import io.mockk.Called
 import io.mockk.confirmVerified
 import io.mockk.every
@@ -19,9 +21,12 @@ import io.mockk.verify
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.Arguments.of
 import org.junit.jupiter.params.provider.CsvSource
 import org.junit.jupiter.params.provider.EnumSource
+import org.junit.jupiter.params.provider.MethodSource
 import org.junit.jupiter.params.provider.ValueSource
 import java.time.DayOfWeek
 
@@ -115,6 +120,7 @@ internal class ConfigurationTest : BaseTest() {
     }
 
     @Nested
+    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
     inner class EnumConfigurationItems {
 
         @ParameterizedTest
@@ -176,6 +182,214 @@ internal class ConfigurationTest : BaseTest() {
             verifyInstancesColour()
             verify { editor wasNot Called }
         }
+
+        @ParameterizedTest
+        @MethodSource("getEnumConfigurationItemsWithExpectedKeys")
+        fun getKeys_shouldReturnEveryEnumConstantName(
+            enumConfigurationItem: EnumConfigurationItem<*>,
+            expectedKeys: List<String>
+        ) {
+            val result = enumConfigurationItem.getKeys()
+
+            assertThat(result).containsExactlyElementsOf(expectedKeys)
+        }
+
+        @ParameterizedTest
+        @CsvSource(
+            "30,false",
+            "31,true"
+        )
+        fun getKeys_shouldReturnOnlyAvailableColourNames_whenInstancesColour(
+            sdkVersion: Int,
+            isSystemAccentAvailable: Boolean
+        ) {
+            mockGetRuntimeSDK(sdkVersion)
+
+            val result = EnumConfigurationItem.InstancesColour.getKeys()
+
+            assertThat(result).containsExactlyElementsOf(getExpectedColourKeys(isSystemAccentAvailable))
+            verifyGetRuntimeSDK()
+        }
+
+        @ParameterizedTest
+        @MethodSource("getEnumConfigurationItemsWithValue")
+        fun getCurrentKey_shouldReturnSharedPreferencesValueName(
+            enumConfigurationItem: EnumConfigurationItem<*>,
+            value: Enum<*>
+        ) {
+            mockSharedPreferences()
+            every { sharedPreferences.getString(enumConfigurationItem.key, enumConfigurationItem.defaultValue.name) } returns value.name
+
+            val result = enumConfigurationItem.getCurrentKey(context, appWidgetId)
+
+            assertThat(result).isEqualTo(value.name)
+            verifySharedPreferencesAccess()
+            verify { sharedPreferences.getString(enumConfigurationItem.key, enumConfigurationItem.defaultValue.name) }
+            verify { editor wasNot Called }
+        }
+
+        @ParameterizedTest
+        @MethodSource("getEnumConfigurationItemsWithValueAndTranslation")
+        fun getCurrentDisplayValue_shouldReturnCapitalisedTranslationOfSharedPreferencesValue(
+            enumConfigurationItem: EnumConfigurationItem<*>,
+            value: Enum<*>,
+            stringResourceId: Int,
+            translation: String,
+            expectedDisplayValue: String
+        ) {
+            mockSharedPreferences()
+            every { sharedPreferences.getString(enumConfigurationItem.key, enumConfigurationItem.defaultValue.name) } returns value.name
+            every { context.getString(stringResourceId) } returns translation
+
+            val result = enumConfigurationItem.getCurrentDisplayValue(context, appWidgetId)
+
+            assertThat(result).isEqualTo(expectedDisplayValue)
+            verifySharedPreferencesAccess()
+            verify { sharedPreferences.getString(enumConfigurationItem.key, enumConfigurationItem.defaultValue.name) }
+            verify { context.getString(stringResourceId) }
+            verify { editor wasNot Called }
+        }
+
+        @Test
+        fun getCurrentDisplayValue_shouldReturnSymbolsOfSharedPreferencesValue_whenInstancesSymbolSet() {
+            mockInstancesSymbolSet(SymbolSet.ROMAN)
+
+            val result = EnumConfigurationItem.InstancesSymbolSet.getCurrentDisplayValue(context, appWidgetId)
+
+            assertThat(result).isEqualTo(SymbolSet.ROMAN.getDisplayValue())
+            verifyInstancesSymbolSet()
+            verify { editor wasNot Called }
+        }
+
+        @ParameterizedTest
+        @MethodSource("getEnumConfigurationItemsWithTranslationsAndExpectedDisplayValues")
+        fun getDisplayValues_shouldReturnCapitalisedTranslationOfEveryEnumConstant(
+            enumConfigurationItem: EnumConfigurationItem<*>,
+            translations: Map<Int, String>,
+            expectedDisplayValues: List<String>
+        ) {
+            translations.forEach { (stringResourceId, translation) ->
+                every { context.getString(stringResourceId) } returns translation
+            }
+
+            val result = enumConfigurationItem.getDisplayValues(context)
+
+            assertThat(result).containsExactlyElementsOf(expectedDisplayValues)
+            translations.keys.forEach { stringResourceId ->
+                verify { context.getString(stringResourceId) }
+            }
+        }
+
+        @Test
+        fun getDisplayValues_shouldReturnSymbolsOfEverySymbolSet_whenInstancesSymbolSet() {
+            val result = EnumConfigurationItem.InstancesSymbolSet.getDisplayValues(context)
+
+            assertThat(result).isEqualTo(getSymbolSetDisplayValues())
+        }
+
+        @ParameterizedTest
+        @CsvSource(
+            "30,false",
+            "31,true"
+        )
+        fun getDisplayValues_shouldReturnOnlyAvailableColours_whenInstancesColour(
+            sdkVersion: Int,
+            isSystemAccentAvailable: Boolean
+        ) {
+            mockGetRuntimeSDK(sdkVersion)
+            colourTranslations.forEach { (stringResourceId, translation) ->
+                every { context.getString(stringResourceId) } returns translation
+            }
+
+            val result = EnumConfigurationItem.InstancesColour.getDisplayValues(context)
+
+            assertThat(result).containsExactlyElementsOf(
+                listOfNotNull(
+                    "System accent".takeIf { isSystemAccentAvailable },
+                    "Cyan",
+                    "Mint",
+                    "Blue",
+                    "Green",
+                    "Yellow",
+                    "Black",
+                    "White"
+                )
+            )
+            verifyGetRuntimeSDK()
+            colourTranslations.keys
+                .filter { isSystemAccentAvailable || it != R.string.system_accent }
+                .forEach { stringResourceId -> verify { context.getString(stringResourceId) } }
+        }
+
+        private val colourTranslations = mapOf(
+            R.string.system_accent to "system accent",
+            R.string.cyan to "cyan",
+            R.string.mint to "mint",
+            R.string.blue to "blue",
+            R.string.green to "green",
+            R.string.yellow to "yellow",
+            R.string.black to "black",
+            R.string.white to "white"
+        )
+
+        private fun getExpectedColourKeys(isSystemAccentAvailable: Boolean) = listOfNotNull(
+            "SYSTEM_ACCENT".takeIf { isSystemAccentAvailable },
+            "CYAN",
+            "MINT",
+            "BLUE",
+            "GREEN",
+            "YELLOW",
+            "BLACK",
+            "WHITE"
+        )
+
+        private fun getEnumConfigurationItemsWithExpectedKeys() = listOf(
+            of(EnumConfigurationItem.WidgetTheme, listOf("DARK", "LIGHT")),
+            of(EnumConfigurationItem.WidgetCalendar, listOf("GREGORIAN", "HOLOCENE")),
+            of(EnumConfigurationItem.FirstDayOfWeek, listOf("MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY")),
+            of(EnumConfigurationItem.InstancesSymbolSet, listOf("MINIMAL", "VERTICAL", "CIRCLES", "BLOCKS", "NUMBERS", "ROMAN", "BINARY", "NONE"))
+        )
+
+        private fun getEnumConfigurationItemsWithValue() = listOf(
+            of(EnumConfigurationItem.WidgetTheme, Theme.LIGHT),
+            of(EnumConfigurationItem.WidgetCalendar, Calendar.HOLOCENE),
+            of(EnumConfigurationItem.FirstDayOfWeek, DayOfWeek.SUNDAY),
+            of(EnumConfigurationItem.InstancesSymbolSet, SymbolSet.ROMAN),
+            of(EnumConfigurationItem.InstancesColour, Colour.MINT)
+        )
+
+        private fun getEnumConfigurationItemsWithValueAndTranslation() = listOf(
+            of(EnumConfigurationItem.WidgetTheme, Theme.LIGHT, R.string.light, "light", "Light"),
+            of(EnumConfigurationItem.WidgetCalendar, Calendar.HOLOCENE, R.string.holocene, "holocene", "Holocene"),
+            of(EnumConfigurationItem.FirstDayOfWeek, DayOfWeek.SUNDAY, R.string.sunday, "sunday", "Sunday"),
+            of(EnumConfigurationItem.InstancesColour, Colour.MINT, R.string.mint, "mint", "Mint")
+        )
+
+        private fun getEnumConfigurationItemsWithTranslationsAndExpectedDisplayValues() = listOf(
+            of(
+                EnumConfigurationItem.WidgetTheme,
+                mapOf(R.string.dark to "dark", R.string.light to "light"),
+                listOf("Dark", "Light")
+            ),
+            of(
+                EnumConfigurationItem.WidgetCalendar,
+                mapOf(R.string.gregorian to "gregorian", R.string.holocene to "holocene"),
+                listOf("Gregorian", "Holocene")
+            ),
+            of(
+                EnumConfigurationItem.FirstDayOfWeek,
+                mapOf(
+                    R.string.monday to "monday",
+                    R.string.tuesday to "tuesday",
+                    R.string.wednesday to "wednesday",
+                    R.string.thursday to "thursday",
+                    R.string.friday to "friday",
+                    R.string.saturday to "saturday",
+                    R.string.sunday to "sunday"
+                ),
+                listOf("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
+            )
+        )
     }
 
     @Nested

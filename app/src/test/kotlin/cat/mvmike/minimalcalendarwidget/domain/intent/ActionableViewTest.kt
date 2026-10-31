@@ -21,6 +21,7 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments.of
 import org.junit.jupiter.params.provider.EnumSource
 import org.junit.jupiter.params.provider.MethodSource
+import org.junit.jupiter.params.provider.NullSource
 import org.junit.jupiter.params.provider.ValueSource
 
 internal class ActionableViewTest : BaseTest() {
@@ -120,9 +121,10 @@ internal class ActionableViewTest : BaseTest() {
         verifyGetSystemZoneId()
     }
 
-    @Test
-    fun getExtraInstant_shouldReturnCurrentInstantWhenActionIsMissing() {
-        mockIntent(null)
+    @ParameterizedTest
+    @MethodSource("getCellDayActionsWithoutEpochSecond")
+    fun getExtraInstant_shouldReturnCurrentInstantWhenActionHasNoEpochSecond(action: String?) {
+        mockIntent(action)
         mockGetSystemInstant()
         mockGetSystemZoneId()
 
@@ -180,6 +182,14 @@ internal class ActionableViewTest : BaseTest() {
 
         verifyIntentAppWidgetId()
     }
+
+    private fun getCellDayActionsWithoutEpochSecond() = listOf(
+        null,
+        ActionableView.CellDay.action,
+        "${ActionableView.CellDay.action}.",
+        "${ActionableView.CellDay.action}.not_a_number",
+        "${ActionableView.CellDay.action}.1.5"
+    )
 
     private fun getActionableViewWithVariants() = Variant.entries.flatMap { variant ->
         listOf(

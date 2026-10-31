@@ -4,6 +4,7 @@ package cat.mvmike.minimalcalendarwidget.domain.configuration.item
 
 import cat.mvmike.minimalcalendarwidget.BaseTest
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 import org.junit.jupiter.params.provider.EnumSource
@@ -50,5 +51,55 @@ internal class SymbolSetTest : BaseTest() {
         expectedCharacter: Char
     ) {
         assertThat(symbolSet.get(numberOfInstances)).isEqualTo(expectedCharacter)
+    }
+
+    @ParameterizedTest
+    @CsvSource(
+        "MINIMAL,1.0",
+        "VERTICAL,1.0",
+        "CIRCLES,1.0",
+        "BLOCKS,1.0",
+        "NUMBERS,0.6",
+        "ROMAN,0.6",
+        "BINARY,0.8",
+        "NONE,1.0"
+    )
+    fun relativeSize_shouldBeReducedForDenseSymbolSets(
+        symbolSet: SymbolSet,
+        expectedRelativeSize: Float
+    ) {
+        assertThat(symbolSet.relativeSize).isEqualTo(expectedRelativeSize)
+    }
+
+    @ParameterizedTest
+    @CsvSource(
+        "MINIMAL,· ∶ ∴ ∷ ◇ ◈",
+        "VERTICAL,· ∶ ⁝ ⁞ |",
+        "CIRCLES,◔ ◑ ◕ ● ๑",
+        "BLOCKS,▁ ▂ ▃ ▄ ▅",
+        "NUMBERS,1 2 3 4 5 6 7 8 9 +",
+        "ROMAN,Ⅰ Ⅱ Ⅲ Ⅳ Ⅴ Ⅵ Ⅶ Ⅷ Ⅸ Ⅹ ∾",
+        "BINARY,☱ ☲ ☳ ☴ ☵ ☶ ☷ ※",
+        "NONE,' '"
+    )
+    fun getDisplayValue_shouldJoinSymbolsWithSpaces(
+        symbolSet: SymbolSet,
+        expectedDisplayValue: String
+    ) {
+        assertThat(symbolSet.getDisplayValue()).isEqualTo(expectedDisplayValue)
+    }
+
+    @Test
+    fun getSymbolSetDisplayValues_shouldReturnDisplayValueOfEverySymbolSet() {
+        assertThat(getSymbolSetDisplayValues()).containsExactly(
+            "· ∶ ∴ ∷ ◇ ◈",
+            "· ∶ ⁝ ⁞ |",
+            "◔ ◑ ◕ ● ๑",
+            "▁ ▂ ▃ ▄ ▅",
+            "1 2 3 4 5 6 7 8 9 +",
+            "Ⅰ Ⅱ Ⅲ Ⅳ Ⅴ Ⅵ Ⅶ Ⅷ Ⅸ Ⅹ ∾",
+            "☱ ☲ ☳ ☴ ☵ ☶ ☷ ※",
+            " "
+        )
     }
 }
