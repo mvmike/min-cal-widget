@@ -41,7 +41,11 @@ internal class CalendarTest : BaseTest() {
         "HOLOCENE,1000-11-12,11000",
         "GREGORIAN,1000-11-12,1000",
         "GREGORIAN,1994-12-13,1994",
-        "HOLOCENE,1994-12-13,11994"
+        "HOLOCENE,1994-12-13,11994",
+        "HOLOCENE,0999-12-31,10999",
+        "GREGORIAN,0999-12-31,999",
+        "HOLOCENE,0042-01-01,10042",
+        "GREGORIAN,0042-01-01,42"
     )
     fun getYear_shouldReturnExpectedString(
         calendar: Calendar,

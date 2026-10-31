@@ -19,7 +19,7 @@ enum class Calendar(
     HOLOCENE(
         displayString = R.string.holocene
     ) {
-        override fun getYear(localDate: LocalDate) = "1${localDate.year}"
+        override fun getYear(localDate: LocalDate) = "${localDate.year + 10000}"
     };
 
     abstract fun getYear(localDate: LocalDate): String
