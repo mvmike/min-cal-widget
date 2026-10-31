@@ -6,6 +6,7 @@ import android.Manifest.permission.READ_CALENDAR
 import android.content.Context
 import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.database.Cursor
+import android.provider.CalendarContract.Attendees.ATTENDEE_STATUS_DECLINED
 import android.provider.CalendarContract.Calendars
 import android.provider.CalendarContract.Calendars.DEFAULT_SORT_ORDER
 import android.provider.CalendarContract.Events
@@ -86,7 +87,7 @@ object CalendarResolver {
         // end of instances are exclusive (e.g. an hour event is from 10 to 11 and not from 10 to 10:59:59.999)
         val end = Instant.ofEpochMilli(getLong(3) - 1)
         val zoneId = toZoneIdOrDefault(getString(4))
-        val isDeclined = getInt(5) == Instances.STATUS_CANCELED
+        val isDeclined = getInt(5) == ATTENDEE_STATUS_DECLINED
         val isAllDay = getInt(6) == CALENDAR_CONTRACT_TRUE
 
         when {
