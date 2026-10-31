@@ -140,7 +140,7 @@ open class BaseTest {
         SystemResolver.getSystemZoneId()
     } returns systemZoneId
 
-    protected fun verifyGetSystemZoneId() = verify {
+    protected fun verifyGetSystemZoneId(times: Int = 1) = verify(exactly = times) {
         SystemResolver.getSystemZoneId()
     }
 

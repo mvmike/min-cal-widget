@@ -122,5 +122,5 @@ object CalendarResolver {
         runCatching {
             ZoneId.of(it)
         }.getOrNull()
-    } ?: ZoneId.systemDefault()
+    } ?: SystemResolver.getSystemZoneId()
 }

@@ -197,6 +197,7 @@ internal class CalendarResolverTest : BaseTest() {
         every { cursor.getInt(5) } returnsMany instanceCursors.map { it.status }
         every { cursor.getInt(6) } returnsMany instanceCursors.map { it.allDay }
         justRun { cursor.close() }
+        mockGetSystemZoneId()
 
         val result = CalendarResolver.getInstances(context, begin, end)
 
@@ -239,6 +240,7 @@ internal class CalendarResolverTest : BaseTest() {
         )
         verify { context.contentResolver }
         verify { CalendarResolver.getInstances(context, begin, end) }
+        verifyGetSystemZoneId(times = 2)
         verify(exactly = instanceCursors.size + 1) { cursor.moveToNext() }
         verify { cursor.close() }
     }

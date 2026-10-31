@@ -134,7 +134,7 @@ internal class DaysServiceTest : BaseTest() {
         )
 
         verifyGetSystemLocalDate()
-        verifyGetSystemZoneId()
+        verifyGetSystemZoneId(times = 2)
         verifyIsReadCalendarPermitted()
         verify {
             CalendarResolver.getInstances(
