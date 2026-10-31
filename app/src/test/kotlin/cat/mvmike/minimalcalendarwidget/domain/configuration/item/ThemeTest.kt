@@ -3,55 +3,27 @@
 package cat.mvmike.minimalcalendarwidget.domain.configuration.item
 
 import cat.mvmike.minimalcalendarwidget.BaseTest
+import cat.mvmike.minimalcalendarwidget.R
 import cat.mvmike.minimalcalendarwidget.domain.CellStyle
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme.DARK
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme.LIGHT
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.CsvSource
+import org.junit.jupiter.params.provider.Arguments.of
+import org.junit.jupiter.params.provider.MethodSource
 import java.time.DayOfWeek
-
-// TEXT COLOUR
-
-private const val DARK_THEME_IN_MONTH_TEXT_COLOUR = 2131034223
-private const val DARK_THEME_TEXT_COLOUR = 2131034225
-
-private const val LIGHT_THEME_IN_MONTH_TEXT_COLOUR = 2131034224
-private const val LIGHT_THEME_TEXT_COLOUR = 2131034226
-
-// BACKGROUND DARK THEME
-
-private const val IN_MONTH_DARK_THEME_CELL_BACKGROUND = 2131034155
-private const val SATURDAY_IN_MONTH_DARK_THEME_CELL_BACKGROUND = 2131034149
-private const val SUNDAY_IN_MONTH_DARK_THEME_CELL_BACKGROUND = 2131034153
-private const val SATURDAY_DARK_THEME_CELL_BACKGROUND = 2131034147
-private const val SUNDAY_DARK_THEME_CELL_BACKGROUND = 2131034151
-
-// BACKGROUND LIGHT THEME
-
-private const val IN_MONTH_LIGHT_THEME_CELL_BACKGROUND = 2131034156
-private const val SATURDAY_IN_MONTH_LIGHT_THEME_CELL_BACKGROUND = 2131034150
-private const val SUNDAY_IN_MONTH_LIGHT_THEME_CELL_BACKGROUND = 2131034154
-private const val SATURDAY_LIGHT_THEME_CELL_BACKGROUND = 2131034148
-private const val SUNDAY_LIGHT_THEME_CELL_BACKGROUND = 2131034152
+import java.time.DayOfWeek.FRIDAY
+import java.time.DayOfWeek.MONDAY
+import java.time.DayOfWeek.SATURDAY
+import java.time.DayOfWeek.SUNDAY
+import java.time.DayOfWeek.THURSDAY
+import java.time.DayOfWeek.TUESDAY
+import java.time.DayOfWeek.WEDNESDAY
 
 internal class ThemeTest : BaseTest() {
 
     @ParameterizedTest
-    @CsvSource(
-        "DARK,MONDAY,$DARK_THEME_IN_MONTH_TEXT_COLOUR,",
-        "DARK,TUESDAY,$DARK_THEME_IN_MONTH_TEXT_COLOUR,",
-        "DARK,WEDNESDAY,$DARK_THEME_IN_MONTH_TEXT_COLOUR,",
-        "DARK,THURSDAY,$DARK_THEME_IN_MONTH_TEXT_COLOUR,",
-        "DARK,FRIDAY,$DARK_THEME_IN_MONTH_TEXT_COLOUR,",
-        "DARK,SATURDAY,$DARK_THEME_IN_MONTH_TEXT_COLOUR,$SATURDAY_IN_MONTH_DARK_THEME_CELL_BACKGROUND",
-        "DARK,SUNDAY,$DARK_THEME_IN_MONTH_TEXT_COLOUR,$SUNDAY_IN_MONTH_DARK_THEME_CELL_BACKGROUND",
-        "LIGHT,MONDAY,$LIGHT_THEME_IN_MONTH_TEXT_COLOUR,",
-        "LIGHT,TUESDAY,$LIGHT_THEME_IN_MONTH_TEXT_COLOUR,",
-        "LIGHT,WEDNESDAY,$LIGHT_THEME_IN_MONTH_TEXT_COLOUR,",
-        "LIGHT,THURSDAY,$LIGHT_THEME_IN_MONTH_TEXT_COLOUR,",
-        "LIGHT,FRIDAY,$LIGHT_THEME_IN_MONTH_TEXT_COLOUR,",
-        "LIGHT,SATURDAY,$LIGHT_THEME_IN_MONTH_TEXT_COLOUR,$SATURDAY_IN_MONTH_LIGHT_THEME_CELL_BACKGROUND",
-        "LIGHT,SUNDAY,$LIGHT_THEME_IN_MONTH_TEXT_COLOUR,$SUNDAY_IN_MONTH_LIGHT_THEME_CELL_BACKGROUND"
-    )
+    @MethodSource("getThemeAndDayOfWeekWithExpectedCellHeader")
     fun getCellHeader(
         widgetTheme: Theme,
         dayOfWeek: DayOfWeek,
@@ -69,36 +41,7 @@ internal class ThemeTest : BaseTest() {
     }
 
     @ParameterizedTest
-    @CsvSource(
-        "DARK,true,MONDAY,$DARK_THEME_IN_MONTH_TEXT_COLOUR,$IN_MONTH_DARK_THEME_CELL_BACKGROUND",
-        "DARK,true,TUESDAY,$DARK_THEME_IN_MONTH_TEXT_COLOUR,$IN_MONTH_DARK_THEME_CELL_BACKGROUND",
-        "DARK,true,WEDNESDAY,$DARK_THEME_IN_MONTH_TEXT_COLOUR,$IN_MONTH_DARK_THEME_CELL_BACKGROUND",
-        "DARK,true,THURSDAY,$DARK_THEME_IN_MONTH_TEXT_COLOUR,$IN_MONTH_DARK_THEME_CELL_BACKGROUND",
-        "DARK,true,FRIDAY,$DARK_THEME_IN_MONTH_TEXT_COLOUR,$IN_MONTH_DARK_THEME_CELL_BACKGROUND",
-        "DARK,true,SATURDAY,$DARK_THEME_IN_MONTH_TEXT_COLOUR,$SATURDAY_IN_MONTH_DARK_THEME_CELL_BACKGROUND",
-        "DARK,true,SUNDAY,$DARK_THEME_IN_MONTH_TEXT_COLOUR,$SUNDAY_IN_MONTH_DARK_THEME_CELL_BACKGROUND",
-        "DARK,false,MONDAY,$DARK_THEME_TEXT_COLOUR,",
-        "DARK,false,TUESDAY,$DARK_THEME_TEXT_COLOUR,",
-        "DARK,false,WEDNESDAY,$DARK_THEME_TEXT_COLOUR,",
-        "DARK,false,THURSDAY,$DARK_THEME_TEXT_COLOUR,",
-        "DARK,false,FRIDAY,$DARK_THEME_TEXT_COLOUR,",
-        "DARK,false,SATURDAY,$DARK_THEME_TEXT_COLOUR,$SATURDAY_DARK_THEME_CELL_BACKGROUND",
-        "DARK,false,SUNDAY,$DARK_THEME_TEXT_COLOUR,$SUNDAY_DARK_THEME_CELL_BACKGROUND",
-        "LIGHT,true,MONDAY,$LIGHT_THEME_IN_MONTH_TEXT_COLOUR,$IN_MONTH_LIGHT_THEME_CELL_BACKGROUND",
-        "LIGHT,true,TUESDAY,$LIGHT_THEME_IN_MONTH_TEXT_COLOUR,$IN_MONTH_LIGHT_THEME_CELL_BACKGROUND",
-        "LIGHT,true,WEDNESDAY,$LIGHT_THEME_IN_MONTH_TEXT_COLOUR,$IN_MONTH_LIGHT_THEME_CELL_BACKGROUND",
-        "LIGHT,true,THURSDAY,$LIGHT_THEME_IN_MONTH_TEXT_COLOUR,$IN_MONTH_LIGHT_THEME_CELL_BACKGROUND",
-        "LIGHT,true,FRIDAY,$LIGHT_THEME_IN_MONTH_TEXT_COLOUR,$IN_MONTH_LIGHT_THEME_CELL_BACKGROUND",
-        "LIGHT,true,SATURDAY,$LIGHT_THEME_IN_MONTH_TEXT_COLOUR,$SATURDAY_IN_MONTH_LIGHT_THEME_CELL_BACKGROUND",
-        "LIGHT,true,SUNDAY,$LIGHT_THEME_IN_MONTH_TEXT_COLOUR,$SUNDAY_IN_MONTH_LIGHT_THEME_CELL_BACKGROUND",
-        "LIGHT,false,MONDAY,$LIGHT_THEME_TEXT_COLOUR,",
-        "LIGHT,false,TUESDAY,$LIGHT_THEME_TEXT_COLOUR,",
-        "LIGHT,false,WEDNESDAY,$LIGHT_THEME_TEXT_COLOUR,",
-        "LIGHT,false,THURSDAY,$LIGHT_THEME_TEXT_COLOUR,",
-        "LIGHT,false,FRIDAY,$LIGHT_THEME_TEXT_COLOUR,",
-        "LIGHT,false,SATURDAY,$LIGHT_THEME_TEXT_COLOUR,$SATURDAY_LIGHT_THEME_CELL_BACKGROUND",
-        "LIGHT,false,SUNDAY,$LIGHT_THEME_TEXT_COLOUR,$SUNDAY_LIGHT_THEME_CELL_BACKGROUND"
-    )
+    @MethodSource("getThemeAndInMonthAndDayOfWeekWithExpectedCellDay")
     fun getCellDay(
         widgetTheme: Theme,
         inMonth: Boolean,
@@ -120,10 +63,7 @@ internal class ThemeTest : BaseTest() {
     }
 
     @ParameterizedTest
-    @CsvSource(
-        "DARK,$DARK_THEME_TEXT_COLOUR",
-        "LIGHT,$LIGHT_THEME_TEXT_COLOUR"
-    )
+    @MethodSource("getThemeWithExpectedCellWeekNumberTextColour")
     fun getCellWeekNumber(
         widgetTheme: Theme,
         expectedCellThemeTextColour: Int
@@ -137,4 +77,57 @@ internal class ThemeTest : BaseTest() {
 
         assertThat(result).isEqualTo(expectedResult)
     }
+
+    private fun getThemeAndDayOfWeekWithExpectedCellHeader() = listOf(
+        of(DARK, MONDAY, R.color.text_colour_dark, null),
+        of(DARK, TUESDAY, R.color.text_colour_dark, null),
+        of(DARK, WEDNESDAY, R.color.text_colour_dark, null),
+        of(DARK, THURSDAY, R.color.text_colour_dark, null),
+        of(DARK, FRIDAY, R.color.text_colour_dark, null),
+        of(DARK, SATURDAY, R.color.text_colour_dark, R.color.background_saturday_this_month_dark),
+        of(DARK, SUNDAY, R.color.text_colour_dark, R.color.background_sunday_this_month_dark),
+        of(LIGHT, MONDAY, R.color.text_colour_light, null),
+        of(LIGHT, TUESDAY, R.color.text_colour_light, null),
+        of(LIGHT, WEDNESDAY, R.color.text_colour_light, null),
+        of(LIGHT, THURSDAY, R.color.text_colour_light, null),
+        of(LIGHT, FRIDAY, R.color.text_colour_light, null),
+        of(LIGHT, SATURDAY, R.color.text_colour_light, R.color.background_saturday_this_month_light),
+        of(LIGHT, SUNDAY, R.color.text_colour_light, R.color.background_sunday_this_month_light)
+    )
+
+    private fun getThemeAndInMonthAndDayOfWeekWithExpectedCellDay() = listOf(
+        of(DARK, true, MONDAY, R.color.text_colour_dark, R.color.background_this_month_dark),
+        of(DARK, true, TUESDAY, R.color.text_colour_dark, R.color.background_this_month_dark),
+        of(DARK, true, WEDNESDAY, R.color.text_colour_dark, R.color.background_this_month_dark),
+        of(DARK, true, THURSDAY, R.color.text_colour_dark, R.color.background_this_month_dark),
+        of(DARK, true, FRIDAY, R.color.text_colour_dark, R.color.background_this_month_dark),
+        of(DARK, true, SATURDAY, R.color.text_colour_dark, R.color.background_saturday_this_month_dark),
+        of(DARK, true, SUNDAY, R.color.text_colour_dark, R.color.background_sunday_this_month_dark),
+        of(DARK, false, MONDAY, R.color.text_colour_semi_dark, null),
+        of(DARK, false, TUESDAY, R.color.text_colour_semi_dark, null),
+        of(DARK, false, WEDNESDAY, R.color.text_colour_semi_dark, null),
+        of(DARK, false, THURSDAY, R.color.text_colour_semi_dark, null),
+        of(DARK, false, FRIDAY, R.color.text_colour_semi_dark, null),
+        of(DARK, false, SATURDAY, R.color.text_colour_semi_dark, R.color.background_saturday_dark),
+        of(DARK, false, SUNDAY, R.color.text_colour_semi_dark, R.color.background_sunday_dark),
+        of(LIGHT, true, MONDAY, R.color.text_colour_light, R.color.background_this_month_light),
+        of(LIGHT, true, TUESDAY, R.color.text_colour_light, R.color.background_this_month_light),
+        of(LIGHT, true, WEDNESDAY, R.color.text_colour_light, R.color.background_this_month_light),
+        of(LIGHT, true, THURSDAY, R.color.text_colour_light, R.color.background_this_month_light),
+        of(LIGHT, true, FRIDAY, R.color.text_colour_light, R.color.background_this_month_light),
+        of(LIGHT, true, SATURDAY, R.color.text_colour_light, R.color.background_saturday_this_month_light),
+        of(LIGHT, true, SUNDAY, R.color.text_colour_light, R.color.background_sunday_this_month_light),
+        of(LIGHT, false, MONDAY, R.color.text_colour_semi_light, null),
+        of(LIGHT, false, TUESDAY, R.color.text_colour_semi_light, null),
+        of(LIGHT, false, WEDNESDAY, R.color.text_colour_semi_light, null),
+        of(LIGHT, false, THURSDAY, R.color.text_colour_semi_light, null),
+        of(LIGHT, false, FRIDAY, R.color.text_colour_semi_light, null),
+        of(LIGHT, false, SATURDAY, R.color.text_colour_semi_light, R.color.background_saturday_light),
+        of(LIGHT, false, SUNDAY, R.color.text_colour_semi_light, R.color.background_sunday_light)
+    )
+
+    private fun getThemeWithExpectedCellWeekNumberTextColour() = listOf(
+        of(DARK, R.color.text_colour_semi_dark),
+        of(LIGHT, R.color.text_colour_semi_light)
+    )
 }

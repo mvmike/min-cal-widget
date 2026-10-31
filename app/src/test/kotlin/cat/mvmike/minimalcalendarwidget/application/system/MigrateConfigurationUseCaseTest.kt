@@ -8,6 +8,9 @@ import android.content.SharedPreferences
 import cat.mvmike.minimalcalendarwidget.BaseTest
 import cat.mvmike.minimalcalendarwidget.Widget
 import cat.mvmike.minimalcalendarwidget.domain.Variant
+import cat.mvmike.minimalcalendarwidget.domain.configuration.EnumConfigurationItem
+import cat.mvmike.minimalcalendarwidget.domain.configuration.PREFERENCE_KEY
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
 import io.mockk.confirmVerified
 import io.mockk.every
 import io.mockk.justRun
@@ -35,21 +38,21 @@ internal class MigrateConfigurationUseCaseTest : BaseTest() {
 
     @Test
     fun execute_shouldMigrateLegacyConfigurationToAllWidgetsOfAllVariants() {
-        mockLegacyConfiguration(mapOf("WIDGET_THEME" to "LIGHT"))
+        mockLegacyConfiguration(mapOf(EnumConfigurationItem.WidgetTheme.key to Theme.LIGHT.name))
         every { appWidgetManager.getAppWidgetIds(any()) } returnsMany listOf(intArrayOf(3), intArrayOf(8))
         mockSharedPreferences(3)
         mockSharedPreferences(8)
 
         MigrateConfigurationUseCase.execute(context, appWidgetManager)
 
-        verify(exactly = 2) { context.getSharedPreferences("mincal_prefs", Context.MODE_PRIVATE) }
+        verify(exactly = 2) { context.getSharedPreferences(PREFERENCE_KEY, Context.MODE_PRIVATE) }
         verify(exactly = 2) { legacySharedPreferences.all }
         verify(exactly = Variant.entries.size) { appWidgetManager.getAppWidgetIds(any()) }
         Variant.entries.forEach { verify { Widget.getReceiverClass(it) } }
         verifySharedPreferencesAccess(3)
         verifySharedPreferencesAccess(8)
         verify(exactly = 2) { sharedPreferences.edit() }
-        verify(exactly = 2) { editor.putString("WIDGET_THEME", "LIGHT") }
+        verify(exactly = 2) { editor.putString(EnumConfigurationItem.WidgetTheme.key, Theme.LIGHT.name) }
         verify(exactly = 2) { editor.commit() }
         verify { legacySharedPreferences.edit() }
         verify { legacyEditor.clear() }
@@ -59,7 +62,7 @@ internal class MigrateConfigurationUseCaseTest : BaseTest() {
 
     @Test
     fun execute_shouldKeepLegacyConfigurationWhenAppWidgetIdsCanNotBeRetrieved() {
-        mockLegacyConfiguration(mapOf("WIDGET_THEME" to "LIGHT"))
+        mockLegacyConfiguration(mapOf(EnumConfigurationItem.WidgetTheme.key to Theme.LIGHT.name))
         every {
             appWidgetManager.getAppWidgetIds(any())
         } throws IllegalStateException("User 0 must be unlocked for widgets to be available")
@@ -73,7 +76,7 @@ internal class MigrateConfigurationUseCaseTest : BaseTest() {
     }
 
     private fun mockLegacyConfiguration(configuration: Map<String, Any>) {
-        every { context.getSharedPreferences("mincal_prefs", Context.MODE_PRIVATE) } returns legacySharedPreferences
+        every { context.getSharedPreferences(PREFERENCE_KEY, Context.MODE_PRIVATE) } returns legacySharedPreferences
         every { legacySharedPreferences.all } returns configuration
         every { legacySharedPreferences.edit() } returns legacyEditor
         every { legacyEditor.clear() } returns legacyEditor
@@ -82,7 +85,7 @@ internal class MigrateConfigurationUseCaseTest : BaseTest() {
     }
 
     private fun verifyLegacyConfigurationAccess() {
-        verify { context.getSharedPreferences("mincal_prefs", Context.MODE_PRIVATE) }
+        verify { context.getSharedPreferences(PREFERENCE_KEY, Context.MODE_PRIVATE) }
         verify { legacySharedPreferences.all }
     }
 }

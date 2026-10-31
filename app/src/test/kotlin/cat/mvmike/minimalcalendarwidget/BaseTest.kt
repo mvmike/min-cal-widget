@@ -8,9 +8,11 @@ import android.appwidget.AppWidgetManager.INVALID_APPWIDGET_ID
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import cat.mvmike.minimalcalendarwidget.domain.Percentage
 import cat.mvmike.minimalcalendarwidget.domain.configuration.BooleanConfigurationItem
 import cat.mvmike.minimalcalendarwidget.domain.configuration.EnumConfigurationItem
 import cat.mvmike.minimalcalendarwidget.domain.configuration.PercentageConfigurationItem
+import cat.mvmike.minimalcalendarwidget.domain.configuration.getConfigurationName
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Calendar
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Colour
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.SymbolSet
@@ -38,9 +40,6 @@ import org.assertj.core.api.Assertions.fail
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.TestInstance
-import java.io.File
-import java.io.FileInputStream
-import java.io.InputStreamReader
 import java.nio.charset.StandardCharsets
 import java.time.DayOfWeek
 import java.time.Instant
@@ -49,8 +48,6 @@ import java.time.ZoneId
 import java.util.Random
 import java.util.TimeZone
 
-private const val PREFERENCES_ID: String = "mincal_prefs"
-
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 open class BaseTest {
 
@@ -58,11 +55,12 @@ open class BaseTest {
     protected val systemLocalDate: LocalDate = LocalDate.parse("2018-12-04")
     protected val systemInstant: Instant = systemLocalDate
         .atTime(16, 32, 14)
-        .toInstant(systemZoneId.rules.getOffset(Instant.now()))
-
-    protected val random = Random()
+        .atZone(systemZoneId)
+        .toInstant()
 
     protected val appWidgetId = 2611
+
+    protected val random = Random(appWidgetId.toLong())
 
     protected val context = mockk<Context>()
 
@@ -78,6 +76,8 @@ open class BaseTest {
         clearAllMocks()
         unmockkAll()
 
+        // needed to assert default value based on runtimeSDK
+        EnumConfigurationItem.InstancesColour.let {}
         mockkObject(
             CalendarResolver,
             GraphicResolver,
@@ -163,7 +163,7 @@ open class BaseTest {
     // PREFERENCES
 
     protected fun mockSharedPreferences(appWidgetId: Int = this.appWidgetId) {
-        every { context.getSharedPreferences("${PREFERENCES_ID}_$appWidgetId", Context.MODE_PRIVATE) } returns sharedPreferences
+        every { context.getSharedPreferences(getConfigurationName(appWidgetId), Context.MODE_PRIVATE) } returns sharedPreferences
         every { sharedPreferences.edit() } returns editor
         every { editor.putBoolean(any(), any()) } returns editor
         every { editor.putString(any(), any()) } returns editor
@@ -174,272 +174,141 @@ open class BaseTest {
     }
 
     protected fun verifySharedPreferencesAccess(appWidgetId: Int = this.appWidgetId) = verify {
-        context.getSharedPreferences("${PREFERENCES_ID}_$appWidgetId", Context.MODE_PRIVATE)
+        context.getSharedPreferences(getConfigurationName(appWidgetId), Context.MODE_PRIVATE)
     }
 
     protected fun verifySharedPreferencesEdit() = verify {
         sharedPreferences.edit()
     }
 
-    protected fun mockCalendarVisibilitySelection(calendarId: Int, calendarVisibilitySelection: Boolean, appWidgetId: Int = this.appWidgetId) {
+    private fun mockBooleanConfigurationItem(
+        configurationItem: BooleanConfigurationItem,
+        value: Boolean,
+        appWidgetId: Int = this.appWidgetId
+    ) {
         mockSharedPreferences(appWidgetId)
-        every {
-            sharedPreferences.getBoolean(
-                BooleanConfigurationItem.CalendarVisibilitySelection(calendarId).key,
-                BooleanConfigurationItem.CalendarVisibilitySelection(calendarId).defaultValue
-            )
-        } returns calendarVisibilitySelection
+        every { sharedPreferences.getBoolean(configurationItem.key, configurationItem.defaultValue) } returns value
     }
 
-    protected fun verifyCalendarVisibilitySelection(calendarId: Int, appWidgetId: Int = this.appWidgetId) {
+    private fun verifyBooleanConfigurationItem(
+        configurationItem: BooleanConfigurationItem,
+        appWidgetId: Int = this.appWidgetId
+    ) {
         verifySharedPreferencesAccess(appWidgetId)
-        verify {
-            sharedPreferences.getBoolean(
-                BooleanConfigurationItem.CalendarVisibilitySelection(calendarId).key,
-                BooleanConfigurationItem.CalendarVisibilitySelection(calendarId).defaultValue
-            )
-        }
+        verify { sharedPreferences.getBoolean(configurationItem.key, configurationItem.defaultValue) }
     }
 
-    protected fun mockDefaultVisibleCalendars(defaultVisibleCalendars: Boolean, appWidgetId: Int = this.appWidgetId) {
+    private fun <E : Enum<E>> mockEnumConfigurationItem(
+        configurationItem: EnumConfigurationItem<E>,
+        value: E,
+        appWidgetId: Int = this.appWidgetId
+    ) {
         mockSharedPreferences(appWidgetId)
-        every {
-            sharedPreferences.getBoolean(
-                BooleanConfigurationItem.DefaultVisibleCalendars.key,
-                BooleanConfigurationItem.DefaultVisibleCalendars.defaultValue
-            )
-        } returns defaultVisibleCalendars
+        every { sharedPreferences.getString(configurationItem.key, configurationItem.defaultValue.name) } returns value.name
     }
 
-    protected fun verifyDefaultVisibleCalendars(appWidgetId: Int = this.appWidgetId) {
+    private fun verifyEnumConfigurationItem(
+        configurationItem: EnumConfigurationItem<*>,
+        appWidgetId: Int = this.appWidgetId
+    ) {
         verifySharedPreferencesAccess(appWidgetId)
-        verify {
-            sharedPreferences.getBoolean(
-                BooleanConfigurationItem.DefaultVisibleCalendars.key,
-                BooleanConfigurationItem.DefaultVisibleCalendars.defaultValue
-            )
-        }
+        verify { sharedPreferences.getString(configurationItem.key, configurationItem.defaultValue.name) }
     }
 
-    protected fun mockShowDeclinedEvents(showDeclinedEvents: Boolean, appWidgetId: Int = this.appWidgetId) {
+    private fun <E : Percentage> mockPercentageConfigurationItem(
+        configurationItem: PercentageConfigurationItem<E>,
+        value: E,
+        appWidgetId: Int = this.appWidgetId
+    ) {
         mockSharedPreferences(appWidgetId)
-        every {
-            sharedPreferences.getBoolean(
-                BooleanConfigurationItem.ShowDeclinedEvents.key,
-                BooleanConfigurationItem.ShowDeclinedEvents.defaultValue
-            )
-        } returns showDeclinedEvents
+        every { sharedPreferences.getInt(configurationItem.key, configurationItem.defaultValue.value) } returns value.value
     }
 
-    protected fun verifyShowDeclinedEvents(appWidgetId: Int = this.appWidgetId) {
+    private fun verifyPercentageConfigurationItem(
+        configurationItem: PercentageConfigurationItem<*>,
+        appWidgetId: Int = this.appWidgetId
+    ) {
         verifySharedPreferencesAccess(appWidgetId)
-        verify {
-            sharedPreferences.getBoolean(
-                BooleanConfigurationItem.ShowDeclinedEvents.key,
-                BooleanConfigurationItem.ShowDeclinedEvents.defaultValue
-            )
-        }
+        verify { sharedPreferences.getInt(configurationItem.key, configurationItem.defaultValue.value) }
     }
 
-    protected fun mockFocusOnCurrentWeek(enabled: Boolean, appWidgetId: Int = this.appWidgetId) {
-        mockSharedPreferences(appWidgetId)
-        every {
-            sharedPreferences.getBoolean(
-                BooleanConfigurationItem.FocusOnCurrentWeek.key,
-                BooleanConfigurationItem.FocusOnCurrentWeek.defaultValue
-            )
-        } returns enabled
-    }
+    protected fun mockCalendarVisibilitySelection(calendarId: Int, calendarVisibilitySelection: Boolean, appWidgetId: Int = this.appWidgetId) =
+        mockBooleanConfigurationItem(BooleanConfigurationItem.CalendarVisibilitySelection(calendarId), calendarVisibilitySelection, appWidgetId)
 
-    protected fun verifyFocusOnCurrentWeek(appWidgetId: Int = this.appWidgetId) {
-        verifySharedPreferencesAccess(appWidgetId)
-        verify {
-            sharedPreferences.getBoolean(
-                BooleanConfigurationItem.FocusOnCurrentWeek.key,
-                BooleanConfigurationItem.FocusOnCurrentWeek.defaultValue
-            )
-        }
-    }
+    protected fun verifyCalendarVisibilitySelection(calendarId: Int, appWidgetId: Int = this.appWidgetId) =
+        verifyBooleanConfigurationItem(BooleanConfigurationItem.CalendarVisibilitySelection(calendarId), appWidgetId)
 
-    protected fun mockOpenCalendarOnClickedDay(enabled: Boolean, appWidgetId: Int = this.appWidgetId) {
-        mockSharedPreferences(appWidgetId)
-        every {
-            sharedPreferences.getBoolean(
-                BooleanConfigurationItem.OpenCalendarOnClickedDay.key,
-                BooleanConfigurationItem.OpenCalendarOnClickedDay.defaultValue
-            )
-        } returns enabled
-    }
+    protected fun mockDefaultVisibleCalendars(defaultVisibleCalendars: Boolean, appWidgetId: Int = this.appWidgetId) =
+        mockBooleanConfigurationItem(BooleanConfigurationItem.DefaultVisibleCalendars, defaultVisibleCalendars, appWidgetId)
 
-    protected fun verifyOpenCalendarOnClickedDay(appWidgetId: Int = this.appWidgetId) {
-        verifySharedPreferencesAccess(appWidgetId)
-        verify {
-            sharedPreferences.getBoolean(
-                BooleanConfigurationItem.OpenCalendarOnClickedDay.key,
-                BooleanConfigurationItem.OpenCalendarOnClickedDay.defaultValue
-            )
-        }
-    }
+    protected fun verifyDefaultVisibleCalendars(appWidgetId: Int = this.appWidgetId) =
+        verifyBooleanConfigurationItem(BooleanConfigurationItem.DefaultVisibleCalendars, appWidgetId)
 
-    protected fun mockShowWeekNumber(enabled: Boolean, appWidgetId: Int = this.appWidgetId) {
-        mockSharedPreferences(appWidgetId)
-        every {
-            sharedPreferences.getBoolean(
-                BooleanConfigurationItem.ShowWeekNumber.key,
-                BooleanConfigurationItem.ShowWeekNumber.defaultValue
-            )
-        } returns enabled
-    }
+    protected fun mockShowDeclinedEvents(showDeclinedEvents: Boolean, appWidgetId: Int = this.appWidgetId) =
+        mockBooleanConfigurationItem(BooleanConfigurationItem.ShowDeclinedEvents, showDeclinedEvents, appWidgetId)
 
-    protected fun verifyShowWeekNumber(appWidgetId: Int = this.appWidgetId) {
-        verifySharedPreferencesAccess(appWidgetId)
-        verify {
-            sharedPreferences.getBoolean(
-                BooleanConfigurationItem.ShowWeekNumber.key,
-                BooleanConfigurationItem.ShowWeekNumber.defaultValue
-            )
-        }
-    }
+    protected fun verifyShowDeclinedEvents(appWidgetId: Int = this.appWidgetId) =
+        verifyBooleanConfigurationItem(BooleanConfigurationItem.ShowDeclinedEvents, appWidgetId)
 
-    protected fun mockWidgetTheme(widgetTheme: Theme, appWidgetId: Int = this.appWidgetId) {
-        mockSharedPreferences(appWidgetId)
-        every {
-            sharedPreferences.getString(
-                EnumConfigurationItem.WidgetTheme.key,
-                EnumConfigurationItem.WidgetTheme.defaultValue.name
-            )
-        } returns widgetTheme.name
-    }
+    protected fun mockFocusOnCurrentWeek(enabled: Boolean, appWidgetId: Int = this.appWidgetId) =
+        mockBooleanConfigurationItem(BooleanConfigurationItem.FocusOnCurrentWeek, enabled, appWidgetId)
 
-    protected fun verifyWidgetTheme(appWidgetId: Int = this.appWidgetId) {
-        verifySharedPreferencesAccess(appWidgetId)
-        verify {
-            sharedPreferences.getString(
-                EnumConfigurationItem.WidgetTheme.key,
-                EnumConfigurationItem.WidgetTheme.defaultValue.name
-            )
-        }
-    }
+    protected fun verifyFocusOnCurrentWeek(appWidgetId: Int = this.appWidgetId) =
+        verifyBooleanConfigurationItem(BooleanConfigurationItem.FocusOnCurrentWeek, appWidgetId)
 
-    protected fun mockWidgetCalendar(calendar: Calendar, appWidgetId: Int = this.appWidgetId) {
-        mockSharedPreferences(appWidgetId)
-        every {
-            sharedPreferences.getString(
-                EnumConfigurationItem.WidgetCalendar.key,
-                EnumConfigurationItem.WidgetCalendar.defaultValue.name
-            )
-        } returns calendar.name
-    }
+    protected fun mockOpenCalendarOnClickedDay(enabled: Boolean, appWidgetId: Int = this.appWidgetId) =
+        mockBooleanConfigurationItem(BooleanConfigurationItem.OpenCalendarOnClickedDay, enabled, appWidgetId)
 
-    protected fun verifyWidgetCalendar(appWidgetId: Int = this.appWidgetId) {
-        verifySharedPreferencesAccess(appWidgetId)
-        verify {
-            sharedPreferences.getString(
-                EnumConfigurationItem.WidgetCalendar.key,
-                EnumConfigurationItem.WidgetCalendar.defaultValue.name
-            )
-        }
-    }
+    protected fun verifyOpenCalendarOnClickedDay(appWidgetId: Int = this.appWidgetId) =
+        verifyBooleanConfigurationItem(BooleanConfigurationItem.OpenCalendarOnClickedDay, appWidgetId)
 
-    protected fun mockFirstDayOfWeek(dayOfWeek: DayOfWeek, appWidgetId: Int = this.appWidgetId) {
-        mockSharedPreferences(appWidgetId)
-        every {
-            sharedPreferences.getString(
-                EnumConfigurationItem.FirstDayOfWeek.key,
-                EnumConfigurationItem.FirstDayOfWeek.defaultValue.name
-            )
-        } returns dayOfWeek.name
-    }
+    protected fun mockShowWeekNumber(enabled: Boolean, appWidgetId: Int = this.appWidgetId) =
+        mockBooleanConfigurationItem(BooleanConfigurationItem.ShowWeekNumber, enabled, appWidgetId)
 
-    protected fun verifyFirstDayOfWeek(appWidgetId: Int = this.appWidgetId) {
-        verifySharedPreferencesAccess(appWidgetId)
-        verify {
-            sharedPreferences.getString(
-                EnumConfigurationItem.FirstDayOfWeek.key,
-                EnumConfigurationItem.FirstDayOfWeek.defaultValue.name
-            )
-        }
-    }
+    protected fun verifyShowWeekNumber(appWidgetId: Int = this.appWidgetId) =
+        verifyBooleanConfigurationItem(BooleanConfigurationItem.ShowWeekNumber, appWidgetId)
 
-    protected fun mockInstancesSymbolSet(symbolSet: SymbolSet, appWidgetId: Int = this.appWidgetId) {
-        mockSharedPreferences(appWidgetId)
-        every {
-            sharedPreferences.getString(
-                EnumConfigurationItem.InstancesSymbolSet.key,
-                EnumConfigurationItem.InstancesSymbolSet.defaultValue.name
-            )
-        } returns symbolSet.name
-    }
+    protected fun mockWidgetTheme(widgetTheme: Theme, appWidgetId: Int = this.appWidgetId) =
+        mockEnumConfigurationItem(EnumConfigurationItem.WidgetTheme, widgetTheme, appWidgetId)
 
-    protected fun verifyInstancesSymbolSet(appWidgetId: Int = this.appWidgetId) {
-        verifySharedPreferencesAccess(appWidgetId)
-        verify {
-            sharedPreferences.getString(
-                EnumConfigurationItem.InstancesSymbolSet.key,
-                EnumConfigurationItem.InstancesSymbolSet.defaultValue.name
-            )
-        }
-    }
+    protected fun verifyWidgetTheme(appWidgetId: Int = this.appWidgetId) =
+        verifyEnumConfigurationItem(EnumConfigurationItem.WidgetTheme, appWidgetId)
 
-    protected fun mockInstancesColour(colour: Colour, appWidgetId: Int = this.appWidgetId) {
-        mockSharedPreferences(appWidgetId)
-        every {
-            sharedPreferences.getString(
-                EnumConfigurationItem.InstancesColour.key,
-                EnumConfigurationItem.InstancesColour.defaultValue.name
-            )
-        } returns colour.name
-    }
+    protected fun mockWidgetCalendar(calendar: Calendar, appWidgetId: Int = this.appWidgetId) =
+        mockEnumConfigurationItem(EnumConfigurationItem.WidgetCalendar, calendar, appWidgetId)
 
-    protected fun verifyInstancesColour(appWidgetId: Int = this.appWidgetId) {
-        verifySharedPreferencesAccess(appWidgetId)
-        verify {
-            sharedPreferences.getString(
-                EnumConfigurationItem.InstancesColour.key,
-                EnumConfigurationItem.InstancesColour.defaultValue.name
-            )
-        }
-    }
+    protected fun verifyWidgetCalendar(appWidgetId: Int = this.appWidgetId) =
+        verifyEnumConfigurationItem(EnumConfigurationItem.WidgetCalendar, appWidgetId)
 
-    protected fun mockWidgetTransparency(transparency: Transparency, appWidgetId: Int = this.appWidgetId) {
-        mockSharedPreferences(appWidgetId)
-        every {
-            sharedPreferences.getInt(
-                PercentageConfigurationItem.WidgetTransparency.key,
-                PercentageConfigurationItem.WidgetTransparency.defaultValue.percentage
-            )
-        } returns transparency.percentage
-    }
+    protected fun mockFirstDayOfWeek(dayOfWeek: DayOfWeek, appWidgetId: Int = this.appWidgetId) =
+        mockEnumConfigurationItem(EnumConfigurationItem.FirstDayOfWeek, dayOfWeek, appWidgetId)
 
-    protected fun verifyWidgetTransparency(appWidgetId: Int = this.appWidgetId) {
-        verifySharedPreferencesAccess(appWidgetId)
-        verify {
-            sharedPreferences.getInt(
-                PercentageConfigurationItem.WidgetTransparency.key,
-                PercentageConfigurationItem.WidgetTransparency.defaultValue.percentage
-            )
-        }
-    }
+    protected fun verifyFirstDayOfWeek(appWidgetId: Int = this.appWidgetId) =
+        verifyEnumConfigurationItem(EnumConfigurationItem.FirstDayOfWeek, appWidgetId)
 
-    protected fun mockWidgetTextSize(textSize: TextSize, appWidgetId: Int = this.appWidgetId) {
-        mockSharedPreferences(appWidgetId)
-        every {
-            sharedPreferences.getInt(
-                PercentageConfigurationItem.WidgetTextSize.key,
-                PercentageConfigurationItem.WidgetTextSize.defaultValue.percentage
-            )
-        } returns textSize.percentage
-    }
+    protected fun mockInstancesSymbolSet(symbolSet: SymbolSet, appWidgetId: Int = this.appWidgetId) =
+        mockEnumConfigurationItem(EnumConfigurationItem.InstancesSymbolSet, symbolSet, appWidgetId)
 
-    protected fun verifyWidgetTextSize(appWidgetId: Int = this.appWidgetId) {
-        verifySharedPreferencesAccess(appWidgetId)
-        verify {
-            sharedPreferences.getInt(
-                PercentageConfigurationItem.WidgetTextSize.key,
-                PercentageConfigurationItem.WidgetTextSize.defaultValue.percentage
-            )
-        }
-    }
+    protected fun verifyInstancesSymbolSet(appWidgetId: Int = this.appWidgetId) =
+        verifyEnumConfigurationItem(EnumConfigurationItem.InstancesSymbolSet, appWidgetId)
+
+    protected fun mockInstancesColour(colour: Colour, appWidgetId: Int = this.appWidgetId) =
+        mockEnumConfigurationItem(EnumConfigurationItem.InstancesColour, colour, appWidgetId)
+
+    protected fun verifyInstancesColour(appWidgetId: Int = this.appWidgetId) =
+        verifyEnumConfigurationItem(EnumConfigurationItem.InstancesColour, appWidgetId)
+
+    protected fun mockWidgetTransparency(transparency: Transparency, appWidgetId: Int = this.appWidgetId) =
+        mockPercentageConfigurationItem(PercentageConfigurationItem.WidgetTransparency, transparency, appWidgetId)
+
+    protected fun verifyWidgetTransparency(appWidgetId: Int = this.appWidgetId) =
+        verifyPercentageConfigurationItem(PercentageConfigurationItem.WidgetTransparency, appWidgetId)
+
+    protected fun mockWidgetTextSize(textSize: TextSize, appWidgetId: Int = this.appWidgetId) =
+        mockPercentageConfigurationItem(PercentageConfigurationItem.WidgetTextSize, textSize, appWidgetId)
+
+    protected fun verifyWidgetTextSize(appWidgetId: Int = this.appWidgetId) =
+        verifyPercentageConfigurationItem(PercentageConfigurationItem.WidgetTextSize, appWidgetId)
 
     // COLOUR TRANSPARENCY
 
@@ -502,16 +371,11 @@ open class BaseTest {
 
     // UTILS
 
-    internal fun readTestResourceCsvFile(path: String) =
-        InputStreamReader(
-            FileInputStream(
-                File(
-                    this::class.java.getResource(path)?.toURI()
-                        ?: fail("could not load $path")
-                )
-            ),
-            StandardCharsets.UTF_8
-        ).readLines()
-            .drop(1) // header
-            .map { it.split(',', ignoreCase = false).toTypedArray() }
+    internal fun readTestResourceCsvFile(path: String) = this::class.java
+        .getResourceAsStream(path)
+        ?.bufferedReader(StandardCharsets.UTF_8)
+        ?.readLines()
+        ?.drop(1) // header
+        ?.map { it.split(',').toTypedArray() }
+        ?: fail("could not load $path")
 }

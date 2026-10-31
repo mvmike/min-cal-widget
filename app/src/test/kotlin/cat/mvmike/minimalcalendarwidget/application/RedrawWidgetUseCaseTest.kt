@@ -32,8 +32,9 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 import org.junit.jupiter.params.provider.EnumSource
 import java.time.DayOfWeek
+import java.util.concurrent.CountDownLatch
+import java.util.concurrent.TimeUnit
 import java.util.concurrent.TimeoutException
-import kotlin.system.measureTimeMillis
 
 internal class RedrawWidgetUseCaseTest : BaseTest() {
 
@@ -135,7 +136,7 @@ internal class RedrawWidgetUseCaseTest : BaseTest() {
         "7,0,DARK,100,34,THURSDAY,true,MONTH",
         "14,50,DARK,32,35,MONDAY,true,WEEK"
     )
-    fun execute_shouldRedrawWidgetRegardlessOfBinderProxyTransactionTimeout(
+    fun execute_shouldUpdateAppWidgetAsynchronouslyWithoutWaitingForBinderProxyTransaction(
         appWidgetId: Int,
         textSizePercentage: Int,
         widgetTheme: Theme,
@@ -186,17 +187,19 @@ internal class RedrawWidgetUseCaseTest : BaseTest() {
         justRun { DaysHeaderService.draw(context, any(), appWidgetId, variant, firstDayOfWeek, widgetTheme, transparency, textSize) }
         justRun { DaysService.draw(context, any(), appWidgetId, variant, firstDayOfWeek, widgetTheme, transparency, textSize) }
 
-        val binderProxyTransactionTimeoutInMillis = 1000L
+        val latchTimeoutInSeconds = 5L
+        val updateAppWidgetStarted = CountDownLatch(1)
+        val binderProxyTransactionReleased = CountDownLatch(1)
         every { appWidgetManager.updateAppWidget(appWidgetId, any()) } answers {
-            Thread.sleep(binderProxyTransactionTimeoutInMillis)
+            updateAppWidgetStarted.countDown()
+            binderProxyTransactionReleased.await(latchTimeoutInSeconds, TimeUnit.SECONDS)
             throw TimeoutException("android.os.BinderProxy.transactNative timeout")
         }
 
-        val executionTime = measureTimeMillis {
-            RedrawWidgetUseCase.execute(context, appWidgetManager, appWidgetId, variant)
-        }
+        RedrawWidgetUseCase.execute(context, appWidgetManager, appWidgetId, variant)
 
-        assertThat(executionTime).isLessThan(binderProxyTransactionTimeoutInMillis)
+        assertThat(updateAppWidgetStarted.await(latchTimeoutInSeconds, TimeUnit.SECONDS)).isTrue()
+        binderProxyTransactionReleased.countDown()
         verify { MigrateConfigurationUseCase.execute(context, appWidgetManager) }
         verifyWidgetTextSize(appWidgetId)
         verifyWidgetTheme(appWidgetId)

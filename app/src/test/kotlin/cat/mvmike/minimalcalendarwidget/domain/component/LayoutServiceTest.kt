@@ -6,6 +6,8 @@ import android.widget.RemoteViews
 import cat.mvmike.minimalcalendarwidget.BaseTest
 import cat.mvmike.minimalcalendarwidget.R
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme.DARK
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme.LIGHT
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Transparency
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.TransparencyRange
 import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.GraphicResolver.setAsBackground
@@ -14,42 +16,24 @@ import io.mockk.justRun
 import io.mockk.mockk
 import io.mockk.verify
 import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.CsvSource
-
-private const val DARK_THEME_MAIN_LAYOUT = 2131034143
-private const val LIGHT_THEME_MAIN_LAYOUT = 2131034144
+import org.junit.jupiter.params.provider.Arguments.of
+import org.junit.jupiter.params.provider.MethodSource
 
 internal class LayoutServiceTest : BaseTest() {
 
     private val widgetRv = mockk<RemoteViews>()
 
     @ParameterizedTest
-    @CsvSource(
-        "DARK,0,$DARK_THEME_MAIN_LAYOUT",
-        "DARK,1,$DARK_THEME_MAIN_LAYOUT",
-        "DARK,20,$DARK_THEME_MAIN_LAYOUT",
-        "DARK,50,$DARK_THEME_MAIN_LAYOUT",
-        "DARK,79,$DARK_THEME_MAIN_LAYOUT",
-        "DARK,90,$DARK_THEME_MAIN_LAYOUT",
-        "DARK,100,$DARK_THEME_MAIN_LAYOUT",
-        "LIGHT,0,$LIGHT_THEME_MAIN_LAYOUT",
-        "LIGHT,5,$LIGHT_THEME_MAIN_LAYOUT",
-        "LIGHT,70,$LIGHT_THEME_MAIN_LAYOUT",
-        "LIGHT,72,$LIGHT_THEME_MAIN_LAYOUT",
-        "LIGHT,98,$LIGHT_THEME_MAIN_LAYOUT",
-        "LIGHT,99,$LIGHT_THEME_MAIN_LAYOUT",
-        "LIGHT,100,$LIGHT_THEME_MAIN_LAYOUT"
-    )
+    @MethodSource("getThemeAndTransparencyWithExpectedMainBackground")
     fun draw_shouldSetLayoutWithThemeBackgroundColourAndTransparency(
         widgetTheme: Theme,
-        transparencyPercentage: Int,
-        mainLayout: Int
+        transparency: Transparency,
+        mainBackground: Int
     ) {
-        val transparency = Transparency(transparencyPercentage)
-        mockTransparency(mainLayout, transparency, TransparencyRange.COMPLETE)
+        mockTransparency(mainBackground, transparency, TransparencyRange.COMPLETE)
 
         justRun {
-            mainLayout.setAsBackground(
+            mainBackground.setAsBackground(
                 remoteViews = widgetRv,
                 viewId = R.id.widget_layout
             )
@@ -57,13 +41,30 @@ internal class LayoutServiceTest : BaseTest() {
 
         LayoutService.draw(context, widgetRv, widgetTheme, transparency)
 
-        verifyTransparency(mainLayout, transparency, TransparencyRange.COMPLETE)
+        verifyTransparency(mainBackground, transparency, TransparencyRange.COMPLETE)
         verify {
-            mainLayout.setAsBackground(
+            mainBackground.setAsBackground(
                 remoteViews = widgetRv,
                 viewId = R.id.widget_layout
             )
         }
         confirmVerified(widgetRv)
     }
+
+    private fun getThemeAndTransparencyWithExpectedMainBackground() = listOf(
+        of(DARK, Transparency(0), R.color.background_full_dark),
+        of(DARK, Transparency(1), R.color.background_full_dark),
+        of(DARK, Transparency(20), R.color.background_full_dark),
+        of(DARK, Transparency(50), R.color.background_full_dark),
+        of(DARK, Transparency(79), R.color.background_full_dark),
+        of(DARK, Transparency(90), R.color.background_full_dark),
+        of(DARK, Transparency(100), R.color.background_full_dark),
+        of(LIGHT, Transparency(0), R.color.background_full_light),
+        of(LIGHT, Transparency(5), R.color.background_full_light),
+        of(LIGHT, Transparency(70), R.color.background_full_light),
+        of(LIGHT, Transparency(72), R.color.background_full_light),
+        of(LIGHT, Transparency(98), R.color.background_full_light),
+        of(LIGHT, Transparency(99), R.color.background_full_light),
+        of(LIGHT, Transparency(100), R.color.background_full_light)
+    )
 }

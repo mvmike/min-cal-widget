@@ -3,23 +3,13 @@
 package cat.mvmike.minimalcalendarwidget.domain.configuration.item
 
 import cat.mvmike.minimalcalendarwidget.BaseTest
+import cat.mvmike.minimalcalendarwidget.R
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.Arguments.of
 import org.junit.jupiter.params.provider.CsvSource
 import org.junit.jupiter.params.provider.EnumSource
-
-internal const val TEXT_COLOUR_TODAY_ID = 2131034185
-
-internal const val CYAN_INSTANCES_COLOUR_ID = 2131034180
-private const val MINT_INSTANCES_COLOUR_ID = 2131034182
-private const val BLUE_INSTANCES_COLOUR_ID = 2131034179
-private const val GREEN_INSTANCES_COLOUR_ID = 2131034181
-private const val YELLOW_INSTANCES_COLOUR_ID = 2131034187
-private const val BLACK_INSTANCES_COLOUR_ID = 2131034178
-private const val WHITE_INSTANCES_COLOUR_ID = 2131034186
-
-private const val SYSTEM_ACCENT_DARK_THEME_INSTANCES_COLOUR_ID = 2131034184
-private const val SYSTEM_ACCENT_LIGHT_THEME_INSTANCES_COLOUR_ID = 2131034183
+import org.junit.jupiter.params.provider.MethodSource
 
 internal class ColourTest : BaseTest() {
 
@@ -30,21 +20,11 @@ internal class ColourTest : BaseTest() {
             .map { colour.getInstancesColour(true, it) }
             .toSet()
 
-        assertThat(todayInstancesColours).hasSize(1)
-        assertThat(todayInstancesColours).contains(TEXT_COLOUR_TODAY_ID)
+        assertThat(todayInstancesColours).containsExactly(R.color.instances_today)
     }
 
     @ParameterizedTest
-    @CsvSource(
-        "SYSTEM_ACCENT,$SYSTEM_ACCENT_DARK_THEME_INSTANCES_COLOUR_ID,$SYSTEM_ACCENT_LIGHT_THEME_INSTANCES_COLOUR_ID",
-        "CYAN,$CYAN_INSTANCES_COLOUR_ID,$CYAN_INSTANCES_COLOUR_ID",
-        "MINT,$MINT_INSTANCES_COLOUR_ID,$MINT_INSTANCES_COLOUR_ID",
-        "BLUE,$BLUE_INSTANCES_COLOUR_ID,$BLUE_INSTANCES_COLOUR_ID",
-        "GREEN,$GREEN_INSTANCES_COLOUR_ID,$GREEN_INSTANCES_COLOUR_ID",
-        "YELLOW,$YELLOW_INSTANCES_COLOUR_ID,$YELLOW_INSTANCES_COLOUR_ID",
-        "BLACK,$BLACK_INSTANCES_COLOUR_ID,$BLACK_INSTANCES_COLOUR_ID",
-        "WHITE,$WHITE_INSTANCES_COLOUR_ID,$WHITE_INSTANCES_COLOUR_ID"
-    )
+    @MethodSource("getColoursWithExpectedThemedInstancesColours")
     fun getInstancesColour_shouldReturnThemedInstancesColourWhenIsNotToday(
         colour: Colour,
         expectedDarkThemeColour: Int,
@@ -78,4 +58,15 @@ internal class ColourTest : BaseTest() {
         assertThat(result).isEqualTo(expectedAvailability)
         verifyGetRuntimeSDK()
     }
+
+    private fun getColoursWithExpectedThemedInstancesColours() = listOf(
+        of(Colour.SYSTEM_ACCENT, R.color.instances_system_accent_light, R.color.instances_system_accent_dark),
+        of(Colour.CYAN, R.color.instances_cyan, R.color.instances_cyan),
+        of(Colour.MINT, R.color.instances_mint, R.color.instances_mint),
+        of(Colour.BLUE, R.color.instances_blue, R.color.instances_blue),
+        of(Colour.GREEN, R.color.instances_green, R.color.instances_green),
+        of(Colour.YELLOW, R.color.instances_yellow, R.color.instances_yellow),
+        of(Colour.BLACK, R.color.instances_black, R.color.instances_black),
+        of(Colour.WHITE, R.color.instances_white, R.color.instances_white)
+    )
 }

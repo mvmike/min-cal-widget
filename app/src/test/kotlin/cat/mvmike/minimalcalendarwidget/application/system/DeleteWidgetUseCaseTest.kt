@@ -3,6 +3,7 @@
 package cat.mvmike.minimalcalendarwidget.application.system
 
 import cat.mvmike.minimalcalendarwidget.BaseTest
+import cat.mvmike.minimalcalendarwidget.domain.configuration.getConfigurationName
 import io.mockk.every
 import io.mockk.verify
 import org.junit.jupiter.api.Test
@@ -13,13 +14,13 @@ internal class DeleteWidgetUseCaseTest : BaseTest() {
     fun execute_shouldDeleteConfigurationOfEveryDeletedWidget() {
         val appWidgetIds = intArrayOf(3, 8)
         appWidgetIds.forEach {
-            every { context.deleteSharedPreferences("mincal_prefs_$it") } returns true
+            every { context.deleteSharedPreferences(getConfigurationName(it)) } returns true
         }
 
         DeleteWidgetUseCase.execute(context, appWidgetIds)
 
         appWidgetIds.forEach {
-            verify { context.deleteSharedPreferences("mincal_prefs_$it") }
+            verify { context.deleteSharedPreferences(getConfigurationName(it)) }
         }
     }
 }

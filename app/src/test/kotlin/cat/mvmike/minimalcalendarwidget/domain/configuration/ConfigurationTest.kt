@@ -272,11 +272,11 @@ internal class ConfigurationTest : BaseTest() {
 
     @Test
     fun deleteConfiguration_shouldDeleteWidgetPreferences() {
-        every { context.deleteSharedPreferences("mincal_prefs_$appWidgetId") } returns true
+        every { context.deleteSharedPreferences(getConfigurationName(appWidgetId)) } returns true
 
         deleteConfiguration(context, appWidgetId)
 
-        verify { context.deleteSharedPreferences("mincal_prefs_$appWidgetId") }
+        verify { context.deleteSharedPreferences(getConfigurationName(appWidgetId)) }
     }
 
     @Test
@@ -286,11 +286,11 @@ internal class ConfigurationTest : BaseTest() {
         val newSharedPreferences = mockk<SharedPreferences>()
         val overlappingEditor = mockk<SharedPreferences.Editor>()
         val newEditor = mockk<SharedPreferences.Editor>()
-        every { context.getSharedPreferences("mincal_prefs_4", Context.MODE_PRIVATE) } returns oldSharedPreferences
-        every { context.getSharedPreferences("mincal_prefs_9", Context.MODE_PRIVATE) } returns overlappingSharedPreferences
-        every { context.getSharedPreferences("mincal_prefs_15", Context.MODE_PRIVATE) } returns newSharedPreferences
-        every { oldSharedPreferences.all } returns mapOf("WIDGET_THEME" to "LIGHT")
-        every { overlappingSharedPreferences.all } returns mapOf("WIDGET_TEXT_SIZE" to 60)
+        every { context.getSharedPreferences(getConfigurationName(4), Context.MODE_PRIVATE) } returns oldSharedPreferences
+        every { context.getSharedPreferences(getConfigurationName(9), Context.MODE_PRIVATE) } returns overlappingSharedPreferences
+        every { context.getSharedPreferences(getConfigurationName(15), Context.MODE_PRIVATE) } returns newSharedPreferences
+        every { oldSharedPreferences.all } returns mapOf(EnumConfigurationItem.WidgetTheme.key to Theme.LIGHT.name)
+        every { overlappingSharedPreferences.all } returns mapOf(PercentageConfigurationItem.WidgetTextSize.key to 60)
         every { overlappingSharedPreferences.edit() } returns overlappingEditor
         every { newSharedPreferences.edit() } returns newEditor
         every { overlappingEditor.putString(any(), any()) } returns overlappingEditor
@@ -301,18 +301,18 @@ internal class ConfigurationTest : BaseTest() {
 
         moveConfiguration(context, intArrayOf(4, 9), intArrayOf(9, 15))
 
-        verify { context.getSharedPreferences("mincal_prefs_4", Context.MODE_PRIVATE) }
-        verify(exactly = 2) { context.getSharedPreferences("mincal_prefs_9", Context.MODE_PRIVATE) }
-        verify { context.getSharedPreferences("mincal_prefs_15", Context.MODE_PRIVATE) }
+        verify { context.getSharedPreferences(getConfigurationName(4), Context.MODE_PRIVATE) }
+        verify(exactly = 2) { context.getSharedPreferences(getConfigurationName(9), Context.MODE_PRIVATE) }
+        verify { context.getSharedPreferences(getConfigurationName(15), Context.MODE_PRIVATE) }
         verify { oldSharedPreferences.all }
         verify { overlappingSharedPreferences.all }
-        verify { context.deleteSharedPreferences("mincal_prefs_4") }
-        verify { context.deleteSharedPreferences("mincal_prefs_9") }
+        verify { context.deleteSharedPreferences(getConfigurationName(4)) }
+        verify { context.deleteSharedPreferences(getConfigurationName(9)) }
         verify { overlappingSharedPreferences.edit() }
-        verify { overlappingEditor.putString("WIDGET_THEME", "LIGHT") }
+        verify { overlappingEditor.putString(EnumConfigurationItem.WidgetTheme.key, Theme.LIGHT.name) }
         verify { overlappingEditor.commit() }
         verify { newSharedPreferences.edit() }
-        verify { newEditor.putInt("WIDGET_TEXT_SIZE", 60) }
+        verify { newEditor.putInt(PercentageConfigurationItem.WidgetTextSize.key, 60) }
         verify { newEditor.commit() }
         confirmVerified(oldSharedPreferences, overlappingSharedPreferences, newSharedPreferences, overlappingEditor, newEditor)
     }
@@ -321,16 +321,16 @@ internal class ConfigurationTest : BaseTest() {
     @ValueSource(booleans = [true, false])
     fun hasLegacyConfiguration_shouldDependOnLegacyPreferencesContent(hasLegacyConfiguration: Boolean) {
         val legacySharedPreferences = mockk<SharedPreferences>()
-        every { context.getSharedPreferences("mincal_prefs", Context.MODE_PRIVATE) } returns legacySharedPreferences
+        every { context.getSharedPreferences(PREFERENCE_KEY, Context.MODE_PRIVATE) } returns legacySharedPreferences
         every { legacySharedPreferences.all } returns when (hasLegacyConfiguration) {
-            true -> mapOf("WIDGET_THEME" to "LIGHT")
+            true -> mapOf(EnumConfigurationItem.WidgetTheme.key to Theme.LIGHT.name)
             else -> emptyMap()
         }
 
         val result = hasLegacyConfiguration(context)
 
         assertThat(result).isEqualTo(hasLegacyConfiguration)
-        verify { context.getSharedPreferences("mincal_prefs", Context.MODE_PRIVATE) }
+        verify { context.getSharedPreferences(PREFERENCE_KEY, Context.MODE_PRIVATE) }
         verify { legacySharedPreferences.all }
         confirmVerified(legacySharedPreferences)
     }
@@ -345,11 +345,11 @@ internal class ConfigurationTest : BaseTest() {
         val appWidgetIds = listOf(3, 8)
         val legacySharedPreferences = mockk<SharedPreferences>()
         val legacyEditor = mockk<SharedPreferences.Editor>()
-        every { context.getSharedPreferences("mincal_prefs", Context.MODE_PRIVATE) } returns legacySharedPreferences
+        every { context.getSharedPreferences(PREFERENCE_KEY, Context.MODE_PRIVATE) } returns legacySharedPreferences
         every { legacySharedPreferences.all } returns mapOf(
-            "WIDGET_THEME" to "LIGHT",
-            "WIDGET_TEXT_SIZE" to 60,
-            "SHOW_WEEK_NUMBER" to true
+            EnumConfigurationItem.WidgetTheme.key to Theme.LIGHT.name,
+            PercentageConfigurationItem.WidgetTextSize.key to 60,
+            BooleanConfigurationItem.ShowWeekNumber.key to true
         )
         every { legacySharedPreferences.edit() } returns legacyEditor
         every { legacyEditor.clear() } returns legacyEditor
@@ -358,13 +358,13 @@ internal class ConfigurationTest : BaseTest() {
 
         migrateLegacyConfiguration(context, appWidgetIds)
 
-        verify { context.getSharedPreferences("mincal_prefs", Context.MODE_PRIVATE) }
+        verify { context.getSharedPreferences(PREFERENCE_KEY, Context.MODE_PRIVATE) }
         verify { legacySharedPreferences.all }
         appWidgetIds.forEach { verifySharedPreferencesAccess(it) }
         verify(exactly = 2) { sharedPreferences.edit() }
-        verify(exactly = 2) { editor.putString("WIDGET_THEME", "LIGHT") }
-        verify(exactly = 2) { editor.putInt("WIDGET_TEXT_SIZE", 60) }
-        verify(exactly = 2) { editor.putBoolean("SHOW_WEEK_NUMBER", true) }
+        verify(exactly = 2) { editor.putString(EnumConfigurationItem.WidgetTheme.key, Theme.LIGHT.name) }
+        verify(exactly = 2) { editor.putInt(PercentageConfigurationItem.WidgetTextSize.key, 60) }
+        verify(exactly = 2) { editor.putBoolean(BooleanConfigurationItem.ShowWeekNumber.key, true) }
         verify(exactly = 2) { editor.commit() }
         verify { legacySharedPreferences.edit() }
         verify { legacyEditor.clear() }
