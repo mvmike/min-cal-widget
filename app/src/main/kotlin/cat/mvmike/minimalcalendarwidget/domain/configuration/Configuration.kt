@@ -41,6 +41,7 @@ sealed class BooleanConfigurationItem(
         key = key,
         defaultValue = defaultValue
     ) {
+
     override fun get(context: Context, appWidgetId: Int) =
         getConfiguration(context, appWidgetId).getBoolean(key, defaultValue)
 
@@ -80,6 +81,7 @@ sealed class EnumConfigurationItem<E : Enum<E>>(
         key = key,
         defaultValue = defaultValue
     ) {
+
     override fun get(context: Context, appWidgetId: Int): E = valueOf(
         enumClass,
         getConfiguration(context, appWidgetId).getString(key, defaultValue.name)!!

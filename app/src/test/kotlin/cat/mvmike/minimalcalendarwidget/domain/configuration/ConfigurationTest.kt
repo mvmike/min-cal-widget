@@ -473,6 +473,20 @@ internal class ConfigurationTest : BaseTest() {
     }
 
     @Test
+    fun preferenceKey_shouldMatchPersistedSharedPreferencesName() {
+        assertThat(PREFERENCE_KEY).isEqualTo("mincal_prefs")
+    }
+
+    @ParameterizedTest
+    @MethodSource("getConfigurationItemsWithPersistedKey")
+    fun key_shouldMatchPersistedSharedPreferencesKey(
+        configurationItem: ConfigurationItem<*>,
+        expectedKey: String
+    ) {
+        assertThat(configurationItem.key).isEqualTo(expectedKey)
+    }
+
+    @Test
     fun clearAllConfiguration_shouldRemoveAllWidgetPreferences() {
         mockSharedPreferences()
 
@@ -585,4 +599,20 @@ internal class ConfigurationTest : BaseTest() {
         verify { legacyEditor.commit() }
         confirmVerified(legacySharedPreferences, legacyEditor)
     }
+
+    private fun getConfigurationItemsWithPersistedKey() = listOf(
+        of(BooleanConfigurationItem.CalendarVisibilitySelection(7), "CALENDAR_VISIBILITY_SELECTION_7"),
+        of(BooleanConfigurationItem.DefaultVisibleCalendars, "DEFAULT_VISIBLE_CALENDARS"),
+        of(BooleanConfigurationItem.ShowDeclinedEvents, "SHOW_DECLINED_EVENTS"),
+        of(BooleanConfigurationItem.FocusOnCurrentWeek, "FOCUS_ON_CURRENT_WEEK"),
+        of(BooleanConfigurationItem.OpenCalendarOnClickedDay, "OPEN_CALENDAR_ON_CLICKED_DAY"),
+        of(BooleanConfigurationItem.ShowWeekNumber, "SHOW_WEEK_NUMBER"),
+        of(EnumConfigurationItem.WidgetTheme, "WIDGET_THEME"),
+        of(EnumConfigurationItem.WidgetCalendar, "WIDGET_CALENDAR"),
+        of(EnumConfigurationItem.FirstDayOfWeek, "FIRST_DAY_OF_WEEK"),
+        of(EnumConfigurationItem.InstancesSymbolSet, "INSTANCES_SYMBOL_SET"),
+        of(EnumConfigurationItem.InstancesColour, "INSTANCES_COLOUR"),
+        of(PercentageConfigurationItem.WidgetTransparency, "WIDGET_TRANSPARENCY"),
+        of(PercentageConfigurationItem.WidgetTextSize, "WIDGET_TEXT_SIZE")
+    )
 }

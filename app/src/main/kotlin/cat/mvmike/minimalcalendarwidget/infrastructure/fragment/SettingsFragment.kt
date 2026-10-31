@@ -171,8 +171,8 @@ class SettingsFragment :
 
     private fun updateCurrentSelection(context: Context) {
         VISIBLE_CALENDAR_SELECTION_KEY.asPreference()?.let {
-            val isReadCalendarPermitted = isReadCalendarPermitted(requireContext())
-            val default = DefaultVisibleCalendars.get(requireContext(), appWidgetId)
+            val isReadCalendarPermitted = isReadCalendarPermitted(context)
+            val default = DefaultVisibleCalendars.get(context, appWidgetId)
             it.summary = when {
                 !isReadCalendarPermitted -> null
                 default -> R.string.visible_calendar_selection_default

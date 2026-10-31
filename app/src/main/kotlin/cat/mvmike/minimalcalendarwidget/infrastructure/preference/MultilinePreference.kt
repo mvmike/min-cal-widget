@@ -25,8 +25,7 @@ class MultilinePreference : Preference {
 
     override fun onBindViewHolder(holder: PreferenceViewHolder) {
         super.onBindViewHolder(holder)
-        (holder.findViewById(android.R.id.title) as TextView?)?.isSingleLine = false
-        (holder.findViewById(android.R.id.summary) as TextView?)?.isSingleLine = false
+        holder.allowMultilineTitleAndSummary()
     }
 }
 
@@ -44,8 +43,7 @@ class MultilineListPreference : ListPreference {
 
     override fun onBindViewHolder(holder: PreferenceViewHolder) {
         super.onBindViewHolder(holder)
-        (holder.findViewById(android.R.id.title) as TextView?)?.isSingleLine = false
-        (holder.findViewById(android.R.id.summary) as TextView?)?.isSingleLine = false
+        holder.allowMultilineTitleAndSummary()
     }
 }
 
@@ -63,8 +61,7 @@ class MultilineCheckBoxPreference : CheckBoxPreference {
 
     override fun onBindViewHolder(holder: PreferenceViewHolder) {
         super.onBindViewHolder(holder)
-        (holder.findViewById(android.R.id.title) as TextView?)?.isSingleLine = false
-        (holder.findViewById(android.R.id.summary) as TextView?)?.isSingleLine = false
+        holder.allowMultilineTitleAndSummary()
     }
 }
 
@@ -82,7 +79,11 @@ class MultilineSeekBarPreference : SeekBarPreference {
 
     override fun onBindViewHolder(holder: PreferenceViewHolder) {
         super.onBindViewHolder(holder)
-        (holder.findViewById(android.R.id.title) as TextView?)?.isSingleLine = false
-        (holder.findViewById(android.R.id.summary) as TextView?)?.isSingleLine = false
+        holder.allowMultilineTitleAndSummary()
     }
+}
+
+private fun PreferenceViewHolder.allowMultilineTitleAndSummary() {
+    (findViewById(android.R.id.title) as TextView?)?.isSingleLine = false
+    (findViewById(android.R.id.summary) as TextView?)?.isSingleLine = false
 }
