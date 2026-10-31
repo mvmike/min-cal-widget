@@ -36,6 +36,7 @@ import java.time.DayOfWeek
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.TimeoutException
+import java.util.concurrent.atomic.AtomicBoolean
 
 internal class RedrawWidgetUseCaseTest : BaseTest() {
 
@@ -191,16 +192,22 @@ internal class RedrawWidgetUseCaseTest : BaseTest() {
         val latchTimeoutInSeconds = 5L
         val updateAppWidgetStarted = CountDownLatch(1)
         val binderProxyTransactionReleased = CountDownLatch(1)
+        val hasBinderProxyTransactionEnded = AtomicBoolean(false)
         every { appWidgetManager.updateAppWidget(appWidgetId, any()) } answers {
             updateAppWidgetStarted.countDown()
             binderProxyTransactionReleased.await(latchTimeoutInSeconds, TimeUnit.SECONDS)
+            hasBinderProxyTransactionEnded.set(true)
             throw TimeoutException("android.os.BinderProxy.transactNative timeout")
         }
 
-        RedrawWidgetUseCase.execute(context, appWidgetManager, appWidgetId, variant)
+        try {
+            RedrawWidgetUseCase.execute(context, appWidgetManager, appWidgetId, variant)
 
-        assertThat(updateAppWidgetStarted.await(latchTimeoutInSeconds, TimeUnit.SECONDS)).isTrue()
-        binderProxyTransactionReleased.countDown()
+            assertThat(hasBinderProxyTransactionEnded).isFalse()
+            assertThat(updateAppWidgetStarted.await(latchTimeoutInSeconds, TimeUnit.SECONDS)).isTrue()
+        } finally {
+            binderProxyTransactionReleased.countDown()
+        }
         verify { MigrateConfigurationUseCase.execute(context, appWidgetManager) }
         verifyWidgetTextSize(appWidgetId)
         verifyWidgetTheme(appWidgetId)
