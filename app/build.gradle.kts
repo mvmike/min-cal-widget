@@ -25,7 +25,7 @@ dependencies {
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junitJupiterVersion")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     // https://github.com/mockk/mockk/releases
-    testImplementation("io.mockk:mockk:1.14.11")
+    testImplementation("io.mockk:mockk:1.14.12")
     // https://github.com/assertj/assertj-core/tags
     testImplementation("org.assertj:assertj-core:3.27.7")
     // https://github.com/TNG/ArchUnit/releases
