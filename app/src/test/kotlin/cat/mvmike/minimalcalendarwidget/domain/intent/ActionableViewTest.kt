@@ -6,9 +6,9 @@ import android.app.PendingIntent
 import android.content.Intent
 import android.widget.RemoteViews
 import cat.mvmike.minimalcalendarwidget.BaseTest
-import cat.mvmike.minimalcalendarwidget.Widget
 import cat.mvmike.minimalcalendarwidget.domain.Variant
 import cat.mvmike.minimalcalendarwidget.domain.intent.ActionableView.CellDay.getExtraInstant
+import cat.mvmike.minimalcalendarwidget.infrastructure.activity.WidgetClickActivity
 import io.mockk.confirmVerified
 import io.mockk.every
 import io.mockk.justRun
@@ -35,7 +35,7 @@ internal class ActionableViewTest : BaseTest() {
 
         mockIntentPutAppWidgetId()
         every {
-            PendingIntent.getBroadcast(
+            PendingIntent.getActivity(
                 context,
                 appWidgetId,
                 intent,
@@ -46,11 +46,11 @@ internal class ActionableViewTest : BaseTest() {
 
         actionableView.addListener(context, remoteViews, appWidgetId, variant)
 
-        verify { Widget.getReceiverClass(variant) }
+        verify { WidgetClickActivity.getActivityClass(variant) }
         verify { anyConstructed<Intent>().action = actionableView.action }
         verifyIntentPutAppWidgetId()
         verify {
-            PendingIntent.getBroadcast(
+            PendingIntent.getActivity(
                 context,
                 appWidgetId,
                 intent,
@@ -78,7 +78,7 @@ internal class ActionableViewTest : BaseTest() {
 
         mockIntentPutAppWidgetId()
         every {
-            PendingIntent.getBroadcast(
+            PendingIntent.getActivity(
                 context,
                 appWidgetId,
                 intent,
@@ -90,11 +90,11 @@ internal class ActionableViewTest : BaseTest() {
 
         ActionableView.CellDay.addListener(context, remoteViews, appWidgetId, variant, systemInstant)
 
-        verify(exactly = 2) { Widget.getReceiverClass(variant) }
+        verify(exactly = 2) { WidgetClickActivity.getActivityClass(variant) }
         verify(exactly = 2) { anyConstructed<Intent>().action = "${ActionableView.CellDay.action}.${systemInstant.epochSecond}" }
         verifyIntentPutAppWidgetId(times = 2)
         verify(exactly = 2) {
-            PendingIntent.getBroadcast(
+            PendingIntent.getActivity(
                 context,
                 appWidgetId,
                 intent,

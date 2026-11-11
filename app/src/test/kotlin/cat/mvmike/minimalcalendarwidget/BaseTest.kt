@@ -23,6 +23,7 @@ import cat.mvmike.minimalcalendarwidget.domain.configuration.item.TransparencyRa
 import cat.mvmike.minimalcalendarwidget.infrastructure.activity.CalendarActivity
 import cat.mvmike.minimalcalendarwidget.infrastructure.activity.ConfigurationActivity
 import cat.mvmike.minimalcalendarwidget.infrastructure.activity.PermissionsActivity
+import cat.mvmike.minimalcalendarwidget.infrastructure.activity.WidgetClickActivity
 import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.CalendarResolver
 import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.GraphicResolver
 import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.SystemResolver
@@ -85,7 +86,8 @@ open class BaseTest {
             CalendarActivity,
             ConfigurationActivity.Companion,
             PermissionsActivity.Companion,
-            Widget.Companion
+            Widget.Companion,
+            WidgetClickActivity.Companion
         )
 
         mockkStatic(PendingIntent::class)
@@ -103,6 +105,7 @@ open class BaseTest {
             ConfigurationActivity.Companion,
             PermissionsActivity.Companion,
             Widget.Companion,
+            WidgetClickActivity.Companion,
             context,
             editor,
             sharedPreferences,

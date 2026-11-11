@@ -9,8 +9,8 @@ import android.content.Context
 import android.content.Intent
 import android.widget.RemoteViews
 import cat.mvmike.minimalcalendarwidget.R
-import cat.mvmike.minimalcalendarwidget.Widget
 import cat.mvmike.minimalcalendarwidget.domain.Variant
+import cat.mvmike.minimalcalendarwidget.infrastructure.activity.WidgetClickActivity
 import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.SystemResolver
 import java.time.Instant
 import java.time.Instant.ofEpochSecond
@@ -60,10 +60,10 @@ sealed class ActionableView(
             .forEach {
                 it.setOnClickPendingIntent(
                     viewId,
-                    PendingIntent.getBroadcast(
+                    PendingIntent.getActivity(
                         context,
                         appWidgetId,
-                        Intent(context, Widget.getReceiverClass(variant))
+                        Intent(context, WidgetClickActivity.getActivityClass(variant))
                             .setAction("${getActionPrefix()}${startOfDay.epochSecond}")
                             .putExtra(EXTRA_APPWIDGET_ID, appWidgetId),
                         PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
@@ -99,10 +99,10 @@ sealed class ActionableView(
         variant: Variant
     ) = remoteViews.setOnClickPendingIntent(
         viewId,
-        PendingIntent.getBroadcast(
+        PendingIntent.getActivity(
             context,
             appWidgetId,
-            Intent(context, Widget.getReceiverClass(variant))
+            Intent(context, WidgetClickActivity.getActivityClass(variant))
                 .setAction(action)
                 .putExtra(EXTRA_APPWIDGET_ID, appWidgetId),
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE

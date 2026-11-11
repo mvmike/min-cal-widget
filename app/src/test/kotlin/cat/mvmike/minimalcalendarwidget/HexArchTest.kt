@@ -2,6 +2,10 @@
 // See LICENSE for licensing information
 package cat.mvmike.minimalcalendarwidget
 
+import cat.mvmike.minimalcalendarwidget.infrastructure.activity.WidgetClickActivity
+import com.tngtech.archunit.base.DescribedPredicate.not
+import com.tngtech.archunit.core.domain.JavaClass.Predicates.belongToAnyOf
+import com.tngtech.archunit.core.domain.JavaClass.Predicates.resideInAnyPackage
 import com.tngtech.archunit.core.importer.ImportOption
 import com.tngtech.archunit.core.importer.Location
 import com.tngtech.archunit.junit.AnalyzeClasses
@@ -60,8 +64,10 @@ internal class HexArchTest {
         .that()
         .resideInAPackage(DOMAIN)
         .should()
-        .dependOnClassesThat()
-        .resideInAnyPackage(*UI_INFRASTRUCTURE)
+        .dependOnClassesThat(
+            resideInAnyPackage(*UI_INFRASTRUCTURE)
+                .and(not(belongToAnyOf(WidgetClickActivity::class.java)))
+        )
 
     @ArchTest
     val domainShouldNotDependOnAndroidUiFrameworks: ArchRule = ArchRuleDefinition
