@@ -56,8 +56,8 @@ android {
         applicationId = namespace
         minSdk = minAndroidVersion
         targetSdk = androidVersion
-        versionCode = 96
-        versionName = "2.21.1"
+        versionCode = 97
+        versionName = "2.22.0"
     }
 
     compileOptions {

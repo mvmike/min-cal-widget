@@ -1,0 +1,3 @@
+v2.22.0
+- Add widget pagination (configurable)
+- Removed "Open calendar into clicked day" configuration due to collision with pagination (header still opens with today)
