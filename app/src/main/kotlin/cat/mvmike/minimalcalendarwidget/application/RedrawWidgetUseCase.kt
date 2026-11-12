@@ -109,6 +109,7 @@ object RedrawWidgetUseCase {
             context = context,
             widgetRemoteView = widgetRemoteView,
             appWidgetId = appWidgetId,
+            variant = variant,
             textSize = textSize,
             widgetTheme = widgetTheme
         )

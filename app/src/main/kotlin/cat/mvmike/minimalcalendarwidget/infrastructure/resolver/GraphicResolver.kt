@@ -9,6 +9,7 @@ import android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
 import android.text.style.AlignmentSpan
 import android.text.style.RelativeSizeSpan
 import android.text.style.StyleSpan
+import android.view.View
 import android.widget.RemoteViews
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.toColorInt
@@ -33,7 +34,8 @@ object GraphicResolver {
         year: String,
         textColour: Int,
         headerYearRelativeSize: Float,
-        textRelativeSize: Float
+        textRelativeSize: Float,
+        allowPagination: Boolean
     ) {
         val text = "$month $year"
         val monthAndYearSpSt = SpannableString(text).apply {
@@ -47,8 +49,19 @@ object GraphicResolver {
                 end = text.length
             )
         }
+        val colour = getColour(context, textColour)
         widgetRemoteView.setTextViewText(R.id.month_and_year_header, monthAndYearSpSt)
-        widgetRemoteView.setTextColor(R.id.month_and_year_header, getColour(context, textColour))
+        widgetRemoteView.setTextColor(R.id.month_and_year_header, colour)
+        val paginationIconsVisibility = when (allowPagination) {
+            true -> View.VISIBLE
+            else -> View.GONE
+        }
+        listOf(R.id.previous_icon, R.id.next_icon).forEach { viewId ->
+            widgetRemoteView.setViewVisibility(viewId, paginationIconsVisibility)
+            if (allowPagination) {
+                colour.setAsColorFilter(widgetRemoteView, viewId)
+            }
+        }
     }
 
     // DAYS HEADER
@@ -136,6 +149,11 @@ object GraphicResolver {
         remoteViews: RemoteViews,
         viewId: Int
     ) = remoteViews.setInt(viewId, "setBackgroundResource", this)
+
+    private fun Int.setAsColorFilter(
+        remoteViews: RemoteViews,
+        viewId: Int
+    ) = remoteViews.setInt(viewId, "setColorFilter", this)
 
     // INTERNAL UTILS
 

@@ -151,7 +151,7 @@ internal class ActionableViewTest : BaseTest() {
 
         assertThat(intent.toActionableView()).isEqualTo(ActionableView.CellDay)
 
-        verify(exactly = 5) { intent.action }
+        verify(exactly = 7) { intent.action }
     }
 
     @Test
@@ -160,7 +160,7 @@ internal class ActionableViewTest : BaseTest() {
 
         assertThat(intent.toActionableView()).isNull()
 
-        verify(exactly = 5) { intent.action }
+        verify(exactly = 7) { intent.action }
     }
 
     @Test
@@ -169,7 +169,7 @@ internal class ActionableViewTest : BaseTest() {
 
         assertThat(intent.toActionableView()).isNull()
 
-        verify(exactly = 4) { intent.action }
+        verify(exactly = 6) { intent.action }
     }
 
     @ParameterizedTest
@@ -194,6 +194,8 @@ internal class ActionableViewTest : BaseTest() {
         listOf(
             of(ActionableView.ConfigurationIcon, variant),
             of(ActionableView.MonthAndYearHeader, variant),
+            of(ActionableView.PreviousIcon, variant),
+            of(ActionableView.NextIcon, variant),
             of(ActionableView.RowHeader, variant)
         )
     }
@@ -201,6 +203,8 @@ internal class ActionableViewTest : BaseTest() {
     private fun getAndSetActionableViewWithItsProperties() = listOf(
         of(ActionableView.ConfigurationIcon, 1),
         of(ActionableView.MonthAndYearHeader, 2),
-        of(ActionableView.RowHeader, 3)
+        of(ActionableView.PreviousIcon, 3),
+        of(ActionableView.NextIcon, 4),
+        of(ActionableView.RowHeader, 5)
     )
 }

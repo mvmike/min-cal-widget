@@ -10,8 +10,8 @@
     <string name="calendar">Kalendaro</string>
     <string name="show_declined_events">Montri malkreskintajn eventojn</string>
     <string name="focus_on_current_week">Koncentru la nunan semajnon</string>
-    <string name="open_calendar_into_clicked_day">Malfermu kalendaron en klakita tago</string>
     <string name="show_week_number">Montri semajnan numeron</string>
+    <string name="allow_pagination">Permesi paĝigon</string>
     <!--configuration - visible calendar selection-->
     <string name="visible_calendar_selection">Elektu videblajn kalendarojn</string>
     <string name="visible_calendar_selection_default">"Defaŭltaj videblaj kalendaroj"</string>

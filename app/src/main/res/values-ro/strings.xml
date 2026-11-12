@@ -10,8 +10,8 @@
     <string name="calendar">Calendar</string>
     <string name="show_declined_events">Arată evenimente refuzate</string>
     <string name="focus_on_current_week">Concentrare pe săptămâna curentă</string>
-    <string name="open_calendar_into_clicked_day">Deschide calendarul în ziua selectată</string>
     <string name="show_week_number">Arată numărul săptămânii</string>
+    <string name="allow_pagination">Permite paginarea</string>
     <!--configuration - visible calendar selection-->
     <string name="visible_calendar_selection">Selectați calendarele vizibile</string>
     <string name="visible_calendar_selection_default">"Calendare vizibile implicite"</string>

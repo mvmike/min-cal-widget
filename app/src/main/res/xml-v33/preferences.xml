@@ -27,14 +27,14 @@
             android:title="@string/focus_on_current_week" />
 
         <cat.mvmike.minimalcalendarwidget.infrastructure.preference.MultilineCheckBoxPreference
-            android:icon="@drawable/ic_clicked_cell"
-            android:key="OPEN_CALENDAR_ON_CLICKED_DAY"
-            android:title="@string/open_calendar_into_clicked_day" />
-
-        <cat.mvmike.minimalcalendarwidget.infrastructure.preference.MultilineCheckBoxPreference
             android:icon="@drawable/ic_week_number"
             android:key="SHOW_WEEK_NUMBER"
             android:title="@string/show_week_number" />
+
+        <cat.mvmike.minimalcalendarwidget.infrastructure.preference.MultilineCheckBoxPreference
+            android:icon="@drawable/ic_pagination"
+            android:key="ALLOW_PAGINATION"
+            android:title="@string/allow_pagination" />
 
         <cat.mvmike.minimalcalendarwidget.infrastructure.preference.MultilinePreference
             android:icon="@drawable/ic_checklist"

@@ -32,6 +32,16 @@ sealed class ActionableView(
         action = "$MINCAL_INTENT_ACTION.month_and_year_header_click"
     )
 
+    data object PreviousIcon : ActionableView(
+        viewId = R.id.previous_icon,
+        action = "$MINCAL_INTENT_ACTION.previous_icon_click"
+    )
+
+    data object NextIcon : ActionableView(
+        viewId = R.id.next_icon,
+        action = "$MINCAL_INTENT_ACTION.next_icon_click"
+    )
+
     data object RowHeader : ActionableView(
         viewId = R.id.row,
         action = "$MINCAL_INTENT_ACTION.row_header_click"
@@ -113,6 +123,8 @@ sealed class ActionableView(
 fun Intent.toActionableView(): ActionableView? = listOf(
     ActionableView.ConfigurationIcon,
     ActionableView.MonthAndYearHeader,
+    ActionableView.PreviousIcon,
+    ActionableView.NextIcon,
     ActionableView.RowHeader
 ).firstOrNull { it.action == action } ?: when {
     action == null -> null

@@ -10,8 +10,8 @@
     <string name="calendar">Календар</string>
     <string name="show_declined_events">Показувати відхилені події</string>
     <string name="focus_on_current_week">Сфокусувати на поточному тижні</string>
-    <string name="open_calendar_into_clicked_day">Відкривати календар на кліканий день</string>
     <string name="show_week_number">Показувати номер тижня</string>
+    <string name="allow_pagination">Дозволити гортання сторінок</string>
     <!--configuration - visible calendar selection-->
     <string name="visible_calendar_selection">Виберіть видимі календарі</string>
     <string name="visible_calendar_selection_default">"Видимі календарі за замовчуванням"</string>

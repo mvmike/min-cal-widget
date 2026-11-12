@@ -10,8 +10,8 @@
     <string name="calendar">Takvim</string>
     <string name="show_declined_events">Reddedilen etkinlikleri göster</string>
     <string name="focus_on_current_week">Geçerli haftaya odaklan</string>
-    <string name="open_calendar_into_clicked_day">Takvimi tıklanan güne aç</string>
     <string name="show_week_number">Hafta numarasını göster</string>
+    <string name="allow_pagination">Sayfalamaya izin ver</string>
     <!--configuration - visible calendar selection-->
     <string name="visible_calendar_selection">Görünür takvimleri seçin</string>
     <string name="visible_calendar_selection_default">"Varsayılan görünür takvimler"</string>

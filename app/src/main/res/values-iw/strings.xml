@@ -10,8 +10,8 @@
     <string name="calendar">לוח שנה</string>
     <string name="show_declined_events">הצג אירועים שנדחו</string>
     <string name="focus_on_current_week">התמקדות בשבוע הנוכחי</string>
-    <string name="open_calendar_into_clicked_day">פתח את היומן לתוך היום שנלחץ עליו</string>
     <string name="show_week_number">הצג מספר שבוע</string>
+    <string name="allow_pagination">אפשר דפדוף</string>
     <!--configuration - visible calendar selection-->
     <string name="visible_calendar_selection">בחר לוחות שנה גלויים</string>
     <string name="visible_calendar_selection_default">"לוחות שנה גלויים כברירת מחדל"</string>

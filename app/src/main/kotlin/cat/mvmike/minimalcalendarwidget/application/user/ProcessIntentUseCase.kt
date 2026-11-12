@@ -8,11 +8,14 @@ import cat.mvmike.minimalcalendarwidget.application.RedrawWidgetUseCase
 import cat.mvmike.minimalcalendarwidget.domain.Variant
 import cat.mvmike.minimalcalendarwidget.domain.configuration.BooleanConfigurationItem
 import cat.mvmike.minimalcalendarwidget.domain.configuration.EnumConfigurationItem.InstancesSymbolSet
+import cat.mvmike.minimalcalendarwidget.domain.configuration.IntConfigurationItem.Page
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.SymbolSet
 import cat.mvmike.minimalcalendarwidget.domain.intent.ActionableView.CellDay
 import cat.mvmike.minimalcalendarwidget.domain.intent.ActionableView.CellDay.getExtraInstant
 import cat.mvmike.minimalcalendarwidget.domain.intent.ActionableView.ConfigurationIcon
 import cat.mvmike.minimalcalendarwidget.domain.intent.ActionableView.MonthAndYearHeader
+import cat.mvmike.minimalcalendarwidget.domain.intent.ActionableView.NextIcon
+import cat.mvmike.minimalcalendarwidget.domain.intent.ActionableView.PreviousIcon
 import cat.mvmike.minimalcalendarwidget.domain.intent.ActionableView.RowHeader
 import cat.mvmike.minimalcalendarwidget.domain.intent.AutoUpdate
 import cat.mvmike.minimalcalendarwidget.domain.intent.AutoUpdate.ACTION_AUTO_UPDATE
@@ -34,9 +37,19 @@ object ProcessIntentUseCase {
         ACTION_AUTO_UPDATE -> RedrawWidgetUseCase.execute(context, variant)
         else -> when (intent.toActionableView()) {
             ConfigurationIcon -> ConfigurationActivity.start(context, intent.getAppWidgetId())
-            MonthAndYearHeader,
-            RowHeader -> context.askForPermissionsIfNeededOrExecuteAndRedraw(intent.getAppWidgetId(), variant) { startCalendarActivity(context) }
-            CellDay -> context.askForPermissionsIfNeededOrExecuteAndRedraw(intent.getAppWidgetId(), variant) { startCalendarActivity(context, intent) }
+            MonthAndYearHeader -> {
+                val appWidgetId = intent.getAppWidgetId()
+                context.askForPermissionsOrExecuteAndRedraw(appWidgetId, variant) {
+                    when (BooleanConfigurationItem.AllowPagination.get(context, appWidgetId)) {
+                        true -> Page.reset(context, appWidgetId)
+                        else -> startCalendarActivity(context)
+                    }
+                }
+            }
+            PreviousIcon -> context.askForPermissionsOrExecuteAndRedraw(intent.getAppWidgetId(), variant) { Page.decrement(context, intent.getAppWidgetId()) }
+            NextIcon -> context.askForPermissionsOrExecuteAndRedraw(intent.getAppWidgetId(), variant) { Page.increment(context, intent.getAppWidgetId()) }
+            RowHeader -> context.askForPermissionsOrExecuteAndRedraw(intent.getAppWidgetId(), variant) { startCalendarActivity(context) }
+            CellDay -> context.askForPermissionsOrExecuteAndRedraw(intent.getAppWidgetId(), variant) { startCalendarActivity(context, intent) }
             else -> null
         }
     }
@@ -51,13 +64,10 @@ object ProcessIntentUseCase {
         intent: Intent
     ) = CalendarActivity.start(
         context = context,
-        startTime = when {
-            BooleanConfigurationItem.OpenCalendarOnClickedDay.get(context, intent.getAppWidgetId()) -> intent.getExtraInstant()
-            else -> SystemResolver.getSystemInstant()
-        }
+        startTime = intent.getExtraInstant()
     )
 
-    private fun Context.askForPermissionsIfNeededOrExecuteAndRedraw(appWidgetId: Int, variant: Variant, function: () -> Unit) = when {
+    private fun Context.askForPermissionsOrExecuteAndRedraw(appWidgetId: Int, variant: Variant, function: () -> Unit) = when {
         isReadCalendarPermitted(this) || InstancesSymbolSet.get(this, appWidgetId) == SymbolSet.NONE -> {
             function.invoke()
             RedrawWidgetUseCase.execute(this)

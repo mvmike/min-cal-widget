@@ -5,31 +5,55 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginStart="5dp"
-        android:layout_weight="1.2"
-        android:orientation="horizontal">
+        android:layout_weight="1.2">
 
         <TextView
             android:id="@+id/month_and_year_header"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
             android:gravity="start|center_vertical"
             android:textSize="20sp" />
 
         <ImageView
+            android:id="@+id/next_icon"
+            android:layout_width="30dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:contentDescription="@string/allow_pagination"
+            android:padding="5dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_next"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/previous_icon"
+            android:layout_width="30dp"
+            android:layout_height="match_parent"
+            android:layout_toStartOf="@id/next_icon"
+            android:layout_alignWithParentIfMissing="true"
+            android:contentDescription="@string/allow_pagination"
+            android:padding="5dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_previous"
+            android:visibility="gone" />
+
+        <ImageView
             android:id="@+id/configuration_icon"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="match_parent"
+            android:layout_toEndOf="@id/month_and_year_header"
+            android:layout_toStartOf="@id/previous_icon"
+            android:layout_alignWithParentIfMissing="true"
             android:contentDescription="@string/configuration"
-            android:gravity="end|center_vertical"
             android:padding="5dp"
-            android:scaleType="fitEnd"
-            android:src="@drawable/ic_configuration" />
+            android:scaleType="fitEnd" />
 
-    </LinearLayout>
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/calendar_days_layout"

@@ -10,8 +10,8 @@
     <string name="calendar">Kalender</string>
     <string name="show_declined_events">Vise avviste hendelser</string>
     <string name="focus_on_current_week">Fokus på inneværende uke</string>
-    <string name="open_calendar_into_clicked_day">Åpne kalender til klikket dag</string>
     <string name="show_week_number">Vis ukenummer</string>
+    <string name="allow_pagination">Tillat sideblaing</string>
     <!--configuration - visible calendar selection-->
     <string name="visible_calendar_selection">Velg synlige kalendere</string>
     <string name="visible_calendar_selection_default">"Standard synlige kalendere"</string>

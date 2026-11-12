@@ -29,6 +29,7 @@ import cat.mvmike.minimalcalendarwidget.domain.configuration.BooleanConfiguratio
 import cat.mvmike.minimalcalendarwidget.domain.configuration.BooleanConfigurationItem.DefaultVisibleCalendars
 import cat.mvmike.minimalcalendarwidget.domain.configuration.ConfigurationItem
 import cat.mvmike.minimalcalendarwidget.domain.configuration.EnumConfigurationItem
+import cat.mvmike.minimalcalendarwidget.domain.configuration.IntConfigurationItem.Page
 import cat.mvmike.minimalcalendarwidget.domain.configuration.PercentageConfigurationItem
 import cat.mvmike.minimalcalendarwidget.domain.configuration.getConfigurationName
 import cat.mvmike.minimalcalendarwidget.domain.configuration.isFirstDayOfWeekLocalePreferenceEnabled
@@ -87,6 +88,9 @@ class SettingsFragment :
         p1: String?
     ) {
         val context = requireContext()
+        if (p1 == BooleanConfigurationItem.AllowPagination.key) {
+            Page.reset(context, appWidgetId)
+        }
         updateCurrentSelection(context)
         RedrawWidgetUseCase.execute(context)
     }
@@ -204,8 +208,8 @@ class SettingsFragment :
     private fun booleanConfigurationItems() = setOf(
         BooleanConfigurationItem.ShowDeclinedEvents,
         BooleanConfigurationItem.FocusOnCurrentWeek,
-        BooleanConfigurationItem.OpenCalendarOnClickedDay,
-        BooleanConfigurationItem.ShowWeekNumber
+        BooleanConfigurationItem.ShowWeekNumber,
+        BooleanConfigurationItem.AllowPagination
     )
 
     private fun percentageConfigurationItems() = setOf(

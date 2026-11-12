@@ -10,8 +10,8 @@
     <string name="calendar">تقویم</string>
     <string name="show_declined_events">ردەدیلەن ایتكنلكلری گوستر</string>
     <string name="focus_on_current_week">گچرلی هفتەیە اوداقلان</string>
-    <string name="open_calendar_into_clicked_day">تقویمی طیقلانان گونە آچ</string>
     <string name="show_week_number">هفتە نوماراسنی گوستر</string>
+    <string name="allow_pagination">صحیفه لمه یه اذن ویر</string>
     <!--configuration - visible calendar selection-->
     <string name="visible_calendar_selection">گورونور تقویملری سچیڭ</string>
     <string name="visible_calendar_selection_default">"وارصاییلان گورونور تقویملر"</string>

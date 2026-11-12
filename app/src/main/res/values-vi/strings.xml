@@ -10,8 +10,8 @@
     <string name="calendar">Lịch</string>
     <string name="show_declined_events">Hiển thị các sự kiện bị từ chối</string>
     <string name="focus_on_current_week">Tập trung vào tuần hiện tại</string>
-    <string name="open_calendar_into_clicked_day">Mở lịch vào ngày đã nhấp</string>
     <string name="show_week_number">Hiển thị số tuần</string>
+    <string name="allow_pagination">Cho phép phân trang</string>
     <!--configuration - visible calendar selection-->
     <string name="visible_calendar_selection">Chọn lịch hiển thị</string>
     <string name="visible_calendar_selection_default">"Lịch hiển thị mặc định"</string>

@@ -6,5 +6,5 @@ A Minimal Calendar Widget that's always on current date
 * Two formats: Month and Week (resizable with initial respective values of 3x2 and 3x1)
 * Displays all events from your calendars with a symbol set (high number becomes generic)
 * Native widget configuration access or press widget’s top right corner
-* Pressing on any other part of the widget opens calendar application
-* Highly configurable per widget: start day of the week, theme, symbol set, symbol set colour, transparency, text size, show week number...
+* Tapping on a day opens calendar application on that day, tapping header resets to current month (if pagination enabled)
+* Highly configurable per widget: start day of the week, theme, symbol set, symbol set colour, transparency, text size, show week number, allow pagination...

@@ -14,6 +14,7 @@ import cat.mvmike.minimalcalendarwidget.domain.Variant.WEEK
 import cat.mvmike.minimalcalendarwidget.domain.configuration.BooleanConfigurationItem
 import cat.mvmike.minimalcalendarwidget.domain.configuration.BooleanConfigurationItem.CalendarVisibilitySelection
 import cat.mvmike.minimalcalendarwidget.domain.configuration.EnumConfigurationItem
+import cat.mvmike.minimalcalendarwidget.domain.configuration.IntConfigurationItem.Page
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.SymbolSet
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.TextSize
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
@@ -49,11 +50,15 @@ object DaysService {
     ) {
         val systemLocalDate = SystemResolver.getSystemLocalDate()
         val systemZoneId = SystemResolver.getSystemZoneId()
+        val widgetLocalDate = when (BooleanConfigurationItem.AllowPagination.get(context, appWidgetId)) {
+            true -> systemLocalDate.plus(Page.get(context, appWidgetId).toLong(), variant.paginationTemporalUnit)
+            else -> systemLocalDate
+        }
         val initialLocalDate = when (variant) {
-            WEEK -> getCurrentWeekInitialLocalDate(systemLocalDate, firstDayOfWeek)
+            WEEK -> getCurrentWeekInitialLocalDate(widgetLocalDate, firstDayOfWeek)
             MONTH -> when (BooleanConfigurationItem.FocusOnCurrentWeek.get(context, appWidgetId)) {
-                true -> getFocusedOnCurrentWeekInitialLocalDate(systemLocalDate, firstDayOfWeek)
-                else -> getNaturalMonthInitialLocalDate(systemLocalDate, firstDayOfWeek)
+                true -> getFocusedOnCurrentWeekInitialLocalDate(widgetLocalDate, firstDayOfWeek)
+                else -> getNaturalMonthInitialLocalDate(widgetLocalDate, firstDayOfWeek)
             }
         }
 
@@ -102,7 +107,7 @@ object DaysService {
                 val currentDay = Day(initialLocalDate.toCurrentWeekAndWeekDay(week, weekDay))
                 val isToday = currentDay.isToday(systemLocalDate)
                 val dayCell = widgetTheme.getCellDay(
-                    inMonth = currentDay.isInMonth(systemLocalDate),
+                    inMonth = currentDay.isInMonth(widgetLocalDate),
                     dayOfWeek = currentDay.getDayOfWeek()
                 )
                 val instancesSymbol = instanceSet

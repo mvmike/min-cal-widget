@@ -5,14 +5,14 @@ Minimal calendar widget that's always on current date
 * Two formats: Month and Week (resizable with initial respective values of 3x2 and 3x1)
 * Displays all visible events from your calendars with a symbol set (high number becomes generic)
 * Native widget configuration access or press widget's top right corner
-* Pressing on any other part of the widget opens calendar application
+* Tapping on a day opens calendar application on that day, tapping header resets to current month (if pagination enabled)
 * Configurable per widget:
   - start day of the week
   - calendar (Gregorian or Holocene)
   - show declined events
   - focus on current week (Month only)
-  - open calendar on clicked day
   - show week number
+  - allow pagination
   - select visible calendars
   - theme
   - symbol set
@@ -34,9 +34,9 @@ Minimal calendar widget that's always on current date
 
 ## Supported languages
 
-[<img src="https://hosted.weblate.org/widgets/min-cal-widget/-/multi-auto.svg" alt="Translation status">](https://hosted.weblate.org/engage/min-cal-widget)
-
 [<img src="https://hosted.weblate.org/widgets/min-cal-widget/-/287x66-auto.png" alt="Translation status">](https://hosted.weblate.org/engage/min-cal-widget)
+
+[<img src="https://hosted.weblate.org/widgets/min-cal-widget/-/multi-auto.svg" alt="Translation status">](https://hosted.weblate.org/engage/min-cal-widget)
 
 Everyone can help adding or updating translations under https://hosted.weblate.org/engage/min-cal-widget
 

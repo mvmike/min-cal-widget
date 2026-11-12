@@ -5,9 +5,14 @@ package cat.mvmike.minimalcalendarwidget.domain.component
 import android.content.Context
 import android.widget.RemoteViews
 import cat.mvmike.minimalcalendarwidget.R
+import cat.mvmike.minimalcalendarwidget.domain.Variant
+import cat.mvmike.minimalcalendarwidget.domain.configuration.BooleanConfigurationItem
 import cat.mvmike.minimalcalendarwidget.domain.configuration.EnumConfigurationItem
+import cat.mvmike.minimalcalendarwidget.domain.configuration.IntConfigurationItem.Page
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.TextSize
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
+import cat.mvmike.minimalcalendarwidget.domain.intent.ActionableView.NextIcon
+import cat.mvmike.minimalcalendarwidget.domain.intent.ActionableView.PreviousIcon
 import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.GraphicResolver
 import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.SystemResolver
 import java.time.LocalDate
@@ -21,16 +26,22 @@ object MonthAndYearHeaderService {
         context: Context,
         widgetRemoteView: RemoteViews,
         appWidgetId: Int,
+        variant: Variant,
         textSize: TextSize,
         widgetTheme: Theme
     ) {
         val systemLocalDate = SystemResolver.getSystemLocalDate()
-        val displayMonth = systemLocalDate
+        val allowPagination = BooleanConfigurationItem.AllowPagination.get(context, appWidgetId)
+        val widgetLocalDate = when {
+            allowPagination -> systemLocalDate.plus(Page.get(context, appWidgetId).toLong(), variant.paginationTemporalUnit)
+            else -> systemLocalDate
+        }
+        val displayMonth = widgetLocalDate
             .toMonthDisplayValue(context)
             .take(textSize.monthHeaderLabelLength)
         val displayYear = EnumConfigurationItem.WidgetCalendar
             .get(context, appWidgetId)
-            .getYear(systemLocalDate)
+            .getYear(widgetLocalDate)
 
         GraphicResolver.createMonthAndYearHeader(
             context = context,
@@ -39,8 +50,13 @@ object MonthAndYearHeaderService {
             year = displayYear,
             textColour = widgetTheme.mainTextColour,
             headerYearRelativeSize = HEADER_RELATIVE_YEAR_SIZE,
-            textRelativeSize = textSize.relativeValue
+            textRelativeSize = textSize.relativeValue,
+            allowPagination = allowPagination
         )
+        if (allowPagination) {
+            PreviousIcon.addListener(context, widgetRemoteView, appWidgetId, variant)
+            NextIcon.addListener(context, widgetRemoteView, appWidgetId, variant)
+        }
     }
 
     private fun LocalDate.toMonthDisplayValue(

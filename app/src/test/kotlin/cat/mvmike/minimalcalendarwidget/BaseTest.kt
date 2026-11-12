@@ -11,6 +11,7 @@ import android.content.SharedPreferences
 import cat.mvmike.minimalcalendarwidget.domain.Percentage
 import cat.mvmike.minimalcalendarwidget.domain.configuration.BooleanConfigurationItem
 import cat.mvmike.minimalcalendarwidget.domain.configuration.EnumConfigurationItem
+import cat.mvmike.minimalcalendarwidget.domain.configuration.IntConfigurationItem
 import cat.mvmike.minimalcalendarwidget.domain.configuration.PercentageConfigurationItem
 import cat.mvmike.minimalcalendarwidget.domain.configuration.getConfigurationName
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Calendar
@@ -218,6 +219,23 @@ open class BaseTest {
         verify { sharedPreferences.getString(configurationItem.key, configurationItem.defaultValue.name) }
     }
 
+    private fun mockIntConfigurationItem(
+        configurationItem: IntConfigurationItem,
+        value: Int,
+        appWidgetId: Int = this.appWidgetId
+    ) {
+        mockSharedPreferences(appWidgetId)
+        every { sharedPreferences.getInt(configurationItem.key, configurationItem.defaultValue) } returns value
+    }
+
+    private fun verifyIntConfigurationItem(
+        configurationItem: IntConfigurationItem,
+        appWidgetId: Int = this.appWidgetId
+    ) {
+        verifySharedPreferencesAccess(appWidgetId)
+        verify { sharedPreferences.getInt(configurationItem.key, configurationItem.defaultValue) }
+    }
+
     private fun <E : Percentage> mockPercentageConfigurationItem(
         configurationItem: PercentageConfigurationItem<E>,
         value: E,
@@ -259,17 +277,30 @@ open class BaseTest {
     protected fun verifyFocusOnCurrentWeek(appWidgetId: Int = this.appWidgetId) =
         verifyBooleanConfigurationItem(BooleanConfigurationItem.FocusOnCurrentWeek, appWidgetId)
 
-    protected fun mockOpenCalendarOnClickedDay(enabled: Boolean, appWidgetId: Int = this.appWidgetId) =
-        mockBooleanConfigurationItem(BooleanConfigurationItem.OpenCalendarOnClickedDay, enabled, appWidgetId)
-
-    protected fun verifyOpenCalendarOnClickedDay(appWidgetId: Int = this.appWidgetId) =
-        verifyBooleanConfigurationItem(BooleanConfigurationItem.OpenCalendarOnClickedDay, appWidgetId)
-
     protected fun mockShowWeekNumber(enabled: Boolean, appWidgetId: Int = this.appWidgetId) =
         mockBooleanConfigurationItem(BooleanConfigurationItem.ShowWeekNumber, enabled, appWidgetId)
 
     protected fun verifyShowWeekNumber(appWidgetId: Int = this.appWidgetId) =
         verifyBooleanConfigurationItem(BooleanConfigurationItem.ShowWeekNumber, appWidgetId)
+
+    protected fun mockAllowPagination(enabled: Boolean, appWidgetId: Int = this.appWidgetId) =
+        mockBooleanConfigurationItem(BooleanConfigurationItem.AllowPagination, enabled, appWidgetId)
+
+    protected fun verifyAllowPagination(appWidgetId: Int = this.appWidgetId) =
+        verifyBooleanConfigurationItem(BooleanConfigurationItem.AllowPagination, appWidgetId)
+
+    protected fun mockPage(page: Int, appWidgetId: Int = this.appWidgetId) =
+        mockIntConfigurationItem(IntConfigurationItem.Page, page, appWidgetId)
+
+    protected fun verifyPage(appWidgetId: Int = this.appWidgetId) =
+        verifyIntConfigurationItem(IntConfigurationItem.Page, appWidgetId)
+
+    protected fun verifySetPage(page: Int, appWidgetId: Int = this.appWidgetId) {
+        verifySharedPreferencesAccess(appWidgetId)
+        verifySharedPreferencesEdit()
+        verify { editor.putInt(IntConfigurationItem.Page.key, page) }
+        verify { editor.apply() }
+    }
 
     protected fun mockWidgetTheme(widgetTheme: Theme, appWidgetId: Int = this.appWidgetId) =
         mockEnumConfigurationItem(EnumConfigurationItem.WidgetTheme, widgetTheme, appWidgetId)

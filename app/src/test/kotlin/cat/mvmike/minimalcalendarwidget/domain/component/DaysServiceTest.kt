@@ -68,6 +68,10 @@ internal class DaysServiceTest : BaseTest() {
         mockkObject(ActionableView.CellDay)
         mockGetSystemLocalDate(testProperties.systemLocalDate)
         mockGetSystemZoneId()
+        mockAllowPagination(testProperties.allowPagination)
+        if (testProperties.allowPagination) {
+            mockPage(testProperties.page)
+        }
         mockIsReadCalendarPermitted(true)
 
         every {
@@ -135,6 +139,10 @@ internal class DaysServiceTest : BaseTest() {
 
         verifyGetSystemLocalDate()
         verifyGetSystemZoneId(times = 2)
+        verifyAllowPagination()
+        if (testProperties.allowPagination) {
+            verifyPage()
+        }
         verifyIsReadCalendarPermitted()
         verify {
             CalendarResolver.getInstances(
@@ -509,6 +517,8 @@ internal class DaysServiceTest : BaseTest() {
                 widgetTheme = Theme.DARK,
                 transparency = Transparency(0),
                 textSize = TextSize(60),
+                allowPagination = true,
+                page = 0,
                 focusOnCurrentWeek = true,
                 instancesColour = Colour.SYSTEM_ACCENT,
                 instancesSymbolSet = SymbolSet.NONE,
@@ -530,6 +540,8 @@ internal class DaysServiceTest : BaseTest() {
                 widgetTheme = Theme.DARK,
                 transparency = Transparency(0),
                 textSize = TextSize(60),
+                allowPagination = false,
+                page = 0,
                 focusOnCurrentWeek = false,
                 instancesColour = Colour.SYSTEM_ACCENT,
                 instancesSymbolSet = SymbolSet.ROMAN,
@@ -575,6 +587,8 @@ internal class DaysServiceTest : BaseTest() {
         val widgetTheme: Theme,
         val transparency: Transparency,
         val textSize: TextSize,
+        val allowPagination: Boolean = false,
+        val page: Int = 0,
         val focusOnCurrentWeek: Boolean,
         val instancesColour: Colour,
         val instancesSymbolSet: SymbolSet,

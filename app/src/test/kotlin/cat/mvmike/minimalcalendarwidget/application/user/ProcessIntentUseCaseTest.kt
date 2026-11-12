@@ -22,6 +22,8 @@ import org.junit.jupiter.params.provider.EnumSource
 import java.time.Instant.ofEpochSecond
 
 private const val MONTH_AND_YEAR_HEADER_CLICK_ACTION = "action.mincal.month_and_year_header_click"
+private const val PREVIOUS_ICON_CLICK_ACTION = "action.mincal.previous_icon_click"
+private const val NEXT_ICON_CLICK_ACTION = "action.mincal.next_icon_click"
 private const val ROW_HEADER_CLICK_ACTION = "action.mincal.row_header_click"
 private const val CELL_DAY_CLICK_ACTION = "action.mincal.cell_day_click"
 
@@ -82,6 +84,8 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
     @ParameterizedTest
     @CsvSource(
         "MONTH,$MONTH_AND_YEAR_HEADER_CLICK_ACTION",
+        "WEEK,$PREVIOUS_ICON_CLICK_ACTION",
+        "MONTH,$NEXT_ICON_CLICK_ACTION",
         "WEEK,$ROW_HEADER_CLICK_ACTION",
         "MONTH,$CELL_DAY_CLICK_ACTION.1675886154",
         "WEEK,$CELL_DAY_CLICK_ACTION.1671249586",
@@ -113,21 +117,136 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
     }
 
     @ParameterizedTest
-    @CsvSource(
-        "MONTH,$MONTH_AND_YEAR_HEADER_CLICK_ACTION",
-        "WEEK,$MONTH_AND_YEAR_HEADER_CLICK_ACTION",
-        "MONTH,$ROW_HEADER_CLICK_ACTION",
-        "WEEK,$ROW_HEADER_CLICK_ACTION"
-    )
-    fun execute_shouldLaunchCalendarActivityAndRedrawWidget_whenPermissionsGiven(
-        variant: Variant,
-        action: String
+    @EnumSource(value = Variant::class)
+    fun execute_shouldResetPageAndRedrawWidget_whenMonthAndYearHeaderClickAndAllowPaginationAndPermissionsGiven(variant: Variant) {
+        mockIntent(MONTH_AND_YEAR_HEADER_CLICK_ACTION)
+        mockIntentAppWidgetId()
+        mockIsReadCalendarPermitted(true)
+        mockAllowPagination(true)
+        mockSharedPreferences()
+        mockkObject(RedrawWidgetUseCase)
+        mockkObject(AutoUpdate)
+
+        justRun { RedrawWidgetUseCase.execute(context) }
+        justRun { AutoUpdate.set(context, variant) }
+
+        ProcessIntentUseCase.execute(context, variant, intent)
+
+        verifyIntentAction()
+        verifyIntentAppWidgetId()
+        verifyIsReadCalendarPermitted()
+        verifyAllowPagination()
+        verifySetPage(0)
+        verify { RedrawWidgetUseCase.execute(context) }
+        verify { AutoUpdate.set(context, variant) }
+        confirmVerified(RedrawWidgetUseCase, AutoUpdate)
+    }
+
+    @ParameterizedTest
+    @EnumSource(value = Variant::class)
+    fun execute_shouldLaunchCalendarActivityAndRedrawWidget_whenMonthAndYearHeaderClickAndNoPaginationAndPermissionsGiven(
+        variant: Variant
     ) {
-        mockIntent(action)
+        mockIntent(MONTH_AND_YEAR_HEADER_CLICK_ACTION)
+        mockIntentAppWidgetId()
+        mockIsReadCalendarPermitted(true)
+        mockAllowPagination(false)
+        mockGetSystemInstant()
+        mockkObject(RedrawWidgetUseCase)
+        mockkObject(AutoUpdate)
+
+        justRun { CalendarActivity.start(context, systemInstant) }
+        justRun { RedrawWidgetUseCase.execute(context) }
+        justRun { AutoUpdate.set(context, variant) }
+
+        ProcessIntentUseCase.execute(context, variant, intent)
+
+        verifyIntentAction()
+        verifyIntentAppWidgetId()
+        verifyIsReadCalendarPermitted()
+        verifyAllowPagination()
+        verifyGetSystemInstant()
+        verify { CalendarActivity.start(context, systemInstant) }
+        verify { RedrawWidgetUseCase.execute(context) }
+        verify { AutoUpdate.set(context, variant) }
+        confirmVerified(RedrawWidgetUseCase, AutoUpdate)
+    }
+
+    @ParameterizedTest
+    @CsvSource(
+        "MONTH,0,-1",
+        "WEEK,-2,-3",
+        "MONTH,4,3"
+    )
+    fun execute_shouldDecrementPageAndRedrawWidget_whenPreviousIconClickAndPermissionsGiven(
+        variant: Variant,
+        currentPage: Int,
+        expectedPage: Int
+    ) {
+        mockIntent(PREVIOUS_ICON_CLICK_ACTION)
+        mockIntentAppWidgetId()
+        mockIsReadCalendarPermitted(true)
+        mockPage(currentPage)
+        mockkObject(RedrawWidgetUseCase)
+        mockkObject(AutoUpdate)
+
+        justRun { RedrawWidgetUseCase.execute(context) }
+        justRun { AutoUpdate.set(context, variant) }
+
+        ProcessIntentUseCase.execute(context, variant, intent)
+
+        verifyIntentAction()
+        verifyIntentAppWidgetId(times = 2)
+        verifyIsReadCalendarPermitted()
+        verifyPage()
+        verifySetPage(expectedPage)
+        verify { RedrawWidgetUseCase.execute(context) }
+        verify { AutoUpdate.set(context, variant) }
+        confirmVerified(RedrawWidgetUseCase, AutoUpdate)
+    }
+
+    @ParameterizedTest
+    @CsvSource(
+        "MONTH,0,1",
+        "WEEK,-1,0",
+        "MONTH,3,4"
+    )
+    fun execute_shouldIncrementPageAndRedrawWidget_whenNextIconClickAndPermissionsGiven(
+        variant: Variant,
+        currentPage: Int,
+        expectedPage: Int
+    ) {
+        mockIntent(NEXT_ICON_CLICK_ACTION)
+        mockIntentAppWidgetId()
+        mockIsReadCalendarPermitted(true)
+        mockPage(currentPage)
+        mockkObject(RedrawWidgetUseCase)
+        mockkObject(AutoUpdate)
+
+        justRun { RedrawWidgetUseCase.execute(context) }
+        justRun { AutoUpdate.set(context, variant) }
+
+        ProcessIntentUseCase.execute(context, variant, intent)
+
+        verifyIntentAction()
+        verifyIntentAppWidgetId(times = 2)
+        verifyIsReadCalendarPermitted()
+        verifyPage()
+        verifySetPage(expectedPage)
+        verify { RedrawWidgetUseCase.execute(context) }
+        verify { AutoUpdate.set(context, variant) }
+        confirmVerified(RedrawWidgetUseCase, AutoUpdate)
+    }
+
+    @ParameterizedTest
+    @EnumSource(value = Variant::class)
+    fun execute_shouldLaunchCalendarActivityAndRedrawWidget_whenRowHeaderClickAndPermissionsGiven(
+        variant: Variant
+    ) {
+        mockIntent(ROW_HEADER_CLICK_ACTION)
         mockIntentAppWidgetId()
         mockIsReadCalendarPermitted(true)
         mockGetSystemInstant()
-        mockOpenCalendarOnClickedDay(false)
         mockkObject(RedrawWidgetUseCase)
         mockkObject(AutoUpdate)
 
@@ -148,22 +267,15 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
     }
 
     @ParameterizedTest
-    @CsvSource(
-        "MONTH,$MONTH_AND_YEAR_HEADER_CLICK_ACTION",
-        "WEEK,$MONTH_AND_YEAR_HEADER_CLICK_ACTION",
-        "MONTH,$ROW_HEADER_CLICK_ACTION",
-        "WEEK,$ROW_HEADER_CLICK_ACTION"
-    )
-    fun execute_shouldLaunchCalendarActivityAndRedrawWidget_whenNoPermissionsGivenAndNoneSymbolSet(
-        variant: Variant,
-        action: String
+    @EnumSource(value = Variant::class)
+    fun execute_shouldLaunchCalendarActivityAndRedrawWidget_whenRowHeaderClickAndNoPermissionsGivenAndNoneSymbolSet(
+        variant: Variant
     ) {
-        mockIntent(action)
+        mockIntent(ROW_HEADER_CLICK_ACTION)
         mockIntentAppWidgetId()
         mockIsReadCalendarPermitted(false)
         mockInstancesSymbolSet(SymbolSet.NONE)
         mockGetSystemInstant()
-        mockOpenCalendarOnClickedDay(false)
         mockkObject(RedrawWidgetUseCase)
         mockkObject(AutoUpdate)
 
@@ -178,42 +290,6 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
         verifyIsReadCalendarPermitted()
         verifyInstancesSymbolSet()
         verifyGetSystemInstant()
-        verify { CalendarActivity.start(context, systemInstant) }
-        verify { RedrawWidgetUseCase.execute(context) }
-        verify { AutoUpdate.set(context, variant) }
-        confirmVerified(RedrawWidgetUseCase, AutoUpdate)
-    }
-
-    @ParameterizedTest
-    @CsvSource(
-        "MONTH,$CELL_DAY_CLICK_ACTION.1675786154",
-        "WEEK,$CELL_DAY_CLICK_ACTION.1671349586",
-        "MONTH,$CELL_DAY_CLICK_ACTION.1624298458",
-        "WEEK,$CELL_DAY_CLICK_ACTION.1434887405"
-    )
-    fun execute_shouldLaunchCalendarActivityOnTodayAndRedrawWidget(
-        variant: Variant,
-        action: String
-    ) {
-        mockIntent(action)
-        mockIntentAppWidgetId()
-        mockIsReadCalendarPermitted(true)
-        mockGetSystemInstant()
-        mockOpenCalendarOnClickedDay(false)
-        mockkObject(RedrawWidgetUseCase)
-        mockkObject(AutoUpdate)
-
-        justRun { CalendarActivity.start(context, systemInstant) }
-        justRun { RedrawWidgetUseCase.execute(context) }
-        justRun { AutoUpdate.set(context, variant) }
-
-        ProcessIntentUseCase.execute(context, variant, intent)
-
-        verifyIntentAction()
-        verifyIntentAppWidgetId(times = 2)
-        verifyIsReadCalendarPermitted()
-        verifyGetSystemInstant()
-        verifyOpenCalendarOnClickedDay()
         verify { CalendarActivity.start(context, systemInstant) }
         verify { RedrawWidgetUseCase.execute(context) }
         verify { AutoUpdate.set(context, variant) }
@@ -238,7 +314,6 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
         mockIsReadCalendarPermitted(true)
         mockGetSystemInstant()
         mockGetSystemZoneId()
-        mockOpenCalendarOnClickedDay(true)
         mockkObject(RedrawWidgetUseCase)
         mockkObject(AutoUpdate)
 
@@ -249,11 +324,10 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
         ProcessIntentUseCase.execute(context, variant, intent)
 
         verifyIntentAction()
-        verifyIntentAppWidgetId(times = 2)
+        verifyIntentAppWidgetId()
         verifyIsReadCalendarPermitted()
         verifyGetSystemInstant()
         verifyGetSystemZoneId()
-        verifyOpenCalendarOnClickedDay()
         verify { CalendarActivity.start(context, startTimeInstant) }
         verify { RedrawWidgetUseCase.execute(context) }
         verify { AutoUpdate.set(context, variant) }

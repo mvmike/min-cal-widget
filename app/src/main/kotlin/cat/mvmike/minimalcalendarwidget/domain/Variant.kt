@@ -2,9 +2,20 @@
 // See LICENSE for licensing information
 package cat.mvmike.minimalcalendarwidget.domain
 
+import java.time.temporal.ChronoUnit
+import java.time.temporal.ChronoUnit.MONTHS
+import java.time.temporal.ChronoUnit.WEEKS
+
 enum class Variant(
-    val numWeeks: Int
+    val numWeeks: Int,
+    val paginationTemporalUnit: ChronoUnit
 ) {
-    MONTH(6),
-    WEEK(1)
+    MONTH(
+        numWeeks = 6,
+        paginationTemporalUnit = MONTHS
+    ),
+    WEEK(
+        numWeeks = 1,
+        paginationTemporalUnit = WEEKS
+    )
 }

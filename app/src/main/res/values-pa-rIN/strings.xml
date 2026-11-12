@@ -10,8 +10,8 @@
     <string name="calendar">ਕੈਲੰਡਰ</string>
     <string name="show_declined_events">ਰੱਦ ਕਰਨ ਵੇਖੋ</string>
     <string name="focus_on_current_week">ਮੌਜੂਦਾ ਹਫ਼ਤੇ ’ਤੇ ਧਿਆਨ ਦਿਓ</string>
-    <string name="open_calendar_into_clicked_day">ਕਲਿਕ ਕੀਤੇ ਦਿਨ ਵਿੱਚ ਕੈਲੰਡਰ ਖੋਲ੍ਹੋ</string>
     <string name="show_week_number">ਹਫ਼ਤਾ ਨੰਬਰ ਦਿਖਾਓ</string>
+    <string name="allow_pagination">ਪੰਨਾਬੰਦੀ ਦੀ ਇਜਾਜ਼ਤ ਦਿਓ</string>
     <!--configuration - visible calendar selection-->
     <string name="visible_calendar_selection">ਦਿਖਾਈ ਦੇਣ ਵਾਲੇ ਕੈਲੰਡਰ ਚੁਣੋ</string>
     <string name="visible_calendar_selection_default">"ਡਿਫੌਲਟ ਦਿਖਾਈ ਦੇਣ ਵਾਲੇ ਕੈਲੰਡਰ"</string>

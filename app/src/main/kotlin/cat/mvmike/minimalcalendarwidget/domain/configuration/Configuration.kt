@@ -64,13 +64,41 @@ sealed class BooleanConfigurationItem(
         key = "FOCUS_ON_CURRENT_WEEK"
     )
 
-    data object OpenCalendarOnClickedDay : BooleanConfigurationItem(
-        key = "OPEN_CALENDAR_ON_CLICKED_DAY"
-    )
-
     data object ShowWeekNumber : BooleanConfigurationItem(
         key = "SHOW_WEEK_NUMBER"
     )
+
+    data object AllowPagination : BooleanConfigurationItem(
+        key = "ALLOW_PAGINATION"
+    )
+}
+
+sealed class IntConfigurationItem(
+    override val key: String,
+    override val defaultValue: Int = 0
+) : ConfigurationItem<Int>(
+        key = key,
+        defaultValue = defaultValue
+    ) {
+
+    override fun get(context: Context, appWidgetId: Int) =
+        getConfiguration(context, appWidgetId).getInt(key, defaultValue)
+
+    data object Page : IntConfigurationItem(
+        key = "PAGE"
+    ) {
+        fun decrement(context: Context, appWidgetId: Int) =
+            set(context, appWidgetId, get(context, appWidgetId).minus(1))
+
+        fun increment(context: Context, appWidgetId: Int) =
+            set(context, appWidgetId, get(context, appWidgetId).plus(1))
+
+        fun reset(context: Context, appWidgetId: Int) =
+            set(context, appWidgetId, defaultValue)
+
+        private fun set(context: Context, appWidgetId: Int, value: Int) =
+            getConfiguration(context, appWidgetId).edit { putInt(key, value) }
+    }
 }
 
 sealed class EnumConfigurationItem<E : Enum<E>>(

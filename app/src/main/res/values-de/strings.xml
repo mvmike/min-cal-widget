@@ -10,8 +10,8 @@
     <string name="calendar">Kalender</string>
     <string name="show_declined_events">Abgelehnte Veranstaltungen anzeigen</string>
     <string name="focus_on_current_week">Aktueller Wochenfokus</string>
-    <string name="open_calendar_into_clicked_day">Kalender am angeklickten Tag öffnen</string>
     <string name="show_week_number">Wochennummer anzeigen</string>
+    <string name="allow_pagination">Seitennavigation erlauben</string>
     <!--configuration - visible calendar selection-->
     <string name="visible_calendar_selection">Sichtbare Kalender auswählen</string>
     <string name="visible_calendar_selection_default">"Standardmäßig sichtbare Kalender"</string>

@@ -96,18 +96,6 @@ internal class ConfigurationTest : BaseTest() {
 
         @ParameterizedTest
         @ValueSource(booleans = [true, false])
-        fun getOpenCalendarOnClickedDay_shouldReturnSharedPreferencesValue(openCalendarOnClickedDay: Boolean) {
-            mockOpenCalendarOnClickedDay(openCalendarOnClickedDay)
-
-            val result = BooleanConfigurationItem.OpenCalendarOnClickedDay.get(context, appWidgetId)
-
-            assertThat(result).isEqualTo(openCalendarOnClickedDay)
-            verifyOpenCalendarOnClickedDay()
-            verify { editor wasNot Called }
-        }
-
-        @ParameterizedTest
-        @ValueSource(booleans = [true, false])
         fun getShowWeekNumber_shouldReturnSharedPreferencesValue(showWeekNumber: Boolean) {
             mockShowWeekNumber(showWeekNumber)
 
@@ -116,6 +104,77 @@ internal class ConfigurationTest : BaseTest() {
             assertThat(result).isEqualTo(showWeekNumber)
             verifyShowWeekNumber()
             verify { editor wasNot Called }
+        }
+
+        @ParameterizedTest
+        @ValueSource(booleans = [true, false])
+        fun getAllowPagination_shouldReturnSharedPreferencesValue(allowPagination: Boolean) {
+            mockAllowPagination(allowPagination)
+
+            val result = BooleanConfigurationItem.AllowPagination.get(context, appWidgetId)
+
+            assertThat(result).isEqualTo(allowPagination)
+            verifyAllowPagination()
+            verify { editor wasNot Called }
+        }
+    }
+
+    @Nested
+    inner class IntConfigurationItems {
+
+        @ParameterizedTest
+        @ValueSource(ints = [-10, -1, 0, 1, 5, 42])
+        fun getPage_shouldReturnSharedPreferencesValue(page: Int) {
+            mockPage(page)
+
+            val result = IntConfigurationItem.Page.get(context, appWidgetId)
+
+            assertThat(result).isEqualTo(page)
+            verifyPage()
+            verify { editor wasNot Called }
+        }
+
+        @ParameterizedTest
+        @CsvSource(
+            "-5,-6",
+            "-1,-2",
+            "0,-1",
+            "1,0",
+            "5,4"
+        )
+        fun decrementPage_shouldSubtractOneFromCurrentPage(currentPage: Int, expectedPage: Int) {
+            mockPage(currentPage)
+
+            IntConfigurationItem.Page.decrement(context, appWidgetId)
+
+            verifyPage()
+            verifySetPage(expectedPage)
+        }
+
+        @ParameterizedTest
+        @CsvSource(
+            "-5,-4",
+            "-1,0",
+            "0,1",
+            "1,2",
+            "5,6"
+        )
+        fun incrementPage_shouldAddOneToCurrentPage(currentPage: Int, expectedPage: Int) {
+            mockPage(currentPage)
+
+            IntConfigurationItem.Page.increment(context, appWidgetId)
+
+            verifyPage()
+            verifySetPage(expectedPage)
+        }
+
+        @Test
+        fun resetPage_shouldSetPageToZero() {
+            mockSharedPreferences()
+
+            IntConfigurationItem.Page.reset(context, appWidgetId)
+
+            verifySetPage(0)
         }
     }
 
@@ -605,8 +664,9 @@ internal class ConfigurationTest : BaseTest() {
         of(BooleanConfigurationItem.DefaultVisibleCalendars, "DEFAULT_VISIBLE_CALENDARS"),
         of(BooleanConfigurationItem.ShowDeclinedEvents, "SHOW_DECLINED_EVENTS"),
         of(BooleanConfigurationItem.FocusOnCurrentWeek, "FOCUS_ON_CURRENT_WEEK"),
-        of(BooleanConfigurationItem.OpenCalendarOnClickedDay, "OPEN_CALENDAR_ON_CLICKED_DAY"),
         of(BooleanConfigurationItem.ShowWeekNumber, "SHOW_WEEK_NUMBER"),
+        of(BooleanConfigurationItem.AllowPagination, "ALLOW_PAGINATION"),
+        of(IntConfigurationItem.Page, "PAGE"),
         of(EnumConfigurationItem.WidgetTheme, "WIDGET_THEME"),
         of(EnumConfigurationItem.WidgetCalendar, "WIDGET_CALENDAR"),
         of(EnumConfigurationItem.FirstDayOfWeek, "FIRST_DAY_OF_WEEK"),

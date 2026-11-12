@@ -185,7 +185,7 @@ internal class RedrawWidgetUseCaseTest : BaseTest() {
         }
 
         justRun { LayoutService.draw(context, any(), widgetTheme, transparency) }
-        justRun { MonthAndYearHeaderService.draw(context, any(), appWidgetId, textSize, widgetTheme) }
+        justRun { MonthAndYearHeaderService.draw(context, any(), appWidgetId, variant, textSize, widgetTheme) }
         justRun { DaysHeaderService.draw(context, any(), appWidgetId, variant, firstDayOfWeek, widgetTheme, transparency, textSize) }
         justRun { DaysService.draw(context, any(), appWidgetId, variant, firstDayOfWeek, widgetTheme, transparency, textSize) }
 
@@ -222,7 +222,7 @@ internal class RedrawWidgetUseCaseTest : BaseTest() {
         verify { ActionableView.MonthAndYearHeader.addListener(context, any(), appWidgetId, variant) }
 
         verify { LayoutService.draw(context, any(), widgetTheme, transparency) }
-        verify { MonthAndYearHeaderService.draw(context, any(), appWidgetId, textSize, widgetTheme) }
+        verify { MonthAndYearHeaderService.draw(context, any(), appWidgetId, variant, textSize, widgetTheme) }
         verify { DaysHeaderService.draw(context, any(), appWidgetId, variant, firstDayOfWeek, widgetTheme, transparency, textSize) }
         verify { DaysService.draw(context, any(), appWidgetId, variant, firstDayOfWeek, widgetTheme, transparency, textSize) }
 
