@@ -21,6 +21,7 @@
     <string name="theme">Gaia</string>
     <string name="symbol_set">Sinbolo multzoa</string>
     <string name="symbol_colour">Sinbolo kolorea</string>
+    <string name="today_symbol_colour">Gaurko sinbolo kolorea</string>
     <string name="transparency">Gardentasuna</string>
     <string name="text_size">Testuaren tamaina</string>
     <!--configuration - about-->
@@ -69,6 +70,7 @@
     <string name="light">Argia</string>
     <!--configuration - values - symbol colours-->
     <string name="system_accent">Sistemaren azentua</string>
+    <string name="default_colour">Lehenetsia</string>
     <!--configuration - messages-->
     <string name="no_calendar_application">Ez da egutegi-aplikaziorik aurkitu</string>
     <string name="no_browser_application">Ez da nabigatzailerik aurkitu</string>

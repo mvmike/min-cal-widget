@@ -21,6 +21,7 @@
     <string name="theme">Thema</string>
     <string name="symbol_set">Zeichensatz</string>
     <string name="symbol_colour">Farbe des Symbols</string>
+    <string name="today_symbol_colour">Farbe des heutigen Symbols</string>
     <string name="transparency">Transparenz</string>
     <string name="text_size">Textgröße</string>
     <!--configuration - about-->
@@ -69,6 +70,7 @@
     <string name="light">Licht</string>
     <!--configuration - values - symbol colours-->
     <string name="system_accent">Systemakzent</string>
+    <string name="default_colour">Standard</string>
     <!--configuration - messages-->
     <string name="no_calendar_application">Keine Kalenderanwendung gefunden</string>
     <string name="no_browser_application">Keine Browseranwendung gefunden</string>

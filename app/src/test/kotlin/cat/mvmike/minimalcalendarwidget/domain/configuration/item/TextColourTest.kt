@@ -8,30 +8,28 @@ import cat.mvmike.minimalcalendarwidget.domain.Colour
 import io.mockk.every
 import io.mockk.verify
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments.of
 import org.junit.jupiter.params.provider.CsvSource
+import org.junit.jupiter.params.provider.EnumSource
 import org.junit.jupiter.params.provider.MethodSource
 
 internal class TextColourTest : BaseTest() {
 
     @ParameterizedTest
-    @MethodSource("getTextColours")
-    fun getInstancesColour_shouldAlwaysReturnTodayResourceWhenIsToday(textColour: TextColour) {
-        val todayInstancesColours = Theme.entries
-            .map { textColour.getInstancesColour(true, it) }
-            .toSet()
-
-        assertThat(todayInstancesColours).containsExactly(Colour.Resource(R.color.instances_today))
+    @EnumSource(value = Theme::class)
+    fun getInstancesColour_shouldReturnTodayResourceForDefault(widgetTheme: Theme) {
+        assertThat(TextColour.InstancesTodayDefault.getInstancesColour(widgetTheme)).isEqualTo(Colour.Resource(R.color.instances_today))
     }
 
     @ParameterizedTest
     @MethodSource("getSystemAccentThemedInstancesColours")
-    fun getInstancesColour_shouldReturnThemedSystemAccentWhenIsNotToday(
+    fun getInstancesColour_shouldReturnThemedSystemAccentForSystemAccent(
         theme: Theme,
         expectedColourResource: Int
     ) {
-        val result = TextColour.SystemAccent.getInstancesColour(false, theme)
+        val result = TextColour.SystemAccent.getInstancesColour(theme)
 
         assertThat(result).isEqualTo(Colour.Resource(expectedColourResource))
     }
@@ -41,9 +39,9 @@ internal class TextColourTest : BaseTest() {
         "#FF00CCCC",
         "#FFFF0000"
     )
-    fun getInstancesColour_shouldReturnHexColourForCustomHexWhenIsNotToday(hexColour: String) {
+    fun getInstancesColour_shouldReturnHexColourForCustomHex(hexColour: String) {
         Theme.entries.forEach { theme ->
-            val result = TextColour.CustomHex(hexColour).getInstancesColour(false, theme)
+            val result = TextColour.CustomHex(hexColour).getInstancesColour(theme)
             assertThat(result).isEqualTo(Colour.Hex(hexColour))
         }
     }
@@ -81,7 +79,7 @@ internal class TextColourTest : BaseTest() {
     ) {
         mockGetRuntimeSDK(sdkVersion)
 
-        val result = defaultTextColour()
+        val result = instancesDefaultTextColour()
 
         assertThat(result).isEqualTo(
             when {
@@ -96,6 +94,8 @@ internal class TextColourTest : BaseTest() {
     @CsvSource(
         "31,,SYSTEM_ACCENT",
         "30,,#FF00CCCC",
+        "31,DEFAULT,DEFAULT",
+        "30,DEFAULT,DEFAULT",
         "31,SYSTEM_ACCENT,SYSTEM_ACCENT",
         "30,SYSTEM_ACCENT,#FF00CCCC",
         "31,CYAN,#FF00CCCC",
@@ -117,12 +117,36 @@ internal class TextColourTest : BaseTest() {
     ) {
         mockGetRuntimeSDK(sdkVersion)
 
-        val result = textColourFromStoredValue(storedValue)
+        val result = textColourFromStoredValue(storedValue, instancesDefaultTextColour())
 
         assertThat(result.getStoredValue()).isEqualTo(expectedStoredValue)
-        if (storedValue !in setOf("CYAN", "MINT", "BLUE", "GREEN", "YELLOW", "BLACK", "WHITE", "#FF123456", "#123456")) {
-            verifyGetRuntimeSDK()
-        }
+        verifyGetRuntimeSDK()
+    }
+
+    @ParameterizedTest
+    @CsvSource(
+        ",DEFAULT",
+        "INVALID_HEX,DEFAULT",
+        "DEFAULT,DEFAULT",
+        "#FF123456,#FF123456"
+    )
+    fun textColourFromStoredValue_shouldFallbackToInstancesTodayDefaultWhenProvided(
+        storedValue: String?,
+        expectedStoredValue: String
+    ) {
+        val result = textColourFromStoredValue(storedValue, TextColour.InstancesTodayDefault)
+
+        assertThat(result.getStoredValue()).isEqualTo(expectedStoredValue)
+    }
+
+    @Test
+    fun getDisplayValue_shouldReturnCapitalisedTranslationForDefault() {
+        every { context.getString(R.string.default_colour) } returns "default"
+
+        val result = TextColour.InstancesTodayDefault.getDisplayValue(context)
+
+        assertThat(result).isEqualTo("Default")
+        verify { context.getString(R.string.default_colour) }
     }
 
     @ParameterizedTest
@@ -154,11 +178,6 @@ internal class TextColourTest : BaseTest() {
 
         assertThat(result).isEqualTo(expectedDisplayValue)
     }
-
-    private fun getTextColours() = listOf(
-        TextColour.SystemAccent,
-        TextColour.CustomHex("#FF00CCCC")
-    )
 
     private fun getSystemAccentThemedInstancesColours() = listOf(
         of(Theme.DARK, R.color.instances_system_accent_light),

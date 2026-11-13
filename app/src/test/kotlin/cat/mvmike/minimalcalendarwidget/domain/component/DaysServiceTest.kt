@@ -14,6 +14,7 @@ import cat.mvmike.minimalcalendarwidget.domain.Instance.AllDayInstance
 import cat.mvmike.minimalcalendarwidget.domain.Instance.TimedInstance
 import cat.mvmike.minimalcalendarwidget.domain.Variant
 import cat.mvmike.minimalcalendarwidget.domain.component.DaysService.getNumberOfInstances
+import cat.mvmike.minimalcalendarwidget.domain.configuration.ColourConfigurationItem
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.SymbolSet
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.TextColour
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.TextSize
@@ -90,6 +91,7 @@ internal class DaysServiceTest : BaseTest() {
             mockGetRuntimeSDK(31)
         }
         mockInstancesColour(testProperties.instancesColour)
+        mockInstancesColour(testProperties.instancesTodayColour, ColourConfigurationItem.InstancesTodayColour)
         mockShowDeclinedEvents(testProperties.showDeclinedEvents)
         mockShowWeekNumber(testProperties.showWeekNumber)
         mockDefaultVisibleCalendars(testProperties.defaultVisibleCalendars)
@@ -166,6 +168,7 @@ internal class DaysServiceTest : BaseTest() {
         }
         verifyInstancesSymbolSet()
         verifyInstancesColour()
+        verifyInstancesColour(ColourConfigurationItem.InstancesTodayColour)
         if (testProperties.instancesColour is TextColour.SystemAccent) {
             verifyGetRuntimeSDK()
         }
@@ -236,7 +239,10 @@ internal class DaysServiceTest : BaseTest() {
                         ),
                         instancesSymbolRemoteView to Cell(
                             text = expectedDayProperties.instancesSymbol.toString(),
-                            colour = testProperties.instancesColour.getInstancesColour(expectedDayProperties.isToday, testProperties.widgetTheme),
+                            colour = when {
+                                expectedDayProperties.isToday -> testProperties.instancesTodayColour.getInstancesColour(testProperties.widgetTheme)
+                                else -> testProperties.instancesColour.getInstancesColour(testProperties.widgetTheme)
+                            },
                             relativeSize = testProperties.textSize.relativeValue * testProperties.instancesSymbolSet.relativeSize,
                             bold = true
                         )
@@ -442,6 +448,28 @@ internal class DaysServiceTest : BaseTest() {
                 textSize = TextSize(32),
                 focusOnCurrentWeek = false,
                 instancesColour = TextColour.CustomHex("#FF00CCCC"),
+                instancesTodayColour = TextColour.CustomHex("#FF123456"),
+                instancesSymbolSet = SymbolSet.MINIMAL,
+                showDeclinedEvents = false,
+                defaultVisibleCalendars = true,
+                visibleCalendarIds = setOf(1, 2, 3, 4, 5),
+                shouldIncludeInstancesSymbolRemoteView = true,
+                showWeekNumber = false,
+                expectedFirstDay = LocalDate.parse("2018-11-26"),
+                expectedInstancesQueryInitEpochMillis = 1543179600000,
+                expectedInstancesQueryEndEpochMillis = 1546808400000,
+                expectedDayPropertiesResourcePath = "/test_case/component/day/day_properties_MONDAY_MINIMAL_default_visible_calendars.csv"
+            ),
+            DrawDaysUseCaseTestProperties(
+                systemLocalDate = systemLocalDate,
+                systemInstances = getSystemInstances(),
+                systemCalendars = getSystemCalendars(),
+                firstDayOfWeek = MONDAY,
+                widgetTheme = Theme.DARK,
+                transparency = Transparency(32),
+                textSize = TextSize(32),
+                focusOnCurrentWeek = false,
+                instancesColour = TextColour.CustomHex("#FF00CCCC"),
                 instancesSymbolSet = SymbolSet.MINIMAL,
                 showDeclinedEvents = false,
                 defaultVisibleCalendars = true,
@@ -598,6 +626,7 @@ internal class DaysServiceTest : BaseTest() {
         val page: Int = 0,
         val focusOnCurrentWeek: Boolean,
         val instancesColour: TextColour,
+        val instancesTodayColour: TextColour = TextColour.InstancesTodayDefault,
         val instancesSymbolSet: SymbolSet,
         val showDeclinedEvents: Boolean,
         val defaultVisibleCalendars: Boolean,

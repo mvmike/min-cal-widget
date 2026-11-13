@@ -7,9 +7,11 @@ import android.os.Build
 import cat.mvmike.minimalcalendarwidget.R
 import cat.mvmike.minimalcalendarwidget.domain.Colour
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.TextColour.CustomHex
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.TextColour.InstancesTodayDefault
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.TextColour.SystemAccent
 import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.SystemResolver
 
+internal const val INSTANCES_TODAY_DEFAULT_KEY = "DEFAULT"
 internal const val SYSTEM_ACCENT_KEY = "SYSTEM_ACCENT"
 private const val DEFAULT_CUSTOM_HEX = "#FF00CCCC"
 private val HEX_COLOUR_REGEX = Regex("^#([0-9a-fA-F]{6}|[0-9a-fA-F]{8})$")
@@ -30,10 +32,17 @@ sealed class TextColour {
 
     abstract fun getStoredValue(): String
 
-    abstract fun getInstancesColour(
-        isToday: Boolean,
-        widgetTheme: Theme
-    ): Colour
+    abstract fun getInstancesColour(widgetTheme: Theme): Colour
+
+    data object InstancesTodayDefault : TextColour() {
+
+        override fun getDisplayValue(context: Context) =
+            context.getString(R.string.default_colour).replaceFirstChar { it.uppercase() }
+
+        override fun getStoredValue() = INSTANCES_TODAY_DEFAULT_KEY
+
+        override fun getInstancesColour(widgetTheme: Theme) = Colour.Resource(R.color.instances_today)
+    }
 
     data object SystemAccent : TextColour() {
 
@@ -42,15 +51,9 @@ sealed class TextColour {
 
         override fun getStoredValue() = SYSTEM_ACCENT_KEY
 
-        override fun getInstancesColour(
-            isToday: Boolean,
-            widgetTheme: Theme
-        ) = when {
-            isToday -> Colour.Resource(R.color.instances_today)
-            else -> when (widgetTheme) {
-                Theme.DARK -> Colour.Resource(R.color.instances_system_accent_light)
-                Theme.LIGHT -> Colour.Resource(R.color.instances_system_accent_dark)
-            }
+        override fun getInstancesColour(widgetTheme: Theme) = when (widgetTheme) {
+            Theme.DARK -> Colour.Resource(R.color.instances_system_accent_light)
+            Theme.LIGHT -> Colour.Resource(R.color.instances_system_accent_dark)
         }
     }
 
@@ -62,31 +65,29 @@ sealed class TextColour {
 
         override fun getStoredValue() = hexColour.uppercase()
 
-        override fun getInstancesColour(
-            isToday: Boolean,
-            widgetTheme: Theme
-        ) = when {
-            isToday -> Colour.Resource(R.color.instances_today)
-            else -> Colour.Hex(hexColour)
-        }
+        override fun getInstancesColour(widgetTheme: Theme) = Colour.Hex(hexColour)
     }
 }
 
-fun textColourFromStoredValue(value: String?): TextColour = when {
-    value == null -> defaultTextColour()
+fun textColourFromStoredValue(
+    value: String?,
+    default: TextColour
+): TextColour = when {
+    value == null -> default
+    value == INSTANCES_TODAY_DEFAULT_KEY -> InstancesTodayDefault
     value == SYSTEM_ACCENT_KEY -> when {
         isSystemAccentAvailable() -> SystemAccent
         else -> CustomHex(DEFAULT_CUSTOM_HEX)
     }
     value in LEGACY_COLOUR_HEX -> CustomHex(LEGACY_COLOUR_HEX.getValue(value))
     HEX_COLOUR_REGEX.matches(value) -> CustomHex(value)
-    else -> defaultTextColour()
+    else -> default
 }
 
 fun isSystemAccentAvailable() =
     SystemResolver.getRuntimeSDK() >= Build.VERSION_CODES.S
 
-fun defaultTextColour() = when {
+fun instancesDefaultTextColour() = when {
     isSystemAccentAvailable() -> SystemAccent
     else -> CustomHex(DEFAULT_CUSTOM_HEX)
 }

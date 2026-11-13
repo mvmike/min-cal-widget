@@ -21,6 +21,7 @@
     <string name="theme">佈景主題</string>
     <string name="symbol_set">符號集</string>
     <string name="symbol_colour">符號色彩</string>
+    <string name="today_symbol_colour">今日符號色彩</string>
     <string name="transparency">透明度</string>
     <string name="text_size">字體大小</string>
     <!--configuration - about-->
@@ -69,6 +70,7 @@
     <string name="light">淺色</string>
     <!--configuration - values - symbol colours-->
     <string name="system_accent">系統主色</string>
+    <string name="default_colour">預設</string>
     <!--configuration - messages-->
     <string name="no_calendar_application">找不到行事曆應用程式</string>
     <string name="no_browser_application">找不到瀏覽器應用程式</string>

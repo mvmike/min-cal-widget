@@ -328,16 +328,23 @@ open class BaseTest {
     protected fun verifyInstancesSymbolSet(appWidgetId: Int = this.appWidgetId) =
         verifyEnumConfigurationItem(EnumConfigurationItem.InstancesSymbolSet, appWidgetId)
 
-    protected fun mockInstancesColour(colour: TextColour, appWidgetId: Int = this.appWidgetId) {
+    protected fun mockInstancesColour(
+        colour: TextColour,
+        configurationItem: ColourConfigurationItem = ColourConfigurationItem.InstancesColour,
+        appWidgetId: Int = this.appWidgetId
+    ) {
         mockSharedPreferences(appWidgetId)
         every {
-            sharedPreferences.getString(ColourConfigurationItem.InstancesColour.key, null)
+            sharedPreferences.getString(configurationItem.key, null)
         } returns colour.getStoredValue()
     }
 
-    protected fun verifyInstancesColour(appWidgetId: Int = this.appWidgetId) {
+    protected fun verifyInstancesColour(
+        configurationItem: ColourConfigurationItem = ColourConfigurationItem.InstancesColour,
+        appWidgetId: Int = this.appWidgetId
+    ) {
         verifySharedPreferencesAccess(appWidgetId)
-        verify { sharedPreferences.getString(ColourConfigurationItem.InstancesColour.key, null) }
+        verify { sharedPreferences.getString(configurationItem.key, null) }
     }
 
     protected fun mockWidgetTransparency(transparency: Transparency, appWidgetId: Int = this.appWidgetId) =

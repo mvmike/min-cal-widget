@@ -21,6 +21,7 @@
     <string name="theme">تەما</string>
     <string name="symbol_set">سەمبول سەتی</string>
     <string name="symbol_colour">سەمبول رنگی</string>
+    <string name="today_symbol_colour">بوكونكى سەمبول رنگی</string>
     <string name="transparency">شفافلق</string>
     <string name="text_size">یازی بویودی</string>
     <!--configuration - about-->
@@ -69,6 +70,7 @@
     <string name="light">آیدینلق</string>
     <!--configuration - values - symbol colours-->
     <string name="system_accent">سیستەم ورثەییلانی</string>
+    <string name="default_colour">وارصاییلان</string>
     <!--configuration - messages-->
     <string name="no_calendar_application">تقویم اویغولامەسی بولونامەدی</string>
     <string name="no_browser_application">طاراییجی اویغولامەسی بولونامەدی</string>

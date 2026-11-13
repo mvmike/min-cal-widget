@@ -21,6 +21,7 @@
     <string name="theme">Thema</string>
     <string name="symbol_set">Symboolset</string>
     <string name="symbol_colour">Symboolkleur</string>
+    <string name="today_symbol_colour">Symboolkleur van vandaag</string>
     <string name="transparency">Transparantie</string>
     <string name="text_size">Lettergrootte</string>
     <!--configuration - about-->
@@ -69,6 +70,7 @@
     <string name="light">Licht</string>
     <!--configuration - values - symbol colours-->
     <string name="system_accent">System accent</string>
+    <string name="default_colour">Standaard</string>
     <!--configuration - messages-->
     <string name="no_calendar_application">Geen agenda-applicatie gevonden</string>
     <string name="no_browser_application">Der blev ikke fundet nogen browserapplikation</string>

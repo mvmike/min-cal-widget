@@ -430,8 +430,39 @@ internal class ConfigurationTest : BaseTest() {
             verify { editor.apply() }
         }
 
+        @ParameterizedTest
+        @MethodSource("getInstancesTodayColours")
+        fun getInstancesTodayColour_shouldReturnSharedPreferencesValue(colour: TextColour) {
+            mockInstancesColour(colour, ColourConfigurationItem.InstancesTodayColour)
+
+            val result = ColourConfigurationItem.InstancesTodayColour.get(context, appWidgetId)
+
+            assertThat(result).isEqualTo(colour)
+            verifyInstancesColour(ColourConfigurationItem.InstancesTodayColour)
+            verify { editor wasNot Called }
+        }
+
+        @ParameterizedTest
+        @MethodSource("getInstancesTodayColours")
+        fun setInstancesTodayColour_shouldPersistStoredValue(colour: TextColour) {
+            mockSharedPreferences()
+            every { editor.putString(ColourConfigurationItem.InstancesTodayColour.key, colour.getStoredValue()) } returns editor
+
+            ColourConfigurationItem.InstancesTodayColour.set(context, appWidgetId, colour)
+
+            verifySharedPreferencesAccess()
+            verifySharedPreferencesEdit()
+            verify { editor.putString(ColourConfigurationItem.InstancesTodayColour.key, colour.getStoredValue()) }
+            verify { editor.apply() }
+        }
+
         private fun getInstancesColours() = listOf(
             TextColour.SystemAccent,
+            TextColour.CustomHex("#FF123456")
+        )
+
+        private fun getInstancesTodayColours() = listOf(
+            TextColour.InstancesTodayDefault,
             TextColour.CustomHex("#FF123456")
         )
     }
@@ -627,6 +658,7 @@ internal class ConfigurationTest : BaseTest() {
         of(EnumConfigurationItem.FirstDayOfWeek, "FIRST_DAY_OF_WEEK"),
         of(EnumConfigurationItem.InstancesSymbolSet, "INSTANCES_SYMBOL_SET"),
         of(ColourConfigurationItem.InstancesColour, "INSTANCES_COLOUR"),
+        of(ColourConfigurationItem.InstancesTodayColour, "INSTANCES_TODAY_COLOUR"),
         of(PercentageConfigurationItem.WidgetTransparency, "WIDGET_TRANSPARENCY"),
         of(PercentageConfigurationItem.WidgetTextSize, "WIDGET_TEXT_SIZE")
     )

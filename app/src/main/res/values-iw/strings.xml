@@ -21,6 +21,7 @@
     <string name="theme">עיצוב</string>
     <string name="symbol_set">סט סמלים</string>
     <string name="symbol_colour">צבע הסמל</string>
+    <string name="today_symbol_colour">צבע הסמל של היום</string>
     <string name="transparency">שקיפות</string>
     <string name="text_size">גודל טקסט</string>
     <!--configuration - about-->
@@ -69,6 +70,7 @@
     <string name="light">מואר</string>
     <!--configuration - values - symbol colours-->
     <string name="system_accent">מערכת</string>
+    <string name="default_colour">ברירת מחדל</string>
     <!--configuration - messages-->
     <string name="no_calendar_application">לא נמצאה אפליקציית לוח שנה</string>
     <string name="no_browser_application">לא נמצאה אפליקציית דפדפן</string>

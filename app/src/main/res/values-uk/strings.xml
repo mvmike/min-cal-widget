@@ -21,6 +21,7 @@
     <string name="theme">Тема</string>
     <string name="symbol_set">Набір символів</string>
     <string name="symbol_colour">Колір символів</string>
+    <string name="today_symbol_colour">Колір символів сьогодні</string>
     <string name="transparency">Прозорість</string>
     <string name="text_size">Розмір тексту</string>
     <!--configuration - about-->
@@ -69,6 +70,7 @@
     <string name="light">Світла</string>
     <!--configuration - values - symbol colours-->
     <string name="system_accent">Системний</string>
+    <string name="default_colour">За замовчуванням</string>
     <!--configuration - messages-->
     <string name="no_calendar_application">Не знайдено жодного застосунку календаря</string>
     <string name="no_browser_application">Не знайдено застосунок для перегляду веб-сторінок</string>

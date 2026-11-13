@@ -21,6 +21,7 @@
     <string name="theme">Tema</string>
     <string name="symbol_set">Simbolių rinkinys</string>
     <string name="symbol_colour">Simbolių spalva</string>
+    <string name="today_symbol_colour">Šiandienos simbolių spalva</string>
     <string name="transparency">Skaidrumas</string>
     <string name="text_size">Teksto dydis</string>
     <!--configuration - about-->
@@ -69,6 +70,7 @@
     <string name="light">Šviesi</string>
     <!--configuration - values - symbol colours-->
     <string name="system_accent">Sisteminis akcentas</string>
+    <string name="default_colour">Numatytoji</string>
     <!--configuration - messages-->
     <string name="no_calendar_application">Kalendoriaus programa nerasta</string>
     <string name="no_browser_application">Naršyklės programa nerasta</string>

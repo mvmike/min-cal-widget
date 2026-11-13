@@ -21,6 +21,7 @@
     <string name="theme">تھیم</string>
     <string name="symbol_set">اشارے دا سیٹ</string>
     <string name="symbol_colour">اشارے دا رنگ</string>
+    <string name="today_symbol_colour">اج دے اشارے دا رنگ</string>
     <string name="transparency">پاردرشتہ</string>
     <string name="text_size">متن کا سائز</string>
     <!--configuration - about-->
@@ -69,6 +70,7 @@
     <string name="light">روشنی</string>
     <!--configuration - values - symbol colours-->
     <string name="system_accent">سسٹم دا رنگ</string>
+    <string name="default_colour">ڈیفالٹ</string>
     <!--configuration - messages-->
     <string name="no_calendar_application">کوئی کیلنڈر ایپلیکیشن نہیں لبھی</string>
     <string name="no_browser_application">کوئی براؤزر ایپلیکیشن نہیں لبھی</string>

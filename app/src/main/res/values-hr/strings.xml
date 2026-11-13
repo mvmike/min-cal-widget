@@ -21,6 +21,7 @@
     <string name="theme">Tema</string>
     <string name="symbol_set">Skup simbola</string>
     <string name="symbol_colour">Boja simbola</string>
+    <string name="today_symbol_colour">Boja današnjih simbola</string>
     <string name="transparency">Prozirnost</string>
     <string name="text_size">Veličina teksta</string>
     <!--configuration - about-->
@@ -69,6 +70,7 @@
     <string name="light">Svijetla</string>
     <!--configuration - values - symbol colours-->
     <string name="system_accent">Boje sustava</string>
+    <string name="default_colour">Zadano</string>
     <!--configuration - messages-->
     <string name="no_calendar_application">Nije pronađena nijedna aplikacija kalendara</string>
     <string name="no_browser_application">Nije pronađena nijedna aplikacija preglednika</string>

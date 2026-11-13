@@ -21,6 +21,7 @@
     <string name="theme">Tema</string>
     <string name="symbol_set">Sembol seti</string>
     <string name="symbol_colour">Sembol rengi</string>
+    <string name="today_symbol_colour">Bugünün sembol rengi</string>
     <string name="transparency">Şeffaflık</string>
     <string name="text_size">Yazı Boyutu</string>
     <!--configuration - about-->
@@ -69,6 +70,7 @@
     <string name="light">Aydınlık</string>
     <!--configuration - values - symbol colours-->
     <string name="system_accent">Sistem varsayılanı</string>
+    <string name="default_colour">Varsayılan</string>
     <!--configuration - messages-->
     <string name="no_calendar_application">Takvim uygulaması bulunamadı</string>
     <string name="no_browser_application">Tarayıcı uygulaması bulunamadı</string>

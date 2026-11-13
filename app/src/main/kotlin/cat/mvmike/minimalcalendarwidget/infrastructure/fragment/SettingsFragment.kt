@@ -14,7 +14,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
 import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.preference.CheckBoxPreference
 import androidx.preference.ListPreference
@@ -85,7 +84,7 @@ class SettingsFragment :
             fillAppLocaleSettings(context)
         }
         fillVisibleCalendarSelection()
-        fillInstancesColourPreference(context)
+        fillColourPreferences(context)
         fillVariantPreferences(context)
         updateCurrentSelection(context)
         fillAboutSection(context)
@@ -158,43 +157,70 @@ class SettingsFragment :
     private fun fillVisibleCalendarSelection() =
         VISIBLE_CALENDAR_SELECTION_KEY.asPreference()?.extras?.putInt(EXTRA_APPWIDGET_ID, appWidgetId)
 
-    private fun fillInstancesColourPreference(context: Context) =
-        ColourConfigurationItem.InstancesColour.key.asPreference()?.setOnPreferenceClickListener {
-            val builder = ColorPickerDialog
-                .Builder(context)
-                .setTitle(R.string.symbol_colour)
-                .setPositiveButton(
-                    android.R.string.ok,
-                    ColorEnvelopeListener { envelope, _ ->
-                        ColourConfigurationItem.InstancesColour.set(
-                            context,
-                            appWidgetId,
-                            TextColour.CustomHex("#${envelope.hexCode}")
-                        )
-                    }
-                ).setNegativeButton(android.R.string.cancel) { dialog, _ ->
-                    dialog.dismiss()
-                }.attachAlphaSlideBar(true)
-                .attachBrightnessSlideBar(true)
+    private fun fillColourPreferences(context: Context) {
+        fillColourPreference(
+            context = context,
+            configurationItem = ColourConfigurationItem.InstancesColour,
+            titleRes = R.string.symbol_colour,
+            neutralButtonTextRes = R.string.system_accent.takeIf { isSystemAccentAvailable() },
+            neutralButtonColour = TextColour.SystemAccent
+        )
+        fillColourPreference(
+            context = context,
+            configurationItem = ColourConfigurationItem.InstancesTodayColour,
+            titleRes = R.string.today_symbol_colour,
+            neutralButtonTextRes = R.string.default_colour,
+            neutralButtonColour = TextColour.InstancesTodayDefault
+        )
+    }
 
-            val currentColour = ColourConfigurationItem.InstancesColour.get(context, appWidgetId)
-            if (currentColour is TextColour.CustomHex) {
-                builder.colorPickerView.setInitialColor(GraphicResolver.getColour(Colour.Hex(currentColour.hexColour)))
-            }
-
-            if (isSystemAccentAvailable()) {
-                builder.setNeutralButton(R.string.system_accent) { _, _ ->
-                    ColourConfigurationItem.InstancesColour.set(
+    private fun fillColourPreference(
+        context: Context,
+        configurationItem: ColourConfigurationItem,
+        titleRes: Int,
+        neutralButtonTextRes: Int?,
+        neutralButtonColour: TextColour
+    ) = configurationItem.key.asPreference()?.setOnPreferenceClickListener {
+        val builder = ColorPickerDialog
+            .Builder(context)
+            .setTitle(titleRes)
+            .setPositiveButton(
+                android.R.string.ok,
+                ColorEnvelopeListener { envelope, _ ->
+                    configurationItem.set(
                         context,
                         appWidgetId,
-                        TextColour.SystemAccent
+                        TextColour.CustomHex("#${envelope.hexCode}")
                     )
                 }
-            }
+            ).setNegativeButton(android.R.string.cancel) { dialog, _ ->
+                dialog.dismiss()
+            }.attachAlphaSlideBar(true)
+            .attachBrightnessSlideBar(true)
 
-            builder.show()
-            true
+        val currentColour = configurationItem.get(context, appWidgetId)
+        val initialColour = when (currentColour) {
+            is TextColour.CustomHex -> Colour.Hex(currentColour.hexColour)
+            is TextColour.InstancesTodayDefault -> currentColour.getInstancesColour(EnumConfigurationItem.WidgetTheme.get(context, appWidgetId))
+            is TextColour.SystemAccent -> null
         }
+        initialColour?.let {
+            builder.colorPickerView.setInitialColor(GraphicResolver.getColour(context, it))
+        }
+
+        if (neutralButtonTextRes != null) {
+            builder.setNeutralButton(neutralButtonTextRes) { _, _ ->
+                configurationItem.set(
+                    context,
+                    appWidgetId,
+                    neutralButtonColour
+                )
+            }
+        }
+
+        builder.show()
+        true
+    }
 
     private fun fillVariantPreferences(context: Context) {
         val provider = AppWidgetManager.getInstance(context).getAppWidgetInfo(appWidgetId)?.provider
@@ -236,19 +262,8 @@ class SettingsFragment :
             it.asListPreference()?.summary = it.getCurrentDisplayValue(context, appWidgetId)
         }
 
-        (ColourConfigurationItem.InstancesColour.key.asPreference() as? MultilineColourPreference)?.let { pref ->
-            when (val colour = ColourConfigurationItem.InstancesColour.get(context, appWidgetId)) {
-                is TextColour.SystemAccent -> {
-                    pref.summary = colour.getDisplayValue(context)
-                    val widgetTheme = EnumConfigurationItem.WidgetTheme.get(context, appWidgetId)
-                    pref.swatchColour = GraphicResolver.getColour(context, colour.getInstancesColour(false, widgetTheme))
-                }
-                is TextColour.CustomHex -> {
-                    pref.summary = " "
-                    pref.swatchColour = GraphicResolver.getColour(Colour.Hex(colour.hexColour))
-                }
-            }
-        }
+        updateColourPreference(context, ColourConfigurationItem.InstancesColour)
+        updateColourPreference(context, ColourConfigurationItem.InstancesTodayColour)
 
         booleanConfigurationItems().forEach {
             it.asCheckBoxPreference()?.isChecked = it.get(context, appWidgetId)
@@ -256,6 +271,24 @@ class SettingsFragment :
 
         percentageConfigurationItems().forEach {
             it.asSeekBarPreference()?.value = it.get(context, appWidgetId).value
+        }
+    }
+
+    private fun updateColourPreference(
+        context: Context,
+        configurationItem: ColourConfigurationItem
+    ) = (configurationItem.key.asPreference() as? MultilineColourPreference)?.let { pref ->
+        val widgetTheme = EnumConfigurationItem.WidgetTheme.get(context, appWidgetId)
+        when (val colour = configurationItem.get(context, appWidgetId)) {
+            is TextColour.SystemAccent,
+            is TextColour.InstancesTodayDefault -> {
+                pref.summary = colour.getDisplayValue(context)
+                pref.swatchColour = GraphicResolver.getColour(context, colour.getInstancesColour(widgetTheme))
+            }
+            is TextColour.CustomHex -> {
+                pref.summary = null
+                pref.swatchColour = GraphicResolver.getColour(Colour.Hex(colour.hexColour))
+            }
         }
     }
 

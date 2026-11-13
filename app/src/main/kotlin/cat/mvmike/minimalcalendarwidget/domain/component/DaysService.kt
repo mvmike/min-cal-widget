@@ -72,6 +72,7 @@ object DaysService {
         )
         val instancesSymbolSet = EnumConfigurationItem.InstancesSymbolSet.get(context, appWidgetId)
         val instancesColour = ColourConfigurationItem.InstancesColour.get(context, appWidgetId)
+        val instancesTodayColour = ColourConfigurationItem.InstancesTodayColour.get(context, appWidgetId)
         val showDeclinedEvents = BooleanConfigurationItem.ShowDeclinedEvents.get(context, appWidgetId)
         val showWeekNumber = BooleanConfigurationItem.ShowWeekNumber.get(context, appWidgetId)
         val weekFields = WeekFields.of(firstDayOfWeek, 1)
@@ -114,7 +115,10 @@ object DaysService {
                 val instancesSymbol = instanceSet
                     .getNumberOfInstances(currentDay, systemZoneId, showDeclinedEvents, visibleCalendarIds)
                     .let { instancesSymbolSet.get(it) }
-                val dayInstancesColour = instancesColour.getInstancesColour(isToday, widgetTheme)
+                val dayInstancesColour = when {
+                    isToday -> instancesTodayColour.getInstancesColour(widgetTheme)
+                    else -> instancesColour.getInstancesColour(widgetTheme)
+                }
                 val backgroundWithTransparency = dayCell.background
                     ?.let { GraphicResolver.getColourAsString(context, it) }
                     ?.withTransparency(

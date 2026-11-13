@@ -13,11 +13,11 @@ import cat.mvmike.minimalcalendarwidget.domain.configuration.item.TextColour
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.TextSize
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Transparency
-import cat.mvmike.minimalcalendarwidget.domain.configuration.item.defaultTextColour
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.getCalendarDisplayValues
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.getDisplayValue
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.getSymbolSetDisplayValues
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.getThemeDisplayValues
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.instancesDefaultTextColour
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.textColourFromStoredValue
 import cat.mvmike.minimalcalendarwidget.domain.getDayOfWeekDisplayValues
 import cat.mvmike.minimalcalendarwidget.domain.getDisplayValue
@@ -175,14 +175,19 @@ sealed class ColourConfigurationItem(
     ) {
 
     override fun get(context: Context, appWidgetId: Int) =
-        textColourFromStoredValue(getConfiguration(context, appWidgetId).getString(key, null))
+        textColourFromStoredValue(getConfiguration(context, appWidgetId).getString(key, null), defaultValue)
 
     fun set(context: Context, appWidgetId: Int, value: TextColour) =
         getConfiguration(context, appWidgetId).edit { putString(key, value.getStoredValue()) }
 
     data object InstancesColour : ColourConfigurationItem(
         key = "INSTANCES_COLOUR",
-        defaultValue = defaultTextColour()
+        defaultValue = instancesDefaultTextColour()
+    )
+
+    data object InstancesTodayColour : ColourConfigurationItem(
+        key = "INSTANCES_TODAY_COLOUR",
+        defaultValue = TextColour.InstancesTodayDefault
     )
 }
 

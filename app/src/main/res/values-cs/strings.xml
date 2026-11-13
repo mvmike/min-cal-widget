@@ -21,6 +21,7 @@
     <string name="theme">Téma</string>
     <string name="symbol_set">Sada symbolů</string>
     <string name="symbol_colour">Barva symbolů</string>
+    <string name="today_symbol_colour">Barva symbolů dneška</string>
     <string name="transparency">Průhlednost</string>
     <string name="text_size">Velikost textu</string>
     <!--configuration - about-->
@@ -69,6 +70,7 @@
     <string name="light">Světlý</string>
     <!--configuration - values - symbol colours-->
     <string name="system_accent">Barevný akcent</string>
+    <string name="default_colour">Výchozí</string>
     <!--configuration - messages-->
     <string name="no_calendar_application">Nenalezena kalendářní aplikace</string>
     <string name="no_browser_application">Nenalezen webový prohlížeč</string>

@@ -63,6 +63,11 @@
             android:key="INSTANCES_COLOUR"
             android:title="@string/symbol_colour" />
 
+        <cat.mvmike.minimalcalendarwidget.infrastructure.preference.MultilineColourPreference
+            android:icon="@drawable/ic_palette"
+            android:key="INSTANCES_TODAY_COLOUR"
+            android:title="@string/today_symbol_colour" />
+
         <cat.mvmike.minimalcalendarwidget.infrastructure.preference.MultilineSeekBarPreference
             android:icon="@drawable/ic_gradient"
             android:key="WIDGET_TRANSPARENCY"

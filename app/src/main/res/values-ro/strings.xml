@@ -21,6 +21,7 @@
     <string name="theme">Temă</string>
     <string name="symbol_set">Set de simboluri</string>
     <string name="symbol_colour">Culoare simboluri</string>
+    <string name="today_symbol_colour">Culoare simboluri de azi</string>
     <string name="transparency">Transparență</string>
     <string name="text_size">Dimensiunea textului</string>
     <!--configuration - about-->
@@ -69,6 +70,7 @@
     <string name="light">Luminoasă</string>
     <!--configuration - values - symbol colours-->
     <string name="system_accent">Nuanță de sistem</string>
+    <string name="default_colour">Implicit</string>
     <!--configuration - messages-->
     <string name="no_calendar_application">Nu a fost găsită nicio aplicație calendar</string>
     <string name="no_browser_application">Nu a fost găsită nicio aplicație browser</string>

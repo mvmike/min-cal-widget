@@ -21,6 +21,7 @@
     <string name="theme">テーマ</string>
     <string name="symbol_set">予定のシンボル</string>
     <string name="symbol_colour">シンボルの色</string>
+    <string name="today_symbol_colour">今日のシンボルの色</string>
     <string name="transparency">透明度</string>
     <string name="text_size">テキストサイズ</string>
     <!--configuration - about-->
@@ -69,6 +70,7 @@
     <string name="light">ライト</string>
     <!--configuration - values - symbol colours-->
     <string name="system_accent">システムのアクセントカラー</string>
+    <string name="default_colour">デフォルト</string>
     <!--configuration - messages-->
     <string name="no_calendar_application">カレンダーアプリが見つかりません</string>
     <string name="no_browser_application">Webブラウザが見つかりません</string>

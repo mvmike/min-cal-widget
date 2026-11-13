@@ -21,6 +21,7 @@
     <string name="theme">Chủ đề</string>
     <string name="symbol_set">Bộ ký hiệu</string>
     <string name="symbol_colour">Màu ký hiệu</string>
+    <string name="today_symbol_colour">Màu ký hiệu hôm nay</string>
     <string name="transparency">Độ trong suốt</string>
     <string name="text_size">Cỡ chữ</string>
     <!--configuration - about-->
@@ -69,6 +70,7 @@
     <string name="light">Sáng</string>
     <!--configuration - values - symbol colours-->
     <string name="system_accent">dấu hệ thống</string>
+    <string name="default_colour">Mặc định</string>
     <!--configuration - messages-->
     <string name="no_calendar_application">Không tìm thấy ứng dụng lịch nào</string>
     <string name="no_browser_application">Không tìm thấy ứng dụng trình duyệt nào</string>
