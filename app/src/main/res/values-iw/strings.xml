@@ -69,13 +69,6 @@
     <string name="light">מואר</string>
     <!--configuration - values - symbol colours-->
     <string name="system_accent">מערכת</string>
-    <string name="cyan">ציאן</string>
-    <string name="blue">כחול</string>
-    <string name="mint">מינט</string>
-    <string name="green">ירוק</string>
-    <string name="yellow">צהוב</string>
-    <string name="black">שחור</string>
-    <string name="white">לבן</string>
     <!--configuration - messages-->
     <string name="no_calendar_application">לא נמצאה אפליקציית לוח שנה</string>
     <string name="no_browser_application">לא נמצאה אפליקציית דפדפן</string>

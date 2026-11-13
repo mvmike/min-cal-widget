@@ -70,13 +70,6 @@
     <string name="light">Light</string>
     <!--configuration - values - symbol colours-->
     <string name="system_accent">System accent</string>
-    <string name="cyan">Cyan</string>
-    <string name="blue">Blue</string>
-    <string name="mint">Mint</string>
-    <string name="green">Green</string>
-    <string name="yellow">Yellow</string>
-    <string name="black">Black</string>
-    <string name="white">White</string>
     <!--configuration - messages-->
     <string name="no_calendar_application">No calendar application found</string>
     <string name="no_browser_application">No browser application found</string>

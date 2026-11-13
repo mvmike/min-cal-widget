@@ -69,13 +69,6 @@
     <string name="light">روشنی</string>
     <!--configuration - values - symbol colours-->
     <string name="system_accent">سسٹم دا رنگ</string>
-    <string name="cyan">سیان</string>
-    <string name="blue">نیلا</string>
-    <string name="mint">منٹ</string>
-    <string name="green">ہرا</string>
-    <string name="yellow">پیلا</string>
-    <string name="black">کالا</string>
-    <string name="white">چٹا</string>
     <!--configuration - messages-->
     <string name="no_calendar_application">کوئی کیلنڈر ایپلیکیشن نہیں لبھی</string>
     <string name="no_browser_application">کوئی براؤزر ایپلیکیشن نہیں لبھی</string>

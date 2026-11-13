@@ -69,13 +69,6 @@
     <string name="light">Claro</string>
     <!--configuration - values - symbol colours-->
     <string name="system_accent">Acento do sistema</string>
-    <string name="cyan">Ciano</string>
-    <string name="blue">Azul</string>
-    <string name="mint">Menta</string>
-    <string name="green">Verde</string>
-    <string name="yellow">Amarelo</string>
-    <string name="black">Preto</string>
-    <string name="white">Branco</string>
     <!--configuration - messages-->
     <string name="no_calendar_application">Nenhuma aplicação de calendário encontrada</string>
     <string name="no_browser_application">Nenhuma aplicação de navegador encontrada</string>

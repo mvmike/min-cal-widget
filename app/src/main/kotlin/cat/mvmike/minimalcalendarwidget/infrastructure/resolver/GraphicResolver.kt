@@ -15,6 +15,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.toColorInt
 import cat.mvmike.minimalcalendarwidget.R
 import cat.mvmike.minimalcalendarwidget.domain.Cell
+import cat.mvmike.minimalcalendarwidget.domain.Colour
 
 object GraphicResolver {
 
@@ -32,7 +33,7 @@ object GraphicResolver {
         widgetRemoteView: RemoteViews,
         month: String,
         year: String,
-        textColour: Int,
+        textColour: Colour,
         headerYearRelativeSize: Float,
         textRelativeSize: Float,
         allowPagination: Boolean
@@ -135,10 +136,20 @@ object GraphicResolver {
 
     fun getColourAsString(
         context: Context,
-        id: Int
-    ) = context.resources.getString(id)
+        colour: Colour.Resource
+    ) = context.resources.getString(colour.value)
 
-    fun parseColour(colourString: String) = colourString.toColorInt()
+    fun getColour(
+        colour: Colour.Hex
+    ) = colour.value.toColorInt()
+
+    fun getColour(
+        context: Context,
+        colour: Colour
+    ) = when (colour) {
+        is Colour.Hex -> getColour(colour)
+        is Colour.Resource -> ContextCompat.getColor(context, colour.value)
+    }
 
     fun Int.setAsBackground(
         remoteViews: RemoteViews,
@@ -161,11 +172,6 @@ object GraphicResolver {
         context: Context,
         layoutId: Int
     ) = RemoteViews(context.packageName, layoutId)
-
-    private fun getColour(
-        context: Context,
-        id: Int
-    ) = ContextCompat.getColor(context, id)
 
     private fun Cell.addToRemoteView(
         context: Context,

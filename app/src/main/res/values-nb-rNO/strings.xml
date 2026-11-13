@@ -69,13 +69,6 @@
     <string name="light">Lys</string>
     <!--configuration - values - symbol colours-->
     <string name="system_accent">Systemaksent</string>
-    <string name="cyan">Turkis</string>
-    <string name="blue">Blå</string>
-    <string name="mint">Mint</string>
-    <string name="green">Grønn</string>
-    <string name="yellow">Gul</string>
-    <string name="black">Svart</string>
-    <string name="white">Hvit</string>
     <!--configuration - messages-->
     <string name="no_calendar_application">Finner ingen kalenderapplikasjon</string>
     <string name="no_browser_application">Finner ingen nettleserapplikasjon</string>

@@ -69,13 +69,6 @@
     <string name="light">浅色</string>
     <!--configuration - values - symbol colours-->
     <string name="system_accent">跟随系统</string>
-    <string name="cyan">青色</string>
-    <string name="blue">蓝色</string>
-    <string name="mint">粉绿</string>
-    <string name="green">绿色</string>
-    <string name="yellow">黄色</string>
-    <string name="black">黑色</string>
-    <string name="white">白色</string>
     <!--configuration - messages-->
     <string name="no_calendar_application">未找到日历应用程序</string>
     <string name="no_browser_application">未找到浏览器应用程序</string>

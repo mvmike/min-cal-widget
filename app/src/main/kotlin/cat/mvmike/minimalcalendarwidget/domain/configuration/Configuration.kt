@@ -8,17 +8,17 @@ import android.os.Build
 import androidx.core.content.edit
 import cat.mvmike.minimalcalendarwidget.domain.Percentage
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Calendar
-import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Colour
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.SymbolSet
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.TextColour
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.TextSize
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Transparency
-import cat.mvmike.minimalcalendarwidget.domain.configuration.item.getAvailableColours
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.defaultTextColour
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.getCalendarDisplayValues
-import cat.mvmike.minimalcalendarwidget.domain.configuration.item.getColourDisplayValues
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.getDisplayValue
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.getSymbolSetDisplayValues
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.getThemeDisplayValues
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.textColourFromStoredValue
 import cat.mvmike.minimalcalendarwidget.domain.getDayOfWeekDisplayValues
 import cat.mvmike.minimalcalendarwidget.domain.getDisplayValue
 import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.SystemResolver
@@ -164,18 +164,26 @@ sealed class EnumConfigurationItem<E : Enum<E>>(
 
         override fun getCurrentDisplayValue(context: Context, appWidgetId: Int) = get(context, appWidgetId).getDisplayValue()
     }
+}
 
-    data object InstancesColour : EnumConfigurationItem<Colour>(
-        key = "INSTANCES_COLOUR",
-        enumClass = Colour::class.java,
-        defaultValue = getAvailableColours().first()
+sealed class ColourConfigurationItem(
+    override val key: String,
+    override val defaultValue: TextColour
+) : ConfigurationItem<TextColour>(
+        key = key,
+        defaultValue = defaultValue
     ) {
-        override fun getEnumConstants() = getAvailableColours().toTypedArray()
 
-        override fun getDisplayValues(context: Context) = getColourDisplayValues(context)
+    override fun get(context: Context, appWidgetId: Int) =
+        textColourFromStoredValue(getConfiguration(context, appWidgetId).getString(key, null))
 
-        override fun getCurrentDisplayValue(context: Context, appWidgetId: Int) = get(context, appWidgetId).getDisplayValue(context)
-    }
+    fun set(context: Context, appWidgetId: Int, value: TextColour) =
+        getConfiguration(context, appWidgetId).edit { putString(key, value.getStoredValue()) }
+
+    data object InstancesColour : ColourConfigurationItem(
+        key = "INSTANCES_COLOUR",
+        defaultValue = defaultTextColour()
+    )
 }
 
 sealed class PercentageConfigurationItem<E : Percentage>(

@@ -6,12 +6,13 @@ import android.content.Context
 import cat.mvmike.minimalcalendarwidget.R
 import cat.mvmike.minimalcalendarwidget.domain.CellHighlightDrawableStylePack
 import cat.mvmike.minimalcalendarwidget.domain.CellStylePack
+import cat.mvmike.minimalcalendarwidget.domain.Colour
 import java.time.DayOfWeek
 
 enum class Theme(
     val displayString: Int,
-    val mainBackground: Int,
-    val mainTextColour: Int,
+    val mainBackground: Colour.Resource,
+    val mainTextColour: Colour,
     val dayHighlightDrawable: CellHighlightDrawableStylePack,
     private val header: CellStylePack,
     private val outOfMonth: CellStylePack,
@@ -19,8 +20,8 @@ enum class Theme(
 ) {
     DARK(
         displayString = R.string.dark,
-        mainBackground = R.color.background_full_dark,
-        mainTextColour = R.color.text_colour_dark,
+        mainBackground = Colour.Resource(R.color.background_full_dark),
+        mainTextColour = Colour.Resource(R.color.text_colour_dark),
         dayHighlightDrawable = CellHighlightDrawableStylePack(
             rightSingle = R.drawable.day_highlight_right_single_dark,
             rightDouble = R.drawable.day_highlight_right_double_dark,
@@ -28,26 +29,26 @@ enum class Theme(
             centeredDouble = R.drawable.day_highlight_centered_double_dark
         ),
         header = CellStylePack(
-            textColour = R.color.text_colour_dark,
-            saturdayBackground = R.color.background_saturday_this_month_dark,
-            sundayBackground = R.color.background_sunday_this_month_dark
+            textColour = Colour.Resource(R.color.text_colour_dark),
+            saturdayBackground = Colour.Resource(R.color.background_saturday_this_month_dark),
+            sundayBackground = Colour.Resource(R.color.background_sunday_this_month_dark)
         ),
         outOfMonth = CellStylePack(
-            textColour = R.color.text_colour_semi_dark,
-            saturdayBackground = R.color.background_saturday_dark,
-            sundayBackground = R.color.background_sunday_dark
+            textColour = Colour.Resource(R.color.text_colour_semi_dark),
+            saturdayBackground = Colour.Resource(R.color.background_saturday_dark),
+            sundayBackground = Colour.Resource(R.color.background_sunday_dark)
         ),
         thisMonth = CellStylePack(
-            textColour = R.color.text_colour_dark,
-            weekdayBackground = R.color.background_this_month_dark,
-            saturdayBackground = R.color.background_saturday_this_month_dark,
-            sundayBackground = R.color.background_sunday_this_month_dark
+            textColour = Colour.Resource(R.color.text_colour_dark),
+            weekdayBackground = Colour.Resource(R.color.background_this_month_dark),
+            saturdayBackground = Colour.Resource(R.color.background_saturday_this_month_dark),
+            sundayBackground = Colour.Resource(R.color.background_sunday_this_month_dark)
         )
     ),
     LIGHT(
         displayString = R.string.light,
-        mainBackground = R.color.background_full_light,
-        mainTextColour = R.color.text_colour_light,
+        mainBackground = Colour.Resource(R.color.background_full_light),
+        mainTextColour = Colour.Resource(R.color.text_colour_light),
         dayHighlightDrawable = CellHighlightDrawableStylePack(
             rightSingle = R.drawable.day_highlight_right_single_light,
             rightDouble = R.drawable.day_highlight_right_double_light,
@@ -55,20 +56,20 @@ enum class Theme(
             centeredDouble = R.drawable.day_highlight_centered_double_light
         ),
         header = CellStylePack(
-            textColour = R.color.text_colour_light,
-            saturdayBackground = R.color.background_saturday_this_month_light,
-            sundayBackground = R.color.background_sunday_this_month_light
+            textColour = Colour.Resource(R.color.text_colour_light),
+            saturdayBackground = Colour.Resource(R.color.background_saturday_this_month_light),
+            sundayBackground = Colour.Resource(R.color.background_sunday_this_month_light)
         ),
         outOfMonth = CellStylePack(
-            textColour = R.color.text_colour_semi_light,
-            saturdayBackground = R.color.background_saturday_light,
-            sundayBackground = R.color.background_sunday_light
+            textColour = Colour.Resource(R.color.text_colour_semi_light),
+            saturdayBackground = Colour.Resource(R.color.background_saturday_light),
+            sundayBackground = Colour.Resource(R.color.background_sunday_light)
         ),
         thisMonth = CellStylePack(
-            textColour = R.color.text_colour_light,
-            weekdayBackground = R.color.background_this_month_light,
-            saturdayBackground = R.color.background_saturday_this_month_light,
-            sundayBackground = R.color.background_sunday_this_month_light
+            textColour = Colour.Resource(R.color.text_colour_light),
+            weekdayBackground = Colour.Resource(R.color.background_this_month_light),
+            saturdayBackground = Colour.Resource(R.color.background_saturday_this_month_light),
+            sundayBackground = Colour.Resource(R.color.background_sunday_this_month_light)
         )
     );
 

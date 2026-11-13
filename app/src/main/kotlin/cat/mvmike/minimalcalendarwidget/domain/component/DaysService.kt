@@ -13,6 +13,7 @@ import cat.mvmike.minimalcalendarwidget.domain.Variant.MONTH
 import cat.mvmike.minimalcalendarwidget.domain.Variant.WEEK
 import cat.mvmike.minimalcalendarwidget.domain.configuration.BooleanConfigurationItem
 import cat.mvmike.minimalcalendarwidget.domain.configuration.BooleanConfigurationItem.CalendarVisibilitySelection
+import cat.mvmike.minimalcalendarwidget.domain.configuration.ColourConfigurationItem
 import cat.mvmike.minimalcalendarwidget.domain.configuration.EnumConfigurationItem
 import cat.mvmike.minimalcalendarwidget.domain.configuration.IntConfigurationItem.Page
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.SymbolSet
@@ -70,7 +71,7 @@ object DaysService {
             to = initialLocalDate.plusDays(numberOfDays)
         )
         val instancesSymbolSet = EnumConfigurationItem.InstancesSymbolSet.get(context, appWidgetId)
-        val instancesColour = EnumConfigurationItem.InstancesColour.get(context, appWidgetId)
+        val instancesColour = ColourConfigurationItem.InstancesColour.get(context, appWidgetId)
         val showDeclinedEvents = BooleanConfigurationItem.ShowDeclinedEvents.get(context, appWidgetId)
         val showWeekNumber = BooleanConfigurationItem.ShowWeekNumber.get(context, appWidgetId)
         val weekFields = WeekFields.of(firstDayOfWeek, 1)

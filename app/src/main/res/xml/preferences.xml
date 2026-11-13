@@ -58,7 +58,7 @@
             android:key="INSTANCES_SYMBOL_SET"
             android:title="@string/symbol_set" />
 
-        <cat.mvmike.minimalcalendarwidget.infrastructure.preference.MultilineListPreference
+        <cat.mvmike.minimalcalendarwidget.infrastructure.preference.MultilineColourPreference
             android:icon="@drawable/ic_palette"
             android:key="INSTANCES_COLOUR"
             android:title="@string/symbol_colour" />

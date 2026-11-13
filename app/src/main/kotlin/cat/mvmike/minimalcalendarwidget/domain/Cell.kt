@@ -7,7 +7,7 @@ import java.time.DayOfWeek
 
 data class Cell(
     val text: String,
-    val colour: Int,
+    val colour: Colour,
     val relativeSize: Float,
     val background: Int? = null,
     val alignment: Layout.Alignment? = null,
@@ -16,15 +16,15 @@ data class Cell(
 )
 
 data class CellStyle(
-    val textColour: Int,
-    val background: Int? = null
+    val textColour: Colour,
+    val background: Colour.Resource? = null
 )
 
 data class CellStylePack(
-    val textColour: Int,
-    val weekdayBackground: Int? = null,
-    val saturdayBackground: Int? = null,
-    val sundayBackground: Int? = null
+    val textColour: Colour,
+    val weekdayBackground: Colour.Resource? = null,
+    val saturdayBackground: Colour.Resource? = null,
+    val sundayBackground: Colour.Resource? = null
 ) {
     fun get(dayOfWeek: DayOfWeek) = CellStyle(
         textColour = textColour,

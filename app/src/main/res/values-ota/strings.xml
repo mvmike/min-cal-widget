@@ -69,13 +69,6 @@
     <string name="light">آیدینلق</string>
     <!--configuration - values - symbol colours-->
     <string name="system_accent">سیستەم ورثەییلانی</string>
-    <string name="cyan">جامگوبكی</string>
-    <string name="blue">ماوی</string>
-    <string name="mint">نانە یشیلی</string>
-    <string name="green">یشیل</string>
-    <string name="yellow">صاری</string>
-    <string name="black">سیاه</string>
-    <string name="white">بیاض</string>
     <!--configuration - messages-->
     <string name="no_calendar_application">تقویم اویغولامەسی بولونامەدی</string>
     <string name="no_browser_application">طاراییجی اویغولامەسی بولونامەدی</string>

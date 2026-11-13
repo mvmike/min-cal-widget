@@ -5,6 +5,7 @@ package cat.mvmike.minimalcalendarwidget.domain.configuration.item
 import cat.mvmike.minimalcalendarwidget.BaseTest
 import cat.mvmike.minimalcalendarwidget.R
 import cat.mvmike.minimalcalendarwidget.domain.CellStyle
+import cat.mvmike.minimalcalendarwidget.domain.Colour
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme.DARK
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme.LIGHT
 import io.mockk.every
@@ -34,8 +35,8 @@ internal class ThemeTest : BaseTest() {
         expectedCellThemeBackground: Int?
     ) {
         val expectedResult = CellStyle(
-            textColour = expectedCellThemeTextColour,
-            background = expectedCellThemeBackground
+            textColour = Colour.Resource(expectedCellThemeTextColour),
+            background = expectedCellThemeBackground?.let { Colour.Resource(it) }
         )
 
         val result = widgetTheme.getCellHeader(dayOfWeek)
@@ -53,8 +54,8 @@ internal class ThemeTest : BaseTest() {
         expectedCellThemeBackground: Int?
     ) {
         val expectedResult = CellStyle(
-            textColour = expectedCellThemeTextColour,
-            background = expectedCellThemeBackground
+            textColour = Colour.Resource(expectedCellThemeTextColour),
+            background = expectedCellThemeBackground?.let { Colour.Resource(it) }
         )
 
         val result = widgetTheme.getCellDay(
@@ -72,7 +73,7 @@ internal class ThemeTest : BaseTest() {
         expectedCellThemeTextColour: Int
     ) {
         val expectedResult = CellStyle(
-            textColour = expectedCellThemeTextColour,
+            textColour = Colour.Resource(expectedCellThemeTextColour),
             background = null
         )
 

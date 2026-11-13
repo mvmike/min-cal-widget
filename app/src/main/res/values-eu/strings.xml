@@ -69,13 +69,6 @@
     <string name="light">Argia</string>
     <!--configuration - values - symbol colours-->
     <string name="system_accent">Sistemaren azentua</string>
-    <string name="cyan">Zian</string>
-    <string name="blue">Urdina</string>
-    <string name="mint">Menda</string>
-    <string name="green">Berdea</string>
-    <string name="yellow">Horia</string>
-    <string name="black">Beltza</string>
-    <string name="white">Zuria</string>
     <!--configuration - messages-->
     <string name="no_calendar_application">Ez da egutegi-aplikaziorik aurkitu</string>
     <string name="no_browser_application">Ez da nabigatzailerik aurkitu</string>

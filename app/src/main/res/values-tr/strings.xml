@@ -69,13 +69,6 @@
     <string name="light">Aydınlık</string>
     <!--configuration - values - symbol colours-->
     <string name="system_accent">Sistem varsayılanı</string>
-    <string name="cyan">Camgöbeği</string>
-    <string name="blue">Mavi</string>
-    <string name="mint">Nane yeşili</string>
-    <string name="green">Yeşil</string>
-    <string name="yellow">Sarı</string>
-    <string name="black">Siyah</string>
-    <string name="white">Beyaz</string>
     <!--configuration - messages-->
     <string name="no_calendar_application">Takvim uygulaması bulunamadı</string>
     <string name="no_browser_application">Tarayıcı uygulaması bulunamadı</string>

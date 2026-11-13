@@ -69,13 +69,6 @@
     <string name="light">Světlý</string>
     <!--configuration - values - symbol colours-->
     <string name="system_accent">Barevný akcent</string>
-    <string name="cyan">Tyrkysová</string>
-    <string name="blue">Modrá</string>
-    <string name="mint">Mátově zelená</string>
-    <string name="green">Zelená</string>
-    <string name="yellow">Žlutá</string>
-    <string name="black">Černá</string>
-    <string name="white">Bílá</string>
     <!--configuration - messages-->
     <string name="no_calendar_application">Nenalezena kalendářní aplikace</string>
     <string name="no_browser_application">Nenalezen webový prohlížeč</string>

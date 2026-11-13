@@ -7,8 +7,8 @@ import android.content.SharedPreferences
 import cat.mvmike.minimalcalendarwidget.BaseTest
 import cat.mvmike.minimalcalendarwidget.R
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Calendar
-import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Colour
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.SymbolSet
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.TextColour
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.TextSize
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Transparency
@@ -231,18 +231,6 @@ internal class ConfigurationTest : BaseTest() {
         }
 
         @ParameterizedTest
-        @EnumSource(value = Colour::class)
-        fun getInstancesColour_shouldReturnSharedPreferencesValue(colour: Colour) {
-            mockInstancesColour(colour)
-
-            val result = EnumConfigurationItem.InstancesColour.get(context, appWidgetId)
-
-            assertThat(result).isEqualTo(colour)
-            verifyInstancesColour()
-            verify { editor wasNot Called }
-        }
-
-        @ParameterizedTest
         @MethodSource("getEnumConfigurationItemsWithExpectedKeys")
         fun getKeys_shouldReturnEveryEnumConstantName(
             enumConfigurationItem: EnumConfigurationItem<*>,
@@ -251,23 +239,6 @@ internal class ConfigurationTest : BaseTest() {
             val result = enumConfigurationItem.getKeys()
 
             assertThat(result).containsExactlyElementsOf(expectedKeys)
-        }
-
-        @ParameterizedTest
-        @CsvSource(
-            "30,false",
-            "31,true"
-        )
-        fun getKeys_shouldReturnOnlyAvailableColourNames_whenInstancesColour(
-            sdkVersion: Int,
-            isSystemAccentAvailable: Boolean
-        ) {
-            mockGetRuntimeSDK(sdkVersion)
-
-            val result = EnumConfigurationItem.InstancesColour.getKeys()
-
-            assertThat(result).containsExactlyElementsOf(getExpectedColourKeys(isSystemAccentAvailable))
-            verifyGetRuntimeSDK()
         }
 
         @ParameterizedTest
@@ -346,62 +317,6 @@ internal class ConfigurationTest : BaseTest() {
             assertThat(result).isEqualTo(getSymbolSetDisplayValues())
         }
 
-        @ParameterizedTest
-        @CsvSource(
-            "30,false",
-            "31,true"
-        )
-        fun getDisplayValues_shouldReturnOnlyAvailableColours_whenInstancesColour(
-            sdkVersion: Int,
-            isSystemAccentAvailable: Boolean
-        ) {
-            mockGetRuntimeSDK(sdkVersion)
-            colourTranslations.forEach { (stringResourceId, translation) ->
-                every { context.getString(stringResourceId) } returns translation
-            }
-
-            val result = EnumConfigurationItem.InstancesColour.getDisplayValues(context)
-
-            assertThat(result).containsExactlyElementsOf(
-                listOfNotNull(
-                    "System accent".takeIf { isSystemAccentAvailable },
-                    "Cyan",
-                    "Mint",
-                    "Blue",
-                    "Green",
-                    "Yellow",
-                    "Black",
-                    "White"
-                )
-            )
-            verifyGetRuntimeSDK()
-            colourTranslations.keys
-                .filter { isSystemAccentAvailable || it != R.string.system_accent }
-                .forEach { stringResourceId -> verify { context.getString(stringResourceId) } }
-        }
-
-        private val colourTranslations = mapOf(
-            R.string.system_accent to "system accent",
-            R.string.cyan to "cyan",
-            R.string.mint to "mint",
-            R.string.blue to "blue",
-            R.string.green to "green",
-            R.string.yellow to "yellow",
-            R.string.black to "black",
-            R.string.white to "white"
-        )
-
-        private fun getExpectedColourKeys(isSystemAccentAvailable: Boolean) = listOfNotNull(
-            "SYSTEM_ACCENT".takeIf { isSystemAccentAvailable },
-            "CYAN",
-            "MINT",
-            "BLUE",
-            "GREEN",
-            "YELLOW",
-            "BLACK",
-            "WHITE"
-        )
-
         private fun getEnumConfigurationItemsWithExpectedKeys() = listOf(
             of(EnumConfigurationItem.WidgetTheme, listOf("DARK", "LIGHT")),
             of(EnumConfigurationItem.WidgetCalendar, listOf("GREGORIAN", "HOLOCENE")),
@@ -413,15 +328,13 @@ internal class ConfigurationTest : BaseTest() {
             of(EnumConfigurationItem.WidgetTheme, Theme.LIGHT),
             of(EnumConfigurationItem.WidgetCalendar, Calendar.HOLOCENE),
             of(EnumConfigurationItem.FirstDayOfWeek, DayOfWeek.SUNDAY),
-            of(EnumConfigurationItem.InstancesSymbolSet, SymbolSet.ROMAN),
-            of(EnumConfigurationItem.InstancesColour, Colour.MINT)
+            of(EnumConfigurationItem.InstancesSymbolSet, SymbolSet.ROMAN)
         )
 
         private fun getEnumConfigurationItemsWithValueAndTranslation() = listOf(
             of(EnumConfigurationItem.WidgetTheme, Theme.LIGHT, R.string.light, "light", "Light"),
             of(EnumConfigurationItem.WidgetCalendar, Calendar.HOLOCENE, R.string.holocene, "holocene", "Holocene"),
-            of(EnumConfigurationItem.FirstDayOfWeek, DayOfWeek.SUNDAY, R.string.sunday, "sunday", "Sunday"),
-            of(EnumConfigurationItem.InstancesColour, Colour.MINT, R.string.mint, "mint", "Mint")
+            of(EnumConfigurationItem.FirstDayOfWeek, DayOfWeek.SUNDAY, R.string.sunday, "sunday", "Sunday")
         )
 
         private fun getEnumConfigurationItemsWithTranslationsAndExpectedDisplayValues() = listOf(
@@ -479,6 +392,48 @@ internal class ConfigurationTest : BaseTest() {
             verifyWidgetTextSize()
             verify { editor wasNot Called }
         }
+    }
+
+    @Nested
+    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+    inner class ColourConfigurationItems {
+
+        @ParameterizedTest
+        @MethodSource("getInstancesColours")
+        fun getInstancesColour_shouldReturnSharedPreferencesValue(colour: TextColour) {
+            if (colour is TextColour.SystemAccent) {
+                mockGetRuntimeSDK(31)
+            }
+            mockInstancesColour(colour)
+
+            val result = ColourConfigurationItem.InstancesColour.get(context, appWidgetId)
+
+            assertThat(result).isEqualTo(colour)
+            verifyInstancesColour()
+            if (colour is TextColour.SystemAccent) {
+                verifyGetRuntimeSDK()
+            }
+            verify { editor wasNot Called }
+        }
+
+        @ParameterizedTest
+        @MethodSource("getInstancesColours")
+        fun setInstancesColour_shouldPersistStoredValue(colour: TextColour) {
+            mockSharedPreferences()
+            every { editor.putString(ColourConfigurationItem.InstancesColour.key, colour.getStoredValue()) } returns editor
+
+            ColourConfigurationItem.InstancesColour.set(context, appWidgetId, colour)
+
+            verifySharedPreferencesAccess()
+            verifySharedPreferencesEdit()
+            verify { editor.putString(ColourConfigurationItem.InstancesColour.key, colour.getStoredValue()) }
+            verify { editor.apply() }
+        }
+
+        private fun getInstancesColours() = listOf(
+            TextColour.SystemAccent,
+            TextColour.CustomHex("#FF123456")
+        )
     }
 
     @ParameterizedTest
@@ -671,7 +626,7 @@ internal class ConfigurationTest : BaseTest() {
         of(EnumConfigurationItem.WidgetCalendar, "WIDGET_CALENDAR"),
         of(EnumConfigurationItem.FirstDayOfWeek, "FIRST_DAY_OF_WEEK"),
         of(EnumConfigurationItem.InstancesSymbolSet, "INSTANCES_SYMBOL_SET"),
-        of(EnumConfigurationItem.InstancesColour, "INSTANCES_COLOUR"),
+        of(ColourConfigurationItem.InstancesColour, "INSTANCES_COLOUR"),
         of(PercentageConfigurationItem.WidgetTransparency, "WIDGET_TRANSPARENCY"),
         of(PercentageConfigurationItem.WidgetTextSize, "WIDGET_TEXT_SIZE")
     )

@@ -8,7 +8,7 @@ dayOfMonth,instancesSymbol,dayOfWeek,startOfDayInEpochSecond,isInMonth,isToday,h
 1, ,SUNDAY,1575147600,true,false,,
 2, ,MONDAY,1575234000,true,false,,
 3, ,TUESDAY,1575320400,true,false,,
-4, ,WEDNESDAY,1575406800,true,true,2131165273,
+4, ,WEDNESDAY,1575406800,true,true,2131165276,
 5, ,THURSDAY,1575493200,true,false,,
 6, ,FRIDAY,1575579600,true,false,,
 7, ,SATURDAY,1575666000,true,false,,

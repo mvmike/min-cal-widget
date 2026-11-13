@@ -69,13 +69,6 @@
     <string name="light">Svijetla</string>
     <!--configuration - values - symbol colours-->
     <string name="system_accent">Boje sustava</string>
-    <string name="cyan">Cijan</string>
-    <string name="blue">Plava</string>
-    <string name="mint">Metvica</string>
-    <string name="green">Zelena</string>
-    <string name="yellow">Žuta</string>
-    <string name="black">Crna</string>
-    <string name="white">Bijela</string>
     <!--configuration - messages-->
     <string name="no_calendar_application">Nije pronađena nijedna aplikacija kalendara</string>
     <string name="no_browser_application">Nije pronađena nijedna aplikacija preglednika</string>

@@ -5,6 +5,7 @@ package cat.mvmike.minimalcalendarwidget.domain.component
 import android.widget.RemoteViews
 import cat.mvmike.minimalcalendarwidget.BaseTest
 import cat.mvmike.minimalcalendarwidget.R
+import cat.mvmike.minimalcalendarwidget.domain.Colour
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme.DARK
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme.LIGHT
@@ -30,7 +31,7 @@ internal class LayoutServiceTest : BaseTest() {
         transparency: Transparency,
         mainBackground: Int
     ) {
-        mockTransparency(mainBackground, transparency, TransparencyRange.COMPLETE)
+        mockTransparency(Colour.Resource(mainBackground), transparency, TransparencyRange.COMPLETE)
 
         justRun {
             mainBackground.setAsBackground(
@@ -41,7 +42,7 @@ internal class LayoutServiceTest : BaseTest() {
 
         LayoutService.draw(context, widgetRv, widgetTheme, transparency)
 
-        verifyTransparency(mainBackground, transparency, TransparencyRange.COMPLETE)
+        verifyTransparency(Colour.Resource(mainBackground), transparency, TransparencyRange.COMPLETE)
         verify {
             mainBackground.setAsBackground(
                 remoteViews = widgetRv,

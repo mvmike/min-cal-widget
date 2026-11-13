@@ -5,13 +5,15 @@ package cat.mvmike.minimalcalendarwidget.domain
 import cat.mvmike.minimalcalendarwidget.BaseTest
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.Arguments.of
 import org.junit.jupiter.params.provider.CsvSource
+import org.junit.jupiter.params.provider.MethodSource
 import java.time.DayOfWeek
 
-private const val TEXT_COLOUR = 1000000000
-private const val WEEKDAY_BACKGROUND_COLOUR = 1000000001
-private const val SATURDAY_BACKGROUND_COLOUR = 1000000002
-private const val SUNDAY_BACKGROUND_COLOUR = 1000000003
+private val TEXT_COLOUR = Colour.Resource(1000000000)
+private val WEEKDAY_BACKGROUND_COLOUR = Colour.Resource(1000000001)
+private val SATURDAY_BACKGROUND_COLOUR = Colour.Resource(1000000002)
+private val SUNDAY_BACKGROUND_COLOUR = Colour.Resource(1000000003)
 
 private const val HIGHLIGHT_RIGHT_SINGLE = 2000000000
 private const val HIGHLIGHT_RIGHT_DOUBLE = 2000000001
@@ -21,18 +23,10 @@ private const val HIGHLIGHT_CENTERED_DOUBLE = 2000000003
 internal class CellTest : BaseTest() {
 
     @ParameterizedTest
-    @CsvSource(
-        "MONDAY,$WEEKDAY_BACKGROUND_COLOUR",
-        "TUESDAY,$WEEKDAY_BACKGROUND_COLOUR",
-        "WEDNESDAY,$WEEKDAY_BACKGROUND_COLOUR",
-        "THURSDAY,$WEEKDAY_BACKGROUND_COLOUR",
-        "FRIDAY,$WEEKDAY_BACKGROUND_COLOUR",
-        "SATURDAY,$SATURDAY_BACKGROUND_COLOUR",
-        "SUNDAY,$SUNDAY_BACKGROUND_COLOUR"
-    )
+    @MethodSource("getDayOfWeekWithExpectedBackground")
     fun getCellStylePack_shouldReturnSameTextColourAndDifferentBackground(
         dayOfWeek: DayOfWeek,
-        expectedBackground: Int
+        expectedBackground: Colour.Resource
     ) {
         val cellStylePack = CellStylePack(
             textColour = TEXT_COLOUR,
@@ -75,4 +69,14 @@ internal class CellTest : BaseTest() {
 
         assertThat(result).isEqualTo(expectedResource)
     }
+
+    private fun getDayOfWeekWithExpectedBackground() = listOf(
+        of(DayOfWeek.MONDAY, WEEKDAY_BACKGROUND_COLOUR),
+        of(DayOfWeek.TUESDAY, WEEKDAY_BACKGROUND_COLOUR),
+        of(DayOfWeek.WEDNESDAY, WEEKDAY_BACKGROUND_COLOUR),
+        of(DayOfWeek.THURSDAY, WEEKDAY_BACKGROUND_COLOUR),
+        of(DayOfWeek.FRIDAY, WEEKDAY_BACKGROUND_COLOUR),
+        of(DayOfWeek.SATURDAY, SATURDAY_BACKGROUND_COLOUR),
+        of(DayOfWeek.SUNDAY, SUNDAY_BACKGROUND_COLOUR)
+    )
 }

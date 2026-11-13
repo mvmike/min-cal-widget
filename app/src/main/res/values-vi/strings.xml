@@ -69,13 +69,6 @@
     <string name="light">Sáng</string>
     <!--configuration - values - symbol colours-->
     <string name="system_accent">dấu hệ thống</string>
-    <string name="cyan">Lục lam</string>
-    <string name="blue">Xanh da trời</string>
-    <string name="mint">Bạc hà</string>
-    <string name="green">Xanh lá</string>
-    <string name="yellow">Vàng</string>
-    <string name="black">Đen</string>
-    <string name="white">Trắng</string>
     <!--configuration - messages-->
     <string name="no_calendar_application">Không tìm thấy ứng dụng lịch nào</string>
     <string name="no_browser_application">Không tìm thấy ứng dụng trình duyệt nào</string>

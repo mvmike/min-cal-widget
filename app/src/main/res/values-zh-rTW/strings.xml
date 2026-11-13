@@ -69,13 +69,6 @@
     <string name="light">淺色</string>
     <!--configuration - values - symbol colours-->
     <string name="system_accent">系統主色</string>
-    <string name="cyan">粉藍</string>
-    <string name="blue">藍色</string>
-    <string name="mint">粉綠</string>
-    <string name="green">綠色</string>
-    <string name="yellow">黃色</string>
-    <string name="black">黑色</string>
-    <string name="white">白色</string>
     <!--configuration - messages-->
     <string name="no_calendar_application">找不到行事曆應用程式</string>
     <string name="no_browser_application">找不到瀏覽器應用程式</string>

@@ -2,6 +2,7 @@
 // See LICENSE for licensing information
 package cat.mvmike.minimalcalendarwidget.domain.configuration.item
 
+import cat.mvmike.minimalcalendarwidget.domain.Colour
 import cat.mvmike.minimalcalendarwidget.domain.PERCENTAGE_RANGE
 import cat.mvmike.minimalcalendarwidget.domain.Percentage
 import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.GraphicResolver
@@ -55,4 +56,4 @@ enum class TransparencyRange(
 internal fun String.withTransparency(
     transparency: Transparency,
     transparencyRange: TransparencyRange
-) = GraphicResolver.parseColour("#${transparency.getAlphaInHex(transparencyRange)}${takeLast(6)}")
+) = GraphicResolver.getColour(Colour.Hex("#${transparency.getAlphaInHex(transparencyRange)}${takeLast(6)}"))

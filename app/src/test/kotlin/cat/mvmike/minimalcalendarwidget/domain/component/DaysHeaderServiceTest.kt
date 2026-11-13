@@ -91,7 +91,7 @@ internal class DaysHeaderServiceTest : BaseTest() {
                 GraphicResolver.addDayToDaysHeaderRow(
                     context = context,
                     daysHeaderRowRemoteView = daysHeaderRowRv,
-                    dayHeaderBackgroundColour = widgetTheme.getCellHeader(it.first).background,
+                    dayHeaderBackgroundColour = widgetTheme.getCellHeader(it.first).background?.value,
                     cell = Cell(
                         text = it.second,
                         colour = widgetTheme.getCellHeader(it.first).textColour,

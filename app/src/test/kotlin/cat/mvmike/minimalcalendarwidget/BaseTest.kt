@@ -8,15 +8,17 @@ import android.appwidget.AppWidgetManager.INVALID_APPWIDGET_ID
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import cat.mvmike.minimalcalendarwidget.domain.Colour
 import cat.mvmike.minimalcalendarwidget.domain.Percentage
 import cat.mvmike.minimalcalendarwidget.domain.configuration.BooleanConfigurationItem
+import cat.mvmike.minimalcalendarwidget.domain.configuration.ColourConfigurationItem
 import cat.mvmike.minimalcalendarwidget.domain.configuration.EnumConfigurationItem
 import cat.mvmike.minimalcalendarwidget.domain.configuration.IntConfigurationItem
 import cat.mvmike.minimalcalendarwidget.domain.configuration.PercentageConfigurationItem
 import cat.mvmike.minimalcalendarwidget.domain.configuration.getConfigurationName
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Calendar
-import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Colour
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.SymbolSet
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.TextColour
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.TextSize
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Transparency
@@ -79,7 +81,7 @@ open class BaseTest {
         unmockkAll()
 
         // needed to assert default value based on runtimeSDK
-        EnumConfigurationItem.InstancesColour.let {}
+        ColourConfigurationItem.InstancesColour.let {}
         mockkObject(
             CalendarResolver,
             GraphicResolver,
@@ -326,11 +328,17 @@ open class BaseTest {
     protected fun verifyInstancesSymbolSet(appWidgetId: Int = this.appWidgetId) =
         verifyEnumConfigurationItem(EnumConfigurationItem.InstancesSymbolSet, appWidgetId)
 
-    protected fun mockInstancesColour(colour: Colour, appWidgetId: Int = this.appWidgetId) =
-        mockEnumConfigurationItem(EnumConfigurationItem.InstancesColour, colour, appWidgetId)
+    protected fun mockInstancesColour(colour: TextColour, appWidgetId: Int = this.appWidgetId) {
+        mockSharedPreferences(appWidgetId)
+        every {
+            sharedPreferences.getString(ColourConfigurationItem.InstancesColour.key, null)
+        } returns colour.getStoredValue()
+    }
 
-    protected fun verifyInstancesColour(appWidgetId: Int = this.appWidgetId) =
-        verifyEnumConfigurationItem(EnumConfigurationItem.InstancesColour, appWidgetId)
+    protected fun verifyInstancesColour(appWidgetId: Int = this.appWidgetId) {
+        verifySharedPreferencesAccess(appWidgetId)
+        verify { sharedPreferences.getString(ColourConfigurationItem.InstancesColour.key, null) }
+    }
 
     protected fun mockWidgetTransparency(transparency: Transparency, appWidgetId: Int = this.appWidgetId) =
         mockPercentageConfigurationItem(PercentageConfigurationItem.WidgetTransparency, transparency, appWidgetId)
@@ -347,25 +355,25 @@ open class BaseTest {
     // COLOUR TRANSPARENCY
 
     protected fun mockTransparency(
-        resourceId: Int?,
+        resourceId: Colour.Resource?,
         transparency: Transparency,
         transparencyRange: TransparencyRange
     ) = resourceId?.let {
-        val transparentColourId = transparentColourId(resourceId)
+        val transparentColourId = transparentColourId(resourceId.value)
         val transparentColourString = getTransparentColourString(transparency, transparencyRange, transparentColourId)
         every { GraphicResolver.getColourAsString(context, resourceId) } returns transparentColourId
-        every { GraphicResolver.parseColour(transparentColourString) } returns resourceId
+        every { GraphicResolver.getColour(Colour.Hex(transparentColourString)) } returns resourceId.value
     }
 
     protected fun verifyTransparency(
-        resourceId: Int?,
+        resourceId: Colour.Resource?,
         transparency: Transparency,
         transparencyRange: TransparencyRange
     ) = resourceId?.let {
-        val transparentColourId = transparentColourId(resourceId)
+        val transparentColourId = transparentColourId(resourceId.value)
         val transparentColourString = getTransparentColourString(transparency, transparencyRange, transparentColourId)
         verify { GraphicResolver.getColourAsString(context, resourceId) }
-        verify { GraphicResolver.parseColour(transparentColourString) }
+        verify { GraphicResolver.getColour(Colour.Hex(transparentColourString)) }
     }
 
     private fun transparentColourId(resourceId: Int) = "transparentResource$resourceId"

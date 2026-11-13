@@ -7,14 +7,15 @@ import android.widget.RemoteViews
 import cat.mvmike.minimalcalendarwidget.BaseTest
 import cat.mvmike.minimalcalendarwidget.domain.Calendar
 import cat.mvmike.minimalcalendarwidget.domain.Cell
+import cat.mvmike.minimalcalendarwidget.domain.Colour
 import cat.mvmike.minimalcalendarwidget.domain.Day
 import cat.mvmike.minimalcalendarwidget.domain.Instance
 import cat.mvmike.minimalcalendarwidget.domain.Instance.AllDayInstance
 import cat.mvmike.minimalcalendarwidget.domain.Instance.TimedInstance
 import cat.mvmike.minimalcalendarwidget.domain.Variant
 import cat.mvmike.minimalcalendarwidget.domain.component.DaysService.getNumberOfInstances
-import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Colour
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.SymbolSet
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.TextColour
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.TextSize
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Theme
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.Transparency
@@ -85,6 +86,9 @@ internal class DaysServiceTest : BaseTest() {
             mockFocusOnCurrentWeek(testProperties.focusOnCurrentWeek)
         }
         mockInstancesSymbolSet(testProperties.instancesSymbolSet)
+        if (testProperties.instancesColour is TextColour.SystemAccent) {
+            mockGetRuntimeSDK(31)
+        }
         mockInstancesColour(testProperties.instancesColour)
         mockShowDeclinedEvents(testProperties.showDeclinedEvents)
         mockShowWeekNumber(testProperties.showWeekNumber)
@@ -98,7 +102,7 @@ internal class DaysServiceTest : BaseTest() {
 
         val expectedBackground = random.nextInt()
         every { GraphicResolver.getColourAsString(context, any()) } returns "transparentBackground"
-        every { GraphicResolver.parseColour(any()) } returns expectedBackground
+        every { GraphicResolver.getColour(any<Colour.Hex>()) } returns expectedBackground
 
         every { GraphicResolver.createDayLayout(context) } returns dayRv
         justRun {
@@ -162,6 +166,9 @@ internal class DaysServiceTest : BaseTest() {
         }
         verifyInstancesSymbolSet()
         verifyInstancesColour()
+        if (testProperties.instancesColour is TextColour.SystemAccent) {
+            verifyGetRuntimeSDK()
+        }
         verifyShowWeekNumber()
 
         verify(exactly = variant.numWeeks) { GraphicResolver.createDaysRow(context) }
@@ -206,7 +213,7 @@ internal class DaysServiceTest : BaseTest() {
                         SUNDAY -> TransparencyRange.MODERATE
                         else -> TransparencyRange.LOW
                     }
-                    GraphicResolver.parseColour("#${testProperties.transparency.getAlphaInHex(transparencyRange)}ground")
+                    GraphicResolver.getColour(Colour.Hex("#${testProperties.transparency.getAlphaInHex(transparencyRange)}ground"))
                 }
             }
 
@@ -434,7 +441,7 @@ internal class DaysServiceTest : BaseTest() {
                 transparency = Transparency(32),
                 textSize = TextSize(32),
                 focusOnCurrentWeek = false,
-                instancesColour = Colour.CYAN,
+                instancesColour = TextColour.CustomHex("#FF00CCCC"),
                 instancesSymbolSet = SymbolSet.MINIMAL,
                 showDeclinedEvents = false,
                 defaultVisibleCalendars = true,
@@ -455,7 +462,7 @@ internal class DaysServiceTest : BaseTest() {
                 transparency = Transparency(32),
                 textSize = TextSize(32),
                 focusOnCurrentWeek = false,
-                instancesColour = Colour.CYAN,
+                instancesColour = TextColour.CustomHex("#FF00CCCC"),
                 instancesSymbolSet = SymbolSet.MINIMAL,
                 showDeclinedEvents = false,
                 defaultVisibleCalendars = false,
@@ -476,7 +483,7 @@ internal class DaysServiceTest : BaseTest() {
                 transparency = Transparency(32),
                 textSize = TextSize(50),
                 focusOnCurrentWeek = false,
-                instancesColour = Colour.YELLOW,
+                instancesColour = TextColour.CustomHex("#FFFFFF00"),
                 instancesSymbolSet = SymbolSet.BINARY,
                 showDeclinedEvents = false,
                 defaultVisibleCalendars = true,
@@ -497,7 +504,7 @@ internal class DaysServiceTest : BaseTest() {
                 transparency = Transparency(32),
                 textSize = TextSize(50),
                 focusOnCurrentWeek = false,
-                instancesColour = Colour.YELLOW,
+                instancesColour = TextColour.CustomHex("#FFFFFF00"),
                 instancesSymbolSet = SymbolSet.BINARY,
                 showDeclinedEvents = false,
                 defaultVisibleCalendars = false,
@@ -520,7 +527,7 @@ internal class DaysServiceTest : BaseTest() {
                 allowPagination = true,
                 page = 0,
                 focusOnCurrentWeek = true,
-                instancesColour = Colour.SYSTEM_ACCENT,
+                instancesColour = TextColour.SystemAccent,
                 instancesSymbolSet = SymbolSet.NONE,
                 showDeclinedEvents = true,
                 defaultVisibleCalendars = true,
@@ -543,7 +550,7 @@ internal class DaysServiceTest : BaseTest() {
                 allowPagination = false,
                 page = 0,
                 focusOnCurrentWeek = false,
-                instancesColour = Colour.SYSTEM_ACCENT,
+                instancesColour = TextColour.SystemAccent,
                 instancesSymbolSet = SymbolSet.ROMAN,
                 showDeclinedEvents = true,
                 defaultVisibleCalendars = true,
@@ -590,7 +597,7 @@ internal class DaysServiceTest : BaseTest() {
         val allowPagination: Boolean = false,
         val page: Int = 0,
         val focusOnCurrentWeek: Boolean,
-        val instancesColour: Colour,
+        val instancesColour: TextColour,
         val instancesSymbolSet: SymbolSet,
         val showDeclinedEvents: Boolean,
         val defaultVisibleCalendars: Boolean,

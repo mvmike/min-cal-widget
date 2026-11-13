@@ -69,13 +69,6 @@
     <string name="light">Luminoasă</string>
     <!--configuration - values - symbol colours-->
     <string name="system_accent">Nuanță de sistem</string>
-    <string name="cyan">Azuriu</string>
-    <string name="blue">Albastru</string>
-    <string name="mint">Mentă</string>
-    <string name="green">Verde</string>
-    <string name="yellow">Galben</string>
-    <string name="black">Negru</string>
-    <string name="white">Alb</string>
     <!--configuration - messages-->
     <string name="no_calendar_application">Nu a fost găsită nicio aplicație calendar</string>
     <string name="no_browser_application">Nu a fost găsită nicio aplicație browser</string>

@@ -69,13 +69,6 @@
     <string name="light">Світла</string>
     <!--configuration - values - symbol colours-->
     <string name="system_accent">Системний</string>
-    <string name="cyan">Блакитний</string>
-    <string name="blue">Синій</string>
-    <string name="mint">М\'ятний</string>
-    <string name="green">Зелений</string>
-    <string name="yellow">Жовтий</string>
-    <string name="black">Чорний</string>
-    <string name="white">Білий</string>
     <!--configuration - messages-->
     <string name="no_calendar_application">Не знайдено жодного застосунку календаря</string>
     <string name="no_browser_application">Не знайдено застосунок для перегляду веб-сторінок</string>

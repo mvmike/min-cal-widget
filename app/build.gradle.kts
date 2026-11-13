@@ -17,6 +17,8 @@ dependencies {
     implementation("androidx.core:core-ktx:1.19.1")
     // https://developer.android.com/jetpack/androidx/releases/preference
     implementation("androidx.preference:preference-ktx:1.2.1")
+    // https://github.com/skydoves/ColorPickerView/releases
+    implementation("com.github.skydoves:colorpickerview:2.5.0")
 
     // https://github.com/junit-team/junit5/releases
     val junitJupiterVersion = "6.1.3"

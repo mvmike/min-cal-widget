@@ -14,6 +14,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.preference.CheckBoxPreference
 import androidx.preference.ListPreference
@@ -24,9 +25,11 @@ import cat.mvmike.minimalcalendarwidget.BuildConfig
 import cat.mvmike.minimalcalendarwidget.R
 import cat.mvmike.minimalcalendarwidget.Widget
 import cat.mvmike.minimalcalendarwidget.application.RedrawWidgetUseCase
+import cat.mvmike.minimalcalendarwidget.domain.Colour
 import cat.mvmike.minimalcalendarwidget.domain.Variant
 import cat.mvmike.minimalcalendarwidget.domain.configuration.BooleanConfigurationItem
 import cat.mvmike.minimalcalendarwidget.domain.configuration.BooleanConfigurationItem.DefaultVisibleCalendars
+import cat.mvmike.minimalcalendarwidget.domain.configuration.ColourConfigurationItem
 import cat.mvmike.minimalcalendarwidget.domain.configuration.ConfigurationItem
 import cat.mvmike.minimalcalendarwidget.domain.configuration.EnumConfigurationItem
 import cat.mvmike.minimalcalendarwidget.domain.configuration.IntConfigurationItem.Page
@@ -34,10 +37,16 @@ import cat.mvmike.minimalcalendarwidget.domain.configuration.PercentageConfigura
 import cat.mvmike.minimalcalendarwidget.domain.configuration.getConfigurationName
 import cat.mvmike.minimalcalendarwidget.domain.configuration.isFirstDayOfWeekLocalePreferenceEnabled
 import cat.mvmike.minimalcalendarwidget.domain.configuration.isPerAppLanguagePreferenceEnabled
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.TextColour
+import cat.mvmike.minimalcalendarwidget.domain.configuration.item.isSystemAccentAvailable
 import cat.mvmike.minimalcalendarwidget.domain.getDisplayValue
+import cat.mvmike.minimalcalendarwidget.infrastructure.preference.MultilineColourPreference
 import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.CalendarResolver.isReadCalendarPermitted
+import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.GraphicResolver
 import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.SystemResolver
 import cat.mvmike.minimalcalendarwidget.infrastructure.resolver.SystemResolver.getSystemFirstDayOfWeek
+import com.skydoves.colorpickerview.ColorPickerDialog
+import com.skydoves.colorpickerview.listeners.ColorEnvelopeListener
 
 private const val SOURCE_KEY = "SOURCE"
 
@@ -76,6 +85,7 @@ class SettingsFragment :
             fillAppLocaleSettings(context)
         }
         fillVisibleCalendarSelection()
+        fillInstancesColourPreference(context)
         fillVariantPreferences(context)
         updateCurrentSelection(context)
         fillAboutSection(context)
@@ -148,6 +158,44 @@ class SettingsFragment :
     private fun fillVisibleCalendarSelection() =
         VISIBLE_CALENDAR_SELECTION_KEY.asPreference()?.extras?.putInt(EXTRA_APPWIDGET_ID, appWidgetId)
 
+    private fun fillInstancesColourPreference(context: Context) =
+        ColourConfigurationItem.InstancesColour.key.asPreference()?.setOnPreferenceClickListener {
+            val builder = ColorPickerDialog
+                .Builder(context)
+                .setTitle(R.string.symbol_colour)
+                .setPositiveButton(
+                    android.R.string.ok,
+                    ColorEnvelopeListener { envelope, _ ->
+                        ColourConfigurationItem.InstancesColour.set(
+                            context,
+                            appWidgetId,
+                            TextColour.CustomHex("#${envelope.hexCode}")
+                        )
+                    }
+                ).setNegativeButton(android.R.string.cancel) { dialog, _ ->
+                    dialog.dismiss()
+                }.attachAlphaSlideBar(true)
+                .attachBrightnessSlideBar(true)
+
+            val currentColour = ColourConfigurationItem.InstancesColour.get(context, appWidgetId)
+            if (currentColour is TextColour.CustomHex) {
+                builder.colorPickerView.setInitialColor(GraphicResolver.getColour(Colour.Hex(currentColour.hexColour)))
+            }
+
+            if (isSystemAccentAvailable()) {
+                builder.setNeutralButton(R.string.system_accent) { _, _ ->
+                    ColourConfigurationItem.InstancesColour.set(
+                        context,
+                        appWidgetId,
+                        TextColour.SystemAccent
+                    )
+                }
+            }
+
+            builder.show()
+            true
+        }
+
     private fun fillVariantPreferences(context: Context) {
         val provider = AppWidgetManager.getInstance(context).getAppWidgetInfo(appWidgetId)?.provider
         BooleanConfigurationItem.FocusOnCurrentWeek.key.asPreference()?.let {
@@ -188,6 +236,20 @@ class SettingsFragment :
             it.asListPreference()?.summary = it.getCurrentDisplayValue(context, appWidgetId)
         }
 
+        (ColourConfigurationItem.InstancesColour.key.asPreference() as? MultilineColourPreference)?.let { pref ->
+            when (val colour = ColourConfigurationItem.InstancesColour.get(context, appWidgetId)) {
+                is TextColour.SystemAccent -> {
+                    pref.summary = colour.getDisplayValue(context)
+                    val widgetTheme = EnumConfigurationItem.WidgetTheme.get(context, appWidgetId)
+                    pref.swatchColour = GraphicResolver.getColour(context, colour.getInstancesColour(false, widgetTheme))
+                }
+                is TextColour.CustomHex -> {
+                    pref.summary = " "
+                    pref.swatchColour = GraphicResolver.getColour(Colour.Hex(colour.hexColour))
+                }
+            }
+        }
+
         booleanConfigurationItems().forEach {
             it.asCheckBoxPreference()?.isChecked = it.get(context, appWidgetId)
         }
@@ -201,8 +263,7 @@ class SettingsFragment :
         EnumConfigurationItem.WidgetTheme,
         EnumConfigurationItem.WidgetCalendar,
         EnumConfigurationItem.FirstDayOfWeek,
-        EnumConfigurationItem.InstancesSymbolSet,
-        EnumConfigurationItem.InstancesColour
+        EnumConfigurationItem.InstancesSymbolSet
     )
 
     private fun booleanConfigurationItems() = setOf(
