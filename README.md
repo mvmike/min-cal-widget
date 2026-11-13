@@ -16,7 +16,8 @@ Minimal calendar widget that's always on current date
   - select visible calendars
   - theme
   - symbol set
-  - symbol set colour
+  - symbol set colours
+  - today's symbol colour
   - transparency
   - text size
 
