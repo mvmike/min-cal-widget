@@ -1,0 +1,4 @@
+v2.23.0
+- Reset page on auto update
+- Make today instances colour configurable
+- Add picker for colour selection
