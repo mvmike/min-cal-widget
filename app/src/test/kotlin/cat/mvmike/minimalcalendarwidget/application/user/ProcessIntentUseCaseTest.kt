@@ -2,8 +2,10 @@
 // See LICENSE for licensing information
 package cat.mvmike.minimalcalendarwidget.application.user
 
+import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetManager.ACTION_APPWIDGET_UPDATE
 import cat.mvmike.minimalcalendarwidget.BaseTest
+import cat.mvmike.minimalcalendarwidget.Widget
 import cat.mvmike.minimalcalendarwidget.application.RedrawWidgetUseCase
 import cat.mvmike.minimalcalendarwidget.domain.Variant
 import cat.mvmike.minimalcalendarwidget.domain.configuration.item.SymbolSet
@@ -13,8 +15,11 @@ import cat.mvmike.minimalcalendarwidget.infrastructure.activity.CalendarActivity
 import cat.mvmike.minimalcalendarwidget.infrastructure.activity.ConfigurationActivity
 import cat.mvmike.minimalcalendarwidget.infrastructure.activity.PermissionsActivity
 import io.mockk.confirmVerified
+import io.mockk.every
 import io.mockk.justRun
+import io.mockk.mockk
 import io.mockk.mockkObject
+import io.mockk.mockkStatic
 import io.mockk.verify
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
@@ -52,9 +57,22 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
     }
 
     @ParameterizedTest
-    @EnumSource(value = Variant::class)
-    fun execute_shouldRedrawVariantWidgets_whenAutoUpdateIntent(variant: Variant) {
+    @CsvSource(
+        "MONTH,0",
+        "WEEK,0",
+        "MONTH,1",
+        "WEEK,-2"
+    )
+    fun execute_shouldResetNonZeroPagesAndRedrawVariantWidgets_whenAutoUpdateIntent(
+        variant: Variant,
+        currentPage: Int
+    ) {
         mockIntent(ACTION_AUTO_UPDATE)
+        val appWidgetManager = mockk<AppWidgetManager>()
+        mockkStatic(AppWidgetManager::class)
+        every { AppWidgetManager.getInstance(context) } returns appWidgetManager
+        every { appWidgetManager.getAppWidgetIds(any()) } returns intArrayOf(appWidgetId)
+        mockPage(currentPage)
         mockkObject(RedrawWidgetUseCase)
         mockkObject(AutoUpdate)
 
@@ -63,8 +81,38 @@ internal class ProcessIntentUseCaseTest : BaseTest() {
         ProcessIntentUseCase.execute(context, variant, intent)
 
         verifyIntentAction()
+        verify { AppWidgetManager.getInstance(context) }
+        verify { appWidgetManager.getAppWidgetIds(any()) }
+        verify { Widget.getReceiverClass(variant) }
+        verifyPage()
+        if (currentPage != 0) {
+            verifySetPage(0)
+        }
         verify { RedrawWidgetUseCase.execute(context, variant) }
-        confirmVerified(RedrawWidgetUseCase, AutoUpdate)
+        confirmVerified(appWidgetManager, RedrawWidgetUseCase, AutoUpdate)
+    }
+
+    @ParameterizedTest
+    @EnumSource(value = Variant::class)
+    fun execute_shouldRedrawVariantWidgets_whenAutoUpdateIntentAndAppWidgetIdsUnavailable(variant: Variant) {
+        mockIntent(ACTION_AUTO_UPDATE)
+        val appWidgetManager = mockk<AppWidgetManager>()
+        mockkStatic(AppWidgetManager::class)
+        every { AppWidgetManager.getInstance(context) } returns appWidgetManager
+        every { appWidgetManager.getAppWidgetIds(any()) } throws IllegalStateException("User 0 must be unlocked")
+        mockkObject(RedrawWidgetUseCase)
+        mockkObject(AutoUpdate)
+
+        justRun { RedrawWidgetUseCase.execute(context, variant) }
+
+        ProcessIntentUseCase.execute(context, variant, intent)
+
+        verifyIntentAction()
+        verify { AppWidgetManager.getInstance(context) }
+        verify { appWidgetManager.getAppWidgetIds(any()) }
+        verify { Widget.getReceiverClass(variant) }
+        verify { RedrawWidgetUseCase.execute(context, variant) }
+        confirmVerified(appWidgetManager, RedrawWidgetUseCase, AutoUpdate)
     }
 
     @ParameterizedTest

@@ -2,8 +2,11 @@
 // See LICENSE for licensing information
 package cat.mvmike.minimalcalendarwidget.application.user
 
+import android.appwidget.AppWidgetManager
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import cat.mvmike.minimalcalendarwidget.Widget
 import cat.mvmike.minimalcalendarwidget.application.RedrawWidgetUseCase
 import cat.mvmike.minimalcalendarwidget.domain.Variant
 import cat.mvmike.minimalcalendarwidget.domain.configuration.BooleanConfigurationItem
@@ -34,7 +37,10 @@ object ProcessIntentUseCase {
         variant: Variant,
         intent: Intent
     ) = when (intent.action) {
-        ACTION_AUTO_UPDATE -> RedrawWidgetUseCase.execute(context, variant)
+        ACTION_AUTO_UPDATE -> {
+            resetPages(context, variant)
+            RedrawWidgetUseCase.execute(context, variant)
+        }
         else -> when (intent.toActionableView()) {
             ConfigurationIcon -> ConfigurationActivity.start(context, intent.getAppWidgetId())
             MonthAndYearHeader -> {
@@ -51,6 +57,18 @@ object ProcessIntentUseCase {
             RowHeader -> context.askForPermissionsOrExecuteAndRedraw(intent.getAppWidgetId(), variant) { startCalendarActivity(context) }
             CellDay -> context.askForPermissionsOrExecuteAndRedraw(intent.getAppWidgetId(), variant) { startCalendarActivity(context, intent) }
             else -> null
+        }
+    }
+
+    private fun resetPages(
+        context: Context,
+        variant: Variant
+    ) = runCatching {
+        val name = ComponentName(context, Widget.getReceiverClass(variant))
+        AppWidgetManager.getInstance(context).getAppWidgetIds(name)
+    }.getOrNull()?.forEach { appWidgetId ->
+        if (Page.get(context, appWidgetId) != Page.defaultValue) {
+            Page.reset(context, appWidgetId)
         }
     }
 
